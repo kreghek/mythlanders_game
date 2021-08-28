@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Models;
 using Rpg.Client.Models.Combat;
+using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client
@@ -33,6 +34,8 @@ namespace Rpg.Client
 
             var contentStorage = new GameObjectContentStorage();
             Services.AddService(contentStorage);
+
+            Services.AddService<IDice>(new LinearDice());
 
             base.Initialize();
         }
@@ -65,8 +68,8 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var titleScreen = new CombatScreen(this, _spriteBatch);
-                _screenManager.ActiveScreen = titleScreen;
+                var startScreen = new MapScreen(this, _spriteBatch);
+                _screenManager.ActiveScreen = startScreen;
             }
 
             base.Update(gameTime);

@@ -1,14 +1,83 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal class Group
-    { 
-        public IEnumerable<Unit> Units { get; set; }
-    }
-
     internal class Globe
     {
+        public Globe()
+        {
+            Nodes = Enumerable.Range(1, 10).Select(x=>
+                new GlobeNode
+                {
+                    Index = x
+                }
+            ).ToArray();
+        }
+
         public Group PlayerGroup { get; set; }
+
+        public Combat? ActiveCombat { get; set; }
+
+        public IEnumerable<GlobeNode> Nodes { get; private set; }
+
+        public bool IsNodeInitialied { get; set; }
+
+
+
+        public void UpdateNodes(IDice dice)
+        {
+            // Reset all combat states.
+            foreach (var node in Nodes)
+            {
+                node.Combat = null;
+            }
+
+            // Create new combats
+            var nodesWithCombats = dice.RollFromList(Nodes.ToList(), 3);
+            foreach (var node in nodesWithCombats)
+            {
+                node.Combat = new Combat
+                {
+                    EnemyGroup = new Group { 
+                        Units = new[] {
+                            new Unit{
+                                Hp = 100,
+                                Name = "Enemy",
+                                Skills = new CombatSkill[]
+                                {
+                                    new CombatSkill{
+                                        DamageMin = 2,
+                                        DamageMax = 4
+                                    }
+                                }
+                            },
+                            new Unit{
+                                Hp = 100,
+                                Name = "Enemy",
+                                Skills = new CombatSkill[]
+                                {
+                                    new CombatSkill{
+                                        DamageMin = 2,
+                                        DamageMax = 4
+                                    }
+                                }
+                            },
+                            new Unit{
+                                Hp = 100,
+                                Name = "Enemy",
+                                Skills = new CombatSkill[]
+                                {
+                                    new CombatSkill{
+                                        DamageMin = 2,
+                                        DamageMax = 4
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+            }
+        }
     }
 }

@@ -60,6 +60,10 @@ namespace Rpg.Client.Models.Combat
 
                 _unitsInitialized = true;
             }
+            else
+            { 
+
+            }
         }
     }
 }

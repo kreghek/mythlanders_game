@@ -9,9 +9,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly Sprite _graphics;
 
-        public UnitGameObject(Core.Unit unit, Microsoft.Xna.Framework.Vector2 position, GameObjectContentStorage _gameObjectContentStorage)
+        public UnitGameObject(Core.Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
-            _graphics = new Sprite(_gameObjectContentStorage.GetUnitGraphics()) {
+            _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics()) {
                 Position = position,
                 Origin = new Vector2(0.5f, 0.75f)
             };
