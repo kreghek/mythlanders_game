@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 using Rpg.Client.Models;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.Map;
@@ -32,8 +33,11 @@ namespace Rpg.Client
 
             Services.AddService(globe);
 
-            var contentStorage = new GameObjectContentStorage();
-            Services.AddService(contentStorage);
+            var uiContentStorage = new UiContentStorage();
+            Services.AddService<IUiContentStorage>(uiContentStorage);
+
+            var gameObjectsContentStorage = new GameObjectContentStorage();
+            Services.AddService(gameObjectsContentStorage);
 
             Services.AddService<IDice>(new LinearDice());
 
@@ -49,7 +53,15 @@ namespace Rpg.Client
                     Units = new[]
                     {
                         new Unit{
-
+                            Hp = 100,
+                            IsPlayerControlled = true,
+                            Name = "Player",
+                            Skills = new []{ 
+                                new CombatSkill{ 
+                                    DamageMin = 10,
+                                    DamageMax = 12
+                                }
+                            }
                         }
                     }
                 }
@@ -60,8 +72,11 @@ namespace Rpg.Client
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var contentStorage = Services.GetService<GameObjectContentStorage>();
-            contentStorage.Load(Content);
+            var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
+            gameObjectContentStorage.LoadContent(Content);
+
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            uiContentStorage.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)

@@ -94,7 +94,7 @@ namespace Rpg.Client.Models.Map
                             if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
                             {
                                 _screenTransition = true;
-                                _globe.ActiveCombat = node.Combat;
+                                _globe.ActiveCombat = new ActiveCombat(_globe.PlayerGroup, node.Combat);
                                 TargetScreen = new CombatScreen(Game, SpriteBatch);
                             }
 

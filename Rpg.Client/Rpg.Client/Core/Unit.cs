@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
@@ -16,5 +12,7 @@ namespace Rpg.Client.Core
         public int ManaMax { get; set; }
 
         public IEnumerable<CombatSkill> Skills { get; set; }
+
+        public bool IsPlayerControlled { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
 
         public Group PlayerGroup { get; set; }
 
-        public Combat? ActiveCombat { get; set; }
+        public ActiveCombat? ActiveCombat { get; set; }
 
         public IEnumerable<GlobeNode> Nodes { get; private set; }
 
