@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -95,15 +94,28 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
+                var mouse = Mouse.GetState();
+                var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+
                 foreach (var unitModel in _gameObjects)
                 {
                     unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
+
+                    var unitRect = new Rectangle(unitModel.Position.ToPoint(), new Point(128, 128));
+                    if (unitRect.Contains(mouseRect) && mouse.LeftButton == ButtonState.Pressed && _combat.CurrentUnit != unitModel.Unit)
+                    {
+                        //var attack = new Attack(_combat.CurrentUnit, unitModel.Unit);
+                        var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+                        attackerUnitGameObject.Attack(unitModel);
+                    }
+
+                    unitModel.Update(gameTime);
                 }
 
                 if (_combatSkillsPanel is not null)
                 {
                     _combatSkillsPanel.Update();
-                }
+                }                
             }
         }
     }

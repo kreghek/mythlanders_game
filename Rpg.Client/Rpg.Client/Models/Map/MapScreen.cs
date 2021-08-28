@@ -18,14 +18,14 @@ namespace Rpg.Client.Models.Map
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        private readonly IList<GlobeNodegameObject> _nodeModels;
+        private readonly IList<GlobeNodeGameObject> _nodeModels;
 
         public MapScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
             var globe = game.Services.GetService<Globe>();
             _globe = globe;
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            _nodeModels = new List<GlobeNodegameObject>();
+            _nodeModels = new List<GlobeNodeGameObject>();
         }
 
         public override void Draw(GameTime gameTime)
@@ -62,7 +62,7 @@ namespace Rpg.Client.Models.Map
                     foreach (var node in _globe.Nodes)
                     {
                         var position = new Vector2(index * 64 + 100, 100);
-                        var nodeModel = new GlobeNodegameObject(node, position, _gameObjectContentStorage);
+                        var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
                         _nodeModels.Add(nodeModel);
 

@@ -6,11 +6,11 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Map.GameObjects
 {
-    class GlobeNodegameObject
+    class GlobeNodeGameObject
     {
         private readonly Sprite _graphics;
 
-        public GlobeNodegameObject(GlobeNode globeNode, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             if (globeNode.Combat is not null)
             {
