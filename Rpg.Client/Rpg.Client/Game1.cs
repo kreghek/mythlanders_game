@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Models;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Screens;
 
@@ -26,7 +27,19 @@ namespace Rpg.Client
             _screenManager = new ScreenManager(this);
             Components.Add(_screenManager);
 
-            var globe = new Globe
+            Globe globe = CreateGlobe();
+
+            Services.AddService(globe);
+
+            var contentStorage = new GameObjectContentStorage();
+            Services.AddService(contentStorage);
+
+            base.Initialize();
+        }
+
+        private static Globe CreateGlobe()
+        {
+            return new Globe
             {
                 PlayerGroup = new Group
                 {
@@ -38,17 +51,14 @@ namespace Rpg.Client
                     }
                 }
             };
-
-            Services.AddService(globe);
-
-            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            var contentStorage = Services.GetService<GameObjectContentStorage>();
+            contentStorage.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)
