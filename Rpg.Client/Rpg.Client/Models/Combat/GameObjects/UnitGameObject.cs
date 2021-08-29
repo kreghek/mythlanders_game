@@ -13,10 +13,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
 
-        private readonly Sprite _graphics;
-        private readonly Sprite _selectedMarker;
-
-        private readonly SpriteContainer _graphicsRoot;
+        private readonly UnitGraphics _graphics;
         private readonly Vector2 _initPosition;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
@@ -26,23 +23,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
-            _graphicsRoot = new SpriteContainer
-            {
-                Position = position,
-                FlipX = !unit.Unit.IsPlayerControlled
-            };
-
-
-            _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics()) {
-                Origin = new Vector2(0.5f, 0.75f),
-            };
-            _graphicsRoot.AddChild(_graphics);
-
-            _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
-            {
-                Origin = new Vector2(0.5f, 0.75f)
-            };
-            _graphicsRoot.AddChild(_selectedMarker);
+            _graphics = new UnitGraphics(unit, position, gameObjectContentStorage);
 
             Unit = unit;
             _initPosition = position;
@@ -51,32 +32,41 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _selectedMarker.Visible = IsActive;
+            _graphics.ShowActiveMarker = IsActive;
 
-            _graphicsRoot.Draw(spriteBatch);
+            _graphics.Draw(spriteBatch);
 
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.Name, _graphicsRoot.Position - new Vector2(0, 100), Color.White);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}", _graphicsRoot.Position - new Vector2(0, 80), Color.White);
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.Name, _graphics.Root.Position - new Vector2(0, 100), Color.White);
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}", _graphics.Root.Position - new Vector2(0, 80), Color.White);
         }
 
         public void Update(GameTime gameTime)
         {
-            if (_actorStateEngineList.Any())
+            HandleEngineStates(gameTime);
+
+            _graphics.Update(gameTime);
+        }
+
+        private void HandleEngineStates(GameTime gameTime)
+        {
+            if (!_actorStateEngineList.Any())
             {
-                var activeStateEngine = _actorStateEngineList.First();
-                activeStateEngine.Update(gameTime);
+                return;
+            }
 
-                if (activeStateEngine.IsComplete)
+            var activeStateEngine = _actorStateEngineList.First();
+            activeStateEngine.Update(gameTime);
+
+            if (activeStateEngine.IsComplete)
+            {
+                _actorStateEngineList.Remove(activeStateEngine);
+
+                if (!_actorStateEngineList.Any())
                 {
-                    _actorStateEngineList.Remove(activeStateEngine);
-
-                    if (!_actorStateEngineList.Any())
-                    {
-                        AddStateEngine(new UnitIdleState());
-                    }
-
-                    ResetActorRootSpritePosition();
+                    AddStateEngine(new UnitIdleState());
                 }
+
+                ResetActorRootSpritePosition();
             }
         }
 
@@ -95,7 +85,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private void ResetActorRootSpritePosition()
         {
-            _graphicsRoot.Position = _initPosition;
+            _graphics.Root.Position = _initPosition;
         }
 
         public bool IsActive { get; set; }
@@ -104,7 +94,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
             var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard);
-            var state = new UnitAttackState(_graphicsRoot, target._graphicsRoot, animationBlocker, attackInteraction);
+            var state = new UnitAttackState(_graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
             AddStateEngine(state);
         }
     }

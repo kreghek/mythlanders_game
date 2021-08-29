@@ -168,7 +168,7 @@ namespace Rpg.Client.Models.Combat
 
                         var targetPlayerObject = _gameObjects.FirstOrDefault(x => x.Unit.Unit.IsPlayerControlled);
 
-                        var combatCard = targetPlayerObject.Unit.CombatCards.First();
+                        var combatCard = attackerUnitGameObject.Unit.CombatCards.First();
 
                         attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
 
