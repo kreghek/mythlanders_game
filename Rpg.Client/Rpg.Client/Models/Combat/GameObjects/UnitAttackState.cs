@@ -12,14 +12,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
-        public UnitAttackState(SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot, AnimationBlocker blocker, AttackInteraction attackInteraction)
+        public UnitAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot, AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
+            var targetPosition = targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
                 {
-                    new MoveToTarget(graphicsRoot, targetGraphicsRoot),
-                    new HitState(attackInteraction),
-                    new MoveBack(graphicsRoot, targetGraphicsRoot, blocker)
+                    new MoveToTarget(graphics, graphicsRoot, targetPosition),
+                    new HitState(graphics, attackInteraction),
+                    new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
                 };
+            _graphics = graphics;
             _blocker = blocker;
         }
 
@@ -54,6 +56,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         private int _subStateIndex = 0;
+        private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _blocker;
     }
 }

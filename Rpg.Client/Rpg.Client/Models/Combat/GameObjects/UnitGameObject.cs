@@ -63,7 +63,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                 if (!_actorStateEngineList.Any())
                 {
-                    AddStateEngine(new UnitIdleState());
+                    AddStateEngine(new UnitIdleState(_graphics));
                 }
 
                 ResetActorRootSpritePosition();
@@ -94,7 +94,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
             var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard);
-            var state = new UnitAttackState(_graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
+            var state = new UnitAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
             AddStateEngine(state);
         }
     }

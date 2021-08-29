@@ -42,7 +42,7 @@ namespace Rpg.Client.Core
                     EnemyGroup = new Group { 
                         Units = new[] {
                             new Unit{
-                                Hp = 100,
+                                Hp = 20,
                                 Name = "Enemy",
                                 Skills = new CombatSkill[]
                                 {
@@ -53,24 +53,24 @@ namespace Rpg.Client.Core
                                 }
                             },
                             new Unit{
-                                Hp = 100,
+                                Hp = 25,
                                 Name = "Enemy",
                                 Skills = new CombatSkill[]
                                 {
                                     new CombatSkill{
-                                        DamageMin = 2,
-                                        DamageMax = 4
+                                        DamageMin = 1,
+                                        DamageMax = 2
                                     }
                                 }
                             },
                             new Unit{
-                                Hp = 100,
+                                Hp = 15,
                                 Name = "Enemy",
                                 Skills = new CombatSkill[]
                                 {
                                     new CombatSkill{
-                                        DamageMin = 2,
-                                        DamageMax = 4
+                                        DamageMin = 3,
+                                        DamageMax = 5
                                     }
                                 }
                             }

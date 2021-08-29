@@ -5,6 +5,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class UnitIdleState : IUnitStateEngine
     {
+        public UnitIdleState(UnitGraphics unitGraphics)
+        {
+            unitGraphics.PlayAnimation("Idle");
+        }
+
         /// <inheritdoc />
         /// <remarks> The state engine has no blockers. So we can't remove it with no aftermaths. </remarks>
         public bool CanBeReplaced => true;

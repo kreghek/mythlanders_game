@@ -6,16 +6,19 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class MoveBack : IUnitStateEngine
     {
+        private const double DURATION = 1;
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
+        private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
         private readonly AnimationBlocker _blocker;
         private double _counter = 0;
 
-        public MoveBack(SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot, AnimationBlocker blocker)
+        public MoveBack(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, AnimationBlocker blocker)
         {
             _startPosition = graphicsRoot.Position;
-            _targetPosition = targetGraphicsRoot.Position;
+            _targetPosition = targetPosition;
+            _graphics = graphics;
             _graphicsRoot = graphicsRoot;
             _blocker = blocker;
         }
@@ -40,7 +43,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 return;
             }
 
-            if (_counter <= 1)
+            if (_counter == 0)
+            {
+                _graphics.PlayAnimation("MoveForward");
+            }
+
+            if (_counter <= DURATION)
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 

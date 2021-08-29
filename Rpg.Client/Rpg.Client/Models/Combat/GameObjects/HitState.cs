@@ -6,12 +6,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class HitState : IUnitStateEngine
     {
+        private const double DURATION = 1;
+        private readonly UnitGraphics _graphics;
         private readonly AttackInteraction _attackInteraction;
 
         private double _counter;
 
-        public HitState(AttackInteraction attackInteraction)
+        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction)
         {
+            _graphics = graphics;
             _attackInteraction = attackInteraction;
         }
 
@@ -27,17 +30,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Update(GameTime gameTime)
         {
+            if (_counter == 0)
+            {
+                _graphics.PlayAnimation("Hit");
+            }
+
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_counter > 1)
+            if (_counter > DURATION)
             {
                 IsComplete = true;
             }
-            else if (_counter > 0.5)
+            else if (_counter > DURATION / 2)
             {
                 if (!_interactionExecuted)
                 {
                     _attackInteraction.Execute();
+
                     _interactionExecuted = true;
                 }
             }
