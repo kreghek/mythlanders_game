@@ -49,6 +49,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
                 { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
                 { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
+                { "Wound", new AnimationInfo(startFrame: 5, frames: 3, speed: 1) },
+                { "Death", new AnimationInfo(startFrame: 8, frames: 4, speed: 1) { IsFinal = true } }
             };
 
             _animationSid = DEFAULT_ANIMATION_SID;
@@ -82,7 +84,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _frameIndex++;
                 if (_frameIndex > _animationInfos[_animationSid].Frames - 1)
                 {
-                    _frameIndex = 0;
+                    if (!_animationInfos[_animationSid].IsFinal)
+                    {
+                        _frameIndex = 0;
+                    }
+                    else
+                    {
+                        _frameIndex = _animationInfos[_animationSid].Frames - 1;
+                    }
                 }
             }
 

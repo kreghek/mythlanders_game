@@ -139,47 +139,61 @@ namespace Rpg.Client.Models.Combat
                     unitModel.Update(gameTime);
                 }
 
-                if (_combat.CurrentUnit.Unit.IsPlayerControlled)
+                if (_combat.CurrentUnit is not null)
                 {
-                    if (!_animationManager.HasBlockers)
-                    {
-                        if (_combatSkillsPanel is not null)
-                        {
-                            _combatSkillsPanel.Update();
-                        }
 
-                        if (_combatSkillsPanel?.SelectedCard is not null)
+                    if (_combat.CurrentUnit.Unit.IsPlayerControlled)
+                    {
+                        if (!_animationManager.HasBlockers)
                         {
-                            foreach (var button in _enemyAttackList)
+                            if (_combatSkillsPanel is not null)
                             {
-                                button.Update();
+                                _combatSkillsPanel.Update();
                             }
+
+                            if (_combatSkillsPanel?.SelectedCard is not null)
+                            {
+                                foreach (var button in _enemyAttackList)
+                                {
+                                    button.Update();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!_animationManager.HasBlockers)
+                        {
+                            var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+
+                            var blocker = new AnimationBlocker();
+                            _animationManager.AddBlocker(blocker);
+
+                            var targetPlayerObject = _gameObjects.FirstOrDefault(x => x.Unit.Unit.IsPlayerControlled);
+
+                            var combatCard = attackerUnitGameObject.Unit.CombatCards.First();
+
+                            attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
+
+                            blocker.Released += (s, e) =>
+                            {
+                                bool isEnd = _combat.NextUnit();
+                                if (isEnd)
+                                {
+                                    _combat.StartRound();
+                                }
+                            };
                         }
                     }
                 }
                 else
                 {
-                    if (!_animationManager.HasBlockers)
+                    // Unit in queue is killed.
+
+                    bool isEnd = _combat.NextUnit();
+                    if (isEnd)
                     {
-                        var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
-
-                        var blocker = new AnimationBlocker();
-                        _animationManager.AddBlocker(blocker);
-
-                        var targetPlayerObject = _gameObjects.FirstOrDefault(x => x.Unit.Unit.IsPlayerControlled);
-
-                        var combatCard = attackerUnitGameObject.Unit.CombatCards.First();
-
-                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
-
-                        blocker.Released += (s, e) =>
-                        {
-                            bool isEnd = _combat.NextUnit();
-                            if (isEnd)
-                            {
-                                _combat.StartRound();
-                            }
-                        };
+                        _combat.StartRound();
                     }
                 }
             }

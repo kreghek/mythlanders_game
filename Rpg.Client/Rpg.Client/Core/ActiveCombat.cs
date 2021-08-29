@@ -27,13 +27,16 @@ namespace Rpg.Client.Core
 
             foreach (var unit in _allUnitList)
             {
-                _unitQueue.Add(unit);
+                if (!unit.Unit.IsDead)
+                {
+                    _unitQueue.Add(unit);
+                }
             }
         }
 
         public IEnumerable<CombatUnit> Units => _unitQueue.ToArray();
 
-        public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault();
+        public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x=>!x.Unit.IsDead);
 
         internal bool NextUnit()
         {

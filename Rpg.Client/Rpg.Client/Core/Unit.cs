@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
@@ -14,5 +15,15 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatSkill> Skills { get; set; }
 
         public bool IsPlayerControlled { get; set; }
+
+        public void TakeDamage(int damage)
+        {
+            Hp -= damage;
+            DamageTaken?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler DamageTaken;
+
+        public bool IsDead => Hp <= 0;
     }
 }
