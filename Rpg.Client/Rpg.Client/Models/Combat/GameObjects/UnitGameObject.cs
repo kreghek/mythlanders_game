@@ -96,9 +96,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public bool IsActive { get; set; }
         public CombatUnit? Unit { get; internal set; }
 
-        public void Attack(UnitGameObject target)
+        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker)
         {
-            var state = new UnitAttackState(_graphicsRoot, target._graphicsRoot);
+            var state = new UnitAttackState(_graphicsRoot, target._graphicsRoot, animationBlocker);
             AddStateEngine(state);
         }
     }

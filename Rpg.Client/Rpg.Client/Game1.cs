@@ -41,6 +41,8 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
+            Services.AddService<AnimationManager>(new AnimationManager());
+
             base.Initialize();
         }
 
