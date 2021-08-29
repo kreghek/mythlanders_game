@@ -107,7 +107,7 @@ namespace Rpg.Client.Models.Combat
                           var blocker = new AnimationBlocker();
                           _animationManager.AddBlocker(blocker);
 
-                          attackerUnitGameObject.Attack(gameObject, blocker);
+                          attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
 
                           blocker.Released += (s, e) =>
                           {
@@ -168,7 +168,9 @@ namespace Rpg.Client.Models.Combat
 
                         var targetPlayerObject = _gameObjects.FirstOrDefault(x => x.Unit.Unit.IsPlayerControlled);
 
-                        attackerUnitGameObject.Attack(targetPlayerObject, blocker);
+                        var combatCard = targetPlayerObject.Unit.CombatCards.First();
+
+                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
 
                         blocker.Released += (s, e) =>
                         {

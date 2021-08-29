@@ -18,6 +18,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private readonly SpriteContainer _graphicsRoot;
         private readonly Vector2 _initPosition;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         public Vector2 Position => _initPosition;
 
@@ -45,6 +46,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             Unit = unit;
             _initPosition = position;
+            _gameObjectContentStorage = gameObjectContentStorage;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -52,6 +54,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _selectedMarker.Visible = IsActive;
 
             _graphicsRoot.Draw(spriteBatch);
+
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.Name, _graphicsRoot.Position - new Vector2(0, 100), Color.White);
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}", _graphicsRoot.Position - new Vector2(0, 80), Color.White);
         }
 
         public void Update(GameTime gameTime)
@@ -96,9 +101,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public bool IsActive { get; set; }
         public CombatUnit? Unit { get; internal set; }
 
-        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker)
+        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
-            var state = new UnitAttackState(_graphicsRoot, target._graphicsRoot, animationBlocker);
+            var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard);
+            var state = new UnitAttackState(_graphicsRoot, target._graphicsRoot, animationBlocker, attackInteraction);
             AddStateEngine(state);
         }
     }
