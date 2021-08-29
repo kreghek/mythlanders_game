@@ -15,7 +15,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public UnitAttackState(SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot)
         {
             _startPosition = graphicsRoot.Position;
-            _targetPosition = graphicsRoot.Position;
+            _targetPosition = targetGraphicsRoot.Position;
             _graphicsRoot = graphicsRoot;
         }
 
@@ -29,10 +29,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
             if (_counter <= 1)
             {
+                _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
                 _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)_counter);
             }
             else

@@ -17,6 +17,7 @@ namespace Rpg.Client.Models.Combat
     {
         private readonly ActiveCombat? _combat;
         private readonly IList<UnitGameObject> _gameObjects;
+        private readonly IList<ButtonBase> _enemyAttackList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatSkillPanel _combatSkillsPanel;
@@ -28,6 +29,7 @@ namespace Rpg.Client.Models.Combat
             _combat = globe.ActiveCombat;
 
             _gameObjects = new List<UnitGameObject>();
+            _enemyAttackList = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -49,6 +51,14 @@ namespace Rpg.Client.Models.Combat
             if (_combatSkillsPanel is not null)
             {
                 _combatSkillsPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+            }
+
+            if (_combatSkillsPanel?.SelectedCard is not null)
+            {
+                foreach (var button in _enemyAttackList)
+                {
+                    button.Draw(SpriteBatch);
+                }
             }
             SpriteBatch.End();
         }
@@ -73,7 +83,6 @@ namespace Rpg.Client.Models.Combat
                     index++;
                 }
 
-
                 var cpuUnits = _combat.Units.Where(x => !x.Unit.IsPlayerControlled);
 
                 index = 0;
@@ -82,6 +91,15 @@ namespace Rpg.Client.Models.Combat
                     var position = new Vector2(400, index * 128 + 100);
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
+
+                    var iconButton = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(), new Rectangle(position.ToPoint(), new Point(32, 32)));
+                    iconButton.OnClick += (s, e) =>
+                      {
+                          var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+                          attackerUnitGameObject.Attack(gameObject);
+                      };
+                    _enemyAttackList.Add(iconButton);
+
                     index++;
                 }
 
@@ -94,28 +112,28 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                var mouse = Mouse.GetState();
-                var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
-
                 foreach (var unitModel in _gameObjects)
                 {
                     unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
 
-                    var unitRect = new Rectangle(unitModel.Position.ToPoint(), new Point(128, 128));
-                    if (unitRect.Contains(mouseRect) && mouse.LeftButton == ButtonState.Pressed && _combat.CurrentUnit != unitModel.Unit)
-                    {
-                        //var attack = new Attack(_combat.CurrentUnit, unitModel.Unit);
-                        var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
-                        attackerUnitGameObject.Attack(unitModel);
-                    }
-
                     unitModel.Update(gameTime);
                 }
 
-                if (_combatSkillsPanel is not null)
+                if (_combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
-                    _combatSkillsPanel.Update();
-                }                
+                    if (_combatSkillsPanel is not null)
+                    {
+                        _combatSkillsPanel.Update();
+                    }
+
+                    if (_combatSkillsPanel?.SelectedCard is not null)
+                    {
+                        foreach (var button in _enemyAttackList)
+                        {
+                            button.Update();
+                        }
+                    }
+                }
             }
         }
     }
