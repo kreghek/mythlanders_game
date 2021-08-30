@@ -44,6 +44,31 @@ namespace Rpg.Client.Core
             return _unitQueue.Count == 0;
         }
 
+        internal bool Finished
+        {
+            get {
+                var playerUnits = _allUnitList.Where(x => !x.Unit.IsDead && x.Unit.IsPlayerControlled);
+                var hasPlayerUnits = playerUnits.Any();
+
+                var cpuUnits = _allUnitList.Where(x => !x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+                var hasCpuUnits = cpuUnits.Any();
+
+                // TODO Looks like XOR
+                if (hasPlayerUnits && !hasCpuUnits)
+                {
+                    return true;
+                }
+                else if (!hasPlayerUnits && hasCpuUnits)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         internal void Initialize()
         {
             _allUnitList.Clear();

@@ -6,7 +6,7 @@ namespace Rpg.Client.Engine
     public interface IUiContentStorage
     {
         Texture2D GetButtonTexture();
-
+        SpriteFont GetMainFont();
         void LoadContent(ContentManager contentManager);
     }
 }
