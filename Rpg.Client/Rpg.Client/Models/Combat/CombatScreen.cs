@@ -9,6 +9,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.Ui;
+using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Combat
@@ -67,6 +68,12 @@ namespace Rpg.Client.Models.Combat
                     }
                 }
             }
+
+            if (_combatResultPanel is not null)
+            {
+                _combatResultPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+            }
+
             SpriteBatch.End();
         }
 
@@ -203,13 +210,33 @@ namespace Rpg.Client.Models.Combat
                 }
                 else
                 {
+                    foreach (var unitModel in _gameObjects)
+                    {
+                        unitModel.IsActive = false;
+
+                        unitModel.Update(gameTime);
+                    }
+
                     if (_combatResultPanel is null)
                     {
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         _combatResultPanel.Initialize("result");
+                        _combatResultPanel.Closed += CombatResultPanel_Closed;
                     }
+
+                    _combatResultPanel.Update(gameTime);
                 }
             }
+        }
+
+        private void CombatResultPanel_Closed(object? sender, System.EventArgs e)
+        {
+            _animationManager.DropBlockers();
+            var globe = Game.Services.GetService<Globe>();
+            var dice = Game.Services.GetService<IDice>();
+            globe.UpdateNodes(dice);
+
+            TargetScreen = new MapScreen(Game, SpriteBatch);
         }
     }
 }

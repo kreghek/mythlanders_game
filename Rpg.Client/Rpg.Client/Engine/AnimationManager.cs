@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Rpg.Client.Engine
 {
@@ -14,16 +13,10 @@ namespace Rpg.Client.Engine
         }
 
         public bool HasBlockers => _blockers.Count > 0;
-    }
 
-
-
-    internal class AnimationBlocker
-    {
-        public event EventHandler Released;
-        public void Release()
+        internal void DropBlockers()
         {
-            Released?.Invoke(this, EventArgs.Empty);
+            _blockers.Clear();
         }
     }
 }
