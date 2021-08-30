@@ -21,6 +21,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private string _animationSid;
 
         private const string DEFAULT_ANIMATION_SID = "Idle";
+        private const int FRAME_WIDTH = 128;
+        private const int FRAME_HEIGHT = 128;
 
         public UnitGraphics(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
@@ -33,7 +35,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics())
             {
                 Origin = new Vector2(0.5f, 0.75f),
-                SourceRectangle = new Rectangle(0, 0, 128, 128)
+                SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)
             };
             _graphicsRoot.AddChild(_graphics);
 
@@ -49,8 +51,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
                 { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
                 { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
-                { "Wound", new AnimationInfo(startFrame: 5, frames: 3, speed: 1) },
-                { "Death", new AnimationInfo(startFrame: 8, frames: 4, speed: 1) { IsFinal = true } }
+                { "Wound", new AnimationInfo(startFrame: 5, frames: 2, speed: 1) },
+                { "Death", new AnimationInfo(startFrame: 7, frames: 5, speed: 1) { IsFinal = true } }
             };
 
             _animationSid = DEFAULT_ANIMATION_SID;
@@ -95,7 +97,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
 
-            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, 128, 128);
+            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, FRAME_WIDTH, FRAME_HEIGHT);
         }
 
         private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
