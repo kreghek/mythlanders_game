@@ -56,39 +56,15 @@ namespace Rpg.Client
                     {
                         Units = new[]
                         {
-                            new Unit{
-                                Hp = 100,
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
                                 IsPlayerControlled = true,
-                                Name = "Player",
-                                Skills = new []{
-                                    new CombatSkill{
-                                        DamageMin = 10,
-                                        DamageMax = 12
-                                    }
-                                }
                             },
-                            new Unit{
-                                Hp = 100,
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
                                 IsPlayerControlled = true,
-                                Name = "Player",
-                                Skills = new []{
-                                    new CombatSkill{
-                                        DamageMin = 10,
-                                        DamageMax = 12
-                                    }
-                                }
                             },
-                            new Unit{
-                                Hp = 100,
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
                                 IsPlayerControlled = true,
-                                Name = "Player",
-                                Skills = new []{
-                                    new CombatSkill{
-                                        DamageMin = 10,
-                                        DamageMax = 12
-                                    }
-                                }
-                            }
+                            },
                         }
                     }
                 }

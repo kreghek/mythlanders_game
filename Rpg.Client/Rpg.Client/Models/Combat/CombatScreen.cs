@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -16,7 +17,7 @@ namespace Rpg.Client.Models.Combat
 {
     internal class CombatScreen : GameScreenBase
     {
-        private readonly ActiveCombat? _combat;
+        private readonly ActiveCombat _combat;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly IList<ButtonBase> _enemyAttackList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -29,7 +30,7 @@ namespace Rpg.Client.Models.Combat
         public CombatScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
             var globe = game.Services.GetService<Globe>();
-            _combat = globe.ActiveCombat;
+            _combat = globe.ActiveCombat ?? throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
 
             _gameObjects = new List<UnitGameObject>();
             _enemyAttackList = new List<ButtonBase>();
@@ -53,25 +54,28 @@ namespace Rpg.Client.Models.Combat
 
             SpriteBatch.Begin();
 
-            if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
+            if (_combat.CurrentUnit is not null)
             {
-                if (_combatSkillsPanel is not null)
+                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
                 {
-                    _combatSkillsPanel.Draw(SpriteBatch, Game.GraphicsDevice);
-                }
-
-                if (_combatSkillsPanel?.SelectedCard is not null)
-                {
-                    foreach (var button in _enemyAttackList)
+                    if (_combatSkillsPanel is not null)
                     {
-                        button.Draw(SpriteBatch);
+                        _combatSkillsPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+                    }
+
+                    if (_combatSkillsPanel?.SelectedCard is not null)
+                    {
+                        foreach (var button in _enemyAttackList)
+                        {
+                            button.Draw(SpriteBatch);
+                        }
                     }
                 }
-            }
 
-            if (_combatResultPanel is not null)
-            {
-                _combatResultPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+                if (_combatResultPanel is not null)
+                {
+                    _combatResultPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+                }
             }
 
             SpriteBatch.End();

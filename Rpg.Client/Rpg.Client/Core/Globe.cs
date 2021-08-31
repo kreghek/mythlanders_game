@@ -10,6 +10,7 @@ namespace Rpg.Client.Core
             var biomes = new[] {
                 new Biom{
                     Name = "Slavik",
+                    IsAvailable = true,
                     Nodes = Enumerable.Range(1, 10).Select(x=>
                         new GlobeNode
                         {
@@ -28,9 +29,11 @@ namespace Rpg.Client.Core
                     ).ToArray()
                 }
             };
+
+            Bioms = biomes;
         }
 
-        public Player Player { get; set; }
+        public Player? Player { get; set; }
 
         public ActiveCombat? ActiveCombat { get; set; }
 
@@ -62,127 +65,94 @@ namespace Rpg.Client.Core
                 if (biom.Level < 10)
                 {
                     var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3);
+                    var combatLevelAdditional = 0;
                     foreach (var node in nodesWithCombats)
                     {
+                        var combatLevel = biom.Level + combatLevelAdditional;
+                        var units = CreateReqularMonsters(dice, biom, combatLevel);
+
                         node.Combat = new Combat
                         {
+                            Level = combatLevel,
                             EnemyGroup = new Group
                             {
-                                Units = new[] {
-                                    new Unit{
-                                        Hp = 20,
-                                        Name = "Enemy",
-                                        Skills = new CombatSkill[]
-                                        {
-                                            new CombatSkill{
-                                                DamageMin = 2,
-                                                DamageMax = 4
-                                            }
-                                        }
-                                    },
-                                    new Unit{
-                                        Hp = 25,
-                                        Name = "Enemy",
-                                        Skills = new CombatSkill[]
-                                        {
-                                            new CombatSkill{
-                                                DamageMin = 1,
-                                                DamageMax = 2
-                                            }
-                                        }
-                                    },
-                                    new Unit{
-                                        Hp = 15,
-                                        Name = "Enemy",
-                                        Skills = new CombatSkill[]
-                                        {
-                                            new CombatSkill{
-                                                DamageMin = 3,
-                                                DamageMax = 5
-                                            }
-                                        }
-                                    }
-                                }
+                                Units = units
                             }
                         };
+
+                        combatLevelAdditional++;
                     }
                 }
                 else
                 {
+                    var combatLevelAdditional = 0;
+
                     var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3);
                     foreach (var node in nodesWithCombats)
                     {
                         // boss level
                         if (node == nodesWithCombats.First())
                         {
+                            var bossUnitScheme = dice.RollFromList(UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Name).ToList(), 1).Single();
                             node.Combat = new Combat
                             {
                                 IsBossLevel = true,
                                 EnemyGroup = new Group
                                 {
                                     Units = new[] {
-                                        new Unit{
-                                            Hp = 1200,
-                                            Name = "Enemy BOSS",
-                                            Skills = new CombatSkill[]
-                                            {
-                                                new CombatSkill{
-                                                    DamageMin = 10,
-                                                    DamageMax = 14
-                                                }
-                                            }
-                                        }
+                                        new Unit(
+                                            bossUnitScheme,
+                                            biom.Level)
                                     }
                                 }
                             };
                         }
                         else
                         {
+                            var combatLevel = biom.Level + combatLevelAdditional;
+                            var units = CreateReqularMonsters(dice, biom, combatLevel);
+
                             node.Combat = new Combat
                             {
+                                Level = combatLevel,
                                 EnemyGroup = new Group
                                 {
-                                    Units = new[] {
-                                        new Unit{
-                                            Hp = 20,
-                                            Name = "Enemy",
-                                            Skills = new CombatSkill[]
-                                            {
-                                                new CombatSkill{
-                                                    DamageMin = 2,
-                                                    DamageMax = 4
-                                                }
-                                            }
-                                        },
-                                        new Unit{
-                                            Hp = 25,
-                                            Name = "Enemy",
-                                            Skills = new CombatSkill[]
-                                            {
-                                                new CombatSkill{
-                                                    DamageMin = 1,
-                                                    DamageMax = 2
-                                                }
-                                            }
-                                        },
-                                        new Unit{
-                                            Hp = 15,
-                                            Name = "Enemy",
-                                            Skills = new CombatSkill[]
-                                            {
-                                                new CombatSkill{
-                                                    DamageMin = 3,
-                                                    DamageMax = 5
-                                                }
-                                            }
-                                        }
-                                    }
+                                    Units = units
                                 }
                             };
                         }
+
+                        combatLevelAdditional++;
                     }
                 }
             }
+        }
+
+        private static List<Unit> CreateReqularMonsters(IDice dice, Biom biom, int combatLevel)
+        {
+            var rolledUnits = dice.RollFromList(UnitSchemeCatalog.AllUnits.Where(x => !x.IsBoss && x.Biom == biom.Name).ToList(), dice.Roll(1, 3));
+
+            var uniqueIsUsed = false;
+            var units = new List<Unit>();
+            foreach (var unitScheme in rolledUnits)
+            {
+                if (unitScheme.IsUnique)
+                {
+                    if (uniqueIsUsed)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        uniqueIsUsed = true;
+                    }
+                }
+
+                var unit = new Unit(unitScheme, combatLevel);
+                units.Add(unit);
+            }
+
+            return units;
         }
     }
 }
