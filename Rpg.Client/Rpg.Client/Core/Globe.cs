@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rpg.Client.Core
@@ -81,7 +82,7 @@ namespace Rpg.Client.Core
                     foreach (var node in nodesWithCombats)
                     {
                         var combatLevel = biom.Level + combatLevelAdditional;
-                        var units = CreateReqularMonsters(dice, biom, combatLevel);
+                        var units = CreateReqularMonsters(node, dice, biom, combatLevel);
 
                         node.Combat = new Combat
                         {
@@ -122,7 +123,7 @@ namespace Rpg.Client.Core
                         else
                         {
                             var combatLevel = biom.Level + combatLevelAdditional;
-                            var units = CreateReqularMonsters(dice, biom, combatLevel);
+                            var units = CreateReqularMonsters(node, dice, biom, combatLevel);
 
                             node.Combat = new Combat
                             {
@@ -140,9 +141,10 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static List<Unit> CreateReqularMonsters(IDice dice, Biom biom, int combatLevel)
+        private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biom biom, int combatLevel)
         {
-            var rolledUnits = dice.RollFromList(UnitSchemeCatalog.AllUnits.Where(x => !x.IsBoss && x.Biom == biom.Name).ToList(), dice.Roll(1, 3));
+            var availableMonsters = UnitSchemeCatalog.AllUnits.Where(x => !x.IsBoss && x.Biom == biom.Name && x.NodeIndexes.Contains(node.Index)).ToList();
+            var rolledUnits = dice.RollFromList(availableMonsters, dice.Roll(1, Math.Min(3, availableMonsters.Count)));
 
             var uniqueIsUsed = false;
             var units = new List<Unit>();

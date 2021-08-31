@@ -13,6 +13,11 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
             _combatLevel = combatLevel;
 
+            InitStats(unitScheme, combatLevel);
+        }
+
+        private void InitStats(UnitScheme unitScheme, int combatLevel)
+        {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * _combatLevel;
             Hp = MaxHp;
 
@@ -26,6 +31,8 @@ namespace Rpg.Client.Core
         public UnitScheme UnitScheme { get; init; }
         public int Hp { get; set; }
         public int MaxHp { get; set; }
+
+        public int Xp { get; set; }
 
         public IEnumerable<CombatSkill> Skills { get; set; }
 
@@ -42,5 +49,18 @@ namespace Rpg.Client.Core
         public bool IsDead => Hp <= 0;
 
         public int CombatLevel { get => _combatLevel; set => _combatLevel = value; }
+
+        public void GainXp(int amount)
+        {
+            Xp += amount;
+
+            if (Xp > 100)
+            {
+                _combatLevel++;
+                Xp = 0;
+
+                InitStats(UnitScheme, _combatLevel);
+            }
+        }
     }
 }
