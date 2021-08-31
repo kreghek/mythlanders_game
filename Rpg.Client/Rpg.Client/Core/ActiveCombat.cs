@@ -34,7 +34,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IEnumerable<CombatUnit> Units => _unitQueue.ToArray();
+        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
         public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x=>!x.Unit.IsDead);
 

@@ -7,12 +7,15 @@ namespace Rpg.Client.Core
         public static UnitScheme SlavikHero = new UnitScheme
         {
             Hp = 100,
+            HpPerLevel = 10,
             Name = "Svatoslav",
             Skills = new[]{
                 new CombatSkill
                 {
                     DamageMin = 10,
-                    DamageMax = 12
+                    DamageMinPerLevel = 2,
+                    DamageMax = 12,
+                    DamageMaxPerLevel = 2
                 }
             }
         };

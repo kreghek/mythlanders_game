@@ -54,10 +54,11 @@ namespace Rpg.Client.Core
         {
             Xp += amount;
 
-            if (Xp > 100)
+            var xpToLevel = 100 + _combatLevel * 100;
+            if (Xp >= xpToLevel)
             {
                 _combatLevel++;
-                Xp = 0;
+                Xp = Xp - xpToLevel;
 
                 InitStats(UnitScheme, _combatLevel);
             }

@@ -77,7 +77,7 @@ namespace Rpg.Client.Core
             {
                 if (biom.Level < 10)
                 {
-                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3);
+                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
                     var combatLevelAdditional = 0;
                     foreach (var node in nodesWithCombats)
                     {
@@ -100,7 +100,7 @@ namespace Rpg.Client.Core
                 {
                     var combatLevelAdditional = 0;
 
-                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3);
+                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
                     foreach (var node in nodesWithCombats)
                     {
                         // boss level

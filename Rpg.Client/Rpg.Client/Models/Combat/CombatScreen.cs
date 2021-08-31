@@ -258,7 +258,7 @@ namespace Rpg.Client.Models.Combat
                 }
 
                 var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-                var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+                var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
                 foreach (var unit in aliveUnits)
                 {
                     unit.Unit.GainXp(5 * (_combat.Combat.Level * 2) * monsters.Length);
