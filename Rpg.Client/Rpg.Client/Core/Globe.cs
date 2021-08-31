@@ -7,24 +7,36 @@ namespace Rpg.Client.Core
     {
         public Globe()
         {
+            var biomNames = new Dictionary<string, string[]>
+            {
+                { "Slavik", new[]{
+                    "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая яма",
+                    "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена" } },
+                { "China", new[]{
+                    "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая яма",
+                    "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена" } }
+            };
+
             var biomes = new[] {
                 new Biom{
                     Name = "Slavik",
                     IsAvailable = true,
-                    Nodes = Enumerable.Range(1, 10).Select(x=>
+                    Nodes = Enumerable.Range(0, 10).Select(x=>
                         new GlobeNode
                         {
-                            Index = x
+                            Index = x,
+                            Name = biomNames["Slavik"][x]
                         }
                     ).ToArray(),
                     UnlockBiom = "China"
                 },
                 new Biom{
                     Name = "China",
-                    Nodes = Enumerable.Range(1, 10).Select(x=>
+                    Nodes = Enumerable.Range(0, 10).Select(x=>
                         new GlobeNode
                         {
-                            Index = x
+                            Index = x,
+                            Name = biomNames["China"][x]
                         }
                     ).ToArray()
                 }

@@ -40,5 +40,7 @@ namespace Rpg.Client.Core
         public event EventHandler DamageTaken;
 
         public bool IsDead => Hp <= 0;
+
+        public int CombatLevel { get => _combatLevel; set => _combatLevel = value; }
     }
 }

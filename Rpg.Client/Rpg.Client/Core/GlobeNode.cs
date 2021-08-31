@@ -4,5 +4,7 @@
     {
         public Combat? Combat { get; set; }
         public int Index { get; internal set; }
+
+        public string Name { get; set; }
     }
 }

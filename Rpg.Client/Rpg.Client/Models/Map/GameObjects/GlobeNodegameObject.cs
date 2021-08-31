@@ -30,7 +30,17 @@ namespace Rpg.Client.Models.Map.GameObjects
                     SourceRectangle = new Rectangle(0, 32, 32, 32)
                 };
             }
+
+            Combat = globeNode.Combat;
+            Position = position;
+            Index = globeNode.Index;
+            Name = globeNode.Name;
         }
+
+        public Core.Combat? Combat { get; }
+        public Vector2 Position { get; }
+        public int Index { get; }
+        public string Name { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

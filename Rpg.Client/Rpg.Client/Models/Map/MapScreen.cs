@@ -40,9 +40,19 @@ namespace Rpg.Client.Models.Map
             {
                 SpriteBatch.Begin();
 
-                foreach (var node in _nodeModels)
+                foreach (var node in _nodeModels.OrderBy(x => x.Index).ToArray())
                 {
                     node.Draw(SpriteBatch);
+                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}", node.Position + new Vector2(0, 30), Color.Wheat);
+                    if (node.Combat is not null)
+                    {
+                        var monsterIndex = 0;
+                        foreach (var monster in node.Combat.EnemyGroup.Units)
+                        {
+                            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{monster.UnitScheme.Name} ({monster.CombatLevel})", node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
+                            monsterIndex++;
+                        }
+                    }
                 }
 
                 SpriteBatch.End();
