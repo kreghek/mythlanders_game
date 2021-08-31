@@ -219,8 +219,17 @@ namespace Rpg.Client.Models.Combat
 
                     if (_combatResultPanel is null)
                     {
+                        var enemyUnitsAreDead = _combat.Units.Any(x=> x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
-                        _combatResultPanel.Initialize("result");
+                        if (enemyUnitsAreDead)
+                        {
+                            _combatResultPanel.Initialize("Win");
+                        }
+                        else
+                        {
+                            _combatResultPanel.Initialize("Fail");
+                        }
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
                     }
 
@@ -233,6 +242,25 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
             var globe = Game.Services.GetService<Globe>();
+
+            if (_combatResultPanel.Result == "Win")
+            {
+                globe.Player.Souls += 10;
+                _combat.Biom.Level++;
+
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.IsComplete = true;
+                }
+            }
+            else
+            {
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.Level = 0;
+                }
+            }
+
             var dice = Game.Services.GetService<IDice>();
             globe.UpdateNodes(dice);
 

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.Map.GameObjects;
 using Rpg.Client.Screens;
@@ -15,6 +17,7 @@ namespace Rpg.Client.Models.Map
     {
         private readonly Globe _globe;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
@@ -25,6 +28,7 @@ namespace Rpg.Client.Models.Map
             var globe = game.Services.GetService<Globe>();
             _globe = globe;
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
         }
 
@@ -43,6 +47,12 @@ namespace Rpg.Client.Models.Map
 
                 SpriteBatch.End();
             }
+
+            SpriteBatch.Begin();
+
+            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero, Color.White);
+
+            SpriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
@@ -58,15 +68,19 @@ namespace Rpg.Client.Models.Map
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var index = 0;
-                    foreach (var node in _globe.Nodes)
+                    var biomIndex = 0;
+                    foreach (var biom in _globe.Bioms.Where(x=>x.IsAvailable))
                     {
-                        var position = new Vector2(index * 64 + 100, 100);
-                        var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
+                        var index = 0;
+                        foreach (var node in biom.Nodes)
+                        {
+                            var position = new Vector2(index * 64 + 100, 100 * (biomIndex + 1));
+                            var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
-                        _nodeModels.Add(nodeModel);
+                            _nodeModels.Add(nodeModel);
 
-                        index++;
+                            index++;
+                        }
                     }
 
                     _isNodeModelsCreated = true;
@@ -79,26 +93,30 @@ namespace Rpg.Client.Models.Map
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
 
-                        var index = 0;
-                        foreach (var node in _globe.Nodes)
+                        var biomIndex = 0;
+                        foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable))
                         {
-                            if (node.Combat is null)
+                            var index = 0;
+                            foreach (var node in biom.Nodes)
                             {
+                                if (node.Combat is null)
+                                {
+                                    index++;
+                                    continue;
+                                }
+
+                                var position = new Vector2(index * 64 + 100, 100 * (biomIndex + 1));
+                                var rect = new Rectangle(position.ToPoint(), new Point(32, 32));
+
+                                if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
+                                {
+                                    _screenTransition = true;
+                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biom);
+                                    TargetScreen = new CombatScreen(Game, SpriteBatch);
+                                }
+
                                 index++;
-                                continue;
                             }
-
-                            var position = new Vector2(index * 64 + 100, 100);
-                            var rect = new Rectangle(position.ToPoint(), new Point(32, 32));
-
-                            if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
-                            {
-                                _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.PlayerGroup, node.Combat);
-                                TargetScreen = new CombatScreen(Game, SpriteBatch);
-                            }
-
-                            index++;
                         }
                     }
                 }

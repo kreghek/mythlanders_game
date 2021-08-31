@@ -50,40 +50,43 @@ namespace Rpg.Client
         {
             return new Globe
             {
-                PlayerGroup = new Group
+                Player = new Player
                 {
-                    Units = new[]
+                    Group = new Group
                     {
-                        new Unit{
-                            Hp = 100,
-                            IsPlayerControlled = true,
-                            Name = "Player",
-                            Skills = new []{ 
-                                new CombatSkill{ 
-                                    DamageMin = 10,
-                                    DamageMax = 12
+                        Units = new[]
+                        {
+                            new Unit{
+                                Hp = 100,
+                                IsPlayerControlled = true,
+                                Name = "Player",
+                                Skills = new []{
+                                    new CombatSkill{
+                                        DamageMin = 10,
+                                        DamageMax = 12
+                                    }
                                 }
-                            }
-                        },
-                        new Unit{
-                            Hp = 100,
-                            IsPlayerControlled = true,
-                            Name = "Player",
-                            Skills = new []{
-                                new CombatSkill{
-                                    DamageMin = 10,
-                                    DamageMax = 12
+                            },
+                            new Unit{
+                                Hp = 100,
+                                IsPlayerControlled = true,
+                                Name = "Player",
+                                Skills = new []{
+                                    new CombatSkill{
+                                        DamageMin = 10,
+                                        DamageMax = 12
+                                    }
                                 }
-                            }
-                        },
-                        new Unit{
-                            Hp = 100,
-                            IsPlayerControlled = true,
-                            Name = "Player",
-                            Skills = new []{
-                                new CombatSkill{
-                                    DamageMin = 10,
-                                    DamageMax = 12
+                            },
+                            new Unit{
+                                Hp = 100,
+                                IsPlayerControlled = true,
+                                Name = "Player",
+                                Skills = new []{
+                                    new CombatSkill{
+                                        DamageMin = 10,
+                                        DamageMax = 12
+                                    }
                                 }
                             }
                         }

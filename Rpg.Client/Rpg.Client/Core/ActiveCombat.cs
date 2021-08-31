@@ -12,11 +12,11 @@ namespace Rpg.Client.Core
         private readonly IList<CombatUnit> _unitQueue;
         private readonly IList<CombatUnit> _allUnitList;
 
-        public ActiveCombat(Group playerGroup, Combat combat)
+        public ActiveCombat(Group playerGroup, Combat combat, Biom biom)
         {
             _playerGroup = playerGroup;
             _combat = combat;
-
+            Biom = biom;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
         }
@@ -69,6 +69,10 @@ namespace Rpg.Client.Core
             }
         }
 
+        public Biom Biom { get; }
+
+        internal Combat Combat => _combat;
+
         internal void Initialize()
         {
             _allUnitList.Clear();
@@ -79,7 +83,7 @@ namespace Rpg.Client.Core
                 _allUnitList.Add(combatUnit);
             }
 
-            foreach (var unit in _combat.EnemyGroup.Units)
+            foreach (var unit in Combat.EnemyGroup.Units)
             {
                 var combatUnit = new CombatUnit(unit);
                 _allUnitList.Add(combatUnit);
