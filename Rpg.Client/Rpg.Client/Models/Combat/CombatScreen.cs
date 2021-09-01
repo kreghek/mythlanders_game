@@ -275,7 +275,7 @@ namespace Rpg.Client.Models.Combat
             var dice = Game.Services.GetService<IDice>();
             globe.UpdateNodes(dice);
 
-            TargetScreen = new MapScreen(Game, SpriteBatch);
+            TargetScreen = new BiomScreen(Game, SpriteBatch);
         }
     }
 }

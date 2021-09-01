@@ -13,7 +13,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Map
 {
-    internal class MapScreen : GameScreenBase
+    internal class BiomScreen : GameScreenBase
     {
         private readonly Globe _globe;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -23,7 +23,7 @@ namespace Rpg.Client.Models.Map
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
 
-        public MapScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public BiomScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
             var globe = game.Services.GetService<Globe>();
             _globe = globe;
@@ -78,19 +78,16 @@ namespace Rpg.Client.Models.Map
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var biomIndex = 0;
-                    foreach (var biom in _globe.Bioms.Where(x=>x.IsAvailable))
+                    var biom = _globe.CurrentBiom;
+                    var index = 0;
+                    foreach (var node in biom.Nodes)
                     {
-                        var index = 0;
-                        foreach (var node in biom.Nodes)
-                        {
-                            var position = new Vector2(index * 64 + 100, 100 * (biomIndex + 1));
-                            var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
+                        var position = new Vector2(index * 64 + 100, 100);
+                        var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
-                            _nodeModels.Add(nodeModel);
+                        _nodeModels.Add(nodeModel);
 
-                            index++;
-                        }
+                        index++;
                     }
 
                     _isNodeModelsCreated = true;
@@ -99,34 +96,31 @@ namespace Rpg.Client.Models.Map
                 {
                     if (!_screenTransition)
                     {
-
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
 
-                        var biomIndex = 0;
-                        foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable))
+                        var biom = _globe.CurrentBiom;
+
+                        var index = 0;
+                        foreach (var node in biom.Nodes)
                         {
-                            var index = 0;
-                            foreach (var node in biom.Nodes)
+                            if (node.Combat is null)
                             {
-                                if (node.Combat is null)
-                                {
-                                    index++;
-                                    continue;
-                                }
-
-                                var position = new Vector2(index * 64 + 100, 100 * (biomIndex + 1));
-                                var rect = new Rectangle(position.ToPoint(), new Point(32, 32));
-
-                                if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
-                                {
-                                    _screenTransition = true;
-                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biom);
-                                    TargetScreen = new CombatScreen(Game, SpriteBatch);
-                                }
-
                                 index++;
+                                continue;
                             }
+
+                            var position = new Vector2(index * 64 + 100, 100);
+                            var rect = new Rectangle(position.ToPoint(), new Point(32, 32));
+
+                            if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
+                            {
+                                _screenTransition = true;
+                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biom);
+                                TargetScreen = new CombatScreen(Game, SpriteBatch);
+                            }
+
+                            index++;
                         }
                     }
                 }
