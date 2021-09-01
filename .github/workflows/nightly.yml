@@ -23,13 +23,13 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Rpg.Client/Rpg.Client.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Rpg.Client/Rpg.Client.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish --no-build --verbosity normal --output bin --runtime ${{ matrix.runtime }}
+      run: dotnet publish Rpg.Client/Rpg.Client.sln --no-build --verbosity normal --output bin --runtime ${{ matrix.runtime }}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
