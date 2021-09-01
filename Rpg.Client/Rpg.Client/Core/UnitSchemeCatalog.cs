@@ -23,6 +23,7 @@ namespace Rpg.Client.Core
         public static IEnumerable<UnitScheme> AllUnits = new[]{
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Grey Wolf",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 0, 1, 2 },
@@ -36,6 +37,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 25,
+                HpPerLevel = 8,
                 Name = "Bear",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 1, 2, 4 },
@@ -50,6 +52,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 15,
+                HpPerLevel = 2,
                 Name = "Wisp",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 2, 3, 5 },
@@ -63,6 +66,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 25,
+                HpPerLevel = 9,
                 Name = "Volkolak",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 2, 3, 5 },
@@ -77,6 +81,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 15,
+                HpPerLevel = 3,
                 Name = "Korgorush",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -90,6 +95,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 5,
                 Name = "Stryga",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -103,6 +109,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 10,
                 Name = "Vampire",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -117,6 +124,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Gaint frog",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 7, 8, 9 },
@@ -130,6 +138,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 30,
+                HpPerLevel = 5,
                 Name = "Basilisk",
                 Biom = "Slavik",
                 NodeIndexes = new[]{ 7, 8, 9 },
@@ -160,6 +169,7 @@ namespace Rpg.Client.Core
             // China
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Grey Wolf",
                 Biom = "China",
                 NodeIndexes = new[]{ 0, 1, 2 },
@@ -173,6 +183,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 25,
+                HpPerLevel = 3,
                 Name = "Bear",
                 Biom = "China",
                 NodeIndexes = new[]{ 1, 2, 4 },
@@ -187,6 +198,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 15,
+                HpPerLevel = 3,
                 Name = "Wisp",
                 Biom = "China",
                 NodeIndexes = new[]{ 2, 3, 5 },
@@ -200,6 +212,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 25,
+                HpPerLevel = 3,
                 Name = "Volkolak",
                 Biom = "China",
                 NodeIndexes = new[]{ 2, 3, 5 },
@@ -214,6 +227,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 15,
+                HpPerLevel = 3,
                 Name = "Korgorush",
                 Biom = "China",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -227,6 +241,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Stryga",
                 Biom = "China",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -240,6 +255,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Vampire",
                 Biom = "China",
                 NodeIndexes = new[]{ 6, 7, 8 },
@@ -254,6 +270,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 20,
+                HpPerLevel = 3,
                 Name = "Gaint frog",
                 Biom = "China",
                 NodeIndexes = new[]{ 7, 8, 9 },
@@ -267,6 +284,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme{
                 Hp = 30,
+                HpPerLevel = 3,
                 Name = "Basilisk",
                 Biom = "China",
                 NodeIndexes = new[]{ 7, 8, 9 },
@@ -276,6 +294,20 @@ namespace Rpg.Client.Core
                     new CombatSkill{
                         DamageMin = 3,
                         DamageMax = 6
+                    }
+                }
+            },
+            new UnitScheme{
+                Hp = 1200,
+                Name = "Dragon",
+                Biom = "China",
+
+                IsBoss = true,
+                Skills = new CombatSkill[]
+                {
+                    new CombatSkill{
+                        DamageMin = 10,
+                        DamageMax = 15
                     }
                 }
             },
