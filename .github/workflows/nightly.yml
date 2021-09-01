@@ -18,18 +18,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+
+    - name: Setup .NET 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
+
     - name: Build
       run: dotnet build Rpg.Client/Rpg.Client.sln --no-restore
+
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
+
     - name: Publish
       run: dotnet publish Rpg.Client/Rpg.Client.sln --no-build --verbosity normal --output bin --runtime ${{ matrix.runtime }}
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
