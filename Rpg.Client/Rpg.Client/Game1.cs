@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models;
-using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.Map;
+using Rpg.Client.Models.Title;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client
@@ -41,7 +41,9 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
-            Services.AddService<AnimationManager>(new AnimationManager());
+            Services.AddService(new AnimationManager());
+
+            Services.AddService(_graphics);
 
             base.Initialize();
         }
@@ -86,7 +88,7 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new MapScreen(this, _spriteBatch);
+                var startScreen = new TitleScreen(this, _spriteBatch);
                 _screenManager.ActiveScreen = startScreen;
             }
 
