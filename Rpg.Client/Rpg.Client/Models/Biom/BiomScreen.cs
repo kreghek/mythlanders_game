@@ -9,6 +9,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biom.GameObjects;
 using Rpg.Client.Models.Combat;
+using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biom
@@ -22,6 +23,7 @@ namespace Rpg.Client.Models.Biom
         private bool _screenTransition;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
+        private readonly TextButton _mapButton;
 
         public BiomScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
@@ -30,6 +32,12 @@ namespace Rpg.Client.Models.Biom
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
+
+            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+            _mapButton.OnClick += (s, e) =>
+            {
+                TargetScreen = new MapScreen(game, spriteBatch);
+            };
         }
 
         public override void Draw(GameTime gameTime)
@@ -61,6 +69,7 @@ namespace Rpg.Client.Models.Biom
             SpriteBatch.Begin();
 
             SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero, Color.White);
+            _mapButton.Draw(SpriteBatch);
 
             SpriteBatch.End();
         }
@@ -125,6 +134,8 @@ namespace Rpg.Client.Models.Biom
                     }
                 }
             }
+
+            _mapButton.Update();
         }
     }
 }
