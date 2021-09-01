@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Models.Biom;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.Ui;
 using Rpg.Client.Models.Map;

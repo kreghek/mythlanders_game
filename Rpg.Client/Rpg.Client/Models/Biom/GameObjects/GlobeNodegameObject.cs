@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.Models.Map.GameObjects
+namespace Rpg.Client.Models.Biom.GameObjects
 {
     class GlobeNodeGameObject
     {

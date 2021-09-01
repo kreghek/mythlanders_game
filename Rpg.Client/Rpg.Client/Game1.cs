@@ -86,7 +86,7 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new BiomScreen(this, _spriteBatch);
+                var startScreen = new MapScreen(this, _spriteBatch);
                 _screenManager.ActiveScreen = startScreen;
             }
 

@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Models.Biom.GameObjects;
 using Rpg.Client.Models.Combat;
-using Rpg.Client.Models.Map.GameObjects;
 using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.Map
+namespace Rpg.Client.Models.Biom
 {
     internal class BiomScreen : GameScreenBase
     {
