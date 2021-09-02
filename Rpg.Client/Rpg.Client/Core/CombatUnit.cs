@@ -20,8 +20,8 @@ namespace Rpg.Client.Core
             CombatCards = cards;
         }
 
-        public Unit Unit { get; }
+        public IEnumerable<CombatSkillCard>? CombatCards { get; }
 
-        public IEnumerable<CombatSkillCard>? CombatCards { get; private set; }
+        public Unit Unit { get; }
     }
 }

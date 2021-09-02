@@ -14,8 +14,8 @@ namespace Rpg.Client.Models.Title
 {
     internal sealed class TitleScreen : GameScreenBase
     {
-        const int BUTTON_WIDTH = 100;
-        const int BUTTON_HEIGHT = 20;
+        private const int BUTTON_WIDTH = 100;
+        private const int BUTTON_HEIGHT = 20;
 
         private readonly IList<ButtonBase> _buttons;
 
@@ -81,6 +81,29 @@ namespace Rpg.Client.Models.Title
             }
         }
 
+        private void StartButton_OnClick(object? sender, EventArgs e)
+        {
+            TargetScreen = new MapScreen(Game, SpriteBatch);
+        }
+
+        private void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
+        {
+            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
+            if (string.Equals(currentLanguage.TwoLetterISOLanguageName, "en",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                var newCulture = CultureInfo.GetCultureInfo("ru-RU");
+                Thread.CurrentThread.CurrentCulture = newCulture;
+                Thread.CurrentThread.CurrentUICulture = newCulture;
+            }
+            else
+            {
+                var newCulture = CultureInfo.GetCultureInfo("en-US");
+                Thread.CurrentThread.CurrentCulture = newCulture;
+                Thread.CurrentThread.CurrentUICulture = newCulture;
+            }
+        }
+
         private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)
         {
             var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
@@ -105,29 +128,6 @@ namespace Rpg.Client.Models.Title
                 graphicsManager.PreferredBackBufferHeight = 480;
                 graphicsManager.ApplyChanges();
             }
-        }
-
-        private void SwitchLanguageButton_OnClick(object? sender, System.EventArgs e)
-        {
-            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-            if (string.Equals(currentLanguage.TwoLetterISOLanguageName, "en",
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                var newCulture = CultureInfo.GetCultureInfo("ru-RU");
-                Thread.CurrentThread.CurrentCulture = newCulture;
-                Thread.CurrentThread.CurrentUICulture = newCulture;
-            }
-            else
-            {
-                var newCulture = CultureInfo.GetCultureInfo("en-US");
-                Thread.CurrentThread.CurrentCulture = newCulture;
-                Thread.CurrentThread.CurrentUICulture = newCulture;
-            }
-        }
-
-        private void StartButton_OnClick(object? sender, System.EventArgs e)
-        {
-            TargetScreen = new MapScreen(Game, SpriteBatch);
         }
     }
 }

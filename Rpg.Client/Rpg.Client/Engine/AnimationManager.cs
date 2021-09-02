@@ -6,13 +6,13 @@ namespace Rpg.Client.Engine
     {
         private readonly IList<AnimationBlocker> _blockers = new List<AnimationBlocker>();
 
+        public bool HasBlockers => _blockers.Count > 0;
+
         public void AddBlocker(AnimationBlocker blocker)
         {
             _blockers.Add(blocker);
             blocker.Released += (s, e) => { _blockers.Remove(blocker); };
         }
-
-        public bool HasBlockers => _blockers.Count > 0;
 
         internal void DropBlockers()
         {

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 
@@ -7,10 +9,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class HitState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly UnitGraphics _graphics;
         private readonly AttackInteraction _attackInteraction;
+        private readonly UnitGraphics _graphics;
 
         private double _counter;
+
+        private bool _interactionExecuted;
 
         public HitState(UnitGraphics graphics, AttackInteraction attackInteraction)
         {
@@ -23,10 +27,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Cancel()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
-
-        private bool _interactionExecuted;
 
         public void Update(GameTime gameTime)
         {
@@ -68,7 +70,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Cancel()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Update(GameTime gameTime)
@@ -102,7 +104,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Cancel()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Update(GameTime gameTime)

@@ -3,7 +3,7 @@
 namespace Rpg.Client.Core
 {
     internal class Group
-    { 
+    {
         public IEnumerable<Unit> Units { get; set; }
     }
 }

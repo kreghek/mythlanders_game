@@ -12,16 +12,25 @@ namespace Rpg.Client
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
+        private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
-        private ScreenManager? _screenManager;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // TODO: Add your drawing code here
+
+            base.Draw(gameTime);
         }
 
         protected override void Initialize()
@@ -48,31 +57,6 @@ namespace Rpg.Client
             base.Initialize();
         }
 
-        private static Globe CreateGlobe()
-        {
-            return new Globe
-            {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
-                                IsPlayerControlled = true,
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
-                                IsPlayerControlled = true,
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1){
-                                IsPlayerControlled = true,
-                            },
-                        }
-                    }
-                }
-            };
-        }
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -95,13 +79,32 @@ namespace Rpg.Client
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        private static Globe CreateGlobe()
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
+            return new Globe
+            {
+                Player = new Player
+                {
+                    Group = new Group
+                    {
+                        Units = new[]
+                        {
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
+                            {
+                                IsPlayerControlled = true
+                            },
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
+                            {
+                                IsPlayerControlled = true
+                            },
+                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
+                            {
+                                IsPlayerControlled = true
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

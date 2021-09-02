@@ -7,12 +7,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal class MoveToTarget : IUnitStateEngine
     {
         private const double DURATION = 1;
+        private readonly UnitGraphics _graphics;
+        private readonly SpriteContainer _graphicsRoot;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
-        private readonly UnitGraphics _graphics;
-        private readonly SpriteContainer _graphicsRoot;
-        private double _counter = 0;
+        private double _counter;
 
         public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition)
         {
@@ -29,7 +29,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (IsComplete)
             {
-                return;
             }
         }
 
@@ -53,7 +52,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
             else
             {
-                
                 IsComplete = true;
                 _graphicsRoot.Position = _targetPosition;
             }

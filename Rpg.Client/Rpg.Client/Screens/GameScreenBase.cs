@@ -15,10 +15,6 @@ namespace Rpg.Client.Screens
         /// </summary>
         private readonly IList<GameComponent> _components;
 
-        protected SpriteBatch SpriteBatch { get; }
-
-        protected Game Game { get; }
-
         public GameScreenBase(Game game, SpriteBatch spriteBatch)
         {
             _components = new List<GameComponent>();
@@ -27,6 +23,10 @@ namespace Rpg.Client.Screens
 
             Game = game;
         }
+
+        protected Game Game { get; }
+
+        protected SpriteBatch SpriteBatch { get; }
 
         public IScreen? TargetScreen { get; set; }
 

@@ -7,23 +7,29 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class UnitAttackState : IUnitStateEngine
     {
-        private IUnitStateEngine[] _subStates;
+        private readonly AnimationBlocker _blocker;
+        private readonly UnitGraphics _graphics;
 
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        private int _subStateIndex;
+        private readonly IUnitStateEngine[] _subStates;
 
-        public UnitAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot, AnimationBlocker blocker, AttackInteraction attackInteraction)
+        public UnitAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
+            AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
-            var targetPosition = targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
+            var targetPosition =
+                targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
-                {
-                    new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                    new HitState(graphics, attackInteraction),
-                    new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
-                };
+            {
+                new MoveToTarget(graphics, graphicsRoot, targetPosition),
+                new HitState(graphics, attackInteraction),
+                new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
+            };
             _graphics = graphics;
             _blocker = blocker;
         }
+
+        public bool CanBeReplaced => false;
+        public bool IsComplete { get; private set; }
 
         public void Cancel()
         {
@@ -54,9 +60,5 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 IsComplete = true;
             }
         }
-
-        private int _subStateIndex = 0;
-        private readonly UnitGraphics _graphics;
-        private readonly AnimationBlocker _blocker;
     }
 }

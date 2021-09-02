@@ -11,18 +11,17 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
+        private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatUnit? _unit;
-
-        private readonly IList<IconButton> _buttons;
-
-        public CombatSkillCard? SelectedCard { get; private set; }
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage)
         {
             _buttons = new List<IconButton>();
             _uiContentStorage = uiContentStorage;
         }
+
+        public CombatSkillCard? SelectedCard { get; private set; }
 
         public CombatUnit? Unit
         {
@@ -34,24 +33,14 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private void RefreshButtons()
-        {
-            _buttons.Clear();
-            foreach (var card in _unit.CombatCards)
-            {
-                var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(), new Rectangle(0, 0, 0, 0));
-                _buttons.Add(button);
-                button.OnClick += (s, e) => { SelectedCard = card; };
-            }
-        }
-
         internal void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             var buttonWidth = _buttons.Count() * 32;
             for (var i = 0; i < _buttons.Count; i++)
             {
                 var button = _buttons[i];
-                button.Rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i, graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
+                button.Rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
+                    graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
                 button.Draw(spriteBatch);
             }
         }
@@ -61,6 +50,18 @@ namespace Rpg.Client.Models.Combat.Ui
             foreach (var button in _buttons)
             {
                 button.Update();
+            }
+        }
+
+        private void RefreshButtons()
+        {
+            _buttons.Clear();
+            foreach (var card in _unit.CombatCards)
+            {
+                var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(),
+                    new Rectangle(0, 0, 0, 0));
+                _buttons.Add(button);
+                button.OnClick += (s, e) => { SelectedCard = card; };
             }
         }
     }

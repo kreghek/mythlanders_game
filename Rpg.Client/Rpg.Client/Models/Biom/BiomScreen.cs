@@ -16,14 +16,14 @@ namespace Rpg.Client.Models.Biom
 {
     internal class BiomScreen : GameScreenBase
     {
-        private readonly Globe _globe;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly Globe _globe;
+        private readonly TextButton _mapButton;
+
+        private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
-
-        private readonly IList<GlobeNodeGameObject> _nodeModels;
-        private readonly TextButton _mapButton;
 
         public BiomScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
@@ -33,7 +33,8 @@ namespace Rpg.Client.Models.Biom
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
 
-            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             _mapButton.OnClick += (s, e) =>
             {
                 TargetScreen = new MapScreen(game, spriteBatch);
@@ -51,13 +52,16 @@ namespace Rpg.Client.Models.Biom
                 foreach (var node in _nodeModels.OrderBy(x => x.Index).ToArray())
                 {
                     node.Draw(SpriteBatch);
-                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}", node.Position + new Vector2(0, 30), Color.Wheat);
+                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}",
+                        node.Position + new Vector2(0, 30), Color.Wheat);
                     if (node.Combat is not null)
                     {
                         var monsterIndex = 0;
                         foreach (var monster in node.Combat.EnemyGroup.Units)
                         {
-                            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{monster.UnitScheme.Name} ({monster.CombatLevel})", node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
+                            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
+                                node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
                             monsterIndex++;
                         }
                     }
@@ -68,7 +72,8 @@ namespace Rpg.Client.Models.Biom
 
             SpriteBatch.Begin();
 
-            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero, Color.White);
+            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero,
+                Color.White);
             _mapButton.Draw(SpriteBatch);
 
             SpriteBatch.End();

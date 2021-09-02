@@ -6,37 +6,42 @@ namespace Rpg.Client.Core
 {
     internal class Unit
     {
-        private int _combatLevel;
-
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
             UnitScheme = unitScheme;
-            _combatLevel = combatLevel;
+            CombatLevel = combatLevel;
 
             InitStats(unitScheme, combatLevel);
         }
 
-        private void InitStats(UnitScheme unitScheme, int combatLevel)
-        {
-            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * _combatLevel;
-            Hp = MaxHp;
+        public int CombatLevel { get; set; }
 
-            Skills = unitScheme.Skills.Select(x => new CombatSkill
-            {
-                DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
-                DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
-            }).ToArray();
-        }
-
-        public UnitScheme UnitScheme { get; init; }
         public int Hp { get; set; }
-        public int MaxHp { get; set; }
 
-        public int Xp { get; set; }
+        public bool IsDead => Hp <= 0;
+
+        public bool IsPlayerControlled { get; set; }
+        public int MaxHp { get; set; }
 
         public IEnumerable<CombatSkill> Skills { get; set; }
 
-        public bool IsPlayerControlled { get; set; }
+        public UnitScheme UnitScheme { get; init; }
+
+        public int Xp { get; set; }
+
+        public void GainXp(int amount)
+        {
+            Xp += amount;
+
+            var xpToLevel = 100 + CombatLevel * 100;
+            if (Xp >= xpToLevel)
+            {
+                CombatLevel++;
+                Xp = Xp - xpToLevel;
+
+                InitStats(UnitScheme, CombatLevel);
+            }
+        }
 
         public void TakeDamage(int damage)
         {
@@ -44,24 +49,18 @@ namespace Rpg.Client.Core
             DamageTaken?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler DamageTaken;
-
-        public bool IsDead => Hp <= 0;
-
-        public int CombatLevel { get => _combatLevel; set => _combatLevel = value; }
-
-        public void GainXp(int amount)
+        private void InitStats(UnitScheme unitScheme, int combatLevel)
         {
-            Xp += amount;
+            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * CombatLevel;
+            Hp = MaxHp;
 
-            var xpToLevel = 100 + _combatLevel * 100;
-            if (Xp >= xpToLevel)
+            Skills = unitScheme.Skills.Select(x => new CombatSkill
             {
-                _combatLevel++;
-                Xp = Xp - xpToLevel;
-
-                InitStats(UnitScheme, _combatLevel);
-            }
+                DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
+                DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel
+            }).ToArray();
         }
+
+        public event EventHandler DamageTaken;
     }
 }

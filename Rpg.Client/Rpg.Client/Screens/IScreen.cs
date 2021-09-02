@@ -2,10 +2,10 @@
 
 namespace Rpg.Client.Screens
 {
-    interface IScreen
+    internal interface IScreen
     {
+        IScreen? TargetScreen { get; set; }
         void Draw(GameTime gameTime);
         void Update(GameTime gameTime);
-        IScreen? TargetScreen { get; set; }
     }
 }

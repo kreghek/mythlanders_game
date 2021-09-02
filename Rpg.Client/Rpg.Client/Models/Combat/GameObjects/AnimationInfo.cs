@@ -9,10 +9,11 @@
             Speed = speed;
         }
 
-        public int StartFrame { get; }
         public int Frames { get; }
-        public float Speed { get; }
 
         public bool IsFinal { get; init; }
+        public float Speed { get; }
+
+        public int StartFrame { get; }
     }
 }

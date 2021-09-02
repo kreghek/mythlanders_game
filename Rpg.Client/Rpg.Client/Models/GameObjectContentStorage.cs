@@ -5,10 +5,15 @@ namespace Rpg.Client.Models
 {
     internal class GameObjectContentStorage
     {
-        private Texture2D? _unit;
-        private Texture2D? _mapNodes;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
+        private Texture2D? _mapNodes;
+        private Texture2D? _unit;
+
+        public Texture2D GetUnitGraphics()
+        {
+            return _unit;
+        }
 
         public void LoadContent(ContentManager contentManager)
         {
@@ -19,16 +24,6 @@ namespace Rpg.Client.Models
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
         }
 
-        public Texture2D GetUnitGraphics()
-        {
-            return _unit;
-        }
-
-        internal Texture2D GetNodeMarker()
-        {
-            return _mapNodes;
-        }
-
         internal Texture2D GetCombatUnitMarker()
         {
             return _combatUnitMarkers;
@@ -37,6 +32,11 @@ namespace Rpg.Client.Models
         internal SpriteFont GetFont()
         {
             return _font;
+        }
+
+        internal Texture2D GetNodeMarker()
+        {
+            return _mapNodes;
         }
     }
 }

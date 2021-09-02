@@ -6,11 +6,12 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Biom.GameObjects
 {
-    class GlobeNodeGameObject
+    internal class GlobeNodeGameObject
     {
         private readonly Sprite _graphics;
 
-        public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
+            GameObjectContentStorage gameObjectContentStorage)
         {
             if (globeNode.Combat is not null)
             {
@@ -38,9 +39,9 @@ namespace Rpg.Client.Models.Biom.GameObjects
         }
 
         public Core.Combat? Combat { get; }
-        public Vector2 Position { get; }
         public int Index { get; }
-        public string Name { get; private set; }
+        public string Name { get; }
+        public Vector2 Position { get; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
