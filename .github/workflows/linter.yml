@@ -3,7 +3,7 @@ name: Code Linter
 on:
   push:
     branches:
-      - main-kreghek
+      - main
 
 jobs:
   # Set the job key. The key is displayed as the job name
