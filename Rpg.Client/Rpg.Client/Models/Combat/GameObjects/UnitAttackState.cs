@@ -9,9 +9,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly AnimationBlocker _blocker;
         private readonly UnitGraphics _graphics;
+        private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
-        private readonly IUnitStateEngine[] _subStates;
 
         public UnitAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, AttackInteraction attackInteraction)
