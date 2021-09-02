@@ -6,43 +6,27 @@ namespace Rpg.Client.Core
 {
     internal class ActiveCombat
     {
+        private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
-        private readonly Combat _combat;
 
         private readonly IList<CombatUnit> _unitQueue;
-        private readonly IList<CombatUnit> _allUnitList;
 
         public ActiveCombat(Group playerGroup, Combat combat, Biom biom)
         {
             _playerGroup = playerGroup;
-            _combat = combat;
+            Combat = combat;
             Biom = biom;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
         }
 
-        public void StartRound()
-        {
-            _unitQueue.Clear();
-
-            foreach (var unit in _allUnitList)
-            {
-                if (!unit.Unit.IsDead)
-                {
-                    _unitQueue.Add(unit);
-                }
-            }
-        }
-
-        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+        public Biom Biom { get; }
 
         public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
 
-        internal bool NextUnit()
-        {
-            _unitQueue.RemoveAt(0);
-            return _unitQueue.Count == 0;
-        }
+        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+
+        internal Combat Combat { get; }
 
         internal bool Finished
         {
@@ -59,20 +43,28 @@ namespace Rpg.Client.Core
                 {
                     return true;
                 }
-                else if (!hasPlayerUnits && hasCpuUnits)
+
+                if (!hasPlayerUnits && hasCpuUnits)
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
         }
 
-        public Biom Biom { get; }
+        public void StartRound()
+        {
+            _unitQueue.Clear();
 
-        internal Combat Combat => _combat;
+            foreach (var unit in _allUnitList)
+            {
+                if (!unit.Unit.IsDead)
+                {
+                    _unitQueue.Add(unit);
+                }
+            }
+        }
 
         internal void Initialize()
         {
@@ -89,6 +81,12 @@ namespace Rpg.Client.Core
                 var combatUnit = new CombatUnit(unit);
                 _allUnitList.Add(combatUnit);
             }
+        }
+
+        internal bool NextUnit()
+        {
+            _unitQueue.RemoveAt(0);
+            return _unitQueue.Count == 0;
         }
     }
 }

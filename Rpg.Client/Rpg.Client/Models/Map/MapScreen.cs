@@ -13,11 +13,10 @@ namespace Rpg.Client.Models.Map
 {
     internal class MapScreen : GameScreenBase
     {
+        private readonly IList<TextButton> _biomButtons;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
-
-        private readonly IList<TextButton> _biomButtons;
 
         public MapScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
@@ -27,43 +26,6 @@ namespace Rpg.Client.Models.Map
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
             _biomButtons = new List<TextButton>();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (!_globe.IsNodeInitialied)
-            {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>());
-                _globe.IsNodeInitialied = true;
-            }
-            else
-            {
-                if (!_isNodeModelsCreated)
-                {
-                    foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable).ToArray())
-                    {
-                        var button = new TextButton(biom.Name, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                        button.OnClick += (s, e) =>
-                        {
-                            _globe.CurrentBiom = biom;
-
-                            TargetScreen = new BiomScreen(Game, SpriteBatch);
-                        };
-                        _biomButtons.Add(button);
-                    }
-
-                    _isNodeModelsCreated = true;
-                }
-                else
-                {
-                    foreach (var button in _biomButtons)
-                    {
-                        button.Update();
-                    }
-                }
-            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -84,6 +46,44 @@ namespace Rpg.Client.Models.Map
             }
 
             SpriteBatch.End();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (!_globe.IsNodeInitialied)
+            {
+                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                _globe.IsNodeInitialied = true;
+            }
+            else
+            {
+                if (!_isNodeModelsCreated)
+                {
+                    foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable).ToArray())
+                    {
+                        var button = new TextButton(biom.Name, _uiContentStorage.GetButtonTexture(),
+                            _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                        button.OnClick += (s, e) =>
+                        {
+                            _globe.CurrentBiom = biom;
+
+                            TargetScreen = new BiomScreen(Game, SpriteBatch);
+                        };
+                        _biomButtons.Add(button);
+                    }
+
+                    _isNodeModelsCreated = true;
+                }
+                else
+                {
+                    foreach (var button in _biomButtons)
+                    {
+                        button.Update();
+                    }
+                }
+            }
         }
     }
 }

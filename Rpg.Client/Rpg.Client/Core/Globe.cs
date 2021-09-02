@@ -10,19 +10,29 @@ namespace Rpg.Client.Core
         {
             var biomNames = new Dictionary<string, string[]>
             {
-                { "Slavik", new[]{
-                    "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                    "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена" } },
-                { "China", new[]{
-                    "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                    "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена" } }
+                {
+                    "Slavik", new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                },
+                {
+                    "China", new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                }
             };
 
-            var biomes = new[] {
-                new Biom{
+            var biomes = new[]
+            {
+                new Biom
+                {
                     Name = "Slavik",
                     IsAvailable = true,
-                    Nodes = Enumerable.Range(0, 10).Select(x=>
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
@@ -31,9 +41,10 @@ namespace Rpg.Client.Core
                     ).ToArray(),
                     UnlockBiom = "China"
                 },
-                new Biom{
+                new Biom
+                {
                     Name = "China",
-                    Nodes = Enumerable.Range(0, 10).Select(x=>
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
@@ -47,15 +58,15 @@ namespace Rpg.Client.Core
             CurrentBiom = biomes[0];
         }
 
-        public Player? Player { get; set; }
+        public ActiveCombat? ActiveCombat { get; set; }
+
+        public IEnumerable<Biom> Bioms { get; }
 
         public Biom? CurrentBiom { get; set; }
 
-        public ActiveCombat? ActiveCombat { get; set; }
-
         public bool IsNodeInitialied { get; set; }
 
-        public IEnumerable<Biom> Bioms { get; private set; }
+        public Player? Player { get; set; }
 
         public void UpdateNodes(IDice dice)
         {
@@ -109,13 +120,18 @@ namespace Rpg.Client.Core
                         // boss level
                         if (node == nodesWithCombats.First())
                         {
-                            var bossUnitScheme = dice.RollFromList(UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Name).ToList(), 1).Single();
+                            var bossUnitScheme =
+                                dice.RollFromList(
+                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Name).ToList(),
+                                        1)
+                                    .Single();
                             node.Combat = new Combat
                             {
                                 IsBossLevel = true,
                                 EnemyGroup = new Group
                                 {
-                                    Units = new[] {
+                                    Units = new[]
+                                    {
                                         new Unit(
                                             bossUnitScheme,
                                             biom.Level)
@@ -146,7 +162,8 @@ namespace Rpg.Client.Core
 
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biom biom, int combatLevel)
         {
-            var availableMonsters = UnitSchemeCatalog.AllUnits.Where(x => !x.IsBoss && x.Biom == biom.Name && x.NodeIndexes.Contains(node.Index)).ToList();
+            var availableMonsters = UnitSchemeCatalog.AllUnits
+                .Where(x => !x.IsBoss && x.Biom == biom.Name && x.NodeIndexes.Contains(node.Index)).ToList();
             var rolledUnits = dice.RollFromList(availableMonsters, dice.Roll(1, Math.Min(3, availableMonsters.Count)));
 
             var uniqueIsUsed = false;
@@ -159,10 +176,8 @@ namespace Rpg.Client.Core
                     {
                         continue;
                     }
-                    else
-                    {
-                        uniqueIsUsed = true;
-                    }
+
+                    uniqueIsUsed = true;
                 }
 
                 var unit = new Unit(unitScheme, combatLevel);

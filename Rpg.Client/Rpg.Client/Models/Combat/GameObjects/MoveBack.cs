@@ -7,14 +7,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal class MoveBack : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly Vector2 _startPosition;
-        private readonly Vector2 _targetPosition;
+        private readonly AnimationBlocker _blocker;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
-        private readonly AnimationBlocker _blocker;
-        private double _counter = 0;
+        private readonly Vector2 _startPosition;
+        private readonly Vector2 _targetPosition;
+        private double _counter;
 
-        public MoveBack(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, AnimationBlocker blocker)
+        public MoveBack(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+            AnimationBlocker blocker)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;

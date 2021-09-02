@@ -32,7 +32,7 @@ namespace Rpg.Client.Core
             _random = new Random(seed);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public int Roll(int n)
         {
             var rollResult = _random.Next(1, n + 1);

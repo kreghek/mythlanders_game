@@ -10,23 +10,21 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class UnitGraphics
     {
-        private readonly SpriteContainer _graphicsRoot;
-        private readonly Sprite _graphics;
-        private readonly Sprite _selectedMarker;
-
-        private readonly IDictionary<string, AnimationInfo> _animationInfos;
-        private double _frameCounter;
-        private int _frameIndex;
-
-        private string _animationSid;
-
         private const string DEFAULT_ANIMATION_SID = "Idle";
         private const int FRAME_WIDTH = 128;
         private const int FRAME_HEIGHT = 128;
 
+        private readonly IDictionary<string, AnimationInfo> _animationInfos;
+        private readonly Sprite _graphics;
+        private readonly Sprite _selectedMarker;
+
+        private string _animationSid;
+        private double _frameCounter;
+        private int _frameIndex;
+
         public UnitGraphics(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
-            _graphicsRoot = new SpriteContainer
+            Root = new SpriteContainer
             {
                 Position = position,
                 FlipX = !unit.Unit.IsPlayerControlled
@@ -37,13 +35,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 Origin = new Vector2(0.5f, 0.75f),
                 SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)
             };
-            _graphicsRoot.AddChild(_graphics);
+            Root.AddChild(_graphics);
 
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f)
             };
-            _graphicsRoot.AddChild(_selectedMarker);
+            Root.AddChild(_selectedMarker);
 
             _animationInfos = new Dictionary<string, AnimationInfo>
             {
@@ -58,9 +56,25 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _animationSid = DEFAULT_ANIMATION_SID;
         }
 
+        public SpriteContainer Root { get; }
+
+        public bool ShowActiveMarker { get; set; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            _graphicsRoot.Draw(spriteBatch);
+            Root.Draw(spriteBatch);
+        }
+
+        public void PlayAnimation(string sid)
+        {
+            if (sid == _animationSid)
+            {
+                return;
+            }
+
+            _frameCounter = 0;
+            _frameIndex = 0;
+            _animationSid = sid;
         }
 
         public void Update(GameTime gameTime)
@@ -75,6 +89,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             UpdateAnimation(gameTime);
+        }
+
+        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
+        {
+            var col = (frameIndex + startIndex) % cols;
+            var row = (frameIndex + startIndex) / cols;
+            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
         }
 
         private void UpdateAnimation(GameTime gameTime)
@@ -97,30 +118,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
 
-            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, FRAME_WIDTH, FRAME_HEIGHT);
-        }
-
-        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
-        {
-            var col = (frameIndex + startIndex) % cols;
-            var row = (frameIndex + startIndex) / cols;
-            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-        }
-
-        public bool ShowActiveMarker { get; set; }
-
-        public SpriteContainer Root => _graphicsRoot;
-
-        public void PlayAnimation(string sid)
-        {
-            if (sid == _animationSid)
-            {
-                return;
-            }
-
-            _frameCounter = 0;
-            _frameIndex = 0;
-            _animationSid = sid;
+            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, FRAME_WIDTH,
+                FRAME_HEIGHT);
         }
     }
 }
