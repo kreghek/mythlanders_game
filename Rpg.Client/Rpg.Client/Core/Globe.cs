@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
             {
                 new Biom
                 {
-                    Name = "Slavik",
+                    Type = BiomType.Slavic,
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
@@ -39,11 +39,11 @@ namespace Rpg.Client.Core
                             Name = biomNames["Slavik"][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = "China"
+                    UnlockBiom = BiomType.China
                 },
                 new Biom
                 {
-                    Name = "China",
+                    Type = BiomType.China,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
@@ -83,7 +83,7 @@ namespace Rpg.Client.Core
 
                 if (biom.IsComplete && biom.UnlockBiom is not null)
                 {
-                    var unlockedBiom = Bioms.Single(x => x.Name == biom.UnlockBiom);
+                    var unlockedBiom = Bioms.Single(x => x.Type == biom.UnlockBiom);
 
                     unlockedBiom.IsAvailable = true;
                 }
@@ -125,7 +125,7 @@ namespace Rpg.Client.Core
                         {
                             var bossUnitScheme =
                                 dice.RollFromList(
-                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Name).ToList(),
+                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList(),
                                         1)
                                     .Single();
                             node.Combat = new Combat
@@ -181,7 +181,7 @@ namespace Rpg.Client.Core
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biom biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => !x.IsBoss && x.Biom == biom.Name && x.NodeIndexes.Contains(node.Index)).ToList();
+                .Where(x => !x.IsBoss && x.Biom == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
             var rolledUnits = dice.RollFromList(availableMonsters, dice.Roll(1, Math.Min(3, availableMonsters.Count)));
 
             var uniqueIsUsed = false;

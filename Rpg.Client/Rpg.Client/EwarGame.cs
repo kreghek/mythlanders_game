@@ -75,6 +75,8 @@ namespace Rpg.Client
                 _screenManager.ActiveScreen = startScreen;
             }
 
+            _screenManager.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -88,7 +90,7 @@ namespace Rpg.Client
                     {
                         Units = new[]
                         {
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
+                            new Unit(UnitSchemeCatalog.SlavicHero, 1)
                             {
                                 IsPlayerControlled = true
                             }

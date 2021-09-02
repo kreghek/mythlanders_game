@@ -58,7 +58,7 @@ namespace Rpg.Client.Models.Map
                 {
                     foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable).ToArray())
                     {
-                        var button = new TextButton(biom.Name, _uiContentStorage.GetButtonTexture(),
+                        var button = new TextButton(biom.Type.ToString(), _uiContentStorage.GetButtonTexture(),
                             _uiContentStorage.GetMainFont(), Rectangle.Empty);
                         button.OnClick += (s, e) =>
                         {
