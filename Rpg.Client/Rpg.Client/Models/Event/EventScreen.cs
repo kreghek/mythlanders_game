@@ -16,7 +16,7 @@ namespace Rpg.Client.Models.Event
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly IList<ButtonBase> _buttons;
-
+        private readonly DialogContext _dialogContext;
         private DialogNode _currentDialogNode;
 
         private bool _isInitialized;
@@ -30,6 +30,8 @@ namespace Rpg.Client.Models.Event
             _currentDialogNode = _globe.AvailableDialog.StartNode;
 
             _buttons = new List<ButtonBase>();
+
+            _dialogContext = new DialogContext(_globe);
         }
 
         public override void Draw(GameTime gameTime)
@@ -74,6 +76,11 @@ namespace Rpg.Client.Models.Event
                     var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {
+                        if (option.Aftermath is not null)
+                        {
+                            option.Aftermath.Apply(_dialogContext);
+                        }
+
                         if (option.IsEnd)
                         {
                             TargetScreen = new CombatScreen(Game, SpriteBatch);

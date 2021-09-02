@@ -92,14 +92,6 @@ namespace Rpg.Client
                             new Unit(UnitSchemeCatalog.SlavikHero, 1)
                             {
                                 IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
-                            {
-                                IsPlayerControlled = true
                             }
                         }
                     }

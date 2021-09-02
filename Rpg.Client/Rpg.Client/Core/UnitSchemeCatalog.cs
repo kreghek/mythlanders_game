@@ -21,6 +21,23 @@ namespace Rpg.Client.Core
             }
         };
 
+        public static UnitScheme HerbalistHero = new()
+        {
+            Hp = 100,
+            HpPerLevel = 10,
+            Name = "Ivora",
+            Skills = new[]
+           {
+                new CombatSkill
+                {
+                    DamageMin = 5,
+                    DamageMinPerLevel = 1,
+                    DamageMax = 7,
+                    DamageMaxPerLevel = 1
+                }
+            }
+        };
+
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {
             new UnitScheme

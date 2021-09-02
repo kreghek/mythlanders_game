@@ -164,12 +164,16 @@ namespace Rpg.Client.Core
 
             // create dialogs of nodes with combat
             var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
+            // TODO Use Counter to get unused dialogs first.
+            var availableDialogs = DialogCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique)).OrderBy(x => x.Counter);
             foreach (var node in nodesWithCombat)
             {
+                var availableDialogsList = availableDialogs.ToList();
                 var roll = dice.Roll(1, 10);
                 if (roll > 5)
                 {
-                    node.AvailableDialog = dice.RollFromList(DialogCatalog.Dialogs.ToList(), 1).Single();
+                    node.AvailableDialog = dice.RollFromList(availableDialogsList, 1).Single();
+                    availableDialogsList.Remove(node.AvailableDialog);
                 }
             }
         }

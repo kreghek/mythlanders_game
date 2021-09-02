@@ -137,6 +137,9 @@ namespace Rpg.Client.Models.Biom
                                 if (node.AvailableDialog is not null)
                                 {
                                     _globe.AvailableDialog = node.AvailableDialog;
+
+                                    _globe.AvailableDialog.Counter++;
+
                                     TargetScreen = new EventScreen(Game, SpriteBatch);
                                 }
                                 else
