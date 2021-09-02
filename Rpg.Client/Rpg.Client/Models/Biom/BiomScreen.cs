@@ -9,6 +9,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biom.GameObjects;
 using Rpg.Client.Models.Combat;
+using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
@@ -52,7 +53,8 @@ namespace Rpg.Client.Models.Biom
                 foreach (var node in _nodeModels.OrderBy(x => x.Index).ToArray())
                 {
                     node.Draw(SpriteBatch);
-                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}",
+                    var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
+                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
                         node.Position + new Vector2(0, 30), Color.Wheat);
                     if (node.Combat is not null)
                     {
@@ -131,7 +133,16 @@ namespace Rpg.Client.Models.Biom
                             {
                                 _screenTransition = true;
                                 _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biom);
-                                TargetScreen = new CombatScreen(Game, SpriteBatch);
+
+                                if (node.AvailableDialog is not null)
+                                {
+                                    _globe.AvailableDialog = node.AvailableDialog;
+                                    TargetScreen = new EventScreen(Game, SpriteBatch);
+                                }
+                                else
+                                {
+                                    TargetScreen = new CombatScreen(Game, SpriteBatch);
+                                }
                             }
 
                             index++;

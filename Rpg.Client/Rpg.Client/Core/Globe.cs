@@ -67,15 +67,18 @@ namespace Rpg.Client.Core
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
+        public Dialog AvailableDialog { get; internal set; }
 
         public void UpdateNodes(IDice dice)
         {
             // Reset all combat states.
-            foreach (var biom in Bioms.Where(x => x.IsAvailable).ToArray())
+            var bioms = Bioms.Where(x => x.IsAvailable).ToArray();
+            foreach (var biom in bioms)
             {
                 foreach (var node in biom.Nodes)
                 {
                     node.Combat = null;
+                    node.AvailableDialog = null;
                 }
 
                 if (biom.IsComplete && biom.UnlockBiom is not null)
@@ -87,7 +90,7 @@ namespace Rpg.Client.Core
             }
 
             // Create new combats
-            foreach (var biom in Bioms.Where(x => x.IsAvailable))
+            foreach (var biom in bioms)
             {
                 if (biom.Level < 10)
                 {
@@ -156,6 +159,17 @@ namespace Rpg.Client.Core
 
                         combatLevelAdditional++;
                     }
+                }
+            }
+
+            // create dialogs of nodes with combat
+            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
+            foreach (var node in nodesWithCombat)
+            {
+                var roll = dice.Roll(1, 10);
+                if (roll > 5)
+                {
+                    node.AvailableDialog = dice.RollFromList(DialogCatalog.Dialogs.ToList(), 1).Single();
                 }
             }
         }

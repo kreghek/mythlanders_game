@@ -3,6 +3,9 @@
     internal class GlobeNode
     {
         public Combat? Combat { get; set; }
+
+        public Dialog? AvailableDialog { get; set; }
+
         public int Index { get; internal set; }
 
         public string Name { get; set; }
