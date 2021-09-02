@@ -7,6 +7,7 @@
         Map,
         Biom,
         Event,
-        Combat
+        Combat,
+        EndGame
     }
 }

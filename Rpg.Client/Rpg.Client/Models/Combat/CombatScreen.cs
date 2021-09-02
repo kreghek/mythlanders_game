@@ -262,6 +262,9 @@ namespace Rpg.Client.Models.Combat
             _animationManager.DropBlockers();
             var globe = Game.Services.GetService<Globe>();
 
+            var bossWasDefeat = false;
+            var finalBossWasDefeat = false;
+
             if (_combatResultPanel.Result == "Win")
             {
                 globe.Player.Souls += 10;
@@ -270,6 +273,12 @@ namespace Rpg.Client.Models.Combat
                 if (_combat.Combat.IsBossLevel)
                 {
                     _combat.Biom.IsComplete = true;
+                    bossWasDefeat = true;
+
+                    if (_combat.Biom.IsFinalBiom)
+                    {
+                        finalBossWasDefeat = true;
+                    }
                 }
 
                 var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
@@ -291,7 +300,21 @@ namespace Rpg.Client.Models.Combat
             var dice = Game.Services.GetService<IDice>();
             globe.UpdateNodes(dice);
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+            if (bossWasDefeat)
+            {
+                if (finalBossWasDefeat)
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                }
+            }
+            else
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+            }
         }
     }
 }
