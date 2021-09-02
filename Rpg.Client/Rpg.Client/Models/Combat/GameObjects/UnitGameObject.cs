@@ -93,7 +93,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
-            var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, ()=> {
+            var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, () =>
+            {
                 if (target.Unit.Unit.IsDead)
                 {
                     target.AddStateEngine(new DeathState(target._graphics));

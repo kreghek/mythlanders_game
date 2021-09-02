@@ -36,7 +36,7 @@ namespace Rpg.Client.Core
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
-        public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x=>!x.Unit.IsDead);
+        public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
 
         internal bool NextUnit()
         {
@@ -46,7 +46,8 @@ namespace Rpg.Client.Core
 
         internal bool Finished
         {
-            get {
+            get
+            {
                 var playerUnits = _allUnitList.Where(x => !x.Unit.IsDead && x.Unit.IsPlayerControlled);
                 var hasPlayerUnits = playerUnits.Any();
 

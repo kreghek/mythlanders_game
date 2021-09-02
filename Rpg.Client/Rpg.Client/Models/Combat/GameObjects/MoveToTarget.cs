@@ -53,7 +53,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
             else
             {
-                
+
                 IsComplete = true;
                 _graphicsRoot.Position = _targetPosition;
             }

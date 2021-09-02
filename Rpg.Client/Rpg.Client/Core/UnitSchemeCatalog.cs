@@ -155,7 +155,7 @@ namespace Rpg.Client.Core
                 Hp = 1200,
                 Name = "Zmey Gorynych",
                 Biom = "Slavik",
-                
+
                 IsBoss = true,
                 Skills = new CombatSkill[]
                 {

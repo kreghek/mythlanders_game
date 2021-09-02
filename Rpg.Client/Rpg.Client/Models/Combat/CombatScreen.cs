@@ -224,7 +224,7 @@ namespace Rpg.Client.Models.Combat
 
                     if (_combatResultPanel is null)
                     {
-                        var enemyUnitsAreDead = _combat.Units.Any(x=> x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+                        var enemyUnitsAreDead = _combat.Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
 
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)

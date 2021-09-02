@@ -52,7 +52,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)(1-_counter));
+                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)(1 - _counter));
             }
             else
             {
