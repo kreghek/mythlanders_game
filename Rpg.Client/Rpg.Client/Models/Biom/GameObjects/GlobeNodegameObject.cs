@@ -39,12 +39,12 @@ namespace Rpg.Client.Models.Biom.GameObjects
             AvailableDialog = globeNode.AvailableDialog;
         }
 
+        public Dialog AvailableDialog { get; }
+
         public Core.Combat? Combat { get; }
         public int Index { get; }
         public string Name { get; }
         public Vector2 Position { get; }
-
-        public Dialog AvailableDialog { get; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

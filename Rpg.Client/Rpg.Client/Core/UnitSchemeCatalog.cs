@@ -27,7 +27,7 @@ namespace Rpg.Client.Core
             HpPerLevel = 10,
             Name = "Ivora",
             Skills = new[]
-           {
+            {
                 new CombatSkill
                 {
                     DamageMin = 5,

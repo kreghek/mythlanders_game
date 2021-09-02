@@ -47,12 +47,6 @@ namespace Rpg.Client.Screens
             ActiveScreen.Update(gameTime);
         }
 
-        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)
-        {
-            var targetScreen = CreateScreenToTransit(targetTransition);
-            currentScreen.TargetScreen = targetScreen;
-        }
-
         private IScreen CreateScreenToTransit(ScreenTransition targetTransition)
         {
             return targetTransition switch
@@ -63,8 +57,14 @@ namespace Rpg.Client.Screens
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
-                _ => throw new ArgumentException("Unknown transition", nameof(targetTransition)),
+                _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
+        }
+
+        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)
+        {
+            var targetScreen = CreateScreenToTransit(targetTransition);
+            currentScreen.TargetScreen = targetScreen;
         }
     }
 }

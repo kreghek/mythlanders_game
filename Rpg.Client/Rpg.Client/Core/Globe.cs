@@ -99,6 +99,7 @@ namespace Rpg.Client.Core
         }
 
         public ActiveCombat? ActiveCombat { get; set; }
+        public Dialog? AvailableDialog { get; internal set; }
 
         public IEnumerable<Biom> Bioms { get; }
 
@@ -107,7 +108,6 @@ namespace Rpg.Client.Core
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
-        public Dialog? AvailableDialog { get; internal set; }
 
         public void UpdateNodes(IDice dice)
         {
@@ -205,7 +205,8 @@ namespace Rpg.Client.Core
             // create dialogs of nodes with combat
             var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
             // TODO Use Counter to get unused dialogs first.
-            var availableDialogs = DialogCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique)).OrderBy(x => x.Counter);
+            var availableDialogs = DialogCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
+                .OrderBy(x => x.Counter);
             foreach (var node in nodesWithCombat)
             {
                 var availableDialogsList = availableDialogs.ToList();

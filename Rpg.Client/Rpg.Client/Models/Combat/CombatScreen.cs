@@ -47,50 +47,6 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
         }
 
-        private void DrawGameObjects(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            var list = _gameObjects.ToArray();
-            foreach (var gameObject in list)
-            {
-                gameObject.Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-        }
-
-        private void DrawHud(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            if (_combat.CurrentUnit is not null)
-            {
-                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
-                {
-                    if (_combatSkillsPanel is not null)
-                    {
-                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                    }
-
-                    if (_combatSkillsPanel?.SelectedCard is not null)
-                    {
-                        foreach (var button in _enemyAttackList)
-                        {
-                            button.Draw(spriteBatch);
-                        }
-                    }
-                }
-
-                if (_combatResultPanel is not null)
-                {
-                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                }
-            }
-
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -314,6 +270,50 @@ namespace Rpg.Client.Models.Combat
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
             }
+        }
+
+        private void DrawGameObjects(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            var list = _gameObjects.ToArray();
+            foreach (var gameObject in list)
+            {
+                gameObject.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
+        }
+
+        private void DrawHud(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            if (_combat.CurrentUnit is not null)
+            {
+                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
+                {
+                    if (_combatSkillsPanel is not null)
+                    {
+                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
+                    }
+
+                    if (_combatSkillsPanel?.SelectedCard is not null)
+                    {
+                        foreach (var button in _enemyAttackList)
+                        {
+                            button.Draw(spriteBatch);
+                        }
+                    }
+                }
+
+                if (_combatResultPanel is not null)
+                {
+                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
+                }
+            }
+
+            spriteBatch.End();
         }
     }
 }
