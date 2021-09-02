@@ -41,37 +41,33 @@ namespace Rpg.Client.Models.Biom
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (_isNodeModelsCreated)
+            if (!_isNodeModelsCreated)
             {
-                spriteBatch.Begin();
-
-                foreach (var node in _nodeModels.OrderBy(x => x.Index).ToArray())
-                {
-                    node.Draw(spriteBatch);
-                    var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
-                        node.Position + new Vector2(0, 30), Color.Wheat);
-                    if (node.Combat is not null)
-                    {
-                        var monsterIndex = 0;
-                        foreach (var monster in node.Combat.EnemyGroup.Units)
-                        {
-                            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                                $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
-                                node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
-                            monsterIndex++;
-                        }
-                    }
-                }
-
-                spriteBatch.End();
+                return;
             }
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero,
-                Color.White);
-            _mapButton.Draw(spriteBatch);
+            var nodes = _nodeModels.OrderBy(x => x.Index).ToArray();
+            foreach (var node in nodes)
+            {
+                node.Draw(spriteBatch);
+
+                var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
+                    node.Position + new Vector2(0, 30), Color.Wheat);
+                if (node.Combat is not null)
+                {
+                    var monsterIndex = 0;
+                    foreach (var monster in node.Combat.EnemyGroup.Units)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
+                            node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
+                        monsterIndex++;
+                    }
+                }
+            }
 
             spriteBatch.End();
         }
