@@ -95,7 +95,7 @@ namespace Rpg.Client.Core
             };
 
             Bioms = biomes;
-            CurrentBiom = biomes.Single(x=>x.IsStartBiom);
+            CurrentBiom = biomes.Single(x => x.IsStartBiom);
         }
 
         public ActiveCombat? ActiveCombat { get; set; }

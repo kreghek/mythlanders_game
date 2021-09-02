@@ -41,7 +41,7 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.Begin();
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
 
             var index = 0;
