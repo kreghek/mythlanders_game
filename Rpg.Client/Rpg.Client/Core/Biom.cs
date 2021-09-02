@@ -9,9 +9,13 @@ namespace Rpg.Client.Core
         public bool IsComplete { get; set; }
 
         public int Level { get; set; }
-        public string Name { get; set; }
+        public BiomType Type { get; set; }
 
         public IEnumerable<GlobeNode> Nodes { get; set; }
-        public string UnlockBiom { get; internal set; }
+
+        public BiomType? UnlockBiom { get; internal set; }
+
+        public bool IsStartBiom { get; set; }
+        public bool IsFinalBiom { get; set; }
     }
 }

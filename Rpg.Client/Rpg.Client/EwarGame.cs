@@ -4,20 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models;
-using Rpg.Client.Models.Map;
 using Rpg.Client.Models.Title;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client
 {
-    public class Game1 : Game
+    public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
 
-        public Game1()
+        public EwarGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -28,7 +27,7 @@ namespace Rpg.Client
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _screenManager.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
         }
@@ -36,7 +35,7 @@ namespace Rpg.Client
         protected override void Initialize()
         {
             _screenManager = new ScreenManager(this);
-            Components.Add(_screenManager);
+            Services.AddService<IScreenManager>(_screenManager);
 
             Globe globe = CreateGlobe();
 
@@ -72,9 +71,11 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new TitleScreen(this, _spriteBatch);
+                var startScreen = new TitleScreen(this);
                 _screenManager.ActiveScreen = startScreen;
             }
+
+            _screenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -89,15 +90,7 @@ namespace Rpg.Client
                     {
                         Units = new[]
                         {
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.SlavikHero, 1)
+                            new Unit(UnitSchemeCatalog.SlavicHero, 1)
                             {
                                 IsPlayerControlled = true
                             }

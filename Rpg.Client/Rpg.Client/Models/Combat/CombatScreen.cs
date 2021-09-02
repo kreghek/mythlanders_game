@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biom;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.Ui;
-using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Combat
@@ -28,7 +26,7 @@ namespace Rpg.Client.Models.Combat
         private CombatSkillPanel _combatSkillsPanel;
         private bool _unitsInitialized;
 
-        public CombatScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public CombatScreen(Game game) : base(game)
         {
             var globe = game.Services.GetService<Globe>();
             _combat = globe.ActiveCombat ??
@@ -42,19 +40,29 @@ namespace Rpg.Client.Models.Combat
             _animationManager = game.Services.GetService<AnimationManager>();
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            SpriteBatch.Begin();
+            DrawGameObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+        }
+
+        private void DrawGameObjects(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
 
             var list = _gameObjects.ToArray();
             foreach (var gameObject in list)
             {
-                gameObject.Draw(SpriteBatch);
+                gameObject.Draw(spriteBatch);
             }
 
-            SpriteBatch.End();
+            spriteBatch.End();
+        }
 
-            SpriteBatch.Begin();
+        private void DrawHud(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
 
             if (_combat.CurrentUnit is not null)
             {
@@ -62,25 +70,25 @@ namespace Rpg.Client.Models.Combat
                 {
                     if (_combatSkillsPanel is not null)
                     {
-                        _combatSkillsPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
                     }
 
                     if (_combatSkillsPanel?.SelectedCard is not null)
                     {
                         foreach (var button in _enemyAttackList)
                         {
-                            button.Draw(SpriteBatch);
+                            button.Draw(spriteBatch);
                         }
                     }
                 }
 
                 if (_combatResultPanel is not null)
                 {
-                    _combatResultPanel.Draw(SpriteBatch, Game.GraphicsDevice);
+                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
                 }
             }
 
-            SpriteBatch.End();
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
@@ -254,14 +262,22 @@ namespace Rpg.Client.Models.Combat
             _animationManager.DropBlockers();
             var globe = Game.Services.GetService<Globe>();
 
+            var bossWasDefeat = false;
+            var finalBossWasDefeat = false;
+
             if (_combatResultPanel.Result == "Win")
             {
-                globe.Player.Souls += 10;
                 _combat.Biom.Level++;
 
                 if (_combat.Combat.IsBossLevel)
                 {
                     _combat.Biom.IsComplete = true;
+                    bossWasDefeat = true;
+
+                    if (_combat.Biom.IsFinalBiom)
+                    {
+                        finalBossWasDefeat = true;
+                    }
                 }
 
                 var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
@@ -283,7 +299,21 @@ namespace Rpg.Client.Models.Combat
             var dice = Game.Services.GetService<IDice>();
             globe.UpdateNodes(dice);
 
-            TargetScreen = new BiomScreen(Game, SpriteBatch);
+            if (bossWasDefeat)
+            {
+                if (finalBossWasDefeat)
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                }
+            }
+            else
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+            }
         }
     }
 }

@@ -8,17 +8,31 @@ namespace Rpg.Client.Core
     {
         public Globe()
         {
-            var biomNames = new Dictionary<string, string[]>
+            var biomNames = new Dictionary<BiomType, string[]>
             {
                 {
-                    "Slavik", new[]
+                    BiomType.Slavic, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    "China", new[]
+                    BiomType.China, new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                },
+                {
+                    BiomType.Egypt, new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                },
+                {
+                    BiomType.Greek, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
@@ -30,32 +44,58 @@ namespace Rpg.Client.Core
             {
                 new Biom
                 {
-                    Name = "Slavik",
+                    Type = BiomType.Slavic,
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames["Slavik"][x]
+                            Name = biomNames[BiomType.Slavic][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = "China"
+                    UnlockBiom = BiomType.China,
+                    IsStartBiom = true
                 },
                 new Biom
                 {
-                    Name = "China",
+                    Type = BiomType.China,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames["China"][x]
+                            Name = biomNames[BiomType.China][x]
                         }
-                    ).ToArray()
+                    ).ToArray(),
+                    UnlockBiom = BiomType.Egypt
+                },
+                new Biom
+                {
+                    Type = BiomType.Egypt,
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                        new GlobeNode
+                        {
+                            Index = x,
+                            Name = biomNames[BiomType.Egypt][x]
+                        }
+                    ).ToArray(),
+                    UnlockBiom = BiomType.Greek
+                },
+                new Biom
+                {
+                    Type = BiomType.Greek,
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                        new GlobeNode
+                        {
+                            Index = x,
+                            Name = biomNames[BiomType.Greek][x]
+                        }
+                    ).ToArray(),
+                    IsFinalBiom = true
                 }
             };
 
             Bioms = biomes;
-            CurrentBiom = biomes[0];
+            CurrentBiom = biomes.Single(x=>x.IsStartBiom);
         }
 
         public ActiveCombat? ActiveCombat { get; set; }
@@ -67,27 +107,30 @@ namespace Rpg.Client.Core
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
+        public Dialog? AvailableDialog { get; internal set; }
 
         public void UpdateNodes(IDice dice)
         {
             // Reset all combat states.
-            foreach (var biom in Bioms.Where(x => x.IsAvailable).ToArray())
+            var bioms = Bioms.Where(x => x.IsAvailable).ToArray();
+            foreach (var biom in bioms)
             {
                 foreach (var node in biom.Nodes)
                 {
                     node.Combat = null;
+                    node.AvailableDialog = null;
                 }
 
                 if (biom.IsComplete && biom.UnlockBiom is not null)
                 {
-                    var unlockedBiom = Bioms.Single(x => x.Name == biom.UnlockBiom);
+                    var unlockedBiom = Bioms.Single(x => x.Type == biom.UnlockBiom);
 
                     unlockedBiom.IsAvailable = true;
                 }
             }
 
             // Create new combats
-            foreach (var biom in Bioms.Where(x => x.IsAvailable))
+            foreach (var biom in bioms)
             {
                 if (biom.Level < 10)
                 {
@@ -122,7 +165,7 @@ namespace Rpg.Client.Core
                         {
                             var bossUnitScheme =
                                 dice.RollFromList(
-                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Name).ToList(),
+                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList(),
                                         1)
                                     .Single();
                             node.Combat = new Combat
@@ -158,12 +201,27 @@ namespace Rpg.Client.Core
                     }
                 }
             }
+
+            // create dialogs of nodes with combat
+            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
+            // TODO Use Counter to get unused dialogs first.
+            var availableDialogs = DialogCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique)).OrderBy(x => x.Counter);
+            foreach (var node in nodesWithCombat)
+            {
+                var availableDialogsList = availableDialogs.ToList();
+                var roll = dice.Roll(1, 10);
+                if (roll > 5)
+                {
+                    node.AvailableDialog = dice.RollFromList(availableDialogsList, 1).Single();
+                    availableDialogsList.Remove(node.AvailableDialog);
+                }
+            }
         }
 
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biom biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => !x.IsBoss && x.Biom == biom.Name && x.NodeIndexes.Contains(node.Index)).ToList();
+                .Where(x => !x.IsBoss && x.Biom == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
             var rolledUnits = dice.RollFromList(availableMonsters, dice.Roll(1, Math.Min(3, availableMonsters.Count)));
 
             var uniqueIsUsed = false;

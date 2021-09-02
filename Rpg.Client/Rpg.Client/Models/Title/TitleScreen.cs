@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Title
@@ -19,7 +18,7 @@ namespace Rpg.Client.Models.Title
 
         private readonly IList<ButtonBase> _buttons;
 
-        public TitleScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public TitleScreen(Game game) : base(game)
         {
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
@@ -49,11 +48,9 @@ namespace Rpg.Client.Models.Title
             _buttons.Add(_switchResolutionButton);
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-
-            SpriteBatch.Begin();
+            spriteBatch.Begin();
 
             var index = 0;
             foreach (var button in _buttons)
@@ -63,18 +60,16 @@ namespace Rpg.Client.Models.Title
                     150 + index * 50,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
-                button.Draw(SpriteBatch);
+                button.Draw(spriteBatch);
 
                 index++;
             }
 
-            SpriteBatch.End();
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             foreach (var button in _buttons)
             {
                 button.Update();
@@ -83,7 +78,7 @@ namespace Rpg.Client.Models.Title
 
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
-            TargetScreen = new MapScreen(Game, SpriteBatch);
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
         }
 
         private void SwitchLanguageButton_OnClick(object? sender, EventArgs e)

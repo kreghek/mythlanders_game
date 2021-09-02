@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
     {
-        public string Biom { get; init; }
+        public BiomType Biom { get; init; }
         public int Hp { get; init; }
         public int HpPerLevel { get; init; }
 
