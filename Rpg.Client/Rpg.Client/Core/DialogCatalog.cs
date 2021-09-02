@@ -4,11 +4,13 @@ namespace Rpg.Client.Core
 {
     internal static class DialogCatalog
     {
-        public static IEnumerable<Dialog> Dialogs => new Dialog[]
+        private static readonly Dialog[] _dialogs = new Dialog[]
             {
                 CreateTestDialog(),
                 CreateNewUnitDialog()
             };
+
+        public static IEnumerable<Dialog> Dialogs => _dialogs;
 
         private static Dialog CreateTestDialog()
         {

@@ -12,6 +12,10 @@ namespace Rpg.Client.Core
         public BiomType Type { get; set; }
 
         public IEnumerable<GlobeNode> Nodes { get; set; }
+
         public BiomType? UnlockBiom { get; internal set; }
+
+        public bool IsStartBiom { get; set; }
+        public bool IsFinalBiom { get; set; }
     }
 }

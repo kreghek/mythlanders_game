@@ -369,14 +369,339 @@ namespace Rpg.Client.Core
                         DamageMax = 15
                     }
                 }
+            },
+
+            // Egypt
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Jakal",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 0, 1, 2 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 25,
+                HpPerLevel = 3,
+                Name = "Leopard",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 1, 2, 4 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 1,
+                        DamageMax = 2
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 15,
+                HpPerLevel = 3,
+                Name = "Bat",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 2, 3, 5 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 25,
+                HpPerLevel = 3,
+                Name = "Volkolak",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 2, 3, 5 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 15,
+                HpPerLevel = 3,
+                Name = "Korgorush",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 6, 7, 8 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Stryga",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 6, 7, 8 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Vampire",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 6, 7, 8 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 5,
+                        DamageMax = 6
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Gaint frog",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 7, 8, 9 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 30,
+                HpPerLevel = 3,
+                Name = "Basilisk",
+                Biom = BiomType.Egypt,
+                NodeIndexes = new[] { 7, 8, 9 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 6
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 1200,
+                Name = "Sphynx",
+                Biom = BiomType.Egypt,
+
+                IsBoss = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 10,
+                        DamageMax = 15
+                    }
+                }
+            },
+
+            // Greek
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Jakal",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 0, 1, 2 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 25,
+                HpPerLevel = 3,
+                Name = "Leopard",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 1, 2, 4 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 1,
+                        DamageMax = 2
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 15,
+                HpPerLevel = 3,
+                Name = "Bat",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 2, 3, 5 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 25,
+                HpPerLevel = 3,
+                Name = "Volkolak",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 2, 3, 5 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 15,
+                HpPerLevel = 3,
+                Name = "Korgorush",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 6, 7, 8 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 5
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Stryga",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 6, 7, 8 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Vampire",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 6, 7, 8 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 5,
+                        DamageMax = 6
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 20,
+                HpPerLevel = 3,
+                Name = "Gaint frog",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 7, 8, 9 },
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 2,
+                        DamageMax = 4
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 30,
+                HpPerLevel = 3,
+                Name = "Basilisk",
+                Biom = BiomType.Greek,
+                NodeIndexes = new[] { 7, 8, 9 },
+                IsUnique = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 3,
+                        DamageMax = 6
+                    }
+                }
+            },
+            new UnitScheme
+            {
+                Hp = 1200,
+                Name = "Sphynx",
+                Biom = BiomType.Greek,
+
+                IsBoss = true,
+                Skills = new[]
+                {
+                    new CombatSkill
+                    {
+                        DamageMin = 10,
+                        DamageMax = 15
+                    }
+                }
             }
         };
-    }
-
-    internal enum BiomType
-    { 
-        Undefined,
-        Slavic,
-        China
     }
 }

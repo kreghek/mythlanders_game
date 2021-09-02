@@ -8,17 +8,31 @@ namespace Rpg.Client.Core
     {
         public Globe()
         {
-            var biomNames = new Dictionary<string, string[]>
+            var biomNames = new Dictionary<BiomType, string[]>
             {
                 {
-                    "Slavik", new[]
+                    BiomType.Slavic, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    "China", new[]
+                    BiomType.China, new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                },
+                {
+                    BiomType.Egypt, new[]
+                    {
+                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+                    }
+                },
+                {
+                    BiomType.Greek, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
@@ -36,10 +50,11 @@ namespace Rpg.Client.Core
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames["Slavik"][x]
+                            Name = biomNames[BiomType.Slavic][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomType.China
+                    UnlockBiom = BiomType.China,
+                    IsStartBiom = true
                 },
                 new Biom
                 {
@@ -48,14 +63,39 @@ namespace Rpg.Client.Core
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames["China"][x]
+                            Name = biomNames[BiomType.China][x]
                         }
-                    ).ToArray()
+                    ).ToArray(),
+                    UnlockBiom = BiomType.Egypt
+                },
+                new Biom
+                {
+                    Type = BiomType.Egypt,
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                        new GlobeNode
+                        {
+                            Index = x,
+                            Name = biomNames[BiomType.Egypt][x]
+                        }
+                    ).ToArray(),
+                    UnlockBiom = BiomType.Greek
+                },
+                new Biom
+                {
+                    Type = BiomType.Greek,
+                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                        new GlobeNode
+                        {
+                            Index = x,
+                            Name = biomNames[BiomType.Greek][x]
+                        }
+                    ).ToArray(),
+                    IsFinalBiom = true
                 }
             };
 
             Bioms = biomes;
-            CurrentBiom = biomes[0];
+            CurrentBiom = biomes.Single(x=>x.IsStartBiom);
         }
 
         public ActiveCombat? ActiveCombat { get; set; }
@@ -67,7 +107,7 @@ namespace Rpg.Client.Core
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
-        public Dialog AvailableDialog { get; internal set; }
+        public Dialog? AvailableDialog { get; internal set; }
 
         public void UpdateNodes(IDice dice)
         {
