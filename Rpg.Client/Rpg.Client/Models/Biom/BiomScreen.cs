@@ -8,9 +8,6 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biom.GameObjects;
-using Rpg.Client.Models.Combat;
-using Rpg.Client.Models.Event;
-using Rpg.Client.Models.Map;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biom
@@ -26,7 +23,7 @@ namespace Rpg.Client.Models.Biom
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public BiomScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public BiomScreen(Game game) : base(game)
         {
             var globe = game.Services.GetService<Globe>();
             _globe = globe;
@@ -38,30 +35,28 @@ namespace Rpg.Client.Models.Biom
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             _mapButton.OnClick += (s, e) =>
             {
-                TargetScreen = new MapScreen(game, spriteBatch);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-
             if (_isNodeModelsCreated)
             {
-                SpriteBatch.Begin();
+                spriteBatch.Begin();
 
                 foreach (var node in _nodeModels.OrderBy(x => x.Index).ToArray())
                 {
-                    node.Draw(SpriteBatch);
+                    node.Draw(spriteBatch);
                     var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                    SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
                         node.Position + new Vector2(0, 30), Color.Wheat);
                     if (node.Combat is not null)
                     {
                         var monsterIndex = 0;
                         foreach (var monster in node.Combat.EnemyGroup.Units)
                         {
-                            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                                 $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
                                 node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
                             monsterIndex++;
@@ -69,22 +64,20 @@ namespace Rpg.Client.Models.Biom
                     }
                 }
 
-                SpriteBatch.End();
+                spriteBatch.End();
             }
 
-            SpriteBatch.Begin();
+            spriteBatch.Begin();
 
-            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Souls: {_globe.Player.Souls}", Vector2.Zero,
                 Color.White);
-            _mapButton.Draw(SpriteBatch);
+            _mapButton.Draw(spriteBatch);
 
-            SpriteBatch.End();
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (!_globe.IsNodeInitialied)
             {
                 _globe.UpdateNodes(Game.Services.GetService<IDice>());
@@ -140,11 +133,11 @@ namespace Rpg.Client.Models.Biom
 
                                     _globe.AvailableDialog.Counter++;
 
-                                    TargetScreen = new EventScreen(Game, SpriteBatch);
+                                    ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                                 }
                                 else
                                 {
-                                    TargetScreen = new CombatScreen(Game, SpriteBatch);
+                                    ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                                 }
                             }
 

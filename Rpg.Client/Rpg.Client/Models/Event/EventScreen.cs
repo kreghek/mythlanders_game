@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Combat;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Event
@@ -21,7 +20,7 @@ namespace Rpg.Client.Models.Event
 
         private bool _isInitialized;
 
-        public EventScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public EventScreen(Game game) : base(game)
         {
             _globe = game.Services.GetService<Globe>();
 
@@ -34,33 +33,29 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new DialogContext(_globe);
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-
             if (!_isInitialized)
             {
                 return;
             }
 
-            SpriteBatch.Begin();
+            spriteBatch.Begin();
             
-            SpriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
 
             var index = 0;
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(0, 100 + index * 25, 100, 20);
-                button.Draw(SpriteBatch);
+                button.Draw(spriteBatch);
             }
 
-            SpriteBatch.End();
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (_isInitialized)
             {
                 foreach (var button in _buttons)
@@ -83,7 +78,7 @@ namespace Rpg.Client.Models.Event
 
                         if (option.IsEnd)
                         {
-                            TargetScreen = new CombatScreen(Game, SpriteBatch);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                         }
                         else
                         {

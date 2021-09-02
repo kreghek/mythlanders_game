@@ -13,7 +13,7 @@ namespace Rpg.Client
             Thread.CurrentThread.CurrentCulture = defaultCulture;
             Thread.CurrentThread.CurrentUICulture = defaultCulture;
 
-            using (var game = new Game1())
+            using (var game = new EwarGame())
             {
                 game.Run();
             }

@@ -1,29 +1,37 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using Rpg.Client.Models.Biom;
+using Rpg.Client.Models.Combat;
+using Rpg.Client.Models.Event;
+using Rpg.Client.Models.Map;
+using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
 {
-    internal class ScreenManager : DrawableGameComponent
+    internal class ScreenManager : IScreenManager
     {
-        public ScreenManager(Game game) : base(game)
+        private readonly Game _game;
+
+        public ScreenManager(Game game)
         {
+            _game = game;
         }
 
         public IScreen? ActiveScreen { get; set; }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-
             if (ActiveScreen is not null)
             {
-                ActiveScreen.Draw(gameTime);
+                ActiveScreen.Draw(gameTime, spriteBatch);
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (ActiveScreen is null)
             {
                 return;
@@ -36,6 +44,25 @@ namespace Rpg.Client.Screens
             }
 
             ActiveScreen.Update(gameTime);
+        }
+
+        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)
+        {
+            var targetScreen = CreateScreenToTransit(targetTransition);
+            currentScreen.TargetScreen = targetScreen;
+        }
+
+        private IScreen CreateScreenToTransit(ScreenTransition targetTransition)
+        {
+            return targetTransition switch
+            {
+                ScreenTransition.Title => new TitleScreen(_game),
+                ScreenTransition.Map => new MapScreen(_game),
+                ScreenTransition.Biom => new BiomScreen(_game),
+                ScreenTransition.Event => new EventScreen(_game),
+                ScreenTransition.Combat => new CombatScreen(_game),
+                _ => throw new ArgumentException("Unknown transition", nameof(targetTransition)),
+            };
         }
     }
 }

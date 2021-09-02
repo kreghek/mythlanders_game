@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biom;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Map
@@ -18,7 +17,7 @@ namespace Rpg.Client.Models.Map
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
 
-        public MapScreen(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
+        public MapScreen(Game game) : base(game)
         {
             var globe = game.Services.GetService<Globe>();
             _globe = globe;
@@ -28,11 +27,9 @@ namespace Rpg.Client.Models.Map
             _biomButtons = new List<TextButton>();
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            base.Draw(gameTime);
-
-            SpriteBatch.Begin();
+            spriteBatch.Begin();
 
             if (_isNodeModelsCreated)
             {
@@ -40,18 +37,16 @@ namespace Rpg.Client.Models.Map
                 foreach (var button in _biomButtons)
                 {
                     button.Rect = new Rectangle(100, 100 + index * 30, 200, 25);
-                    button.Draw(SpriteBatch);
+                    button.Draw(spriteBatch);
                     index++;
                 }
             }
 
-            SpriteBatch.End();
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (!_globe.IsNodeInitialied)
             {
                 _globe.UpdateNodes(Game.Services.GetService<IDice>());
@@ -69,7 +64,7 @@ namespace Rpg.Client.Models.Map
                         {
                             _globe.CurrentBiom = biom;
 
-                            TargetScreen = new BiomScreen(Game, SpriteBatch);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
                         };
                         _biomButtons.Add(button);
                     }
