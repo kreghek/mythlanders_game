@@ -267,7 +267,6 @@ namespace Rpg.Client.Models.Combat
 
             if (_combatResultPanel.Result == "Win")
             {
-                globe.Player.Souls += 10;
                 _combat.Biom.Level++;
 
                 if (_combat.Combat.IsBossLevel)
