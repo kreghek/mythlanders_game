@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal static class UnitSchemeCatalog
     {
-        public static UnitScheme SlavikHero = new UnitScheme
+        public static UnitScheme SlavikHero = new()
         {
             Hp = 100,
             HpPerLevel = 10,
