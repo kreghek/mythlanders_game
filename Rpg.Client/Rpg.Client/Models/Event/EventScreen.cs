@@ -11,7 +11,7 @@ namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
-        private readonly IList<ButtonBase> _buttons;
+        private readonly IList<BaseButton> _buttons;
         private readonly DialogContext _dialogContext;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
@@ -27,7 +27,7 @@ namespace Rpg.Client.Models.Event
 
             _currentDialogNode = _globe.AvailableDialog.StartNode;
 
-            _buttons = new List<ButtonBase>();
+            _buttons = new List<BaseButton>();
 
             _dialogContext = new DialogContext(_globe);
         }
@@ -67,7 +67,7 @@ namespace Rpg.Client.Models.Event
                 _buttons.Clear();
                 foreach (var option in _currentDialogNode.Options)
                 {
-                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                    var button = new TextBaseButton(option.Text, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {

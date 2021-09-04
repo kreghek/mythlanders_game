@@ -12,7 +12,7 @@
     {
         private const int BUTTON_SIZE = 32;
 
-        private readonly IList<IconButton> _buttons;
+        private readonly IList<IconBaseButton> _buttons;
 
         private readonly int _panelWidth;
 
@@ -22,7 +22,7 @@
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage)
         {
-            _buttons = new List<IconButton>();
+            _buttons = new List<IconBaseButton>();
             _uiContentStorage = uiContentStorage;
             _panelWidth = _buttons.Count * BUTTON_SIZE;
         }
@@ -74,7 +74,7 @@
             _buttons.Clear();
             foreach (var card in _unit.CombatCards)
             {
-                var button = new IconButton(
+                var button = new IconBaseButton(
                     texture: _uiContentStorage.GetButtonTexture(),
                     icon: _uiContentStorage.GetButtonTexture(),
                     rect: new Rectangle(x: 0, y: 0, width: 0, height: 0));

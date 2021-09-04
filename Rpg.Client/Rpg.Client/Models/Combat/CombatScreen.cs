@@ -18,7 +18,7 @@ namespace Rpg.Client.Models.Combat
     {
         private readonly AnimationManager _animationManager;
         private readonly ActiveCombat _combat;
-        private readonly IList<ButtonBase> _enemyAttackList;
+        private readonly IList<BaseButton> _enemyAttackList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly IUiContentStorage _uiContentStorage;
@@ -33,7 +33,7 @@ namespace Rpg.Client.Models.Combat
                       throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
 
             _gameObjects = new List<UnitGameObject>();
-            _enemyAttackList = new List<ButtonBase>();
+            _enemyAttackList = new List<BaseButton>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -80,7 +80,7 @@ namespace Rpg.Client.Models.Combat
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
-                    var iconButton = new IconButton(_uiContentStorage.GetButtonTexture(),
+                    var iconButton = new IconBaseButton(_uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetButtonTexture(), new Rectangle(position.ToPoint(), new Point(32, 32)));
                     iconButton.OnClick += (s, e) =>
                     {

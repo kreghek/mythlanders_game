@@ -12,7 +12,7 @@ namespace Rpg.Client.Models.Map
 {
     internal class MapScreen : GameScreenBase
     {
-        private readonly IList<TextButton> _biomButtons;
+        private readonly IList<TextBaseButton> _biomButtons;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
@@ -24,7 +24,7 @@ namespace Rpg.Client.Models.Map
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _biomButtons = new List<TextButton>();
+            _biomButtons = new List<TextBaseButton>();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -58,7 +58,7 @@ namespace Rpg.Client.Models.Map
                 {
                     foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable).ToArray())
                     {
-                        var button = new TextButton(biom.Type.ToString(), _uiContentStorage.GetButtonTexture(),
+                        var button = new TextBaseButton(biom.Type.ToString(), _uiContentStorage.GetButtonTexture(),
                             _uiContentStorage.GetMainFont(), Rectangle.Empty);
                         button.OnClick += (s, e) =>
                         {

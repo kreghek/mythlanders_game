@@ -16,7 +16,7 @@ namespace Rpg.Client.Models.Biom
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly TextButton _mapButton;
+        private readonly TextBaseButton _mapBaseButton;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly IUiContentStorage _uiContentStorage;
@@ -31,9 +31,9 @@ namespace Rpg.Client.Models.Biom
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
 
-            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
+            _mapBaseButton = new TextBaseButton("To The Map", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            _mapButton.OnClick += (s, e) =>
+            _mapBaseButton.OnClick += (s, e) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
@@ -143,7 +143,7 @@ namespace Rpg.Client.Models.Biom
                 }
             }
 
-            _mapButton.Update();
+            _mapBaseButton.Update();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Rpg.Client
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
@@ -52,6 +53,8 @@ namespace Rpg.Client
             Services.AddService(new AnimationManager());
 
             Services.AddService(_graphics);
+            Services.AddService<Game>(this);
+            Services.AddService(new TitleScreen(this, uiContentStorage));
 
             base.Initialize();
         }
@@ -71,7 +74,7 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new TitleScreen(this);
+                var startScreen = Services.GetService<TitleScreen>();
                 _screenManager.ActiveScreen = startScreen;
             }
 
