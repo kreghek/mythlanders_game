@@ -55,7 +55,7 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 7,
-            Name = "Соколинный глаз",  // Hawkeye
+            Name = "Соколинный глаз", // Hawkeye
             Skills = new[]
             {
                 new CombatSkill

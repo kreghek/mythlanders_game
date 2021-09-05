@@ -13,16 +13,16 @@ namespace Rpg.Client.Core
 
         public static IEnumerable<Dialog> Dialogs => _dialogs;
 
-        private static Dialog CreateNewUnitDialog()
+        private static Dialog CreateNewUnit2Dialog()
         {
             var dialogNode1 = new DialogNode
             {
-                Text = "Вы встречаете путника. Это травница."
+                Text = "Вы встречаете путника. Это лучник."
             };
 
             var dialogNode2 = new DialogNode
             {
-                Text = "Травница присоединилась к вам."
+                Text = "Лучник присоединился к вам."
             };
 
             dialogNode1.Options = new[]
@@ -31,7 +31,7 @@ namespace Rpg.Client.Core
                 {
                     Text = "Пригласить в группу.",
                     Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
                 }
             };
 
@@ -57,16 +57,16 @@ namespace Rpg.Client.Core
             return dialog;
         }
 
-        private static Dialog CreateNewUnit2Dialog()
+        private static Dialog CreateNewUnitDialog()
         {
             var dialogNode1 = new DialogNode
             {
-                Text = "Вы встречаете путника. Это лучник."
+                Text = "Вы встречаете путника. Это травница."
             };
 
             var dialogNode2 = new DialogNode
             {
-                Text = "Лучник присоединился к вам."
+                Text = "Травница присоединилась к вам."
             };
 
             dialogNode1.Options = new[]
@@ -75,7 +75,7 @@ namespace Rpg.Client.Core
                 {
                     Text = "Пригласить в группу.",
                     Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
                 }
             };
 
