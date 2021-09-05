@@ -102,15 +102,7 @@ namespace Rpg.Client
                     {
                         Units = new[]
                         {
-                            new Unit(UnitSchemeCatalog.SlavicHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.HerbalistHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.JuggernautHero, 1)
+                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
                             {
                                 IsPlayerControlled = true
                             }
