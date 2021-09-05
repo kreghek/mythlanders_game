@@ -70,15 +70,6 @@ namespace Rpg.Client
             AddDevelopmentComponents(_spriteBatch, uiContentStorage);
         }
 
-        private void AddDevelopmentComponents(SpriteBatch spriteBatch, IUiContentStorage uiContentStorage)
-        {
-            var fpsCounter = new FpsCounter(this, spriteBatch, uiContentStorage.GetMainFont());
-            Components.Add(fpsCounter);
-
-            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
-            Components.Add(versionDisplay);
-        }
-
         protected override void Update(GameTime gameTime)
         {
             if (_screenManager.ActiveScreen is null)
@@ -90,6 +81,15 @@ namespace Rpg.Client
             _screenManager.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void AddDevelopmentComponents(SpriteBatch spriteBatch, IUiContentStorage uiContentStorage)
+        {
+            var fpsCounter = new FpsCounter(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(fpsCounter);
+
+            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(versionDisplay);
         }
 
         private static Globe CreateGlobe()
