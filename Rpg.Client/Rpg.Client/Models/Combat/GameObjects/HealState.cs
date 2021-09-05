@@ -9,8 +9,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class HealState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly HealInteraction _healInteraction;
         private readonly UnitGraphics _graphics;
+        private readonly HealInteraction _healInteraction;
 
         private double _counter;
 

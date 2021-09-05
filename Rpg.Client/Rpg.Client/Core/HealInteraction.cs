@@ -4,8 +4,8 @@ namespace Rpg.Client.Core
 {
     internal sealed class HealInteraction
     {
-        private readonly CombatUnit _healer;
         private readonly CombatSkillCard _combatSkillCard;
+        private readonly CombatUnit _healer;
         private readonly Action _postExecute;
         private readonly CombatUnit _target;
 

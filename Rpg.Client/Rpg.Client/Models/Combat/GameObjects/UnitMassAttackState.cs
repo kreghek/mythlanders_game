@@ -15,7 +15,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private int _subStateIndex;
 
-        public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
+        public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+            SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, IEnumerable<AttackInteraction> attackInteractions)
         {
             var targetPosition =
