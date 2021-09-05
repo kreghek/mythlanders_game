@@ -51,23 +51,36 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(state);
         }
 
-        public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
+            AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
             var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
                 .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
-            {
-                if (x.Unit.Unit.IsDead)
                 {
-                    x.AddStateEngine(new DeathState(x._graphics));
-                }
-                else
-                {
-                    x.AddStateEngine(new WoundState(x._graphics));
-                }
-            }));
+                    if (x.Unit.Unit.IsDead)
+                    {
+                        x.AddStateEngine(new DeathState(x._graphics));
+                    }
+                    else
+                    {
+                        x.AddStateEngine(new WoundState(x._graphics));
+                    }
+                }));
             var state = new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 attackInteractions);
             AddStateEngine(state);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            _graphics.ShowActiveMarker = IsActive;
+
+            _graphics.Draw(spriteBatch);
+
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.UnitScheme.Name,
+                _graphics.Root.Position - new Vector2(0, 100), Color.White);
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}",
+                _graphics.Root.Position - new Vector2(0, 80), Color.White);
         }
 
         public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
@@ -86,18 +99,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 healInteraction);
             AddStateEngine(state);
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            _graphics.ShowActiveMarker = IsActive;
-
-            _graphics.Draw(spriteBatch);
-
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.UnitScheme.Name,
-                _graphics.Root.Position - new Vector2(0, 100), Color.White);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}",
-                _graphics.Root.Position - new Vector2(0, 80), Color.White);
         }
 
         public void Update(GameTime gameTime)

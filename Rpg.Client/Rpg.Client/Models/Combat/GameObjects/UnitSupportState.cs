@@ -27,7 +27,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 new HealState(_graphics, healInteraction),
                 new MoveBack(_graphics, graphicsRoot, targetPosition, _blocker)
             };
-
         }
 
         public bool CanBeReplaced => false;

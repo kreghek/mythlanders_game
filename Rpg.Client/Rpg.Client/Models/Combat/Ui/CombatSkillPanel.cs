@@ -29,7 +29,9 @@ namespace Rpg.Client.Models.Combat.Ui
             set
             {
                 if (_unit == value)
+                {
                     return;
+                }
 
                 _unit = value;
                 RefreshButtons();

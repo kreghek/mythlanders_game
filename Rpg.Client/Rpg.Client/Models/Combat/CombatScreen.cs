@@ -122,7 +122,10 @@ namespace Rpg.Client.Models.Combat
                         else if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Mass)
                         {
                             attackerUnitGameObject.Attack(gameObject, cpuUnits
-                                .Select((x, i) => new UnitGameObject(x, new Vector2(400, i * 128 + 100), _gameObjectContentStorage)), blocker, _combatSkillsPanel.SelectedCard);
+                                    .Select((x, i) =>
+                                        new UnitGameObject(x, new Vector2(400, i * 128 + 100),
+                                            _gameObjectContentStorage)),
+                                blocker, _combatSkillsPanel.SelectedCard);
                         }
 
                         blocker.Released += (s, e) =>
