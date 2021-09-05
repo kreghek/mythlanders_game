@@ -51,6 +51,25 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(state);
         }
 
+        public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        {
+            var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
+                .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
+            {
+                if (x.Unit.Unit.IsDead)
+                {
+                    x.AddStateEngine(new DeathState(x._graphics));
+                }
+                else
+                {
+                    x.AddStateEngine(new WoundState(x._graphics));
+                }
+            }));
+            var state = new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                attackInteractions);
+            AddStateEngine(state);
+        }
+
         public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
         {
             var healInteraction = new HealInteraction(Unit, target.Unit, combatSkillCard, () =>

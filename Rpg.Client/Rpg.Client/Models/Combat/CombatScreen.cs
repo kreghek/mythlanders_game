@@ -115,7 +115,15 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
-                        attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                        if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Single)
+                        {
+                            attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                        }
+                        else if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Mass)
+                        {
+                            attackerUnitGameObject.Attack(gameObject, cpuUnits
+                                .Select((x, i) => new UnitGameObject(x, new Vector2(400, i * 128 + 100), _gameObjectContentStorage)), blocker, _combatSkillsPanel.SelectedCard);
+                        }
 
                         blocker.Released += (s, e) =>
                         {
