@@ -51,6 +51,24 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(state);
         }
 
+        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        {
+            var healInteraction = new HealInteraction(Unit, target.Unit, combatSkillCard, () =>
+            {
+                if (target.Unit.Unit.IsDead)
+                {
+                    target.AddStateEngine(new DeathState(target._graphics));
+                }
+                else
+                {
+                    target.AddStateEngine(new WoundState(target._graphics));
+                }
+            });
+            var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                healInteraction);
+            AddStateEngine(state);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             _graphics.ShowActiveMarker = IsActive;
