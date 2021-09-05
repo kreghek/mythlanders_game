@@ -127,7 +127,7 @@ namespace Rpg.Client.Models.Combat
                                 break;
 
                             case SkillScope.AllEnemyGroup:
-                                var allEnemyGroupUnits = _gameObjects.Where(x=>!x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
+                                var allEnemyGroupUnits = _gameObjects.Where(x => !x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
                                 attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker, _combatSkillsPanel.SelectedCard);
                                 break;
 
