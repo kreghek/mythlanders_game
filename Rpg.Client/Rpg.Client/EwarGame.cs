@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameComponents;
 using Rpg.Client.Models;
 using Rpg.Client.Models.Title;
 using Rpg.Client.Screens;
@@ -37,7 +38,7 @@ namespace Rpg.Client
             _screenManager = new ScreenManager(this);
             Services.AddService<IScreenManager>(_screenManager);
 
-            Globe globe = CreateGlobe();
+            var globe = CreateGlobe();
 
             Services.AddService(globe);
 
@@ -65,6 +66,17 @@ namespace Rpg.Client
 
             var uiContentStorage = Services.GetService<IUiContentStorage>();
             uiContentStorage.LoadContent(Content);
+
+            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+        }
+
+        private void AddDevelopmentComponents(SpriteBatch spriteBatch, IUiContentStorage uiContentStorage)
+        {
+            var fpsCounter = new FpsCounter(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(fpsCounter);
+
+            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(versionDisplay);
         }
 
         protected override void Update(GameTime gameTime)
