@@ -2,7 +2,8 @@
 {
     public enum SkillScope
     {
+        Undefined,
         Single,
-        Mass
+        AllEnemyGroup
     }
 }

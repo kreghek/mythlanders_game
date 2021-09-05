@@ -56,7 +56,7 @@ namespace Rpg.Client.Core
                     DamageMax = 7,
                     DamageMaxPerLevel = 1,
                     TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.Mass
+                    Scope = SkillScope.AllEnemyGroup
                 }
             }
         };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -115,17 +116,22 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
-                        if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Single)
+                        var combatPowerScope = _combatSkillsPanel.SelectedCard?.Skill.Scope;
+                        switch (combatPowerScope)
                         {
-                            attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
-                        }
-                        else if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Mass)
-                        {
-                            attackerUnitGameObject.Attack(gameObject, cpuUnits
-                                    .Select((x, i) =>
-                                        new UnitGameObject(x, new Vector2(400, i * 128 + 100),
-                                            _gameObjectContentStorage)),
-                                blocker, _combatSkillsPanel.SelectedCard);
+                            case SkillScope.Single:
+                                attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                                break;
+
+                            case SkillScope.AllEnemyGroup:
+                                var allEnemyGroupUnits = _gameObjects.Where(x=>!x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
+                                attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker, _combatSkillsPanel.SelectedCard);
+                                break;
+
+                            case SkillScope.Undefined:
+                            default:
+                                Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
+                                break;
                         }
 
                         blocker.Released += (s, e) =>
