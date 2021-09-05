@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -17,6 +18,7 @@ namespace Rpg.Client.Models.Combat
     internal class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
+        private readonly IDice _dice;
         private readonly ActiveCombat _combat;
         private readonly IList<ButtonBase> _enemyAttackList;
         private readonly IList<ButtonBase> _friendlyHealList;
@@ -40,6 +42,8 @@ namespace Rpg.Client.Models.Combat
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<AnimationManager>();
+
+            _dice = game.Services.GetService<IDice>();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -115,17 +119,22 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
-                        if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Single)
+                        var combatPowerScope = _combatSkillsPanel.SelectedCard?.Skill.Scope;
+                        switch (combatPowerScope)
                         {
-                            attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
-                        }
-                        else if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Mass)
-                        {
-                            attackerUnitGameObject.Attack(gameObject, cpuUnits
-                                    .Select((x, i) =>
-                                        new UnitGameObject(x, new Vector2(400, i * 128 + 100),
-                                            _gameObjectContentStorage)),
-                                blocker, _combatSkillsPanel.SelectedCard);
+                            case SkillScope.Single:
+                                attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                                break;
+
+                            case SkillScope.AllEnemyGroup:
+                                var allEnemyGroupUnits = _gameObjects.Where(x=>!x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
+                                attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker, _combatSkillsPanel.SelectedCard);
+                                break;
+
+                            case SkillScope.Undefined:
+                            default:
+                                Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
+                                break;
                         }
 
                         blocker.Released += (s, e) =>
@@ -192,6 +201,9 @@ namespace Rpg.Client.Models.Combat
                         }
                         else
                         {
+                            // CPU turn.
+                            // Performs only after all of the animations are completed.
+
                             if (!_animationManager.HasBlockers)
                             {
                                 var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
@@ -199,12 +211,38 @@ namespace Rpg.Client.Models.Combat
                                 var blocker = new AnimationBlocker();
                                 _animationManager.AddBlocker(blocker);
 
-                                var targetPlayerObject =
-                                    _gameObjects.FirstOrDefault(x => x.Unit.Unit.IsPlayerControlled);
 
-                                var combatCard = attackerUnitGameObject.Unit.CombatCards.First();
+                                var targetPlayerObjects =
+                                    _gameObjects.Where(x => x.Unit.Unit.IsPlayerControlled).ToArray();
 
-                                attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
+                                var targetPlayerObject = _dice.RollFromList(targetPlayerObjects, 1).Single();
+
+                                var combatCards = attackerUnitGameObject.Unit.CombatCards.ToArray();
+                                var combatCard = _dice.RollFromList(combatCards, 1).Single();
+
+                                var combatPowerScope = combatCard.Skill.Scope;
+                                //TODO Specify combat power scope scope in the monsters.
+                                if (combatPowerScope == SkillScope.Undefined)
+                                {
+                                    combatPowerScope = SkillScope.Single;
+                                }
+
+                                switch (combatPowerScope)
+                                {
+                                    case SkillScope.Single:
+                                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
+                                        break;
+
+                                    case SkillScope.AllEnemyGroup:
+                                        var allEnemyGroupUnits = _gameObjects.Where(x => !x.Unit.Unit.IsDead && x.Unit.Unit.IsPlayerControlled).ToArray();
+                                        attackerUnitGameObject.Attack(targetPlayerObject, allEnemyGroupUnits, blocker, combatCard);
+                                        break;
+
+                                    case SkillScope.Undefined:
+                                    default:
+                                        Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
+                                        break;
+                                }
 
                                 blocker.Released += (s, e) =>
                                 {
