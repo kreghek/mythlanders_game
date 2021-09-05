@@ -13,7 +13,8 @@
         {
             //TODO Adjust level to average party level.
             const int DEFAULT_LEVEL = 1;
-            var unit = new Unit(_scheme, DEFAULT_LEVEL) { 
+            var unit = new Unit(_scheme, DEFAULT_LEVEL)
+            {
                 IsPlayerControlled = true
             };
             dialogContext.AddNewCharacter(unit);

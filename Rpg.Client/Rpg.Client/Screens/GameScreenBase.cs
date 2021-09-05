@@ -15,9 +15,9 @@ namespace Rpg.Client.Screens
             ScreenManager = game.Services.GetService<IScreenManager>();
         }
 
-        protected Game Game { get; }
-
         public IScreenManager ScreenManager { get; }
+
+        protected Game Game { get; }
 
         public IScreen? TargetScreen { get; set; }
 

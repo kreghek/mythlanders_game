@@ -28,6 +28,9 @@ namespace Rpg.Client.Models.Combat.Ui
             get => _unit;
             set
             {
+                if (_unit == value)
+                    return;
+
                 _unit = value;
                 RefreshButtons();
             }
@@ -56,6 +59,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private void RefreshButtons()
         {
             _buttons.Clear();
+            SelectedCard = null;
             foreach (var card in _unit.CombatCards)
             {
                 var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(),

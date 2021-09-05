@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class DialogContext: IDialogContext
+    internal sealed class DialogContext : IDialogContext
     {
         private readonly Globe _globe;
 
@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
         public void AddNewCharacter(Unit unit)
         {
             var units = new List<Unit>(_globe.Player.Group.Units);
-            
+
             units.Add(unit);
 
             _globe.Player.Group.Units = units;

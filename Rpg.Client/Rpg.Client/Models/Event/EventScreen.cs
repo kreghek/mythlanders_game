@@ -11,11 +11,10 @@ namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
-        private readonly Globe _globe;
-        private readonly IUiContentStorage _uiContentStorage;
-
         private readonly IList<ButtonBase> _buttons;
         private readonly DialogContext _dialogContext;
+        private readonly Globe _globe;
+        private readonly IUiContentStorage _uiContentStorage;
         private DialogNode _currentDialogNode;
 
         private bool _isInitialized;
@@ -41,7 +40,7 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.Begin();
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
 
             var index = 0;
@@ -68,7 +67,8 @@ namespace Rpg.Client.Models.Event
                 _buttons.Clear();
                 foreach (var option in _currentDialogNode.Options)
                 {
-                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {
                         if (option.Aftermath is not null)
