@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal class CombatSkill
+    public class CombatSkill
     {
         public int DamageMax { get; set; }
         public int DamageMaxPerLevel { get; set; }

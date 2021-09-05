@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Engine
 {
-    internal class AnimationBlocker
+    public class AnimationBlocker
     {
         public void Release()
         {

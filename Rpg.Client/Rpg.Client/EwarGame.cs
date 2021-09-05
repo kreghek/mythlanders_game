@@ -11,96 +11,57 @@ namespace Rpg.Client
 {
     public class EwarGame : Game
     {
-        private readonly GraphicsDeviceManager _graphics;
-
-        private ScreenManager? _screenManager;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame()
+        private readonly IUiContentStorage _uiContentStorage;
+
+        public EwarGame(IUiContentStorage uiContentStorage, GameObjectContentStorage gameObjectContentStorage)
         {
-            _graphics = new GraphicsDeviceManager(this);
+            _uiContentStorage = uiContentStorage;
+            _gameObjectContentStorage = gameObjectContentStorage;
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            RegisterMonogameServices();
         }
+
+        public IScreenManager? ScreenManager { get; set; }
+        public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _screenManager.Draw(gameTime, _spriteBatch);
+            ScreenManager?.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
-        }
-
-        protected override void Initialize()
-        {
-            _screenManager = new ScreenManager(this);
-            Services.AddService<IScreenManager>(_screenManager);
-
-            Globe globe = CreateGlobe();
-
-            Services.AddService(globe);
-
-            var uiContentStorage = new UiContentStorage();
-            Services.AddService<IUiContentStorage>(uiContentStorage);
-
-            var gameObjectsContentStorage = new GameObjectContentStorage();
-            Services.AddService(gameObjectsContentStorage);
-
-            Services.AddService<IDice>(new LinearDice());
-
-            Services.AddService(new AnimationManager());
-
-            Services.AddService(_graphics);
-            Services.AddService<Game>(this);
-            Services.AddService(new TitleScreen(this, uiContentStorage));
-
-            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
-            gameObjectContentStorage.LoadContent(Content);
-
-            var uiContentStorage = Services.GetService<IUiContentStorage>();
-            uiContentStorage.LoadContent(Content);
+            _gameObjectContentStorage.LoadContent(Content);
+            _uiContentStorage.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (_screenManager.ActiveScreen is null)
+            if (ScreenManager is not null && ScreenManager.ActiveScreen is null)
             {
-                var startScreen = Services.GetService<TitleScreen>();
-                _screenManager.ActiveScreen = startScreen;
+                ScreenManager.ActiveScreen = ScreenManager.StartScreen;
             }
-
-            _screenManager.Update(gameTime);
+            ScreenManager?.Update(gameTime);
 
             base.Update(gameTime);
         }
-
-        private static Globe CreateGlobe()
+        
+        private void RegisterMonogameServices()
         {
-            return new Globe
-            {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SlavicHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
-                    }
-                }
-            };
+            GraphicsDeviceManager = new GraphicsDeviceManager(this);
+            Services.AddService(GraphicsDeviceManager);
         }
     }
 }

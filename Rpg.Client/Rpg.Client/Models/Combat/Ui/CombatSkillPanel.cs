@@ -1,13 +1,13 @@
-﻿namespace Rpg.Client.Models.Combat.Ui
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using Rpg.Client.Core;
+using Rpg.Client.Engine;
+
+namespace Rpg.Client.Models.Combat.Ui
 {
-    using System.Collections.Generic;
-
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
-
-    using Rpg.Client.Core;
-    using Rpg.Client.Engine;
-
     internal class CombatSkillPanel
     {
         private const int BUTTON_SIZE = 32;
@@ -44,7 +44,7 @@
             for (var i = 0; i < _buttons.Count; i++)
             {
                 var button = _buttons[i];
-                button.Rect = GetButtonRectangle(graphicsDevice: graphicsDevice, buttonWidth: _panelWidth, buttonIndex: i);
+                button.Rect = GetButtonRectangle(graphicsDevice, _panelWidth, i);
                 button.Draw(spriteBatch);
             }
         }
@@ -63,10 +63,10 @@
             var buttonYPosition = graphicsDevice.Viewport.Bounds.Bottom - offsetPanel;
 
             return new Rectangle(
-                x: graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + BUTTON_SIZE * buttonIndex,
-                y: buttonYPosition,
-                width: BUTTON_SIZE,
-                height: BUTTON_SIZE);
+                graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + BUTTON_SIZE * buttonIndex,
+                buttonYPosition,
+                BUTTON_SIZE,
+                BUTTON_SIZE);
         }
 
         private void RefreshButtons()
@@ -75,9 +75,9 @@
             foreach (var card in _unit.CombatCards)
             {
                 var button = new IconBaseButton(
-                    texture: _uiContentStorage.GetButtonTexture(),
-                    icon: _uiContentStorage.GetButtonTexture(),
-                    rect: new Rectangle(x: 0, y: 0, width: 0, height: 0));
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetButtonTexture(),
+                    new Rectangle(x: 0, y: 0, width: 0, height: 0));
                 _buttons.Add(button);
                 button.OnClick += (s, e) => { SelectedCard = card; };
             }

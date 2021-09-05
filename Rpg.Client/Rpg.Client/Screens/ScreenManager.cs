@@ -12,31 +12,38 @@ using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
 {
-    internal class ScreenManager : IScreenManager
+    public class ScreenManager : IScreenManager
     {
-        private readonly Game _game;
+        public BiomScreen? BiomScreen { get; set; }
 
-        public ScreenManager(Game game)
-        {
-            _game = game;
-        }
+        public CombatScreen? CombatScreen { get; set; }
+
+        public EndGameScreen? EndGameScreen { get; set; }
+
+        public EventScreen? EventScreen { get; set; }
+
+        public MapScreen? MapScreen { get; set; }
 
         public IScreen? ActiveScreen { get; set; }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (ActiveScreen is not null)
-            {
                 ActiveScreen.Draw(gameTime, spriteBatch);
-            }
         }
+
+        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)
+        {
+            var targetScreen = CreateScreenToTransit(targetTransition);
+            currentScreen.TargetScreen = targetScreen;
+        }
+
+        public TitleScreen? StartScreen { get; set; }
 
         public void Update(GameTime gameTime)
         {
             if (ActiveScreen is null)
-            {
                 return;
-            }
 
             if (ActiveScreen.TargetScreen is not null)
             {
@@ -51,20 +58,14 @@ namespace Rpg.Client.Screens
         {
             return targetTransition switch
             {
-                ScreenTransition.Title => new TitleScreen(_game),
-                ScreenTransition.Map => new MapScreen(_game),
-                ScreenTransition.Biom => new BiomScreen(_game),
-                ScreenTransition.Event => new EventScreen(_game),
-                ScreenTransition.Combat => new CombatScreen(_game),
-                ScreenTransition.EndGame => new EndGameScreen(_game),
+                ScreenTransition.Title => StartScreen,
+                ScreenTransition.Map => MapScreen,
+                ScreenTransition.Biom => BiomScreen,
+                ScreenTransition.Event => EventScreen,
+                ScreenTransition.Combat => CombatScreen,
+                ScreenTransition.EndGame => EndGameScreen,
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
-        }
-
-        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)
-        {
-            var targetScreen = CreateScreenToTransit(targetTransition);
-            currentScreen.TargetScreen = targetScreen;
         }
     }
 }

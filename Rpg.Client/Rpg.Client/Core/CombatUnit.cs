@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
-    internal class CombatUnit
+    public class CombatUnit
     {
         public CombatUnit(Unit unit)
         {

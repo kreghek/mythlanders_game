@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Screens
 {
-    internal enum ScreenTransition
+    public enum ScreenTransition
     {
         Undefined,
         Title,

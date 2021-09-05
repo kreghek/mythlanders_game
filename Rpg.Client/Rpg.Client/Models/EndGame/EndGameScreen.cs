@@ -6,15 +6,20 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.EndGame
 {
-    internal sealed class EndGameScreen : GameScreenBase
+    public sealed class EndGameScreen : GameScreenBase
     {
         private readonly TextBaseButton _backBaseButton;
+
         private readonly IUiContentStorage _uiContentStorage;
 
-        public EndGameScreen(Game game) : base(game)
+        public EndGameScreen(IScreenManager screenManager, IUiContentStorage uiContentStorage)
+            : base(screenManager)
         {
-            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _backBaseButton = new TextBaseButton("Back", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+            _uiContentStorage = uiContentStorage;
+            _backBaseButton = new TextBaseButton(
+                "Back",
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(),
                 Rectangle.Empty);
             _backBaseButton.OnClick += (s, e) =>
             {
@@ -25,7 +30,10 @@ namespace Rpg.Client.Models.EndGame
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Happy end! Or not?", new Vector2(100, 100),
+            spriteBatch.DrawString(
+                _uiContentStorage.GetMainFont(),
+                "Happy end! Or not?",
+                new Vector2(100, 100),
                 Color.White);
 
             _backBaseButton.Rect = new Rectangle(100, 150, 100, 20);

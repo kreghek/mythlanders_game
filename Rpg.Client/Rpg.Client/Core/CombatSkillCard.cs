@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal class CombatSkillCard
+    public class CombatSkillCard
     {
         public CombatSkillCard(CombatSkill skill)
         {
