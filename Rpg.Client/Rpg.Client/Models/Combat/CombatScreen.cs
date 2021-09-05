@@ -19,6 +19,7 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly ActiveCombat _combat;
         private readonly IList<ButtonBase> _enemyAttackList;
+        private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly IUiContentStorage _uiContentStorage;
@@ -34,6 +35,7 @@ namespace Rpg.Client.Models.Combat
 
             _gameObjects = new List<UnitGameObject>();
             _enemyAttackList = new List<ButtonBase>();
+            _friendlyHealList = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -68,6 +70,30 @@ namespace Rpg.Client.Models.Combat
                     var position = new Vector2(100, index * 128 + 100);
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
+
+                    var iconButton = new IconButton(_uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetButtonTexture(), new Rectangle(position.ToPoint(), new Point(32, 32)));
+
+                    iconButton.OnClick += (s, e) =>
+                    {
+                        var healerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+
+                        var blocker = new AnimationBlocker();
+                        _animationManager.AddBlocker(blocker);
+
+                        healerUnitGameObject.Heal(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+
+                        blocker.Released += (s, e) =>
+                        {
+                            var isEnd = _combat.NextUnit();
+                            if (isEnd)
+                            {
+                                _combat.StartRound();
+                            }
+                        };
+                    };
+                    _friendlyHealList.Add(iconButton);
+
                     index++;
                 }
 
@@ -89,7 +115,15 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
-                        attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                        if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Single)
+                        {
+                            attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                        }
+                        else if (_combatSkillsPanel.SelectedCard?.Skill.Scope == SkillScope.Mass)
+                        {
+                            attackerUnitGameObject.Attack(gameObject, cpuUnits
+                                .Select((x, i) => new UnitGameObject(x, new Vector2(400, i * 128 + 100), _gameObjectContentStorage)), blocker, _combatSkillsPanel.SelectedCard);
+                        }
 
                         blocker.Released += (s, e) =>
                         {
@@ -105,10 +139,7 @@ namespace Rpg.Client.Models.Combat
                     index++;
                 }
 
-                _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage)
-                {
-                    Unit = _combat.CurrentUnit
-                };
+                _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
 
                 _unitsInitialized = true;
             }
@@ -117,6 +148,8 @@ namespace Rpg.Client.Models.Combat
                 // check combat was finished
                 if (!_combat.Finished)
                 {
+                    _combatSkillsPanel.Unit = _combat.CurrentUnit;
+
                     foreach (var unitModel in _gameObjects)
                     {
                         unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
@@ -137,9 +170,19 @@ namespace Rpg.Client.Models.Combat
 
                                 if (_combatSkillsPanel?.SelectedCard is not null)
                                 {
-                                    foreach (var button in _enemyAttackList)
+                                    if (_combatSkillsPanel.SelectedCard.Skill.TargetType is SkillTarget.Enemy)
                                     {
-                                        button.Update();
+                                        foreach (var button in _enemyAttackList)
+                                        {
+                                            button.Update();
+                                        }
+                                    }
+                                    else if (_combatSkillsPanel.SelectedCard.Skill.TargetType is SkillTarget.Friendly)
+                                    {
+                                        foreach (var button in _friendlyHealList)
+                                        {
+                                            button.Update();
+                                        }
                                     }
                                 }
                             }
@@ -300,7 +343,11 @@ namespace Rpg.Client.Models.Combat
 
                     if (_combatSkillsPanel?.SelectedCard is not null)
                     {
-                        foreach (var button in _enemyAttackList)
+                        var drawList = _combatSkillsPanel.SelectedCard.Skill.TargetType == SkillTarget.Enemy
+                            ? _enemyAttackList
+                            : _friendlyHealList;
+
+                        foreach (var button in drawList)
                         {
                             button.Draw(spriteBatch);
                         }

@@ -16,7 +16,9 @@ namespace Rpg.Client.Core
                     DamageMin = 10,
                     DamageMinPerLevel = 2,
                     DamageMax = 12,
-                    DamageMaxPerLevel = 2
+                    DamageMaxPerLevel = 2,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.Single
                 }
             }
         };
@@ -33,7 +35,28 @@ namespace Rpg.Client.Core
                     DamageMin = 5,
                     DamageMinPerLevel = 1,
                     DamageMax = 7,
-                    DamageMaxPerLevel = 1
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Friendly,
+                    Scope = SkillScope.Single
+                }
+            }
+        };
+
+        public static UnitScheme JuggernautHero = new()
+        {
+            Hp = 100,
+            HpPerLevel = 10,
+            Name = "Smooky",
+            Skills = new[]
+            {
+                new CombatSkill
+                {
+                    DamageMin = 5,
+                    DamageMinPerLevel = 1,
+                    DamageMax = 7,
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.Mass
                 }
             }
         };
