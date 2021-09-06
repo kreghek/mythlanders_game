@@ -3,17 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal sealed class IconBaseButton : BaseButton
+    internal sealed class IconButton : BaseButton
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
 
-        public IconBaseButton(Texture2D texture, Texture2D icon, Rectangle rect) : base(texture, rect)
+        public IconButton(Texture2D texture, Texture2D icon, Rectangle rect) : base(texture, rect)
         {
             _icon = icon;
         }
 
-        public IconBaseButton(Texture2D texture, IconData iconData, Rectangle rect) : base(texture, rect)
+        public IconButton(Texture2D texture, IconData iconData, Rectangle rect) : base(texture, rect)
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;

@@ -12,17 +12,28 @@ namespace Rpg.Client
 {
     public class EwarGame : Game
     {
-        private readonly GraphicsDeviceManager _graphics;
-        private ScreenManager? _screenManager;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
+
+        private readonly IScreenManager _screenManager;
+
+        private readonly IUiContentStorage _uiContentStorage;
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame()
+        public EwarGame(IUiContentStorage uiContentStorage, GameObjectContentStorage gameObjectContentStorage,
+            IScreenManager screenManager)
         {
-            _graphics = new GraphicsDeviceManager(this);
+            _uiContentStorage = uiContentStorage;
+            _gameObjectContentStorage = gameObjectContentStorage;
+            _screenManager = screenManager;
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            RegisterMonogameServices();
         }
+
+        public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
 
         protected override void Draw(GameTime gameTime)
         {
@@ -33,41 +44,16 @@ namespace Rpg.Client
             base.Draw(gameTime);
         }
 
-        protected override void Initialize()
-        {
-            _screenManager = new ScreenManager(this);
-            Services.AddService<IScreenManager>(_screenManager);
-
-            var globe = CreateGlobe();
-
-            Services.AddService(globe);
-
-            var uiContentStorage = new UiContentStorage();
-            Services.AddService<IUiContentStorage>(uiContentStorage);
-
-            var gameObjectsContentStorage = new GameObjectContentStorage();
-            Services.AddService(gameObjectsContentStorage);
-
-            Services.AddService<IDice>(new LinearDice());
-
-            Services.AddService(new AnimationManager());
-
-            Services.AddService(_graphics);
-
-            base.Initialize();
-        }
-
         protected override void LoadContent()
         {
+            AddDevelopmentComponents(_spriteBatch, _uiContentStorage);
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
-            gameObjectContentStorage.LoadContent(Content);
-
-            var uiContentStorage = Services.GetService<IUiContentStorage>();
-            uiContentStorage.LoadContent(Content);
-
-            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+            _gameObjectContentStorage.LoadContent(Content);
+            _uiContentStorage.LoadContent(Content);
+            _gameObjectContentStorage.LoadContent(Content);
+            _uiContentStorage.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,6 +63,18 @@ namespace Rpg.Client
                 var startScreen = new TitleScreen(this);
                 _screenManager.ActiveScreen = startScreen;
             }
+
+            _screenManager.Update(gameTime);
+
+            base.Update(gameTime);
+
+            if (_screenManager.ActiveScreen is null)
+                if (ScreenManager is not null && ScreenManager.ActiveScreen is null)
+                {
+                    var startScreen = Services.GetService<TitleScreen>();
+                    _screenManager.ActiveScreen = startScreen;
+                    ScreenManager.ActiveScreen = ScreenManager.StartScreen;
+                }
 
             _screenManager.Update(gameTime);
 
@@ -92,24 +90,10 @@ namespace Rpg.Client
             Components.Add(versionDisplay);
         }
 
-        private static Globe CreateGlobe()
+        private void RegisterMonogameServices()
         {
-            return new Globe
-            {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
-                    }
-                }
-            };
+            GraphicsDeviceManager = new GraphicsDeviceManager(this);
+            Services.AddService(GraphicsDeviceManager);
         }
     }
 }

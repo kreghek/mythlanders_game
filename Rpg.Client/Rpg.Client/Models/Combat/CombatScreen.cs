@@ -15,7 +15,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal class CombatScreen : GameScreenBase
+    public class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
 
@@ -93,7 +93,7 @@ namespace Rpg.Client.Models.Combat
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
-                    var iconButton = new IconBaseButton(
+                    var iconButton = new IconButton(
                         _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetButtonTexture(),
                         new Rectangle(position.ToPoint(), new Point(32, 32)));
@@ -128,7 +128,7 @@ namespace Rpg.Client.Models.Combat
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
-                    var iconButton = new IconBaseButton(
+                    var iconButton = new IconButton(
                         _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetButtonTexture(),
                         new Rectangle(position.ToPoint(), new Point(32, 32)));
