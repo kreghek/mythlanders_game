@@ -7,10 +7,55 @@ namespace Rpg.Client.Core
         private static readonly Dialog[] _dialogs =
         {
             CreateTestDialog(),
-            CreateNewUnitDialog()
+            CreateNewUnitDialog(),
+            CreateNewUnit2Dialog()
         };
 
         public static IEnumerable<Dialog> Dialogs => _dialogs;
+
+        private static Dialog CreateNewUnit2Dialog()
+        {
+            var dialogNode1 = new DialogNode
+            {
+                Text = "Вы встречаете путника. Это лучник."
+            };
+
+            var dialogNode2 = new DialogNode
+            {
+                Text = "Лучник присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new DialogOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new DialogOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Dialog
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true
+            };
+            return dialog;
+        }
 
         private static Dialog CreateNewUnitDialog()
         {
@@ -50,7 +95,8 @@ namespace Rpg.Client.Core
                     dialogNode1,
                     dialogNode2
                 },
-                StartNode = dialogNode1
+                StartNode = dialogNode1,
+                IsUnique = true
             };
             return dialog;
         }

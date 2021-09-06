@@ -4,11 +4,11 @@ namespace Rpg.Client.Core
 {
     internal static class UnitSchemeCatalog
     {
-        public static UnitScheme SlavicHero = new()
+        public static UnitScheme SwordmanHero = new()
         {
             Hp = 100,
             HpPerLevel = 10,
-            Name = "Svatoslav",
+            Name = "Беримир",
             Skills = new[]
             {
                 new CombatSkill
@@ -16,16 +16,27 @@ namespace Rpg.Client.Core
                     DamageMin = 10,
                     DamageMinPerLevel = 2,
                     DamageMax = 12,
-                    DamageMaxPerLevel = 2
+                    DamageMaxPerLevel = 2,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.Single
+                },
+                new CombatSkill
+                {
+                    DamageMin = 5,
+                    DamageMinPerLevel = 1,
+                    DamageMax = 7,
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.AllEnemyGroup
                 }
             }
         };
 
         public static UnitScheme HerbalistHero = new()
         {
-            Hp = 100,
-            HpPerLevel = 10,
-            Name = "Ivora",
+            Hp = 50,
+            HpPerLevel = 6,
+            Name = "Рада",
             Skills = new[]
             {
                 new CombatSkill
@@ -33,7 +44,56 @@ namespace Rpg.Client.Core
                     DamageMin = 5,
                     DamageMinPerLevel = 1,
                     DamageMax = 7,
-                    DamageMaxPerLevel = 1
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Friendly,
+                    Scope = SkillScope.Single
+                }
+            }
+        };
+
+        public static UnitScheme ArcherHero = new()
+        {
+            Hp = 50,
+            HpPerLevel = 7,
+            Name = "Соколинный глаз", // Hawkeye
+            Skills = new[]
+            {
+                new CombatSkill
+                {
+                    DamageMin = 15,
+                    DamageMinPerLevel = 2,
+                    DamageMax = 17,
+                    DamageMaxPerLevel = 2,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.Single
+                },
+                new CombatSkill
+                {
+                    DamageMin = 5,
+                    DamageMinPerLevel = 1,
+                    DamageMax = 7,
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.AllEnemyGroup
+                }
+            }
+        };
+
+        public static UnitScheme JuggernautHero = new()
+        {
+            Hp = 150,
+            HpPerLevel = 20,
+            Name = "Smooky",
+            Skills = new[]
+            {
+                new CombatSkill
+                {
+                    DamageMin = 5,
+                    DamageMinPerLevel = 1,
+                    DamageMax = 7,
+                    DamageMaxPerLevel = 1,
+                    TargetType = SkillTarget.Enemy,
+                    Scope = SkillScope.AllEnemyGroup
                 }
             }
         };

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    public class Unit
+    internal class Unit
     {
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
@@ -45,8 +45,14 @@ namespace Rpg.Client.Core
 
         public void TakeDamage(int damage)
         {
-            Hp -= damage;
+            Hp -= Math.Min(Hp, damage);
             DamageTaken?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void TakeHeal(int heal)
+        {
+            Hp += Math.Min(MaxHp - Hp, heal);
+            HealTaken?.Invoke(this, EventArgs.Empty);
         }
 
         private void InitStats(UnitScheme unitScheme, int combatLevel)
@@ -57,10 +63,14 @@ namespace Rpg.Client.Core
             Skills = unitScheme.Skills.Select(x => new CombatSkill
             {
                 DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
-                DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel
+                DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
+                TargetType = x.TargetType,
+                Scope = x.Scope
             }).ToArray();
         }
 
         public event EventHandler DamageTaken;
+
+        public event EventHandler HealTaken;
     }
 }

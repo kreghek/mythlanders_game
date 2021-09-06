@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameComponents;
 using Rpg.Client.Models;
 using Rpg.Client.Models.Title;
 using Rpg.Client.Screens;
@@ -11,57 +12,104 @@ namespace Rpg.Client
 {
     public class EwarGame : Game
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly GraphicsDeviceManager _graphics;
+        private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
 
-        private readonly IUiContentStorage _uiContentStorage;
-
-        public EwarGame(IUiContentStorage uiContentStorage, GameObjectContentStorage gameObjectContentStorage)
+        public EwarGame()
         {
-            _uiContentStorage = uiContentStorage;
-            _gameObjectContentStorage = gameObjectContentStorage;
-
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            RegisterMonogameServices();
         }
-
-        public IScreenManager? ScreenManager { get; set; }
-        public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ScreenManager?.Draw(gameTime, _spriteBatch);
+            _screenManager.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        protected override void Initialize()
+        {
+            _screenManager = new ScreenManager(this);
+            Services.AddService<IScreenManager>(_screenManager);
+
+            var globe = CreateGlobe();
+
+            Services.AddService(globe);
+
+            var uiContentStorage = new UiContentStorage();
+            Services.AddService<IUiContentStorage>(uiContentStorage);
+
+            var gameObjectsContentStorage = new GameObjectContentStorage();
+            Services.AddService(gameObjectsContentStorage);
+
+            Services.AddService<IDice>(new LinearDice());
+
+            Services.AddService(new AnimationManager());
+
+            Services.AddService(_graphics);
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _gameObjectContentStorage.LoadContent(Content);
-            _uiContentStorage.LoadContent(Content);
+
+            var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
+            gameObjectContentStorage.LoadContent(Content);
+
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            uiContentStorage.LoadContent(Content);
+
+            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (ScreenManager is not null && ScreenManager.ActiveScreen is null)
+            if (_screenManager.ActiveScreen is null)
             {
-                ScreenManager.ActiveScreen = ScreenManager.StartScreen;
+                var startScreen = new TitleScreen(this);
+                _screenManager.ActiveScreen = startScreen;
             }
-            ScreenManager?.Update(gameTime);
+
+            _screenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
-        
-        private void RegisterMonogameServices()
+
+        private void AddDevelopmentComponents(SpriteBatch spriteBatch, IUiContentStorage uiContentStorage)
         {
-            GraphicsDeviceManager = new GraphicsDeviceManager(this);
-            Services.AddService(GraphicsDeviceManager);
+            var fpsCounter = new FpsCounter(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(fpsCounter);
+
+            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(versionDisplay);
+        }
+
+        private static Globe CreateGlobe()
+        {
+            return new Globe
+            {
+                Player = new Player
+                {
+                    Group = new Group
+                    {
+                        Units = new[]
+                        {
+                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                            {
+                                IsPlayerControlled = true
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }
