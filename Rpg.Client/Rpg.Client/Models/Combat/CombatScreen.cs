@@ -18,8 +18,8 @@ namespace Rpg.Client.Models.Combat
     internal class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
-        private readonly IDice _dice;
         private readonly ActiveCombat _combat;
+        private readonly IDice _dice;
         private readonly IList<ButtonBase> _enemyAttackList;
         private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -127,8 +127,10 @@ namespace Rpg.Client.Models.Combat
                                 break;
 
                             case SkillScope.AllEnemyGroup:
-                                var allEnemyGroupUnits = _gameObjects.Where(x=>!x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
-                                attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker, _combatSkillsPanel.SelectedCard);
+                                var allEnemyGroupUnits = _gameObjects
+                                    .Where(x => !x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
+                                attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker,
+                                    _combatSkillsPanel.SelectedCard);
                                 break;
 
                             case SkillScope.Undefined:
@@ -211,7 +213,6 @@ namespace Rpg.Client.Models.Combat
                                 var blocker = new AnimationBlocker();
                                 _animationManager.AddBlocker(blocker);
 
-
                                 var targetPlayerObjects =
                                     _gameObjects.Where(x => x.Unit.Unit.IsPlayerControlled).ToArray();
 
@@ -234,8 +235,10 @@ namespace Rpg.Client.Models.Combat
                                         break;
 
                                     case SkillScope.AllEnemyGroup:
-                                        var allEnemyGroupUnits = _gameObjects.Where(x => !x.Unit.Unit.IsDead && x.Unit.Unit.IsPlayerControlled).ToArray();
-                                        attackerUnitGameObject.Attack(targetPlayerObject, allEnemyGroupUnits, blocker, combatCard);
+                                        var allEnemyGroupUnits = _gameObjects.Where(x =>
+                                            !x.Unit.Unit.IsDead && x.Unit.Unit.IsPlayerControlled).ToArray();
+                                        attackerUnitGameObject.Attack(targetPlayerObject, allEnemyGroupUnits, blocker,
+                                            combatCard);
                                         break;
 
                                     case SkillScope.Undefined:
