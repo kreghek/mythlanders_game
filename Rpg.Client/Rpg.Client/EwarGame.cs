@@ -44,11 +44,11 @@ namespace Rpg.Client
 
         protected override void LoadContent()
         {
-            AddDevelopmentComponents(_spriteBatch, _uiContentStorage);
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _gameObjectContentStorage.LoadContent(Content);
             _uiContentStorage.LoadContent(Content);
+            
+            AddDevelopmentComponents(_spriteBatch, _uiContentStorage);
         }
 
         protected override void Update(GameTime gameTime)

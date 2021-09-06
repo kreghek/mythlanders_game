@@ -19,8 +19,6 @@ namespace Rpg.Client.Models.Combat
     {
         private readonly AnimationManager _animationManager;
 
-        private readonly ActiveCombat _combat;
-
         private readonly IDice _dice;
 
         private readonly IList<BaseButton> _enemyAttackList;
@@ -50,8 +48,6 @@ namespace Rpg.Client.Models.Combat
             GraphicsDevice graphicsDevice)
             : base(screenManager)
         {
-            _combat = GetActiveCombat();
-
             _gameObjects = new List<UnitGameObject>();
             _enemyAttackList = new List<BaseButton>();
             _friendlyHealList = new List<BaseButton>();
@@ -79,12 +75,13 @@ namespace Rpg.Client.Models.Combat
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 _game.Exit();
 
+            var combat = GetActiveCombat();
             if (!_unitsInitialized)
             {
-                _combat.Initialize();
-                _combat.StartRound();
+                combat.Initialize();
+                combat.StartRound();
 
-                var playerUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled);
+                var playerUnits = combat.Units.Where(x => x.Unit.IsPlayerControlled);
 
                 var index = 0;
                 foreach (var unit in playerUnits)
@@ -100,7 +97,7 @@ namespace Rpg.Client.Models.Combat
 
                     iconButton.OnClick += (s, e) =>
                     {
-                        var healerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+                        var healerUnitGameObject = _gameObjects.Single(x => x.Unit == combat.CurrentUnit);
 
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
@@ -109,9 +106,9 @@ namespace Rpg.Client.Models.Combat
 
                         blocker.Released += (s, e) =>
                         {
-                            var isEnd = _combat.NextUnit();
+                            var isEnd = combat.NextUnit();
                             if (isEnd)
-                                _combat.StartRound();
+                                combat.StartRound();
                         };
                     };
                     _friendlyHealList.Add(iconButton);
@@ -119,7 +116,7 @@ namespace Rpg.Client.Models.Combat
                     index++;
                 }
 
-                var cpuUnits = _combat.Units.Where(x => !x.Unit.IsPlayerControlled);
+                var cpuUnits = combat.Units.Where(x => !x.Unit.IsPlayerControlled);
 
                 index = 0;
                 foreach (var unit in cpuUnits)
@@ -134,7 +131,7 @@ namespace Rpg.Client.Models.Combat
                         new Rectangle(position.ToPoint(), new Point(32, 32)));
                     iconButton.OnClick += (s, e) =>
                     {
-                        var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+                        var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == combat.CurrentUnit);
 
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
@@ -165,9 +162,9 @@ namespace Rpg.Client.Models.Combat
 
                         blocker.Released += (s, e) =>
                         {
-                            var isEnd = _combat.NextUnit();
+                            var isEnd = combat.NextUnit();
                             if (isEnd)
-                                _combat.StartRound();
+                                combat.StartRound();
                         };
                     };
                     _enemyAttackList.Add(iconButton);
@@ -182,20 +179,20 @@ namespace Rpg.Client.Models.Combat
             else
             {
                 // check combat was finished
-                if (!_combat.Finished)
+                if (!combat.Finished)
                 {
-                    _combatSkillsPanel.Unit = _combat.CurrentUnit;
+                    _combatSkillsPanel.Unit = combat.CurrentUnit;
 
                     foreach (var unitModel in _gameObjects)
                     {
-                        unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
+                        unitModel.IsActive = combat.CurrentUnit == unitModel.Unit;
 
                         unitModel.Update(gameTime);
                     }
 
-                    if (_combat.CurrentUnit is not null)
+                    if (combat.CurrentUnit is not null)
                     {
-                        if (_combat.CurrentUnit.Unit.IsPlayerControlled)
+                        if (combat.CurrentUnit.Unit.IsPlayerControlled)
                         {
                             if (!_animationManager.HasBlockers)
                             {
@@ -224,7 +221,7 @@ namespace Rpg.Client.Models.Combat
 
                             if (!_animationManager.HasBlockers)
                             {
-                                var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
+                                var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == combat.CurrentUnit);
 
                                 var blocker = new AnimationBlocker();
                                 _animationManager.AddBlocker(blocker);
@@ -269,9 +266,9 @@ namespace Rpg.Client.Models.Combat
 
                                 blocker.Released += (s, e) =>
                                 {
-                                    var isEnd = _combat.NextUnit();
+                                    var isEnd = combat.NextUnit();
                                     if (isEnd)
-                                        _combat.StartRound();
+                                        combat.StartRound();
                                 };
                             }
                         }
@@ -280,9 +277,9 @@ namespace Rpg.Client.Models.Combat
                     {
                         // Unit in queue is killed.
 
-                        var isEnd = _combat.NextUnit();
+                        var isEnd = combat.NextUnit();
                         if (isEnd)
-                            _combat.StartRound();
+                            combat.StartRound();
                     }
                 }
                 else
@@ -296,7 +293,7 @@ namespace Rpg.Client.Models.Combat
 
                     if (_combatResultPanel is null)
                     {
-                        var enemyUnitsAreDead = _combat.Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+                        var enemyUnitsAreDead = combat.Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
 
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
@@ -319,31 +316,32 @@ namespace Rpg.Client.Models.Combat
             var bossWasDefeat = false;
             var finalBossWasDefeat = false;
 
+            var combat = GetActiveCombat();
             if (_combatResultPanel.Result == "Win")
             {
-                _combat.Biom.Level++;
+                combat.Biom.Level++;
 
-                if (_combat.Combat.IsBossLevel)
+                if (combat.Combat.IsBossLevel)
                 {
-                    _combat.Biom.IsComplete = true;
+                    combat.Biom.IsComplete = true;
                     bossWasDefeat = true;
 
-                    if (_combat.Biom.IsFinalBiom)
+                    if (combat.Biom.IsFinalBiom)
                         finalBossWasDefeat = true;
                 }
 
-                var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-                var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
+                var aliveUnits = combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+                var monsters = combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
 
                 foreach (var unit in aliveUnits)
                 {
-                    unit.Unit.GainXp(5 * (_combat.Combat.Level * 2) * monsters.Length / aliveUnits.Length);
+                    unit.Unit.GainXp(5 * (combat.Combat.Level * 2) * monsters.Length / aliveUnits.Length);
                 }
             }
             else
             {
-                if (_combat.Combat.IsBossLevel)
-                    _combat.Biom.Level = 0;
+                if (combat.Combat.IsBossLevel)
+                    combat.Biom.Level = 0;
             }
 
             _globe.UpdateNodes(_dice);
@@ -378,9 +376,10 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            if (_combat.CurrentUnit is not null)
+            var combat = GetActiveCombat();
+            if (combat.CurrentUnit is not null)
             {
-                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
+                if (combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
                 {
                     if (_combatSkillsPanel is not null)
                         _combatSkillsPanel.Draw(spriteBatch, _graphicsDevice);
