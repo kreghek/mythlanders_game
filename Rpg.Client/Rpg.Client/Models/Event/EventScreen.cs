@@ -19,7 +19,7 @@ namespace Rpg.Client.Models.Event
 
         private readonly IUiContentStorage _uiContentStorage;
 
-        private DialogNode _currentDialogNode;
+        private DialogNode? _currentDialogNode;
 
         private bool _isInitialized;
 
@@ -30,8 +30,6 @@ namespace Rpg.Client.Models.Event
             _globe = globe;
 
             _uiContentStorage = uiContentStorage;
-
-            _currentDialogNode = _globe.AvailableDialog.StartNode;
 
             _buttons = new List<BaseButton>();
 
@@ -44,6 +42,8 @@ namespace Rpg.Client.Models.Event
                 return;
 
             spriteBatch.Begin();
+
+            _currentDialogNode = _globe.AvailableDialog.StartNode;
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
 
