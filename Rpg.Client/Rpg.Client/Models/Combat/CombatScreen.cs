@@ -18,32 +18,52 @@ namespace Rpg.Client.Models.Combat
     internal class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
+
         private readonly ActiveCombat _combat;
+
         private readonly IDice _dice;
-        private readonly IList<ButtonBase> _enemyAttackList;
-        private readonly IList<ButtonBase> _friendlyHealList;
+
+        private readonly IList<BaseButton> _enemyAttackList;
+
+        private readonly IList<BaseButton> _friendlyHealList;
+
+        private readonly Game _game;
+
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+
         private readonly IList<UnitGameObject> _gameObjects;
+
+        private readonly Globe _globe;
+
+        private readonly GraphicsDevice _graphicsDevice;
+
         private readonly IUiContentStorage _uiContentStorage;
+
         private CombatResultPanel _combatResultPanel;
+
         private CombatSkillPanel _combatSkillsPanel;
+
         private bool _unitsInitialized;
 
-        public CombatScreen(Game game) : base(game)
+        public CombatScreen(IScreenManager screenManager, Globe globe, GameObjectContentStorage gameObjectContentStorage,
+            IUiContentStorage uiContentStorage, AnimationManager animationManager, IDice dice, Game game,
+            GraphicsDevice graphicsDevice)
+            : base(screenManager)
         {
-            var globe = game.Services.GetService<Globe>();
-            _combat = globe.ActiveCombat ??
-                      throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
+            _combat = GetActiveCombat();
 
             _gameObjects = new List<UnitGameObject>();
-            _enemyAttackList = new List<ButtonBase>();
-            _friendlyHealList = new List<ButtonBase>();
+            _enemyAttackList = new List<BaseButton>();
+            _friendlyHealList = new List<BaseButton>();
 
-            _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _animationManager = game.Services.GetService<AnimationManager>();
+            _globe = globe;
+            _gameObjectContentStorage = gameObjectContentStorage;
+            _uiContentStorage = uiContentStorage;
+            _animationManager = animationManager;
 
-            _dice = game.Services.GetService<IDice>();
+            _dice = dice;
+            _game = game;
+            _graphicsDevice = graphicsDevice;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -57,9 +77,7 @@ namespace Rpg.Client.Models.Combat
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Game.Exit();
-            }
+                _game.Exit();
 
             if (!_unitsInitialized)
             {
@@ -75,8 +93,10 @@ namespace Rpg.Client.Models.Combat
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
-                    var iconButton = new IconButton(_uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetButtonTexture(), new Rectangle(position.ToPoint(), new Point(32, 32)));
+                    var iconButton = new IconBaseButton(
+                        _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetButtonTexture(),
+                        new Rectangle(position.ToPoint(), new Point(32, 32)));
 
                     iconButton.OnClick += (s, e) =>
                     {
@@ -91,9 +111,7 @@ namespace Rpg.Client.Models.Combat
                         {
                             var isEnd = _combat.NextUnit();
                             if (isEnd)
-                            {
                                 _combat.StartRound();
-                            }
                         };
                     };
                     _friendlyHealList.Add(iconButton);
@@ -110,8 +128,10 @@ namespace Rpg.Client.Models.Combat
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
-                    var iconButton = new IconButton(_uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetButtonTexture(), new Rectangle(position.ToPoint(), new Point(32, 32)));
+                    var iconButton = new IconBaseButton(
+                        _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetButtonTexture(),
+                        new Rectangle(position.ToPoint(), new Point(32, 32)));
                     iconButton.OnClick += (s, e) =>
                     {
                         var attackerUnitGameObject = _gameObjects.Single(x => x.Unit == _combat.CurrentUnit);
@@ -128,8 +148,12 @@ namespace Rpg.Client.Models.Combat
 
                             case SkillScope.AllEnemyGroup:
                                 var allEnemyGroupUnits = _gameObjects
-                                    .Where(x => !x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
-                                attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker,
+                                                         .Where(x => !x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled)
+                                                         .ToArray();
+                                attackerUnitGameObject.Attack(
+                                    gameObject,
+                                    allEnemyGroupUnits,
+                                    blocker,
                                     _combatSkillsPanel.SelectedCard);
                                 break;
 
@@ -143,9 +167,7 @@ namespace Rpg.Client.Models.Combat
                         {
                             var isEnd = _combat.NextUnit();
                             if (isEnd)
-                            {
                                 _combat.StartRound();
-                            }
                         };
                     };
                     _enemyAttackList.Add(iconButton);
@@ -178,26 +200,20 @@ namespace Rpg.Client.Models.Combat
                             if (!_animationManager.HasBlockers)
                             {
                                 if (_combatSkillsPanel is not null)
-                                {
                                     _combatSkillsPanel.Update();
-                                }
 
                                 if (_combatSkillsPanel?.SelectedCard is not null)
                                 {
                                     if (_combatSkillsPanel.SelectedCard.Skill.TargetType is SkillTarget.Enemy)
-                                    {
                                         foreach (var button in _enemyAttackList)
                                         {
                                             button.Update();
                                         }
-                                    }
                                     else if (_combatSkillsPanel.SelectedCard.Skill.TargetType is SkillTarget.Friendly)
-                                    {
                                         foreach (var button in _friendlyHealList)
                                         {
                                             button.Update();
                                         }
-                                    }
                                 }
                             }
                         }
@@ -224,9 +240,7 @@ namespace Rpg.Client.Models.Combat
                                 var combatPowerScope = combatCard.Skill.Scope;
                                 //TODO Specify combat power scope scope in the monsters.
                                 if (combatPowerScope == SkillScope.Undefined)
-                                {
                                     combatPowerScope = SkillScope.Single;
-                                }
 
                                 switch (combatPowerScope)
                                 {
@@ -235,9 +249,15 @@ namespace Rpg.Client.Models.Combat
                                         break;
 
                                     case SkillScope.AllEnemyGroup:
-                                        var allEnemyGroupUnits = _gameObjects.Where(x =>
-                                            !x.Unit.Unit.IsDead && x.Unit.Unit.IsPlayerControlled).ToArray();
-                                        attackerUnitGameObject.Attack(targetPlayerObject, allEnemyGroupUnits, blocker,
+                                        var allEnemyGroupUnits = _gameObjects.Where(
+                                                                                 x =>
+                                                                                     !x.Unit.Unit.IsDead &&
+                                                                                     x.Unit.Unit.IsPlayerControlled)
+                                                                             .ToArray();
+                                        attackerUnitGameObject.Attack(
+                                            targetPlayerObject,
+                                            allEnemyGroupUnits,
+                                            blocker,
                                             combatCard);
                                         break;
 
@@ -251,9 +271,7 @@ namespace Rpg.Client.Models.Combat
                                 {
                                     var isEnd = _combat.NextUnit();
                                     if (isEnd)
-                                    {
                                         _combat.StartRound();
-                                    }
                                 };
                             }
                         }
@@ -264,9 +282,7 @@ namespace Rpg.Client.Models.Combat
 
                         var isEnd = _combat.NextUnit();
                         if (isEnd)
-                        {
                             _combat.StartRound();
-                        }
                     }
                 }
                 else
@@ -284,13 +300,9 @@ namespace Rpg.Client.Models.Combat
 
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
-                        {
                             _combatResultPanel.Initialize("Win");
-                        }
                         else
-                        {
                             _combatResultPanel.Initialize("Fail");
-                        }
 
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
                     }
@@ -303,7 +315,6 @@ namespace Rpg.Client.Models.Combat
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
-            var globe = Game.Services.GetService<Globe>();
 
             var bossWasDefeat = false;
             var finalBossWasDefeat = false;
@@ -318,9 +329,7 @@ namespace Rpg.Client.Models.Combat
                     bossWasDefeat = true;
 
                     if (_combat.Biom.IsFinalBiom)
-                    {
                         finalBossWasDefeat = true;
-                    }
                 }
 
                 var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
@@ -334,24 +343,17 @@ namespace Rpg.Client.Models.Combat
             else
             {
                 if (_combat.Combat.IsBossLevel)
-                {
                     _combat.Biom.Level = 0;
-                }
             }
 
-            var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice);
+            _globe.UpdateNodes(_dice);
 
             if (bossWasDefeat)
             {
                 if (finalBossWasDefeat)
-                {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                }
                 else
-                {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
-                }
             }
             else
             {
@@ -381,9 +383,7 @@ namespace Rpg.Client.Models.Combat
                 if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
                 {
                     if (_combatSkillsPanel is not null)
-                    {
-                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                    }
+                        _combatSkillsPanel.Draw(spriteBatch, _graphicsDevice);
 
                     if (_combatSkillsPanel?.SelectedCard is not null)
                     {
@@ -399,12 +399,16 @@ namespace Rpg.Client.Models.Combat
                 }
 
                 if (_combatResultPanel is not null)
-                {
-                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                }
+                    _combatResultPanel.Draw(spriteBatch, _graphicsDevice);
             }
 
             spriteBatch.End();
+        }
+
+        private ActiveCombat GetActiveCombat()
+        {
+            return _globe.ActiveCombat ??
+                   throw new InvalidOperationException(nameof(_globe.ActiveCombat) + " is null");
         }
     }
 }

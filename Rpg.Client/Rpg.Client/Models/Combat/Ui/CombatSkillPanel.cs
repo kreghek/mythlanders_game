@@ -17,7 +17,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage)
         {
-            _buttons = new List<IconButton>();
+            _buttons = new List<BaseButton>();
             _uiContentStorage = uiContentStorage;
         }
 
