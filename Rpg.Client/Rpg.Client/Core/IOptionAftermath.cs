@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    public interface IOptionAftermath
+    internal interface IOptionAftermath
     {
         void Apply(IDialogContext dialogContext);
     }

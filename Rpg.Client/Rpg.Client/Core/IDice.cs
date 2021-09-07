@@ -3,7 +3,7 @@
     /// <summary>
     /// The random number generator - dice.
     /// </summary>
-    public interface IDice
+    internal interface IDice
     {
         /// <summary>
         /// Get roll of the dice. Min is 1.

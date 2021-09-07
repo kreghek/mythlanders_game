@@ -12,50 +12,73 @@ namespace Rpg.Client
 {
     public class EwarGame : Game
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
-
-        private readonly IUiContentStorage _uiContentStorage;
+        private readonly GraphicsDeviceManager _graphics;
+        private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame(IUiContentStorage uiContentStorage, GameObjectContentStorage gameObjectContentStorage)
+        public EwarGame()
         {
-            _uiContentStorage = uiContentStorage;
-            _gameObjectContentStorage = gameObjectContentStorage;
-
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
-            RegisterMonogameServices();
         }
-
-        public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
-
-        public IScreenManager? ScreenManager { get; set; }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ScreenManager?.Draw(gameTime, _spriteBatch);
+            _screenManager.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        protected override void Initialize()
+        {
+            _screenManager = new ScreenManager(this);
+            Services.AddService<IScreenManager>(_screenManager);
+
+            var globe = CreateGlobe();
+
+            Services.AddService(globe);
+
+            var uiContentStorage = new UiContentStorage();
+            Services.AddService<IUiContentStorage>(uiContentStorage);
+
+            var gameObjectsContentStorage = new GameObjectContentStorage();
+            Services.AddService(gameObjectsContentStorage);
+
+            Services.AddService<IDice>(new LinearDice());
+
+            Services.AddService(new AnimationManager());
+
+            Services.AddService(_graphics);
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _gameObjectContentStorage.LoadContent(Content);
-            _uiContentStorage.LoadContent(Content);
-            
-            AddDevelopmentComponents(_spriteBatch, _uiContentStorage);
+
+            var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
+            gameObjectContentStorage.LoadContent(Content);
+
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            uiContentStorage.LoadContent(Content);
+
+            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (ScreenManager is not null && ScreenManager.ActiveScreen is null)
-                ScreenManager.ActiveScreen = ScreenManager.StartScreen;
-            ScreenManager?.Update(gameTime);
+            if (_screenManager.ActiveScreen is null)
+            {
+                var startScreen = new TitleScreen(this);
+                _screenManager.ActiveScreen = startScreen;
+            }
+
+            _screenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -69,10 +92,24 @@ namespace Rpg.Client
             Components.Add(versionDisplay);
         }
 
-        private void RegisterMonogameServices()
+        private static Globe CreateGlobe()
         {
-            GraphicsDeviceManager = new GraphicsDeviceManager(this);
-            Services.AddService(GraphicsDeviceManager);
+            return new Globe
+            {
+                Player = new Player
+                {
+                    Group = new Group
+                    {
+                        Units = new[]
+                        {
+                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                            {
+                                IsPlayerControlled = true
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

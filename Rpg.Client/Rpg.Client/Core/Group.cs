@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    public class Group
+    internal class Group
     {
         public IEnumerable<Unit> Units { get; set; }
     }

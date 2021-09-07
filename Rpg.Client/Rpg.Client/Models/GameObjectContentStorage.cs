@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models
 {
-    public class GameObjectContentStorage
+    internal class GameObjectContentStorage
     {
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;

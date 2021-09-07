@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    public class Combat
+    internal class Combat
     {
         public Group EnemyGroup { get; set; }
         public bool IsBossLevel { get; internal set; }

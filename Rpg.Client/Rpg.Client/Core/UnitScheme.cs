@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    public sealed class UnitScheme
+    internal sealed class UnitScheme
     {
         public BiomType Biom { get; init; }
         public int Hp { get; init; }

@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    public sealed class Biom
+    internal sealed class Biom
     {
         public bool IsAvailable { get; set; }
 

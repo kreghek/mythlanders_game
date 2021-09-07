@@ -6,14 +6,18 @@ namespace Rpg.Client.Screens
     /// <summary>
     /// This is the base class for all game scenes.
     /// </summary>
-    public abstract class GameScreenBase : IScreen
+    internal abstract class GameScreenBase : IScreen
     {
-        public GameScreenBase(IScreenManager screenManager)
+        public GameScreenBase(Game game)
         {
-            ScreenManager = screenManager;
+            Game = game;
+
+            ScreenManager = game.Services.GetService<IScreenManager>();
         }
 
         public IScreenManager ScreenManager { get; }
+
+        protected Game Game { get; }
 
         public IScreen? TargetScreen { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Engine
 {
-    public class AnimationManager
+    internal class AnimationManager
     {
         private readonly IList<AnimationBlocker> _blockers = new List<AnimationBlocker>();
 

@@ -9,41 +9,37 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Event
 {
-    public sealed class EventScreen : GameScreenBase
+    internal sealed class EventScreen : GameScreenBase
     {
-        private readonly IList<BaseButton> _buttons;
-
-        private readonly IDialogContext _dialogContext;
-
+        private readonly IList<ButtonBase> _buttons;
+        private readonly DialogContext _dialogContext;
         private readonly Globe _globe;
-
         private readonly IUiContentStorage _uiContentStorage;
-
-        private DialogNode? _currentDialogNode;
+        private DialogNode _currentDialogNode;
 
         private bool _isInitialized;
 
-        public EventScreen(IScreenManager screenManager, Globe globe, IUiContentStorage uiContentStorage,
-            IDialogContext dialogContext)
-            : base(screenManager)
+        public EventScreen(Game game) : base(game)
         {
-            _globe = globe;
+            _globe = game.Services.GetService<Globe>();
 
-            _uiContentStorage = uiContentStorage;
+            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _buttons = new List<BaseButton>();
+            _currentDialogNode = _globe.AvailableDialog.StartNode;
 
-            _dialogContext = dialogContext;
+            _buttons = new List<ButtonBase>();
+
+            _dialogContext = new DialogContext(_globe);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!_isInitialized)
+            {
                 return;
+            }
 
             spriteBatch.Begin();
-
-            _currentDialogNode = _globe.AvailableDialog.StartNode;
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
 
@@ -71,15 +67,14 @@ namespace Rpg.Client.Models.Event
                 _buttons.Clear();
                 foreach (var option in _currentDialogNode.Options)
                 {
-                    var button = new TextBaseButton(
-                        option.Text,
-                        _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(),
-                        Rectangle.Empty);
+                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {
                         if (option.Aftermath is not null)
+                        {
                             option.Aftermath.Apply(_dialogContext);
+                        }
 
                         if (option.IsEnd)
                         {

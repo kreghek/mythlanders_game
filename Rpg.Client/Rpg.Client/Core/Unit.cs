@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    public class Unit
+    internal class Unit
     {
         public Unit(UnitScheme unitScheme, int combatLevel)
         {

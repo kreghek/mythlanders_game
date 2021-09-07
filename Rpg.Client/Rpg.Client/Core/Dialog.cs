@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    public sealed class Dialog
+    internal sealed class Dialog
     {
         public int Counter { get; set; }
         public bool IsUnique { get; set; }
