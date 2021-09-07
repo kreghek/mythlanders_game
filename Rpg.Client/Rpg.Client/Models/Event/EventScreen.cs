@@ -21,7 +21,7 @@ namespace Rpg.Client.Models.Event
 
         public EventScreen(Game game) : base(game)
         {
-            _globe = game.Services.GetService<Globe>();
+            _globe = game.Services.GetService<GlobeProvider>().Globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 

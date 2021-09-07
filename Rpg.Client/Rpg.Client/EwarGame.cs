@@ -38,9 +38,7 @@ namespace Rpg.Client
             _screenManager = new ScreenManager(this);
             Services.AddService<IScreenManager>(_screenManager);
 
-            var globe = CreateGlobe();
-
-            Services.AddService(globe);
+            Services.AddService(new GlobeProvider());
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
@@ -90,26 +88,6 @@ namespace Rpg.Client
 
             var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(versionDisplay);
-        }
-
-        private static Globe CreateGlobe()
-        {
-            return new Globe
-            {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
-                    }
-                }
-            };
         }
     }
 }

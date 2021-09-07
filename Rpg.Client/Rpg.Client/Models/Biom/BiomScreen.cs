@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,26 +19,40 @@ namespace Rpg.Client.Models.Biom
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly TextButton _mapButton;
+        private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly IUiContentStorage _uiContentStorage;
+
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
         public BiomScreen(Game game) : base(game)
         {
-            var globe = game.Services.GetService<Globe>();
-            _globe = globe;
+            var globeProvider = game.Services.GetService<GlobeProvider>();
+            _globe = globeProvider.Globe;
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
 
-            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
+            var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            _mapButton.OnClick += (s, e) =>
+            mapButton.OnClick += (s, e) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+            };
+
+            var saveGameButton = new TextButton("Save", _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+
+            saveGameButton.OnClick += (s, e) =>
+            {
+                globeProvider.StoreGlobe();
+            };
+
+            _menuButtons = new ButtonBase[] {
+                mapButton,
+                saveGameButton
             };
         }
 
@@ -69,6 +86,16 @@ namespace Rpg.Client.Models.Biom
                 }
             }
 
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            var buttonIndex = 0;
+            foreach (var button in _menuButtons)
+            {
+                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
+                button.Draw(spriteBatch);
+                buttonIndex++;
+            }
             spriteBatch.End();
         }
 
@@ -143,7 +170,10 @@ namespace Rpg.Client.Models.Biom
                 }
             }
 
-            _mapButton.Update();
+            foreach (var button in _menuButtons)
+            {
+                button.Update();
+            }
         }
     }
 }
