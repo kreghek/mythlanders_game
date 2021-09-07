@@ -8,8 +8,8 @@ namespace Rpg.Client.Models
 {
     internal sealed class GlobeProvider
     {
-        private Globe? _globe;
         private readonly IDice _dice;
+        private Globe? _globe;
 
         public GlobeProvider(IDice dice)
         {
@@ -24,6 +24,7 @@ namespace Rpg.Client.Models
                 {
                     throw new InvalidOperationException("Globe is not initialized.");
                 }
+
                 return _globe;
             }
             private set => _globe = value;
@@ -51,14 +52,6 @@ namespace Rpg.Client.Models
             Globe = globe;
         }
 
-        public void StoreGlobe()
-        {
-            var serializedGlobe = JsonSerializer.Serialize(_globe);
-            var binPath = AppContext.BaseDirectory;
-            var saveFilePath = Path.Combine(binPath, "globe.json");
-            File.WriteAllText(saveFilePath, serializedGlobe);
-        }
-
         public void LoadGlobe()
         {
             var binPath = AppContext.BaseDirectory;
@@ -76,6 +69,14 @@ namespace Rpg.Client.Models
             globe.UpdateNodes(_dice);
 
             Globe = globe;
+        }
+
+        public void StoreGlobe()
+        {
+            var serializedGlobe = JsonSerializer.Serialize(_globe);
+            var binPath = AppContext.BaseDirectory;
+            var saveFilePath = Path.Combine(binPath, "globe.json");
+            File.WriteAllText(saveFilePath, serializedGlobe);
         }
     }
 }

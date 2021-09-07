@@ -42,25 +42,6 @@ namespace Rpg.Client
             base.Initialize();
         }
 
-        private void RegisterServices(ScreenManager screenManager)
-        {
-            Services.AddService<IScreenManager>(screenManager);
-
-            var uiContentStorage = new UiContentStorage();
-            Services.AddService<IUiContentStorage>(uiContentStorage);
-
-            var gameObjectsContentStorage = new GameObjectContentStorage();
-            Services.AddService(gameObjectsContentStorage);
-
-            Services.AddService<IDice>(new LinearDice());
-
-            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
-
-            Services.AddService(new AnimationManager());
-
-            Services.AddService(_graphics);
-        }
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -94,6 +75,25 @@ namespace Rpg.Client
 
             var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(versionDisplay);
+        }
+
+        private void RegisterServices(ScreenManager screenManager)
+        {
+            Services.AddService<IScreenManager>(screenManager);
+
+            var uiContentStorage = new UiContentStorage();
+            Services.AddService<IUiContentStorage>(uiContentStorage);
+
+            var gameObjectsContentStorage = new GameObjectContentStorage();
+            Services.AddService(gameObjectsContentStorage);
+
+            Services.AddService<IDice>(new LinearDice());
+
+            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
+
+            Services.AddService(new AnimationManager());
+
+            Services.AddService(_graphics);
         }
     }
 }
