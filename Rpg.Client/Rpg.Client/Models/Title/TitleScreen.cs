@@ -54,7 +54,7 @@ namespace Rpg.Client.Models.Title
             _buttons.Add(switchResolutionButton);
 
             var loadGameButton = new TextButton("Load", buttonTexture,
-                                font, new Rectangle(0, 0, 100, 25));
+                font, new Rectangle(0, 0, 100, 25));
 
             loadGameButton.OnClick += (s, e) =>
             {

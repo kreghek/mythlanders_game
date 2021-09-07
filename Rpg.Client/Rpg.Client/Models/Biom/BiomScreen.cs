@@ -50,7 +50,8 @@ namespace Rpg.Client.Models.Biom
                 globeProvider.StoreGlobe();
             };
 
-            _menuButtons = new ButtonBase[] {
+            _menuButtons = new ButtonBase[]
+            {
                 mapButton,
                 saveGameButton
             };
@@ -96,6 +97,7 @@ namespace Rpg.Client.Models.Biom
                 button.Draw(spriteBatch);
                 buttonIndex++;
             }
+
             spriteBatch.End();
         }
 

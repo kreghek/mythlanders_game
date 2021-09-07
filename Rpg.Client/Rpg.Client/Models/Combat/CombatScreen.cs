@@ -24,8 +24,8 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly GlobeProvider _globeProvider;
+        private readonly IUiContentStorage _uiContentStorage;
         private CombatResultPanel? _combatResultPanel;
         private CombatSkillPanel? _combatSkillsPanel;
         private bool _unitsInitialized;
