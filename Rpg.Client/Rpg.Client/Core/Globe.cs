@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Rpg.Client.Core
 {
@@ -98,7 +99,9 @@ namespace Rpg.Client.Core
             CurrentBiom = biomes.Single(x => x.IsStartBiom);
         }
 
+        [JsonIgnore]
         public ActiveCombat? ActiveCombat { get; set; }
+
         public Dialog? AvailableDialog { get; internal set; }
 
         public IEnumerable<Biom> Bioms { get; }

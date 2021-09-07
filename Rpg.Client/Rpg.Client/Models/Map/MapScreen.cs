@@ -19,7 +19,7 @@ namespace Rpg.Client.Models.Map
 
         public MapScreen(Game game) : base(game)
         {
-            var globe = game.Services.GetService<Globe>();
+            var globe = game.Services.GetService<GlobeProvider>().Globe;
             _globe = globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
