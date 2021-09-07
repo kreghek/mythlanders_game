@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,14 +40,19 @@ namespace Rpg.Client.Models.Combat.Ui
 
         internal void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            var buttonWidth = _buttons.Count() * 32;
-            for (var i = 0; i < _buttons.Count; i++)
+            var buttonWidth = _buttons.Count * 32;
+            for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
-                var button = _buttons[i];
-                button.Rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
-                    graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
+                var button = _buttons[buttonIndex];
+                button.Rect = GetButtonRectangle(graphicsDevice, buttonWidth, buttonIndex);
                 button.Draw(spriteBatch);
             }
+        }
+
+        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
+        {
+            return new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
+                                graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
         }
 
         internal void Update()
@@ -62,6 +67,17 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             _buttons.Clear();
             SelectedCard = null;
+
+            if (_unit is null)
+            {
+                throw new InvalidOperationException("Unit required to be initialized before.");
+            }
+
+            if (_unit.CombatCards is null)
+            {
+                throw new InvalidOperationException($"The unit {_unit} required to have got combat powers.");
+            }
+
             foreach (var card in _unit.CombatCards)
             {
                 var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(),
