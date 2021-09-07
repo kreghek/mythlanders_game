@@ -9,6 +9,12 @@ namespace Rpg.Client.Models
     internal sealed class GlobeProvider
     {
         private Globe? _globe;
+        private readonly IDice _dice;
+
+        public GlobeProvider(IDice dice)
+        {
+            _dice = dice;
+        }
 
         public Globe Globe
         {
@@ -66,6 +72,8 @@ namespace Rpg.Client.Models
             {
                 throw new InvalidOperationException("Error during globe loading.");
             }
+
+            globe.UpdateNodes(_dice);
 
             Globe = globe;
         }

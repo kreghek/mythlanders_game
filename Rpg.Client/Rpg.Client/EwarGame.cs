@@ -36,9 +36,15 @@ namespace Rpg.Client
         protected override void Initialize()
         {
             _screenManager = new ScreenManager(this);
-            Services.AddService<IScreenManager>(_screenManager);
 
-            Services.AddService(new GlobeProvider());
+            RegisterServices(_screenManager);
+
+            base.Initialize();
+        }
+
+        private void RegisterServices(ScreenManager screenManager)
+        {
+            Services.AddService<IScreenManager>(screenManager);
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
@@ -48,11 +54,11 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
+            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
+
             Services.AddService(new AnimationManager());
 
             Services.AddService(_graphics);
-
-            base.Initialize();
         }
 
         protected override void LoadContent()
