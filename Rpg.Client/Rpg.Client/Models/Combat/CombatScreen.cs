@@ -25,13 +25,17 @@ namespace Rpg.Client.Models.Combat
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly IUiContentStorage _uiContentStorage;
-        private CombatResultPanel _combatResultPanel;
-        private CombatSkillPanel _combatSkillsPanel;
+        private readonly GlobeProvider _globeProvider;
+        private CombatResultPanel? _combatResultPanel;
+        private CombatSkillPanel? _combatSkillsPanel;
         private bool _unitsInitialized;
 
         public CombatScreen(Game game) : base(game)
         {
-            var globe = game.Services.GetService<Globe>();
+            _globeProvider = game.Services.GetService<GlobeProvider>();
+
+            var globe = _globeProvider.Globe;
+
             _combat = globe.ActiveCombat ??
                       throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
 
@@ -85,6 +89,18 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
+                        if (_combatSkillsPanel is null)
+                        {
+                            Debug.Fail("Combat powers must be in use only after combat powers panel is initialized.");
+                            return;
+                        }
+
+                        if (_combatSkillsPanel.SelectedCard is null)
+                        {
+                            Debug.Fail("There is no selected combat power to use.");
+                            return;
+                        }
+
                         healerUnitGameObject.Heal(gameObject, blocker, _combatSkillsPanel.SelectedCard);
 
                         blocker.Released += (s, e) =>
@@ -118,6 +134,18 @@ namespace Rpg.Client.Models.Combat
 
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
+
+                        if (_combatSkillsPanel is null)
+                        {
+                            Debug.Fail("Combat powers must be in use only after combat powers panel is initialized.");
+                            return;
+                        }
+
+                        if (_combatSkillsPanel.SelectedCard is null)
+                        {
+                            Debug.Fail("There is no selected combat power to use.");
+                            return;
+                        }
 
                         var combatPowerScope = _combatSkillsPanel.SelectedCard?.Skill.Scope;
                         switch (combatPowerScope)
@@ -303,7 +331,6 @@ namespace Rpg.Client.Models.Combat
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
-            var globe = Game.Services.GetService<Globe>();
 
             var bossWasDefeat = false;
             var finalBossWasDefeat = false;
@@ -340,7 +367,7 @@ namespace Rpg.Client.Models.Combat
             }
 
             var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice);
+            _globeProvider.Globe.UpdateNodes(dice);
 
             if (bossWasDefeat)
             {

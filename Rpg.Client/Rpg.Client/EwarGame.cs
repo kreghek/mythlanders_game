@@ -36,11 +36,15 @@ namespace Rpg.Client
         protected override void Initialize()
         {
             _screenManager = new ScreenManager(this);
-            Services.AddService<IScreenManager>(_screenManager);
 
-            var globe = CreateGlobe();
+            RegisterServices(_screenManager);
 
-            Services.AddService(globe);
+            base.Initialize();
+        }
+
+        private void RegisterServices(ScreenManager screenManager)
+        {
+            Services.AddService<IScreenManager>(screenManager);
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
@@ -50,11 +54,11 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
+            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
+
             Services.AddService(new AnimationManager());
 
             Services.AddService(_graphics);
-
-            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -90,26 +94,6 @@ namespace Rpg.Client
 
             var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(versionDisplay);
-        }
-
-        private static Globe CreateGlobe()
-        {
-            return new Globe
-            {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
-                    }
-                }
-            };
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Text.Json;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Screens;
 
@@ -17,9 +20,12 @@ namespace Rpg.Client.Models.Title
         private const int BUTTON_HEIGHT = 20;
 
         private readonly IList<ButtonBase> _buttons;
+        private readonly GlobeProvider _globeProvider;
 
         public TitleScreen(Game game) : base(game)
         {
+            _globeProvider = Game.Services.GetService<GlobeProvider>();
+
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
             var buttonTexture = uiContentService.GetButtonTexture();
@@ -27,25 +33,36 @@ namespace Rpg.Client.Models.Title
 
             _buttons = new List<ButtonBase>();
 
-            var _startButton = new TextButton(UiResource.StartGameButtonTitle, buttonTexture, font,
+            var startButton = new TextButton(UiResource.StartGameButtonTitle, buttonTexture, font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 150, 100, 20));
-            _startButton.OnClick += StartButton_OnClick;
-            _buttons.Add(_startButton);
+            startButton.OnClick += StartButton_OnClick;
+            _buttons.Add(startButton);
 
-            var _switchLanguageButton = new TextButton(UiResource.SwitchLanguageButtonTitle,
+            var switchLanguageButton = new TextButton(UiResource.SwitchLanguageButtonTitle,
                 buttonTexture,
                 font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 200, 100, 20));
 
-            _switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
-            _buttons.Add(_switchLanguageButton);
+            switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
+            _buttons.Add(switchLanguageButton);
 
-            var _switchResolutionButton = new TextButton(UiResource.SwitchResolutionButtonTitle,
+            var switchResolutionButton = new TextButton(UiResource.SwitchResolutionButtonTitle,
                 buttonTexture,
                 font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 250, 100, 20));
-            _switchResolutionButton.OnClick += SwitchResolutionButton_OnClick;
-            _buttons.Add(_switchResolutionButton);
+            switchResolutionButton.OnClick += SwitchResolutionButton_OnClick;
+            _buttons.Add(switchResolutionButton);
+
+            var loadGameButton = new TextButton("Load", buttonTexture,
+                                font, new Rectangle(0, 0, 100, 25));
+
+            loadGameButton.OnClick += (s, e) =>
+            {
+                _globeProvider.LoadGlobe();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+            };
+            _buttons.Add(loadGameButton);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -78,6 +95,7 @@ namespace Rpg.Client.Models.Title
 
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
+            _globeProvider.GenerateNew();
             ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
         }
 
