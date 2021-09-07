@@ -49,18 +49,18 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
-        {
-            return new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
-                                graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
-        }
-
         internal void Update()
         {
             foreach (var button in _buttons)
             {
                 button.Update();
             }
+        }
+
+        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
+        {
+            return new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
+                graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
         }
 
         private void RefreshButtons()
