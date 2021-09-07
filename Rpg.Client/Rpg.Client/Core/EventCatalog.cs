@@ -2,32 +2,32 @@
 
 namespace Rpg.Client.Core
 {
-    internal static class DialogCatalog
+    internal static class EventCatalog
     {
-        private static readonly Dialog[] _dialogs =
+        private static readonly Event[] _dialogs =
         {
             CreateTestDialog(),
             CreateNewUnitDialog(),
             CreateNewUnit2Dialog()
         };
 
-        public static IEnumerable<Dialog> Dialogs => _dialogs;
+        public static IEnumerable<Event> Dialogs => _dialogs;
 
-        private static Dialog CreateNewUnit2Dialog()
+        private static Event CreateNewUnit2Dialog()
         {
-            var dialogNode1 = new DialogNode
+            var dialogNode1 = new EventNode
             {
                 Text = "Вы встречаете путника. Это лучник."
             };
 
-            var dialogNode2 = new DialogNode
+            var dialogNode2 = new EventNode
             {
                 Text = "Лучник присоединился к вам."
             };
 
             dialogNode1.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "Пригласить в группу.",
                     Next = dialogNode2,
@@ -37,14 +37,14 @@ namespace Rpg.Client.Core
 
             dialogNode2.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "В бой!",
                     IsEnd = true
                 }
             };
 
-            var dialog = new Dialog
+            var dialog = new Event
             {
                 Nodes = new[]
                 {
@@ -57,21 +57,21 @@ namespace Rpg.Client.Core
             return dialog;
         }
 
-        private static Dialog CreateNewUnitDialog()
+        private static Event CreateNewUnitDialog()
         {
-            var dialogNode1 = new DialogNode
+            var dialogNode1 = new EventNode
             {
                 Text = "Вы встречаете путника. Это травница."
             };
 
-            var dialogNode2 = new DialogNode
+            var dialogNode2 = new EventNode
             {
                 Text = "Травница присоединилась к вам."
             };
 
             dialogNode1.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "Пригласить в группу.",
                     Next = dialogNode2,
@@ -81,14 +81,14 @@ namespace Rpg.Client.Core
 
             dialogNode2.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "В бой!",
                     IsEnd = true
                 }
             };
 
-            var dialog = new Dialog
+            var dialog = new Event
             {
                 Nodes = new[]
                 {
@@ -101,21 +101,21 @@ namespace Rpg.Client.Core
             return dialog;
         }
 
-        private static Dialog CreateTestDialog()
+        private static Event CreateTestDialog()
         {
-            var dialogNode1 = new DialogNode
+            var dialogNode1 = new EventNode
             {
                 Text = "Описание ситуации."
             };
 
-            var dialogNode2 = new DialogNode
+            var dialogNode2 = new EventNode
             {
                 Text = "Описание последствий."
             };
 
             dialogNode1.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "Что-то сделать.",
                     Next = dialogNode2
@@ -124,14 +124,14 @@ namespace Rpg.Client.Core
 
             dialogNode2.Options = new[]
             {
-                new DialogOption
+                new EventOption
                 {
                     Text = "В бой!",
                     IsEnd = true
                 }
             };
 
-            var dialog = new Dialog
+            var dialog = new Event
             {
                 Nodes = new[]
                 {

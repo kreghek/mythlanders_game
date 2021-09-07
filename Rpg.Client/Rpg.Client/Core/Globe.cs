@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
 
         // TODO Save dialog id to fix nullification of active dialog after saves.
         [JsonIgnore]
-        public Dialog? AvailableDialog { get; internal set; }
+        public Event? AvailableDialog { get; internal set; }
 
         public IEnumerable<Biom> Bioms { get; }
 
@@ -211,7 +211,7 @@ namespace Rpg.Client.Core
             // create dialogs of nodes with combat
             var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
             // TODO Use Counter to get unused dialogs first.
-            var availableDialogs = DialogCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
+            var availableDialogs = EventCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .OrderBy(x => x.Counter);
             foreach (var node in nodesWithCombat)
             {

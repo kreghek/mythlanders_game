@@ -2,6 +2,6 @@
 {
     internal interface IOptionAftermath
     {
-        void Apply(IDialogContext dialogContext);
+        void Apply(IEventContext dialogContext);
     }
 }

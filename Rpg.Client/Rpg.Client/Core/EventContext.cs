@@ -2,11 +2,11 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class DialogContext : IDialogContext
+    internal sealed class EventContext : IEventContext
     {
         private readonly Globe _globe;
 
-        public DialogContext(Globe globe)
+        public EventContext(Globe globe)
         {
             _globe = globe;
         }

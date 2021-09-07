@@ -2,11 +2,11 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class Dialog
+    internal sealed class Event
     {
         public int Counter { get; set; }
         public bool IsUnique { get; set; }
-        public IEnumerable<DialogNode> Nodes { get; init; }
-        public DialogNode StartNode { get; init; }
+        public IEnumerable<EventNode> Nodes { get; init; }
+        public EventNode StartNode { get; init; }
     }
 }
