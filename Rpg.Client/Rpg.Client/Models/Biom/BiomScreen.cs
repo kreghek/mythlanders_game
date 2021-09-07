@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biom.GameObjects;
+using Rpg.Client.Models.Dump;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biom
@@ -19,6 +20,7 @@ namespace Rpg.Client.Models.Biom
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
+        private readonly CharactersModal _partyModal;
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
@@ -50,10 +52,20 @@ namespace Rpg.Client.Models.Biom
                 globeProvider.StoreGlobe();
             };
 
+            var partyModalButton = new TextButton("Party", _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+            partyModalButton.OnClick += (s, e) =>
+            {
+                _partyModal.Show();
+            };
+
+            _partyModal = new CharactersModal(_uiContentStorage, Game.GraphicsDevice, globeProvider);
+
             _menuButtons = new ButtonBase[]
             {
                 mapButton,
-                saveGameButton
+                saveGameButton,
+                partyModalButton
             };
         }
 
@@ -98,6 +110,11 @@ namespace Rpg.Client.Models.Biom
                 buttonIndex++;
             }
 
+            if (_partyModal.IsVisible)
+            {
+                _partyModal.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
         }
 
@@ -128,7 +145,11 @@ namespace Rpg.Client.Models.Biom
                 }
                 else
                 {
-                    if (!_screenTransition)
+                    if (_partyModal is not null && _partyModal.IsVisible)
+                    {
+                        _partyModal.Update();
+                    }
+                    else if (!_screenTransition)
                     {
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));

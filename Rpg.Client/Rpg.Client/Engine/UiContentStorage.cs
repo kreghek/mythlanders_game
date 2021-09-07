@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System;
+
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
@@ -7,6 +9,9 @@ namespace Rpg.Client.Engine
     {
         private Texture2D _buttonTexture;
         private SpriteFont _font;
+        private Texture2D _modalShadowTexture;
+        private Texture2D[] _modalTopTextures;
+        private Texture2D[] _modalBottomTextures;
 
         public Texture2D GetButtonTexture()
         {
@@ -18,10 +23,29 @@ namespace Rpg.Client.Engine
             return _font;
         }
 
+        public Texture2D[] GetModalBottomTextures()
+        {
+            return _modalBottomTextures ?? throw new InvalidOperationException();
+        }
+
+        public Texture2D[] GetModalTopTextures()
+        {
+            return _modalTopTextures ?? throw new InvalidOperationException();
+        }
+
+        public Texture2D GetModalShadowTexture()
+        {
+            return _modalShadowTexture ?? throw new InvalidOperationException();
+        }
+
         public void LoadContent(ContentManager contentManager)
         {
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
+
+            _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
+            _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
+            _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
         }
     }
 }
