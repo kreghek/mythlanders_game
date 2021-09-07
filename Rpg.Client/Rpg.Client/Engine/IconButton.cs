@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal sealed class IconButton : ButtonBase
+    internal sealed class IconButton : BaseButton
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;

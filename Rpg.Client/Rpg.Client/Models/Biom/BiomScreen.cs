@@ -12,28 +12,40 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biom
 {
-    internal class BiomScreen : GameScreenBase
+    public class BiomScreen : GameScreenBase
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+
         private readonly Globe _globe;
-        private readonly TextButton _mapButton;
+
+        private readonly TextBaseButton _mapBaseButton;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
+
         private readonly IUiContentStorage _uiContentStorage;
+
+        private readonly IDice _dice;
+
         private bool _isNodeModelsCreated;
+
         private bool _screenTransition;
 
-        public BiomScreen(Game game) : base(game)
+        public BiomScreen(Globe globe, GameObjectContentStorage gameObjectContentStorage, IUiContentStorage uiContentStorage,
+            IScreenManager screenManager, IDice dice)
+            : base(screenManager)
         {
-            var globe = game.Services.GetService<Globe>();
             _globe = globe;
-            _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _gameObjectContentStorage = gameObjectContentStorage;
+            _uiContentStorage = uiContentStorage;
+            _dice = dice;
             _nodeModels = new List<GlobeNodeGameObject>();
 
-            _mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            _mapButton.OnClick += (s, e) =>
+            _mapBaseButton = new TextBaseButton(
+                "To The Map",
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(),
+                new Rectangle(0, 0, 100, 25));
+            _mapBaseButton.OnClick += (s, e) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
@@ -42,9 +54,7 @@ namespace Rpg.Client.Models.Biom
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!_isNodeModelsCreated)
-            {
                 return;
-            }
 
             spriteBatch.Begin();
 
@@ -54,16 +64,21 @@ namespace Rpg.Client.Models.Biom
                 node.Draw(spriteBatch);
 
                 var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
-                    node.Position + new Vector2(0, 30), Color.Wheat);
+                spriteBatch.DrawString(
+                    _uiContentStorage.GetMainFont(),
+                    $"{node.Name}{dialogMarker}",
+                    node.Position + new Vector2(0, 30),
+                    Color.Wheat);
                 if (node.Combat is not null)
                 {
                     var monsterIndex = 0;
                     foreach (var monster in node.Combat.EnemyGroup.Units)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        spriteBatch.DrawString(
+                            _uiContentStorage.GetMainFont(),
                             $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
-                            node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
+                            node.Position + new Vector2(0, 60 + monsterIndex * 10),
+                            Color.White);
                         monsterIndex++;
                     }
                 }
@@ -76,7 +91,7 @@ namespace Rpg.Client.Models.Biom
         {
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                _globe.UpdateNodes(_dice);
                 _globe.IsNodeInitialied = true;
             }
             else
@@ -143,7 +158,7 @@ namespace Rpg.Client.Models.Biom
                 }
             }
 
-            _mapButton.Update();
+            _mapBaseButton.Update();
         }
     }
 }

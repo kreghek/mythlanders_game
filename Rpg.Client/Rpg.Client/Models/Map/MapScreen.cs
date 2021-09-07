@@ -10,27 +10,28 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Map
 {
-    internal class MapScreen : GameScreenBase
+    public class MapScreen : GameScreenBase
     {
-        private readonly IList<TextButton> _biomButtons;
+        private readonly IList<TextBaseButton> _biomButtons;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
+
+        private readonly IDice _dice;
+
         private bool _isNodeModelsCreated;
-
-        public MapScreen(Game game) : base(game)
+    
+        public MapScreen(IScreenManager screenManager, Globe globe, IUiContentStorage uiContentStorage, IDice dice) : base(screenManager)
         {
-            var globe = game.Services.GetService<Globe>();
             _globe = globe;
-
-            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-
-            _biomButtons = new List<TextButton>();
+            _uiContentStorage = uiContentStorage;
+            _dice = dice;
+            _biomButtons = new List<TextBaseButton>();
         }
-
+    
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-
+    
             if (_isNodeModelsCreated)
             {
                 var index = 0;
@@ -41,15 +42,15 @@ namespace Rpg.Client.Models.Map
                     index++;
                 }
             }
-
+    
             spriteBatch.End();
         }
-
+    
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                _globe.UpdateNodes(_dice);
                 _globe.IsNodeInitialied = true;
             }
             else
@@ -58,17 +59,17 @@ namespace Rpg.Client.Models.Map
                 {
                     foreach (var biom in _globe.Bioms.Where(x => x.IsAvailable).ToArray())
                     {
-                        var button = new TextButton(biom.Type.ToString(), _uiContentStorage.GetButtonTexture(),
+                        var button = new TextBaseButton(biom.Type.ToString(), _uiContentStorage.GetButtonTexture(),
                             _uiContentStorage.GetMainFont(), Rectangle.Empty);
                         button.OnClick += (s, e) =>
                         {
                             _globe.CurrentBiom = biom;
-
+    
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
                         };
                         _biomButtons.Add(button);
                     }
-
+    
                     _isNodeModelsCreated = true;
                 }
                 else

@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class DialogNode
+    public sealed class DialogNode
     {
         public IEnumerable<DialogOption> Options { get; set; }
         public string Text { get; init; }

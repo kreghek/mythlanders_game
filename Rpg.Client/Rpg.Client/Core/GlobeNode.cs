@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal class GlobeNode
+    public class GlobeNode
     {
         public Dialog? AvailableDialog { get; set; }
         public Combat? Combat { get; set; }

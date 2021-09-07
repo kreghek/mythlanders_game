@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal enum BiomType
+    public enum BiomType
     {
         Undefined,
         Slavic,

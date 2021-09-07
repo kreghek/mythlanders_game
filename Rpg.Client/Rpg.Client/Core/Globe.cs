@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class Globe
+    public sealed class Globe
     {
         public Globe()
         {

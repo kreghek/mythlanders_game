@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal class ActiveCombat
+    public class ActiveCombat
     {
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;

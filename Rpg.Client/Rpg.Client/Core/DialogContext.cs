@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class DialogContext : IDialogContext
+    public sealed class DialogContext : IDialogContext
     {
         private readonly Globe _globe;
 

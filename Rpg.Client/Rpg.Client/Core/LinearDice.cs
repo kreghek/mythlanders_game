@@ -6,7 +6,7 @@ namespace Rpg.Client.Core
     /// <summary>
     /// The implementation of the dice working by linear law.
     /// </summary>
-    internal class LinearDice : IDice
+    public class LinearDice : IDice
     {
         private readonly Random _random;
 
