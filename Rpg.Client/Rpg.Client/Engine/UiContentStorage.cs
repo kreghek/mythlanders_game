@@ -9,9 +9,9 @@ namespace Rpg.Client.Engine
     {
         private Texture2D _buttonTexture;
         private SpriteFont _font;
+        private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
-        private Texture2D[] _modalBottomTextures;
 
         public Texture2D GetButtonTexture()
         {

@@ -3,17 +3,17 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Dump
 {
     internal sealed class CharactersModal : ModalDialogBase
     {
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly GlobeProvider _globeProvider;
-
         private readonly IList<ButtonBase> _buttonList;
-        private Core.Unit? _selectedCharacter;
+        private readonly GlobeProvider _globeProvider;
+        private readonly IUiContentStorage _uiContentStorage;
+        private Unit? _selectedCharacter;
 
         public CharactersModal(
             IUiContentStorage uiContentStorage,
@@ -24,25 +24,6 @@ namespace Rpg.Client.Models.Dump
             _globeProvider = globeProvider;
 
             _buttonList = new List<ButtonBase>();
-        }
-
-        protected override void InitContent()
-        {
-            base.InitContent();
-
-            var globe = _globeProvider.Globe;
-            var playerCharacters = globe.Player.Group.Units;
-
-            _buttonList.Clear();
-            foreach (var character in playerCharacters)
-            {
-                var button = new TextButton(character.UnitScheme.Name, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), new Rectangle());
-                button.OnClick += (s, e) =>
-                {
-                    _selectedCharacter = character;
-                };
-                _buttonList.Add(button);
-            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -66,8 +47,29 @@ namespace Rpg.Client.Models.Dump
                 for (var statIndex = 0; statIndex < sb.Length; statIndex++)
                 {
                     var line = sb[statIndex];
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line, new Vector2(ContentRect.Center.X, ContentRect.Top + statIndex * 22), Color.White);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
+                        new Vector2(ContentRect.Center.X, ContentRect.Top + statIndex * 22), Color.White);
                 }
+            }
+        }
+
+        protected override void InitContent()
+        {
+            base.InitContent();
+
+            var globe = _globeProvider.Globe;
+            var playerCharacters = globe.Player.Group.Units;
+
+            _buttonList.Clear();
+            foreach (var character in playerCharacters)
+            {
+                var button = new TextButton(character.UnitScheme.Name, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle());
+                button.OnClick += (s, e) =>
+                {
+                    _selectedCharacter = character;
+                };
+                _buttonList.Add(button);
             }
         }
 
