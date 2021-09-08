@@ -28,6 +28,21 @@ namespace Rpg.Client.Models.Combat.Ui
                 graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), rect, Color.White);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result, rect.Location.ToVector2(), Color.Black);
+            if (Result == "Win")
+            {
+                var benefitsExpVect = new Vector2(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2, 
+                    graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Получили немного очков", benefitsExpVect, Color.Black);
+
+                var benefitsLvlVect = new Vector2(benefitsExpVect.X, benefitsExpVect.Y + 10);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Получили уровень?", benefitsLvlVect, Color.Black);
+            }
+            else
+            {
+                var lostVect = new Vector2(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2, 
+                    graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "К сожалению бой проигран", lostVect, Color.Brown);
+            }
         }
 
         public void Initialize(string result)

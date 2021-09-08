@@ -403,33 +403,27 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            if (_combat.CurrentUnit is not null)
+            if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
-                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
+                if (_combatSkillsPanel is not null)
                 {
-                    if (_combatSkillsPanel is not null)
-                    {
-                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                    }
-
-                    if (_combatSkillsPanel?.SelectedCard is not null)
-                    {
-                        var drawList = _combatSkillsPanel.SelectedCard.Skill.TargetType == SkillTarget.Enemy
-                            ? _enemyAttackList
-                            : _friendlyHealList;
-
-                        foreach (var button in drawList)
-                        {
-                            button.Draw(spriteBatch);
-                        }
-                    }
+                    _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
                 }
 
-                if (_combatResultPanel is not null)
+                if (_combatSkillsPanel?.SelectedCard is not null)
                 {
-                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
+                    var drawList = _combatSkillsPanel.SelectedCard.Skill.TargetType == SkillTarget.Enemy
+                        ? _enemyAttackList
+                        : _friendlyHealList;
+
+                    foreach (var button in drawList)
+                    {
+                        button.Draw(spriteBatch);
+                    }
                 }
             }
+            
+            _combatResultPanel?.Draw(spriteBatch, Game.GraphicsDevice);
 
             spriteBatch.End();
         }
