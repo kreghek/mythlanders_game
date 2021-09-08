@@ -39,7 +39,7 @@ namespace Rpg.Client.Models.Biom.GameObjects
             AvailableDialog = globeNode.AvailableDialog;
         }
 
-        public Dialog AvailableDialog { get; }
+        public Core.Event AvailableDialog { get; }
 
         public Core.Combat? Combat { get; }
         public int Index { get; }

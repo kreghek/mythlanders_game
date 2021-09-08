@@ -12,10 +12,10 @@ namespace Rpg.Client.Models.Event
     internal sealed class EventScreen : GameScreenBase
     {
         private readonly IList<ButtonBase> _buttons;
-        private readonly DialogContext _dialogContext;
+        private readonly EventContext _dialogContext;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
-        private DialogNode _currentDialogNode;
+        private EventNode _currentDialogNode;
 
         private bool _isInitialized;
 
@@ -29,7 +29,7 @@ namespace Rpg.Client.Models.Event
 
             _buttons = new List<ButtonBase>();
 
-            _dialogContext = new DialogContext(_globe);
+            _dialogContext = new EventContext(_globe);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

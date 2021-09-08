@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal interface IDialogContext
+    internal interface IEventContext
     {
         void AddNewCharacter(Unit unit);
     }

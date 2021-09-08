@@ -9,7 +9,7 @@
             _scheme = scheme;
         }
 
-        public void Apply(IDialogContext dialogContext)
+        public void Apply(IEventContext dialogContext)
         {
             //TODO Adjust level to average party level.
             const int DEFAULT_LEVEL = 1;

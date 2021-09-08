@@ -29,11 +29,13 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
+        public int XpToLevelup => 100 + CombatLevel * 100;
+
         public void GainXp(int amount)
         {
             Xp += amount;
 
-            var xpToLevel = 100 + CombatLevel * 100;
+            var xpToLevel = XpToLevelup;
             if (Xp >= xpToLevel)
             {
                 CombatLevel++;

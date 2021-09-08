@@ -1,10 +1,10 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal sealed class DialogOption
+    internal sealed class EventOption
     {
         public IOptionAftermath Aftermath { get; init; }
         public bool IsEnd { get; init; }
-        public DialogNode Next { get; init; }
+        public EventNode Next { get; init; }
         public string Text { get; init; }
     }
 }
