@@ -18,7 +18,8 @@ namespace Rpg.Client.Core
                     DamageMax = 12,
                     DamageMaxPerLevel = 2,
                     TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.Single
+                    Scope = SkillScope.Single,
+                    Range = Models.Combat.GameObjects.CombatPowerRange.Melee
                 },
                 new CombatSkill
                 {
@@ -46,7 +47,8 @@ namespace Rpg.Client.Core
                     DamageMax = 7,
                     DamageMaxPerLevel = 1,
                     TargetType = SkillTarget.Friendly,
-                    Scope = SkillScope.Single
+                    Scope = SkillScope.Single,
+                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
                 }
             }
         };
@@ -65,7 +67,8 @@ namespace Rpg.Client.Core
                     DamageMax = 17,
                     DamageMaxPerLevel = 2,
                     TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.Single
+                    Scope = SkillScope.Single,
+                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
                 },
                 new CombatSkill
                 {
@@ -74,7 +77,8 @@ namespace Rpg.Client.Core
                     DamageMax = 7,
                     DamageMaxPerLevel = 1,
                     TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.AllEnemyGroup
+                    Scope = SkillScope.AllEnemyGroup,
+                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
                 }
             }
         };

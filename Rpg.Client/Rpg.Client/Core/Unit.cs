@@ -67,7 +67,8 @@ namespace Rpg.Client.Core
                 DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
                 DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
                 TargetType = x.TargetType,
-                Scope = x.Scope
+                Scope = x.Scope,
+                Range = x.Range
             }).ToArray();
         }
 
