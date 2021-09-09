@@ -24,7 +24,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _attackInteraction = attackInteraction;
         }
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker): this(graphics, attackInteraction)
+        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker) : this(graphics, attackInteraction)
         {
             _animationBlocker = animationBlocker;
         }
