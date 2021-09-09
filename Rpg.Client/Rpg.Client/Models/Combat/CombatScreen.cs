@@ -30,6 +30,10 @@ namespace Rpg.Client.Models.Combat
         private CombatSkillPanel? _combatSkillsPanel;
         private bool _unitsInitialized;
 
+        private bool _bossWasDefeat;
+
+        private bool _finalBossWasDefeat;
+
         public CombatScreen(Game game) : base(game)
         {
             _globeProvider = game.Services.GetService<GlobeProvider>();
@@ -313,11 +317,12 @@ namespace Rpg.Client.Models.Combat
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
                         {
-                            _combatResultPanel.Initialize("Win");
+                            CalculateBenefits();
+                            _combatResultPanel.Initialize("Win", _combat);
                         }
                         else
                         {
-                            _combatResultPanel.Initialize("Fail");
+                            _combatResultPanel.Initialize("Fail", _combat);
                         }
 
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
@@ -332,8 +337,30 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
 
-            var bossWasDefeat = false;
-            var finalBossWasDefeat = false;
+            var dice = Game.Services.GetService<IDice>();
+            _globeProvider.Globe.UpdateNodes(dice);
+
+            if (_bossWasDefeat)
+            {
+                if (_finalBossWasDefeat)
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                }
+            }
+            else
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+            }
+        }
+
+        private void CalculateBenefits()
+        {
+            _bossWasDefeat = false;
+            _finalBossWasDefeat = false;
 
             if (_combatResultPanel.Result == "Win")
             {
@@ -342,11 +369,11 @@ namespace Rpg.Client.Models.Combat
                 if (_combat.Combat.IsBossLevel)
                 {
                     _combat.Biom.IsComplete = true;
-                    bossWasDefeat = true;
+                    _bossWasDefeat = true;
 
                     if (_combat.Biom.IsFinalBiom)
                     {
-                        finalBossWasDefeat = true;
+                        _finalBossWasDefeat = true;
                     }
                 }
 
@@ -364,25 +391,6 @@ namespace Rpg.Client.Models.Combat
                 {
                     _combat.Biom.Level = 0;
                 }
-            }
-
-            var dice = Game.Services.GetService<IDice>();
-            _globeProvider.Globe.UpdateNodes(dice);
-
-            if (bossWasDefeat)
-            {
-                if (finalBossWasDefeat)
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                }
-                else
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
-                }
-            }
-            else
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
             }
         }
 
