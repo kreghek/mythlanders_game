@@ -24,6 +24,7 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
+        private readonly IList<BulletGameObject> _bulletObjects;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatResultPanel? _combatResultPanel;
@@ -40,6 +41,7 @@ namespace Rpg.Client.Models.Combat
                       throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
 
             _gameObjects = new List<UnitGameObject>();
+            _bulletObjects = new List<BulletGameObject>();
             _enemyAttackList = new List<ButtonBase>();
             _friendlyHealList = new List<ButtonBase>();
 
@@ -135,6 +137,9 @@ namespace Rpg.Client.Models.Combat
                         var blocker = new AnimationBlocker();
                         _animationManager.AddBlocker(blocker);
 
+                        var bulletBlocker = new AnimationBlocker();
+                        _animationManager.AddBlocker(bulletBlocker);
+
                         if (_combatSkillsPanel is null)
                         {
                             Debug.Fail("Combat powers must be in use only after combat powers panel is initialized.");
@@ -151,7 +156,7 @@ namespace Rpg.Client.Models.Combat
                         switch (combatPowerScope)
                         {
                             case SkillScope.Single:
-                                attackerUnitGameObject.Attack(gameObject, blocker, _combatSkillsPanel.SelectedCard);
+                                attackerUnitGameObject.Attack(gameObject, blocker, bulletBlocker, _bulletObjects, _combatSkillsPanel.SelectedCard);
                                 break;
 
                             case SkillScope.AllEnemyGroup:
@@ -191,6 +196,18 @@ namespace Rpg.Client.Models.Combat
                 if (!_combat.Finished)
                 {
                     _combatSkillsPanel.Unit = _combat.CurrentUnit;
+
+                    foreach (var bullet in _bulletObjects.ToArray())
+                    {
+                        if (bullet.IsDestroyed)
+                        {
+                            _bulletObjects.Remove(bullet);
+                        }
+                        else
+                        {
+                            bullet.Update(gameTime);
+                        }
+                    }
 
                     foreach (var unitModel in _gameObjects)
                     {
@@ -241,6 +258,9 @@ namespace Rpg.Client.Models.Combat
                                 var blocker = new AnimationBlocker();
                                 _animationManager.AddBlocker(blocker);
 
+                                var bulletBlocker = new AnimationBlocker();
+                                _animationManager.AddBlocker(bulletBlocker);
+
                                 var targetPlayerObjects =
                                     _gameObjects.Where(x => x.Unit.Unit.IsPlayerControlled).ToArray();
 
@@ -259,7 +279,7 @@ namespace Rpg.Client.Models.Combat
                                 switch (combatPowerScope)
                                 {
                                     case SkillScope.Single:
-                                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, combatCard);
+                                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, bulletBlocker, _bulletObjects, combatCard);
                                         break;
 
                                     case SkillScope.AllEnemyGroup:
@@ -299,6 +319,18 @@ namespace Rpg.Client.Models.Combat
                 }
                 else
                 {
+                    foreach (var bullet in _bulletObjects.ToArray())
+                    {
+                        if (bullet.IsDestroyed)
+                        {
+                            _bulletObjects.Remove(bullet);
+                        }
+                        else
+                        {
+                            bullet.Update(gameTime);
+                        }
+                    }
+
                     foreach (var unitModel in _gameObjects)
                     {
                         unitModel.IsActive = false;
@@ -389,6 +421,11 @@ namespace Rpg.Client.Models.Combat
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
+            foreach (var bullet in _bulletObjects)
+            {
+                bullet.Draw(spriteBatch);
+            }
 
             var list = _gameObjects.ToArray();
             foreach (var gameObject in list)

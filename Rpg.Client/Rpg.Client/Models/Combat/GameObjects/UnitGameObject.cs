@@ -34,7 +34,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public CombatUnit? Unit { get; internal set; }
 
-        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
         {
             var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, () =>
             {
@@ -48,27 +48,38 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             });
 
-            IUnitStateEngine state;
-            if (combatSkillCard.Skill.Range == CombatPowerRange.Melee)
+            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
             {
-                state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                    attackInteraction);
-            }
-            else if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
-            {
-                state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                    attackInteraction);
+                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                bulletList.Add(bullet);
             }
             else
             {
-                Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
-
-                // This is fallback behaviour.
-                state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                    attackInteraction);
+                bulletBlocker.Release();
             }
 
+            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard, attackInteraction);
+
             AddStateEngine(state);
+        }
+
+        private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, AttackInteraction attackInteraction)
+        {
+            switch (combatSkillCard.Skill.Range)
+            {
+                case CombatPowerRange.Melee:
+                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
+
+                case CombatPowerRange.Distant:
+                    return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
+
+                case CombatPowerRange.Undefined:
+                default:
+                    Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+                    // This is fallback behaviour.
+                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker, attackInteraction);
+            }
         }
 
         public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
