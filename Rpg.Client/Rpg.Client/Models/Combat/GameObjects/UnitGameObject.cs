@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -46,8 +47,27 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     target.AddStateEngine(new WoundState(target._graphics));
                 }
             });
-            var state = new UnitAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                attackInteraction);
+
+            IUnitStateEngine state;
+            if (combatSkillCard.Skill.Range == CombatPowerRange.Melee)
+            {
+                state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                    attackInteraction);
+            }
+            else if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
+            {
+                state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                    attackInteraction);
+            }
+            else
+            {
+                Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+                // This is fallback behaviour.
+                state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                    attackInteraction);
+            }
+
             AddStateEngine(state);
         }
 
@@ -66,8 +86,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         x.AddStateEngine(new WoundState(x._graphics));
                     }
                 }));
+
             var state = new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 attackInteractions);
+
             AddStateEngine(state);
         }
 
