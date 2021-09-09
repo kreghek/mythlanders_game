@@ -20,10 +20,10 @@ namespace Rpg.Client.Models.Biom
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly CharactersModal _partyModal;
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
+        private readonly CharactersModal _partyModal;
         private readonly IUiContentStorage _uiContentStorage;
 
         private bool _isNodeModelsCreated;

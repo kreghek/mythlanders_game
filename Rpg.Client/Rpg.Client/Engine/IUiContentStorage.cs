@@ -7,12 +7,12 @@ namespace Rpg.Client.Engine
     {
         Texture2D GetButtonTexture();
         SpriteFont GetMainFont();
-        void LoadContent(ContentManager contentManager);
 
         Texture2D[] GetModalBottomTextures();
 
         Texture2D GetModalShadowTexture();
 
         Texture2D[] GetModalTopTextures();
+        void LoadContent(ContentManager contentManager);
     }
 }
