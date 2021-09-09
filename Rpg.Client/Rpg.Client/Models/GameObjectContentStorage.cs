@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System;
+
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models
@@ -22,6 +24,11 @@ namespace Rpg.Client.Models
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
+        }
+
+        internal Texture2D GetBulletGraphics()
+        {
+            return _mapNodes;
         }
 
         internal Texture2D GetCombatUnitMarker()
