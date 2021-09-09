@@ -13,7 +13,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private int _subStateIndex;
 
-        public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
+        public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+            SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
             var targetPosition =

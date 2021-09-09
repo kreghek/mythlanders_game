@@ -13,14 +13,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private int _subStateIndex;
 
-        public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
+        public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+            SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new HitState(graphics, attackInteraction, blocker),
+                new HitState(graphics, attackInteraction, blocker)
             };
             _graphics = graphics;
             _blocker = blocker;

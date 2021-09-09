@@ -18,13 +18,13 @@ namespace Rpg.Client.Models.Combat
     internal class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
+        private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
         private readonly IList<ButtonBase> _enemyAttackList;
         private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
-        private readonly IList<BulletGameObject> _bulletObjects;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatResultPanel? _combatResultPanel;
@@ -156,7 +156,8 @@ namespace Rpg.Client.Models.Combat
                         switch (combatPowerScope)
                         {
                             case SkillScope.Single:
-                                attackerUnitGameObject.Attack(gameObject, blocker, bulletBlocker, _bulletObjects, _combatSkillsPanel.SelectedCard);
+                                attackerUnitGameObject.Attack(gameObject, blocker, bulletBlocker, _bulletObjects,
+                                    _combatSkillsPanel.SelectedCard);
                                 break;
 
                             case SkillScope.AllEnemyGroup:
@@ -279,7 +280,8 @@ namespace Rpg.Client.Models.Combat
                                 switch (combatPowerScope)
                                 {
                                     case SkillScope.Single:
-                                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, bulletBlocker, _bulletObjects, combatCard);
+                                        attackerUnitGameObject.Attack(targetPlayerObject, blocker, bulletBlocker,
+                                            _bulletObjects, combatCard);
                                         break;
 
                                     case SkillScope.AllEnemyGroup:

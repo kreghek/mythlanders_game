@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Models.Combat.GameObjects;
+
 namespace Rpg.Client.Core
 {
     internal static class UnitSchemeCatalog
@@ -19,7 +21,7 @@ namespace Rpg.Client.Core
                     DamageMaxPerLevel = 2,
                     TargetType = SkillTarget.Enemy,
                     Scope = SkillScope.Single,
-                    Range = Models.Combat.GameObjects.CombatPowerRange.Melee
+                    Range = CombatPowerRange.Melee
                 },
                 new CombatSkill
                 {
@@ -48,7 +50,7 @@ namespace Rpg.Client.Core
                     DamageMaxPerLevel = 1,
                     TargetType = SkillTarget.Friendly,
                     Scope = SkillScope.Single,
-                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
+                    Range = CombatPowerRange.Distant
                 }
             }
         };
@@ -68,7 +70,7 @@ namespace Rpg.Client.Core
                     DamageMaxPerLevel = 2,
                     TargetType = SkillTarget.Enemy,
                     Scope = SkillScope.Single,
-                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
+                    Range = CombatPowerRange.Distant
                 },
                 new CombatSkill
                 {
@@ -78,7 +80,7 @@ namespace Rpg.Client.Core
                     DamageMaxPerLevel = 1,
                     TargetType = SkillTarget.Enemy,
                     Scope = SkillScope.AllEnemyGroup,
-                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
+                    Range = CombatPowerRange.Distant
                 }
             }
         };

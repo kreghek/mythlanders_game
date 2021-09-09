@@ -7,22 +7,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class BulletGameObject
     {
+        private const double DURATION_SECONDS = 1.0;
+        private readonly AnimationBlocker _blocker;
+        private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Vector2 _startPosition;
-        private readonly Vector2 _endPosition;
-        private readonly AnimationBlocker _blocker;
         private double _counter;
-        private const double DURATION_SECONDS = 1.0;
 
-        public bool IsDestroyed { get; private set; }
-
-        public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage, AnimationBlocker blocker)
+        public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
+            AnimationBlocker blocker)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics());
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;
         }
+
+        public bool IsDestroyed { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

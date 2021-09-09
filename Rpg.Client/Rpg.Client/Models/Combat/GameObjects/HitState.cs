@@ -10,8 +10,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class HitState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly AttackInteraction _attackInteraction;
         private readonly AnimationBlocker? _animationBlocker;
+        private readonly AttackInteraction _attackInteraction;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
@@ -24,7 +24,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _attackInteraction = attackInteraction;
         }
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker) : this(graphics, attackInteraction)
+        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker) :
+            this(graphics, attackInteraction)
         {
             _animationBlocker = animationBlocker;
         }
