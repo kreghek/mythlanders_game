@@ -19,7 +19,7 @@ namespace Rpg.Client.Core
                     DamageMaxPerLevel = 2,
                     TargetType = SkillTarget.Enemy,
                     Scope = SkillScope.Single,
-                    Range = Models.Combat.GameObjects.CombatPowerRange.Distant
+                    Range = Models.Combat.GameObjects.CombatPowerRange.Melee
                 },
                 new CombatSkill
                 {
