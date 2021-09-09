@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -33,7 +34,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public CombatUnit? Unit { get; internal set; }
 
-        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
         {
             var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, () =>
             {
@@ -46,8 +48,20 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     target.AddStateEngine(new WoundState(target._graphics));
                 }
             });
-            var state = new UnitAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+
+            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
+            {
+                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                bulletList.Add(bullet);
+            }
+            else
+            {
+                bulletBlocker.Release();
+            }
+
+            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
                 attackInteraction);
+
             AddStateEngine(state);
         }
 
@@ -66,8 +80,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         x.AddStateEngine(new WoundState(x._graphics));
                     }
                 }));
+
             var state = new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 attackInteractions);
+
             AddStateEngine(state);
         }
 
@@ -119,6 +135,29 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             _actorStateEngineList.Add(actorStateEngine);
+        }
+
+        private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
+            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, AttackInteraction attackInteraction)
+        {
+            switch (combatSkillCard.Skill.Range)
+            {
+                case CombatPowerRange.Melee:
+                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        attackInteraction);
+
+                case CombatPowerRange.Distant:
+                    return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                        animationBlocker, attackInteraction);
+
+                case CombatPowerRange.Undefined:
+                default:
+                    Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+                    // This is fallback behaviour.
+                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        attackInteraction);
+            }
         }
 
         private void HandleEngineStates(GameTime gameTime)

@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class UnitMeleeAttackState : IUnitStateEngine
+    internal class UnitDistantAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly UnitGraphics _graphics;
@@ -13,7 +13,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private int _subStateIndex;
 
-        public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+        public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
@@ -21,9 +21,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new HitState(graphics, attackInteraction),
-                new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
+                new HitState(graphics, attackInteraction, blocker)
             };
             _graphics = graphics;
             _blocker = blocker;
