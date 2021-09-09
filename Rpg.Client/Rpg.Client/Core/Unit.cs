@@ -48,13 +48,13 @@ namespace Rpg.Client.Core
         public void TakeDamage(int damage)
         {
             Hp -= Math.Min(Hp, damage);
-            DamageTaken?.Invoke(this, EventArgs.Empty);
+            DamageTaken?.Invoke(this, damage);
         }
 
         public void TakeHeal(int heal)
         {
             Hp += Math.Min(MaxHp - Hp, heal);
-            HealTaken?.Invoke(this, EventArgs.Empty);
+            HealTaken?.Invoke(this, heal);
         }
 
         private void InitStats(UnitScheme unitScheme, int combatLevel)
@@ -71,8 +71,8 @@ namespace Rpg.Client.Core
             }).ToArray();
         }
 
-        public event EventHandler DamageTaken;
+        public event EventHandler<int> DamageTaken;
 
-        public event EventHandler HealTaken;
+        public event EventHandler<int> HealTaken;
     }
 }

@@ -22,7 +22,7 @@ namespace Rpg.Client.Models.Title
         private readonly IList<ButtonBase> _buttons;
         private readonly GlobeProvider _globeProvider;
 
-        public TitleScreen(Game game) : base(game)
+        public TitleScreen(EwarGame game) : base(game)
         {
             _globeProvider = Game.Services.GetService<GlobeProvider>();
 
@@ -83,6 +83,8 @@ namespace Rpg.Client.Models.Title
             }
 
             spriteBatch.End();
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -91,6 +93,8 @@ namespace Rpg.Client.Models.Title
             {
                 button.Update();
             }
+
+            base.Update(gameTime);
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)

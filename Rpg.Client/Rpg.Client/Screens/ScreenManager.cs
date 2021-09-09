@@ -14,9 +14,9 @@ namespace Rpg.Client.Screens
 {
     internal class ScreenManager : IScreenManager
     {
-        private readonly Game _game;
+        private readonly EwarGame _game;
 
-        public ScreenManager(Game game)
+        public ScreenManager(EwarGame game)
         {
             _game = game;
         }

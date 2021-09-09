@@ -19,7 +19,7 @@ namespace Rpg.Client.Models.Event
 
         private bool _isInitialized;
 
-        public EventScreen(Game game) : base(game)
+        public EventScreen(EwarGame game) : base(game)
         {
             _globe = game.Services.GetService<GlobeProvider>().Globe;
 
@@ -51,6 +51,8 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.End();
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -92,6 +94,8 @@ namespace Rpg.Client.Models.Event
 
                 _isInitialized = true;
             }
+
+            base.Update(gameTime);
         }
     }
 }
