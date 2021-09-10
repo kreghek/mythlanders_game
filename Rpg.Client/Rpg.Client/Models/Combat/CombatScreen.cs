@@ -477,7 +477,7 @@ namespace Rpg.Client.Models.Combat
                     }
                 }
             }
-            
+
             _combatResultPanel?.Draw(spriteBatch, Game.GraphicsDevice);
 
             spriteBatch.End();
