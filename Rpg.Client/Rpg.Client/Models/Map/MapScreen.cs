@@ -17,7 +17,7 @@ namespace Rpg.Client.Models.Map
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
 
-        public MapScreen(Game game) : base(game)
+        public MapScreen(EwarGame game) : base(game)
         {
             var globe = game.Services.GetService<GlobeProvider>().Globe;
             _globe = globe;
@@ -43,6 +43,8 @@ namespace Rpg.Client.Models.Map
             }
 
             spriteBatch.End();
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -79,6 +81,8 @@ namespace Rpg.Client.Models.Map
                     }
                 }
             }
+
+            base.Update(gameTime);
         }
     }
 }

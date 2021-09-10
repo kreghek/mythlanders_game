@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Rpg.Client.Core.Effects;
+
 namespace Rpg.Client.Core
 {
     internal class CombatUnit
@@ -18,9 +20,12 @@ namespace Rpg.Client.Core
             }
 
             CombatCards = cards;
+            CombatEffects = new List<CombatEffectBase>();
         }
 
         public IEnumerable<CombatSkillCard>? CombatCards { get; }
+
+        public ICollection<CombatEffectBase> CombatEffects { get; }
 
         public Unit Unit { get; }
     }

@@ -29,7 +29,7 @@ namespace Rpg.Client.Models.Biom
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public BiomScreen(Game game) : base(game)
+        public BiomScreen(EwarGame game) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
@@ -116,6 +116,8 @@ namespace Rpg.Client.Models.Biom
             }
 
             spriteBatch.End();
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -197,6 +199,8 @@ namespace Rpg.Client.Models.Biom
             {
                 button.Update();
             }
+
+            base.Update(gameTime);
         }
     }
 }

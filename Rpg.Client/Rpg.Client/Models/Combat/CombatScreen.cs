@@ -31,7 +31,7 @@ namespace Rpg.Client.Models.Combat
         private CombatSkillPanel? _combatSkillsPanel;
         private bool _unitsInitialized;
 
-        public CombatScreen(Game game) : base(game)
+        public CombatScreen(EwarGame game) : base(game)
         {
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
@@ -57,6 +57,8 @@ namespace Rpg.Client.Models.Combat
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch);
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -77,7 +79,7 @@ namespace Rpg.Client.Models.Combat
                 var index = 0;
                 foreach (var unit in playerUnits)
                 {
-                    var position = new Vector2(100, index * 128 + 100);
+                    var position = GetUnitPosition(index, true);
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
@@ -124,7 +126,7 @@ namespace Rpg.Client.Models.Combat
                 index = 0;
                 foreach (var unit in cpuUnits)
                 {
-                    var position = new Vector2(400, index * 128 + 100);
+                    var position = GetUnitPosition(index, false);
                     var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
                     _gameObjects.Add(gameObject);
 
@@ -185,6 +187,12 @@ namespace Rpg.Client.Models.Combat
                     _enemyAttackList.Add(iconButton);
 
                     index++;
+                }
+
+                foreach (var unit in _combat.Units)
+                {
+                    unit.Unit.DamageTaken += Unit_DamageTaken;
+                    unit.Unit.HealTaken += Unit_HealTaken;
                 }
 
                 _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
@@ -360,6 +368,31 @@ namespace Rpg.Client.Models.Combat
                     _combatResultPanel.Update(gameTime);
                 }
             }
+
+            base.Update(gameTime);
+        }
+
+        private void Unit_HealTaken(object? sender, int e)
+        {
+            AddComponent(new HpChanged(Game, e, GetUnitPosition((Unit)sender)));
+        }
+
+        private Vector2 GetUnitPosition(int index, bool friendly)
+        {
+            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
+        }
+
+        private Vector2 GetUnitPosition(Unit unit)
+        {
+            var unitWithIndex = _combat.Units.Where(x => x.Unit.IsPlayerControlled == unit.IsPlayerControlled)
+                .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
+
+            return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
+        }
+
+        private void Unit_DamageTaken(object? sender, int e)
+        {
+            AddComponent(new HpChanged(Game,  -e, GetUnitPosition((Unit)sender)));
         }
 
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
