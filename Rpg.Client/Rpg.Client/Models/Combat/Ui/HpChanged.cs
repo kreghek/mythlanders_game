@@ -14,14 +14,14 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int LIFETIME = 2000;
 
         private readonly int _amount;
-        private Vector2 _position;
-        private Color _color;
+        private readonly Color _color;
 
         private int _lifetime;
+        private Vector2 _position;
 
-        private Vector2 _speed = new (0, 10f / 1000f);
+        private readonly Vector2 _speed = new(0, 10f / 1000f);
 
-        public HpChanged(EwarGame game,int amount, Vector2 startPosition) : base(game)
+        public HpChanged(EwarGame game, int amount, Vector2 startPosition) : base(game)
         {
             _amount = amount;
             _color = _amount >= 0 ? Color.LightGreen : Color.Red;
@@ -34,7 +34,7 @@ namespace Rpg.Client.Models.Combat.Ui
             var ui = Game.Services.GetService<IUiContentStorage>();
 
             spriteBatch.DrawString(ui.GetMainFont(), $"{_amount}", _position, _color);
-            
+
             base.Draw(gameTime, spriteBatch);
         }
 
@@ -45,6 +45,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 Remove();
                 return;
             }
+
             var elapsed = gameTime.ElapsedGameTime.Milliseconds;
 
             _position += _speed * elapsed;

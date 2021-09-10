@@ -372,29 +372,6 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void Unit_HealTaken(object? sender, int e)
-        {
-            AddComponent(new HpChanged(Game, e, GetUnitPosition((Unit)sender)));
-        }
-
-        private Vector2 GetUnitPosition(int index, bool friendly)
-        {
-            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
-        }
-
-        private Vector2 GetUnitPosition(Unit unit)
-        {
-            var unitWithIndex = _combat.Units.Where(x => x.Unit.IsPlayerControlled == unit.IsPlayerControlled)
-                .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
-
-            return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
-        }
-
-        private void Unit_DamageTaken(object? sender, int e)
-        {
-            AddComponent(new HpChanged(Game,  -e, GetUnitPosition((Unit)sender)));
-        }
-
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
@@ -504,6 +481,29 @@ namespace Rpg.Client.Models.Combat
             }
 
             spriteBatch.End();
+        }
+
+        private Vector2 GetUnitPosition(int index, bool friendly)
+        {
+            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
+        }
+
+        private Vector2 GetUnitPosition(Unit unit)
+        {
+            var unitWithIndex = _combat.Units.Where(x => x.Unit.IsPlayerControlled == unit.IsPlayerControlled)
+                .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
+
+            return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
+        }
+
+        private void Unit_DamageTaken(object? sender, int e)
+        {
+            AddComponent(new HpChanged(Game, -e, GetUnitPosition((Unit)sender)));
+        }
+
+        private void Unit_HealTaken(object? sender, int e)
+        {
+            AddComponent(new HpChanged(Game, e, GetUnitPosition((Unit)sender)));
         }
     }
 }

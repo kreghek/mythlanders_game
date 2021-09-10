@@ -9,17 +9,27 @@ namespace Rpg.Client.GameComponents
 {
     internal abstract class EwarDrawableComponentBase : IEwarDrawableComponent
     {
-        protected ICollection<IEwarDrawableComponent> ComponentsCollection { get; }
-
-        private Queue<IEwarDrawableComponent> _componentsToRemove;
-        protected EwarGame Game { get; }
-        protected SpriteBatch SpriteBatch { get; }
+        private readonly Queue<IEwarDrawableComponent> _componentsToRemove;
 
         protected EwarDrawableComponentBase(EwarGame game)
         {
             Game = game;
             ComponentsCollection = new List<IEwarDrawableComponent>();
             _componentsToRemove = new Queue<IEwarDrawableComponent>();
+        }
+
+        protected ICollection<IEwarDrawableComponent> ComponentsCollection { get; }
+        protected EwarGame Game { get; }
+        protected SpriteBatch SpriteBatch { get; }
+
+        protected void Remove()
+        {
+            NeedRemove?.Invoke(this, this);
+        }
+
+        private void Component_NeedRemove(object? sender, IEwarDrawableComponent e)
+        {
+            RemoveComponent(e);
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -52,11 +62,6 @@ namespace Rpg.Client.GameComponents
             AddChild?.Invoke(this, component);
         }
 
-        private void Component_NeedRemove(object? sender, IEwarDrawableComponent e)
-        {
-            RemoveComponent(e);
-        }
-
         public void RemoveComponent(IEwarDrawableComponent component)
         {
             component.NeedRemove -= Component_NeedRemove;
@@ -67,11 +72,6 @@ namespace Rpg.Client.GameComponents
         public bool HasComponent(IEwarDrawableComponent component)
         {
             return ComponentsCollection.Contains(component);
-        }
-
-        protected void Remove()
-        {
-            NeedRemove?.Invoke(this, this);
         }
 
         public event EventHandler<IEwarDrawableComponent>? RemoveChild;
