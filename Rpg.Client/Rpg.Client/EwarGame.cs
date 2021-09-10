@@ -46,6 +46,8 @@ namespace Rpg.Client
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Services.AddService(_spriteBatch);
+
             var gameObjectContentStorage = Services.GetService<GameObjectContentStorage>();
             gameObjectContentStorage.LoadContent(Content);
 

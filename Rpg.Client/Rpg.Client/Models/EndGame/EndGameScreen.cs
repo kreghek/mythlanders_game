@@ -11,7 +11,7 @@ namespace Rpg.Client.Models.EndGame
         private readonly TextButton _backButton;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public EndGameScreen(Game game) : base(game)
+        public EndGameScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _backButton = new TextButton("Back", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
@@ -31,11 +31,15 @@ namespace Rpg.Client.Models.EndGame
             _backButton.Rect = new Rectangle(100, 150, 100, 20);
             _backButton.Draw(spriteBatch);
             spriteBatch.End();
+
+            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
         {
             _backButton.Update();
+
+            base.Update(gameTime);
         }
     }
 }

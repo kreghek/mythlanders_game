@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 
+using Rpg.Client.GameComponents;
+
 namespace Rpg.Client.Screens
 {
-    internal interface IScreen
+    internal interface IScreen : IEwarDrawableComponent
     {
         IScreen? TargetScreen { get; set; }
-        void Draw(GameTime gameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch);
-        void Update(GameTime gameTime);
     }
 }
