@@ -24,6 +24,13 @@ namespace Rpg.Client.Models.Title
 
         public TitleScreen(EwarGame game) : base(game)
         {
+            #if DEBUG
+                var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
+                graphicsManager.IsFullScreen = false;
+                graphicsManager.PreferredBackBufferWidth = 800;
+                graphicsManager.PreferredBackBufferHeight = 480;
+                graphicsManager.ApplyChanges();
+            #endif
             _globeProvider = Game.Services.GetService<GlobeProvider>();
 
             var uiContentService = game.Services.GetService<IUiContentStorage>();

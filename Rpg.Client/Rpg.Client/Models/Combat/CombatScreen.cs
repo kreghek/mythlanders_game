@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,6 +30,10 @@ namespace Rpg.Client.Models.Combat
         private CombatResultPanel? _combatResultPanel;
         private CombatSkillPanel? _combatSkillsPanel;
         private bool _unitsInitialized;
+
+        private bool _bossWasDefeat;
+
+        private bool _finalBossWasDefeat;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -355,11 +359,12 @@ namespace Rpg.Client.Models.Combat
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
                         {
-                            _combatResultPanel.Initialize("Win");
+                            CalculateBenefits();
+                            _combatResultPanel.Initialize("Win", _combat);
                         }
                         else
                         {
-                            _combatResultPanel.Initialize("Fail");
+                            _combatResultPanel.Initialize("Fail", _combat);
                         }
 
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
@@ -376,8 +381,30 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
 
-            var bossWasDefeat = false;
-            var finalBossWasDefeat = false;
+            var dice = Game.Services.GetService<IDice>();
+            _globeProvider.Globe.UpdateNodes(dice);
+
+            if (_bossWasDefeat)
+            {
+                if (_finalBossWasDefeat)
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                }
+            }
+            else
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+            }
+        }
+
+        private void CalculateBenefits()
+        {
+            _bossWasDefeat = false;
+            _finalBossWasDefeat = false;
 
             if (_combatResultPanel.Result == "Win")
             {
@@ -386,11 +413,11 @@ namespace Rpg.Client.Models.Combat
                 if (_combat.Combat.IsBossLevel)
                 {
                     _combat.Biom.IsComplete = true;
-                    bossWasDefeat = true;
+                    _bossWasDefeat = true;
 
                     if (_combat.Biom.IsFinalBiom)
                     {
-                        finalBossWasDefeat = true;
+                        _finalBossWasDefeat = true;
                     }
                 }
 
@@ -409,35 +436,11 @@ namespace Rpg.Client.Models.Combat
                     _combat.Biom.Level = 0;
                 }
             }
-
-            var dice = Game.Services.GetService<IDice>();
-            _globeProvider.Globe.UpdateNodes(dice);
-
-            if (bossWasDefeat)
-            {
-                if (finalBossWasDefeat)
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                }
-                else
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
-                }
-            }
-            else
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
-            }
         }
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-
-            foreach (var bullet in _bulletObjects)
-            {
-                bullet.Draw(spriteBatch);
-            }
 
             var list = _gameObjects.ToArray();
             foreach (var gameObject in list)
@@ -452,33 +455,27 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            if (_combat.CurrentUnit is not null)
+            if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
-                if (_combat.CurrentUnit.Unit.IsPlayerControlled && !_animationManager.HasBlockers)
+                if (_combatSkillsPanel is not null)
                 {
-                    if (_combatSkillsPanel is not null)
-                    {
-                        _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
-                    }
-
-                    if (_combatSkillsPanel?.SelectedCard is not null)
-                    {
-                        var drawList = _combatSkillsPanel.SelectedCard.Skill.TargetType == SkillTarget.Enemy
-                            ? _enemyAttackList
-                            : _friendlyHealList;
-
-                        foreach (var button in drawList)
-                        {
-                            button.Draw(spriteBatch);
-                        }
-                    }
+                    _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
                 }
 
-                if (_combatResultPanel is not null)
+                if (_combatSkillsPanel?.SelectedCard is not null)
                 {
-                    _combatResultPanel.Draw(spriteBatch, Game.GraphicsDevice);
+                    var drawList = _combatSkillsPanel.SelectedCard.Skill.TargetType == SkillTarget.Enemy
+                        ? _enemyAttackList
+                        : _friendlyHealList;
+
+                    foreach (var button in drawList)
+                    {
+                        button.Draw(spriteBatch);
+                    }
                 }
             }
+            
+            _combatResultPanel?.Draw(spriteBatch, Game.GraphicsDevice);
 
             spriteBatch.End();
         }
