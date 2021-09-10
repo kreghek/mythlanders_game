@@ -156,7 +156,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                 case CombatPowerRange.Distant:
                     var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker, attackInteraction);
-                    
+
                     return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
                         animationBlocker, attackInteraction, bullet, bulletList);
 
