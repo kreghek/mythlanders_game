@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,17 +10,68 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.Ui
 {
-    using System.Linq;
-
-    using Core;
-
     internal sealed class CombatResultPanel
     {
         private const int PANEL_HEIGHT = 40;
         private const int PANEL_WIDTH = 400;
         private readonly IUiContentStorage _uiContentStorage;
 
-        private ActiveCombat? _combat;
+        private sealed class XpItem
+        {
+            private const int XP_COUNTER_SPEED = 2;
+
+            public XpItem(GainLevelResult item)
+            {
+                UnitName = item.Unit.UnitScheme.Name;
+                XpAmount = item.XpAmount;
+                StartXp = item.StartXp;
+                XpToLevelup = item.XpToLevelup;
+                CurrentXp = StartXp;
+            }
+
+            public string UnitName { get; }
+            public int XpAmount { get; }
+            public int StartXp { get; }
+            public int XpToLevelup { get; }
+
+            public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
+
+            public bool XpCountingComplete { get; private set; }
+
+            public int CurrentXp { get; private set; }
+
+            public int CountedXp { get; private set; }
+
+            public bool IsShowLevelUpIndicator { get; private set; }
+
+            public void Update()
+            {
+                if (XpCountingComplete)
+                {
+                    return;
+                }
+
+                if (XpAmount == 0)
+                {
+                    XpCountingComplete = true;
+                    return;
+                }
+
+                CurrentXp += XP_COUNTER_SPEED;
+                CountedXp += XP_COUNTER_SPEED;
+
+                if (CurrentXp >= XpToLevelup)
+                {
+                    CurrentXp -= XP_COUNTER_SPEED;
+                    IsShowLevelUpIndicator = true;
+                }
+
+                if (CountedXp >= XpAmount)
+                {
+                    XpCountingComplete = true;
+                }
+            }
+        }
 
         public CombatResultPanel(IUiContentStorage uiContentStorage)
         {
@@ -26,13 +79,13 @@ namespace Rpg.Client.Models.Combat.Ui
         }
 
         public bool IsVisible { get; private set; }
-        public string Result { get; set; }
+        public CombatResult Result { get; set; }
 
-        private GainLevelResult[]? _xpItems;
+        private XpItem[]? _xpItems;
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            if (Result == "Win")
+            if (Result == CombatResult.Victory)
             {
                 ShowWinBenefits(spriteBatch, graphicsDevice);
             }
@@ -41,7 +94,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 var rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
                     graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), rect, Color.White);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result, rect.Location.ToVector2(), Color.Black);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result.ToString(), rect.Location.ToVector2(), Color.Black);
 
                 var lostVect = new Vector2(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
                     graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10);
@@ -50,20 +103,37 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        public void Initialize(string result, ActiveCombat activeCombat,
-            System.Collections.Generic.IEnumerable<GainLevelResult> xpItems)
+        public void Initialize(CombatResult result, IEnumerable<GainLevelResult> xpItems)
         {
-            _combat = activeCombat;
             Result = result;
-            _xpItems = xpItems.ToArray();
+            _xpItems = xpItems.Select(x => new XpItem(x)).ToArray();
             IsVisible = true;
         }
+
+        private double _iterationCounter;
 
         internal void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 Closed?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (_xpItems is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_iterationCounter >= 0.01)
+            {
+
+                foreach (var item in _xpItems)
+                {
+                    item.Update();
+                }
+                _iterationCounter = 0;
             }
         }
 
@@ -76,7 +146,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 PANEL_HEIGHT);
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), rect, Color.White);
             var resultVect = rect.Location.ToVector2();
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result, resultVect, Color.Black);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result.ToString(), resultVect, Color.Black);
 
             var benefitsVect = new Vector2(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
                 resultVect.Y + 10);
@@ -86,9 +156,9 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 var item = xpItems[itemIndex];
                 var benefitsLvlVect = new Vector2(benefitsVect.X, benefitsVect.Y + 10 * (itemIndex + 1));
-                var unitBenefit = $"{item.Unit.UnitScheme.Name}: +{item.XpAmount}XP";
+                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
 
-                if (item.IsLevelUp)
+                if (item.IsShowLevelUpIndicator)
                 {
                     unitBenefit += " LEVELUP!";
                 }
@@ -97,6 +167,6 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        public event EventHandler Closed;
+        public event EventHandler? Closed;
     }
 }

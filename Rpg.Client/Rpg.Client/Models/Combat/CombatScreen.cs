@@ -362,15 +362,15 @@ namespace Rpg.Client.Models.Combat
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
                         {
-                            var xpItems = HandleGainXp();
+                            var xpItems = HandleGainXp().ToArray();
                             ApplyXp(xpItems);
                             HandleGlobe(true);
-                            _combatResultPanel.Initialize("Win", _combat, xpItems);
+                            _combatResultPanel.Initialize(CombatResult.Victory, xpItems);
                         }
                         else
                         {
                             HandleGlobe(false);
-                            _combatResultPanel.Initialize("Fail", _combat, Array.Empty<GainLevelResult>());
+                            _combatResultPanel.Initialize(CombatResult.Defeat, Array.Empty<GainLevelResult>());
                         }
 
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
@@ -425,9 +425,22 @@ namespace Rpg.Client.Models.Combat
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
 
+            var summaryXp = monsters.Sum(x => x.Unit.XpReward);
+            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
+
+            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
+
+            var remainsUsed = false;
             foreach (var unit in aliveUnits)
             {
-                var gainedXp = 5 * (_combat.Combat.Level * 2) * monsters.Length / aliveUnits.Length;
+                var gainedXp = xpPerPlayerUnit;
+
+                if (!remainsUsed)
+                {
+                    gainedXp += remains;
+                    remainsUsed = true;
+                }
+
                 yield return new GainLevelResult
                 {
                     StartXp = unit.Unit.Xp,

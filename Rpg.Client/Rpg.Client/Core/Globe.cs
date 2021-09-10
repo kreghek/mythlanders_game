@@ -245,7 +245,8 @@ namespace Rpg.Client.Core
                     uniqueIsUsed = true;
                 }
 
-                var unit = new Unit(unitScheme, combatLevel);
+                var unitLevel = combatLevel + 1; //+1 because combat starts with zero.
+                var unit = new Unit(unitScheme, unitLevel);
                 units.Add(unit);
             }
 

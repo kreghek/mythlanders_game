@@ -9,12 +9,14 @@ namespace Rpg.Client.Core
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
             UnitScheme = unitScheme;
-            CombatLevel = combatLevel;
+            Level = combatLevel;
 
             InitStats(unitScheme, combatLevel);
         }
 
-        public int CombatLevel { get; set; }
+        public int Level { get; set; }
+
+        public int XpReward => Level * 20;
 
         public int Hp { get; set; }
 
@@ -29,7 +31,7 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
-        public int XpToLevelup => 100 + CombatLevel * 100;
+        public int XpToLevelup => 100 + Level * 100;
 
         /// <summary>
         /// Increase XP.
@@ -42,10 +44,10 @@ namespace Rpg.Client.Core
             var xpToLevel = XpToLevelup;
             if (Xp >= xpToLevel)
             {
-                CombatLevel++;
+                Level++;
                 Xp -= xpToLevel;
 
-                InitStats(UnitScheme, CombatLevel);
+                InitStats(UnitScheme, Level);
 
                 return true;
             }
@@ -69,7 +71,7 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme, int combatLevel)
         {
-            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * CombatLevel;
+            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
             Hp = MaxHp;
 
             Skills = unitScheme.Skills.Select(x => new CombatSkill
