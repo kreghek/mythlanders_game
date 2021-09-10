@@ -66,7 +66,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
-            AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
+            AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
+            CombatSkillCard combatSkillCard)
         {
             var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
                 .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
@@ -171,7 +172,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, IEnumerable<AttackInteraction> attackInteractions)
+            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
+            IEnumerable<AttackInteraction> attackInteractions)
         {
             switch (combatSkillCard.Skill.Range)
             {

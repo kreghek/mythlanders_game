@@ -27,13 +27,13 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
-        private CombatResultPanel? _combatResultPanel;
-        private CombatSkillPanel? _combatSkillsPanel;
-        private bool _unitsInitialized;
 
         private bool _bossWasDefeat;
+        private CombatResultPanel? _combatResultPanel;
+        private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
+        private bool _unitsInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -380,30 +380,6 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void CombatResultPanel_Closed(object? sender, EventArgs e)
-        {
-            _animationManager.DropBlockers();
-
-            var dice = Game.Services.GetService<IDice>();
-            _globeProvider.Globe.UpdateNodes(dice);
-
-            if (_bossWasDefeat)
-            {
-                if (_finalBossWasDefeat)
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                }
-                else
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
-                }
-            }
-            else
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
-            }
-        }
-
         private void CalculateBenefits()
         {
             _bossWasDefeat = false;
@@ -438,6 +414,30 @@ namespace Rpg.Client.Models.Combat
                 {
                     _combat.Biom.Level = 0;
                 }
+            }
+        }
+
+        private void CombatResultPanel_Closed(object? sender, EventArgs e)
+        {
+            _animationManager.DropBlockers();
+
+            var dice = Game.Services.GetService<IDice>();
+            _globeProvider.Globe.UpdateNodes(dice);
+
+            if (_bossWasDefeat)
+            {
+                if (_finalBossWasDefeat)
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                }
+            }
+            else
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
             }
         }
 
@@ -477,7 +477,7 @@ namespace Rpg.Client.Models.Combat
                     }
                 }
             }
-            
+
             _combatResultPanel?.Draw(spriteBatch, Game.GraphicsDevice);
 
             spriteBatch.End();

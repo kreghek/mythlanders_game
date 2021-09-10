@@ -16,10 +16,10 @@ namespace Rpg.Client.Models.Combat.Ui
         private readonly int _amount;
         private readonly Color _color;
 
+        private readonly Vector2 _speed = new(0, 10f / 1000f);
+
         private int _lifetime;
         private Vector2 _position;
-
-        private readonly Vector2 _speed = new(0, 10f / 1000f);
 
         public HpChanged(EwarGame game, int amount, Vector2 startPosition) : base(game)
         {
