@@ -392,7 +392,7 @@ namespace Rpg.Client.Models.Combat
 
         private void Unit_DamageTaken(object? sender, int e)
         {
-            AddComponent(new HpChanged(Game,  -e, GetUnitPosition((Unit)sender)));
+            AddComponent(new HpChanged(Game, -e, GetUnitPosition((Unit)sender)));
         }
 
         private void CombatResultPanel_Closed(object? sender, EventArgs e)

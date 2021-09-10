@@ -19,9 +19,9 @@ namespace Rpg.Client.Models.Combat.Ui
 
         private int _lifetime;
 
-        private Vector2 _speed = new (0, 10f / 1000f);
+        private Vector2 _speed = new(0, 10f / 1000f);
 
-        public HpChanged(EwarGame game,int amount, Vector2 startPosition) : base(game)
+        public HpChanged(EwarGame game, int amount, Vector2 startPosition) : base(game)
         {
             _amount = amount;
             _color = _amount >= 0 ? Color.LightGreen : Color.Red;
@@ -34,7 +34,7 @@ namespace Rpg.Client.Models.Combat.Ui
             var ui = Game.Services.GetService<IUiContentStorage>();
 
             spriteBatch.DrawString(ui.GetMainFont(), $"{_amount}", _position, _color);
-            
+
             base.Draw(gameTime, spriteBatch);
         }
 
