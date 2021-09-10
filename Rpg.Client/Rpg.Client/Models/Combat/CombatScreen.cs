@@ -419,13 +419,27 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
+            DrawBullets(spriteBatch);
+            DrawUnits(spriteBatch);
+
+            spriteBatch.End();
+        }
+
+        private void DrawUnits(SpriteBatch spriteBatch)
+        {
             var list = _gameObjects.ToArray();
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
             }
+        }
 
-            spriteBatch.End();
+        private void DrawBullets(SpriteBatch spriteBatch)
+        {
+            foreach (var bullet in _bulletObjects)
+            {
+                bullet.Draw(spriteBatch);
+            }
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
@@ -457,7 +471,7 @@ namespace Rpg.Client.Models.Combat
             spriteBatch.End();
         }
 
-        private Vector2 GetUnitPosition(int index, bool friendly)
+        private static Vector2 GetUnitPosition(int index, bool friendly)
         {
             return new Vector2(friendly ? 100 : 400, index * 128 + 100);
         }

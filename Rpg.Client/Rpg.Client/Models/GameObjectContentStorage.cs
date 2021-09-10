@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models
@@ -11,15 +9,30 @@ namespace Rpg.Client.Models
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _unit;
+        private Texture2D? _monsterUnit;
 
-        public Texture2D GetUnitGraphics()
+        public Texture2D GetUnitGraphics(string unitName)
         {
-            return _unit;
+            switch (unitName)
+            {
+                case "Беримир":
+                    return _unit;
+
+                case "Рада":
+                    return _unit;
+
+                case "Соколинный глаз":
+                    return _unit;
+
+                default:
+                    return _monsterUnit;
+            }
         }
 
         public void LoadContent(ContentManager contentManager)
         {
             _unit = contentManager.Load<Texture2D>("Sprites/GameObjects/Unit");
+            _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
 

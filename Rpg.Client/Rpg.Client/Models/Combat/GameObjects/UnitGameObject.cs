@@ -49,17 +49,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             });
 
-            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
-            {
-                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
-                bulletList.Add(bullet);
-            }
-            else
+            if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
             {
                 bulletBlocker.Release();
             }
 
-            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
+            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
                 attackInteraction);
 
             AddStateEngine(state);
@@ -84,7 +79,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
             {
-                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                //TODO Make multiple bullets or bullet with multiple interactions.
+                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker, attackInteractions.First());
                 bulletList.Add(bullet);
             }
             else
@@ -123,6 +119,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     target.AddStateEngine(new WoundState(target._graphics));
                 }
             });
+
             var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 healInteraction);
             AddStateEngine(state);
@@ -149,7 +146,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, AttackInteraction attackInteraction)
+            AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, AttackInteraction attackInteraction)
         {
             switch (combatSkillCard.Skill.Range)
             {
@@ -158,8 +155,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         attackInteraction);
 
                 case CombatPowerRange.Distant:
+                    var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker, attackInteraction);
+                    
                     return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                        animationBlocker, attackInteraction);
+                        animationBlocker, attackInteraction, bullet, bulletList);
 
                 case CombatPowerRange.Undefined:
                 default:

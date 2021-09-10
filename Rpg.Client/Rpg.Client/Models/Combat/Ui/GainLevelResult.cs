@@ -1,6 +1,6 @@
 ﻿using Rpg.Client.Core;
 
-namespace Rpg.Client.Models.Combat
+namespace Rpg.Client.Models.Combat.Ui
 {
     internal sealed record GainLevelResult
     {
