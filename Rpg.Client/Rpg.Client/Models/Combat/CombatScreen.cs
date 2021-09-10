@@ -15,7 +15,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal class CombatScreen : GameScreenBase
+    internal partial class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
@@ -362,12 +362,15 @@ namespace Rpg.Client.Models.Combat
                         _combatResultPanel = new CombatResultPanel(_uiContentStorage);
                         if (enemyUnitsAreDead)
                         {
-                            CalculateBenefits();
-                            _combatResultPanel.Initialize("Win", _combat);
+                            var xpItems = HandleGainXp();
+                            ApplyXp(xpItems);
+                            HandleGlobe(true);
+                            _combatResultPanel.Initialize("Win", _combat, xpItems);
                         }
                         else
                         {
-                            _combatResultPanel.Initialize("Fail", _combat);
+                            HandleGlobe(false);
+                            _combatResultPanel.Initialize("Fail", _combat, Array.Empty<GainLevelResult>());
                         }
 
                         _combatResultPanel.Closed += CombatResultPanel_Closed;
@@ -380,12 +383,20 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void CalculateBenefits()
+        private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
+        {
+            foreach (var item in xpItems)
+            {
+                item.Unit.GainXp(item.XpAmount);
+            }
+        }
+
+        private void HandleGlobe(bool fightWon)
         {
             _bossWasDefeat = false;
             _finalBossWasDefeat = false;
 
-            if (_combatResultPanel.Result == "Win")
+            if (fightWon)
             {
                 _combat.Biom.Level++;
 
@@ -399,14 +410,6 @@ namespace Rpg.Client.Models.Combat
                         _finalBossWasDefeat = true;
                     }
                 }
-
-                var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-                var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
-
-                foreach (var unit in aliveUnits)
-                {
-                    unit.Unit.GainXp(5 * (_combat.Combat.Level * 2) * monsters.Length / aliveUnits.Length);
-                }
             }
             else
             {
@@ -414,6 +417,24 @@ namespace Rpg.Client.Models.Combat
                 {
                     _combat.Biom.Level = 0;
                 }
+            }
+        }
+
+        private IEnumerable<GainLevelResult> HandleGainXp()
+        {
+            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
+
+            foreach (var unit in aliveUnits)
+            {
+                var gainedXp = 5 * (_combat.Combat.Level * 2) * monsters.Length / aliveUnits.Length;
+                yield return new GainLevelResult
+                {
+                    StartXp = unit.Unit.Xp,
+                    Unit = unit.Unit,
+                    XpAmount = gainedXp,
+                    XpToLevelup = unit.Unit.XpToLevelup
+                };
             }
         }
 

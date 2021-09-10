@@ -28,6 +28,8 @@ namespace Rpg.Client.Models.Combat.Ui
         public bool IsVisible { get; private set; }
         public string Result { get; set; }
 
+        private GainLevelResult[]? _xpItems;
+
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             if (Result == "Win")
@@ -48,10 +50,12 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        public void Initialize(string result, ActiveCombat activeCombat)
+        public void Initialize(string result, ActiveCombat activeCombat,
+            System.Collections.Generic.IEnumerable<GainLevelResult> xpItems)
         {
             _combat = activeCombat;
             Result = result;
+            _xpItems = xpItems.ToArray();
             IsVisible = true;
         }
 
@@ -65,10 +69,10 @@ namespace Rpg.Client.Models.Combat.Ui
 
         private void ShowWinBenefits(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var xpItems = _xpItems;
 
             var rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
-                graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10 * aliveUnits.Length, PANEL_WIDTH,
+                graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10 * xpItems.Length, PANEL_WIDTH,
                 PANEL_HEIGHT);
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), rect, Color.White);
             var resultVect = rect.Location.ToVector2();
@@ -78,12 +82,17 @@ namespace Rpg.Client.Models.Combat.Ui
                 resultVect.Y + 10);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Полученные улучшения:", benefitsVect, Color.Black);
 
-            for (var i = 0; i < aliveUnits.Length; i++)
+            for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
-                var unit = aliveUnits[i];
-                var benefitsLvlVect = new Vector2(benefitsVect.X, benefitsVect.Y + 10 * (i + 1));
-                var unitBenefit =
-                    $"{unit.Unit.UnitScheme.Name}: +XP ({unit.Unit.Xp}), +LvlUp ({unit.Unit.XpToLevelup})";
+                var item = xpItems[itemIndex];
+                var benefitsLvlVect = new Vector2(benefitsVect.X, benefitsVect.Y + 10 * (itemIndex + 1));
+                var unitBenefit = $"{item.Unit.UnitScheme.Name}: +{item.XpAmount}XP";
+
+                if (item.IsLevelUp)
+                {
+                    unitBenefit += " LEVELUP!";
+                }
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Black);
             }
         }

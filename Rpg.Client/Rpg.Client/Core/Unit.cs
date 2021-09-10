@@ -31,7 +31,11 @@ namespace Rpg.Client.Core
 
         public int XpToLevelup => 100 + CombatLevel * 100;
 
-        public void GainXp(int amount)
+        /// <summary>
+        /// Increase XP.
+        /// </summary>
+        /// <returns>Returns true is level up.</returns>
+        public bool GainXp(int amount)
         {
             Xp += amount;
 
@@ -39,9 +43,15 @@ namespace Rpg.Client.Core
             if (Xp >= xpToLevel)
             {
                 CombatLevel++;
-                Xp = Xp - xpToLevel;
+                Xp -= xpToLevel;
 
                 InitStats(UnitScheme, CombatLevel);
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
