@@ -15,7 +15,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal partial class CombatScreen : GameScreenBase
+    internal class CombatScreen : GameScreenBase
     {
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
@@ -391,66 +391,6 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void HandleGlobe(bool fightWon)
-        {
-            _bossWasDefeat = false;
-            _finalBossWasDefeat = false;
-
-            if (fightWon)
-            {
-                _combat.Biom.Level++;
-
-                if (_combat.Combat.IsBossLevel)
-                {
-                    _combat.Biom.IsComplete = true;
-                    _bossWasDefeat = true;
-
-                    if (_combat.Biom.IsFinalBiom)
-                    {
-                        _finalBossWasDefeat = true;
-                    }
-                }
-            }
-            else
-            {
-                if (_combat.Combat.IsBossLevel)
-                {
-                    _combat.Biom.Level = 0;
-                }
-            }
-        }
-
-        private IEnumerable<GainLevelResult> HandleGainXp()
-        {
-            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-            var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
-
-            var summaryXp = monsters.Sum(x => x.Unit.XpReward);
-            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
-
-            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
-
-            var remainsUsed = false;
-            foreach (var unit in aliveUnits)
-            {
-                var gainedXp = xpPerPlayerUnit;
-
-                if (!remainsUsed)
-                {
-                    gainedXp += remains;
-                    remainsUsed = true;
-                }
-
-                yield return new GainLevelResult
-                {
-                    StartXp = unit.Unit.Xp,
-                    Unit = unit.Unit,
-                    XpAmount = gainedXp,
-                    XpToLevelup = unit.Unit.XpToLevelup
-                };
-            }
-        }
-
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
@@ -528,6 +468,66 @@ namespace Rpg.Client.Models.Combat
                 .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
 
             return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
+        }
+
+        private IEnumerable<GainLevelResult> HandleGainXp()
+        {
+            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
+
+            var summaryXp = monsters.Sum(x => x.Unit.XpReward);
+            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
+
+            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
+
+            var remainsUsed = false;
+            foreach (var unit in aliveUnits)
+            {
+                var gainedXp = xpPerPlayerUnit;
+
+                if (!remainsUsed)
+                {
+                    gainedXp += remains;
+                    remainsUsed = true;
+                }
+
+                yield return new GainLevelResult
+                {
+                    StartXp = unit.Unit.Xp,
+                    Unit = unit.Unit,
+                    XpAmount = gainedXp,
+                    XpToLevelup = unit.Unit.XpToLevelup
+                };
+            }
+        }
+
+        private void HandleGlobe(bool fightWon)
+        {
+            _bossWasDefeat = false;
+            _finalBossWasDefeat = false;
+
+            if (fightWon)
+            {
+                _combat.Biom.Level++;
+
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.IsComplete = true;
+                    _bossWasDefeat = true;
+
+                    if (_combat.Biom.IsFinalBiom)
+                    {
+                        _finalBossWasDefeat = true;
+                    }
+                }
+            }
+            else
+            {
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.Level = 0;
+                }
+            }
         }
 
         private void Unit_DamageTaken(object? sender, int e)

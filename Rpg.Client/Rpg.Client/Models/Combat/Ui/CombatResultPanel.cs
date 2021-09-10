@@ -16,62 +16,9 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int PANEL_WIDTH = 400;
         private readonly IUiContentStorage _uiContentStorage;
 
-        private sealed class XpItem
-        {
-            private const int XP_COUNTER_SPEED = 2;
+        private double _iterationCounter;
 
-            public XpItem(GainLevelResult item)
-            {
-                UnitName = item.Unit.UnitScheme.Name;
-                XpAmount = item.XpAmount;
-                StartXp = item.StartXp;
-                XpToLevelup = item.XpToLevelup;
-                CurrentXp = StartXp;
-            }
-
-            public string UnitName { get; }
-            public int XpAmount { get; }
-            public int StartXp { get; }
-            public int XpToLevelup { get; }
-
-            public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
-
-            public bool XpCountingComplete { get; private set; }
-
-            public int CurrentXp { get; private set; }
-
-            public int CountedXp { get; private set; }
-
-            public bool IsShowLevelUpIndicator { get; private set; }
-
-            public void Update()
-            {
-                if (XpCountingComplete)
-                {
-                    return;
-                }
-
-                if (XpAmount == 0)
-                {
-                    XpCountingComplete = true;
-                    return;
-                }
-
-                CurrentXp += XP_COUNTER_SPEED;
-                CountedXp += XP_COUNTER_SPEED;
-
-                if (CurrentXp >= XpToLevelup)
-                {
-                    CurrentXp -= XP_COUNTER_SPEED;
-                    IsShowLevelUpIndicator = true;
-                }
-
-                if (CountedXp >= XpAmount)
-                {
-                    XpCountingComplete = true;
-                }
-            }
-        }
+        private XpItem[]? _xpItems;
 
         public CombatResultPanel(IUiContentStorage uiContentStorage)
         {
@@ -80,8 +27,6 @@ namespace Rpg.Client.Models.Combat.Ui
 
         public bool IsVisible { get; private set; }
         public CombatResult Result { get; set; }
-
-        private XpItem[]? _xpItems;
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
@@ -94,7 +39,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 var rect = new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
                     graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), rect, Color.White);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result.ToString(), rect.Location.ToVector2(), Color.Black);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), Result.ToString(), rect.Location.ToVector2(),
+                    Color.Black);
 
                 var lostVect = new Vector2(graphicsDevice.Viewport.Bounds.Center.X - PANEL_WIDTH / 2,
                     graphicsDevice.Viewport.Bounds.Center.Y - PANEL_HEIGHT / 2 + 10);
@@ -109,8 +55,6 @@ namespace Rpg.Client.Models.Combat.Ui
             _xpItems = xpItems.Select(x => new XpItem(x)).ToArray();
             IsVisible = true;
         }
-
-        private double _iterationCounter;
 
         internal void Update(GameTime gameTime)
         {
@@ -128,11 +72,11 @@ namespace Rpg.Client.Models.Combat.Ui
 
             if (_iterationCounter >= 0.01)
             {
-
                 foreach (var item in _xpItems)
                 {
                     item.Update();
                 }
+
                 _iterationCounter = 0;
             }
         }
@@ -168,5 +112,62 @@ namespace Rpg.Client.Models.Combat.Ui
         }
 
         public event EventHandler? Closed;
+
+        private sealed class XpItem
+        {
+            private const int XP_COUNTER_SPEED = 2;
+
+            public XpItem(GainLevelResult item)
+            {
+                UnitName = item.Unit.UnitScheme.Name;
+                XpAmount = item.XpAmount;
+                StartXp = item.StartXp;
+                XpToLevelup = item.XpToLevelup;
+                CurrentXp = StartXp;
+            }
+
+            public int CountedXp { get; private set; }
+
+            public int CurrentXp { get; private set; }
+
+            public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
+
+            public bool IsShowLevelUpIndicator { get; private set; }
+            public int StartXp { get; }
+
+            public string UnitName { get; }
+            public int XpAmount { get; }
+
+            public bool XpCountingComplete { get; private set; }
+            public int XpToLevelup { get; }
+
+            public void Update()
+            {
+                if (XpCountingComplete)
+                {
+                    return;
+                }
+
+                if (XpAmount == 0)
+                {
+                    XpCountingComplete = true;
+                    return;
+                }
+
+                CurrentXp += XP_COUNTER_SPEED;
+                CountedXp += XP_COUNTER_SPEED;
+
+                if (CurrentXp >= XpToLevelup)
+                {
+                    CurrentXp -= XP_COUNTER_SPEED;
+                    IsShowLevelUpIndicator = true;
+                }
+
+                if (CountedXp >= XpAmount)
+                {
+                    XpCountingComplete = true;
+                }
+            }
+        }
     }
 }

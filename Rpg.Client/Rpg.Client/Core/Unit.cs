@@ -14,15 +14,13 @@ namespace Rpg.Client.Core
             InitStats(unitScheme, combatLevel);
         }
 
-        public int Level { get; set; }
-
-        public int XpReward => Level * 20;
-
         public int Hp { get; set; }
 
         public bool IsDead => Hp <= 0;
 
         public bool IsPlayerControlled { get; set; }
+
+        public int Level { get; set; }
         public int MaxHp { get; set; }
 
         public IEnumerable<CombatSkill> Skills { get; set; }
@@ -30,6 +28,8 @@ namespace Rpg.Client.Core
         public UnitScheme UnitScheme { get; init; }
 
         public int Xp { get; set; }
+
+        public int XpReward => Level * 20;
 
         public int XpToLevelup => 100 + Level * 100;
 
@@ -51,10 +51,8 @@ namespace Rpg.Client.Core
 
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public void TakeDamage(int damage)
