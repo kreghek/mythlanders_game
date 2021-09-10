@@ -92,7 +92,7 @@ namespace Rpg.Client.Models.Biom
                     foreach (var monster in node.Combat.EnemyGroup.Units)
                     {
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"{monster.UnitScheme.Name} ({monster.CombatLevel})",
+                            $"{monster.UnitScheme.Name} ({monster.Level})",
                             node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
                         monsterIndex++;
                     }

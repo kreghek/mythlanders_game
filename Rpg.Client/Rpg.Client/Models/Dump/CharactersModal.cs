@@ -40,7 +40,7 @@ namespace Rpg.Client.Models.Dump
                 var sb = new[]
                 {
                     _selectedCharacter.UnitScheme.Name,
-                    $"Level: {_selectedCharacter.CombatLevel}",
+                    $"Level: {_selectedCharacter.Level}",
                     $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.XpToLevelup}"
                 };
 
