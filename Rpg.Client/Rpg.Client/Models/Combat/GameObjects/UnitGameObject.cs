@@ -66,7 +66,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
-            AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+            AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
         {
             var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
                 .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
@@ -81,7 +81,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     }
                 }));
 
-            var state = new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
+            {
+                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                bulletList.Add(bullet);
+            }
+            else
+            {
+                bulletBlocker.Release();
+            }
+
+            var state = CreateMassAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
                 attackInteractions);
 
             AddStateEngine(state);
@@ -157,6 +167,32 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     // This is fallback behaviour.
                     return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                         attackInteraction);
+            }
+        }
+
+        private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
+            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, IEnumerable<AttackInteraction> attackInteractions)
+        {
+            switch (combatSkillCard.Skill.Range)
+            {
+                case CombatPowerRange.Melee:
+                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        attackInteractions);
+
+                case CombatPowerRange.Distant:
+                    //TODO Develop mass range attack
+                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        attackInteractions);
+                //return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                //    animationBlocker, attackInteractions);
+
+                case CombatPowerRange.Undefined:
+                default:
+                    Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+                    // This is fallback behaviour.
+                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        attackInteractions);
             }
         }
 

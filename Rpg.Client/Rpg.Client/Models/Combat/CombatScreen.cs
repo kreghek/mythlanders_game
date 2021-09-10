@@ -170,6 +170,7 @@ namespace Rpg.Client.Models.Combat
                                 var allEnemyGroupUnits = _gameObjects
                                     .Where(x => !x.Unit.Unit.IsDead && !x.Unit.Unit.IsPlayerControlled).ToArray();
                                 attackerUnitGameObject.Attack(gameObject, allEnemyGroupUnits, blocker,
+                                    bulletBlocker, _bulletObjects,
                                     _combatSkillsPanel.SelectedCard);
                                 break;
 
@@ -300,6 +301,8 @@ namespace Rpg.Client.Models.Combat
                                         var allEnemyGroupUnits = _gameObjects.Where(x =>
                                             !x.Unit.Unit.IsDead && x.Unit.Unit.IsPlayerControlled).ToArray();
                                         attackerUnitGameObject.Attack(targetPlayerObject, allEnemyGroupUnits, blocker,
+                                            bulletBlocker,
+                                            _bulletObjects,
                                             combatCard);
                                         break;
 
