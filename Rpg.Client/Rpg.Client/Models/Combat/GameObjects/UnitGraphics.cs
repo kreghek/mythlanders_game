@@ -46,7 +46,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             switch (unit.Unit.UnitScheme.Name)
             {
-
                 case "Беримир":
                 case "Рада":
                 case "Соколинный глаз":
@@ -72,8 +71,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         { "Death", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } }
                     };
                     break;
-
-
             }
 
             _animationSid = DEFAULT_ANIMATION_SID;
