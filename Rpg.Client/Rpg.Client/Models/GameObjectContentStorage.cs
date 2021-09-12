@@ -8,8 +8,8 @@ namespace Rpg.Client.Models
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
-        private Texture2D? _unit;
         private Texture2D? _monsterUnit;
+        private Texture2D? _unit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {

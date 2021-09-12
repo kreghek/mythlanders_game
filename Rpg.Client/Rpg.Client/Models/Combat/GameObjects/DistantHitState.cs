@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -21,7 +20,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction, BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList)
+        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction,
+            BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList)
         {
             _graphics = graphics;
             _attackInteraction = attackInteraction;
@@ -29,7 +29,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _bulletList = bulletList;
         }
 
-        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction, BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
+        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction,
+            BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
             _animationBlocker = animationBlocker;

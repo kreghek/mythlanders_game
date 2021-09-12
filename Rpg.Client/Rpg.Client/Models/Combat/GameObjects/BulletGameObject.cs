@@ -9,15 +9,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class BulletGameObject
     {
         private const double DURATION_SECONDS = 1.0;
-        private readonly AnimationBlocker _blocker;
         private readonly AttackInteraction _attackInteraction;
+        private readonly AnimationBlocker _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Vector2 _startPosition;
         private double _counter;
 
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
-            AnimationBlocker blocker, Core.AttackInteraction attackInteraction)
+            AnimationBlocker blocker, AttackInteraction attackInteraction)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics());
             _startPosition = startPosition;
