@@ -16,14 +16,14 @@ namespace Rpg.Client.Models.Biome
     internal sealed class Cloud
     {
         private const double DURATION_SECONDS = 30;
-        private double _lifetimeCounter;
-        private readonly Texture2D _texture;
-        private readonly int _textureIndex;
-        private readonly Vector2 _startPosition;
         private readonly Vector2 _endPosition;
         private readonly double _speed;
+        private readonly Vector2 _startPosition;
+        private readonly Texture2D _texture;
+        private readonly int _textureIndex;
 
         private Vector2 _currentPosition;
+        private double _lifetimeCounter;
 
         public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed)
         {
@@ -37,6 +37,20 @@ namespace Rpg.Client.Models.Biome
 
         public bool IsDestroyed { get; private set; }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            var position = _currentPosition;
+            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
+                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
+        }
+
+        public void DrawShadows(SpriteBatch spriteBatch)
+        {
+            var position = _currentPosition + Vector2.UnitY * 50;
+            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
+                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
+        }
+
         public void Update(GameTime gameTime)
         {
             _lifetimeCounter -= gameTime.ElapsedGameTime.TotalSeconds * _speed;
@@ -46,22 +60,12 @@ namespace Rpg.Client.Models.Biome
             }
             else
             {
-                _currentPosition = Vector2.Lerp(_startPosition, _endPosition, (float)(_lifetimeCounter / DURATION_SECONDS));
+                _currentPosition = Vector2.Lerp(_startPosition, _endPosition,
+                    (float)(_lifetimeCounter / DURATION_SECONDS));
             }
         }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64,64)), new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
-        }
-
-        public void DrawShadows(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition + Vector2.UnitY * 50;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)), new Rectangle(_textureIndex * 64, 0, 64,64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
-        }
     }
+
     internal class BiomeScreen : GameScreenBase
     {
         private const int CLOUD_COUNT = 10;
@@ -73,12 +77,12 @@ namespace Rpg.Client.Models.Biome
         private readonly CharactersModal _partyModal;
         private readonly IUiContentStorage _uiContentStorage;
 
+        private readonly Cloud[] _clouds;
+
         private bool _isNodeModelsCreated;
+
+        private readonly Random _random = new Random();
         private bool _screenTransition;
-
-        private Cloud[] _clouds;
-
-        private Random _random = new Random();
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -128,15 +132,6 @@ namespace Rpg.Client.Models.Biome
                 var cloud = CreateCloud(cloudIndex);
                 _clouds[cloudIndex] = cloud;
             }
-        }
-
-        private Cloud CreateCloud(int index)
-        {
-            var startPosition = new Vector2(((800f + 0) / CLOUD_COUNT * index) - 400, 400);
-            var endPosition = new Vector2(startPosition.X + 400, 0);
-            var textureIndex = _random.Next(0, 3);
-            var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(), textureIndex, startPosition, endPosition, _random.NextDouble() * 1.2);
-            return cloud;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -291,6 +286,16 @@ namespace Rpg.Client.Models.Biome
             }
 
             base.Update(gameTime);
+        }
+
+        private Cloud CreateCloud(int index)
+        {
+            var startPosition = new Vector2(((800f + 0) / CLOUD_COUNT * index) - 400, 400);
+            var endPosition = new Vector2(startPosition.X + 400, 0);
+            var textureIndex = _random.Next(0, 3);
+            var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(), textureIndex, startPosition, endPosition,
+                _random.NextDouble() * 1.2);
+            return cloud;
         }
 
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)

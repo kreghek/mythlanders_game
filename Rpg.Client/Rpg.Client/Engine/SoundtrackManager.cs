@@ -20,19 +20,9 @@ namespace Rpg.Client.Engine
             IsInitialized = true;
         }
 
-        public void PlayTitleTrack()
+        public void PlayBattleTrack()
         {
-            ChangeState("title");
-        }
-
-        private void ChangeState(string targetState)
-        {
-            if (_state != targetState)
-            {
-                _changeTrack = true;
-            }
-
-            _state = targetState;
+            ChangeState("battle");
         }
 
         public void PlayMapTrack()
@@ -40,14 +30,14 @@ namespace Rpg.Client.Engine
             ChangeState("map");
         }
 
-        public void PlayBattleTrack()
-        {
-            ChangeState("battle");
-        }
-
         public void PlaySilence()
         {
             _state = null; // means silence.
+        }
+
+        public void PlayTitleTrack()
+        {
+            ChangeState("title");
         }
 
         public void Update()
@@ -76,7 +66,6 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Volume = 0.75f;
                             MediaPlayer.Play(_uiContentStorage.GetTitleSong(), TimeSpan.Zero);
                         }
-
                     }
 
                     break;
@@ -93,7 +82,6 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Volume = 0.75f;
                             MediaPlayer.Play(_uiContentStorage.GetMapSong(), TimeSpan.Zero);
                         }
-
                     }
 
                     break;
@@ -110,11 +98,20 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Volume = 0.75f;
                             MediaPlayer.Play(_uiContentStorage.GetBattleSong(), TimeSpan.Zero);
                         }
-
                     }
 
                     break;
             }
+        }
+
+        private void ChangeState(string targetState)
+        {
+            if (_state != targetState)
+            {
+                _changeTrack = true;
+            }
+
+            _state = targetState;
         }
     }
 }

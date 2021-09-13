@@ -14,7 +14,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, AttackInteraction attackInteraction, Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+            AnimationBlocker blocker, AttackInteraction attackInteraction,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);

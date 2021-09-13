@@ -6,14 +6,14 @@ namespace Rpg.Client.Models
 {
     internal class GameObjectContentStorage
     {
+        private Texture2D _biomClouds;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
-        private Texture2D? _monsterUnit;
-        private Texture2D? _unit;
-        private Texture2D _biomClouds;
-        private SoundEffect _swordHit;
         private SoundEffect _monsterHit;
+        private Texture2D? _monsterUnit;
+        private SoundEffect _swordHit;
+        private Texture2D? _unit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -47,6 +47,11 @@ namespace Rpg.Client.Models
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
         }
 
+        internal Texture2D GetBiomeClouds()
+        {
+            return _biomClouds;
+        }
+
         internal Texture2D GetBulletGraphics()
         {
             return _mapNodes;
@@ -62,26 +67,19 @@ namespace Rpg.Client.Models
             return _font;
         }
 
-        internal Texture2D GetNodeMarker()
-        {
-            return _mapNodes;
-        }
-
-        internal Texture2D GetBiomeClouds()
-        {
-            return _biomClouds;
-        }
-
         internal SoundEffect GetHitSound(string sid)
         {
             if (sid == "Player")
             {
                 return _swordHit;
             }
-            else
-            {
-                return _monsterHit;
-            }
+
+            return _monsterHit;
+        }
+
+        internal Texture2D GetNodeMarker()
+        {
+            return _mapNodes;
         }
     }
 }

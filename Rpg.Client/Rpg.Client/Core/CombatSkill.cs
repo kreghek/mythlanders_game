@@ -9,11 +9,6 @@ namespace Rpg.Client.Core
             Range = CombatPowerRange.Melee;
         }
 
-        /// <summary>
-        /// Simbolic identifier.
-        /// </summary>
-        public string Sid { get; set; }
-
         public int DamageMax { get; set; }
         public int DamageMaxPerLevel { get; set; }
         public int DamageMin { get; set; }
@@ -21,6 +16,11 @@ namespace Rpg.Client.Core
         public CombatPowerRange Range { get; internal set; }
 
         public SkillScope Scope { get; set; }
+
+        /// <summary>
+        /// Simbolic identifier.
+        /// </summary>
+        public string Sid { get; set; }
 
         public SkillTarget TargetType { get; set; }
     }

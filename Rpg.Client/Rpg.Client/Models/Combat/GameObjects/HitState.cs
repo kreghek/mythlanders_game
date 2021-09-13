@@ -11,14 +11,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IUnitInteraction _attackInteraction;
-        private readonly SoundEffectInstance _hitSound;
         private readonly UnitGraphics _graphics;
+        private readonly SoundEffectInstance _hitSound;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction, Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             _graphics = graphics;
             _attackInteraction = attackInteraction;
