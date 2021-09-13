@@ -9,20 +9,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly AttackInteraction _attackInteraction;
+        private readonly IUnitInteraction _attackInteraction;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction)
+        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction)
         {
             _graphics = graphics;
             _attackInteraction = attackInteraction;
         }
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker) :
+        public HitState(
+            UnitGraphics graphics,
+            IUnitInteraction attackInteraction,
+            AnimationBlocker animationBlocker) :
             this(graphics, attackInteraction)
         {
             _animationBlocker = animationBlocker;

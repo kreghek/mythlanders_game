@@ -37,7 +37,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
             IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
         {
-            var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, () =>
+            var attackInteraction = new AttackInteraction(target.Unit, combatSkillCard, () =>
             {
                 if (target.Unit.Unit.IsDead)
                 {
@@ -65,7 +65,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             CombatSkillCard combatSkillCard)
         {
             var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
-                .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
+                .Select(x => new AttackInteraction(x.Unit, combatSkillCard, () =>
                 {
                     if (x.Unit.Unit.IsDead)
                     {
