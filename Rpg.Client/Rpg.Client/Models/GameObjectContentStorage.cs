@@ -85,5 +85,7 @@ namespace Rpg.Client.Models
                 return _monsterHit;
             }
         }
+
+        internal 
     }
 }
