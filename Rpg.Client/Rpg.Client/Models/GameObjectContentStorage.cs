@@ -15,6 +15,7 @@ namespace Rpg.Client.Models
         private Texture2D? _unit;
         private Texture2D _biomClouds;
         private SoundEffect _swordHit;
+        private SoundEffect _monsterHit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -43,6 +44,7 @@ namespace Rpg.Client.Models
             _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
             _swordHit = contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit");
+            _monsterHit = contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
         }
@@ -74,7 +76,14 @@ namespace Rpg.Client.Models
 
         internal SoundEffect GetHitSound(string sid)
         {
-            return _swordHit;
+            if (sid == "Player")
+            {
+                return _swordHit;
+            }
+            else
+            {
+                return _monsterHit;
+            }
         }
     }
 }
