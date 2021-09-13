@@ -111,7 +111,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Grey Wolf",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 0, 1, 2 },
                 Skills = new[]
                 {
@@ -127,7 +127,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 8,
                 Name = "Bear",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
                 Skills = new[]
@@ -144,7 +144,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 2,
                 Name = "Wisp",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 2, 3, 5 },
                 Skills = new[]
                 {
@@ -160,7 +160,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 9,
                 Name = "Volkolak",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
                 Skills = new[]
@@ -177,7 +177,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Korgorush",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -193,7 +193,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 5,
                 Name = "Stryga",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -209,7 +209,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 10,
                 Name = "Vampire",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
                 Skills = new[]
@@ -226,7 +226,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Gaint frog",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 7, 8, 9 },
                 Skills = new[]
                 {
@@ -242,7 +242,7 @@ namespace Rpg.Client.Core
                 Hp = 30,
                 HpPerLevel = 5,
                 Name = "Basilisk",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
                 Skills = new[]
@@ -258,7 +258,7 @@ namespace Rpg.Client.Core
             {
                 Hp = 1200,
                 Name = "Zmey Gorynych",
-                Biom = BiomType.Slavic,
+                Biom = BiomeType.Slavic,
 
                 IsBoss = true,
                 Skills = new[]
@@ -277,7 +277,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Grey Wolf",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 0, 1, 2 },
                 Skills = new[]
                 {
@@ -293,7 +293,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Bear",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
                 Skills = new[]
@@ -310,7 +310,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Wisp",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 2, 3, 5 },
                 Skills = new[]
                 {
@@ -326,7 +326,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Volkolak",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
                 Skills = new[]
@@ -343,7 +343,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Korgorush",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -359,7 +359,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Stryga",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -375,7 +375,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Vampire",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
                 Skills = new[]
@@ -392,7 +392,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Gaint frog",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 7, 8, 9 },
                 Skills = new[]
                 {
@@ -408,7 +408,7 @@ namespace Rpg.Client.Core
                 Hp = 30,
                 HpPerLevel = 3,
                 Name = "Basilisk",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
                 Skills = new[]
@@ -424,7 +424,7 @@ namespace Rpg.Client.Core
             {
                 Hp = 1200,
                 Name = "Dragon",
-                Biom = BiomType.China,
+                Biom = BiomeType.China,
 
                 IsBoss = true,
                 Skills = new[]
@@ -443,7 +443,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Jakal",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 0, 1, 2 },
                 Skills = new[]
                 {
@@ -459,7 +459,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Leopard",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
                 Skills = new[]
@@ -476,7 +476,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Bat",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 2, 3, 5 },
                 Skills = new[]
                 {
@@ -492,7 +492,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Volkolak",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
                 Skills = new[]
@@ -509,7 +509,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Korgorush",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -525,7 +525,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Stryga",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -541,7 +541,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Vampire",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
                 Skills = new[]
@@ -558,7 +558,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Gaint frog",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 7, 8, 9 },
                 Skills = new[]
                 {
@@ -574,7 +574,7 @@ namespace Rpg.Client.Core
                 Hp = 30,
                 HpPerLevel = 3,
                 Name = "Basilisk",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
                 Skills = new[]
@@ -590,7 +590,7 @@ namespace Rpg.Client.Core
             {
                 Hp = 1200,
                 Name = "Sphynx",
-                Biom = BiomType.Egypt,
+                Biom = BiomeType.Egypt,
 
                 IsBoss = true,
                 Skills = new[]
@@ -609,7 +609,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Jakal",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 0, 1, 2 },
                 Skills = new[]
                 {
@@ -625,7 +625,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Leopard",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
                 Skills = new[]
@@ -642,7 +642,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Bat",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 2, 3, 5 },
                 Skills = new[]
                 {
@@ -658,7 +658,7 @@ namespace Rpg.Client.Core
                 Hp = 25,
                 HpPerLevel = 3,
                 Name = "Volkolak",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
                 Skills = new[]
@@ -675,7 +675,7 @@ namespace Rpg.Client.Core
                 Hp = 15,
                 HpPerLevel = 3,
                 Name = "Korgorush",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -691,7 +691,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Stryga",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
                 Skills = new[]
                 {
@@ -707,7 +707,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Vampire",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
                 Skills = new[]
@@ -724,7 +724,7 @@ namespace Rpg.Client.Core
                 Hp = 20,
                 HpPerLevel = 3,
                 Name = "Gaint frog",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 7, 8, 9 },
                 Skills = new[]
                 {
@@ -740,7 +740,7 @@ namespace Rpg.Client.Core
                 Hp = 30,
                 HpPerLevel = 3,
                 Name = "Basilisk",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
                 Skills = new[]
@@ -756,7 +756,7 @@ namespace Rpg.Client.Core
             {
                 Hp = 1200,
                 Name = "Sphynx",
-                Biom = BiomType.Greek,
+                Biom = BiomeType.Greek,
 
                 IsBoss = true,
                 Skills = new[]

@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.Engine
 {
-    public interface IUiContentStorage
+    internal interface IUiContentStorage
     {
         Texture2D GetButtonTexture();
         SpriteFont GetMainFont();
@@ -14,5 +16,6 @@ namespace Rpg.Client.Engine
 
         Texture2D[] GetModalTopTextures();
         void LoadContent(ContentManager contentManager);
+        Texture2D GetBiomeBackground(BiomeType type);
     }
 }

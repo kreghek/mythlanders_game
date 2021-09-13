@@ -9,94 +9,98 @@ namespace Rpg.Client.Core
     {
         public Globe()
         {
-            var biomNames = new Dictionary<BiomType, string[]>
+            var biomNames = new Dictionary<BiomeType, string[]>
             {
                 {
-                    BiomType.Slavic, new[]
+                    BiomeType.Slavic, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    BiomType.China, new[]
+                    BiomeType.China, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    BiomType.Egypt, new[]
+                    BiomeType.Egypt, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    BiomType.Greek, new[]
+                    BiomeType.Greek, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 }
             };
+            var biomes = GenerateBiomes(biomNames);
 
-            var biomes = new[]
-            {
+            Bioms = biomes;
+            CurrentBiome = biomes.Single(x => x.IsStartBiom);
+        }
+
+        private static Biom[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
+        {
+            return new[]
+                        {
                 new Biom
                 {
-                    Type = BiomType.Slavic,
+                    Type = BiomeType.Slavic,
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames[BiomType.Slavic][x]
+                            Name = biomNames[BiomeType.Slavic][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomType.China,
+                    UnlockBiom = BiomeType.China,
                     IsStartBiom = true
                 },
                 new Biom
                 {
-                    Type = BiomType.China,
+                    Type = BiomeType.China,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames[BiomType.China][x]
+                            Name = biomNames[BiomeType.China][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomType.Egypt
+                    UnlockBiom = BiomeType.Egypt
                 },
                 new Biom
                 {
-                    Type = BiomType.Egypt,
+                    Type = BiomeType.Egypt,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames[BiomType.Egypt][x]
+                            Name = biomNames[BiomeType.Egypt][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomType.Greek
+                    UnlockBiom = BiomeType.Greek
                 },
                 new Biom
                 {
-                    Type = BiomType.Greek,
+                    Type = BiomeType.Greek,
                     Nodes = Enumerable.Range(0, 10).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
-                            Name = biomNames[BiomType.Greek][x]
+                            Name = biomNames[BiomeType.Greek][x]
                         }
                     ).ToArray(),
                     IsFinalBiom = true
                 }
             };
-
-            Bioms = biomes;
-            CurrentBiom = biomes.Single(x => x.IsStartBiom);
         }
 
         [JsonIgnore]
@@ -109,7 +113,7 @@ namespace Rpg.Client.Core
         public IEnumerable<Biom> Bioms { get; }
 
         [JsonIgnore]
-        public Biom? CurrentBiom { get; set; }
+        public Biom? CurrentBiome { get; set; }
 
         public bool IsNodeInitialied { get; set; }
 
