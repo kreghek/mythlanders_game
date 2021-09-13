@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -10,23 +11,26 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IUnitInteraction _attackInteraction;
+        private readonly SoundEffectInstance _hitSound;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction)
+        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction, Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             _graphics = graphics;
             _attackInteraction = attackInteraction;
+            _hitSound = hitSound;
         }
 
         public HitState(
             UnitGraphics graphics,
             IUnitInteraction attackInteraction,
-            AnimationBlocker animationBlocker) :
-            this(graphics, attackInteraction)
+            AnimationBlocker animationBlocker,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound) :
+            this(graphics, attackInteraction, hitSound)
         {
             _animationBlocker = animationBlocker;
         }
@@ -65,6 +69,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 if (!_interactionExecuted)
                 {
                     _attackInteraction.Execute();
+
+                    _hitSound.Play();
 
                     _interactionExecuted = true;
                 }

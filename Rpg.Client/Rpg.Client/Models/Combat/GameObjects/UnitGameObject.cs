@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -153,8 +154,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             switch (combatSkillCard.Skill.Range)
             {
                 case CombatPowerRange.Melee:
+                    var hitSound = GetHitSound(combatSkillCard.Skill);
                     return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction);
+                        attackInteraction, hitSound);
 
                 case CombatPowerRange.Distant:
                     var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
@@ -168,9 +170,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
 
                     // This is fallback behaviour.
+                    var hitSound1 = GetHitSound(combatSkillCard.Skill);
                     return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction);
+                        attackInteraction, hitSound1);
             }
+        }
+
+        private SoundEffectInstance GetHitSound(CombatSkill skill)
+        {
+            return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
         }
 
         private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,

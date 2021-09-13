@@ -2,12 +2,17 @@
 
 namespace Rpg.Client.Core
 {
-    internal class CombatSkill
+    internal sealed class CombatSkill
     {
         public CombatSkill()
         {
             Range = CombatPowerRange.Melee;
         }
+
+        /// <summary>
+        /// Simbolic identifier.
+        /// </summary>
+        public string Sid { get; set; }
 
         public int DamageMax { get; set; }
         public int DamageMaxPerLevel { get; set; }
