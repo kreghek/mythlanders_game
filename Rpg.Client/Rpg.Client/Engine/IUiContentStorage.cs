@@ -7,6 +7,7 @@ namespace Rpg.Client.Engine
 {
     internal interface IUiContentStorage
     {
+        Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonTexture();
         SpriteFont GetMainFont();
 
@@ -16,6 +17,5 @@ namespace Rpg.Client.Engine
 
         Texture2D[] GetModalTopTextures();
         void LoadContent(ContentManager contentManager);
-        Texture2D GetBiomeBackground(BiomeType type);
     }
 }
