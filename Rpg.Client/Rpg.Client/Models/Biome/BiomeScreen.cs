@@ -120,22 +120,6 @@ namespace Rpg.Client.Models.Biome
             base.Draw(gameTime, spriteBatch);
         }
 
-        private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
-        {
-            return new[] {
-                new Vector2(92, 82), // 1
-                new Vector2(320, 115), // 2
-                new Vector2(210, 165), // 3
-                new Vector2(340, 255), // 4
-                new Vector2(450, 200), // 5
-                new Vector2(680, 95), // 6
-                new Vector2(740, 200), // 7
-                new Vector2(545, 240), // 8
-                new Vector2(720, 245), // 9
-                new Vector2(445, 345), // 9
-            };
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -213,6 +197,23 @@ namespace Rpg.Client.Models.Biome
             }
 
             base.Update(gameTime);
+        }
+
+        private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
+        {
+            return new[]
+            {
+                new Vector2(92, 82), // 1
+                new Vector2(320, 115), // 2
+                new Vector2(210, 165), // 3
+                new Vector2(340, 255), // 4
+                new Vector2(450, 200), // 5
+                new Vector2(680, 95), // 6
+                new Vector2(740, 200), // 7
+                new Vector2(545, 240), // 8
+                new Vector2(720, 245), // 9
+                new Vector2(445, 345) // 9
+            };
         }
 
         private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)

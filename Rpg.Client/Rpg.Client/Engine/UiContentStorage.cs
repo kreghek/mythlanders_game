@@ -10,10 +10,10 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
+        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonTexture;
         private SpriteFont _font;
         private Texture2D[] _modalBottomTextures;
-        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
 
@@ -56,7 +56,7 @@ namespace Rpg.Client.Engine
                 { BiomeType.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
                 { BiomeType.China, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
                 { BiomeType.Egypt, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeType.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
             };
         }
 
