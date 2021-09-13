@@ -8,18 +8,18 @@ namespace Rpg.Client.Engine
 {
     internal interface IUiContentStorage
     {
+        Song GetBattleSong();
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonTexture();
         SpriteFont GetMainFont();
+        Song GetMapSong();
 
         Texture2D[] GetModalBottomTextures();
 
         Texture2D GetModalShadowTexture();
 
         Texture2D[] GetModalTopTextures();
-        void LoadContent(ContentManager contentManager);
         Song GetTitleSong();
-        Song GetMapSong();
-        Song GetBattleSong();
+        void LoadContent(ContentManager contentManager);
     }
 }

@@ -14,9 +14,9 @@ namespace Rpg.Client
     {
         private readonly GraphicsDeviceManager _graphics;
         private ScreenManager? _screenManager;
+        private SoundtrackManagerComponent _soundtrackComponent;
 
         private SpriteBatch? _spriteBatch;
-        private SoundtrackManagerComponent _soundtrackComponent;
 
         public EwarGame()
         {

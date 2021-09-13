@@ -176,11 +176,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
         }
 
-        private SoundEffectInstance GetHitSound(CombatSkill skill)
-        {
-            return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
-        }
-
         private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
             IEnumerable<AttackInteraction> attackInteractions)
@@ -206,6 +201,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                         attackInteractions);
             }
+        }
+
+        private SoundEffectInstance GetHitSound(CombatSkill skill)
+        {
+            return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
         }
 
         private void HandleEngineStates(GameTime gameTime)

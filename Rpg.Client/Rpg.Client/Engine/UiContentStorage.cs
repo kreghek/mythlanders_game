@@ -11,15 +11,15 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
-        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
-        private Song _titleTrack;
-        private Song _mapTrack;
         private Song _battleTrack;
+        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonTexture;
         private SpriteFont _font;
+        private Song _mapTrack;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
+        private Song _titleTrack;
 
         public Texture2D GetButtonTexture()
         {
