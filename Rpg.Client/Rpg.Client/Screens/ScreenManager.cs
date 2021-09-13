@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Models.Biom;
+using Rpg.Client.Models.Biome;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
@@ -53,7 +53,7 @@ namespace Rpg.Client.Screens
             {
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
-                ScreenTransition.Biom => new BiomScreen(_game),
+                ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

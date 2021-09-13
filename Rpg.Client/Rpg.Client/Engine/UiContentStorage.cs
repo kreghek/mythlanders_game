@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+using Rpg.Client.Core;
 
 namespace Rpg.Client.Engine
 {
@@ -10,6 +13,7 @@ namespace Rpg.Client.Engine
         private Texture2D _buttonTexture;
         private SpriteFont _font;
         private Texture2D[] _modalBottomTextures;
+        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
 
@@ -46,6 +50,19 @@ namespace Rpg.Client.Engine
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
             _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
+
+            _biomeBackgroundDict = new Dictionary<BiomeType, Texture2D>
+            {
+                { BiomeType.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.China, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.Egypt, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+            };
+        }
+
+        public Texture2D GetBiomeBackground(BiomeType type)
+        {
+            return _biomeBackgroundDict[type];
         }
     }
 }

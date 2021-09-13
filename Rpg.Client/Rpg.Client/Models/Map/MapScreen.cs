@@ -64,9 +64,9 @@ namespace Rpg.Client.Models.Map
                             _uiContentStorage.GetMainFont(), Rectangle.Empty);
                         button.OnClick += (s, e) =>
                         {
-                            _globe.CurrentBiom = biom;
+                            _globe.CurrentBiome = biom;
 
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                         };
                         _biomButtons.Add(button);
                     }

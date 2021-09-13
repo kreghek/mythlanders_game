@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biom.GameObjects;
+using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Dump;
 using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.Biom
+namespace Rpg.Client.Models.Biome
 {
-    internal class BiomScreen : GameScreenBase
+    internal class BiomeScreen : GameScreenBase
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
@@ -29,7 +25,7 @@ namespace Rpg.Client.Models.Biom
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public BiomScreen(EwarGame game) : base(game)
+        public BiomeScreen(EwarGame game) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
@@ -78,8 +74,12 @@ namespace Rpg.Client.Models.Biom
 
             spriteBatch.Begin();
 
-            var nodes = _nodeModels.OrderBy(x => x.Index).ToArray();
-            foreach (var node in nodes)
+            var biome = _globe.CurrentBiome;
+            var backgroundTexture = _uiContentStorage.GetBiomeBackground(biome.Type);
+
+            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+
+            foreach (var node in _nodeModels)
             {
                 node.Draw(spriteBatch);
 
@@ -120,6 +120,22 @@ namespace Rpg.Client.Models.Biom
             base.Draw(gameTime, spriteBatch);
         }
 
+        private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
+        {
+            return new[] { 
+                new Vector2(92, 82), // 1
+                new Vector2(320, 115), // 2
+                new Vector2(210, 165), // 3
+                new Vector2(340, 255), // 4
+                new Vector2(450, 200), // 5
+                new Vector2(680, 95), // 6
+                new Vector2(740, 200), // 7
+                new Vector2(545, 240), // 8
+                new Vector2(720, 245), // 9
+                new Vector2(445, 345), // 9
+            };
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -131,16 +147,13 @@ namespace Rpg.Client.Models.Biom
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var biom = _globe.CurrentBiom;
-                    var index = 0;
-                    foreach (var node in biom.Nodes)
+                    var biome = _globe.CurrentBiome;
+                    foreach (var node in biome.Nodes)
                     {
-                        var position = new Vector2(index * 64 + 100, 100);
+                        var position = GetBiomeNodeGraphicPositions(biome.Type)[node.Index];
                         var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
                         _nodeModels.Add(nodeModel);
-
-                        index++;
                     }
 
                     _isNodeModelsCreated = true;
@@ -156,10 +169,10 @@ namespace Rpg.Client.Models.Biom
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
 
-                        var biom = _globe.CurrentBiom;
+                        var biome = _globe.CurrentBiome;
 
                         var index = 0;
-                        foreach (var node in biom.Nodes)
+                        foreach (var node in _nodeModels)
                         {
                             if (node.Combat is null)
                             {
@@ -167,13 +180,12 @@ namespace Rpg.Client.Models.Biom
                                 continue;
                             }
 
-                            var position = new Vector2(index * 64 + 100, 100);
-                            var rect = new Rectangle(position.ToPoint(), new Point(32, 32));
+                            var detectNode = IsNodeOnHover(node, mouseRect);
 
-                            if (mouseState.LeftButton == ButtonState.Pressed && rect.Intersects(mouseRect))
+                            if (mouseState.LeftButton == ButtonState.Pressed && detectNode)
                             {
                                 _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biom);
+                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biome);
 
                                 if (node.AvailableDialog is not null)
                                 {
@@ -201,6 +213,11 @@ namespace Rpg.Client.Models.Biom
             }
 
             base.Update(gameTime);
+        }
+
+        private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
+        {
+            return (mouseRect.Location.ToVector2() - node.Position).Length() <= 16;
         }
     }
 }

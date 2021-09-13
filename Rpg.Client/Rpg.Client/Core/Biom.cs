@@ -14,8 +14,8 @@ namespace Rpg.Client.Core
         public int Level { get; set; }
 
         public IEnumerable<GlobeNode> Nodes { get; set; }
-        public BiomType Type { get; set; }
+        public BiomeType Type { get; set; }
 
-        public BiomType? UnlockBiom { get; internal set; }
+        public BiomeType? UnlockBiom { get; internal set; }
     }
 }
