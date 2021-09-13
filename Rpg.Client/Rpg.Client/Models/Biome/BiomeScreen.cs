@@ -53,13 +53,13 @@ namespace Rpg.Client.Models.Biome
         public void Draw(SpriteBatch spriteBatch)
         {
             var position = _currentPosition;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64,64)), new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
+            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)), new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
         }
 
         public void DrawShadows(SpriteBatch spriteBatch)
         {
             var position = _currentPosition + Vector2.UnitY * 50;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)), new Rectangle(_textureIndex * 64, 0, 64,64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
+            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)), new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
         }
     }
     internal class BiomeScreen : GameScreenBase
