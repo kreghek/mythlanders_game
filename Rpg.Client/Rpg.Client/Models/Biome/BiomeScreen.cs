@@ -82,6 +82,9 @@ namespace Rpg.Client.Models.Biome
 
         public BiomeScreen(EwarGame game) : base(game)
         {
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayMapTrack();
+
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();

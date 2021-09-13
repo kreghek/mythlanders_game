@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rpg.Client.GameComponents
+namespace Rpg.Client.Engine
 {
     internal abstract class EwarDrawableComponentBase : IEwarDrawableComponent
     {

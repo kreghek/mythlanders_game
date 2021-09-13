@@ -19,6 +19,9 @@ namespace Rpg.Client.Models.Map
 
         public MapScreen(EwarGame game) : base(game)
         {
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayMapTrack();
+
             var globe = game.Services.GetService<GlobeProvider>().Globe;
             _globe = globe;
 

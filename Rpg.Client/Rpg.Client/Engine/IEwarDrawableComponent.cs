@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.GameComponents
+namespace Rpg.Client.Engine
 {
     internal interface IEwarDrawableComponent
     {
