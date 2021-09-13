@@ -303,7 +303,7 @@ namespace Rpg.Client.Models.Biome
                 new Vector2(740, 200), // 7
                 new Vector2(545, 240), // 8
                 new Vector2(720, 245), // 9
-                new Vector2(445, 345) // 9
+                new Vector2(445, 345) // 10
             };
         }
 
