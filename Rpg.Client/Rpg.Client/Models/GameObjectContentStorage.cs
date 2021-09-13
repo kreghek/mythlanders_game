@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models
@@ -10,6 +11,9 @@ namespace Rpg.Client.Models
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D? _unit;
+        private Texture2D _biomClouds;
+        private SoundEffect _swordHit;
+        private SoundEffect _monsterHit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -35,6 +39,10 @@ namespace Rpg.Client.Models
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
+            _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
+
+            _swordHit = contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit");
+            _monsterHit = contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
         }
@@ -57,6 +65,23 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
+        }
+
+        internal Texture2D GetBiomeClouds()
+        {
+            return _biomClouds;
+        }
+
+        internal SoundEffect GetHitSound(string sid)
+        {
+            if (sid == "Player")
+            {
+                return _swordHit;
+            }
+            else
+            {
+                return _monsterHit;
+            }
         }
     }
 }

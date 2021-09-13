@@ -21,6 +21,9 @@ namespace Rpg.Client.Models.Event
 
         public EventScreen(EwarGame game) : base(game)
         {
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayMapTrack();
+
             _globe = game.Services.GetService<GlobeProvider>().Globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();

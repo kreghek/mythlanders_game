@@ -74,6 +74,7 @@ namespace Rpg.Client.Core
 
             Skills = unitScheme.Skills.Select(x => new CombatSkill
             {
+                Sid = x.Sid,
                 DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
                 DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
                 TargetType = x.TargetType,

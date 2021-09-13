@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 using Rpg.Client.Core;
 
@@ -11,6 +12,9 @@ namespace Rpg.Client.Engine
     internal sealed class UiContentStorage : IUiContentStorage
     {
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
+        private Song _titleTrack;
+        private Song _mapTrack;
+        private Song _battleTrack;
         private Texture2D _buttonTexture;
         private SpriteFont _font;
         private Texture2D[] _modalBottomTextures;
@@ -58,11 +62,30 @@ namespace Rpg.Client.Engine
                 { BiomeType.Egypt, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
                 { BiomeType.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
             };
+
+            _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
+            _mapTrack = contentManager.Load<Song>("Audio/Background/Map");
+            _battleTrack = contentManager.Load<Song>("Audio/Background/Battle");
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)
         {
             return _biomeBackgroundDict[type];
+        }
+
+        public Song GetTitleSong()
+        {
+            return _titleTrack;
+        }
+
+        public Song GetMapSong()
+        {
+            return _mapTrack;
+        }
+
+        public Song GetBattleSong()
+        {
+            return _battleTrack;
         }
     }
 }

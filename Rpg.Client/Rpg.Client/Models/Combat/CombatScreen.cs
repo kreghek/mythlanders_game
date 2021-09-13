@@ -37,6 +37,9 @@ namespace Rpg.Client.Models.Combat
 
         public CombatScreen(EwarGame game) : base(game)
         {
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayBattleTrack();
+
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
             var globe = _globeProvider.Globe;
