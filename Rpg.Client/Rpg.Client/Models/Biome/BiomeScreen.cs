@@ -122,7 +122,7 @@ namespace Rpg.Client.Models.Biome
 
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
         {
-            return new[] { 
+            return new[] {
                 new Vector2(92, 82), // 1
                 new Vector2(320, 115), // 2
                 new Vector2(210, 165), // 3
