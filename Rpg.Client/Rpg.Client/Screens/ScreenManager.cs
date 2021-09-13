@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Models.Biom;
+using Rpg.Client.Models.Biome;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
