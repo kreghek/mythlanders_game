@@ -66,7 +66,7 @@ namespace Rpg.Client.Models.Map
                         {
                             _globe.CurrentBiome = biom;
 
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                         };
                         _biomButtons.Add(button);
                     }

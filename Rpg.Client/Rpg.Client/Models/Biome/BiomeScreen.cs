@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,13 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biom.GameObjects;
+using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Dump;
 using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.Biom
+namespace Rpg.Client.Models.Biome
 {
-    internal class BiomScreen : GameScreenBase
+    internal class BiomeScreen : GameScreenBase
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
@@ -29,7 +25,7 @@ namespace Rpg.Client.Models.Biom
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public BiomScreen(EwarGame game) : base(game)
+        public BiomeScreen(EwarGame game) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;

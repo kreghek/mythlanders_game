@@ -53,7 +53,7 @@ namespace Rpg.Client.Screens
             {
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
-                ScreenTransition.Biom => new BiomScreen(_game),
+                ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

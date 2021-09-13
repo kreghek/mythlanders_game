@@ -411,7 +411,7 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
         }
 
