@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Text.Json;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Screens;
 
@@ -31,6 +28,9 @@ namespace Rpg.Client.Models.Title
             graphicsManager.PreferredBackBufferHeight = 480;
             graphicsManager.ApplyChanges();
 #endif
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayTitleTrack();
+
             _globeProvider = Game.Services.GetService<GlobeProvider>();
 
             var uiContentService = game.Services.GetService<IUiContentStorage>();
