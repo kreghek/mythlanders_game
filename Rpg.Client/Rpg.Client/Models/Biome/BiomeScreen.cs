@@ -18,19 +18,19 @@ namespace Rpg.Client.Models.Biome
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
+
+        private readonly Cloud[] _clouds;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly CharactersModal _partyModal;
-        private readonly IUiContentStorage _uiContentStorage;
-
-        private readonly Cloud[] _clouds;
-
-        private bool _isNodeModelsCreated;
 
         private readonly Random _random = new Random();
+        private readonly IUiContentStorage _uiContentStorage;
+
+        private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
         public BiomeScreen(EwarGame game) : base(game)
@@ -239,7 +239,9 @@ namespace Rpg.Client.Models.Biome
 
         private Cloud CreateCloud(int index)
         {
-            var startPosition1 = new Vector2(Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index - Game.GraphicsDevice.Viewport.Width / 2,
+            var startPosition1 = new Vector2(
+                Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index -
+                Game.GraphicsDevice.Viewport.Width / 2,
                 Game.GraphicsDevice.Viewport.Height);
             var endPosition1 = new Vector2(startPosition1.X + Game.GraphicsDevice.Viewport.Width / 2, 0);
 
@@ -247,7 +249,7 @@ namespace Rpg.Client.Models.Biome
             var endPosition = startPosition1;
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
-            var speed = _random.NextDouble()  + MAX_CLOUD_SPEED;
+            var speed = _random.NextDouble() + MAX_CLOUD_SPEED;
             var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(),
                 textureIndex,
                 startPosition,

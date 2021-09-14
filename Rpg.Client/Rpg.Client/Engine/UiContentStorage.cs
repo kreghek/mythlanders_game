@@ -64,7 +64,10 @@ namespace Rpg.Client.Engine
             };
 
             _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
-            _mapTracks = new[] { contentManager.Load<Song>("Audio/Background/Map"), contentManager.Load<Song>("Audio/Background/Map2") };
+            _mapTracks = new[]
+            {
+                contentManager.Load<Song>("Audio/Background/Map"), contentManager.Load<Song>("Audio/Background/Map2")
+            };
             _battleTrack = contentManager.Load<Song>("Audio/Background/Battle");
         }
 
