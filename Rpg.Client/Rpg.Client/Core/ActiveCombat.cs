@@ -8,8 +8,8 @@ namespace Rpg.Client.Core
     internal class ActiveCombat
     {
         private readonly IList<CombatUnit> _allUnitList;
-        private readonly Group _playerGroup;
         private readonly IDice _dice;
+        private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit _currentUnit;
 
@@ -162,10 +162,6 @@ namespace Rpg.Client.Core
             });
         }
 
-        private IDice GetDice()
-        {
-            return _dice;
-        }
         internal void Initialize()
         {
             _allUnitList.Clear();
@@ -202,7 +198,7 @@ namespace Rpg.Client.Core
             {
                 Finish?.Invoke(this,
                     new CombatFinishEventArgs
-                    { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
+                        { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
                 return;
             }
 
@@ -260,6 +256,11 @@ namespace Rpg.Client.Core
                     Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
                     break;
             }
+        }
+
+        private IDice GetDice()
+        {
+            return _dice;
         }
 
 
