@@ -27,7 +27,7 @@ namespace Rpg.Client.Models.Biome
         private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly CharactersModal _partyModal;
 
-        private readonly Random _random = new Random();
+        private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
 
         private bool _isNodeModelsCreated;
@@ -35,6 +35,8 @@ namespace Rpg.Client.Models.Biome
 
         public BiomeScreen(EwarGame game) : base(game)
         {
+            _random = new Random();
+
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayMapTrack();
 
