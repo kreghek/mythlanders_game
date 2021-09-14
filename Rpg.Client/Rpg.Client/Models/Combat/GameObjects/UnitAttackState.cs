@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -14,7 +16,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, AttackInteraction attackInteraction,
+            AnimationBlocker blocker, Action interaction,
             Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             var targetPosition =
@@ -22,7 +24,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _subStates = new IUnitStateEngine[]
             {
                 new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new HitState(graphics, attackInteraction, hitSound),
+                new HitState(graphics, interaction, hitSound),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
             _blocker = blocker;

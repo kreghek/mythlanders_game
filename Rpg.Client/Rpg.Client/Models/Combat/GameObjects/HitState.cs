@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
@@ -10,30 +12,30 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly IUnitInteraction _attackInteraction;
         private readonly UnitGraphics _graphics;
+        private readonly Action _interaction;
         private readonly SoundEffectInstance _hitSound;
-
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, IUnitInteraction attackInteraction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+        public HitState(UnitGraphics graphics, Action attackInteraction,
+            SoundEffectInstance hitSound)
+            : this(graphics, attackInteraction, default, hitSound)
         {
-            _graphics = graphics;
-            _attackInteraction = attackInteraction;
-            _hitSound = hitSound;
+
         }
 
         public HitState(
             UnitGraphics graphics,
-            IUnitInteraction attackInteraction,
+            Action attackInteraction,
             AnimationBlocker animationBlocker,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound) :
-            this(graphics, attackInteraction, hitSound)
+            SoundEffectInstance hitSound)
         {
+            _interaction = attackInteraction;
+            _hitSound = hitSound;
             _animationBlocker = animationBlocker;
+            _graphics = graphics;
         }
 
         public bool CanBeReplaced { get; }
@@ -69,11 +71,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    _attackInteraction.Execute();
-
                     _hitSound.Play();
 
                     _interactionExecuted = true;
+
+                    _interaction?.Invoke();                    
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -14,7 +16,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private int _subStateIndex;
 
         public UnitSupportState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, HealInteraction healInteraction)
+            AnimationBlocker blocker, Action healInteraction)
         {
             _graphics = graphics;
             _blocker = blocker;

@@ -10,13 +10,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly UnitGraphics _graphics;
-        private readonly HealInteraction _healInteraction;
+        private readonly Action _healInteraction;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, HealInteraction healInteraction)
+        public HealState(UnitGraphics graphics, Action healInteraction)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;
@@ -47,7 +47,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    _healInteraction.Execute();
+                    _healInteraction?.Invoke();
 
                     _interactionExecuted = true;
                 }

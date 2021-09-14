@@ -7,10 +7,10 @@ namespace Rpg.Client.Core
 {
     internal class CombatUnit
     {
-        public CombatUnit(Unit unit)
+        public CombatUnit(Unit unit, int index)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
-
+            Index = index;
             var cards = new List<CombatSkillCard>();
             foreach (var skill in Unit.Skills)
             {
@@ -20,13 +20,41 @@ namespace Rpg.Client.Core
             }
 
             CombatCards = cards;
-            CombatEffects = new List<CombatEffectBase>();
+
+            unit.DamageTaken += Unit_DamageTaken;
+            unit.HealTaken += Unit_HealTaken;
+        }
+
+        private void Unit_HealTaken(object? sender, int e)
+        {
+            Healed?.Invoke(this, new UnitHpchangedEventArgs { Unit = this, Amount = e });
+        }
+
+        private void Unit_DamageTaken(object? sender, int e)
+        {
+            Damaged?.Invoke(this, new UnitHpchangedEventArgs { Unit = this, Amount = e });
         }
 
         public IEnumerable<CombatSkillCard>? CombatCards { get; }
 
-        public ICollection<CombatEffectBase> CombatEffects { get; }
+        public int Index { get; }
 
         public Unit Unit { get; }
+
+        public event EventHandler? CompletedMove;
+
+        public void CompleteMove()
+        {
+            CompletedMove?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal event EventHandler<UnitHpchangedEventArgs> Damaged;
+        internal event EventHandler<UnitHpchangedEventArgs> Healed;
+
+        internal class UnitHpchangedEventArgs : EventArgs
+        {
+            public CombatUnit Unit { get; set; }
+            public int Amount { get; set; }
+        }
     }
 }

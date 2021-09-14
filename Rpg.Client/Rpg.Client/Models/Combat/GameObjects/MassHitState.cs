@@ -12,14 +12,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class MassHitState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly IEnumerable<AttackInteraction> _attackInteractions;
+        private readonly Action _attackInteractions;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public MassHitState(UnitGraphics graphics, IEnumerable<AttackInteraction> attackInteractions)
+        public MassHitState(UnitGraphics graphics, Action attackInteractions)
         {
             _graphics = graphics;
 
@@ -53,10 +53,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 {
                     _interactionExecuted = true;
 
-                    foreach (var attackInteraction in _attackInteractions)
-                    {
-                        attackInteraction.Execute();
-                    }
+                    _attackInteractions?.Invoke();
                 }
             }
         }

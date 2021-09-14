@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -36,53 +37,38 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public CombatUnit? Unit { get; internal set; }
 
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard)
+            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
         {
-            var attackInteraction = new AttackInteraction(target.Unit, combatSkillCard, () =>
-            {
-                if (target.Unit.Unit.IsDead)
-                {
-                    target.AddStateEngine(new DeathState(target._graphics));
-                }
-                else
-                {
-                    target.AddStateEngine(new WoundState(target._graphics));
-                }
-            });
 
             if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
             {
                 bulletBlocker.Release();
             }
-
             var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
-                attackInteraction);
+                action);
 
             AddStateEngine(state);
         }
 
+        public void AnimateWound()
+        {
+            AddStateEngine(new WoundState(_graphics));
+        }
+
+        public void AnimateDeath()
+        {
+            AddStateEngine(new DeathState(_graphics));
+        }
+
         public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
             AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
-            CombatSkillCard combatSkillCard)
+            CombatSkillCard combatSkillCard, Action action)
         {
-            var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
-                .Select(x => new AttackInteraction(x.Unit, combatSkillCard, () =>
-                {
-                    if (x.Unit.Unit.IsDead)
-                    {
-                        x.AddStateEngine(new DeathState(x._graphics));
-                    }
-                    else
-                    {
-                        x.AddStateEngine(new WoundState(x._graphics));
-                    }
-                }));
-
             if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
             {
                 //TODO Make multiple bullets or bullet with multiple interactions.
                 var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker,
-                    attackInteractions.First());
+                    action);
                 bulletList.Add(bullet);
             }
             else
@@ -91,7 +77,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             var state = CreateMassAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
-                attackInteractions);
+                action);
 
             AddStateEngine(state);
         }
@@ -102,28 +88,18 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             _graphics.Draw(spriteBatch);
 
+            var color = Unit.Unit.IsDead ? Color.Gray : Color.White;
+
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.UnitScheme.Name,
-                _graphics.Root.Position - new Vector2(0, 100), Color.White);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}",
-                _graphics.Root.Position - new Vector2(0, 80), Color.White);
+                _graphics.Root.Position - new Vector2(0, 100), color);
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp} HP",
+                _graphics.Root.Position - new Vector2(0, 80), color);
         }
 
-        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard)
+        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard, Action action)
         {
-            var healInteraction = new HealInteraction(Unit, target.Unit, combatSkillCard, () =>
-            {
-                if (target.Unit.Unit.IsDead)
-                {
-                    target.AddStateEngine(new DeathState(target._graphics));
-                }
-                else
-                {
-                    target.AddStateEngine(new WoundState(target._graphics));
-                }
-            });
-
             var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                healInteraction);
+                action);
             AddStateEngine(state);
         }
 
@@ -134,7 +110,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics.Update(gameTime);
         }
 
-        private void AddStateEngine(IUnitStateEngine actorStateEngine)
+        internal void AddStateEngine(IUnitStateEngine actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
             {
@@ -149,7 +125,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard,
-            AttackInteraction attackInteraction)
+            Action attackInteraction)
         {
             switch (combatSkillCard.Skill.Range)
             {
@@ -178,7 +154,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
-            IEnumerable<AttackInteraction> attackInteractions)
+            Action attackInteractions)
         {
             switch (combatSkillCard.Skill.Range)
             {

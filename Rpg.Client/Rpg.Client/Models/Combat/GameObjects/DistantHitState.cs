@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -11,7 +12,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly AttackInteraction _attackInteraction;
+        private readonly Action _attackInteraction;
         private readonly BulletGameObject _bulletGameObject;
         private readonly IList<BulletGameObject> _bulletList;
         private readonly UnitGraphics _graphics;
@@ -20,7 +21,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction,
+        public DistantHitState(UnitGraphics graphics, Action attackInteraction,
             BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList)
         {
             _graphics = graphics;
@@ -29,7 +30,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _bulletList = bulletList;
         }
 
-        public DistantHitState(UnitGraphics graphics, AttackInteraction attackInteraction,
+        public DistantHitState(UnitGraphics graphics, Action attackInteraction,
             BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
