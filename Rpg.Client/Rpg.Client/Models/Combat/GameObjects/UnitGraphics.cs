@@ -11,7 +11,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class UnitGraphics
     {
         private const string DEFAULT_ANIMATION_SID = "Idle";
-        private const int FRAME_WIDTH = 128;
+        private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
 
         private readonly IDictionary<string, AnimationInfo> _animationInfos;
@@ -30,10 +30,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 FlipX = !unit.Unit.IsPlayerControlled
             };
 
-            _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics())
+            _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics(unit.Unit.UnitScheme.Name))
             {
                 Origin = new Vector2(0.5f, 0.75f),
-                SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT)
+                SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),
+                Position = new Vector2(FRAME_WIDTH / 4, 0)
             };
             Root.AddChild(_graphics);
 
@@ -43,15 +44,34 @@ namespace Rpg.Client.Models.Combat.GameObjects
             };
             Root.AddChild(_selectedMarker);
 
-            _animationInfos = new Dictionary<string, AnimationInfo>
+            switch (unit.Unit.UnitScheme.Name)
             {
-                { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 2, speed: 1) },
-                { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
-                { "Wound", new AnimationInfo(startFrame: 5, frames: 2, speed: 1) },
-                { "Death", new AnimationInfo(startFrame: 7, frames: 5, speed: 1) { IsFinal = true } }
-            };
+                case "Беримир":
+                case "Рада":
+                case "Соколинный глаз":
+                    _animationInfos = new Dictionary<string, AnimationInfo>
+                    {
+                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 2, speed: 1) },
+                        { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
+                        { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
+                        { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
+                        { "Wound", new AnimationInfo(startFrame: 5, frames: 2, speed: 1) },
+                        { "Death", new AnimationInfo(startFrame: 7, frames: 5, speed: 1) { IsFinal = true } }
+                    };
+                    break;
+
+                default:
+                    _animationInfos = new Dictionary<string, AnimationInfo>
+                    {
+                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "MoveForward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "MoveBackward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Hit", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Wound", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Death", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } }
+                    };
+                    break;
+            }
 
             _animationSid = DEFAULT_ANIMATION_SID;
         }

@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class AttackInteraction
+    internal sealed class AttackInteraction : IUnitInteraction
     {
         private readonly ActiveCombat _combat;
         private readonly CombatUnit _attacker;
@@ -23,7 +23,6 @@ namespace Rpg.Client.Core
         public void Execute()
         {
             _combat.UseSkill(_combatSkillCard.Skill, _target);
-            //_target.Unit.TakeDamage(_combatSkillCard.Skill.DamageMin);
             _postExecute?.Invoke();
         }
     }

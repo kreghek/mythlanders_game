@@ -5,7 +5,7 @@
         Undefined,
         Title,
         Map,
-        Biom,
+        Biome,
         Event,
         Combat,
         EndGame

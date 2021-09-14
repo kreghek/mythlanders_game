@@ -25,9 +25,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(_graphics, graphicsRoot, targetPosition),
-                new HealState(_graphics, healInteraction),
-                new MoveBack(_graphics, graphicsRoot, targetPosition, _blocker)
+                new HealState(_graphics, healInteraction)
             };
         }
 
@@ -46,6 +44,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void Update(GameTime gameTime)
         {
+            if (IsComplete)
+            {
+                return;
+            }
+
             if (_subStateIndex < _subStates.Length)
             {
                 var currentSubState = _subStates[_subStateIndex];
@@ -61,6 +64,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             else
             {
                 IsComplete = true;
+                _blocker.Release();
             }
         }
     }

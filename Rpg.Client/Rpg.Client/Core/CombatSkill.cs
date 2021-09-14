@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal class CombatSkill
+    internal sealed class CombatSkill
     {
         public CombatSkill()
         {
@@ -16,6 +16,11 @@ namespace Rpg.Client.Core
         public CombatPowerRange Range { get; internal set; }
 
         public SkillScope Scope { get; set; }
+
+        /// <summary>
+        /// Simbolic identifier.
+        /// </summary>
+        public string Sid { get; set; }
 
         public SkillTarget TargetType { get; set; }
     }

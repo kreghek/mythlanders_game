@@ -43,6 +43,9 @@ namespace Rpg.Client.Models.Combat
 
         public CombatScreen(EwarGame game) : base(game)
         {
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayBattleTrack();
+
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
             var globe = _globeProvider.Globe;
@@ -82,10 +85,24 @@ namespace Rpg.Client.Models.Combat
             GetUnitView(e).AnimateWound();
         }
 
-        private void _combat_Finish(object? sender, EventArgs e)
+        private void _combat_Finish(object? sender, CombatFinishEventArgs e)
         {
             _hudButtons.Clear();
             _combatSkillsPanel = null;
+            _combatResultPanel = new CombatResultPanel(_uiContentStorage);
+            _combatResultPanel.Closed += CombatResultPanel_Closed;
+            if (e.Victory)
+            {
+                var xpItems = HandleGainXp().ToArray();
+                ApplyXp(xpItems);
+                HandleGlobe(true);
+                _combatResultPanel.Initialize(CombatResult.Victory, xpItems);
+            }
+            else
+            {
+                HandleGlobe(false);
+                _combatResultPanel.Initialize(CombatResult.Defeat, Array.Empty<GainLevelResult>());
+            }
         }
 
         private void _combat_ActionGenerated(object? sender, ActiveCombat.ActionEventArgs action)
@@ -331,25 +348,7 @@ namespace Rpg.Client.Models.Combat
                     unitModel.Update(gameTime);
                 }
 
-                if (_combatResultPanel is null)
-                {
-                    var enemyUnitsAreDead = _combat.Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
-
-                    _combatResultPanel = new CombatResultPanel(_uiContentStorage);
-                    if (enemyUnitsAreDead)
-                    {
-                        CalculateBenefits();
-                        _combatResultPanel.Initialize("Win", _combat);
-                    }
-                    else
-                    {
-                        _combatResultPanel.Initialize("Fail", _combat);
-                    }
-
-                    _combatResultPanel.Closed += CombatResultPanel_Closed;
-                }
-
-                _combatResultPanel.Update(gameTime);
+                _combatResultPanel?.Update(gameTime);
             }
             else
             {
@@ -376,10 +375,12 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void CalculateBenefits()
+        private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
         {
-            _bossWasDefeat = false;
-            _finalBossWasDefeat = false;
+            foreach (var item in xpItems)
+            {
+                item.Unit.GainXp(item.XpAmount);
+            }
         }
 
         private Vector2 GetUnitPosition(int index, bool friendly)
@@ -407,7 +408,15 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biom);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            }
+        }
+
+        private void DrawBullets(SpriteBatch spriteBatch)
+        {
+            foreach (var bullet in _bulletObjects)
+            {
+                bullet.Draw(spriteBatch);
             }
         }
 
@@ -415,11 +424,8 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            var list = _gameObjects.ToArray();
-            foreach (var gameObject in list)
-            {
-                gameObject.Draw(spriteBatch);
-            }
+            DrawBullets(spriteBatch);
+            DrawUnits(spriteBatch);
 
             foreach (var bullet in _bulletObjects)
             {
@@ -450,7 +456,82 @@ namespace Rpg.Client.Models.Combat
 
             spriteBatch.End();
         }
+        
+        private void DrawUnits(SpriteBatch spriteBatch)
+        {
+            var list = _gameObjects.ToArray();
+            foreach (var gameObject in list)
+            {
+                gameObject.Draw(spriteBatch);
+            }
+        }
 
+        private Vector2 GetUnitPosition(Unit unit)
+        {
+            var unitWithIndex = _combat.Units.Where(x => x.Unit.IsPlayerControlled == unit.IsPlayerControlled)
+                .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
 
+            return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
+        }
+
+        private IEnumerable<GainLevelResult> HandleGainXp()
+        {
+            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
+
+            var summaryXp = monsters.Sum(x => x.Unit.XpReward);
+            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
+
+            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
+
+            var remainsUsed = false;
+            foreach (var unit in aliveUnits)
+            {
+                var gainedXp = xpPerPlayerUnit;
+
+                if (!remainsUsed)
+                {
+                    gainedXp += remains;
+                    remainsUsed = true;
+                }
+
+                yield return new GainLevelResult
+                {
+                    StartXp = unit.Unit.Xp,
+                    Unit = unit.Unit,
+                    XpAmount = gainedXp,
+                    XpToLevelup = unit.Unit.XpToLevelup
+                };
+            }
+        }
+
+        private void HandleGlobe(bool fightWon)
+        {
+            _bossWasDefeat = false;
+            _finalBossWasDefeat = false;
+
+            if (fightWon)
+            {
+                _combat.Biom.Level++;
+
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.IsComplete = true;
+                    _bossWasDefeat = true;
+
+                    if (_combat.Biom.IsFinalBiom)
+                    {
+                        _finalBossWasDefeat = true;
+                    }
+                }
+            }
+            else
+            {
+                if (_combat.Combat.IsBossLevel)
+                {
+                    _combat.Biom.Level = 0;
+                }
+            }
+        }
     }
 }

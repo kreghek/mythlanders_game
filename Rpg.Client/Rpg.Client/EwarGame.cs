@@ -14,6 +14,7 @@ namespace Rpg.Client
     {
         private readonly GraphicsDeviceManager _graphics;
         private ScreenManager? _screenManager;
+        private SoundtrackManagerComponent _soundtrackComponent;
 
         private SpriteBatch? _spriteBatch;
 
@@ -39,6 +40,11 @@ namespace Rpg.Client
 
             RegisterServices(_screenManager);
 
+            _soundtrackComponent = new SoundtrackManagerComponent(this);
+            var soundtrackManager = Services.GetService<SoundtrackManager>();
+            _soundtrackComponent.Initialize(soundtrackManager);
+            Components.Add(_soundtrackComponent);
+
             base.Initialize();
         }
 
@@ -53,6 +59,9 @@ namespace Rpg.Client
 
             var uiContentStorage = Services.GetService<IUiContentStorage>();
             uiContentStorage.LoadContent(Content);
+
+            var soundtrackManager = Services.GetService<SoundtrackManager>();
+            soundtrackManager.Initialize(uiContentStorage);
 
             AddDevelopmentComponents(_spriteBatch, uiContentStorage);
         }
@@ -96,6 +105,9 @@ namespace Rpg.Client
             Services.AddService(new AnimationManager());
 
             Services.AddService(_graphics);
+
+            var soundtrackManager = new SoundtrackManager();
+            Services.AddService(soundtrackManager);
         }
     }
 }

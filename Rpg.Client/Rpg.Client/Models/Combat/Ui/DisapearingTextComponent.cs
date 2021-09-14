@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameComponents;
 
 namespace Rpg.Client.Models.Combat.Ui
 {

@@ -9,18 +9,18 @@ namespace Rpg.Client.Core
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
             UnitScheme = unitScheme;
-            CombatLevel = combatLevel;
+            Level = combatLevel;
 
             InitStats(unitScheme, combatLevel);
         }
-
-        public int CombatLevel { get; set; }
 
         public int Hp { get; set; }
 
         public bool IsDead => Hp <= 0;
 
         public bool IsPlayerControlled { get; set; }
+
+        public int Level { get; set; }
         public int MaxHp { get; set; }
 
         public IEnumerable<CombatSkill> Skills { get; set; }
@@ -29,20 +29,30 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
-        public int XpToLevelup => 100 + CombatLevel * 100;
+        public int XpReward => Level * 20;
 
-        public void GainXp(int amount)
+        public int XpToLevelup => 100 + Level * 100;
+
+        /// <summary>
+        /// Increase XP.
+        /// </summary>
+        /// <returns>Returns true is level up.</returns>
+        public bool GainXp(int amount)
         {
             Xp += amount;
 
             var xpToLevel = XpToLevelup;
             if (Xp >= xpToLevel)
             {
-                CombatLevel++;
-                Xp = Xp - xpToLevel;
+                Level++;
+                Xp -= xpToLevel;
 
-                InitStats(UnitScheme, CombatLevel);
+                InitStats(UnitScheme, Level);
+
+                return true;
             }
+
+            return false;
         }
 
         public void TakeDamage(int damage)
@@ -61,11 +71,12 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme, int combatLevel)
         {
-            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * CombatLevel;
+            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
             Hp = MaxHp;
 
             Skills = unitScheme.Skills.Select(x => new CombatSkill
             {
+                Sid = x.Sid,
                 DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
                 DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
                 TargetType = x.TargetType,

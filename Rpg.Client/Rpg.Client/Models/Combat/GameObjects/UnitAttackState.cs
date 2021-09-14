@@ -10,24 +10,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal class UnitMeleeAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
-        private readonly UnitGraphics _graphics;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
         public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action interaction)
+            AnimationBlocker blocker, Action interaction,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
                 new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new HitState(graphics, interaction),
+                new HitState(graphics, interaction, hitSound),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
-            _graphics = graphics;
             _blocker = blocker;
         }
 

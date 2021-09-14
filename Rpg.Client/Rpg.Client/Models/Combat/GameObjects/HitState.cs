@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -13,21 +14,28 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly AnimationBlocker? _animationBlocker;
         private readonly UnitGraphics _graphics;
         private readonly Action _interaction;
+        private readonly SoundEffectInstance _hitSound;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, Action interaction) :
-            this(graphics, interaction, default)
+        public HitState(UnitGraphics graphics, Action attackInteraction,
+            SoundEffectInstance hitSound)
+            : this(graphics, attackInteraction, default, hitSound)
         {
 
         }
 
-        public HitState(UnitGraphics graphics, Action interaction, AnimationBlocker animationBlocker)
+        public HitState(
+            UnitGraphics graphics,
+            Action attackInteraction,
+            AnimationBlocker animationBlocker,
+            SoundEffectInstance hitSound)
         {
+            _interaction = attackInteraction;
+            _hitSound = hitSound;
             _animationBlocker = animationBlocker;
             _graphics = graphics;
-            _interaction = interaction;
         }
 
         public bool CanBeReplaced { get; }
@@ -63,76 +71,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
+                    _hitSound.Play();
+
                     _interactionExecuted = true;
 
                     _interaction?.Invoke();                    
                 }
             }
-        }
-    }
-
-    internal sealed class WoundState : IUnitStateEngine
-    {
-        private readonly UnitGraphics _graphics;
-        private double _counter;
-
-        public WoundState(UnitGraphics graphics)
-        {
-            _graphics = graphics;
-        }
-
-        public bool CanBeReplaced { get; }
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_counter == 0)
-            {
-                _graphics.PlayAnimation("Wound");
-            }
-
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > 1)
-            {
-                IsComplete = true;
-            }
-        }
-    }
-
-    internal sealed class DeathState : IUnitStateEngine
-    {
-        private readonly UnitGraphics _graphics;
-        private double _counter;
-
-        public DeathState(UnitGraphics graphics)
-        {
-            _graphics = graphics;
-        }
-
-        public bool CanBeReplaced { get; }
-        public bool IsComplete { get; }
-
-        public void Cancel()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_counter == 0)
-            {
-                _graphics.PlayAnimation("Death");
-            }
-
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            // Infinite
         }
     }
 }

@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.GameComponents;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.Screens
 {

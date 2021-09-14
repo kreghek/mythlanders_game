@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -38,29 +39,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
             IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
         {
-            //var attackInteraction = new AttackInteraction(Unit, target.Unit, combatSkillCard, () =>
-            //{
-            //    if (target.Unit.Unit.IsDead)
-            //    {
-            //        target.AddStateEngine(new DeathState(target._graphics));
-            //    }
-            //    else
-            //    {
-            //        target.AddStateEngine(new WoundState(target._graphics));
-            //    }
-            //});
 
-            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
-            {
-                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
-                bulletList.Add(bullet);
-            }
-            else
+            if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
             {
                 bulletBlocker.Release();
             }
-
-            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
+            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
                 action);
 
             AddStateEngine(state);
@@ -80,22 +64,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
             CombatSkillCard combatSkillCard, Action action)
         {
-            //var attackInteractions = targets.Where(x => !x.Unit.Unit.IsDead)
-            //    .Select(x => new AttackInteraction(Unit, x.Unit, combatSkillCard, () =>
-            //    {
-            //        if (x.Unit.Unit.IsDead)
-            //        {
-            //            x.AddStateEngine(new DeathState(x._graphics));
-            //        }
-            //        else
-            //        {
-            //            x.AddStateEngine(new WoundState(x._graphics));
-            //        }
-            //    }));
-
             if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
             {
-                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                //TODO Make multiple bullets or bullet with multiple interactions.
+                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker,
+                    action);
                 bulletList.Add(bullet);
             }
             else
@@ -115,25 +88,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             _graphics.Draw(spriteBatch);
 
+            var color = Unit.Unit.IsDead ? Color.Gray : Color.White;
+
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.UnitScheme.Name,
-                _graphics.Root.Position - new Vector2(0, 100), Color.White);
+                _graphics.Root.Position - new Vector2(0, 100), color);
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}",
-                _graphics.Root.Position - new Vector2(0, 80), Color.White);
+                _graphics.Root.Position - new Vector2(0, 80), color);
         }
 
         public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard, Action action)
         {
-            //var healInteraction = new HealInteraction(Unit, target.Unit, combatSkillCard, () =>
-            //{
-            //    if (target.Unit.Unit.IsDead)
-            //    {
-            //        target.AddStateEngine(new DeathState(target._graphics));
-            //    }
-            //    else
-            //    {
-            //        target.AddStateEngine(new WoundState(target._graphics));
-            //    }
-            //});
             var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 action);
             AddStateEngine(state);
@@ -160,25 +124,31 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard, Action attackInteraction)
+            AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard,
+            Action attackInteraction)
         {
             switch (combatSkillCard.Skill.Range)
             {
                 case CombatPowerRange.Melee:
+                    var hitSound = GetHitSound(combatSkillCard.Skill);
                     return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction);
+                        attackInteraction, hitSound);
 
                 case CombatPowerRange.Distant:
+                    var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                        bulletBlocker, attackInteraction);
+
                     return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                        animationBlocker, attackInteraction);
+                        animationBlocker, attackInteraction, bullet, bulletList);
 
                 case CombatPowerRange.Undefined:
                 default:
                     Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
 
                     // This is fallback behaviour.
+                    var hitSound1 = GetHitSound(combatSkillCard.Skill);
                     return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction);
+                        attackInteraction, hitSound1);
             }
         }
 
@@ -207,6 +177,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                         attackInteractions);
             }
+        }
+
+        private SoundEffectInstance GetHitSound(CombatSkill skill)
+        {
+            return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
         }
 
         private void HandleEngineStates(GameTime gameTime)

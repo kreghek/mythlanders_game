@@ -1,5 +1,5 @@
-﻿using System;
-
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
@@ -17,13 +17,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action attackInteraction)
+            AnimationBlocker blocker, Action attackInteraction,
+            BulletGameObject bullet, IList<BulletGameObject> bulletList)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new HitState(graphics, attackInteraction, blocker)
+                new DistantHitState(graphics, attackInteraction, bullet, bulletList, blocker)
             };
             _graphics = graphics;
             _blocker = blocker;
