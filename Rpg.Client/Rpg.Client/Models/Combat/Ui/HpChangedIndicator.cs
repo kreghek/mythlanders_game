@@ -1,14 +1,11 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.Ui
 {
-    internal class HpChanged : EwarDrawableComponentBase
+    internal class HpChangedIndicator : EwarDrawableComponentBase
     {
         private const int LIFETIME = 2000;
 
@@ -20,7 +17,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private int _lifetime;
         private Vector2 _position;
 
-        public HpChanged(EwarGame game, int amount, Vector2 startPosition) : base(game)
+        public HpChangedIndicator(EwarGame game, int amount, Vector2 startPosition) : base(game)
         {
             _amount = amount;
             _color = _amount >= 0 ? Color.LightGreen : Color.Red;
@@ -32,7 +29,7 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             var ui = Game.Services.GetService<IUiContentStorage>();
 
-            spriteBatch.DrawString(ui.GetMainFont(), $"{_amount}", _position, _color);
+            spriteBatch.DrawString(ui.GetMainFont(), $"{_amount} HP", _position, _color);
 
             base.Draw(gameTime, spriteBatch);
         }

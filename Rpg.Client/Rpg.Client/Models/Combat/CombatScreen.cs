@@ -549,12 +549,22 @@ namespace Rpg.Client.Models.Combat
 
         private void Unit_DamageTaken(object? sender, int e)
         {
-            AddComponent(new HpChanged(Game, -e, GetUnitPosition((Unit)sender)));
+            if (sender is null)
+            {
+                throw new InvalidOperationException("Handler is applicable only for instance's event (sender is not null).");
+            }
+
+            AddComponent(new HpChangedIndicator(Game, -e, GetUnitPosition((Unit)sender)));
         }
 
         private void Unit_HealTaken(object? sender, int e)
         {
-            AddComponent(new HpChanged(Game, e, GetUnitPosition((Unit)sender)));
+            if (sender is null)
+            {
+                throw new InvalidOperationException("Handler is applicable only for instance's event (sender is not null).");
+            }
+
+            AddComponent(new HpChangedIndicator(Game, e, GetUnitPosition((Unit)sender)));
         }
     }
 }
