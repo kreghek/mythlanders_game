@@ -14,6 +14,15 @@ namespace Rpg.Client.Engine
             blocker.Released += (s, e) => { _blockers.Remove(blocker); };
         }
 
+        public AnimationBlocker CreateAndUseBlocker()
+        {
+            var blocker = new AnimationBlocker();
+
+            AddBlocker(blocker);
+
+            return blocker;
+        }
+
         internal void DropBlockers()
         {
             _blockers.Clear();

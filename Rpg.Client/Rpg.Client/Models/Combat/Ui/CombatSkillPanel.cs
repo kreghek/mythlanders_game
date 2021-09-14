@@ -13,6 +13,7 @@ namespace Rpg.Client.Models.Combat.Ui
     {
         private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
+        private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage)
@@ -21,7 +22,21 @@ namespace Rpg.Client.Models.Combat.Ui
             _uiContentStorage = uiContentStorage;
         }
 
-        public CombatSkillCard? SelectedCard { get; private set; }
+        public CombatSkillCard? SelectedCard
+        {
+            get => _selectedCard;
+            set
+            {
+                if (_selectedCard == value)
+                {
+                    return;
+                }
+
+                _selectedCard = value;
+
+                CardSelected?.Invoke(this, _selectedCard);
+            }
+        }
 
         public CombatUnit? Unit
         {
@@ -34,6 +49,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 }
 
                 _unit = value;
+
                 RefreshButtons();
             }
         }
@@ -70,8 +86,11 @@ namespace Rpg.Client.Models.Combat.Ui
 
             if (_unit is null)
             {
-                throw new InvalidOperationException("Unit required to be initialized before.");
+                return;
             }
+            //{
+            //    throw new InvalidOperationException("Unit required to be initialized before.");
+            //}
 
             if (_unit.CombatCards is null)
             {
@@ -83,8 +102,13 @@ namespace Rpg.Client.Models.Combat.Ui
                 var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(),
                     new Rectangle(0, 0, 0, 0));
                 _buttons.Add(button);
-                button.OnClick += (s, e) => { SelectedCard = card; };
+                button.OnClick += (s, e) =>
+                {
+                    SelectedCard = card;
+                };
             }
         }
+
+        public event EventHandler<CombatSkillCard?>? CardSelected;
     }
 }

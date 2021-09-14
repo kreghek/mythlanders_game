@@ -4,14 +4,17 @@ namespace Rpg.Client.Core
 {
     internal sealed class HealInteraction
     {
+        private readonly ActiveCombat _combat;
         private readonly CombatSkillCard _combatSkillCard;
         private readonly CombatUnit _healer;
         private readonly Action _postExecute;
         private readonly CombatUnit _target;
 
-        public HealInteraction(CombatUnit healer, CombatUnit target, CombatSkillCard combatSkillCard,
+        public HealInteraction(ActiveCombat combat, CombatUnit healer, CombatUnit target,
+            CombatSkillCard combatSkillCard,
             Action postExecute)
         {
+            _combat = combat;
             _healer = healer;
             _target = target;
             _combatSkillCard = combatSkillCard;
@@ -20,7 +23,8 @@ namespace Rpg.Client.Core
 
         public void Execute()
         {
-            _target.Unit.TakeHeal(_combatSkillCard.Skill.DamageMin);
+            _combat.UseSkill(_combatSkillCard.Skill, _target);
+            //_target.Unit.TakeHeal(_combatSkillCard.Skill.DamageMin);
             _postExecute?.Invoke();
         }
     }

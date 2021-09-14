@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 
@@ -17,7 +18,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, AttackInteraction attackInteraction,
+            AnimationBlocker blocker, Action attackInteraction,
             BulletGameObject bullet, IList<BulletGameObject> bulletList)
         {
             var targetPosition =
