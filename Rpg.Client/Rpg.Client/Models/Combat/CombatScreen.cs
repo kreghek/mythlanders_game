@@ -141,7 +141,27 @@ namespace Rpg.Client.Models.Combat
                 _combatResultPanel?.Update(gameTime);
             }
 
+            HandleBackgrounds();
+
             base.Update(gameTime);
+        }
+
+        private void HandleBackgrounds()
+        {
+            var mouse = Mouse.GetState();
+            _bgCenterOffsetPercentage = ((float)mouse.X - Game.GraphicsDevice.Viewport.Width / 2) / Game.GraphicsDevice.Viewport.Width / 2;
+            if (_bgCenterOffsetPercentage < -1)
+            {
+                _bgCenterOffsetPercentage = -1;
+            }
+            else if (_bgCenterOffsetPercentage > 1)
+            {
+                _bgCenterOffsetPercentage = 1;
+            }
+            else
+            {
+                // Do nothing. Percentage in the bound.
+            }
         }
 
         private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
@@ -318,9 +338,20 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+        private float _bgCenterOffsetPercentage = 0;
+
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
+
+            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds();
+
+            const int BG_START_OFFSET = -100;
+            const int BG_MAX_OFSSET = 200;
+
+            spriteBatch.Draw(backgrounds[0], new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
+            spriteBatch.Draw(backgrounds[1], new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.15f * BG_MAX_OFSSET, 0), Color.White);
+            spriteBatch.Draw(backgrounds[2], new Vector2(BG_START_OFFSET, 0), Color.White);
 
             DrawBullets(spriteBatch);
             DrawUnits(spriteBatch);
@@ -329,6 +360,8 @@ namespace Rpg.Client.Models.Combat
             {
                 bullet.Draw(spriteBatch);
             }
+
+            spriteBatch.Draw(backgrounds[3], new Vector2(BG_START_OFFSET + -1 * _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
 
             spriteBatch.End();
         }
@@ -364,9 +397,29 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static Vector2 GetUnitPosition(int index, bool friendly)
+        private static readonly Vector2[] _unitPredefinedPositions = new[] {
+            new Vector2(300, 300),
+            new Vector2(200, 250),
+            new Vector2(200, 350)
+        };
+
+        private static Vector2 GetUnitPosition(int index, bool isPlayerControlled)
         {
-            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
+            var predefinedPosition = _unitPredefinedPositions[index];
+
+            Vector2 calculatedPosition;
+
+            if (isPlayerControlled)
+            {
+                calculatedPosition = predefinedPosition;
+            }
+            else
+            {
+                var xMirror = 400 + (400 - predefinedPosition.X);
+                calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
+            }
+
+            return calculatedPosition;
         }
 
         private UnitGameObject GetUnitView(CombatUnit combatUnit)
@@ -405,12 +458,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void HandleGlobe(bool fightWon)
+        private void HandleGlobe(bool victory)
         {
             _bossWasDefeat = false;
             _finalBossWasDefeat = false;
 
-            if (fightWon)
+            if (victory)
             {
                 _combat.Biom.Level++;
 
@@ -419,7 +472,7 @@ namespace Rpg.Client.Models.Combat
                     _combat.Biom.IsComplete = true;
                     _bossWasDefeat = true;
 
-                    if (_combat.Biom.IsFinalBiom)
+                    if (_combat.Biom.IsFinal)
                     {
                         _finalBossWasDefeat = true;
                     }
@@ -429,7 +482,8 @@ namespace Rpg.Client.Models.Combat
             {
                 if (_combat.Combat.IsBossLevel)
                 {
-                    _combat.Biom.Level = 0;
+                    var levelDiff = _combat.Biom.Level - _combat.Biom.MinLevel;
+                    _combat.Biom.Level = levelDiff / 2;
                 }
             }
         }
@@ -461,9 +515,9 @@ namespace Rpg.Client.Models.Combat
                                     _combat.UseSkill(skillCard.Skill, target.Unit);
                                 };
                                 break;
+                            case SkillScope.Undefined:
                             default:
                                 throw new InvalidOperationException();
-                                break;
                         }
 
                         _hudButtons.Add(icon);

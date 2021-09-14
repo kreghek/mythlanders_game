@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biom biom, IDice dice)
+        public ActiveCombat(Group playerGroup, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
             Combat = combat;
@@ -25,7 +25,7 @@ namespace Rpg.Client.Core
             _allUnitList = new List<CombatUnit>();
         }
 
-        public Biom Biom { get; }
+        public Biome Biom { get; }
 
         public CombatUnit? CurrentUnit
         {

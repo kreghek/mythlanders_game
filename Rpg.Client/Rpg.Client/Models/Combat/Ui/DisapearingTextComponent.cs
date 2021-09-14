@@ -6,6 +6,7 @@ using Rpg.Client.Engine;
 namespace Rpg.Client.Models.Combat.Ui
 {
     internal abstract class DisapearingTextComponent : EwarDrawableComponentBase
+
     {
         private readonly Vector2 _speed;
         private int _lifetime;

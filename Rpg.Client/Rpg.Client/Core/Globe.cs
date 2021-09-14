@@ -43,7 +43,7 @@ namespace Rpg.Client.Core
             var biomes = GenerateBiomes(biomNames);
 
             Bioms = biomes;
-            CurrentBiome = biomes.Single(x => x.IsStartBiom);
+            CurrentBiome = biomes.Single(x => x.IsStart);
         }
 
         [JsonIgnore]
@@ -53,10 +53,10 @@ namespace Rpg.Client.Core
         [JsonIgnore]
         public Event? AvailableDialog { get; internal set; }
 
-        public IEnumerable<Biom> Bioms { get; }
+        public IEnumerable<Biome> Bioms { get; }
 
         [JsonIgnore]
-        public Biom? CurrentBiome { get; set; }
+        public Biome? CurrentBiome { get; set; }
 
         public bool IsNodeInitialied { get; set; }
 
@@ -74,9 +74,9 @@ namespace Rpg.Client.Core
                     node.AvailableDialog = null;
                 }
 
-                if (biom.IsComplete && biom.UnlockBiom is not null)
+                if (biom.IsComplete && biom.UnlockBiome is not null)
                 {
-                    var unlockedBiom = Bioms.Single(x => x.Type == biom.UnlockBiom);
+                    var unlockedBiom = Bioms.Single(x => x.Type == biom.UnlockBiome);
 
                     unlockedBiom.IsAvailable = true;
                 }
@@ -172,7 +172,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biom biom, int combatLevel)
+        private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biome biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
                 .Where(x => !x.IsBoss && x.Biom == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
@@ -200,59 +200,58 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static Biom[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
+        private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
         {
+            const int BIOME_MIN_LEVEL_STEP = 25;
+            const int BIOME_NODE_COUNT = 10;
+
             return new[]
             {
-                new Biom
+                new Biome(0, BiomeType.Slavic)
                 {
-                    Type = BiomeType.Slavic,
                     IsAvailable = true,
-                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
                             Name = biomNames[BiomeType.Slavic][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomeType.China,
-                    IsStartBiom = true
+                    UnlockBiome = BiomeType.China,
+                    IsStart = true
                 },
-                new Biom
+                new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.China)
                 {
-                    Type = BiomeType.China,
-                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
                             Name = biomNames[BiomeType.China][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomeType.Egypt
+                    UnlockBiome = BiomeType.Egypt
                 },
-                new Biom
+                new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egypt)
                 {
-                    Type = BiomeType.Egypt,
-                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
                             Name = biomNames[BiomeType.Egypt][x]
                         }
                     ).ToArray(),
-                    UnlockBiom = BiomeType.Greek
+                    UnlockBiome = BiomeType.Greek
                 },
-                new Biom
+                new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
                 {
-                    Type = BiomeType.Greek,
-                    Nodes = Enumerable.Range(0, 10).Select(x =>
+                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
                             Index = x,
                             Name = biomNames[BiomeType.Greek][x]
                         }
                     ).ToArray(),
-                    IsFinalBiom = true
+                    IsFinal = true
                 }
             };
         }

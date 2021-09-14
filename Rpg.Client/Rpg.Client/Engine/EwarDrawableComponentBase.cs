@@ -19,7 +19,6 @@ namespace Rpg.Client.Engine
 
         protected ICollection<IEwarDrawableComponent> ComponentsCollection { get; }
         protected EwarGame Game { get; }
-        protected SpriteBatch SpriteBatch { get; }
 
         protected void Remove()
         {

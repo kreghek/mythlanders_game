@@ -90,6 +90,37 @@ namespace Rpg.Client.Models.Biome
                 return;
             }
 
+            DrawObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+
+            base.Draw(gameTime, spriteBatch);
+        }
+
+        private void DrawHud(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            var buttonIndex = 0;
+            foreach (var button in _menuButtons)
+            {
+                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
+                button.Draw(spriteBatch);
+                buttonIndex++;
+            }
+
+            var biome = _globe.CurrentBiome;
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {biome.Level}", new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+
+            if (_partyModal.IsVisible)
+            {
+                _partyModal.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
+        }
+
+        private void DrawObjects(SpriteBatch spriteBatch)
+        {
             spriteBatch.Begin();
 
             var biome = _globe.CurrentBiome;
@@ -128,24 +159,6 @@ namespace Rpg.Client.Models.Biome
             }
 
             spriteBatch.End();
-
-            spriteBatch.Begin();
-            var buttonIndex = 0;
-            foreach (var button in _menuButtons)
-            {
-                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
-                button.Draw(spriteBatch);
-                buttonIndex++;
-            }
-
-            if (_partyModal.IsVisible)
-            {
-                _partyModal.Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
