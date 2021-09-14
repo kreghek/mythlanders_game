@@ -247,7 +247,7 @@ namespace Rpg.Client.Models.Biome
             var endPosition = startPosition1;
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
-            var speed = _random.NextDouble()  + MAX_CLOUD_SPEED;
+            var speed = _random.NextDouble() + MAX_CLOUD_SPEED;
             var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(),
                 textureIndex,
                 startPosition,
