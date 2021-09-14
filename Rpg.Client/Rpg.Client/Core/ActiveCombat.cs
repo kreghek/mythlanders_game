@@ -196,9 +196,9 @@ namespace Rpg.Client.Core
         {
             if (Finished)
             {
-                Finish?.Invoke(this,
-                    new CombatFinishEventArgs
-                        { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
+                var allMonstersAreDead = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+                var eventArgs = new CombatFinishEventArgs { Victory = allMonstersAreDead };
+                Finish?.Invoke(this, eventArgs);
                 return;
             }
 
