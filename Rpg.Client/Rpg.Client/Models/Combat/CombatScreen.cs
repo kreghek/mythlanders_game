@@ -19,6 +19,13 @@ namespace Rpg.Client.Models.Combat
 {
     internal class CombatScreen : GameScreenBase
     {
+        private static readonly Vector2[] _unitPredefinedPositions =
+        {
+            new Vector2(300, 300),
+            new Vector2(200, 250),
+            new Vector2(200, 350)
+        };
+
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
@@ -28,6 +35,8 @@ namespace Rpg.Client.Models.Combat
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
+
+        private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
         private CombatResultPanel? _combatResultPanel;
         private CombatSkillPanel? _combatSkillsPanel;
@@ -144,24 +153,6 @@ namespace Rpg.Client.Models.Combat
             HandleBackgrounds();
 
             base.Update(gameTime);
-        }
-
-        private void HandleBackgrounds()
-        {
-            var mouse = Mouse.GetState();
-            _bgCenterOffsetPercentage = ((float)mouse.X - Game.GraphicsDevice.Viewport.Width / 2) / Game.GraphicsDevice.Viewport.Width / 2;
-            if (_bgCenterOffsetPercentage < -1)
-            {
-                _bgCenterOffsetPercentage = -1;
-            }
-            else if (_bgCenterOffsetPercentage > 1)
-            {
-                _bgCenterOffsetPercentage = 1;
-            }
-            else
-            {
-                // Do nothing. Percentage in the bound.
-            }
         }
 
         private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
@@ -338,8 +329,6 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private float _bgCenterOffsetPercentage = 0;
-
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -349,8 +338,10 @@ namespace Rpg.Client.Models.Combat
             const int BG_START_OFFSET = -100;
             const int BG_MAX_OFSSET = 200;
 
-            spriteBatch.Draw(backgrounds[0], new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
-            spriteBatch.Draw(backgrounds[1], new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.15f * BG_MAX_OFSSET, 0), Color.White);
+            spriteBatch.Draw(backgrounds[0],
+                new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
+            spriteBatch.Draw(backgrounds[1],
+                new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.15f * BG_MAX_OFSSET, 0), Color.White);
             spriteBatch.Draw(backgrounds[2], new Vector2(BG_START_OFFSET, 0), Color.White);
 
             DrawBullets(spriteBatch);
@@ -361,7 +352,8 @@ namespace Rpg.Client.Models.Combat
                 bullet.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(backgrounds[3], new Vector2(BG_START_OFFSET + -1 * _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
+            spriteBatch.Draw(backgrounds[3],
+                new Vector2(BG_START_OFFSET + -1 * _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
 
             spriteBatch.End();
         }
@@ -397,12 +389,6 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static readonly Vector2[] _unitPredefinedPositions = new[] {
-            new Vector2(300, 300),
-            new Vector2(200, 250),
-            new Vector2(200, 350)
-        };
-
         private static Vector2 GetUnitPosition(int index, bool isPlayerControlled)
         {
             var predefinedPosition = _unitPredefinedPositions[index];
@@ -425,6 +411,21 @@ namespace Rpg.Client.Models.Combat
         private UnitGameObject GetUnitView(CombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.Unit == combatUnit);
+        }
+
+        private void HandleBackgrounds()
+        {
+            var mouse = Mouse.GetState();
+            _bgCenterOffsetPercentage = ((float)mouse.X - Game.GraphicsDevice.Viewport.Width / 2) /
+                                        Game.GraphicsDevice.Viewport.Width / 2;
+            if (_bgCenterOffsetPercentage < -1)
+            {
+                _bgCenterOffsetPercentage = -1;
+            }
+            else if (_bgCenterOffsetPercentage > 1)
+            {
+                _bgCenterOffsetPercentage = 1;
+            }
         }
 
         private IEnumerable<GainLevelResult> HandleGainXp()
