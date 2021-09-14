@@ -10,7 +10,7 @@ namespace Rpg.Client.Core
 
         private readonly IList<CombatUnit> _unitQueue;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biom biom)
+        public ActiveCombat(Group playerGroup, Combat combat, Biome biom)
         {
             _playerGroup = playerGroup;
             Combat = combat;
@@ -19,7 +19,7 @@ namespace Rpg.Client.Core
             _allUnitList = new List<CombatUnit>();
         }
 
-        public Biom Biom { get; }
+        public Biome Biom { get; }
 
         public CombatUnit? CurrentUnit => _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
 

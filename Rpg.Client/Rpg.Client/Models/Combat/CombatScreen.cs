@@ -518,12 +518,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void HandleGlobe(bool fightWon)
+        private void HandleGlobe(bool victory)
         {
             _bossWasDefeat = false;
             _finalBossWasDefeat = false;
 
-            if (fightWon)
+            if (victory)
             {
                 _combat.Biom.Level++;
 
@@ -532,7 +532,7 @@ namespace Rpg.Client.Models.Combat
                     _combat.Biom.IsComplete = true;
                     _bossWasDefeat = true;
 
-                    if (_combat.Biom.IsFinalBiom)
+                    if (_combat.Biom.IsFinal)
                     {
                         _finalBossWasDefeat = true;
                     }
@@ -542,7 +542,8 @@ namespace Rpg.Client.Models.Combat
             {
                 if (_combat.Combat.IsBossLevel)
                 {
-                    _combat.Biom.Level = 0;
+                    var levelDiff = _combat.Biom.Level - _combat.Biom.MinLevel;
+                    _combat.Biom.Level = levelDiff / 2;
                 }
             }
         }
