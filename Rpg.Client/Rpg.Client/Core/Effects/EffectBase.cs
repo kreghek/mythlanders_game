@@ -5,36 +5,11 @@ namespace Rpg.Client.Core.Effects
 {
     internal abstract class EffectBase
     {
-        protected bool IsImposed { get; private set; }
         public CombatUnit? Target { get; private set; }
+        protected bool IsImposed { get; private set; }
 
         /// <summary>
-        ///     Наложение.
-        /// </summary>
-        /// <param name="target"></param>
-        public void Impose(CombatUnit target)
-        {
-            Target = target;
-            IsImposed = true;
-            Imposed?.Invoke(this, Target);
-        }
-
-        /// <summary>
-        ///     Воздействие.
-        /// </summary>
-        public void Influence()
-        {
-            if (!IsImposed || Target is null)
-            {
-                Debug.Assert(false, "Эффект не наложен");
-                return;
-            }
-            InfluenceAction();
-            Influenced?.Invoke(this, Target);
-        }
-
-        /// <summary>
-        ///     Снятие.
+        /// Снятие.
         /// </summary>
         public void Dispel()
         {
@@ -46,6 +21,32 @@ namespace Rpg.Client.Core.Effects
 
             IsImposed = false;
             Dispelled?.Invoke(this, Target);
+        }
+
+        /// <summary>
+        /// Наложение.
+        /// </summary>
+        /// <param name="target"></param>
+        public void Impose(CombatUnit target)
+        {
+            Target = target;
+            IsImposed = true;
+            Imposed?.Invoke(this, Target);
+        }
+
+        /// <summary>
+        /// Воздействие.
+        /// </summary>
+        public void Influence()
+        {
+            if (!IsImposed || Target is null)
+            {
+                Debug.Assert(false, "Эффект не наложен");
+                return;
+            }
+
+            InfluenceAction();
+            Influenced?.Invoke(this, Target);
         }
 
         protected abstract void InfluenceAction();

@@ -23,18 +23,18 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
-        private readonly IList<ButtonBase> _hudButtons;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly GlobeProvider _globeProvider;
+        private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
         private bool _bossWasDefeat;
         private CombatResultPanel? _combatResultPanel;
         private CombatSkillPanel? _combatSkillsPanel;
 
-        private UnitGameObject? _selectedUnitForPlayerSkill; // �� ��, �������.
-
         private bool _finalBossWasDefeat;
+
+        private UnitGameObject? _selectedUnitForPlayerSkill; // �� ��, �������.
         private bool _unitsInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
@@ -60,6 +60,15 @@ namespace Rpg.Client.Models.Combat
             _dice = game.Services.GetService<IDice>();
         }
 
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            DrawGameObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+
+            base.Draw(gameTime, spriteBatch);
+        }
+
         public void Initialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
@@ -74,243 +83,6 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
-        private void Combat_UnitHadDamage(object? sender, CombatUnit e)
-        {
-            var unitGameObject = GetUnitView(e);
-
-            unitGameObject.AnimateWound();
-        }
-
-        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
-        {
-            _hudButtons.Clear();
-            _combatSkillsPanel = null;
-            _combatResultPanel = new CombatResultPanel(_uiContentStorage);
-            _combatResultPanel.Closed += CombatResultPanel_Closed;
-            if (e.Victory)
-            {
-                var xpItems = HandleGainXp().ToArray();
-                ApplyXp(xpItems);
-                HandleGlobe(true);
-                _combatResultPanel.Initialize(CombatResult.Victory, xpItems);
-            }
-            else
-            {
-                HandleGlobe(false);
-                _combatResultPanel.Initialize(CombatResult.Defeat, Array.Empty<GainLevelResult>());
-            }
-        }
-
-        private void Combat_ActionGenerated(object? sender, ActiveCombat.ActionEventArgs action)
-        {
-            var actor = GetUnitView(action.Actor);
-            UnitGameObject? target;
-            var skillCard = new CombatSkillCard(action.Skill);// _combatSkillsPanel.SelectedCard;// e.Skill;
-            switch (skillCard.Skill.TargetType)
-            {
-                case SkillTarget.Enemy:
-                    {
-                        var blocker = _animationManager.CreateAndUseBlocker();
-                        var bulletBlocker = _animationManager.CreateAndUseBlocker();
-
-                        blocker.Released += (s, e) =>
-                        {
-                            _combat.Update();
-                        };
-
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.AllEnemyGroup:
-                                target = actor.Unit.Unit.IsPlayerControlled
-                                    ? _selectedUnitForPlayerSkill
-                                    : _dice.RollFromList(_gameObjects.Where(x => x.Unit.Unit.IsPlayerControlled && !x.Unit.Unit.IsDead).ToList());
-
-                                _selectedUnitForPlayerSkill = null;
-
-                                actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
-                                break;
-
-                            case SkillScope.Single:
-                                target = GetUnitView(action.Target);
-                                if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
-                                {
-                                    actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
-                                }
-
-                                break;
-
-                            default:
-                                throw new InvalidOperationException();
-                                break;
-                        }
-                    }
-                    break;
-
-                case SkillTarget.Friendly:
-                    {
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.Single:
-                                target = GetUnitView(action.Target);
-
-                                var blocker = _animationManager.CreateAndUseBlocker();
-
-                                blocker.Released += (s, e) =>
-                                {
-                                    _combat.Update();
-                                };
-
-                                actor.Heal(target, blocker, skillCard, action.Action);
-                                break;
-                            default:
-                                throw new InvalidOperationException();
-                        }
-                    }
-                    break;
-                default:
-                    Debug.Fail("�� ����� ��� �����");
-                    break;
-            }
-        }
-
-        private void Combat_UnitDied(object? sender, CombatUnit e)
-        {
-            GetUnitView(e).AnimateDeath();
-        }
-
-        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
-        {
-            RefreshHudButtons(skillCard);
-        }
-
-        private void RefreshHudButtons(CombatSkillCard? skillCard)
-        {
-            _hudButtons.Clear();
-
-            if (skillCard is null)
-                return;
-
-            if (_combat.CurrentUnit is null)
-            {
-                Debug.Fail("WTF!");
-                return;
-            }
-
-            var actor = GetUnitView(_combat.CurrentUnit);
-            var skill = skillCard.Skill;
-
-            foreach (var target in _gameObjects.Where(x => !x.Unit.Unit.IsDead))
-            {
-                InitHudButton(actor, target, skillCard);
-            }
-        }
-
-        private void InitHudButton(UnitGameObject actor, UnitGameObject target, CombatSkillCard skillCard)
-        {
-            switch (skillCard.Skill.TargetType)
-            {
-                case SkillTarget.Enemy:
-
-                    if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
-                    {
-                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
-                            _uiContentStorage.GetButtonTexture(), new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
-
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.AllEnemyGroup:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _selectedUnitForPlayerSkill = target;
-                                    _combat.UseSkill(skillCard.Skill);
-                                };
-                                break;
-                            case SkillScope.Single:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _combat.UseSkill(skillCard.Skill, target.Unit);
-                                };
-                                break;
-                            default:
-                                throw new InvalidOperationException();
-                                break;
-                        }
-
-                        _hudButtons.Add(icon);
-                    }
-                    break;
-                case SkillTarget.Friendly:
-                    if (actor.Unit.Unit.IsPlayerControlled == target.Unit.Unit.IsPlayerControlled)
-                    {
-                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
-                            _uiContentStorage.GetButtonTexture(), new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
-
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.Single:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _combat.UseSkill(skillCard.Skill, target.Unit);
-                                };
-                                break;
-                            default:
-                                throw new InvalidOperationException();
-                        }
-
-                        _hudButtons.Add(icon);
-                    }
-                    break;
-                default:
-                    Debug.Fail("�� ����� ��� �����");
-                    break;
-            }
-        }
-
-        private void Combat_UnitEntered(object? sender, CombatUnit unit)
-        {
-            var position = GetUnitPosition(unit.Index, unit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
-            _gameObjects.Add(gameObject);
-            unit.Damaged += Unit_Damaged;
-            unit.Healed += Unit_Healed;
-        }
-
-        private void Unit_Healed(object? sender, CombatUnit.UnitHpchangedEventArgs e)
-        {
-            var unitView = GetUnitView(e.Unit);
-            AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
-        }
-
-        private void Unit_Damaged(object? sender, CombatUnit.UnitHpchangedEventArgs e)
-        {
-            var unitView = GetUnitView(e.Unit);
-            AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
-        }
-
-        private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
-        {
-            _combatSkillsPanel.Unit = e.NewUnit?.Unit.IsPlayerControlled == true ? e.NewUnit : null;
-            if (e.OldUnit != null)
-                GetUnitView(e.OldUnit).IsActive = false;
-
-            if (e.NewUnit != null)
-                GetUnitView(e.NewUnit).IsActive = true;
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            DrawGameObjects(spriteBatch);
-
-            DrawHud(spriteBatch);
-
-            base.Draw(gameTime, spriteBatch);
-        }
-
-        private UnitGameObject GetUnitView(CombatUnit combatUnit)
-        {
-            return _gameObjects.First(x => x.Unit == combatUnit);
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -318,6 +90,7 @@ namespace Rpg.Client.Models.Combat
             {
                 Game.Exit();
             }
+
             if (!_unitsInitialized)
             {
                 Initialize();
@@ -379,9 +152,133 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static Vector2 GetUnitPosition(int index, bool friendly)
+        private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
         {
-            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
+            var actor = GetUnitView(action.Actor);
+            UnitGameObject? target;
+            var skillCard = new CombatSkillCard(action.Skill); // _combatSkillsPanel.SelectedCard;// e.Skill;
+            switch (skillCard.Skill.TargetType)
+            {
+                case SkillTarget.Enemy:
+                    {
+                        var blocker = _animationManager.CreateAndUseBlocker();
+                        var bulletBlocker = _animationManager.CreateAndUseBlocker();
+
+                        blocker.Released += (s, e) =>
+                        {
+                            _combat.Update();
+                        };
+
+                        switch (skillCard.Skill.Scope)
+                        {
+                            case SkillScope.AllEnemyGroup:
+                                target = actor.Unit.Unit.IsPlayerControlled
+                                    ? _selectedUnitForPlayerSkill
+                                    : _dice.RollFromList(_gameObjects
+                                        .Where(x => x.Unit.Unit.IsPlayerControlled && !x.Unit.Unit.IsDead).ToList());
+
+                                _selectedUnitForPlayerSkill = null;
+
+                                actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
+                                break;
+
+                            case SkillScope.Single:
+                                target = GetUnitView(action.Target);
+                                if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
+                                {
+                                    actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
+                                        action.Action);
+                                }
+
+                                break;
+
+                            default:
+                                throw new InvalidOperationException();
+                                break;
+                        }
+                    }
+                    break;
+
+                case SkillTarget.Friendly:
+                    {
+                        switch (skillCard.Skill.Scope)
+                        {
+                            case SkillScope.Single:
+                                target = GetUnitView(action.Target);
+
+                                var blocker = _animationManager.CreateAndUseBlocker();
+
+                                blocker.Released += (s, e) =>
+                                {
+                                    _combat.Update();
+                                };
+
+                                actor.Heal(target, blocker, skillCard, action.Action);
+                                break;
+                            default:
+                                throw new InvalidOperationException();
+                        }
+                    }
+                    break;
+                default:
+                    Debug.Fail("�� ����� ��� �����");
+                    break;
+            }
+        }
+
+        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
+        {
+            _hudButtons.Clear();
+            _combatSkillsPanel = null;
+            _combatResultPanel = new CombatResultPanel(_uiContentStorage);
+            _combatResultPanel.Closed += CombatResultPanel_Closed;
+            if (e.Victory)
+            {
+                var xpItems = HandleGainXp().ToArray();
+                ApplyXp(xpItems);
+                HandleGlobe(true);
+                _combatResultPanel.Initialize(CombatResult.Victory, xpItems);
+            }
+            else
+            {
+                HandleGlobe(false);
+                _combatResultPanel.Initialize(CombatResult.Defeat, Array.Empty<GainLevelResult>());
+            }
+        }
+
+        private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
+        {
+            _combatSkillsPanel.Unit = e.NewUnit?.Unit.IsPlayerControlled == true ? e.NewUnit : null;
+            if (e.OldUnit != null)
+            {
+                GetUnitView(e.OldUnit).IsActive = false;
+            }
+
+            if (e.NewUnit != null)
+            {
+                GetUnitView(e.NewUnit).IsActive = true;
+            }
+        }
+
+        private void Combat_UnitDied(object? sender, CombatUnit e)
+        {
+            GetUnitView(e).AnimateDeath();
+        }
+
+        private void Combat_UnitEntered(object? sender, CombatUnit unit)
+        {
+            var position = GetUnitPosition(unit.Index, unit.Unit.IsPlayerControlled);
+            var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
+            _gameObjects.Add(gameObject);
+            unit.Damaged += Unit_Damaged;
+            unit.Healed += Unit_Healed;
+        }
+
+        private void Combat_UnitHadDamage(object? sender, CombatUnit e)
+        {
+            var unitGameObject = GetUnitView(e);
+
+            unitGameObject.AnimateWound();
         }
 
         private void CombatResultPanel_Closed(object? sender, EventArgs e)
@@ -406,6 +303,11 @@ namespace Rpg.Client.Models.Combat
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
+        }
+
+        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
+        {
+            RefreshHudButtons(skillCard);
         }
 
         private void DrawBullets(SpriteBatch spriteBatch)
@@ -460,6 +362,16 @@ namespace Rpg.Client.Models.Combat
             {
                 gameObject.Draw(spriteBatch);
             }
+        }
+
+        private static Vector2 GetUnitPosition(int index, bool friendly)
+        {
+            return new Vector2(friendly ? 100 : 400, index * 128 + 100);
+        }
+
+        private UnitGameObject GetUnitView(CombatUnit combatUnit)
+        {
+            return _gameObjects.First(x => x.Unit == combatUnit);
         }
 
         private IEnumerable<GainLevelResult> HandleGainXp()
@@ -520,6 +432,107 @@ namespace Rpg.Client.Models.Combat
                     _combat.Biom.Level = 0;
                 }
             }
+        }
+
+        private void InitHudButton(UnitGameObject actor, UnitGameObject target, CombatSkillCard skillCard)
+        {
+            switch (skillCard.Skill.TargetType)
+            {
+                case SkillTarget.Enemy:
+
+                    if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
+                    {
+                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+                            _uiContentStorage.GetButtonTexture(),
+                            new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+
+                        switch (skillCard.Skill.Scope)
+                        {
+                            case SkillScope.AllEnemyGroup:
+                                icon.OnClick += (s, e) =>
+                                {
+                                    _selectedUnitForPlayerSkill = target;
+                                    _combat.UseSkill(skillCard.Skill);
+                                };
+                                break;
+                            case SkillScope.Single:
+                                icon.OnClick += (s, e) =>
+                                {
+                                    _combat.UseSkill(skillCard.Skill, target.Unit);
+                                };
+                                break;
+                            default:
+                                throw new InvalidOperationException();
+                                break;
+                        }
+
+                        _hudButtons.Add(icon);
+                    }
+
+                    break;
+                case SkillTarget.Friendly:
+                    if (actor.Unit.Unit.IsPlayerControlled == target.Unit.Unit.IsPlayerControlled)
+                    {
+                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+                            _uiContentStorage.GetButtonTexture(),
+                            new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+
+                        switch (skillCard.Skill.Scope)
+                        {
+                            case SkillScope.Single:
+                                icon.OnClick += (s, e) =>
+                                {
+                                    _combat.UseSkill(skillCard.Skill, target.Unit);
+                                };
+                                break;
+                            default:
+                                throw new InvalidOperationException();
+                        }
+
+                        _hudButtons.Add(icon);
+                    }
+
+                    break;
+                default:
+                    Debug.Fail("�� ����� ��� �����");
+                    break;
+            }
+        }
+
+        private void RefreshHudButtons(CombatSkillCard? skillCard)
+        {
+            _hudButtons.Clear();
+
+            if (skillCard is null)
+            {
+                return;
+            }
+
+            if (_combat.CurrentUnit is null)
+            {
+                Debug.Fail("WTF!");
+                return;
+            }
+
+            var actor = GetUnitView(_combat.CurrentUnit);
+            var skill = skillCard.Skill;
+
+            foreach (var target in _gameObjects.Where(x => !x.Unit.Unit.IsDead))
+            {
+                InitHudButton(actor, target, skillCard);
+            }
+        }
+
+        private void Unit_Damaged(object? sender, CombatUnit.UnitHpchangedEventArgs e)
+        {
+            var unitView = GetUnitView(e.Unit);
+            AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
+        }
+
+        private void Unit_Healed(object? sender, CombatUnit.UnitHpchangedEventArgs e)
+        {
+            var unitView = GetUnitView(e.Unit);
+            AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
         }
     }
 }

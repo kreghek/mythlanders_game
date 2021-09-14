@@ -7,11 +7,10 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal abstract class DisapearingTextComponent : EwarDrawableComponentBase
     {
+        private int _lifetime;
         private Vector2 _position;
 
-        private int _lifetime;
-
-        private Vector2 _speed;
+        private readonly Vector2 _speed;
 
         public DisapearingTextComponent(EwarGame game, Vector2 startPosition) : base(game)
         {
@@ -36,6 +35,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 Remove();
                 return;
             }
+
             var elapsed = gameTime.ElapsedGameTime.Milliseconds;
 
             _position += _speed * elapsed;
@@ -45,8 +45,8 @@ namespace Rpg.Client.Models.Combat.Ui
             base.Update(gameTime);
         }
 
-        protected abstract string GetText();
-
         protected abstract Color GetColor();
+
+        protected abstract string GetText();
     }
 }

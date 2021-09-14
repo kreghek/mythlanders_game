@@ -7,11 +7,11 @@ namespace Rpg.Client.Core
 {
     internal class ActiveCombat
     {
-        private CombatUnit _currentUnit;
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
 
         private readonly IList<CombatUnit> _unitQueue;
+        private CombatUnit _currentUnit;
 
         private int _round;
 
@@ -32,14 +32,16 @@ namespace Rpg.Client.Core
             set
             {
                 if (_currentUnit == value)
+                {
                     return;
+                }
 
                 var oldUnit = _currentUnit;
 
                 _currentUnit = value;
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
-        }//=> _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+        } //=> _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
@@ -73,7 +75,9 @@ namespace Rpg.Client.Core
         public void UseSkill(CombatSkill skill, CombatUnit target)
         {
             if (skill.Scope != SkillScope.Single)
+            {
                 throw new InvalidOperationException("Не верные рамки скила");
+            }
 
             var dice = GetDice();
 
@@ -82,26 +86,34 @@ namespace Rpg.Client.Core
             if (target.Unit.IsPlayerControlled == CurrentUnit.Unit.IsPlayerControlled)
             {
                 if (skill.TargetType != SkillTarget.Friendly)
+                {
                     throw new InvalidOperationException("Не верная цель скила");
+                }
 
                 action = () =>
                 {
-                    BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
+                    BeforeSkillUsing?.Invoke(this,
+                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
                     target.Unit.TakeHeal(dice.Roll(skill.DamageMin, skill.DamageMax));
-                    AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
+                    AfterSkillUsing?.Invoke(this,
+                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
                     MoveCompleted?.Invoke(this, CurrentUnit);
                 };
             }
             else
             {
                 if (skill.TargetType != SkillTarget.Enemy)
+                {
                     throw new InvalidOperationException("Не верная цель скила");
+                }
 
                 action = () =>
                 {
-                    BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
+                    BeforeSkillUsing?.Invoke(this,
+                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
                     target.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
-                    AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
+                    AfterSkillUsing?.Invoke(this,
+                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
                     MoveCompleted?.Invoke(this, CurrentUnit);
                 };
             }
@@ -118,7 +130,9 @@ namespace Rpg.Client.Core
         public void UseSkill(CombatSkill skill)
         {
             if (skill.Scope != SkillScope.AllEnemyGroup)
+            {
                 throw new InvalidOperationException("Не верные рамки скила");
+            }
 
             var dice = GetDice();
 
@@ -134,6 +148,7 @@ namespace Rpg.Client.Core
                 {
                     unit.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
                 }
+
                 AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
                 MoveCompleted?.Invoke(this, CurrentUnit);
             };
@@ -146,53 +161,11 @@ namespace Rpg.Client.Core
             });
         }
 
-        private IDice GetDice()
-        {
-            return new LinearDice(DateTime.Now.Millisecond);
-        }
-
-        private void StartRound()
-        {
-            _unitQueue.Clear();
-
-            foreach (var unit in _allUnitList)
-            {
-                if (!unit.Unit.IsDead)
-                {
-                    _unitQueue.Add(unit);
-                }
-            }
-
-            _round++;
-
-        }
-
-        private void Unit_Dead(object? sender, EventArgs e)
-        {
-            if (!(sender is Unit unit))
-                return;
-
-            var combatUnit = _unitQueue.First(x => x.Unit == unit);
-            _unitQueue.Remove(combatUnit);
-
-            unit.Dead -= Unit_Dead;
-            UnitDied?.Invoke(this, combatUnit);
-        }
-
-        private bool NextUnit()
-        {
-            if (_round <= 0)
-                return false;
-
-            _unitQueue.RemoveAt(0);
-            return _unitQueue.Count != 0;
-        }
-
         internal void Initialize()
         {
             _allUnitList.Clear();
 
-            int index = 0;
+            var index = 0;
             foreach (var unit in _playerGroup.Units)
             {
                 var combatUnit = new CombatUnit(unit, index);
@@ -218,10 +191,30 @@ namespace Rpg.Client.Core
             UnitChanged += ActiveCombat_UnitChanged;
         }
 
+        internal void Update()
+        {
+            if (Finished)
+            {
+                Finish?.Invoke(this,
+                    new CombatFinishEventArgs
+                        { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
+                return;
+            }
+
+            if (!NextUnit())
+            {
+                StartRound();
+            }
+
+            CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+        }
+
         private void ActiveCombat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
             if (e.NewUnit?.Unit.IsPlayerControlled == false)
+            {
                 AI();
+            }
         }
 
         private void AI()
@@ -229,7 +222,9 @@ namespace Rpg.Client.Core
             var dice = GetDice();
 
             if (CurrentUnit is null)
+            {
                 return;
+            }
 
             var skills = CurrentUnit.Unit.Skills.ToArray();
             var skill = dice.RollFromList(skills, 1).Single();
@@ -245,7 +240,9 @@ namespace Rpg.Client.Core
             switch (combatPowerScope)
             {
                 case SkillScope.Single:
-                    var targetPlayerObject = dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1).Single();
+                    var targetPlayerObject =
+                        dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
+                            .Single();
                     UseSkill(skill, targetPlayerObject);
                     break;
 
@@ -260,18 +257,49 @@ namespace Rpg.Client.Core
             }
         }
 
-        internal void Update()
+        private IDice GetDice()
         {
-            if (Finished)
+            return new LinearDice(DateTime.Now.Millisecond);
+        }
+
+        private bool NextUnit()
+        {
+            if (_round <= 0)
             {
-                Finish?.Invoke(this, new CombatFinishEventArgs { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
+                return false;
+            }
+
+            _unitQueue.RemoveAt(0);
+            return _unitQueue.Count != 0;
+        }
+
+        private void StartRound()
+        {
+            _unitQueue.Clear();
+
+            foreach (var unit in _allUnitList)
+            {
+                if (!unit.Unit.IsDead)
+                {
+                    _unitQueue.Add(unit);
+                }
+            }
+
+            _round++;
+        }
+
+        private void Unit_Dead(object? sender, EventArgs e)
+        {
+            if (!(sender is Unit unit))
+            {
                 return;
             }
 
-            if (!NextUnit())
-                StartRound();
+            var combatUnit = _unitQueue.First(x => x.Unit == unit);
+            _unitQueue.Remove(combatUnit);
 
-            CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            unit.Dead -= Unit_Dead;
+            UnitDied?.Invoke(this, combatUnit);
         }
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
@@ -291,29 +319,27 @@ namespace Rpg.Client.Core
         internal event EventHandler<CombatUnit>? UnitHadDamage;
 
 
-
         internal event EventHandler<ActionEventArgs> ActionGenerated;
 
         internal class SkillUsingEventArgs : EventArgs
         {
             public CombatUnit Actor { get; set; }
-            public CombatUnit? Target { get; set; }
             public CombatSkill Skill { get; set; }
+            public CombatUnit? Target { get; set; }
         }
 
         internal class ActionEventArgs : EventArgs
         {
-            public CombatUnit Actor { get; set; }
-            public CombatUnit? Target { get; set; }
-            public CombatSkill Skill { get; set; }
-
             public Action Action { get; set; }
+            public CombatUnit Actor { get; set; }
+            public CombatSkill Skill { get; set; }
+            public CombatUnit? Target { get; set; }
         }
 
         internal class UnitChangedEventArgs : EventArgs
         {
-            public CombatUnit? OldUnit { get; set; }
             public CombatUnit? NewUnit { get; set; }
+            public CombatUnit? OldUnit { get; set; }
         }
 
         internal class CombatFinishEventArgs : EventArgs

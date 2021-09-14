@@ -8,14 +8,14 @@ namespace Rpg.Client.Models.Combat.Ui
         {
         }
 
-        protected override string GetText()
-        {
-            return "Passed";
-        }
-
         protected override Color GetColor()
         {
             return Color.DarkSlateGray;
+        }
+
+        protected override string GetText()
+        {
+            return "Passed";
         }
     }
 }

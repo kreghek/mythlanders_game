@@ -60,7 +60,9 @@ namespace Rpg.Client.Core
             Hp -= Math.Min(Hp, damage);
             DamageTaken?.Invoke(this, damage);
             if (Hp <= 0)
+            {
                 Dead?.Invoke(this, new EventArgs());
+            }
         }
 
         public void TakeHeal(int heal)

@@ -4,13 +4,14 @@ namespace Rpg.Client.Core
 {
     internal sealed class AttackInteraction : IUnitInteraction
     {
-        private readonly ActiveCombat _combat;
         private readonly CombatUnit _attacker;
+        private readonly ActiveCombat _combat;
         private readonly CombatSkillCard _combatSkillCard;
         private readonly Action _postExecute;
         private readonly CombatUnit _target;
 
-        public AttackInteraction(ActiveCombat combat, CombatUnit attacker, CombatUnit target, CombatSkillCard combatSkillCard,
+        public AttackInteraction(ActiveCombat combat, CombatUnit attacker, CombatUnit target,
+            CombatSkillCard combatSkillCard,
             Action postExecute)
         {
             _combat = combat;

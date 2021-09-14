@@ -36,18 +36,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public CombatUnit? Unit { get; internal set; }
 
-        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
+        public void AnimateDeath()
         {
-
-            if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
-            {
-                bulletBlocker.Release();
-            }
-            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
-                action);
-
-            AddStateEngine(state);
+            AddStateEngine(new DeathState(_graphics));
         }
 
         public void AnimateWound()
@@ -55,9 +46,18 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
-        public void AnimateDeath()
+        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
         {
-            AddStateEngine(new DeathState(_graphics));
+            if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
+            {
+                bulletBlocker.Release();
+            }
+
+            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
+                action);
+
+            AddStateEngine(state);
         }
 
         public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
@@ -96,7 +96,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _graphics.Root.Position - new Vector2(0, 80), color);
         }
 
-        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard, Action action)
+        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard,
+            Action action)
         {
             var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
                 action);

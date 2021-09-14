@@ -13,8 +13,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly UnitGraphics _graphics;
-        private readonly Action _interaction;
         private readonly SoundEffectInstance _hitSound;
+        private readonly Action _interaction;
         private double _counter;
 
         private bool _interactionExecuted;
@@ -23,7 +23,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             SoundEffectInstance hitSound)
             : this(graphics, attackInteraction, default, hitSound)
         {
-
         }
 
         public HitState(

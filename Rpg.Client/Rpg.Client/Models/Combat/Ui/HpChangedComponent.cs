@@ -10,14 +10,15 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             _amount = amount;
         }
-        protected override string GetText()
-        {
-            return $"{_amount} HP";
-        }
 
         protected override Color GetColor()
         {
             return _amount >= 0 ? Color.LightGreen : Color.Red;
+        }
+
+        protected override string GetText()
+        {
+            return $"{_amount} HP";
         }
     }
 }

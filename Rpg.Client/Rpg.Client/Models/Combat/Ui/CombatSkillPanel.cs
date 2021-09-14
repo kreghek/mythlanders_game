@@ -24,14 +24,13 @@ namespace Rpg.Client.Models.Combat.Ui
 
         public CombatSkillCard? SelectedCard
         {
-            get
-            {
-                return _selectedCard;
-            }
+            get => _selectedCard;
             set
             {
                 if (_selectedCard == value)
+                {
                     return;
+                }
 
                 _selectedCard = value;
 
@@ -86,7 +85,9 @@ namespace Rpg.Client.Models.Combat.Ui
             SelectedCard = null;
 
             if (_unit is null)
+            {
                 return;
+            }
             //{
             //    throw new InvalidOperationException("Unit required to be initialized before.");
             //}

@@ -8,12 +8,9 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SkillRule
     {
+        public SkillDirection Direction { get; set; }
         public SkillScope Scope { get; set; }
 
         public SkillType Target { get; set; }
-
-        public SkillDirection Direction { get; set; }
-
-
     }
 }
