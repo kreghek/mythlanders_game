@@ -75,7 +75,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     _interactionExecuted = true;
 
-                    _interaction?.Invoke();                    
+                    _interaction?.Invoke();
                 }
             }
         }

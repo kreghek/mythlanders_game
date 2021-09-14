@@ -101,8 +101,10 @@ namespace Rpg.Client.Models.Combat.Ui
                 var button = new IconButton(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetButtonTexture(),
                     new Rectangle(0, 0, 0, 0));
                 _buttons.Add(button);
-                button.OnClick += (s, e) => { 
-                    SelectedCard = card; };
+                button.OnClick += (s, e) =>
+                {
+                    SelectedCard = card;
+                };
             }
         }
 

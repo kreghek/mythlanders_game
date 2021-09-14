@@ -32,7 +32,7 @@ namespace Rpg.Client.Models.Combat
         private CombatResultPanel? _combatResultPanel;
         private CombatSkillPanel? _combatSkillsPanel;
 
-        private UnitGameObject? _selectedUnitForPlayerSkill; // да да, костыль.
+        private UnitGameObject? _selectedUnitForPlayerSkill; // пїЅпїЅ пїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 
         private bool _finalBossWasDefeat;
         private bool _unitsInitialized;
@@ -168,7 +168,7 @@ namespace Rpg.Client.Models.Combat
                     }
                     break;
                 default:
-                    Debug.Fail("Не задан тип скила");
+                    Debug.Fail("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
                     break;
             }
         }
@@ -188,7 +188,7 @@ namespace Rpg.Client.Models.Combat
             _hudButtons.Clear();
 
             if (skillCard is null)
-                return;            
+                return;
 
             if (_combat.CurrentUnit is null)
             {
@@ -261,7 +261,7 @@ namespace Rpg.Client.Models.Combat
                     }
                     break;
                 default:
-                    Debug.Fail("Не задан тип скила");
+                    Debug.Fail("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
                     break;
             }
         }
@@ -294,7 +294,7 @@ namespace Rpg.Client.Models.Combat
                 GetUnitView(e.OldUnit).IsActive = false;
 
             if (e.NewUnit != null)
-            GetUnitView(e.NewUnit).IsActive = true;
+                GetUnitView(e.NewUnit).IsActive = true;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -348,17 +348,17 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                foreach(var hudButton in _hudButtons)
+                foreach (var hudButton in _hudButtons)
                 {
                     hudButton.Update();
                 }
 
-                foreach(var gameObject in _gameObjects)
+                foreach (var gameObject in _gameObjects)
                 {
                     gameObject.Update(gameTime);
                 }
 
-                foreach(var bullet in _bulletObjects)
+                foreach (var bullet in _bulletObjects)
                 {
                     bullet.Update(gameTime);
                 }
@@ -452,7 +452,7 @@ namespace Rpg.Client.Models.Combat
 
             spriteBatch.End();
         }
-        
+
         private void DrawUnits(SpriteBatch spriteBatch)
         {
             var list = _gameObjects.ToArray();

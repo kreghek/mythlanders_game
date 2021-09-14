@@ -6,7 +6,7 @@ namespace Rpg.Client.Models.Combat.Ui
     {
         private readonly int _amount;
 
-        public HpChangedComponent(EwarGame game,int amount, Vector2 startPosition) : base(game, startPosition)
+        public HpChangedComponent(EwarGame game, int amount, Vector2 startPosition) : base(game, startPosition)
         {
             _amount = amount;
         }
