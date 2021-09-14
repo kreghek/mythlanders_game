@@ -264,7 +264,7 @@ namespace Rpg.Client.Core
         {
             if (Finished)
             {
-                Finish?.Invoke(this, new EventArgs());
+                Finish?.Invoke(this, new CombatFinishEventArgs { Victory = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled) });
                 return;
             }
 
@@ -276,7 +276,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
 
-        internal event EventHandler? Finish;
+        internal event EventHandler<CombatFinishEventArgs>? Finish;
 
         internal event EventHandler<CombatUnit>? UnitEntered;
 
@@ -289,6 +289,8 @@ namespace Rpg.Client.Core
         internal event EventHandler<CombatUnit>? MoveCompleted;
 
         internal event EventHandler<CombatUnit>? UnitHadDamage;
+
+
 
         internal event EventHandler<ActionEventArgs> ActionGenerated;
 
@@ -312,6 +314,11 @@ namespace Rpg.Client.Core
         {
             public CombatUnit? OldUnit { get; set; }
             public CombatUnit? NewUnit { get; set; }
+        }
+
+        internal class CombatFinishEventArgs : EventArgs
+        {
+            public bool Victory { get; set; }
         }
     }
 }
