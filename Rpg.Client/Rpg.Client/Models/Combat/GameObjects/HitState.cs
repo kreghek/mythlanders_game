@@ -11,23 +11,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly AttackInteraction _attackInteraction;
         private readonly UnitGraphics _graphics;
-
+        private readonly Action _interaction;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction)
+        public HitState(UnitGraphics graphics, Action interaction) :
+            this(graphics, interaction, default)
         {
-            _graphics = graphics;
-            _attackInteraction = attackInteraction;
+
         }
 
-        public HitState(UnitGraphics graphics, AttackInteraction attackInteraction, AnimationBlocker animationBlocker) :
-            this(graphics, attackInteraction)
+        public HitState(UnitGraphics graphics, Action interaction, AnimationBlocker animationBlocker)
         {
             _animationBlocker = animationBlocker;
+            _graphics = graphics;
+            _interaction = interaction;
         }
 
         public bool CanBeReplaced { get; }
@@ -63,9 +63,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    _attackInteraction.Execute();
-
                     _interactionExecuted = true;
+
+                    _interaction?.Invoke();                    
                 }
             }
         }

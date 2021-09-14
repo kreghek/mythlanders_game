@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -15,7 +17,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, AttackInteraction attackInteraction)
+            AnimationBlocker blocker, Action attackInteraction)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);

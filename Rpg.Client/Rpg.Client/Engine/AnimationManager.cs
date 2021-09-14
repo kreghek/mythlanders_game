@@ -8,6 +8,15 @@ namespace Rpg.Client.Engine
 
         public bool HasBlockers => _blockers.Count > 0;
 
+        public AnimationBlocker CreateAndUseBlocker()
+        {
+            var blocker = new AnimationBlocker();
+
+            AddBlocker(blocker);
+
+            return blocker;
+        }
+
         public void AddBlocker(AnimationBlocker blocker)
         {
             _blockers.Add(blocker);

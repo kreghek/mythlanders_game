@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -15,14 +17,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, AttackInteraction attackInteraction)
+            AnimationBlocker blocker, Action interaction)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
                 new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new HitState(graphics, attackInteraction),
+                new HitState(graphics, interaction),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
             _graphics = graphics;
