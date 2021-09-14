@@ -9,6 +9,7 @@ namespace Rpg.Client.Models
         private Texture2D _biomClouds;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
+        private Texture2D[] _combatBackgrounds;
         private Texture2D? _mapNodes;
         private SoundEffect _monsterHit;
         private Texture2D? _monsterUnit;
@@ -17,20 +18,13 @@ namespace Rpg.Client.Models
 
         public Texture2D GetUnitGraphics(string unitName)
         {
-            switch (unitName)
+            return unitName switch
             {
-                case "Беримир":
-                    return _unit;
-
-                case "Рада":
-                    return _unit;
-
-                case "Соколинный глаз":
-                    return _unit;
-
-                default:
-                    return _monsterUnit;
-            }
+                "Беримир" => _unit,
+                "Рада" => _unit,
+                "Соколинный глаз" => _unit,
+                _ => _monsterUnit,
+            };
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -45,6 +39,14 @@ namespace Rpg.Client.Models
             _monsterHit = contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
+
+            _combatBackgrounds = new Texture2D[]
+            {
+                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/CloudsLayer"),
+                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/FarLayer"),
+                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/MainLayer"),
+                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/ClosestLayer")
+            };
         }
 
         internal Texture2D GetBiomeClouds()
@@ -80,6 +82,11 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
+        }
+
+        internal Texture2D[] GetCombatBackgrounds()
+        {
+            return _combatBackgrounds;
         }
     }
 }
