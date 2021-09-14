@@ -7,10 +7,9 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal abstract class DisapearingTextComponent : EwarDrawableComponentBase
     {
+        private readonly Vector2 _speed;
         private int _lifetime;
         private Vector2 _position;
-
-        private readonly Vector2 _speed;
 
         public DisapearingTextComponent(EwarGame game, Vector2 startPosition) : base(game)
         {
