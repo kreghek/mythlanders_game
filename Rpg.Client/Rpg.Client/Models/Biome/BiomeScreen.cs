@@ -99,70 +99,6 @@ namespace Rpg.Client.Models.Biome
             base.Draw(gameTime, spriteBatch);
         }
 
-        private void DrawHud(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            var buttonIndex = 0;
-            foreach (var button in _menuButtons)
-            {
-                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
-                button.Draw(spriteBatch);
-                buttonIndex++;
-            }
-
-            var biome = _globe.CurrentBiome;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {biome.Level}", new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
-
-            if (_partyModal.IsVisible)
-            {
-                _partyModal.Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-        }
-
-        private void DrawObjects(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            var biome = _globe.CurrentBiome;
-            var backgroundTexture = _uiContentStorage.GetBiomeBackground(biome.Type);
-
-            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
-
-            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
-            {
-                _clouds[cloudIndex].DrawShadows(spriteBatch);
-            }
-
-            foreach (var node in _nodeModels)
-            {
-                node.Draw(spriteBatch);
-
-                var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
-                    node.Position + new Vector2(0, 30), Color.Wheat);
-                if (node.Combat is not null)
-                {
-                    var monsterIndex = 0;
-                    foreach (var monster in node.Combat.EnemyGroup.Units)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"{monster.UnitScheme.Name} ({monster.Level})",
-                            node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
-                        monsterIndex++;
-                    }
-                }
-            }
-
-            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
-            {
-                _clouds[cloudIndex].Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -272,6 +208,71 @@ namespace Rpg.Client.Models.Biome
                 endPosition,
                 speed);
             return cloud;
+        }
+
+        private void DrawHud(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            var buttonIndex = 0;
+            foreach (var button in _menuButtons)
+            {
+                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
+                button.Draw(spriteBatch);
+                buttonIndex++;
+            }
+
+            var biome = _globe.CurrentBiome;
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {biome.Level}",
+                new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+
+            if (_partyModal.IsVisible)
+            {
+                _partyModal.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
+        }
+
+        private void DrawObjects(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            var biome = _globe.CurrentBiome;
+            var backgroundTexture = _uiContentStorage.GetBiomeBackground(biome.Type);
+
+            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+
+            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
+            {
+                _clouds[cloudIndex].DrawShadows(spriteBatch);
+            }
+
+            foreach (var node in _nodeModels)
+            {
+                node.Draw(spriteBatch);
+
+                var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
+                    node.Position + new Vector2(0, 30), Color.Wheat);
+                if (node.Combat is not null)
+                {
+                    var monsterIndex = 0;
+                    foreach (var monster in node.Combat.EnemyGroup.Units)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"{monster.UnitScheme.Name} ({monster.Level})",
+                            node.Position + new Vector2(0, 60 + monsterIndex * 10), Color.White);
+                        monsterIndex++;
+                    }
+                }
+            }
+
+            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
+            {
+                _clouds[cloudIndex].Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
         }
 
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)

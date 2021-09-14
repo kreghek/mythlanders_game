@@ -7,9 +7,9 @@ namespace Rpg.Client.Models
     internal class GameObjectContentStorage
     {
         private Texture2D _biomClouds;
+        private Texture2D[] _combatBackgrounds;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
-        private Texture2D[] _combatBackgrounds;
         private Texture2D? _mapNodes;
         private SoundEffect _monsterHit;
         private Texture2D? _monsterUnit;
@@ -23,7 +23,7 @@ namespace Rpg.Client.Models
                 "Беримир" => _unit,
                 "Рада" => _unit,
                 "Соколинный глаз" => _unit,
-                _ => _monsterUnit,
+                _ => _monsterUnit
             };
         }
 
@@ -59,6 +59,11 @@ namespace Rpg.Client.Models
             return _mapNodes;
         }
 
+        internal Texture2D[] GetCombatBackgrounds()
+        {
+            return _combatBackgrounds;
+        }
+
         internal Texture2D GetCombatUnitMarker()
         {
             return _combatUnitMarkers;
@@ -82,11 +87,6 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
-        }
-
-        internal Texture2D[] GetCombatBackgrounds()
-        {
-            return _combatBackgrounds;
         }
     }
 }
