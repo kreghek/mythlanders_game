@@ -92,7 +92,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), Unit.Unit.UnitScheme.Name,
                 _graphics.Root.Position - new Vector2(0, 100), color);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp}",
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp} HP",
                 _graphics.Root.Position - new Vector2(0, 80), color);
         }
 

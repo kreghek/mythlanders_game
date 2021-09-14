@@ -12,7 +12,7 @@ namespace Rpg.Client.Models.Combat.Ui
         }
         protected override string GetText()
         {
-            return $"{_amount}";
+            return $"{_amount} HP";
         }
 
         protected override Color GetColor()
