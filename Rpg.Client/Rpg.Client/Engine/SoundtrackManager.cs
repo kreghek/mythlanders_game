@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Microsoft.Xna.Framework.Media;
 
@@ -6,6 +7,8 @@ namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
     {
+        private readonly Random _random = new Random();
+
         private bool _backgroundTrackStarted;
         private bool _changeTrack;
 
@@ -78,9 +81,12 @@ namespace Rpg.Client.Engine
 
                         if (_uiContentStorage is not null)
                         {
+                            var songs = _uiContentStorage.GetMapSong().ToArray();
+                            var song = songs[_random.Next(0, songs.Length)];
+
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.75f;
-                            MediaPlayer.Play(_uiContentStorage.GetMapSong(), TimeSpan.Zero);
+                            MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
 

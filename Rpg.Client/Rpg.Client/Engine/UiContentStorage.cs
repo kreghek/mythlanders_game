@@ -15,7 +15,7 @@ namespace Rpg.Client.Engine
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonTexture;
         private SpriteFont _font;
-        private Song _mapTrack;
+        private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
@@ -64,7 +64,7 @@ namespace Rpg.Client.Engine
             };
 
             _titleTrack = contentManager.Load<Song>("Audio/Background/Title");
-            _mapTrack = contentManager.Load<Song>("Audio/Background/Map");
+            _mapTracks = new[] { contentManager.Load<Song>("Audio/Background/Map"), contentManager.Load<Song>("Audio/Background/Map2") };
             _battleTrack = contentManager.Load<Song>("Audio/Background/Battle");
         }
 
@@ -78,9 +78,9 @@ namespace Rpg.Client.Engine
             return _titleTrack;
         }
 
-        public Song GetMapSong()
+        public IEnumerable<Song> GetMapSong()
         {
-            return _mapTrack;
+            return _mapTracks;
         }
 
         public Song GetBattleSong()

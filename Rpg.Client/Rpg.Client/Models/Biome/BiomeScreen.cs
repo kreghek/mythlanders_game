@@ -13,62 +13,11 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biome
 {
-    internal sealed class Cloud
-    {
-        private const double DURATION_SECONDS = 30;
-        private readonly Vector2 _endPosition;
-        private readonly double _speed;
-        private readonly Vector2 _startPosition;
-        private readonly Texture2D _texture;
-        private readonly int _textureIndex;
-
-        private Vector2 _currentPosition;
-        private double _lifetimeCounter;
-
-        public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed)
-        {
-            _texture = texture;
-            _textureIndex = textureIndex;
-            _startPosition = startPosition;
-            _endPosition = endPosition;
-            _speed = speed;
-            _lifetimeCounter = DURATION_SECONDS;
-        }
-
-        public bool IsDestroyed { get; private set; }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
-                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
-        }
-
-        public void DrawShadows(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition + Vector2.UnitY * 50;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
-                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            _lifetimeCounter -= gameTime.ElapsedGameTime.TotalSeconds * _speed;
-            if (_lifetimeCounter <= 0)
-            {
-                IsDestroyed = true;
-            }
-            else
-            {
-                _currentPosition = Vector2.Lerp(_startPosition, _endPosition,
-                    (float)(_lifetimeCounter / DURATION_SECONDS));
-            }
-        }
-    }
-
     internal class BiomeScreen : GameScreenBase
     {
-        private const int CLOUD_COUNT = 10;
+        private const int CLOUD_COUNT = 20;
+        private const double MAX_CLOUD_SPEED = 0.2;
+        private const int CLOUD_TEXTURE_COUNT = 3;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
         private readonly ButtonBase[] _menuButtons;
@@ -290,11 +239,20 @@ namespace Rpg.Client.Models.Biome
 
         private Cloud CreateCloud(int index)
         {
-            var startPosition = new Vector2(((800f + 0) / CLOUD_COUNT * index) - 400, 400);
-            var endPosition = new Vector2(startPosition.X + 400, 0);
-            var textureIndex = _random.Next(0, 3);
-            var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(), textureIndex, startPosition, endPosition,
-                _random.NextDouble() * 1.2);
+            var startPosition1 = new Vector2(Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index - Game.GraphicsDevice.Viewport.Width / 2,
+                Game.GraphicsDevice.Viewport.Height);
+            var endPosition1 = new Vector2(startPosition1.X + Game.GraphicsDevice.Viewport.Width / 2, 0);
+
+            var startPosition = endPosition1;
+            var endPosition = startPosition1;
+
+            var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
+            var speed = _random.NextDouble()  + MAX_CLOUD_SPEED;
+            var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(),
+                textureIndex,
+                startPosition,
+                endPosition,
+                speed);
             return cloud;
         }
 

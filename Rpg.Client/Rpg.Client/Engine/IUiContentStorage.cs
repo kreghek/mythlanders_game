@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
@@ -12,7 +14,7 @@ namespace Rpg.Client.Engine
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonTexture();
         SpriteFont GetMainFont();
-        Song GetMapSong();
+        IEnumerable<Song> GetMapSong();
 
         Texture2D[] GetModalBottomTextures();
 
