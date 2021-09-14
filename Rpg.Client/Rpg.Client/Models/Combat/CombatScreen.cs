@@ -24,8 +24,6 @@ namespace Rpg.Client.Models.Combat
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
         private readonly IList<ButtonBase> _hudButtons;
-        private readonly IList<ButtonBase> _enemyAttackList;
-        private readonly IList<ButtonBase> _friendlyHealList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly GlobeProvider _globeProvider;
@@ -53,8 +51,6 @@ namespace Rpg.Client.Models.Combat
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<BulletGameObject>();
-            _enemyAttackList = new List<ButtonBase>();
-            _friendlyHealList = new List<ButtonBase>();
             _hudButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
@@ -67,23 +63,25 @@ namespace Rpg.Client.Models.Combat
         public void Initialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
-            _combatSkillsPanel.CardSelected += _combatSkillsPanel_CardSelected;
-            _combat.UnitChanged += _combat_UnitChanged;
-            _combat.UnitEntered += _combat_UnitEntered;
-            _combat.UnitDied += _combat_UnitDied;
-            _combat.ActionGenerated += _combat_ActionGenerated;
-            _combat.Finish += _combat_Finish;
-            _combat.UnitHadDamage += _combat_UnitHadDamage;
+            _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
+            _combat.UnitChanged += Combat_UnitChanged;
+            _combat.UnitEntered += Combat_UnitEntered;
+            _combat.UnitDied += Combat_UnitDied;
+            _combat.ActionGenerated += Combat_ActionGenerated;
+            _combat.Finish += Combat_Finish;
+            _combat.UnitHadDamage += Combat_UnitHadDamage;
             _combat.Initialize();
             _combat.Update();
         }
 
-        private void _combat_UnitHadDamage(object? sender, CombatUnit e)
+        private void Combat_UnitHadDamage(object? sender, CombatUnit e)
         {
-            GetUnitView(e).AnimateWound();
+            var unitGameObject = GetUnitView(e);
+
+            unitGameObject.AnimateWound();
         }
 
-        private void _combat_Finish(object? sender, CombatFinishEventArgs e)
+        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
         {
             _hudButtons.Clear();
             _combatSkillsPanel = null;
@@ -103,7 +101,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void _combat_ActionGenerated(object? sender, ActiveCombat.ActionEventArgs action)
+        private void Combat_ActionGenerated(object? sender, ActiveCombat.ActionEventArgs action)
         {
             var actor = GetUnitView(action.Actor);
             UnitGameObject? target;
@@ -175,12 +173,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void _combat_UnitDied(object? sender, CombatUnit e)
+        private void Combat_UnitDied(object? sender, CombatUnit e)
         {
             GetUnitView(e).AnimateDeath();
         }
 
-        private void _combatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
+        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
         {
             RefreshHudButtons(skillCard);
         }
@@ -268,7 +266,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void _combat_UnitEntered(object? sender, CombatUnit unit)
+        private void Combat_UnitEntered(object? sender, CombatUnit unit)
         {
             var position = GetUnitPosition(unit.Index, unit.Unit.IsPlayerControlled);
             var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
@@ -289,7 +287,7 @@ namespace Rpg.Client.Models.Combat
             AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
         }
 
-        private void _combat_UnitChanged(object? sender, UnitChangedEventArgs e)
+        private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
             _combatSkillsPanel.Unit = e.NewUnit?.Unit.IsPlayerControlled == true ? e.NewUnit : null;
             if (e.OldUnit != null)
@@ -381,7 +379,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private Vector2 GetUnitPosition(int index, bool friendly)
+        private static Vector2 GetUnitPosition(int index, bool friendly)
         {
             return new Vector2(friendly ? 100 : 400, index * 128 + 100);
         }
@@ -462,14 +460,6 @@ namespace Rpg.Client.Models.Combat
             {
                 gameObject.Draw(spriteBatch);
             }
-        }
-
-        private Vector2 GetUnitPosition(Unit unit)
-        {
-            var unitWithIndex = _combat.Units.Where(x => x.Unit.IsPlayerControlled == unit.IsPlayerControlled)
-                .Select((x, i) => new { Index = i, Unit = x }).First(x => x.Unit.Unit == unit);
-
-            return GetUnitPosition(unitWithIndex.Index, unit.IsPlayerControlled);
         }
 
         private IEnumerable<GainLevelResult> HandleGainXp()
