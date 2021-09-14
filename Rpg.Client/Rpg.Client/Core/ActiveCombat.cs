@@ -10,16 +10,17 @@ namespace Rpg.Client.Core
         private CombatUnit _currentUnit;
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
-
+        private readonly IDice _dice;
         private readonly IList<CombatUnit> _unitQueue;
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biom biom)
+        public ActiveCombat(Group playerGroup, Combat combat, Biom biom, IDice dice)
         {
             _playerGroup = playerGroup;
             Combat = combat;
             Biom = biom;
+            _dice = dice;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
         }
@@ -39,7 +40,7 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
-        }//=> _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+        }
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
@@ -148,7 +149,7 @@ namespace Rpg.Client.Core
 
         private IDice GetDice()
         {
-            return new LinearDice(DateTime.Now.Millisecond);
+            return _dice;
         }
 
         private void StartRound()
@@ -169,7 +170,7 @@ namespace Rpg.Client.Core
 
         private void Unit_Dead(object? sender, EventArgs e)
         {
-            if (!(sender is Unit unit))
+            if (sender is not Unit unit)
                 return;
 
             var combatUnit = _unitQueue.First(x => x.Unit == unit);

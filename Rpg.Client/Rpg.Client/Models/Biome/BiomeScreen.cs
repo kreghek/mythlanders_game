@@ -197,7 +197,7 @@ namespace Rpg.Client.Models.Biome
                             if (mouseState.LeftButton == ButtonState.Pressed && detectNode)
                             {
                                 _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biome);
+                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biome, Game.Services.GetService<IDice>());
 
                                 if (node.AvailableDialog is not null)
                                 {
