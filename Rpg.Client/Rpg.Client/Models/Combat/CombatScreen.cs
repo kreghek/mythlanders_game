@@ -105,54 +105,67 @@ namespace Rpg.Client.Models.Combat
                 Initialize();
                 _unitsInitialized = true;
             }
-            else if (_combat.Finished)
-            {
-                foreach (var bullet in _bulletObjects.ToArray())
-                {
-                    if (bullet.IsDestroyed)
-                    {
-                        _bulletObjects.Remove(bullet);
-                    }
-                    else
-                    {
-                        bullet.Update(gameTime);
-                    }
-                }
-
-                foreach (var unitModel in _gameObjects)
-                {
-                    unitModel.IsActive = false;
-
-                    unitModel.Update(gameTime);
-                }
-
-                _combatResultPanel?.Update(gameTime);
-            }
             else
             {
-                foreach (var hudButton in _hudButtons)
+                HandleBullets(gameTime);
+
+                HandleUnits(gameTime);
+
+                if (_combat.Finished)
                 {
-                    hudButton.Update();
+                    HandleFinishedCombatHud(gameTime);
                 }
-
-                foreach (var gameObject in _gameObjects)
+                else
                 {
-                    gameObject.Update(gameTime);
+                    HandleCombatHud(gameTime);
                 }
-
-                foreach (var bullet in _bulletObjects)
-                {
-                    bullet.Update(gameTime);
-                }
-
-                _combatSkillsPanel?.Update();
-
-                _combatResultPanel?.Update(gameTime);
             }
 
             HandleBackgrounds();
 
             base.Update(gameTime);
+        }
+
+        private void HandleCombatHud(GameTime gameTime)
+        {
+            foreach (var hudButton in _hudButtons)
+            {
+                hudButton.Update();
+            }
+
+            _combatSkillsPanel?.Update();
+
+            _combatResultPanel?.Update(gameTime);
+        }
+
+        private void HandleFinishedCombatHud(GameTime gameTime)
+        {
+            _combatResultPanel?.Update(gameTime);
+        }
+
+        private void HandleUnits(GameTime gameTime)
+        {
+            foreach (var unitModel in _gameObjects)
+            {
+                unitModel.IsActive = false;
+
+                unitModel.Update(gameTime);
+            }
+        }
+
+        private void HandleBullets(GameTime gameTime)
+        {
+            foreach (var bullet in _bulletObjects.ToArray())
+            {
+                if (bullet.IsDestroyed)
+                {
+                    _bulletObjects.Remove(bullet);
+                }
+                else
+                {
+                    bullet.Update(gameTime);
+                }
+            }
         }
 
         private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
@@ -165,9 +178,9 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
         {
-            var actor = GetUnitView(action.Actor);
+            var unitGameObject = GetUnitGameObject(action.Actor);
             UnitGameObject? target;
-            var skillCard = new CombatSkillCard(action.Skill); // _combatSkillsPanel.SelectedCard;// e.Skill;
+            var skillCard = unitGameObject.Unit.CombatCards.Single(x=>x.Skill == action.Skill);
             switch (skillCard.Skill.TargetType)
             {
                 case SkillTarget.Enemy:
@@ -183,21 +196,21 @@ namespace Rpg.Client.Models.Combat
                         switch (skillCard.Skill.Scope)
                         {
                             case SkillScope.AllEnemyGroup:
-                                target = actor.Unit.Unit.IsPlayerControlled
+                                target = unitGameObject.Unit.Unit.IsPlayerControlled
                                     ? _selectedUnitForPlayerSkill
                                     : _dice.RollFromList(_gameObjects
                                         .Where(x => x.Unit.Unit.IsPlayerControlled && !x.Unit.Unit.IsDead).ToList());
 
                                 _selectedUnitForPlayerSkill = null;
 
-                                actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
+                                unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
                                 break;
 
                             case SkillScope.Single:
-                                target = GetUnitView(action.Target);
-                                if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
+                                target = GetUnitGameObject(action.Target);
+                                if (unitGameObject.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
                                 {
-                                    actor.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
+                                    unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
                                         action.Action);
                                 }
 
@@ -215,7 +228,7 @@ namespace Rpg.Client.Models.Combat
                         switch (skillCard.Skill.Scope)
                         {
                             case SkillScope.Single:
-                                target = GetUnitView(action.Target);
+                                target = GetUnitGameObject(action.Target);
 
                                 var blocker = _animationManager.CreateAndUseBlocker();
 
@@ -224,7 +237,7 @@ namespace Rpg.Client.Models.Combat
                                     _combat.Update();
                                 };
 
-                                actor.Heal(target, blocker, skillCard, action.Action);
+                                unitGameObject.Heal(target, blocker, skillCard, action.Action);
                                 break;
                             default:
                                 throw new InvalidOperationException();
@@ -262,18 +275,21 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel.Unit = e.NewUnit?.Unit.IsPlayerControlled == true ? e.NewUnit : null;
             if (e.OldUnit != null)
             {
-                GetUnitView(e.OldUnit).IsActive = false;
+                var unitGameObject = GetUnitGameObject(e.OldUnit);
+                unitGameObject.IsActive = false;
             }
 
             if (e.NewUnit != null)
             {
-                GetUnitView(e.NewUnit).IsActive = true;
+                var unitGameObject = GetUnitGameObject(e.NewUnit);
+                unitGameObject.IsActive = true;
             }
         }
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
-            GetUnitView(e).AnimateDeath();
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.AnimateDeath();
         }
 
         private void Combat_UnitEntered(object? sender, CombatUnit unit)
@@ -287,7 +303,7 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_UnitHadDamage(object? sender, CombatUnit e)
         {
-            var unitGameObject = GetUnitView(e);
+            var unitGameObject = GetUnitGameObject(e);
 
             unitGameObject.AnimateWound();
         }
@@ -408,7 +424,7 @@ namespace Rpg.Client.Models.Combat
             return calculatedPosition;
         }
 
-        private UnitGameObject GetUnitView(CombatUnit combatUnit)
+        private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.Unit == combatUnit);
         }
@@ -569,7 +585,7 @@ namespace Rpg.Client.Models.Combat
                 return;
             }
 
-            var actor = GetUnitView(_combat.CurrentUnit);
+            var actor = GetUnitGameObject(_combat.CurrentUnit);
             var skill = skillCard.Skill;
 
             foreach (var target in _gameObjects.Where(x => !x.Unit.Unit.IsDead))
@@ -580,13 +596,13 @@ namespace Rpg.Client.Models.Combat
 
         private void Unit_Damaged(object? sender, CombatUnit.UnitHpchangedEventArgs e)
         {
-            var unitView = GetUnitView(e.Unit);
+            var unitView = GetUnitGameObject(e.Unit);
             AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
         }
 
         private void Unit_Healed(object? sender, CombatUnit.UnitHpchangedEventArgs e)
         {
-            var unitView = GetUnitView(e.Unit);
+            var unitView = GetUnitGameObject(e.Unit);
             AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
         }
     }
