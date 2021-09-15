@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
-using Rpg.Client.Models.Dump;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biome
@@ -25,7 +24,6 @@ namespace Rpg.Client.Models.Biome
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
-        private readonly CharactersModal _partyModal;
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
@@ -65,10 +63,8 @@ namespace Rpg.Client.Models.Biome
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             partyModalButton.OnClick += (s, e) =>
             {
-                _partyModal.Show();
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
             };
-
-            _partyModal = new CharactersModal(_uiContentStorage, Game.GraphicsDevice, globeProvider);
 
             _menuButtons = new ButtonBase[]
             {
@@ -123,11 +119,7 @@ namespace Rpg.Client.Models.Biome
                 }
                 else
                 {
-                    if (_partyModal is not null && _partyModal.IsVisible)
-                    {
-                        _partyModal.Update();
-                    }
-                    else if (!_screenTransition)
+                    if (!_screenTransition)
                     {
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
@@ -224,11 +216,6 @@ namespace Rpg.Client.Models.Biome
             var biome = _globe.CurrentBiome;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {biome.Level}",
                 new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
-
-            if (_partyModal.IsVisible)
-            {
-                _partyModal.Draw(spriteBatch);
-            }
 
             spriteBatch.End();
         }
