@@ -94,6 +94,38 @@ namespace Rpg.Client.Models.Combat.Ui
                 graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
         }
 
+        private static int? GetIconIndex(string sid)
+        {
+            return sid switch
+            {
+                "Slash" => 0,
+                "Wide Slash" => 1,
+                "Strike" => 2,
+                "Arrow Rain" => 3,
+                "Heal" => 4,
+                "Mass Heal" => 5,
+                _ => null
+            };
+        }
+
+        private static Rectangle GetIconRect(string sid)
+        {
+            const int SPRITESHEET_COLUMN_COUNT = 2;
+            const int ICON_SIZE = 32;
+
+            var iconIndexNullable = GetIconIndex(sid);
+
+            Debug.Assert(iconIndexNullable is not null, "Don't forget add combat power in GetIconIndex");
+
+            var iconIndex = iconIndexNullable is not null ? iconIndexNullable.Value : 0;
+
+            var x = iconIndex % SPRITESHEET_COLUMN_COUNT;
+            var y = iconIndex / SPRITESHEET_COLUMN_COUNT;
+            var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
+
+            return rect;
+        }
+
         private void RecreateButtons()
         {
             _buttons.Clear();
@@ -120,38 +152,6 @@ namespace Rpg.Client.Models.Combat.Ui
                     SelectedCard = card;
                 };
             }
-        }
-
-        private static Rectangle GetIconRect(string sid)
-        {
-            const int SPRITESHEET_COLUMN_COUNT = 2;
-            const int ICON_SIZE = 32;
-
-            var iconIndexNullable = GetIconIndex(sid);
-
-            Debug.Assert(iconIndexNullable is not null, "Don't forget add combat power in GetIconIndex");
-
-            var iconIndex = iconIndexNullable is not null ? iconIndexNullable.Value : 0;
-
-            var x = iconIndex % SPRITESHEET_COLUMN_COUNT;
-            var y = iconIndex / SPRITESHEET_COLUMN_COUNT;
-            var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-
-            return rect;
-        }
-
-        private static int? GetIconIndex(string sid)
-        {
-            return sid switch
-            {
-                "Slash" => 0,
-                "Wide Slash" => 1,
-                "Strike" => 2,
-                "Arrow Rain" => 3,
-                "Heal" => 4,
-                "Mass Heal" => 5,
-                _ => null,
-            };
         }
 
         public event EventHandler<CombatSkillCard?>? CardSelected;
