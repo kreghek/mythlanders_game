@@ -5,11 +5,11 @@ namespace Rpg.Client.Core
 {
     internal sealed class Group
     {
-        public IEnumerable<Unit> Units { get; set; }
-
         public Group()
         {
             Units = Array.Empty<Unit>();
         }
+
+        public IEnumerable<Unit> Units { get; set; }
     }
 }

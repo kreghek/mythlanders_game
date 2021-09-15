@@ -15,9 +15,9 @@ namespace Rpg.Client.Models.Party
         private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
-        private Unit? _selectedCharacter;
 
         private bool _isInitialized;
+        private Unit? _selectedCharacter;
 
         public PartyScreen(EwarGame game) : base(game)
         {
@@ -25,6 +25,47 @@ namespace Rpg.Client.Models.Party
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
             _buttonList = new List<ButtonBase>();
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+
+            spriteBatch.Begin();
+
+            var contentRect = Game.GraphicsDevice.Viewport.Bounds;
+
+            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
+            {
+                var button = _buttonList[characterIndex];
+                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
+                button.Draw(spriteBatch);
+            }
+
+            if (_selectedCharacter is not null)
+            {
+                var sb = new List<string>
+                {
+                    _selectedCharacter.UnitScheme.Name,
+                    $"Level: {_selectedCharacter.Level}",
+                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.XpToLevelup}"
+                };
+
+                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                {
+                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
+                    sb.Add($"Is in party. Slot {index + 1}.");
+                }
+
+                for (var statIndex = 0; statIndex < sb.Count; statIndex++)
+                {
+                    var line = sb[statIndex];
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
+                        new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                }
+            }
+
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
@@ -48,14 +89,16 @@ namespace Rpg.Client.Models.Party
                     _buttonList.Add(button);
                 }
 
-                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 biomeButton.OnClick += (s, e) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                 };
                 _buttonList.Add(biomeButton);
 
-                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 switchUnitButton.OnClick += (s, e) =>
                 {
                     if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
@@ -84,48 +127,6 @@ namespace Rpg.Client.Models.Party
                     button.Update();
                 }
             }
-        }
-
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            base.Draw(gameTime, spriteBatch);
-
-
-            spriteBatch.Begin();
-
-            var contentRect = Game.GraphicsDevice.Viewport.Bounds;
-
-            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
-            {
-                var button = _buttonList[characterIndex];
-                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
-                button.Draw(spriteBatch);
-            }
-
-            if (_selectedCharacter is not null)
-            {
-                var sb = new List<string>()
-                {
-                    _selectedCharacter.UnitScheme.Name,
-                    $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.XpToLevelup}"
-                };
-
-                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
-                {
-                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
-                    sb.Add($"Is in party. Slot {index + 1}.");
-                }
-
-                for (var statIndex = 0; statIndex < sb.Count; statIndex++)
-                {
-                    var line = sb[statIndex];
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                        new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
-                }
-            }
-
-            spriteBatch.End();
         }
     }
 }

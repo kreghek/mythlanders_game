@@ -19,6 +19,9 @@ namespace Rpg.Client.Models.Combat
 {
     internal class CombatScreen : GameScreenBase
     {
+        private const int BACKGROUND_LAYERS_COUNT = 3;
+        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
+
         private static readonly Vector2[] _unitPredefinedPositions =
         {
             new Vector2(300, 300),
@@ -126,51 +129,6 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void HandleCombatHud(GameTime gameTime)
-        {
-            foreach (var hudButton in _hudButtons)
-            {
-                hudButton.Update();
-            }
-
-            _combatSkillsPanel?.Update();
-
-            _combatResultModal?.Update(gameTime);
-        }
-
-        private void HandleFinishedCombatHud(GameTime gameTime)
-        {
-            if (_combatResultModal?.IsVisible == true)
-            {
-                _combatResultModal?.Update(gameTime);
-            }
-        }
-
-        private void HandleUnits(GameTime gameTime)
-        {
-            foreach (var unitModel in _gameObjects)
-            {
-                unitModel.IsActive = false;
-
-                unitModel.Update(gameTime);
-            }
-        }
-
-        private void HandleBullets(GameTime gameTime)
-        {
-            foreach (var bullet in _bulletObjects.ToArray())
-            {
-                if (bullet.IsDestroyed)
-                {
-                    _bulletObjects.Remove(bullet);
-                }
-                else
-                {
-                    bullet.Update(gameTime);
-                }
-            }
-        }
-
         private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
         {
             foreach (var item in xpItems)
@@ -183,7 +141,7 @@ namespace Rpg.Client.Models.Combat
         {
             var unitGameObject = GetUnitGameObject(action.Actor);
             UnitGameObject? target;
-            var skillCard = unitGameObject.Unit.CombatCards.Single(x=>x.Skill == action.Skill);
+            var skillCard = unitGameObject.Unit.CombatCards.Single(x => x.Skill == action.Skill);
             switch (skillCard.Skill.TargetType)
             {
                 case SkillTarget.Enemy:
@@ -206,7 +164,8 @@ namespace Rpg.Client.Models.Combat
 
                                 _selectedUnitForPlayerSkill = null;
 
-                                unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard, action.Action);
+                                unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
+                                    action.Action);
                                 break;
 
                             case SkillScope.Single:
@@ -257,20 +216,22 @@ namespace Rpg.Client.Models.Combat
         {
             _hudButtons.Clear();
             _combatSkillsPanel = null;
-            
+
             if (e.Victory)
             {
                 var xpItems = HandleGainXp().ToArray();
                 ApplyXp(xpItems);
                 HandleGlobe(CombatResult.Victory);
 
-                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory, xpItems);
+                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory,
+                    xpItems);
             }
             else
             {
                 HandleGlobe(CombatResult.Defeat);
 
-                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat, Array.Empty<GainLevelResult>());
+                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
+                    Array.Empty<GainLevelResult>());
             }
 
             _combatResultModal.Show();
@@ -345,12 +306,34 @@ namespace Rpg.Client.Models.Combat
             RefreshHudButtons(skillCard);
         }
 
+        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+            int backgroundMaxOffset)
+        {
+            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
+            {
+                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
+                var roundedX = (int)Math.Round(xFloat);
+                var position = new Vector2(roundedX, 0);
+                spriteBatch.Draw(backgrounds[i], position, Color.White);
+            }
+        }
+
         private void DrawBullets(SpriteBatch spriteBatch)
         {
             foreach (var bullet in _bulletObjects)
             {
                 bullet.Draw(spriteBatch);
             }
+        }
+
+        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+            int backgroundMaxOffset)
+        {
+            var xFloat = backgroundStartOffset +
+                         -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+            var roundedX = (int)Math.Round(xFloat);
+            spriteBatch.Draw(backgrounds[3], new Vector2(roundedX, 0), Color.White);
         }
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
@@ -375,27 +358,6 @@ namespace Rpg.Client.Models.Combat
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             spriteBatch.End();
-        }
-
-        const int BACKGROUND_LAYERS_COUNT = 3;
-        const float BACKGROUND_LAYERS_SPEED = 0.1f;
-
-        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset, int backgroundMaxOffset)
-        {
-            var xFloat = backgroundStartOffset + -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-            var roundedX = (int)Math.Round(xFloat);
-            spriteBatch.Draw(backgrounds[3], new Vector2(roundedX, 0), Color.White);
-        }
-
-        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset, int backgroundMaxOffset)
-        {
-            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
-            {
-                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) * BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
-                var roundedX = (int)Math.Round(xFloat);
-                var position = new Vector2(roundedX, 0);
-                spriteBatch.Draw(backgrounds[i], position, Color.White);
-            }
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
@@ -429,6 +391,11 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+        private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
+        {
+            return _gameObjects.First(x => x.Unit == combatUnit);
+        }
+
         private Vector2 GetUnitPosition(int index, bool isPlayerControlled)
         {
             var predefinedPosition = _unitPredefinedPositions[index];
@@ -450,11 +417,6 @@ namespace Rpg.Client.Models.Combat
             return calculatedPosition;
         }
 
-        private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
-        {
-            return _gameObjects.First(x => x.Unit == combatUnit);
-        }
-
         private void HandleBackgrounds()
         {
             var mouse = Mouse.GetState();
@@ -467,6 +429,41 @@ namespace Rpg.Client.Models.Combat
             else if (_bgCenterOffsetPercentage > 1)
             {
                 _bgCenterOffsetPercentage = 1;
+            }
+        }
+
+        private void HandleBullets(GameTime gameTime)
+        {
+            foreach (var bullet in _bulletObjects.ToArray())
+            {
+                if (bullet.IsDestroyed)
+                {
+                    _bulletObjects.Remove(bullet);
+                }
+                else
+                {
+                    bullet.Update(gameTime);
+                }
+            }
+        }
+
+        private void HandleCombatHud(GameTime gameTime)
+        {
+            foreach (var hudButton in _hudButtons)
+            {
+                hudButton.Update();
+            }
+
+            _combatSkillsPanel?.Update();
+
+            _combatResultModal?.Update(gameTime);
+        }
+
+        private void HandleFinishedCombatHud(GameTime gameTime)
+        {
+            if (_combatResultModal?.IsVisible == true)
+            {
+                _combatResultModal?.Update(gameTime);
             }
         }
 
@@ -532,6 +529,16 @@ namespace Rpg.Client.Models.Combat
             else
             {
                 throw new InvalidOperationException("Unknown combat result.");
+            }
+        }
+
+        private void HandleUnits(GameTime gameTime)
+        {
+            foreach (var unitModel in _gameObjects)
+            {
+                unitModel.IsActive = false;
+
+                unitModel.Update(gameTime);
             }
         }
 

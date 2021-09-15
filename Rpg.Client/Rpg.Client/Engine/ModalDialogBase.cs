@@ -23,6 +23,8 @@ namespace Rpg.Client.Engine
         private readonly GraphicsDevice _graphicsDevice;
         private readonly Texture2D _shadowTexture;
 
+        public EventHandler? Closed;
+
         protected ModalDialogBase(IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice)
         {
             _shadowTexture = uiContentStorage.GetModalShadowTexture();
@@ -114,7 +116,5 @@ namespace Rpg.Client.Engine
         {
             Close();
         }
-
-        public EventHandler? Closed;
     }
 }
