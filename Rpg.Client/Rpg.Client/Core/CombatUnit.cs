@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Effects;
-
 namespace Rpg.Client.Core
 {
     internal class CombatUnit
@@ -25,7 +23,7 @@ namespace Rpg.Client.Core
             unit.HealTaken += Unit_HealTaken;
         }
 
-        public IEnumerable<CombatSkillCard>? CombatCards { get; }
+        public IEnumerable<CombatSkillCard> CombatCards { get; }
 
         public int Index { get; }
 
@@ -48,8 +46,8 @@ namespace Rpg.Client.Core
 
         public event EventHandler? CompletedMove;
 
-        internal event EventHandler<UnitHpchangedEventArgs> Damaged;
-        internal event EventHandler<UnitHpchangedEventArgs> Healed;
+        internal event EventHandler<UnitHpchangedEventArgs>? Damaged;
+        internal event EventHandler<UnitHpchangedEventArgs>? Healed;
 
         internal class UnitHpchangedEventArgs : EventArgs
         {

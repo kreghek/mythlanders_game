@@ -34,7 +34,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public Vector2 Position { get; }
 
-        public CombatUnit? Unit { get; internal set; }
+        public CombatUnit Unit { get; }
 
         public void AnimateDeath()
         {

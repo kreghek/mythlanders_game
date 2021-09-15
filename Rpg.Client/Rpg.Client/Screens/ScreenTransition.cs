@@ -6,6 +6,7 @@
         Title,
         Map,
         Biome,
+        Party,
         Event,
         Combat,
         EndGame

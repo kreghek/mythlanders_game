@@ -55,6 +55,7 @@ namespace Rpg.Client.Engine
         public void Close()
         {
             IsVisible = false;
+            Closed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -81,7 +82,7 @@ namespace Rpg.Client.Engine
             IsVisible = true;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             // Poll for current keyboard state
             var state = Keyboard.GetState();
@@ -92,7 +93,7 @@ namespace Rpg.Client.Engine
                 Close();
             }
 
-            UpdateContent();
+            UpdateContent(gameTime);
 
             _closeButton.Update();
         }
@@ -104,7 +105,7 @@ namespace Rpg.Client.Engine
             // Empty implementation to avoid empty implementation in every concrete class.
         }
 
-        protected virtual void UpdateContent()
+        protected virtual void UpdateContent(GameTime gameTime)
         {
             // Empty implementation to avoid empty implementation in every concrete class.
         }
@@ -113,5 +114,7 @@ namespace Rpg.Client.Engine
         {
             Close();
         }
+
+        public EventHandler? Closed;
     }
 }

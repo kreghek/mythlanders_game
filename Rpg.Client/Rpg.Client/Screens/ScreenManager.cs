@@ -8,6 +8,7 @@ using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
+using Rpg.Client.Models.Party;
 using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
@@ -54,6 +55,7 @@ namespace Rpg.Client.Screens
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
                 ScreenTransition.Biome => new BiomeScreen(_game),
+                ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
