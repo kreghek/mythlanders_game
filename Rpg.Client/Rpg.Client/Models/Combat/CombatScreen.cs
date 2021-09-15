@@ -183,7 +183,7 @@ namespace Rpg.Client.Models.Combat
         {
             var unitGameObject = GetUnitGameObject(action.Actor);
             UnitGameObject? target;
-            var skillCard = unitGameObject.Unit.CombatCards.Single(x=>x.Skill == action.Skill);
+            var skillCard = unitGameObject.Unit.CombatCards.Single(x => x.Skill == action.Skill);
             switch (skillCard.Skill.TargetType)
             {
                 case SkillTarget.Enemy:
@@ -257,7 +257,7 @@ namespace Rpg.Client.Models.Combat
         {
             _hudButtons.Clear();
             _combatSkillsPanel = null;
-            
+
             if (e.Victory)
             {
                 var xpItems = HandleGainXp().ToArray();
