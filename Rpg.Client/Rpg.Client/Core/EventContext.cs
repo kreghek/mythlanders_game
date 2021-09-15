@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Rpg.Client.Core
 {
@@ -13,11 +14,21 @@ namespace Rpg.Client.Core
 
         public void AddNewCharacter(Unit unit)
         {
-            var units = new List<Unit>(_globe.Player.Group.Units);
+            var units = new List<Unit>();
+            if (_globe.Player.Group.Units.Count() < 3)
+            {
+                units.AddRange(_globe.Player.Group.Units);
+
+                _globe.Player.Group.Units = units;
+            }
+            else
+            {
+                units.AddRange(_globe.Player.Pool.Units);
+
+                _globe.Player.Pool.Units = units;
+            }
 
             units.Add(unit);
-
-            _globe.Player.Group.Units = units;
         }
     }
 }
