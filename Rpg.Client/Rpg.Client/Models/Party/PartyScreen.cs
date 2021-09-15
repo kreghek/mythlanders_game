@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +34,7 @@ namespace Rpg.Client.Models.Party
             if (!_isInitialized)
             {
                 var globe = _globeProvider.Globe;
-                var playerCharacters = globe.Player.Group.Units;
+                var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
 
                 _buttonList.Clear();
                 foreach (var character in playerCharacters)
@@ -53,6 +54,26 @@ namespace Rpg.Client.Models.Party
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                 };
                 _buttonList.Add(biomeButton);
+
+                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                switchUnitButton.OnClick += (s, e) =>
+                {
+                    if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                    {
+                        if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
+                        {
+                            _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
+                        }
+                    }
+                    else
+                    {
+                        if (_globeProvider.Globe.Player.Group.Units.Count() < 3)
+                        {
+                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter);
+                        }
+                    }
+                };
+                _buttonList.Add(switchUnitButton);
 
                 _isInitialized = true;
             }
@@ -83,14 +104,20 @@ namespace Rpg.Client.Models.Party
 
             if (_selectedCharacter is not null)
             {
-                var sb = new[]
+                var sb = new List<string>()
                 {
                     _selectedCharacter.UnitScheme.Name,
                     $"Level: {_selectedCharacter.Level}",
                     $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.XpToLevelup}"
                 };
 
-                for (var statIndex = 0; statIndex < sb.Length; statIndex++)
+                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                {
+                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
+                    sb.Add($"Is in party. Slot {index + 1}.");
+                }
+
+                for (var statIndex = 0; statIndex < sb.Count; statIndex++)
                 {
                     var line = sb[statIndex];
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
