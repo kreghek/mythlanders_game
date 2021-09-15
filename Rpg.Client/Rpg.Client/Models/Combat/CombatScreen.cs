@@ -248,7 +248,7 @@ namespace Rpg.Client.Models.Combat
             {
                 _combatSkillsPanel.Unit = e.NewUnit;
             }
-            
+
             if (e.OldUnit != null)
             {
                 var unitGameObject = GetUnitGameObject(e.OldUnit);
