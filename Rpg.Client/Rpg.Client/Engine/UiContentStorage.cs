@@ -17,6 +17,7 @@ namespace Rpg.Client.Engine
         private SpriteFont _font;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
+        private Texture2D _combatPowerIconTextres;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
         private Song _titleTrack;
@@ -54,6 +55,7 @@ namespace Rpg.Client.Engine
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
             _modalBottomTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundBottom1") };
+            _combatPowerIconTextres = contentManager.Load<Texture2D>("Sprites/Ui/CombatPowerIcons");
 
             _biomeBackgroundDict = new Dictionary<BiomeType, Texture2D>
             {
@@ -89,6 +91,11 @@ namespace Rpg.Client.Engine
         public Song GetBattleSong()
         {
             return _battleTrack;
+        }
+
+        public Texture2D GetCombatPowerIconsTexture()
+        {
+            return _combatPowerIconTextres;
         }
     }
 }

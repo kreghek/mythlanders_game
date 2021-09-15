@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
             {
                 new CombatSkill
                 {
-                    Sid = "Player",
+                    Sid = "Slash",
                     DamageMin = 10,
                     DamageMinPerLevel = 2,
                     DamageMax = 12,
@@ -26,7 +26,7 @@ namespace Rpg.Client.Core
                 },
                 new CombatSkill
                 {
-                    Sid = "Player",
+                    Sid = "Wide Slash",
                     DamageMin = 5,
                     DamageMinPerLevel = 1,
                     DamageMax = 7,
@@ -46,7 +46,7 @@ namespace Rpg.Client.Core
             {
                 new CombatSkill
                 {
-                    Sid = "Player",
+                    Sid = "Heal",
                     DamageMin = 5,
                     DamageMinPerLevel = 1,
                     DamageMax = 7,
@@ -67,7 +67,7 @@ namespace Rpg.Client.Core
             {
                 new CombatSkill
                 {
-                    Sid = "Player",
+                    Sid = "Strike",
                     DamageMin = 15,
                     DamageMinPerLevel = 2,
                     DamageMax = 17,
@@ -78,7 +78,7 @@ namespace Rpg.Client.Core
                 },
                 new CombatSkill
                 {
-                    Sid = "Player",
+                    Sid = "Arrow Rain",
                     DamageMin = 5,
                     DamageMinPerLevel = 1,
                     DamageMax = 7,

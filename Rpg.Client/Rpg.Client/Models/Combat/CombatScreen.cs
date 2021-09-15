@@ -241,7 +241,14 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            _combatSkillsPanel.Unit = e.NewUnit?.Unit.IsPlayerControlled == true ? e.NewUnit : null;
+            var isPlayerControlled = (e.NewUnit?.Unit.IsPlayerControlled).GetValueOrDefault();
+
+            _combatSkillsPanel.IsEnabled = isPlayerControlled;
+            if (isPlayerControlled)
+            {
+                _combatSkillsPanel.Unit = e.NewUnit;
+            }
+            
             if (e.OldUnit != null)
             {
                 var unitGameObject = GetUnitGameObject(e.OldUnit);
