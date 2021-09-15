@@ -11,12 +11,11 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal sealed class CombatResultModal : ModalDialogBase
     {
+        private readonly CombatResult _combatResult;
+        private readonly IEnumerable<GainLevelResult> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _iterationCounter;
-
-        private readonly CombatResult _combatResult;
-        private readonly IEnumerable<GainLevelResult> _sourceXpItems;
 
         private IEnumerable<XpItem> _xpItems;
 
@@ -39,44 +38,6 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 ShowDefeatBenefits(spriteBatch, ContentRect);
             }
-        }
-
-        private void ShowVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            var xpItems = _xpItems.ToArray();
-
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition, Color.Wheat);
-
-            var benefitsPosition = resultPosition + new Vector2(0, 10);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Полученные улучшения:", benefitsPosition, Color.Wheat);
-
-            for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
-            {
-                var item = xpItems[itemIndex];
-                var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
-                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
-
-                if (item.IsShowLevelUpIndicator)
-                {
-                    unitBenefit += " LEVELUP!";
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
-            }
-
-            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * xpItems.Length * 10;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition, Color.Wheat);
-        }
-
-        private void ShowDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition, Color.Wheat);
-
-
-            var biomeChangesPosition = resultPosition + new Vector2(0, 10);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: -50%", biomeChangesPosition, Color.Wheat);
         }
 
         protected override void InitContent()
@@ -105,6 +66,48 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 _iterationCounter = 0;
             }
+        }
+
+        private void ShowDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
+                Color.Wheat);
+
+            var biomeChangesPosition = resultPosition + new Vector2(0, 10);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: -50%", biomeChangesPosition,
+                Color.Wheat);
+        }
+
+        private void ShowVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var xpItems = _xpItems.ToArray();
+
+            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
+                Color.Wheat);
+
+            var benefitsPosition = resultPosition + new Vector2(0, 10);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Полученные улучшения:", benefitsPosition,
+                Color.Wheat);
+
+            for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
+            {
+                var item = xpItems[itemIndex];
+                var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
+                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
+
+                if (item.IsShowLevelUpIndicator)
+                {
+                    unitBenefit += " LEVELUP!";
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
+            }
+
+            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * xpItems.Length * 10;
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
+                Color.Wheat);
         }
 
         private sealed class XpItem
