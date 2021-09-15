@@ -38,7 +38,7 @@ namespace Rpg.Client.Models.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
-        private CombatResultPanel? _combatResultPanel;
+        private CombatResultModal? _combatResultModal;
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
@@ -135,12 +135,15 @@ namespace Rpg.Client.Models.Combat
 
             _combatSkillsPanel?.Update();
 
-            _combatResultPanel?.Update(gameTime);
+            _combatResultModal?.Update(gameTime);
         }
 
         private void HandleFinishedCombatHud(GameTime gameTime)
         {
-            _combatResultPanel?.Update(gameTime);
+            if (_combatResultModal?.IsVisible == true)
+            {
+                _combatResultModal?.Update(gameTime);
+            }
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -254,20 +257,25 @@ namespace Rpg.Client.Models.Combat
         {
             _hudButtons.Clear();
             _combatSkillsPanel = null;
-            _combatResultPanel = new CombatResultPanel(_uiContentStorage);
-            _combatResultPanel.Closed += CombatResultPanel_Closed;
+            
             if (e.Victory)
             {
                 var xpItems = HandleGainXp().ToArray();
                 ApplyXp(xpItems);
-                HandleGlobe(true);
-                _combatResultPanel.Initialize(CombatResult.Victory, xpItems);
+                HandleGlobe(CombatResult.Victory);
+
+                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory, xpItems);
             }
             else
             {
-                HandleGlobe(false);
-                _combatResultPanel.Initialize(CombatResult.Defeat, Array.Empty<GainLevelResult>());
+                HandleGlobe(CombatResult.Defeat);
+
+                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat, Array.Empty<GainLevelResult>());
             }
+
+            _combatResultModal.Show();
+
+            _combatResultModal.Closed += CombatResultModal_Closed;
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
@@ -308,7 +316,7 @@ namespace Rpg.Client.Models.Combat
             unitGameObject.AnimateWound();
         }
 
-        private void CombatResultPanel_Closed(object? sender, EventArgs e)
+        private void CombatResultModal_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
 
@@ -391,7 +399,7 @@ namespace Rpg.Client.Models.Combat
                 }
             }
 
-            _combatResultPanel?.Draw(spriteBatch, Game.GraphicsDevice);
+            _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -475,12 +483,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void HandleGlobe(bool victory)
+        private void HandleGlobe(CombatResult result)
         {
             _bossWasDefeat = false;
             _finalBossWasDefeat = false;
 
-            if (victory)
+            if (result == CombatResult.Victory)
             {
                 _combat.Biom.Level++;
 
@@ -495,13 +503,17 @@ namespace Rpg.Client.Models.Combat
                     }
                 }
             }
-            else
+            else if (result == CombatResult.Defeat)
             {
                 if (_combat.Combat.IsBossLevel)
                 {
                     var levelDiff = _combat.Biom.Level - _combat.Biom.MinLevel;
                     _combat.Biom.Level = levelDiff / 2;
                 }
+            }
+            else
+            {
+                throw new InvalidOperationException("Unknown combat result.");
             }
         }
 
