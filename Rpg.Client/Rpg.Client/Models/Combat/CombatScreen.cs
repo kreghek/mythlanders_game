@@ -362,11 +362,7 @@ namespace Rpg.Client.Models.Combat
             const int BG_START_OFFSET = -100;
             const int BG_MAX_OFSSET = 200;
 
-            spriteBatch.Draw(backgrounds[0],
-                new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
-            spriteBatch.Draw(backgrounds[1],
-                new Vector2(BG_START_OFFSET + _bgCenterOffsetPercentage * 0.15f * BG_MAX_OFSSET, 0), Color.White);
-            spriteBatch.Draw(backgrounds[2], new Vector2(BG_START_OFFSET, 0), Color.White);
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             DrawBullets(spriteBatch);
             DrawUnits(spriteBatch);
@@ -376,10 +372,30 @@ namespace Rpg.Client.Models.Combat
                 bullet.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(backgrounds[3],
-                new Vector2(BG_START_OFFSET + -1 * _bgCenterOffsetPercentage * 0.5f * BG_MAX_OFSSET, 0), Color.White);
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             spriteBatch.End();
+        }
+
+        const int BACKGROUND_LAYERS_COUNT = 3;
+        const float BACKGROUND_LAYERS_SPEED = 0.1f;
+
+        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset, int backgroundMaxOffset)
+        {
+            var xFloat = backgroundStartOffset + -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+            var roundedX = (int)Math.Round(xFloat);
+            spriteBatch.Draw(backgrounds[3], new Vector2(roundedX, 0), Color.White);
+        }
+
+        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset, int backgroundMaxOffset)
+        {
+            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
+            {
+                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) * BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
+                var roundedX = (int)Math.Round(xFloat);
+                var position = new Vector2(roundedX, 0);
+                spriteBatch.Draw(backgrounds[i], position, Color.White);
+            }
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
@@ -413,7 +429,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static Vector2 GetUnitPosition(int index, bool isPlayerControlled)
+        private Vector2 GetUnitPosition(int index, bool isPlayerControlled)
         {
             var predefinedPosition = _unitPredefinedPositions[index];
 
@@ -425,7 +441,9 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                var xMirror = 400 + (400 - predefinedPosition.X);
+                var width = Game.GraphicsDevice.Viewport.Width;
+                // Move from right edge.
+                var xMirror = width - predefinedPosition.X;
                 calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
             }
 
