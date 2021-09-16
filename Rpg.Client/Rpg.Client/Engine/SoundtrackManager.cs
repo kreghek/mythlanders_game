@@ -7,13 +7,17 @@ namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
     {
-        private readonly Random _random = new Random();
+        private readonly Random _random;
 
-        private bool _backgroundTrackStarted;
         private bool _changeTrack;
 
         private string? _state;
-        private IUiContentStorage _uiContentStorage;
+        private IUiContentStorage? _uiContentStorage;
+
+        public SoundtrackManager()
+        {
+            _random = new Random();
+        }
 
         public bool IsInitialized { get; private set; }
 
@@ -53,14 +57,12 @@ namespace Rpg.Client.Engine
             switch (_state)
             {
                 case null:
-                    _backgroundTrackStarted = false;
                     MediaPlayer.Stop();
                     break;
 
                 case "title":
                     if (_changeTrack)
                     {
-                        _backgroundTrackStarted = true;
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -76,7 +78,6 @@ namespace Rpg.Client.Engine
                 case "map":
                     if (_changeTrack)
                     {
-                        _backgroundTrackStarted = true;
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -95,7 +96,6 @@ namespace Rpg.Client.Engine
                 case "battle":
                     if (_changeTrack)
                     {
-                        _backgroundTrackStarted = true;
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)

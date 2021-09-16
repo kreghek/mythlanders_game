@@ -140,7 +140,7 @@ namespace Rpg.Client.Models.Combat
         private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
         {
             var unitGameObject = GetUnitGameObject(action.Actor);
-            UnitGameObject? target;
+            UnitGameObject target;
             var skillCard = unitGameObject.Unit.CombatCards.Single(x => x.Skill == action.Skill);
             switch (skillCard.Skill.TargetType)
             {
@@ -567,7 +567,7 @@ namespace Rpg.Client.Models.Combat
                                 icon.OnClick += (s, e) =>
                                 {
                                     _selectedUnitForPlayerSkill = target;
-                                    _combat.UseSkill(skillCard.Skill);
+                                    _combat.UseMassSkill(skillCard.Skill);
                                 };
                                 break;
                             case SkillScope.Single:

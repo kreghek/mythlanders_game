@@ -21,6 +21,9 @@ namespace Rpg.Client.Models.Biome
         private readonly Cloud[] _clouds;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
+
+        private readonly Core.Biome _biome;
+
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
@@ -40,6 +43,9 @@ namespace Rpg.Client.Models.Biome
 
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
+
+            _biome = _globe.CurrentBiome ?? throw new InvalidOperationException("");
+
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
@@ -106,10 +112,9 @@ namespace Rpg.Client.Models.Biome
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var biome = _globe.CurrentBiome;
-                    foreach (var node in biome.Nodes)
+                    foreach (var node in _biome.Nodes)
                     {
-                        var position = GetBiomeNodeGraphicPositions(biome.Type)[node.Index];
+                        var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
                         var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
                         _nodeModels.Add(nodeModel);
@@ -123,8 +128,6 @@ namespace Rpg.Client.Models.Biome
                     {
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
-
-                        var biome = _globe.CurrentBiome;
 
                         var index = 0;
                         foreach (var node in _nodeModels)
@@ -140,7 +143,7 @@ namespace Rpg.Client.Models.Biome
                             if (mouseState.LeftButton == ButtonState.Pressed && detectNode)
                             {
                                 _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, biome,
+                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, _biome,
                                     Game.Services.GetService<IDice>());
 
                                 if (node.AvailableDialog is not null)
@@ -213,8 +216,7 @@ namespace Rpg.Client.Models.Biome
                 buttonIndex++;
             }
 
-            var biome = _globe.CurrentBiome;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {biome.Level}",
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {_biome.Level}",
                 new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
 
             spriteBatch.End();
@@ -224,8 +226,7 @@ namespace Rpg.Client.Models.Biome
         {
             spriteBatch.Begin();
 
-            var biome = _globe.CurrentBiome;
-            var backgroundTexture = _uiContentStorage.GetBiomeBackground(biome.Type);
+            var backgroundTexture = _uiContentStorage.GetBiomeBackground(_biome.Type);
 
             spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
 
