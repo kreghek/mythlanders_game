@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Models.Biome.GameObjects;
+
 namespace Rpg.Client.Core
 {
     internal class ActiveCombat
@@ -11,13 +13,14 @@ namespace Rpg.Client.Core
         private readonly IDice _dice;
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
-        private CombatUnit _currentUnit;
+        private CombatUnit? _currentUnit;
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, Models.Biome.GameObjects.GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
+            Node = node;
             Combat = combat;
             Biom = biom;
             _dice = dice;
@@ -46,6 +49,7 @@ namespace Rpg.Client.Core
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
+        public GlobeNodeGameObject Node { get; }
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -128,7 +132,7 @@ namespace Rpg.Client.Core
             });
         }
 
-        public void UseSkill(CombatSkill skill)
+        public void UseMassSkill(CombatSkill skill)
         {
             if (skill.Scope != SkillScope.AllEnemyGroup)
             {
@@ -248,7 +252,7 @@ namespace Rpg.Client.Core
                     break;
 
                 case SkillScope.AllEnemyGroup:
-                    UseSkill(skill);
+                    UseMassSkill(skill);
                     break;
 
                 case SkillScope.Undefined:
@@ -292,7 +296,7 @@ namespace Rpg.Client.Core
 
         private void Unit_Dead(object? sender, EventArgs e)
         {
-            if (!(sender is Unit unit))
+            if (sender is not Unit unit)
             {
                 return;
             }
@@ -312,16 +316,19 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitDied;
 
-        internal event EventHandler<SkillUsingEventArgs> BeforeSkillUsing;
+        internal event EventHandler<SkillUsingEventArgs>? BeforeSkillUsing;
 
-        internal event EventHandler<SkillUsingEventArgs> AfterSkillUsing;
+        internal event EventHandler<SkillUsingEventArgs>? AfterSkillUsing;
 
         internal event EventHandler<CombatUnit>? MoveCompleted;
 
         internal event EventHandler<CombatUnit>? UnitHadDamage;
 
+        /// <summary>
+        /// Event bus for combat object interactions.
+        /// </summary>
 
-        internal event EventHandler<ActionEventArgs> ActionGenerated;
+        internal event EventHandler<ActionEventArgs>? ActionGenerated;
 
         internal class SkillUsingEventArgs : EventArgs
         {

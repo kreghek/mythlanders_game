@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -12,8 +13,10 @@ namespace Rpg.Client.Models.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly CombatResult _combatResult;
-        private readonly IEnumerable<GainLevelResult> _sourceXpItems;
+        private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
+
+        private readonly TextButton _closeButton;
 
         private double _iterationCounter;
 
@@ -21,23 +24,42 @@ namespace Rpg.Client.Models.Combat.Ui
 
         public CombatResultModal(IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice,
             CombatResult combatResult,
-            IEnumerable<GainLevelResult> xpItems) : base(uiContentStorage, graphicsDevice)
+            IEnumerable<XpAward> xpItems) : base(uiContentStorage, graphicsDevice)
         {
             _uiContentStorage = uiContentStorage;
             _combatResult = combatResult;
             _sourceXpItems = xpItems;
+
+            _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _closeButton.OnClick += CloseButton_OnClick;
+        }
+
+        private void CloseButton_OnClick(object? sender, EventArgs e)
+        {
+            Close();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             if (_combatResult == CombatResult.Victory)
             {
-                ShowVictoryBenefits(spriteBatch, ContentRect);
+                DrawVictoryBenefits(spriteBatch, ContentRect);
+            }
+            else if (_combatResult == CombatResult.NextCombat)
+            {
+                DrawNextCombatBenefits(spriteBatch, ContentRect);
+            }
+            else if (_combatResult == CombatResult.Defeat)
+            {
+                DrawDefeatBenefits(spriteBatch, ContentRect);
             }
             else
             {
-                ShowDefeatBenefits(spriteBatch, ContentRect);
+                Debug.Fail("Unknown combat result.");
             }
+
+            _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
+            _closeButton.Draw(spriteBatch);
         }
 
         protected override void InitContent()
@@ -66,9 +88,11 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 _iterationCounter = 0;
             }
+
+            _closeButton.Update();
         }
 
-        private void ShowDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
@@ -79,7 +103,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 Color.Wheat);
         }
 
-        private void ShowVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var xpItems = _xpItems.ToArray();
 
@@ -97,16 +121,28 @@ namespace Rpg.Client.Models.Combat.Ui
                 var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
                 var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
 
-                if (item.IsShowLevelUpIndicator)
+                if (item.IsShowLevelUpIndicator is not null)
                 {
                     unitBenefit += " LEVELUP!";
+
+                    if (item.IsShowLevelUpIndicator > 1)
+                    {
+                        unitBenefit += $" x {item.IsShowLevelUpIndicator}";
+                    }
                 }
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
             }
 
-            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * xpItems.Length * 10;
+            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
+                Color.Wheat);
+        }
+
+        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
                 Color.Wheat);
         }
 
@@ -114,7 +150,7 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             private const int XP_COUNTER_SPEED = 2;
 
-            public XpItem(GainLevelResult item)
+            public XpItem(XpAward item)
             {
                 UnitName = item.Unit.UnitScheme.Name;
                 XpAmount = item.XpAmount;
@@ -129,7 +165,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
             public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
 
-            public bool IsShowLevelUpIndicator { get; private set; }
+            public int? IsShowLevelUpIndicator { get; private set; }
             public int StartXp { get; }
 
             public string UnitName { get; }
@@ -156,8 +192,16 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 if (CurrentXp >= XpToLevelup)
                 {
-                    CurrentXp -= XP_COUNTER_SPEED;
-                    IsShowLevelUpIndicator = true;
+                    CurrentXp -= XpToLevelup;
+
+                    if (IsShowLevelUpIndicator is null)
+                    {
+                        IsShowLevelUpIndicator = 1;
+                    }
+                    else
+                    {
+                        IsShowLevelUpIndicator++;
+                    }
                 }
 
                 if (CountedXp >= XpAmount)
