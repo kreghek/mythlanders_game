@@ -16,6 +16,8 @@ namespace Rpg.Client.Models.Combat.Ui
         private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
+        private readonly TextButton _closeButton;
+
         private double _iterationCounter;
 
         private IEnumerable<XpItem> _xpItems;
@@ -27,6 +29,14 @@ namespace Rpg.Client.Models.Combat.Ui
             _uiContentStorage = uiContentStorage;
             _combatResult = combatResult;
             _sourceXpItems = xpItems;
+
+            _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _closeButton.OnClick += CloseButton_OnClick;
+        }
+
+        private void CloseButton_OnClick(object? sender, EventArgs e)
+        {
+            Close();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -47,6 +57,9 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 Debug.Fail("Unknown combat result.");
             }
+
+            _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
+            _closeButton.Draw(spriteBatch);
         }
 
         protected override void InitContent()
@@ -75,6 +88,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 _iterationCounter = 0;
             }
+
+            _closeButton.Update();
         }
 
         private void ShowDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -114,7 +129,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
             }
 
-            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * xpItems.Length * 10;
+            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
                 Color.Wheat);
         }

@@ -261,8 +261,10 @@ namespace Rpg.Client.Models.Combat
             var isPlayerControlled = (e.NewUnit?.Unit.IsPlayerControlled).GetValueOrDefault();
 
             _combatSkillsPanel.IsEnabled = isPlayerControlled;
+
             if (isPlayerControlled)
             {
+                _combatSkillsPanel.SelectedCard = null;
                 _combatSkillsPanel.Unit = e.NewUnit;
             }
 
@@ -576,8 +578,6 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var unitModel in _gameObjects)
             {
-                //unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
-
                 unitModel.Update(gameTime);
             }
         }
