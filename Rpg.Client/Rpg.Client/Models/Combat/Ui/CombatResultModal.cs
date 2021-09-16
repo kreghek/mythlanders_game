@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -34,9 +35,17 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 ShowVictoryBenefits(spriteBatch, ContentRect);
             }
-            else
+            else if (_combatResult == CombatResult.NextCombat)
+            {
+                ShowVictoryBenefits(spriteBatch, ContentRect);
+            }
+            else if (_combatResult == CombatResult.Defeat)
             {
                 ShowDefeatBenefits(spriteBatch, ContentRect);
+            }
+            else
+            {
+                Debug.Fail("Unknown combat result.");
             }
         }
 

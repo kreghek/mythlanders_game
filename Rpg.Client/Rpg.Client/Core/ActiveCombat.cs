@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Models.Biome.GameObjects;
+
 namespace Rpg.Client.Core
 {
     internal class ActiveCombat
@@ -15,9 +17,10 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, Models.Biome.GameObjects.GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
+            Node = node;
             Combat = combat;
             Biom = biom;
             _dice = dice;
@@ -46,6 +49,7 @@ namespace Rpg.Client.Core
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
+        public GlobeNodeGameObject Node { get; }
         internal Combat Combat { get; }
 
         internal bool Finished

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.Ui;
 using Rpg.Client.Screens;
@@ -32,10 +33,12 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
+        private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly GlobeProvider _globeProvider;
+        private readonly Globe _globe;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
 
@@ -56,10 +59,12 @@ namespace Rpg.Client.Models.Combat
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
-            var globe = _globeProvider.Globe;
+            _globe = _globeProvider.Globe;
 
-            _combat = globe.ActiveCombat ??
-                      throw new InvalidOperationException(nameof(globe.ActiveCombat) + " is null");
+            _combat = _globe.ActiveCombat ??
+                      throw new InvalidOperationException(nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+
+            _globeNodeGameObject = _combat.Node;
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<BulletGameObject>();
@@ -219,12 +224,22 @@ namespace Rpg.Client.Models.Combat
 
             if (e.Victory)
             {
-                var xpItems = HandleGainXp().ToArray();
-                ApplyXp(xpItems);
-                HandleGlobe(CombatResult.Victory);
+                var currentCombatList = _combat.Node.GlobeNode.Combats.ToList();
+                if (currentCombatList.Count == 1)
+                {
 
-                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory,
-                    xpItems);
+                    var xpItems = HandleGainXp().ToArray();
+                    ApplyXp(xpItems);
+                    HandleGlobe(CombatResult.Victory);
+
+                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory,
+                        xpItems);
+                }
+                else
+                {
+                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.NextCombat,
+                        Array.Empty<GainLevelResult>());
+                }
             }
             else
             {
@@ -288,23 +303,40 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
 
-            var dice = Game.Services.GetService<IDice>();
-            _globeProvider.Globe.UpdateNodes(dice);
+            var currentCombatList = _globeNodeGameObject.GlobeNode.Combats.ToList();
+            currentCombatList.Remove(_combat.Combat);
+            _globeNodeGameObject.GlobeNode.Combats = currentCombatList;
 
-            if (_bossWasDefeat)
+            if (_combat.Node.GlobeNode.Combats.Any())
             {
-                if (_finalBossWasDefeat)
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                }
-                else
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
-                }
+                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                    _globeNodeGameObject,
+                    _globeNodeGameObject.GlobeNode.Combats.First(),
+                    _combat.Biom,
+                    Game.Services.GetService<IDice>());
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
             }
             else
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                var dice = Game.Services.GetService<IDice>();
+                _globeProvider.Globe.UpdateNodes(dice);
+
+                if (_bossWasDefeat)
+                {
+                    if (_finalBossWasDefeat)
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                    }
+                    else
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                    }
+                }
+                else
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                }
             }
         }
 
@@ -510,32 +542,31 @@ namespace Rpg.Client.Models.Combat
             _bossWasDefeat = false;
             _finalBossWasDefeat = false;
 
-            if (result == CombatResult.Victory)
+            switch (result)
             {
-                _combat.Biom.Level++;
+                case CombatResult.Victory:
+                    _combat.Biom.Level++;
 
-                if (_combat.Combat.IsBossLevel)
-                {
-                    _combat.Biom.IsComplete = true;
-                    _bossWasDefeat = true;
-
-                    if (_combat.Biom.IsFinal)
+                    if (_combat.Combat.IsBossLevel)
                     {
-                        _finalBossWasDefeat = true;
+                        _combat.Biom.IsComplete = true;
+                        _bossWasDefeat = true;
+
+                        if (_combat.Biom.IsFinal)
+                        {
+                            _finalBossWasDefeat = true;
+                        }
                     }
-                }
-            }
-            else if (result == CombatResult.Defeat)
-            {
-                if (_combat.Combat.IsBossLevel)
-                {
+                    break;
+
+                case CombatResult.Defeat:
                     var levelDiff = _combat.Biom.Level - _combat.Biom.MinLevel;
-                    _combat.Biom.Level = levelDiff / 2;
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Unknown combat result.");
+                    _combat.Biom.Level = Math.Max(levelDiff / 2, _combat.Biom.MinLevel);
+
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unknown combat result.");
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -13,7 +15,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
         public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage)
         {
-            if (globeNode.Combat is not null)
+            if (globeNode.Combats.Any())
             {
                 _graphics = new Sprite(gameObjectContentStorage.GetNodeMarker())
                 {
@@ -32,7 +34,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
                 };
             }
 
-            Combat = globeNode.Combat;
+            Combat = globeNode.Combats.FirstOrDefault();
+            GlobeNode = globeNode;
             Position = position;
             Index = globeNode.Index;
             Name = globeNode.Name;
@@ -44,6 +47,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
         public Core.Combat? Combat { get; }
         public int Index { get; }
         public string Name { get; }
+        public GlobeNode GlobeNode { get; }
         public Vector2 Position { get; }
 
         public void Draw(SpriteBatch spriteBatch)

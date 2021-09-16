@@ -143,7 +143,7 @@ namespace Rpg.Client.Models.Biome
                             if (mouseState.LeftButton == ButtonState.Pressed && detectNode)
                             {
                                 _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node.Combat, _biome,
+                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node, node.Combat, _biome,
                                     Game.Services.GetService<IDice>());
 
                                 if (node.AvailableDialog is not null)
@@ -240,7 +240,8 @@ namespace Rpg.Client.Models.Biome
                 node.Draw(spriteBatch);
 
                 var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{dialogMarker}",
+                var sizeMarker = $"[{node.GlobeNode.Combats.Count}]";
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{sizeMarker}{dialogMarker}",
                     node.Position + new Vector2(0, 30), Color.Wheat);
                 if (node.Combat is not null)
                 {
@@ -265,18 +266,61 @@ namespace Rpg.Client.Models.Biome
 
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
         {
-            return new[]
+            return type switch
             {
-                new Vector2(92, 82), // 1
-                new Vector2(320, 115), // 2
-                new Vector2(210, 165), // 3
-                new Vector2(340, 255), // 4
-                new Vector2(450, 200), // 5
-                new Vector2(680, 95), // 6
-                new Vector2(740, 200), // 7
-                new Vector2(545, 240), // 8
-                new Vector2(720, 245), // 9
-                new Vector2(445, 345) // 10
+                BiomeType.Slavic => new[]
+                {
+                    new Vector2(92, 82), // 1
+                    new Vector2(320, 115), // 2
+                    new Vector2(210, 165), // 3
+                    new Vector2(340, 255), // 4
+                    new Vector2(450, 200), // 5
+                    new Vector2(680, 95), // 6
+                    new Vector2(740, 200), // 7
+                    new Vector2(545, 240), // 8
+                    new Vector2(720, 245), // 9
+                    new Vector2(445, 345) // 10
+                },
+                BiomeType.China => new[]
+                {
+                    new Vector2(92, 82), // 1
+                    new Vector2(320, 115), // 2
+                    new Vector2(210, 165), // 3
+                    new Vector2(340, 255), // 4
+                    new Vector2(450, 200), // 5
+                    new Vector2(680, 95), // 6
+                    new Vector2(740, 200), // 7
+                    new Vector2(545, 240), // 8
+                    new Vector2(720, 245), // 9
+                    new Vector2(445, 345) // 10
+                },
+                BiomeType.Egypt => new[]
+                {
+                    new Vector2(92, 82), // 1
+                    new Vector2(320, 115), // 2
+                    new Vector2(210, 165), // 3
+                    new Vector2(340, 255), // 4
+                    new Vector2(450, 200), // 5
+                    new Vector2(680, 95), // 6
+                    new Vector2(740, 200), // 7
+                    new Vector2(545, 240), // 8
+                    new Vector2(720, 245), // 9
+                    new Vector2(445, 345) // 10
+                },
+                BiomeType.Greek => new[]
+                {
+                    new Vector2(92, 82), // 1
+                    new Vector2(320, 115), // 2
+                    new Vector2(210, 165), // 3
+                    new Vector2(340, 255), // 4
+                    new Vector2(450, 200), // 5
+                    new Vector2(680, 95), // 6
+                    new Vector2(740, 200), // 7
+                    new Vector2(545, 240), // 8
+                    new Vector2(720, 245), // 9
+                    new Vector2(445, 345) // 10
+                },
+                _ => throw new InvalidOperationException($"Unknown biome type {type}."),
             };
         }
 
