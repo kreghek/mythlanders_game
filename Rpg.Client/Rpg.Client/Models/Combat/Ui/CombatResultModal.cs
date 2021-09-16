@@ -43,15 +43,15 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             if (_combatResult == CombatResult.Victory)
             {
-                ShowVictoryBenefits(spriteBatch, ContentRect);
+                DrawVictoryBenefits(spriteBatch, ContentRect);
             }
             else if (_combatResult == CombatResult.NextCombat)
             {
-                ShowVictoryBenefits(spriteBatch, ContentRect);
+                DrawNextCombatBenefits(spriteBatch, ContentRect);
             }
             else if (_combatResult == CombatResult.Defeat)
             {
-                ShowDefeatBenefits(spriteBatch, ContentRect);
+                DrawDefeatBenefits(spriteBatch, ContentRect);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace Rpg.Client.Models.Combat.Ui
             _closeButton.Update();
         }
 
-        private void ShowDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
@@ -103,7 +103,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 Color.Wheat);
         }
 
-        private void ShowVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var xpItems = _xpItems.ToArray();
 
@@ -121,9 +121,14 @@ namespace Rpg.Client.Models.Combat.Ui
                 var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
                 var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
 
-                if (item.IsShowLevelUpIndicator)
+                if (item.IsShowLevelUpIndicator is not null)
                 {
                     unitBenefit += " LEVELUP!";
+
+                    if (item.IsShowLevelUpIndicator > 1)
+                    {
+                        unitBenefit += $" x {item.IsShowLevelUpIndicator}";
+                    }
                 }
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
@@ -131,6 +136,13 @@ namespace Rpg.Client.Models.Combat.Ui
 
             var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
+                Color.Wheat);
+        }
+
+        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
                 Color.Wheat);
         }
 
@@ -153,7 +165,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
             public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
 
-            public bool IsShowLevelUpIndicator { get; private set; }
+            public int? IsShowLevelUpIndicator { get; private set; }
             public int StartXp { get; }
 
             public string UnitName { get; }
@@ -180,8 +192,16 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 if (CurrentXp >= XpToLevelup)
                 {
-                    CurrentXp -= XP_COUNTER_SPEED;
-                    IsShowLevelUpIndicator = true;
+                    CurrentXp -= XpToLevelup;
+
+                    if (IsShowLevelUpIndicator is null)
+                    {
+                        IsShowLevelUpIndicator = 1;
+                    }
+                    else
+                    {
+                        IsShowLevelUpIndicator++;
+                    }
                 }
 
                 if (CountedXp >= XpAmount)

@@ -512,10 +512,13 @@ namespace Rpg.Client.Models.Combat
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
         {
+            var combatSequenceCoeffs = new[] { 1f, 0/*not used*/, 1.25f, /*not used*/0, /*not used*/0, 1.5f };
+
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
 
-            var summaryXp = monsters.Sum(x => x.XpReward);
+            var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
+            var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
             var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
 
             var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
