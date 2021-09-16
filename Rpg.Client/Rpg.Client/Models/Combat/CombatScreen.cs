@@ -134,7 +134,7 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private static void ApplyXp(IEnumerable<GainLevelResult> xpItems)
+        private static void ApplyXp(IEnumerable<XpAward> xpItems)
         {
             foreach (var item in xpItems)
             {
@@ -224,11 +224,13 @@ namespace Rpg.Client.Models.Combat
 
             if (e.Victory)
             {
-                var currentCombatList = _combat.Node.GlobeNode.Combats.ToList();
+                var completedCombats = _globeNodeGameObject.GlobeNode.CombatSequence.CompletedCombats;
+                completedCombats.Add(_combat.Combat);
+
+                var currentCombatList = _combat.Node.GlobeNode.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-
-                    var xpItems = HandleGainXp().ToArray();
+                    var xpItems = HandleGainXp(completedCombats).ToArray();
                     ApplyXp(xpItems);
                     HandleGlobe(CombatResult.Victory);
 
@@ -238,7 +240,7 @@ namespace Rpg.Client.Models.Combat
                 else
                 {
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.NextCombat,
-                        Array.Empty<GainLevelResult>());
+                        Array.Empty<XpAward>());
                 }
             }
             else
@@ -246,7 +248,7 @@ namespace Rpg.Client.Models.Combat
                 HandleGlobe(CombatResult.Defeat);
 
                 _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
-                    Array.Empty<GainLevelResult>());
+                    Array.Empty<XpAward>());
             }
 
             _combatResultModal.Show();
@@ -303,15 +305,15 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
 
-            var currentCombatList = _globeNodeGameObject.GlobeNode.Combats.ToList();
+            var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
             currentCombatList.Remove(_combat.Combat);
-            _globeNodeGameObject.GlobeNode.Combats = currentCombatList;
+            _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;
 
-            if (_combat.Node.GlobeNode.Combats.Any())
+            if (_combat.Node.GlobeNode.CombatSequence.Combats.Any())
             {
                 _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                     _globeNodeGameObject,
-                    _globeNodeGameObject.GlobeNode.Combats.First(),
+                    _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First(),
                     _combat.Biom,
                     Game.Services.GetService<IDice>());
 
@@ -506,12 +508,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private IEnumerable<GainLevelResult> HandleGainXp()
+        private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
         {
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-            var monsters = _combat.Units.Where(x => !x.Unit.IsPlayerControlled && x.Unit.IsDead).ToArray();
+            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
 
-            var summaryXp = monsters.Sum(x => x.Unit.XpReward);
+            var summaryXp = monsters.Sum(x => x.XpReward);
             var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
 
             var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
@@ -527,7 +529,7 @@ namespace Rpg.Client.Models.Combat
                     remainsUsed = true;
                 }
 
-                yield return new GainLevelResult
+                yield return new XpAward
                 {
                     StartXp = unit.Unit.Xp,
                     Unit = unit.Unit,
@@ -574,7 +576,7 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var unitModel in _gameObjects)
             {
-                unitModel.IsActive = false;
+                //unitModel.IsActive = _combat.CurrentUnit == unitModel.Unit;
 
                 unitModel.Update(gameTime);
             }

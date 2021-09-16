@@ -15,7 +15,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
         public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage)
         {
-            if (globeNode.Combats.Any())
+            if (globeNode.CombatSequence is not null)
             {
                 _graphics = new Sprite(gameObjectContentStorage.GetNodeMarker())
                 {
@@ -34,7 +34,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
                 };
             }
 
-            Combat = globeNode.Combats.FirstOrDefault();
+            Combat = globeNode.CombatSequence?.Combats.FirstOrDefault();
             GlobeNode = globeNode;
             Position = position;
             Index = globeNode.Index;
@@ -42,7 +42,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
             AvailableDialog = globeNode.AvailableDialog;
         }
 
-        public Core.Event AvailableDialog { get; }
+        public Core.Event? AvailableDialog { get; }
 
         public Core.Combat? Combat { get; }
         public int Index { get; }

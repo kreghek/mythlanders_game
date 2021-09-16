@@ -13,7 +13,7 @@ namespace Rpg.Client.Models.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly CombatResult _combatResult;
-        private readonly IEnumerable<GainLevelResult> _sourceXpItems;
+        private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _iterationCounter;
@@ -22,7 +22,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
         public CombatResultModal(IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice,
             CombatResult combatResult,
-            IEnumerable<GainLevelResult> xpItems) : base(uiContentStorage, graphicsDevice)
+            IEnumerable<XpAward> xpItems) : base(uiContentStorage, graphicsDevice)
         {
             _uiContentStorage = uiContentStorage;
             _combatResult = combatResult;
@@ -123,7 +123,7 @@ namespace Rpg.Client.Models.Combat.Ui
         {
             private const int XP_COUNTER_SPEED = 2;
 
-            public XpItem(GainLevelResult item)
+            public XpItem(XpAward item)
             {
                 UnitName = item.Unit.UnitScheme.Name;
                 XpAmount = item.XpAmount;

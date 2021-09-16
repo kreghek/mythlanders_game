@@ -240,7 +240,7 @@ namespace Rpg.Client.Models.Biome
                 node.Draw(spriteBatch);
 
                 var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                var sizeMarker = $"[{node.GlobeNode.Combats.Count}]";
+                var sizeMarker = node.GlobeNode.CombatSequence is not null ? $"[{node.GlobeNode.CombatSequence.Combats.Count}]" : string.Empty;
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{sizeMarker}{dialogMarker}",
                     node.Position + new Vector2(0, 30), Color.Wheat);
                 if (node.Combat is not null)
