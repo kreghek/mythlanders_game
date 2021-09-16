@@ -134,7 +134,8 @@ namespace Rpg.Client.Core
                         // boss level
                         if (i == 0)
                         {
-                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
+                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
+                                .Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
                             var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
 
                             var combatList = new[]

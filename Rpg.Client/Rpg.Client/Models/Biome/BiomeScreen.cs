@@ -18,11 +18,11 @@ namespace Rpg.Client.Models.Biome
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
 
+        private readonly Core.Biome _biome;
+
         private readonly Cloud[] _clouds;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-
-        private readonly Core.Biome _biome;
 
         private readonly ButtonBase[] _menuButtons;
 
@@ -240,7 +240,9 @@ namespace Rpg.Client.Models.Biome
                 node.Draw(spriteBatch);
 
                 var dialogMarker = node.AvailableDialog is not null ? " (!)" : string.Empty;
-                var sizeMarker = node.GlobeNode.CombatSequence is not null ? $"[{node.GlobeNode.CombatSequence.Combats.Count}]" : string.Empty;
+                var sizeMarker = node.GlobeNode.CombatSequence is not null
+                    ? $"[{node.GlobeNode.CombatSequence.Combats.Count}]"
+                    : string.Empty;
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{node.Name}{sizeMarker}{dialogMarker}",
                     node.Position + new Vector2(0, 30), Color.Wheat);
                 if (node.Combat is not null)
@@ -320,7 +322,7 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(720, 245), // 9
                     new Vector2(445, 345) // 10
                 },
-                _ => throw new InvalidOperationException($"Unknown biome type {type}."),
+                _ => throw new InvalidOperationException($"Unknown biome type {type}.")
             };
         }
 

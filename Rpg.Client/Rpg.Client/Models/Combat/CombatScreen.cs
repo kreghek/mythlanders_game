@@ -33,12 +33,12 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
-        private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
-        private readonly GlobeProvider _globeProvider;
         private readonly Globe _globe;
+        private readonly GlobeNodeGameObject _globeNodeGameObject;
+        private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
 
@@ -62,7 +62,8 @@ namespace Rpg.Client.Models.Combat
             _globe = _globeProvider.Globe;
 
             _combat = _globe.ActiveCombat ??
-                      throw new InvalidOperationException(nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+                      throw new InvalidOperationException(
+                          nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNodeGameObject = _combat.Node;
 
@@ -234,12 +235,14 @@ namespace Rpg.Client.Models.Combat
                     ApplyXp(xpItems);
                     HandleGlobe(CombatResult.Victory);
 
-                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Victory,
+                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                        CombatResult.Victory,
                         xpItems);
                 }
                 else
                 {
-                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.NextCombat,
+                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                        CombatResult.NextCombat,
                         Array.Empty<XpAward>());
                 }
             }
@@ -512,7 +515,7 @@ namespace Rpg.Client.Models.Combat
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
         {
-            var combatSequenceCoeffs = new[] { 1f, 0/*not used*/, 1.25f, /*not used*/0, /*not used*/0, 1.5f };
+            var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, /*not used*/0, 1.5f };
 
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
@@ -564,6 +567,7 @@ namespace Rpg.Client.Models.Combat
                             _finalBossWasDefeat = true;
                         }
                     }
+
                     break;
 
                 case CombatResult.Defeat:
