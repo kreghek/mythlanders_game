@@ -14,10 +14,10 @@ namespace Rpg.Client.Engine
         private Song _battleTrack;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonTexture;
+        private Texture2D _combatPowerIconTextres;
         private SpriteFont _font;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
-        private Texture2D _combatPowerIconTextres;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
         private Song _titleTrack;
