@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
         }
 
         public Event? AvailableDialog { get; set; }
-        
+
         public CombatSequence? CombatSequence { get; set; }
 
         public int Index { get; internal set; }

@@ -135,10 +135,10 @@ namespace Rpg.Client.Core
                         if (i == 0)
                         {
                             var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
-                            var bossUnitScheme = dice.RollFromList( bossesOfCurrentBiom, 1).Single();
+                            var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
 
                             var combatList = new[]
-                            { 
+                            {
                                 new Combat
                                 {
                                     IsBossLevel = true,
@@ -151,7 +151,7 @@ namespace Rpg.Client.Core
                                                 biom.Level)
                                         }
                                     }
-                                } 
+                                }
                             };
 
                             var combatSequence = new CombatSequence
