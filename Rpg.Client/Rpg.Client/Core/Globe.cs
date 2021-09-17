@@ -46,16 +46,12 @@ namespace Rpg.Client.Core
             CurrentBiome = biomes.Single(x => x.IsStart);
         }
 
-        [JsonIgnore]
         public ActiveCombat? ActiveCombat { get; set; }
 
-        // TODO Save dialog id to fix nullification of active dialog after saves.
-        [JsonIgnore]
         public Event? AvailableDialog { get; internal set; }
 
         public IEnumerable<Biome> Bioms { get; }
 
-        [JsonIgnore]
         public Biome? CurrentBiome { get; set; }
 
         public bool IsNodeInitialied { get; set; }
@@ -70,7 +66,7 @@ namespace Rpg.Client.Core
             {
                 foreach (var node in biom.Nodes)
                 {
-                    node.Combat = null;
+                    node.CombatSequence = null;
                     node.AvailableDialog = null;
                 }
 
@@ -88,20 +84,38 @@ namespace Rpg.Client.Core
                 if (biom.Level < 10)
                 {
                     var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
+                    var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                     var combatLevelAdditional = 0;
-                    foreach (var node in nodesWithCombats)
+                    for (var i = 0; i < nodesWithCombats.Length; i++)
                     {
-                        var combatLevel = biom.Level + combatLevelAdditional;
-                        var units = CreateReqularMonsters(node, dice, biom, combatLevel);
+                        var selectedNode = nodesWithCombats[i];
+                        var targetCombatCount = selectedNodeCombatCount[i];
 
-                        node.Combat = new Combat
+                        var combatLevel = biom.Level + combatLevelAdditional;
+                        var combatList = new List<Combat>();
+                        for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                         {
-                            Level = combatLevel,
-                            EnemyGroup = new Group
+                            var units = CreateReqularMonsters(selectedNode, dice, biom, combatLevel);
+
+                            var combat = new Combat
                             {
-                                Units = units
-                            }
+                                Level = combatLevel,
+                                EnemyGroup = new Group
+                                {
+                                    Units = units
+                                }
+                            };
+
+                            combatList.Add(combat);
+                        }
+
+                        var combatSequence = new CombatSequence
+                        {
+                            Combats = combatList
                         };
+
+                        selectedNode.CombatSequence = combatSequence;
 
                         combatLevelAdditional++;
                     }
@@ -111,43 +125,72 @@ namespace Rpg.Client.Core
                     var combatLevelAdditional = 0;
 
                     var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
-                    foreach (var node in nodesWithCombats)
+                    var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
+                    for (var i = 0; i < nodesWithCombats.Length; i++)
                     {
+                        var selectedNode = nodesWithCombats[i];
+
                         // boss level
-                        if (node == nodesWithCombats.First())
+                        if (i == 0)
                         {
-                            var bossUnitScheme =
-                                dice.RollFromList(
-                                        UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList(),
-                                        1)
-                                    .Single();
-                            node.Combat = new Combat
+                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
+                                .Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
+                            var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
+
+                            var combatList = new[]
                             {
-                                IsBossLevel = true,
-                                EnemyGroup = new Group
+                                new Combat
                                 {
-                                    Units = new[]
+                                    IsBossLevel = true,
+                                    EnemyGroup = new Group
                                     {
-                                        new Unit(
-                                            bossUnitScheme,
-                                            biom.Level)
+                                        Units = new[]
+                                        {
+                                            new Unit(
+                                                bossUnitScheme,
+                                                biom.Level)
+                                        }
                                     }
                                 }
                             };
+
+                            var combatSequence = new CombatSequence
+                            {
+                                Combats = combatList
+                            };
+
+                            selectedNode.CombatSequence = combatSequence;
                         }
                         else
                         {
                             var combatLevel = biom.Level + combatLevelAdditional;
-                            var units = CreateReqularMonsters(node, dice, biom, combatLevel);
+                            var targetCombatCount = selectedNodeCombatCount[i - 1];
 
-                            node.Combat = new Combat
+                            var combatList = new List<Combat>();
+
+                            for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                             {
-                                Level = combatLevel,
-                                EnemyGroup = new Group
+                                var units = CreateReqularMonsters(selectedNode, dice, biom, combatLevel);
+
+                                var combat = new Combat
                                 {
-                                    Units = units
-                                }
+                                    Level = combatLevel,
+                                    EnemyGroup = new Group
+                                    {
+                                        Units = units
+                                    }
+                                };
+
+                                combatList.Add(combat);
+                            }
+
+                            var combatSequence = new CombatSequence
+                            {
+                                Combats = combatList
                             };
+
+                            selectedNode.CombatSequence = combatSequence;
                         }
 
                         combatLevelAdditional++;
@@ -156,7 +199,7 @@ namespace Rpg.Client.Core
             }
 
             // create dialogs of nodes with combat
-            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.Combat is not null).ToArray();
+            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.CombatSequence is not null).ToArray();
             // TODO Use Counter to get unused dialogs first.
             var availableDialogs = EventCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .OrderBy(x => x.Counter);
@@ -224,10 +267,9 @@ namespace Rpg.Client.Core
                 {
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
+                        new GlobeNode(name: biomNames[BiomeType.Slavic][x])
                         {
-                            Index = x,
-                            Name = biomNames[BiomeType.Slavic][x]
+                            Index = x
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -236,10 +278,9 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.China)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
+                        new GlobeNode(biomNames[BiomeType.China][x])
                         {
-                            Index = x,
-                            Name = biomNames[BiomeType.China][x]
+                            Index = x
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Egypt
@@ -247,10 +288,9 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egypt)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
+                        new GlobeNode(biomNames[BiomeType.Egypt][x])
                         {
-                            Index = x,
-                            Name = biomNames[BiomeType.Egypt][x]
+                            Index = x
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Greek
@@ -258,10 +298,9 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
+                        new GlobeNode(biomNames[BiomeType.Greek][x])
                         {
-                            Index = x,
-                            Name = biomNames[BiomeType.Greek][x]
+                            Index = x
                         }
                     ).ToArray(),
                     IsFinal = true

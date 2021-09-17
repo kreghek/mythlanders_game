@@ -23,7 +23,7 @@ namespace Rpg.Client.Core
 
         public int MinLevel { get; }
 
-        public IEnumerable<GlobeNode> Nodes { get; set; }
+        public IEnumerable<GlobeNode> Nodes { get; init; }
         public BiomeType Type { get; }
 
         public BiomeType? UnlockBiome { get; internal set; }

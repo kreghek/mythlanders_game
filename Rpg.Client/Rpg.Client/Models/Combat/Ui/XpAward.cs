@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Models.Combat.Ui
 {
-    internal sealed record GainLevelResult
+    internal sealed record XpAward
     {
         public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
         public int StartXp { get; init; }

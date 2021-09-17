@@ -14,7 +14,6 @@ namespace Rpg.Client
     {
         private readonly GraphicsDeviceManager _graphics;
         private ScreenManager? _screenManager;
-        private SoundtrackManagerComponent _soundtrackComponent;
 
         private SpriteBatch? _spriteBatch;
 
@@ -40,10 +39,10 @@ namespace Rpg.Client
 
             RegisterServices(_screenManager);
 
-            _soundtrackComponent = new SoundtrackManagerComponent(this);
+            var soundtrackComponent = new SoundtrackManagerComponent(this);
             var soundtrackManager = Services.GetService<SoundtrackManager>();
-            _soundtrackComponent.Initialize(soundtrackManager);
-            Components.Add(_soundtrackComponent);
+            soundtrackComponent.Initialize(soundtrackManager);
+            Components.Add(soundtrackComponent);
 
             base.Initialize();
         }
