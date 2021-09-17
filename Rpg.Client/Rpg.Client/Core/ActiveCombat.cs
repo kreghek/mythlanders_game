@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Models.Biome.GameObjects.GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
             Node = node;
@@ -47,9 +47,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
-
         public GlobeNodeGameObject Node { get; }
+
+        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -75,6 +75,40 @@ namespace Rpg.Client.Core
 
                 return false;
             }
+        }
+
+        public void UseMassSkill(CombatSkill skill)
+        {
+            if (skill.Scope != SkillScope.AllEnemyGroup)
+            {
+                throw new InvalidOperationException("Не верные рамки скила");
+            }
+
+            var dice = GetDice();
+
+            var unitsGroup = CurrentUnit.Unit.IsPlayerControlled
+                ? _allUnitList.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                : _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead);
+
+            // Mass skill
+            Action action = () =>
+            {
+                BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
+                foreach (var unit in unitsGroup)
+                {
+                    unit.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
+                }
+
+                AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
+                MoveCompleted?.Invoke(this, CurrentUnit);
+            };
+
+            ActionGenerated?.Invoke(this, new ActionEventArgs
+            {
+                Action = action,
+                Actor = CurrentUnit,
+                Skill = skill
+            });
         }
 
         public void UseSkill(CombatSkill skill, CombatUnit target)
@@ -129,40 +163,6 @@ namespace Rpg.Client.Core
                 Actor = CurrentUnit,
                 Skill = skill,
                 Target = target
-            });
-        }
-
-        public void UseMassSkill(CombatSkill skill)
-        {
-            if (skill.Scope != SkillScope.AllEnemyGroup)
-            {
-                throw new InvalidOperationException("Не верные рамки скила");
-            }
-
-            var dice = GetDice();
-
-            var unitsGroup = CurrentUnit.Unit.IsPlayerControlled
-                ? _allUnitList.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                : _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead);
-
-            // Mass skill
-            Action action = () =>
-            {
-                BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-                foreach (var unit in unitsGroup)
-                {
-                    unit.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
-                }
-
-                AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-                MoveCompleted?.Invoke(this, CurrentUnit);
-            };
-
-            ActionGenerated?.Invoke(this, new ActionEventArgs
-            {
-                Action = action,
-                Actor = CurrentUnit,
-                Skill = skill
             });
         }
 
@@ -327,7 +327,6 @@ namespace Rpg.Client.Core
         /// <summary>
         /// Event bus for combat object interactions.
         /// </summary>
-
         internal event EventHandler<ActionEventArgs>? ActionGenerated;
 
         internal class SkillUsingEventArgs : EventArgs

@@ -12,11 +12,10 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal sealed class CombatResultModal : ModalDialogBase
     {
+        private readonly TextButton _closeButton;
         private readonly CombatResult _combatResult;
         private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
-
-        private readonly TextButton _closeButton;
 
         private double _iterationCounter;
 
@@ -30,13 +29,9 @@ namespace Rpg.Client.Models.Combat.Ui
             _combatResult = combatResult;
             _sourceXpItems = xpItems;
 
-            _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), Rectangle.Empty);
             _closeButton.OnClick += CloseButton_OnClick;
-        }
-
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            Close();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -92,6 +87,11 @@ namespace Rpg.Client.Models.Combat.Ui
             _closeButton.Update();
         }
 
+        private void CloseButton_OnClick(object? sender, EventArgs e)
+        {
+            Close();
+        }
+
         private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
@@ -100,6 +100,13 @@ namespace Rpg.Client.Models.Combat.Ui
 
             var biomeChangesPosition = resultPosition + new Vector2(0, 10);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: -50%", biomeChangesPosition,
+                Color.Wheat);
+        }
+
+        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
                 Color.Wheat);
         }
 
@@ -136,13 +143,6 @@ namespace Rpg.Client.Models.Combat.Ui
 
             var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
-                Color.Wheat);
-        }
-
-        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
                 Color.Wheat);
         }
 

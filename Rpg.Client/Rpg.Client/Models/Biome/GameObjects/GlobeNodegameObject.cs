@@ -45,9 +45,9 @@ namespace Rpg.Client.Models.Biome.GameObjects
         public Core.Event? AvailableDialog { get; }
 
         public Core.Combat? Combat { get; }
+        public GlobeNode GlobeNode { get; }
         public int Index { get; }
         public string Name { get; }
-        public GlobeNode GlobeNode { get; }
         public Vector2 Position { get; }
 
         public void Draw(SpriteBatch spriteBatch)

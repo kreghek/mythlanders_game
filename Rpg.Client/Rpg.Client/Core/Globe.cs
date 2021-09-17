@@ -134,11 +134,12 @@ namespace Rpg.Client.Core
                         // boss level
                         if (i == 0)
                         {
-                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits.Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
-                            var bossUnitScheme = dice.RollFromList( bossesOfCurrentBiom, 1).Single();
+                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
+                                .Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
+                            var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
 
                             var combatList = new[]
-                            { 
+                            {
                                 new Combat
                                 {
                                     IsBossLevel = true,
@@ -151,7 +152,7 @@ namespace Rpg.Client.Core
                                                 biom.Level)
                                         }
                                     }
-                                } 
+                                }
                             };
 
                             var combatSequence = new CombatSequence
@@ -218,7 +219,20 @@ namespace Rpg.Client.Core
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
                 .Where(x => !x.IsBoss && x.Biom == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
-            var rolledUnits = dice.RollFromList(availableMonsters, dice.Roll(1, Math.Min(3, availableMonsters.Count)));
+            var rolledUnits = new List<UnitScheme>();
+            var monsterCount = dice.Roll(1, Math.Min(3, availableMonsters.Count));
+            for (var i = 0; i < monsterCount; i++)
+            {
+                var scheme = dice.RollFromList(availableMonsters, 1).Single();
+
+                rolledUnits.Add(scheme);
+
+                if (scheme.IsUnique)
+                {
+                    // Remove all unique monsters from roll list.
+                    availableMonsters.RemoveAll(x => x.IsUnique);
+                }
+            }
 
             var uniqueIsUsed = false;
             var units = new List<Unit>();

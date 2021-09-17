@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
         }
 
         public Event? AvailableDialog { get; set; }
-        
+
         public CombatSequence? CombatSequence { get; set; }
 
         public int Index { get; internal set; }
@@ -27,7 +27,8 @@ namespace Rpg.Client.Core
             Combats = Array.Empty<Combat>();
         }
 
-        public IList<Combat> CompletedCombats { get; set; }
         public IReadOnlyCollection<Combat> Combats { get; set; }
+
+        public IList<Combat> CompletedCombats { get; set; }
     }
 }
