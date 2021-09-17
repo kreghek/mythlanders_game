@@ -20,7 +20,9 @@ namespace Rpg.Client.Core.Skills
         public void Influence(IEnumerable<EffectRule> influences, CombatUnit self, CombatUnit? target)
         {
             if (influences is null)
+            {
                 return;
+            }
 
             foreach (var influence in influences)
             {
@@ -112,7 +114,9 @@ namespace Rpg.Client.Core.Skills
 
                 case SkillDirection.Target:
                     if (target is null)
+                    {
                         throw new InvalidOperationException();
+                    }
 
                     Impose(influence.EffectCreator, self, target);
 

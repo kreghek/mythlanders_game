@@ -6,10 +6,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class ArrowRainSkill : SkillBase
     {
-        public override string Sid => "Arrow Rain";
-        public override SkillType Type => SkillType.Range;
-        public override SkillTargetType TargetType => SkillTargetType.Enemy;
-
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
@@ -28,5 +24,9 @@ namespace Rpg.Client.Core.Skills
                 })
             }
         };
+
+        public override string Sid => "Arrow Rain";
+        public override SkillTargetType TargetType => SkillTargetType.Enemy;
+        public override SkillType Type => SkillType.Range;
     }
 }

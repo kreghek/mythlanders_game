@@ -136,6 +136,16 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
+        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
+        {
+            if (sender is UnitGameObject unit)
+            {
+                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
+            }
+
+            _combat.Update();
+        }
+
         private static void ApplyXp(IEnumerable<XpAward> xpItems)
         {
             foreach (var item in xpItems)
@@ -143,7 +153,6 @@ namespace Rpg.Client.Models.Combat
                 item.Unit.GainXp(item.XpAmount);
             }
         }
-
 
 
         private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
@@ -158,14 +167,6 @@ namespace Rpg.Client.Models.Combat
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
             actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, action.Skill, action.Action);
-        }
-
-        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
-        {
-            if (sender is UnitGameObject unit)
-                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
-
-            _combat.Update();
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -224,7 +225,6 @@ namespace Rpg.Client.Models.Combat
             {
                 _combatSkillsPanel.Unit = null;
             }
-
 
             if (e.OldUnit != null)
             {
@@ -581,11 +581,15 @@ namespace Rpg.Client.Models.Combat
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.Unit.Unit.IsPlayerControlled ==
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
+                {
                     continue;
+                }
 
                 if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.Unit.Unit.IsPlayerControlled !=
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
+                {
                     continue;
+                }
 
                 InitHudButton(actor, target, skillCard);
             }

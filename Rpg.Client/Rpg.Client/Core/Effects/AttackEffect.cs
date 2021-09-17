@@ -7,15 +7,14 @@ namespace Rpg.Client.Core.Effects
 {
     internal class AttackEffect : InstantenousEffectBase
     {
-        public float PowerMultiplier { get; set; }
-
-        public int ValueRange { get; set; }
-
-        public int Power { get; set; }
-
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
+
+        public int Power { get; set; }
+        public float PowerMultiplier { get; set; }
+
+        public int ValueRange { get; set; }
 
         protected override void InfluenceAction()
         {
