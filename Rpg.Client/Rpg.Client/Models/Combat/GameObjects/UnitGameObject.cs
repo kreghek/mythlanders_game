@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
@@ -46,41 +49,56 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
-        public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
+        public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+            IList<BulletGameObject> bulletList, SkillBase skill, Action action)
         {
-            if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
-            {
-                bulletBlocker.Release();
-            }
+            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList));
+            //if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
+            //{
+            //    bulletBlocker.Release();
+            //}
 
-            var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
-                action);
+            //var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
+            //    action);
 
-            AddStateEngine(state);
+            //AddStateEngine(state);
         }
 
-        public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
-            AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
-            CombatSkillCard combatSkillCard, Action action)
-        {
-            if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
-            {
-                //TODO Make multiple bullets or bullet with multiple interactions.
-                var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker,
-                    action);
-                bulletList.Add(bullet);
-            }
-            else
-            {
-                bulletBlocker.Release();
-            }
+        //public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+        //    IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
+        //{
+        //    if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
+        //    {
+        //        bulletBlocker.Release();
+        //    }
 
-            var state = CreateMassAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
-                action);
+        //    var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
+        //        action);
 
-            AddStateEngine(state);
-        }
+        //    AddStateEngine(state);
+        //}
+
+        //public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
+        //    AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
+        //    CombatSkillCard combatSkillCard, Action action)
+        //{
+        //    if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
+        //    {
+        //        //TODO Make multiple bullets or bullet with multiple interactions.
+        //        var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker,
+        //            action);
+        //        bulletList.Add(bullet);
+        //    }
+        //    else
+        //    {
+        //        bulletBlocker.Release();
+        //    }
+
+        //    var state = CreateMassAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
+        //        action);
+
+        //    AddStateEngine(state);
+        //}
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -96,13 +114,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _graphics.Root.Position - new Vector2(0, 80), color);
         }
 
-        public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard,
-            Action action)
-        {
-            var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                action);
-            AddStateEngine(state);
-        }
+        //public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard,
+        //    Action action)
+        //{
+        //    var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //        action);
+        //    AddStateEngine(state);
+        //}
 
         public void Update(GameTime gameTime)
         {
@@ -124,63 +142,193 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _actorStateEngineList.Add(actorStateEngine);
         }
 
-        private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard,
-            Action attackInteraction)
+        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target, AnimationBlocker animationBlocker, 
+            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList)
         {
-            switch (combatSkillCard.Skill.Range)
+            IUnitStateEngine state;
+
+            switch (skill.Sid)
             {
-                case CombatPowerRange.Melee:
-                    var hitSound = GetHitSound(combatSkillCard.Skill);
-                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction, hitSound);
+                case "Slash":
+                case "Monster Attack":
+                    {
+                        bulletBlocker?.Release();
 
-                case CombatPowerRange.Distant:
-                    var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
-                        bulletBlocker, attackInteraction);
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
 
-                    return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                        animationBlocker, attackInteraction, bullet, bulletList);
+                        var hitSound = GetHitSound(skill);
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                            interaction, hitSound);
+                    }
 
-                case CombatPowerRange.Undefined:
+                    break;
+
+                case "Wide Slash":
+                    {
+                        bulletBlocker?.Release();
+
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        var hitSound = GetHitSound(skill);
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                            interaction, hitSound);
+                    }
+
+                    break;
+
+                case "Strike":
+                    {
+                        if (bulletBlocker is null)
+                            throw new InvalidOperationException();
+
+                        var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                            bulletBlocker, null);
+
+                        bulletBlocker.Released += (s, e) =>
+                        {
+                            interaction.Invoke();
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker, interaction, bullet, bulletList);
+                    }
+
+                    break;
+
+                case "Arrow Rain":
+                    {
+                        if (bulletBlocker is null)
+                            throw new InvalidOperationException();
+                        
+                        bulletBlocker.Released += (s, e) =>
+                        {
+                            interaction?.Invoke();
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        var bullets = new List<BulletGameObject>
+                        {
+                            new (Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
+                                interaction),
+                            new (Position, new Vector2(200, 200), _gameObjectContentStorage, null,
+                                interaction),
+                            new (Position, new Vector2(300, 300), _gameObjectContentStorage, null,
+                                interaction)
+                        };
+                        
+
+                        foreach (var bullet in bullets)
+                        {
+                            bulletList.Add(bullet);
+                        }
+
+                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                            interaction, null, bulletList);
+                    }
+
+                    break;
+
+                case "Heal":
+                    {
+                        bulletBlocker?.Release();
+
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker, interaction);
+                    }
+
+                    break;
+
                 default:
-                    Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+                    {
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
 
-                    // This is fallback behaviour.
-                    var hitSound1 = GetHitSound(combatSkillCard.Skill);
-                    return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteraction, hitSound1);
+                        Debug.Fail("Skill does not set");
+                        var hitSound = GetHitSound(skill);
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                            interaction, hitSound);
+                    }
+
+                    break;
             }
+
+            return state;
         }
 
-        private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
-            Action attackInteractions)
-        {
-            switch (combatSkillCard.Skill.Range)
-            {
-                case CombatPowerRange.Melee:
-                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteractions);
 
-                case CombatPowerRange.Distant:
-                    //TODO Develop mass range attack
-                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteractions);
-                //return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                //    animationBlocker, attackInteractions);
 
-                case CombatPowerRange.Undefined:
-                default:
-                    Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+        //private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
+        //    AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard,
+        //    Action attackInteraction)
+        //{
 
-                    // This is fallback behaviour.
-                    return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-                        attackInteractions);
-            }
-        }
+        //    switch (combatSkillCard.Skill.Range)
+        //    {
+        //        case CombatPowerRange.Melee:
+        //            var hitSound = GetHitSound(combatSkillCard.Skill);
+        //            return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //                attackInteraction, hitSound);
 
-        private SoundEffectInstance GetHitSound(CombatSkill skill)
+        //        case CombatPowerRange.Distant:
+        //            var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+        //                bulletBlocker, attackInteraction);
+
+        //            return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+        //                animationBlocker, attackInteraction, bullet, bulletList);
+
+        //        case CombatPowerRange.Undefined:
+        //        default:
+        //            Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+        //            // This is fallback behaviour.
+        //            var hitSound1 = GetHitSound(combatSkillCard.Skill);
+        //            return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //                attackInteraction, hitSound1);
+        //    }
+        //}
+
+        //private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
+        //    AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
+        //    Action attackInteractions)
+        //{
+        //    switch (combatSkillCard.Skill.Range)
+        //    {
+        //        case CombatPowerRange.Melee:
+        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //                attackInteractions);
+
+        //        case CombatPowerRange.Distant:
+        //            //TODO Develop mass range attack
+        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //                attackInteractions);
+        //        //return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+        //        //    animationBlocker, attackInteractions);
+
+        //        case CombatPowerRange.Undefined:
+        //        default:
+        //            Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
+
+        //            // This is fallback behaviour.
+        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+        //                attackInteractions);
+        //    }
+        //}
+
+        private SoundEffectInstance GetHitSound(SkillBase skill)
         {
             return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
         }
@@ -212,5 +360,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _graphics.Root.Position = Position;
         }
+
+        public event EventHandler SkillAnimationCompleted;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Models.Biome.GameObjects;
 
 namespace Rpg.Client.Core
@@ -13,7 +14,8 @@ namespace Rpg.Client.Core
         private readonly IDice _dice;
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
-        private CombatUnit? _currentUnit;
+        private CombatUnit _currentUnit;
+        public EffectProcessor EffectProcessor { get; }
 
         private int _round;
 
@@ -26,6 +28,7 @@ namespace Rpg.Client.Core
             _dice = dice;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
+            EffectProcessor = new EffectProcessor(this, _dice);
         }
 
         public Biome Biom { get; }
@@ -46,10 +49,12 @@ namespace Rpg.Client.Core
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
         }
+        
+        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+        public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public GlobeNodeGameObject Node { get; }
-
-        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+        
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -76,86 +81,10 @@ namespace Rpg.Client.Core
                 return false;
             }
         }
-
-        public void UseMassSkill(CombatSkill skill)
+        
+        public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            if (skill.Scope != SkillScope.AllEnemyGroup)
-            {
-                throw new InvalidOperationException("Не верные рамки скила");
-            }
-
-            var dice = GetDice();
-
-            var unitsGroup = CurrentUnit.Unit.IsPlayerControlled
-                ? _allUnitList.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                : _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead);
-
-            // Mass skill
-            Action action = () =>
-            {
-                BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-                foreach (var unit in unitsGroup)
-                {
-                    unit.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
-                }
-
-                AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-                MoveCompleted?.Invoke(this, CurrentUnit);
-            };
-
-            ActionGenerated?.Invoke(this, new ActionEventArgs
-            {
-                Action = action,
-                Actor = CurrentUnit,
-                Skill = skill
-            });
-        }
-
-        public void UseSkill(CombatSkill skill, CombatUnit target)
-        {
-            if (skill.Scope != SkillScope.Single)
-            {
-                throw new InvalidOperationException("Не верные рамки скила");
-            }
-
-            var dice = GetDice();
-
-            Action action;
-
-            if (target.Unit.IsPlayerControlled == CurrentUnit.Unit.IsPlayerControlled)
-            {
-                if (skill.TargetType != SkillTarget.Friendly)
-                {
-                    throw new InvalidOperationException("Не верная цель скила");
-                }
-
-                action = () =>
-                {
-                    BeforeSkillUsing?.Invoke(this,
-                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
-                    target.Unit.TakeHeal(dice.Roll(skill.DamageMin, skill.DamageMax));
-                    AfterSkillUsing?.Invoke(this,
-                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
-                    MoveCompleted?.Invoke(this, CurrentUnit);
-                };
-            }
-            else
-            {
-                if (skill.TargetType != SkillTarget.Enemy)
-                {
-                    throw new InvalidOperationException("Не верная цель скила");
-                }
-
-                action = () =>
-                {
-                    BeforeSkillUsing?.Invoke(this,
-                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
-                    target.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
-                    AfterSkillUsing?.Invoke(this,
-                        new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill, Target = target });
-                    MoveCompleted?.Invoke(this, CurrentUnit);
-                };
-            }
+            Action action =  () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {
@@ -234,32 +163,38 @@ namespace Rpg.Client.Core
             var skills = CurrentUnit.Unit.Skills.ToArray();
             var skill = dice.RollFromList(skills, 1).Single();
 
-            var combatPowerScope = skill.Scope;
-            //TODO Specify combat power scope scope in the monsters.
-            if (combatPowerScope == SkillScope.Undefined)
-            {
-                combatPowerScope = SkillScope.Single;
-                skill.Scope = SkillScope.Single;
-            }
-
-            switch (combatPowerScope)
-            {
-                case SkillScope.Single:
-                    var targetPlayerObject =
+            var targetPlayerObject =
                         dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
                             .Single();
-                    UseSkill(skill, targetPlayerObject);
-                    break;
 
-                case SkillScope.AllEnemyGroup:
-                    UseMassSkill(skill);
-                    break;
+            UseSkill(skill, targetPlayerObject);
 
-                case SkillScope.Undefined:
-                default:
-                    Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
-                    break;
-            }
+            //var combatPowerScope = skill.Scope;
+            ////TODO Specify combat power scope scope in the monsters.
+            //if (combatPowerScope == SkillScope.Undefined)
+            //{
+            //    combatPowerScope = SkillScope.Single;
+            //    skill.Scope = SkillScope.Single;
+            //}
+
+            //switch (skill.Type)
+            //{
+            //    case SkillScope.Single:
+            //        var targetPlayerObject =
+            //            dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
+            //                .Single();
+            //        UseSkill(skill, targetPlayerObject);
+            //        break;
+
+            //    case SkillScope.AllEnemyGroup:
+            //        UseSkill(skill);
+            //        break;
+
+            //    case SkillScope.Undefined:
+            //    default:
+            //        Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
+            //        break;
+            //}
         }
 
         private IDice GetDice()
@@ -340,8 +275,8 @@ namespace Rpg.Client.Core
         {
             public Action Action { get; set; }
             public CombatUnit Actor { get; set; }
-            public CombatSkill Skill { get; set; }
-            public CombatUnit? Target { get; set; }
+            public SkillBase Skill { get; set; }
+            public CombatUnit Target { get; set; }
         }
 
         internal class UnitChangedEventArgs : EventArgs

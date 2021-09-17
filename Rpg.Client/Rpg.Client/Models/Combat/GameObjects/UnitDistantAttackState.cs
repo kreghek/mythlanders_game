@@ -19,7 +19,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, Action attackInteraction,
-            BulletGameObject bullet, IList<BulletGameObject> bulletList)
+            BulletGameObject? bullet, IList<BulletGameObject> bulletList)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);

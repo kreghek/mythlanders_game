@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
@@ -8,6 +10,10 @@ namespace Rpg.Client.Core
         public int Hp { get; init; }
         public int HpPerLevel { get; init; }
 
+        public int Power { get; set; }
+
+        public int PowerPerLevel { get; set; }
+
         public bool IsBoss { get; init; }
 
         public bool IsUnique { get; init; }
@@ -15,6 +21,6 @@ namespace Rpg.Client.Core
 
         public IEnumerable<int> NodeIndexes { get; init; }
 
-        public IEnumerable<CombatSkill> Skills { get; init; }
+        public IEnumerable<SkillBase> Skills { get; init; }
     }
 }

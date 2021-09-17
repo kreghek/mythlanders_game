@@ -2,9 +2,14 @@
 {
     public enum SkillDirection
     {
+        Target,
         Self,
-        Friendly,
-        Enemy,
-        Global
+        OtherFriendly,
+        AllEnemy,
+        AllFriendly,
+        RandomEnemy,
+        RandomFriendly,
+        Other,
+        All
     }
 }
