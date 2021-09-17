@@ -16,7 +16,9 @@ namespace Rpg.Client.Engine
             {
                 _blockers.Remove(blocker);
                 if (_blockers.Count == 0)
+                {
                     AllBlockersReleased?.Invoke(this, EventArgs.Empty);
+                }
             };
         }
 

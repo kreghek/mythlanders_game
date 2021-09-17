@@ -8,12 +8,15 @@ namespace Rpg.Client.Core.Effects
 {
     internal abstract class EffectBase
     {
-        public CombatUnit? Target { get; private set; }
-        protected bool IsImposed { get; private set; }
-
         public IDice Dice { get; set; }
 
+        public abstract IEnumerable<EffectRule> DispelRules { get; }
+
         public EffectProcessor EffectProsessor { get; set; }
+        public abstract IEnumerable<EffectRule> ImposeRules { get; }
+        public abstract IEnumerable<EffectRule> InfluenceRules { get; }
+        public CombatUnit? Target { get; private set; }
+        protected bool IsImposed { get; private set; }
 
         /// <summary>
         /// Снятие.
@@ -30,10 +33,6 @@ namespace Rpg.Client.Core.Effects
             EffectProsessor.Influence(DispelRules, Target, null);
             Dispelled?.Invoke(this, Target);
         }
-
-        public abstract IEnumerable<EffectRule> DispelRules { get; }
-        public abstract IEnumerable<EffectRule> ImposeRules { get; }
-        public abstract IEnumerable<EffectRule> InfluenceRules { get; }
 
         /// <summary>
         /// Наложение.

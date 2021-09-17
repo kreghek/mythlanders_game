@@ -49,21 +49,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
-        public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<BulletGameObject> bulletList, SkillBase skill, Action action)
-        {
-            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList));
-            //if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
-            //{
-            //    bulletBlocker.Release();
-            //}
-
-            //var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
-            //    action);
-
-            //AddStateEngine(state);
-        }
-
         //public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
         //    IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
         //{
@@ -129,6 +114,21 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics.Update(gameTime);
         }
 
+        public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+            IList<BulletGameObject> bulletList, SkillBase skill, Action action)
+        {
+            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList));
+            //if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
+            //{
+            //    bulletBlocker.Release();
+            //}
+
+            //var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
+            //    action);
+
+            //AddStateEngine(state);
+        }
+
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
@@ -142,7 +142,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _actorStateEngineList.Add(actorStateEngine);
         }
 
-        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target, AnimationBlocker animationBlocker, 
+        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target,
+            AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList)
         {
             IUnitStateEngine state;
@@ -160,7 +161,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         };
 
                         var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
                             interaction, hitSound);
                     }
 
@@ -176,7 +178,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         };
 
                         var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
                             interaction, hitSound);
                     }
 
@@ -185,7 +188,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 case "Strike":
                     {
                         if (bulletBlocker is null)
+                        {
                             throw new InvalidOperationException();
+                        }
 
                         var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
                             bulletBlocker, null);
@@ -205,8 +210,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 case "Arrow Rain":
                     {
                         if (bulletBlocker is null)
+                        {
                             throw new InvalidOperationException();
-                        
+                        }
+
                         bulletBlocker.Released += (s, e) =>
                         {
                             interaction?.Invoke();
@@ -215,21 +222,21 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                         var bullets = new List<BulletGameObject>
                         {
-                            new (Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
+                            new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
                                 interaction),
-                            new (Position, new Vector2(200, 200), _gameObjectContentStorage, null,
+                            new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
                                 interaction),
-                            new (Position, new Vector2(300, 300), _gameObjectContentStorage, null,
+                            new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
                                 interaction)
                         };
-                        
 
                         foreach (var bullet in bullets)
                         {
                             bulletList.Add(bullet);
                         }
 
-                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
                             interaction, null, bulletList);
                     }
 
@@ -259,7 +266,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                         Debug.Fail("Skill does not set");
                         var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
                             interaction, hitSound);
                     }
 
@@ -268,7 +276,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             return state;
         }
-
 
 
         //private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,

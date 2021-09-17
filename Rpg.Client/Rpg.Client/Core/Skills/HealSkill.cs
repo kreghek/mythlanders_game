@@ -6,10 +6,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class HealSkill : SkillBase
     {
-        public override string Sid => "Heal";
-        public override SkillType Type => SkillType.Telekinetic;
-        public override SkillTargetType TargetType => SkillTargetType.Friendly;
-
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
@@ -21,12 +17,16 @@ namespace Rpg.Client.Core.Skills
                     {
                         Power = u.Unit.Power,
                         PowerMultiplier = 1,
-                        ValueRange = 1,
+                        ValueRange = 1
                     };
 
                     return res;
                 })
             }
         };
+
+        public override string Sid => "Heal";
+        public override SkillTargetType TargetType => SkillTargetType.Friendly;
+        public override SkillType Type => SkillType.Telekinetic;
     }
 }

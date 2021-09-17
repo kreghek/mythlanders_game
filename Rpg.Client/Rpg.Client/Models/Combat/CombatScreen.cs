@@ -136,6 +136,16 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
+        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
+        {
+            if (sender is UnitGameObject unit)
+            {
+                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
+            }
+
+            _combat.Update();
+        }
+
         private static void ApplyXp(IEnumerable<XpAward> xpItems)
         {
             foreach (var item in xpItems)
@@ -145,27 +155,18 @@ namespace Rpg.Client.Models.Combat
         }
 
 
-
         private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
         {
             var actor = GetUnitGameObject(action.Actor);
             var target = GetUnitGameObject(action.Target);
-            
+
             var blocker = _animationManager.CreateAndUseBlocker();
 
             actor.SkillAnimationCompleted += Actor_SkillAnimationCompleted;
 
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-            actor.UseSkill(target, blocker, bulletBlocker,_bulletObjects, action.Skill, action.Action);
-        }
-
-        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
-        {
-            if (sender is UnitGameObject unit)
-                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
-
-            _combat.Update();
+            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, action.Skill, action.Action);
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -224,7 +225,6 @@ namespace Rpg.Client.Models.Combat
             {
                 _combatSkillsPanel.Unit = null;
             }
-                    
 
             if (e.OldUnit != null)
             {
@@ -581,11 +581,15 @@ namespace Rpg.Client.Models.Combat
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.Unit.Unit.IsPlayerControlled ==
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
+                {
                     continue;
+                }
 
                 if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.Unit.Unit.IsPlayerControlled !=
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
+                {
                     continue;
+                }
 
                 InitHudButton(actor, target, skillCard);
             }

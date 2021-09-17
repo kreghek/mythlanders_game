@@ -74,7 +74,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 if (!_interactionExecuted)
                 {
                     if (_bulletGameObject != null)
+                    {
                         _bulletList.Add(_bulletGameObject);
+                    }
 
                     _interactionExecuted = true;
                 }

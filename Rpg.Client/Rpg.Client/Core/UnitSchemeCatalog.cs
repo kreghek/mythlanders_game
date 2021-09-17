@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
             HpPerLevel = 10,
             Power = 11,
             PowerPerLevel = 2,
-            
+
             Name = "Беримир",
             Skills = new SkillBase[]
             {
@@ -52,7 +52,7 @@ namespace Rpg.Client.Core
             Name = "Рада",
             Power = 6,
             PowerPerLevel = 1,
-            Skills = new []
+            Skills = new[]
             {
                 new HealSkill()
                 //new CombatSkill

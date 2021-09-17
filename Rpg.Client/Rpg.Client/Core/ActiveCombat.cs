@@ -15,7 +15,6 @@ namespace Rpg.Client.Core
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit _currentUnit;
-        public EffectProcessor EffectProcessor { get; }
 
         private int _round;
 
@@ -30,6 +29,8 @@ namespace Rpg.Client.Core
             _allUnitList = new List<CombatUnit>();
             EffectProcessor = new EffectProcessor(this, _dice);
         }
+
+        public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
 
@@ -49,12 +50,13 @@ namespace Rpg.Client.Core
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
         }
-        
-        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
-        public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
+
+        public EffectProcessor EffectProcessor { get; }
 
         public GlobeNodeGameObject Node { get; }
-        
+
+        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -81,10 +83,10 @@ namespace Rpg.Client.Core
                 return false;
             }
         }
-        
+
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            Action action =  () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
+            Action action = () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {
@@ -164,8 +166,8 @@ namespace Rpg.Client.Core
             var skill = dice.RollFromList(skills, 1).Single();
 
             var targetPlayerObject =
-                        dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
-                            .Single();
+                dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
+                    .Single();
 
             UseSkill(skill, targetPlayerObject);
 

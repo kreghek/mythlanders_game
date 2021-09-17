@@ -12,18 +12,24 @@ namespace Rpg.Client.Core.Effects
             set
             {
                 if (_value == value)
+                {
                     return;
+                }
 
                 _value = value;
                 if (_value == 0)
+                {
                     Dispel();
+                }
             }
         }
 
         protected override void InfluenceAction()
         {
             if (Value < 0)
+            {
                 Debug.Fail("Value не задано");
+            }
 
             Value--;
         }

@@ -6,10 +6,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class StrikeSkill : SkillBase
     {
-        public override string Sid => "Strike";
-        public override SkillType Type => SkillType.Range;
-        public override SkillTargetType TargetType => SkillTargetType.Enemy;
-
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
@@ -21,12 +17,16 @@ namespace Rpg.Client.Core.Skills
                     {
                         Power = u.Unit.Power,
                         PowerMultiplier = 1.5f,
-                        ValueRange = 1,
+                        ValueRange = 1
                     };
 
                     return res;
                 })
             }
         };
+
+        public override string Sid => "Strike";
+        public override SkillTargetType TargetType => SkillTargetType.Enemy;
+        public override SkillType Type => SkillType.Range;
     }
 }
