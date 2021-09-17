@@ -22,7 +22,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private bool _interactionExecuted;
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList)
+            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList)
         {
             _graphics = graphics;
             _attackInteraction = attackInteraction;
@@ -31,7 +31,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
+            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
             _animationBlocker = animationBlocker;
@@ -59,6 +59,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (_counter > DURATION)
             {
+                //if (!IsComplete)
+                //    _attackInteraction?.Invoke();
+
                 IsComplete = true;
 
                 if (_animationBlocker is not null)
@@ -70,7 +73,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    _bulletList.Add(_bulletGameObject);
+                    if (_bulletGameObject != null)
+                        _bulletList.Add(_bulletGameObject);
 
                     _interactionExecuted = true;
                 }

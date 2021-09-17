@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core.Effects;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Models.Combat.GameObjects;
 
 namespace Rpg.Client.Core
@@ -10,30 +12,36 @@ namespace Rpg.Client.Core
         {
             Hp = 100,
             HpPerLevel = 10,
+            Power = 11,
+            PowerPerLevel = 2,
+            
             Name = "Беримир",
-            Skills = new[]
+            Skills = new SkillBase[]
             {
-                new CombatSkill
-                {
-                    Sid = "Slash",
-                    DamageMin = 10,
-                    DamageMinPerLevel = 2,
-                    DamageMax = 12,
-                    DamageMaxPerLevel = 2,
-                    TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.Single,
-                    Range = CombatPowerRange.Melee
-                },
-                new CombatSkill
-                {
-                    Sid = "Wide Slash",
-                    DamageMin = 5,
-                    DamageMinPerLevel = 1,
-                    DamageMax = 7,
-                    DamageMaxPerLevel = 1,
-                    TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.AllEnemyGroup
-                }
+                new SlashSkill(),
+                new WideSlashSkill()
+
+                //new CombatSkill
+                //{
+                //    Sid = "Slash",
+                //    DamageMin = 10,
+                //    DamageMinPerLevel = 2,
+                //    DamageMax = 12,
+                //    DamageMaxPerLevel = 2,
+                //    TargetType = SkillTarget.Enemy,
+                //    Scope = SkillScope.Single,
+                //    Range = CombatPowerRange.Melee
+                //},
+                //new CombatSkill
+                //{
+                //    Sid = "Wide Slash",
+                //    DamageMin = 5,
+                //    DamageMinPerLevel = 1,
+                //    DamageMax = 7,
+                //    DamageMaxPerLevel = 1,
+                //    TargetType = SkillTarget.Enemy,
+                //    Scope = SkillScope.AllEnemyGroup
+                //}
             }
         };
 
@@ -42,19 +50,22 @@ namespace Rpg.Client.Core
             Hp = 50,
             HpPerLevel = 6,
             Name = "Рада",
-            Skills = new[]
+            Power = 6,
+            PowerPerLevel = 1,
+            Skills = new []
             {
-                new CombatSkill
-                {
-                    Sid = "Heal",
-                    DamageMin = 5,
-                    DamageMinPerLevel = 1,
-                    DamageMax = 7,
-                    DamageMaxPerLevel = 1,
-                    TargetType = SkillTarget.Friendly,
-                    Scope = SkillScope.Single,
-                    Range = CombatPowerRange.Distant
-                }
+                new HealSkill()
+                //new CombatSkill
+                //{
+                //    Sid = "Heal",
+                //    DamageMin = 5,
+                //    DamageMinPerLevel = 1,
+                //    DamageMax = 7,
+                //    DamageMaxPerLevel = 1,
+                //    TargetType = SkillTarget.Friendly,
+                //    Scope = SkillScope.Single,
+                //    Range = CombatPowerRange.Distant
+                //}
             }
         };
 
@@ -63,52 +74,56 @@ namespace Rpg.Client.Core
             Hp = 50,
             HpPerLevel = 7,
             Name = "Соколинный глаз", // Hawkeye
-            Skills = new[]
+            Power = 11,
+            PowerPerLevel = 1,
+            Skills = new SkillBase[]
             {
-                new CombatSkill
-                {
-                    Sid = "Strike",
-                    DamageMin = 15,
-                    DamageMinPerLevel = 2,
-                    DamageMax = 17,
-                    DamageMaxPerLevel = 2,
-                    TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.Single,
-                    Range = CombatPowerRange.Distant
-                },
-                new CombatSkill
-                {
-                    Sid = "Arrow Rain",
-                    DamageMin = 5,
-                    DamageMinPerLevel = 1,
-                    DamageMax = 7,
-                    DamageMaxPerLevel = 1,
-                    TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.AllEnemyGroup,
-                    Range = CombatPowerRange.Distant
-                }
+                new StrikeSkill(),
+                new ArrowRainSkill()
+                //new CombatSkill
+                //{
+                //    Sid = "Strike",
+                //    DamageMin = 15,
+                //    DamageMinPerLevel = 2,
+                //    DamageMax = 17,
+                //    DamageMaxPerLevel = 2,
+                //    TargetType = SkillTarget.Enemy,
+                //    Scope = SkillScope.Single,
+                //    Range = CombatPowerRange.Distant
+                //},
+                //new CombatSkill
+                //{
+                //    Sid = "Arrow Rain",
+                //    DamageMin = 5,
+                //    DamageMinPerLevel = 1,
+                //    DamageMax = 7,
+                //    DamageMaxPerLevel = 1,
+                //    TargetType = SkillTarget.Enemy,
+                //    Scope = SkillScope.AllEnemyGroup,
+                //    Range = CombatPowerRange.Distant
+                //}
             }
         };
 
-        public static UnitScheme JuggernautHero = new()
-        {
-            Hp = 150,
-            HpPerLevel = 20,
-            Name = "Smooky",
-            Skills = new[]
-            {
-                new CombatSkill
-                {
-                    Sid = "Player",
-                    DamageMin = 5,
-                    DamageMinPerLevel = 1,
-                    DamageMax = 7,
-                    DamageMaxPerLevel = 1,
-                    TargetType = SkillTarget.Enemy,
-                    Scope = SkillScope.AllEnemyGroup
-                }
-            }
-        };
+        //public static UnitScheme JuggernautHero = new()
+        //{
+        //    Hp = 150,
+        //    HpPerLevel = 20,
+        //    Name = "Smooky",
+        //    Skills = new[]
+        //    {
+        //        new CombatSkill
+        //        {
+        //            Sid = "Player",
+        //            DamageMin = 5,
+        //            DamageMinPerLevel = 1,
+        //            DamageMax = 7,
+        //            DamageMaxPerLevel = 1,
+        //            TargetType = SkillTarget.Enemy,
+        //            Scope = SkillScope.AllEnemyGroup
+        //        }
+        //    }
+        //};
 
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {
@@ -119,13 +134,11 @@ namespace Rpg.Client.Core
                 Name = "Grey Wolf",
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 0, 1, 2 },
+                Power = 2,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -136,13 +149,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
+                Power = 1,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 1,
-                        DamageMax = 2
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -152,13 +163,11 @@ namespace Rpg.Client.Core
                 Name = "Wisp",
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 2, 3, 5 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -169,13 +178,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -185,13 +192,11 @@ namespace Rpg.Client.Core
                 Name = "Korgorush",
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -201,13 +206,11 @@ namespace Rpg.Client.Core
                 Name = "Stryga",
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -218,13 +221,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
+                Power = 5,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 5,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -234,13 +235,11 @@ namespace Rpg.Client.Core
                 Name = "Gaint frog",
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 7, 8, 9 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -251,13 +250,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Slavic,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -267,13 +264,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Slavic,
 
                 IsBoss = true,
+                Power = 13,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 10,
-                        DamageMax = 15
-                    }
+                    new MonsterAttackSkill()
                 }
             },
 
@@ -285,13 +280,11 @@ namespace Rpg.Client.Core
                 Name = "Grey Wolf",
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 0, 1, 2 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -302,13 +295,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
+                Power = 1,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 1,
-                        DamageMax = 2
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -318,13 +309,11 @@ namespace Rpg.Client.Core
                 Name = "Wisp",
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 2, 3, 5 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -335,13 +324,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -351,13 +338,11 @@ namespace Rpg.Client.Core
                 Name = "Korgorush",
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -367,13 +352,11 @@ namespace Rpg.Client.Core
                 Name = "Stryga",
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -384,13 +367,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
+                Power = 5,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 5,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -400,13 +381,11 @@ namespace Rpg.Client.Core
                 Name = "Gaint frog",
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 7, 8, 9 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -417,13 +396,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.China,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -433,13 +410,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.China,
 
                 IsBoss = true,
+                Power = 13,
+                PowerPerLevel = 2,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 10,
-                        DamageMax = 15
-                    }
+                    new MonsterAttackSkill()
                 }
             },
 
@@ -451,13 +426,11 @@ namespace Rpg.Client.Core
                 Name = "Jakal",
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 0, 1, 2 },
+                Power = 2,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -468,13 +441,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
+                Power = 1,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 1,
-                        DamageMax = 2
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -484,13 +455,11 @@ namespace Rpg.Client.Core
                 Name = "Bat",
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 2, 3, 5 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -501,13 +470,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -517,13 +484,11 @@ namespace Rpg.Client.Core
                 Name = "Korgorush",
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -533,13 +498,11 @@ namespace Rpg.Client.Core
                 Name = "Stryga",
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -550,13 +513,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
+                Power = 5,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 5,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -566,13 +527,11 @@ namespace Rpg.Client.Core
                 Name = "Gaint frog",
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 7, 8, 9 },
+                Power = 2,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -583,13 +542,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Egypt,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -599,13 +556,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Egypt,
 
                 IsBoss = true,
+                Power = 13,
+                PowerPerLevel = 2,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 10,
-                        DamageMax = 15
-                    }
+                    new MonsterAttackSkill()
                 }
             },
 
@@ -617,13 +572,11 @@ namespace Rpg.Client.Core
                 Name = "Jakal",
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 0, 1, 2 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -634,13 +587,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 1, 2, 4 },
                 IsUnique = true,
+                Power = 1,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 1,
-                        DamageMax = 2
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -650,13 +601,11 @@ namespace Rpg.Client.Core
                 Name = "Bat",
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 2, 3, 5 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -667,13 +616,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 2, 3, 5 },
                 IsUnique = true,
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -683,13 +630,11 @@ namespace Rpg.Client.Core
                 Name = "Korgorush",
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 4,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 5
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -699,13 +644,11 @@ namespace Rpg.Client.Core
                 Name = "Stryga",
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -716,13 +659,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 6, 7, 8 },
                 IsUnique = true,
+                Power = 5,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 5,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -732,13 +673,11 @@ namespace Rpg.Client.Core
                 Name = "Gaint frog",
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 7, 8, 9 },
+                Power = 3,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 2,
-                        DamageMax = 4
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -749,13 +688,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Greek,
                 NodeIndexes = new[] { 7, 8, 9 },
                 IsUnique = true,
+                Power = 5,
+                PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 3,
-                        DamageMax = 6
-                    }
+                    new MonsterAttackSkill()
                 }
             },
             new UnitScheme
@@ -765,13 +702,11 @@ namespace Rpg.Client.Core
                 Biom = BiomeType.Greek,
 
                 IsBoss = true,
+                Power = 13,
+                PowerPerLevel = 2,
                 Skills = new[]
                 {
-                    new CombatSkill
-                    {
-                        DamageMin = 10,
-                        DamageMax = 15
-                    }
+                    new MonsterAttackSkill()
                 }
             }
         };

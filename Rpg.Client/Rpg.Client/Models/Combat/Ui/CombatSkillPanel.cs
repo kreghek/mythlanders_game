@@ -133,7 +133,9 @@ namespace Rpg.Client.Models.Combat.Ui
 
             if (_unit is null)
             {
-                throw new InvalidOperationException("Unit required to be initialized before.");
+                SelectedCard = null;
+                return;
+                //throw new InvalidOperationException("Unit required to be initialized before.");
             }
 
             if (_unit.CombatCards is null)
