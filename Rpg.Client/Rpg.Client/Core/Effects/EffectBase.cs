@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Effects
 {
@@ -7,6 +10,10 @@ namespace Rpg.Client.Core.Effects
     {
         public CombatUnit? Target { get; private set; }
         protected bool IsImposed { get; private set; }
+
+        public IDice Dice { get; set; }
+
+        public EffectProcessor EffectProsessor { get; set; }
 
         /// <summary>
         /// Снятие.
@@ -20,8 +27,13 @@ namespace Rpg.Client.Core.Effects
             }
 
             IsImposed = false;
+            EffectProsessor.Influence(DispelRules, Target, null);
             Dispelled?.Invoke(this, Target);
         }
+
+        public abstract IEnumerable<EffectRule> DispelRules { get; }
+        public abstract IEnumerable<EffectRule> ImposeRules { get; }
+        public abstract IEnumerable<EffectRule> InfluenceRules { get; }
 
         /// <summary>
         /// Наложение.
@@ -31,6 +43,7 @@ namespace Rpg.Client.Core.Effects
         {
             Target = target;
             IsImposed = true;
+            EffectProsessor.Influence(ImposeRules, Target, null);
             Imposed?.Invoke(this, Target);
         }
 
@@ -46,8 +59,10 @@ namespace Rpg.Client.Core.Effects
             }
 
             InfluenceAction();
+            EffectProsessor.Influence(InfluenceRules, Target, null);
             Influenced?.Invoke(this, Target);
         }
+
 
         protected abstract void InfluenceAction();
 
