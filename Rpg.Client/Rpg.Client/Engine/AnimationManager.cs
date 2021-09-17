@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Engine
 {
@@ -11,7 +12,12 @@ namespace Rpg.Client.Engine
         public void AddBlocker(AnimationBlocker blocker)
         {
             _blockers.Add(blocker);
-            blocker.Released += (s, e) => { _blockers.Remove(blocker); };
+            blocker.Released += (s, e) =>
+            {
+                _blockers.Remove(blocker);
+                if (_blockers.Count == 0)
+                    AllBlockersReleased?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         public AnimationBlocker CreateAndUseBlocker()
@@ -27,5 +33,7 @@ namespace Rpg.Client.Engine
         {
             _blockers.Clear();
         }
+
+        public event EventHandler? AllBlockersReleased;
     }
 }

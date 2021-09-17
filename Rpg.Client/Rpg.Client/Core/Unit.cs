@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal class Unit
@@ -23,7 +25,10 @@ namespace Rpg.Client.Core
         public int Level { get; set; }
         public int MaxHp { get; set; }
 
-        public IEnumerable<CombatSkill> Skills { get; set; }
+        public int Power { get; set; }
+        public int PowerIncrease { get; set; }
+
+        public IEnumerable<SkillBase> Skills { get; set; }
 
         public UnitScheme UnitScheme { get; init; }
 
@@ -76,15 +81,19 @@ namespace Rpg.Client.Core
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
             Hp = MaxHp;
 
-            Skills = unitScheme.Skills.Select(x => new CombatSkill
-            {
-                Sid = x.Sid,
-                DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
-                DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
-                TargetType = x.TargetType,
-                Scope = x.Scope,
-                Range = x.Range
-            }).ToArray();
+            Power = unitScheme.Power + PowerIncrease * Level;
+            PowerIncrease = unitScheme.PowerPerLevel;
+
+            Skills = unitScheme.Skills;
+            //    .Select(x => new CombatSkill
+            //{
+            //    Sid = x.Sid,
+            //    DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
+            //    DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
+            //    TargetType = x.TargetType,
+            //    Scope = x.Scope,
+            //    Range = x.Range
+            //}).ToArray();
         }
 
         public event EventHandler<int>? DamageTaken;

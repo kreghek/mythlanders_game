@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.Ui;
@@ -137,79 +138,100 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+
+
         private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
         {
-            var unitGameObject = GetUnitGameObject(action.Actor);
-            UnitGameObject? target;
-            var skillCard = unitGameObject.Unit.CombatCards.Single(x => x.Skill == action.Skill);
-            switch (skillCard.Skill.TargetType)
-            {
-                case SkillTarget.Enemy:
-                    {
-                        var blocker = _animationManager.CreateAndUseBlocker();
-                        var bulletBlocker = _animationManager.CreateAndUseBlocker();
+            var actor = GetUnitGameObject(action.Actor);
+            var target = GetUnitGameObject(action.Target);
+            //UnitGameObject? target;
+            //var skillCard = unitGameObject.Unit.CombatCards.Single(x => x.Skill == action.Skill);
+            
+            var blocker = _animationManager.CreateAndUseBlocker();
 
-                        blocker.Released += (s, e) =>
-                        {
-                            _combat.Update();
-                        };
+            actor.SkillAnimationCompleted += Actor_SkillAnimationCompleted;
 
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.AllEnemyGroup:
-                                target = unitGameObject.Unit.Unit.IsPlayerControlled
-                                    ? _selectedUnitForPlayerSkill
-                                    : _dice.RollFromList(_gameObjects
-                                        .Where(x => x.Unit.Unit.IsPlayerControlled && !x.Unit.Unit.IsDead).ToList());
+            var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-                                _selectedUnitForPlayerSkill = null;
+            actor.UseSkill(target, blocker, bulletBlocker,_bulletObjects, action.Skill, action.Action);
+            //switch (skillCard.Skill.TargetType)
+            //{
+            //    case SkillTargetType.Enemy:
+            //        {
+            //            var blocker = _animationManager.CreateAndUseBlocker();
+            //            var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-                                unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
-                                    action.Action);
-                                break;
+            //            blocker.Released += (s, e) =>
+            //            {
+            //                _combat.Update();
+            //            };
 
-                            case SkillScope.Single:
-                                target = GetUnitGameObject(action.Target);
-                                if (unitGameObject.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
-                                {
-                                    unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
-                                        action.Action);
-                                }
+            //            action.Action();
 
-                                break;
+            //            switch (skillCard.Skill.Scope)
+            //            {
+            //                case SkillScope.AllEnemyGroup:
+            //                    target = unitGameObject.Unit.Unit.IsPlayerControlled
+            //                        ? _selectedUnitForPlayerSkill
+            //                        : _dice.RollFromList(_gameObjects
+            //                            .Where(x => x.Unit.Unit.IsPlayerControlled && !x.Unit.Unit.IsDead).ToList());
 
-                            default:
-                                throw new InvalidOperationException();
-                                break;
-                        }
-                    }
-                    break;
+            //                    _selectedUnitForPlayerSkill = null;
 
-                case SkillTarget.Friendly:
-                    {
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.Single:
-                                target = GetUnitGameObject(action.Target);
+            //                    unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
+            //                        action.Action);
+            //                    break;
 
-                                var blocker = _animationManager.CreateAndUseBlocker();
+            //                case SkillScope.Single:
+            //                    target = GetUnitGameObject(action.Target);
+            //                    if (unitGameObject.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
+            //                    {
+            //                        unitGameObject.Attack(target, blocker, bulletBlocker, _bulletObjects, skillCard,
+            //                            action.Action);
+            //                    }
 
-                                blocker.Released += (s, e) =>
-                                {
-                                    _combat.Update();
-                                };
+            //                    break;
 
-                                unitGameObject.Heal(target, blocker, skillCard, action.Action);
-                                break;
-                            default:
-                                throw new InvalidOperationException();
-                        }
-                    }
-                    break;
-                default:
-                    Debug.Fail("�� ����� ��� �����");
-                    break;
-            }
+            //                default:
+            //                    throw new InvalidOperationException();
+            //                    break;
+            //            }
+            //        }
+            //        break;
+
+            //    case SkillTargetType.Friendly:
+            //        {
+            //            switch (skillCard.Skill.Scope)
+            //            {
+            //                case SkillScope.Single:
+            //                    target = GetUnitGameObject(action.Target);
+
+            //                    var blocker = _animationManager.CreateAndUseBlocker();
+
+            //                    blocker.Released += (s, e) =>
+            //                    {
+            //                        _combat.Update();
+            //                    };
+
+            //                    unitGameObject.Heal(target, blocker, skillCard, action.Action);
+            //                    break;
+            //                default:
+            //                    throw new InvalidOperationException();
+            //            }
+            //        }
+            //        break;
+            //    default:
+            //        Debug.Fail("�� ����� ��� �����");
+            //        break;
+            //}
+        }
+
+        private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
+        {
+            if (sender is UnitGameObject unit)
+                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
+
+            _combat.Update();
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -248,6 +270,11 @@ namespace Rpg.Client.Models.Combat
             {
                 _combatSkillsPanel.Unit = e.NewUnit;
             }
+            else
+            {
+                _combatSkillsPanel.Unit = null;
+            }
+                    
 
             if (e.OldUnit != null)
             {
@@ -551,67 +578,79 @@ namespace Rpg.Client.Models.Combat
 
         private void InitHudButton(UnitGameObject actor, UnitGameObject target, CombatSkillCard skillCard)
         {
-            switch (skillCard.Skill.TargetType)
+            var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetButtonTexture(),
+                new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+
+            icon.OnClick += (s, e) =>
             {
-                case SkillTarget.Enemy:
+                _selectedUnitForPlayerSkill = target;
+                _combat.UseSkill(skillCard.Skill, target.Unit);
+            };
 
-                    if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
-                    {
-                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
-                            _uiContentStorage.GetButtonTexture(),
-                            new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+            _hudButtons.Add(icon);
 
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.AllEnemyGroup:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _selectedUnitForPlayerSkill = target;
-                                    _combat.UseSkill(skillCard.Skill);
-                                };
-                                break;
-                            case SkillScope.Single:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _combat.UseSkill(skillCard.Skill, target.Unit);
-                                };
-                                break;
-                            case SkillScope.Undefined:
-                            default:
-                                throw new InvalidOperationException();
-                        }
+            //switch (skillCard.Skill.TargetType)
+            //{
+            //    case SkillTarget.Enemy:
 
-                        _hudButtons.Add(icon);
-                    }
+            //        if (actor.Unit.Unit.IsPlayerControlled != target.Unit.Unit.IsPlayerControlled)
+            //        {
+            //            var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+            //                _uiContentStorage.GetButtonTexture(),
+            //                new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
 
-                    break;
-                case SkillTarget.Friendly:
-                    if (actor.Unit.Unit.IsPlayerControlled == target.Unit.Unit.IsPlayerControlled)
-                    {
-                        var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
-                            _uiContentStorage.GetButtonTexture(),
-                            new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+            //            switch (skillCard.Skill.Scope)
+            //            {
+            //                case SkillScope.AllEnemyGroup:
+            //                    icon.OnClick += (s, e) =>
+            //                    {
+            //                        _selectedUnitForPlayerSkill = target;
+            //                        _combat.UseSkill(skillCard.Skill);
+            //                    };
+            //                    break;
+            //                case SkillScope.Single:
+            //                    icon.OnClick += (s, e) =>
+            //                    {
+            //                        _combat.UseSkill(skillCard.Skill, target.Unit);
+            //                    };
+            //                    break;
+            //                case SkillScope.Undefined:
+            //                default:
+            //                    throw new InvalidOperationException();
+            //            }
 
-                        switch (skillCard.Skill.Scope)
-                        {
-                            case SkillScope.Single:
-                                icon.OnClick += (s, e) =>
-                                {
-                                    _combat.UseSkill(skillCard.Skill, target.Unit);
-                                };
-                                break;
-                            default:
-                                throw new InvalidOperationException();
-                        }
+            //            _hudButtons.Add(icon);
+            //        }
 
-                        _hudButtons.Add(icon);
-                    }
+            //        break;
+            //    case SkillTarget.Friendly:
+            //        if (actor.Unit.Unit.IsPlayerControlled == target.Unit.Unit.IsPlayerControlled)
+            //        {
+            //            var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+            //                _uiContentStorage.GetButtonTexture(),
+            //                new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
 
-                    break;
-                default:
-                    Debug.Fail("�� ����� ��� �����");
-                    break;
-            }
+            //            switch (skillCard.Skill.Scope)
+            //            {
+            //                case SkillScope.Single:
+            //                    icon.OnClick += (s, e) =>
+            //                    {
+            //                        _combat.UseSkill(skillCard.Skill, target.Unit);
+            //                    };
+            //                    break;
+            //                default:
+            //                    throw new InvalidOperationException();
+            //            }
+
+            //            _hudButtons.Add(icon);
+            //        }
+
+            //        break;
+            //    default:
+            //        Debug.Fail("�� ����� ��� �����");
+            //        break;
+            //}
         }
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)
@@ -634,6 +673,14 @@ namespace Rpg.Client.Models.Combat
 
             foreach (var target in _gameObjects.Where(x => !x.Unit.Unit.IsDead))
             {
+                if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.Unit.Unit.IsPlayerControlled ==
+                    _combat.CurrentUnit.Unit.IsPlayerControlled)
+                    continue;
+
+                if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.Unit.Unit.IsPlayerControlled !=
+                    _combat.CurrentUnit.Unit.IsPlayerControlled)
+                    continue;
+
                 InitHudButton(actor, target, skillCard);
             }
         }

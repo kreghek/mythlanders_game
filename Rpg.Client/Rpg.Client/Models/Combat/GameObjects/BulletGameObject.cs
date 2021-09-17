@@ -10,15 +10,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal sealed class BulletGameObject
     {
         private const double DURATION_SECONDS = 1.0;
-        private readonly Action _attackInteraction;
-        private readonly AnimationBlocker _blocker;
+        private readonly Action? _attackInteraction;
+        private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Vector2 _startPosition;
         private double _counter;
 
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
-            AnimationBlocker blocker, Action attackInteraction)
+            AnimationBlocker? blocker, Action? attackInteraction)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics());
             _startPosition = startPosition;
@@ -57,8 +57,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 if (!IsDestroyed)
                 {
                     IsDestroyed = true;
-                    _blocker.Release();
-                    _attackInteraction?.Invoke();
+                    _blocker?.Release();
+                    //_attackInteraction?.Invoke();
                 }
             }
         }
