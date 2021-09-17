@@ -13,7 +13,7 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
             Level = combatLevel;
 
-            InitStats(unitScheme, combatLevel);
+            InitStats(unitScheme, combatLevel - 1);
         }
 
         public int Hp { get; set; }
@@ -52,7 +52,7 @@ namespace Rpg.Client.Core
                 Level++;
                 Xp -= xpToLevel;
 
-                InitStats(UnitScheme, Level);
+                InitStats(UnitScheme, Level - 1);
 
                 return true;
             }

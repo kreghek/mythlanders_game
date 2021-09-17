@@ -76,7 +76,12 @@ namespace Rpg.Client.Models
 
         internal SoundEffect GetHitSound(string sid)
         {
-            if (sid == "Player")
+            if (sid == "Slash")
+            {
+                return _swordHit;
+            }
+
+            if (sid == "Wide Slash")
             {
                 return _swordHit;
             }

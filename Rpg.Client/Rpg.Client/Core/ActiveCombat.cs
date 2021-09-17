@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Models.Biome.GameObjects;
 
 namespace Rpg.Client.Core
 {
@@ -18,9 +19,10 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
+            Node = node;
             Combat = combat;
             Biom = biom;
             _dice = dice;
@@ -47,10 +49,12 @@ namespace Rpg.Client.Core
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
         }
-
+        
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
+        public GlobeNodeGameObject Node { get; }
+        
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -77,7 +81,7 @@ namespace Rpg.Client.Core
                 return false;
             }
         }
-
+        
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
             Action action =  () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
@@ -90,40 +94,6 @@ namespace Rpg.Client.Core
                 Target = target
             });
         }
-
-        //public void UseSkill(CombatSkill skill)
-        //{
-        //    if (skill.Scope != SkillScope.AllEnemyGroup)
-        //    {
-        //        throw new InvalidOperationException("Не верные рамки скила");
-        //    }
-
-        //    var dice = GetDice();
-
-        //    var unitsGroup = CurrentUnit.Unit.IsPlayerControlled
-        //        ? _allUnitList.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-        //        : _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead);
-
-        //    // Mass skill
-        //    Action action = () =>
-        //    {
-        //        BeforeSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-        //        foreach (var unit in unitsGroup)
-        //        {
-        //            unit.Unit.TakeDamage(dice.Roll(skill.DamageMin, skill.DamageMax));
-        //        }
-
-        //        AfterSkillUsing?.Invoke(this, new SkillUsingEventArgs { Actor = CurrentUnit, Skill = skill });
-        //        MoveCompleted?.Invoke(this, CurrentUnit);
-        //    };
-
-        //    ActionGenerated?.Invoke(this, new ActionEventArgs
-        //    {
-        //        Action = action,
-        //        Actor = CurrentUnit,
-        //        Skill = skill
-        //    });
-        //}
 
         internal void Initialize()
         {
@@ -261,7 +231,7 @@ namespace Rpg.Client.Core
 
         private void Unit_Dead(object? sender, EventArgs e)
         {
-            if (!(sender is Unit unit))
+            if (sender is not Unit unit)
             {
                 return;
             }
@@ -281,16 +251,18 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitDied;
 
-        internal event EventHandler<SkillUsingEventArgs> BeforeSkillUsing;
+        internal event EventHandler<SkillUsingEventArgs>? BeforeSkillUsing;
 
-        internal event EventHandler<SkillUsingEventArgs> AfterSkillUsing;
+        internal event EventHandler<SkillUsingEventArgs>? AfterSkillUsing;
 
         internal event EventHandler<CombatUnit>? MoveCompleted;
 
         internal event EventHandler<CombatUnit>? UnitHadDamage;
 
-
-        internal event EventHandler<ActionEventArgs> ActionGenerated;
+        /// <summary>
+        /// Event bus for combat object interactions.
+        /// </summary>
+        internal event EventHandler<ActionEventArgs>? ActionGenerated;
 
         internal class SkillUsingEventArgs : EventArgs
         {
