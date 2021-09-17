@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Effects
 
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
-        public override IEnumerable<EffectRule> InfluenceRules { get; }= new List<EffectRule>();
+        public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
         protected override void InfluenceAction()
         {

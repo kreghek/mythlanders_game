@@ -49,12 +49,12 @@ namespace Rpg.Client.Core
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
             }
         }
-        
+
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public GlobeNodeGameObject Node { get; }
-        
+
         internal Combat Combat { get; }
 
         internal bool Finished
@@ -81,10 +81,10 @@ namespace Rpg.Client.Core
                 return false;
             }
         }
-        
+
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            Action action =  () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
+            Action action = () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {

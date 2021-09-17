@@ -150,14 +150,14 @@ namespace Rpg.Client.Models.Combat
         {
             var actor = GetUnitGameObject(action.Actor);
             var target = GetUnitGameObject(action.Target);
-            
+
             var blocker = _animationManager.CreateAndUseBlocker();
 
             actor.SkillAnimationCompleted += Actor_SkillAnimationCompleted;
 
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-            actor.UseSkill(target, blocker, bulletBlocker,_bulletObjects, action.Skill, action.Action);
+            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, action.Skill, action.Action);
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -224,7 +224,7 @@ namespace Rpg.Client.Models.Combat
             {
                 _combatSkillsPanel.Unit = null;
             }
-                    
+
 
             if (e.OldUnit != null)
             {

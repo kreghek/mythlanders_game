@@ -142,7 +142,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _actorStateEngineList.Add(actorStateEngine);
         }
 
-        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target, AnimationBlocker animationBlocker, 
+        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target, AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList)
         {
             IUnitStateEngine state;
@@ -206,7 +206,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         if (bulletBlocker is null)
                             throw new InvalidOperationException();
-                        
+
                         bulletBlocker.Released += (s, e) =>
                         {
                             interaction?.Invoke();
@@ -222,7 +222,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             new (Position, new Vector2(300, 300), _gameObjectContentStorage, null,
                                 interaction)
                         };
-                        
+
 
                         foreach (var bullet in bullets)
                         {
