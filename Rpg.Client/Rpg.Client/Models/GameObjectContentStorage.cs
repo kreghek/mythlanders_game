@@ -11,10 +11,10 @@ namespace Rpg.Client.Models
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
-        private SoundEffect _monsterHit;
         private Texture2D? _monsterUnit;
-        private SoundEffect _swordHit;
         private Texture2D? _unit;
+        
+        private Dictionary<string, SoundEffect> _combatPowerDict;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -35,9 +35,6 @@ namespace Rpg.Client.Models
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
             _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
-            _swordHit = contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit");
-            _monsterHit = contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect");
-
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
             _combatBackgrounds = new Texture2D[]
@@ -47,6 +44,16 @@ namespace Rpg.Client.Models
                 contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/MainLayer"),
                 contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/ClosestLayer")
             };
+            
+            _combatPowerDict = new Dictionary<string, SoundEffect>
+            {
+                { "Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
+                { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
+                { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/HealEffect") },
+                { "Dope Herbs", contentManager.Load<SoundEffect>("Audio/GameObjects/DustEffect") },
+                
+                { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
+            }
         }
 
         internal Texture2D GetBiomeClouds()
@@ -76,17 +83,14 @@ namespace Rpg.Client.Models
 
         internal SoundEffect GetHitSound(string sid)
         {
-            if (sid == "Slash")
+            if (_combatPowerDict.TryGetValue(sid, out var soundEffect))
             {
-                return _swordHit;
+                return soundEffect;
             }
-
-            if (sid == "Wide Slash")
+            else
             {
-                return _swordHit;
+                return _combatPowerDict["WolfHitEffect"];
             }
-
-            return _monsterHit;
         }
 
         internal Texture2D GetNodeMarker()
