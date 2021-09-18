@@ -272,6 +272,21 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     break;
 
+                case "Periodic Heal":
+                    {
+                        bulletBlocker?.Release();
+
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker, interaction);
+                    }
+
+                    break;
+
                 default:
                     {
                         animationBlocker.Released += (s, e) =>
