@@ -99,18 +99,21 @@ namespace Rpg.Client.Models.Combat.Ui
             return sid switch
             {
                 "Slash" => 0,
-                "Wide Slash" => 1,
-                "Strike" => 2,
-                "Arrow Rain" => 3,
-                "Heal" => 4,
-                "Mass Heal" => 5,
+                "Defence Stance" => 1,
+                "Wide Slash" => 2,
+                "Strike" => 3,
+                "Arrow Rain" => 4,
+                "Zduhach Might" => 5,
+                "Heal" => 6,
+                "Dope Herb" => 7,
+                "Mass Heal" => 8,
                 _ => null
             };
         }
 
         private static Rectangle GetIconRect(string sid)
         {
-            const int SPRITESHEET_COLUMN_COUNT = 2;
+            const int SPRITESHEET_COLUMN_COUNT = 3;
             const int ICON_SIZE = 32;
 
             var iconIndexNullable = GetIconIndex(sid);
