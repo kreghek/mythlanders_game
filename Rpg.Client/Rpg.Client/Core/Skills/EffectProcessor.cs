@@ -11,26 +11,13 @@ namespace Rpg.Client.Core.Skills
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
 
-        private IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
+        private readonly IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
 
         public EffectProcessor(ActiveCombat combat, IDice dice)
         {
             _combat = combat;
             _dice = dice;
             _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
-        }
-
-        public void Influence(CombatUnit unit)
-        {
-            if (unit is null || !_unitEffects.ContainsKey(unit))
-                return;
-
-            var effects = new List<EffectBase>(_unitEffects[unit]);
-
-            foreach (var effect in effects)
-            {
-                effect.Influence();
-            }
         }
 
         public void Impose(IEnumerable<EffectRule> influences, CombatUnit self, CombatUnit? target)
@@ -46,6 +33,41 @@ namespace Rpg.Client.Core.Skills
             }
         }
 
+        public void Influence(CombatUnit unit)
+        {
+            if (unit is null || !_unitEffects.ContainsKey(unit))
+            {
+                return;
+            }
+
+            var effects = new List<EffectBase>(_unitEffects[unit]);
+
+            foreach (var effect in effects)
+            {
+                effect.Influence();
+            }
+        }
+
+        private void Effect_Dispelled(object? sender, EffectBase.UnitEffectEventArgs e)
+        {
+            if (!_unitEffects.ContainsKey(e.Unit))
+            {
+                return;
+            }
+
+            _unitEffects[e.Unit].Remove(e.Effect);
+        }
+
+        private void Effect_Imposed(object? sender, EffectBase.UnitEffectEventArgs e)
+        {
+            if (!_unitEffects.ContainsKey(e.Unit))
+            {
+                _unitEffects[e.Unit] = new List<EffectBase>();
+            }
+
+            _unitEffects[e.Unit].Add(e.Effect);
+        }
+
         private void Impose(EffectCreator creator, CombatUnit self, CombatUnit target)
         {
             var effect = creator.Create(self, this, _dice, _combat);
@@ -54,22 +76,6 @@ namespace Rpg.Client.Core.Skills
             effect.Dispelled += Effect_Dispelled;
 
             effect.Impose(target);
-        }
-
-        private void Effect_Imposed(object? sender, EffectBase.UnitEffectEventArgs e)
-        {
-            if (!_unitEffects.ContainsKey(e.Unit))
-                _unitEffects[e.Unit] = new List<EffectBase>();
-
-            _unitEffects[e.Unit].Add(e.Effect);
-        }
-
-        private void Effect_Dispelled(object? sender, EffectBase.UnitEffectEventArgs e)
-        {
-            if (!_unitEffects.ContainsKey(e.Unit))
-                return;
-
-            _unitEffects[e.Unit].Remove(e.Effect);
         }
 
         private void Impose(EffectRule influence, CombatUnit self, CombatUnit? target)

@@ -103,25 +103,6 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
-        private void _combat_UnitPassed(object? sender, CombatUnit e)
-        {
-            AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
-        }
-
-        private void _combat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-                return;
-
-            if (_combatSkillsPanel is null)
-                return;
-
-            _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = e;
-            var unitGameObject = GetUnitGameObject(e);
-            unitGameObject.IsActive = true;
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -154,6 +135,29 @@ namespace Rpg.Client.Models.Combat
             HandleBackgrounds();
 
             base.Update(gameTime);
+        }
+
+        private void _combat_UnitPassed(object? sender, CombatUnit e)
+        {
+            AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
+        }
+
+        private void _combat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                return;
+            }
+
+            if (_combatSkillsPanel is null)
+            {
+                return;
+            }
+
+            _combatSkillsPanel.IsEnabled = true;
+            _combatSkillsPanel.Unit = e;
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.IsActive = true;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)

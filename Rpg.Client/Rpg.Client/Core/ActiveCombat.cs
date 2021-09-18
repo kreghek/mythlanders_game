@@ -40,7 +40,9 @@ namespace Rpg.Client.Core
             set
             {
                 if (value is null)
+                {
                     return;
+                }
 
                 if (_currentUnit == value)
                 {
@@ -53,7 +55,9 @@ namespace Rpg.Client.Core
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
                 if (_currentUnit == value)
+                {
                     UnitReadyToControl?.Invoke(this, _currentUnit);
+                }
             }
         }
 
@@ -90,6 +94,12 @@ namespace Rpg.Client.Core
             }
         }
 
+        public void Pass()
+        {
+            UnitPassed?.Invoke(this, CurrentUnit);
+            Update();
+        }
+
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
             Action action = () => EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
@@ -101,12 +111,6 @@ namespace Rpg.Client.Core
                 Skill = skill,
                 Target = target
             });
-        }
-
-        public void Pass()
-        {
-            UnitPassed?.Invoke(this, CurrentUnit);
-            Update();
         }
 
         internal void Initialize()
@@ -140,12 +144,6 @@ namespace Rpg.Client.Core
             UnitReadyToControl += ActiveCombat_UnitReadyToControl;
         }
 
-        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-                AI();
-        }
-
         internal void Update()
         {
             if (Finished)
@@ -167,9 +165,19 @@ namespace Rpg.Client.Core
         private void ActiveCombat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
             if (e.NewUnit is null)
+            {
                 return;
+            }
 
             EffectProcessor.Influence(e.NewUnit);
+        }
+
+        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                AI();
+            }
         }
 
         private void AI()
@@ -276,7 +284,6 @@ namespace Rpg.Client.Core
             public SkillBase Skill { get; set; }
             public CombatUnit Target { get; set; }
         }
-
 
 
         internal class UnitChangedEventArgs : EventArgs

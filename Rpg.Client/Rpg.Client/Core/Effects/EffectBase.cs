@@ -8,12 +8,12 @@ namespace Rpg.Client.Core.Effects
 {
     internal abstract class EffectBase
     {
+        public ActiveCombat Combat { get; set; }
         public IDice Dice { get; set; }
 
         public virtual IEnumerable<EffectRule>? DispelRules => default;
 
         public EffectProcessor EffectProsessor { get; set; }
-        public ActiveCombat Combat { get; set; }
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;
         public CombatUnit? Target { get; private set; }
@@ -48,11 +48,6 @@ namespace Rpg.Client.Core.Effects
             AfterImpose();
         }
 
-        protected virtual void AfterImpose()
-        {
-
-        }
-
         /// <summary>
         /// Воздействие.
         /// </summary>
@@ -63,9 +58,14 @@ namespace Rpg.Client.Core.Effects
                 Debug.Assert(false, "Эффект не наложен");
                 return;
             }
+
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
             EffectProsessor.Impose(InfluenceRules, Target, null);
+        }
+
+        protected virtual void AfterImpose()
+        {
         }
 
 
@@ -77,8 +77,8 @@ namespace Rpg.Client.Core.Effects
 
         internal class UnitEffectEventArgs : EventArgs
         {
-            public CombatUnit Unit { get; set; }
             public EffectBase Effect { get; set; }
+            public CombatUnit Unit { get; set; }
         }
     }
 }
