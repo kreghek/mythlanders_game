@@ -8,13 +8,14 @@ namespace Rpg.Client.Core.Effects
 {
     internal abstract class EffectBase
     {
+        public ActiveCombat Combat { get; set; }
         public IDice Dice { get; set; }
 
-        public abstract IEnumerable<EffectRule> DispelRules { get; }
+        public virtual IEnumerable<EffectRule>? DispelRules => default;
 
         public EffectProcessor EffectProsessor { get; set; }
-        public abstract IEnumerable<EffectRule> ImposeRules { get; }
-        public abstract IEnumerable<EffectRule> InfluenceRules { get; }
+        public virtual IEnumerable<EffectRule>? ImposeRules => default;
+        public virtual IEnumerable<EffectRule>? InfluenceRules => default;
         public CombatUnit? Target { get; private set; }
         protected bool IsImposed { get; private set; }
 
@@ -30,8 +31,8 @@ namespace Rpg.Client.Core.Effects
             }
 
             IsImposed = false;
-            EffectProsessor.Influence(DispelRules, Target, null);
-            Dispelled?.Invoke(this, Target);
+            EffectProsessor.Impose(DispelRules, Target, null);
+            Dispelled?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
         }
 
         /// <summary>
@@ -42,8 +43,9 @@ namespace Rpg.Client.Core.Effects
         {
             Target = target;
             IsImposed = true;
-            EffectProsessor.Influence(ImposeRules, Target, null);
-            Imposed?.Invoke(this, Target);
+            EffectProsessor.Impose(ImposeRules, Target, null);
+            Imposed?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
+            AfterImpose();
         }
 
         /// <summary>
@@ -57,16 +59,26 @@ namespace Rpg.Client.Core.Effects
                 return;
             }
 
+            Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
-            EffectProsessor.Influence(InfluenceRules, Target, null);
-            Influenced?.Invoke(this, Target);
+            EffectProsessor.Impose(InfluenceRules, Target, null);
+        }
+
+        protected virtual void AfterImpose()
+        {
         }
 
 
         protected abstract void InfluenceAction();
 
-        public event EventHandler<CombatUnit>? Imposed;
-        public event EventHandler<CombatUnit>? Dispelled;
-        public event EventHandler<CombatUnit>? Influenced;
+        public event EventHandler<UnitEffectEventArgs>? Imposed;
+        public event EventHandler<UnitEffectEventArgs>? Dispelled;
+        public event EventHandler<UnitEffectEventArgs>? Influenced;
+
+        internal class UnitEffectEventArgs : EventArgs
+        {
+            public EffectBase Effect { get; set; }
+            public CombatUnit Unit { get; set; }
+        }
     }
 }

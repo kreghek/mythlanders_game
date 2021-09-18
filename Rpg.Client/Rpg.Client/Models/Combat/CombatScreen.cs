@@ -50,7 +50,6 @@ namespace Rpg.Client.Models.Combat
 
         private bool _finalBossWasDefeat;
 
-        private UnitGameObject? _selectedUnitForPlayerSkill; // �� ��, �������.
         private bool _unitsInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
@@ -93,11 +92,13 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.UnitChanged += Combat_UnitChanged;
+            _combat.UnitReadyToControl += _combat_UnitReadyToControl;
             _combat.UnitEntered += Combat_UnitEntered;
             _combat.UnitDied += Combat_UnitDied;
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
             _combat.UnitHadDamage += Combat_UnitHadDamage;
+            _combat.UnitPassed += _combat_UnitPassed;
             _combat.Initialize();
             _combat.Update();
         }
@@ -134,6 +135,29 @@ namespace Rpg.Client.Models.Combat
             HandleBackgrounds();
 
             base.Update(gameTime);
+        }
+
+        private void _combat_UnitPassed(object? sender, CombatUnit e)
+        {
+            AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
+        }
+
+        private void _combat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                return;
+            }
+
+            if (_combatSkillsPanel is null)
+            {
+                return;
+            }
+
+            _combatSkillsPanel.IsEnabled = true;
+            _combatSkillsPanel.Unit = e;
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.IsActive = true;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -212,31 +236,15 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            var isPlayerControlled = (e.NewUnit?.Unit.IsPlayerControlled).GetValueOrDefault();
-
-            _combatSkillsPanel.IsEnabled = isPlayerControlled;
-
-            if (isPlayerControlled)
-            {
-                _combatSkillsPanel.SelectedCard = null;
-                _combatSkillsPanel.Unit = e.NewUnit;
-            }
-            else
-            {
-                _combatSkillsPanel.Unit = null;
-            }
-
             if (e.OldUnit != null)
             {
-                var unitGameObject = GetUnitGameObject(e.OldUnit);
-                unitGameObject.IsActive = false;
+                var oldView = GetUnitGameObject(e.OldUnit);
+                oldView.IsActive = false;
             }
 
-            if (e.NewUnit != null)
-            {
-                var unitGameObject = GetUnitGameObject(e.NewUnit);
-                unitGameObject.IsActive = true;
-            }
+            _combatSkillsPanel.Unit = null;
+            _combatSkillsPanel.SelectedCard = null;
+            _combatSkillsPanel.IsEnabled = false;
         }
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
@@ -552,7 +560,6 @@ namespace Rpg.Client.Models.Combat
 
             icon.OnClick += (s, e) =>
             {
-                _selectedUnitForPlayerSkill = target;
                 _combat.UseSkill(skillCard.Skill, target.Unit);
             };
 
