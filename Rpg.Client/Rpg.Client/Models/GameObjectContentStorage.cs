@@ -92,7 +92,7 @@ namespace Rpg.Client.Models
             }
             else
             {
-                return _combatPowerDict["WolfHitEffect"];
+                return _combatPowerDict["Wolf Bite"];
             }
         }
 
