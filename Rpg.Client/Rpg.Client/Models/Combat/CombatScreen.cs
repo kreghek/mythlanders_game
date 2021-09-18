@@ -49,7 +49,7 @@ namespace Rpg.Client.Models.Combat
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
-        
+
         private bool _unitsInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
@@ -237,7 +237,7 @@ namespace Rpg.Client.Models.Combat
                 var oldView = GetUnitGameObject(e.OldUnit);
                 oldView.IsActive = false;
             }
-            
+
             _combatSkillsPanel.Unit = null;
             _combatSkillsPanel.SelectedCard = null;
             _combatSkillsPanel.IsEnabled = false;
