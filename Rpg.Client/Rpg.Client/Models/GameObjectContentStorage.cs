@@ -51,6 +51,8 @@ namespace Rpg.Client.Models
                 { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
                 { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/HealEffect") },
                 { "Dope Herbs", contentManager.Load<SoundEffect>("Audio/GameObjects/DustEffect") },
+                { "Bow Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
+                { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
                 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
             }
