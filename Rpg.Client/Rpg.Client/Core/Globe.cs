@@ -234,26 +234,22 @@ namespace Rpg.Client.Core
                 }
             }
 
-            var uniqueIsUsed = false;
             var units = new List<Unit>();
             foreach (var unitScheme in rolledUnits)
             {
-                if (unitScheme.IsUnique)
-                {
-                    if (uniqueIsUsed)
-                    {
-                        continue;
-                    }
-
-                    uniqueIsUsed = true;
-                }
-
-                var unitLevel = combatLevel + 1; //+1 because combat starts with zero.
+                var unitLevel = GetUnitLevel(combatLevel);
                 var unit = new Unit(unitScheme, unitLevel);
                 units.Add(unit);
             }
 
             return units;
+        }
+
+        private static int GetUnitLevel(int combatLevel)
+        {
+            // +1 because combat starts with zero.
+            // But a unit's level have to starts with 1.
+            return combatLevel + 1;
         }
 
         private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
