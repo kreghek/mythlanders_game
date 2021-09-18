@@ -39,6 +39,9 @@ namespace Rpg.Client.Core
             get => _currentUnit;
             set
             {
+                if (value is null)
+                    return;
+
                 if (_currentUnit == value)
                 {
                     return;
@@ -47,7 +50,10 @@ namespace Rpg.Client.Core
                 var oldUnit = _currentUnit;
 
                 _currentUnit = value;
-                UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = _currentUnit, OldUnit = oldUnit });
+                UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
+
+                if (_currentUnit == value)
+                    UnitReadyToControl?.Invoke(this, _currentUnit);
             }
         }
 
@@ -86,7 +92,7 @@ namespace Rpg.Client.Core
 
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            Action action = () => EffectProcessor.Influence(skill.Rules, CurrentUnit, target);
+            Action action = () => EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {
@@ -95,6 +101,12 @@ namespace Rpg.Client.Core
                 Skill = skill,
                 Target = target
             });
+        }
+
+        public void Pass()
+        {
+            UnitPassed?.Invoke(this, CurrentUnit);
+            Update();
         }
 
         internal void Initialize()
@@ -125,6 +137,13 @@ namespace Rpg.Client.Core
             }
 
             UnitChanged += ActiveCombat_UnitChanged;
+            UnitReadyToControl += ActiveCombat_UnitReadyToControl;
+        }
+
+        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+                AI();
         }
 
         internal void Update()
@@ -147,10 +166,10 @@ namespace Rpg.Client.Core
 
         private void ActiveCombat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            if (e.NewUnit?.Unit.IsPlayerControlled == false)
-            {
-                AI();
-            }
+            if (e.NewUnit is null)
+                return;
+
+            EffectProcessor.Influence(e.NewUnit);
         }
 
         private void AI()
@@ -170,33 +189,6 @@ namespace Rpg.Client.Core
                     .Single();
 
             UseSkill(skill, targetPlayerObject);
-
-            //var combatPowerScope = skill.Scope;
-            ////TODO Specify combat power scope scope in the monsters.
-            //if (combatPowerScope == SkillScope.Undefined)
-            //{
-            //    combatPowerScope = SkillScope.Single;
-            //    skill.Scope = SkillScope.Single;
-            //}
-
-            //switch (skill.Type)
-            //{
-            //    case SkillScope.Single:
-            //        var targetPlayerObject =
-            //            dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
-            //                .Single();
-            //        UseSkill(skill, targetPlayerObject);
-            //        break;
-
-            //    case SkillScope.AllEnemyGroup:
-            //        UseSkill(skill);
-            //        break;
-
-            //    case SkillScope.Undefined:
-            //    default:
-            //        Debug.Fail($"Unknown combat power scope {combatPowerScope}.");
-            //        break;
-            //}
         }
 
         private IDice GetDice()
@@ -261,6 +253,10 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitHadDamage;
 
+        internal event EventHandler<CombatUnit>? UnitPassed;
+
+        internal event EventHandler<CombatUnit>? UnitReadyToControl;
+
         /// <summary>
         /// Event bus for combat object interactions.
         /// </summary>
@@ -280,6 +276,8 @@ namespace Rpg.Client.Core
             public SkillBase Skill { get; set; }
             public CombatUnit Target { get; set; }
         }
+
+
 
         internal class UnitChangedEventArgs : EventArgs
         {

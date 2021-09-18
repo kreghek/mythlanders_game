@@ -10,7 +10,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
         protected override Color GetColor()
         {
-            return Color.DarkSlateGray;
+            return Color.LightGray;
         }
 
         protected override string GetText()
