@@ -55,7 +55,7 @@ namespace Rpg.Client.Models
                 { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
                 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
-            }
+            };
         }
 
         internal Texture2D GetBiomeClouds()
