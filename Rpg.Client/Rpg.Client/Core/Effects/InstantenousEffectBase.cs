@@ -2,16 +2,11 @@
 {
     internal abstract class InstantenousEffectBase : EffectBase
     {
-        public InstantenousEffectBase()
+        protected override void AfterImpose()
         {
-            Imposed += InstantenousEffect_Imposed;
-        }
-
-        private void InstantenousEffect_Imposed(object? sender, CombatUnit e)
-        {
-            Imposed -= InstantenousEffect_Imposed;
             Influence();
             Dispel();
+            base.AfterImpose();
         }
     }
 }

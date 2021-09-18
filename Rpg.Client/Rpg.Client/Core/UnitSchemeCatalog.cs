@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core.Effects;
 using Rpg.Client.Core.Skills;
-using Rpg.Client.Models.Combat.GameObjects;
 
 namespace Rpg.Client.Core
 {
@@ -20,28 +18,6 @@ namespace Rpg.Client.Core
             {
                 new SlashSkill(),
                 new WideSlashSkill()
-
-                //new CombatSkill
-                //{
-                //    Sid = "Slash",
-                //    DamageMin = 10,
-                //    DamageMinPerLevel = 2,
-                //    DamageMax = 12,
-                //    DamageMaxPerLevel = 2,
-                //    TargetType = SkillTarget.Enemy,
-                //    Scope = SkillScope.Single,
-                //    Range = CombatPowerRange.Melee
-                //},
-                //new CombatSkill
-                //{
-                //    Sid = "Wide Slash",
-                //    DamageMin = 5,
-                //    DamageMinPerLevel = 1,
-                //    DamageMax = 7,
-                //    DamageMaxPerLevel = 1,
-                //    TargetType = SkillTarget.Enemy,
-                //    Scope = SkillScope.AllEnemyGroup
-                //}
             }
         };
 
@@ -52,20 +28,10 @@ namespace Rpg.Client.Core
             Name = "Рада",
             Power = 6,
             PowerPerLevel = 1,
-            Skills = new[]
+            Skills = new SkillBase[]
             {
-                new HealSkill()
-                //new CombatSkill
-                //{
-                //    Sid = "Heal",
-                //    DamageMin = 5,
-                //    DamageMinPerLevel = 1,
-                //    DamageMax = 7,
-                //    DamageMaxPerLevel = 1,
-                //    TargetType = SkillTarget.Friendly,
-                //    Scope = SkillScope.Single,
-                //    Range = CombatPowerRange.Distant
-                //}
+                new HealSkill(),
+                new DopeHerbSkill()
             }
         };
 
@@ -80,50 +46,8 @@ namespace Rpg.Client.Core
             {
                 new StrikeSkill(),
                 new ArrowRainSkill()
-                //new CombatSkill
-                //{
-                //    Sid = "Strike",
-                //    DamageMin = 15,
-                //    DamageMinPerLevel = 2,
-                //    DamageMax = 17,
-                //    DamageMaxPerLevel = 2,
-                //    TargetType = SkillTarget.Enemy,
-                //    Scope = SkillScope.Single,
-                //    Range = CombatPowerRange.Distant
-                //},
-                //new CombatSkill
-                //{
-                //    Sid = "Arrow Rain",
-                //    DamageMin = 5,
-                //    DamageMinPerLevel = 1,
-                //    DamageMax = 7,
-                //    DamageMaxPerLevel = 1,
-                //    TargetType = SkillTarget.Enemy,
-                //    Scope = SkillScope.AllEnemyGroup,
-                //    Range = CombatPowerRange.Distant
-                //}
             }
         };
-
-        //public static UnitScheme JuggernautHero = new()
-        //{
-        //    Hp = 150,
-        //    HpPerLevel = 20,
-        //    Name = "Smooky",
-        //    Skills = new[]
-        //    {
-        //        new CombatSkill
-        //        {
-        //            Sid = "Player",
-        //            DamageMin = 5,
-        //            DamageMinPerLevel = 1,
-        //            DamageMax = 7,
-        //            DamageMaxPerLevel = 1,
-        //            TargetType = SkillTarget.Enemy,
-        //            Scope = SkillScope.AllEnemyGroup
-        //        }
-        //    }
-        //};
 
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {

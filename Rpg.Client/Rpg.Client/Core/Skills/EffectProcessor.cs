@@ -11,13 +11,29 @@ namespace Rpg.Client.Core.Skills
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
 
+        private IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
+
         public EffectProcessor(ActiveCombat combat, IDice dice)
         {
             _combat = combat;
             _dice = dice;
+            _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
         }
 
-        public void Influence(IEnumerable<EffectRule> influences, CombatUnit self, CombatUnit? target)
+        public void Influence(CombatUnit unit)
+        {
+            if (unit is null || !_unitEffects.ContainsKey(unit))
+                return;
+
+            var effects = new List<EffectBase>(_unitEffects[unit]);
+
+            foreach (var effect in effects)
+            {
+                effect.Influence();
+            }
+        }
+
+        public void Impose(IEnumerable<EffectRule> influences, CombatUnit self, CombatUnit? target)
         {
             if (influences is null)
             {
@@ -26,18 +42,37 @@ namespace Rpg.Client.Core.Skills
 
             foreach (var influence in influences)
             {
-                Influence(influence, self, target);
+                Impose(influence, self, target);
             }
         }
 
         private void Impose(EffectCreator creator, CombatUnit self, CombatUnit target)
         {
-            var effect = creator.Create(self, this, _dice);
+            var effect = creator.Create(self, this, _dice, _combat);
+
+            effect.Imposed += Effect_Imposed;
+            effect.Dispelled += Effect_Dispelled;
 
             effect.Impose(target);
         }
 
-        private void Influence(EffectRule influence, CombatUnit self, CombatUnit? target)
+        private void Effect_Imposed(object? sender, EffectBase.UnitEffectEventArgs e)
+        {
+            if (!_unitEffects.ContainsKey(e.Unit))
+                _unitEffects[e.Unit] = new List<EffectBase>();
+
+            _unitEffects[e.Unit].Add(e.Effect);
+        }
+
+        private void Effect_Dispelled(object? sender, EffectBase.UnitEffectEventArgs e)
+        {
+            if (!_unitEffects.ContainsKey(e.Unit))
+                return;
+
+            _unitEffects[e.Unit].Remove(e.Effect);
+        }
+
+        private void Impose(EffectRule influence, CombatUnit self, CombatUnit? target)
         {
             var dice = new LinearDice(DateTime.Now.Millisecond);
 
