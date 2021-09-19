@@ -101,6 +101,8 @@ namespace Rpg.Client.Models.Biome
             base.Draw(gameTime, spriteBatch);
         }
 
+        private GlobeNodeGameObject? _hoverNodeGameObject;
+
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -130,6 +132,7 @@ namespace Rpg.Client.Models.Biome
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
 
                         var index = 0;
+                        _hoverNodeGameObject = null;
                         foreach (var node in _nodeModels)
                         {
                             if (node.Combat is null)
@@ -139,28 +142,31 @@ namespace Rpg.Client.Models.Biome
                             }
 
                             var detectNode = IsNodeOnHover(node, mouseRect);
-
-                            if (mouseState.LeftButton == ButtonState.Pressed && detectNode)
-                            {
-                                _screenTransition = true;
-                                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group, node, node.Combat, _biome,
-                                    Game.Services.GetService<IDice>());
-
-                                if (node.AvailableDialog is not null)
-                                {
-                                    _globe.AvailableDialog = node.AvailableDialog;
-
-                                    _globe.AvailableDialog.Counter++;
-
-                                    ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                                }
-                                else
-                                {
-                                    ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                                }
-                            }
+                            _hoverNodeGameObject = node;
 
                             index++;
+                        }
+
+                        if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
+                        {
+                            _screenTransition = true;
+                            _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                             _hoverNodeGameObject,
+                              _hoverNodeGameObject.Combat, _biome,
+                                Game.Services.GetService<IDice>());
+
+                            if (_hoverNodeGameObject.AvailableDialog is not null)
+                            {
+                                _globe.AvailableDialog = _hoverNodeGameObject.AvailableDialog;
+
+                                _globe.AvailableDialog.Counter++;
+
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            }
+                            else
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            }
                         }
 
                         for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
@@ -219,7 +225,18 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {_biome.Level}",
                 new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
 
+            if (_hoverNodeGameObject is not null)
+            {
+                DrawNodeInfo(_hoverNodeGameObject);
+            }
+
             spriteBatch.End();
+        }
+
+        private void DrawNodeInfo(GlobeNodeGameObject nodeGameObject)
+        {
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), nodeGameObject.Node.Level,
+                    nodeGameObject.Position + new Vector2(30, 0), Color.White);
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
