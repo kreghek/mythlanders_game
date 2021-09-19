@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace Rpg.Client.Models
 {
@@ -14,7 +15,7 @@ namespace Rpg.Client.Models
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D? _unit;
-        
+
         private Dictionary<string, SoundEffect> _combatPowerDict;
 
         public Texture2D GetUnitGraphics(string unitName)
@@ -45,7 +46,7 @@ namespace Rpg.Client.Models
                 contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/MainLayer"),
                 contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/ClosestLayer")
             };
-            
+
             _combatPowerDict = new Dictionary<string, SoundEffect>
             {
                 { "Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
@@ -54,7 +55,7 @@ namespace Rpg.Client.Models
                 { "Dope Herbs", contentManager.Load<SoundEffect>("Audio/GameObjects/DustEffect") },
                 { "Bow Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
                 { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
-                
+
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
             };
         }
