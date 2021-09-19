@@ -50,6 +50,20 @@ namespace Rpg.Client.Core
             }
         };
 
+        public static UnitScheme PriestHero = new()
+        {
+            Hp = 50,
+            HpPerLevel = 5,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = "Кахотеп",
+            Skills = new SkillBase[]
+            {
+                new MassStunSkill()
+            }
+        };
+
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {
             new UnitScheme

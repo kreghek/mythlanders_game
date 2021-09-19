@@ -43,6 +43,10 @@ namespace Rpg.Client.Models
                             new Unit(UnitSchemeCatalog.SwordmanHero, 1)
                             {
                                 IsPlayerControlled = true
+                            },
+                            new Unit(UnitSchemeCatalog.PriestHero, 1)
+                            {
+                                IsPlayerControlled = true
                             }
                         }
                     }
