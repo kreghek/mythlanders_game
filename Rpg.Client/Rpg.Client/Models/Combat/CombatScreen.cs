@@ -386,6 +386,18 @@ namespace Rpg.Client.Models.Combat
                 }
             }
 
+            try
+            {
+                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
+                    new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+            }
+            catch
+            {
+                // TODO Fix NRE in the end of the combat with more prefessional way 
+            }
+
             _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();

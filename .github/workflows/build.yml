@@ -1,0 +1,53 @@
+name: Temp Build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runtime:
+          - win-x64
+          - linux-x64
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Setup .NET 3.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: Restore dependencies
+      run: dotnet restore Rpg.Client/Rpg.Client.sln
+
+    - name: Build
+      run: dotnet build Rpg.Client/Rpg.Client.sln --no-restore
+
+    - name: Test
+      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
+
+    - name: Publish
+      run: dotnet publish Rpg.Client/Rpg.Client.sln --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release
+    
+    - name: Write version to file
+      uses: DamianReeves/write-file-action@v1.0
+      with:
+        path: bin/version.txt
+        contents: |
+          ver 0.1-dev#${{ github.run_number }}
+          ${{ github.sha }}
+        write-mode: overwrite
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ewar-${{ matrix.runtime }}
+        path: bin
