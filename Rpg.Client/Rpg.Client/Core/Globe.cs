@@ -245,13 +245,6 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static int GetUnitLevel(int combatLevel)
-        {
-            // +1 because combat starts with zero.
-            // But a unit's level have to starts with 1.
-            return combatLevel + 1;
-        }
-
         private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
         {
             const int BIOME_MIN_LEVEL_STEP = 25;
@@ -302,6 +295,13 @@ namespace Rpg.Client.Core
                     IsFinal = true
                 }
             };
+        }
+
+        private static int GetUnitLevel(int combatLevel)
+        {
+            // +1 because combat starts with zero.
+            // But a unit's level have to starts with 1.
+            return combatLevel + 1;
         }
     }
 }

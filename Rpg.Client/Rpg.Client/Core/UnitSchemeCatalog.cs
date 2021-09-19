@@ -31,7 +31,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new HealSkill(),
-                new DopeHerbSkill()
+                new DopeHerbSkill(),
+                new PeriodicHealSkill()
             }
         };
 
