@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Rpg.Client.Core
+﻿namespace Rpg.Client.Core
 {
     internal sealed class GlobeNode
     {
@@ -17,18 +14,5 @@ namespace Rpg.Client.Core
         public int Index { get; internal set; }
 
         public string Name { get; }
-    }
-
-    internal sealed class CombatSequence
-    {
-        public CombatSequence()
-        {
-            CompletedCombats = new List<Combat>();
-            Combats = Array.Empty<Combat>();
-        }
-
-        public IReadOnlyCollection<Combat> Combats { get; set; }
-
-        public IList<Combat> CompletedCombats { get; set; }
     }
 }

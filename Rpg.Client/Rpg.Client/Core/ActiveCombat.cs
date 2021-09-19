@@ -18,7 +18,7 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, GlobeNodeGameObject1 node, Combat combat, Biome biom, IDice dice)
         {
             _playerGroup = playerGroup;
             Node = node;
@@ -63,7 +63,7 @@ namespace Rpg.Client.Core
 
         public EffectProcessor EffectProcessor { get; }
 
-        public GlobeNodeGameObject Node { get; }
+        public GlobeNodeGameObject1 Node { get; }
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
 
