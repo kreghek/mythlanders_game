@@ -50,6 +50,20 @@ namespace Rpg.Client.Core
             }
         };
 
+        public static UnitScheme PriestHero = new()
+        {
+            Hp = 50,
+            HpPerLevel = 5,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = "Кахотеп",
+            Skills = new SkillBase[]
+            {
+                new MassStunSkill()
+            }
+        };
+
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {
             new UnitScheme
@@ -90,9 +104,10 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 2, 3, 5 },
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new StrikeSkill(),
+                    new ArrowRainSkill()
                 }
             },
             new UnitScheme
@@ -105,9 +120,10 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -133,9 +149,10 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 6, 7, 8 },
                 Power = 3,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -148,9 +165,10 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 5,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill()
                 }
             },
             new UnitScheme
@@ -177,9 +195,11 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -191,9 +211,11 @@ namespace Rpg.Client.Core
                 IsBoss = true,
                 Power = 13,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill(),
+                    new ArrowRainSkill()
                 }
             },
 
