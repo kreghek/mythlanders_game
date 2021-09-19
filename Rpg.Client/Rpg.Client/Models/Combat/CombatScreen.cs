@@ -38,7 +38,7 @@ namespace Rpg.Client.Models.Combat
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
-        private readonly GlobeNodeGameObject _globeNodeGameObject;
+        private readonly GlobeNodeGameObject1 _globeNodeGameObject;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
