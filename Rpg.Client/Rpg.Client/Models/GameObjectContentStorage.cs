@@ -10,13 +10,13 @@ namespace Rpg.Client.Models
     {
         private Texture2D _biomClouds;
         private Texture2D[] _combatBackgrounds;
+
+        private Dictionary<string, SoundEffect> _combatPowerDict;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D? _unit;
-
-        private Dictionary<string, SoundEffect> _combatPowerDict;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -91,10 +91,8 @@ namespace Rpg.Client.Models
             {
                 return soundEffect;
             }
-            else
-            {
-                return _combatPowerDict["Wolf Bite"];
-            }
+
+            return _combatPowerDict["Wolf Bite"];
         }
 
         internal Texture2D GetNodeMarker()
