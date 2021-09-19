@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 2, 3, 5 },
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new StrikeSkill(),
                     new ArrowRainSkill()
@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
                     new WideSlashSkill()
@@ -149,7 +149,7 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 6, 7, 8 },
                 Power = 3,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
                     new WideSlashSkill()
@@ -165,7 +165,7 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 5,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
                     new DopeHerbSkill()
@@ -195,7 +195,7 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
                     new DopeHerbSkill(),
@@ -211,7 +211,7 @@ namespace Rpg.Client.Core
                 IsBoss = true,
                 Power = 13,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
                     new DopeHerbSkill(),

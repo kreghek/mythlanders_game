@@ -386,6 +386,11 @@ namespace Rpg.Client.Models.Combat
                 }
             }
 
+            var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
+                new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+
             _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();
