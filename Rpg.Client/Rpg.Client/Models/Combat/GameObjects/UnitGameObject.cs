@@ -287,6 +287,41 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     break;
 
+                case "Mass Stun":
+                    {
+                        if (bulletBlocker is null)
+                        {
+                            throw new InvalidOperationException();
+                        }
+
+                        bulletBlocker.Released += (s, e) =>
+                        {
+                            interaction?.Invoke();
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        var bullets = new List<BulletGameObject>
+                        {
+                            new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
+                                interaction),
+                            new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
+                                interaction),
+                            new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
+                                interaction)
+                        };
+
+                        foreach (var bullet in bullets)
+                        {
+                            bulletList.Add(bullet);
+                        }
+
+                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
+                            interaction, null, bulletList);
+                    }
+
+                    break;
+
                 default:
                     {
                         animationBlocker.Released += (s, e) =>
