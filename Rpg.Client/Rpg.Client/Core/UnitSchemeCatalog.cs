@@ -106,7 +106,8 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new StrikeSkill(),
+                    new ArrowRainSkill()
                 }
             },
             new UnitScheme
@@ -121,7 +122,8 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -149,7 +151,8 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -164,7 +167,8 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill()
                 }
             },
             new UnitScheme
@@ -193,7 +197,9 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -207,7 +213,9 @@ namespace Rpg.Client.Core
                 PowerPerLevel = 1,
                 Skills = new[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DopeHerbSkill(),
+                    new ArrowRainSkill()
                 }
             },
 
