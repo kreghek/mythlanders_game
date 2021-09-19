@@ -81,8 +81,8 @@ namespace Rpg.Client.Core
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
             Hp = MaxHp;
 
-            Power = unitScheme.Power + PowerIncrease * Level;
             PowerIncrease = unitScheme.PowerPerLevel;
+            Power = unitScheme.Power + PowerIncrease * Level;
 
             Skills = unitScheme.Skills;
             //    .Select(x => new CombatSkill
