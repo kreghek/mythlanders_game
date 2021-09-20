@@ -105,6 +105,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Arrow Rain" => 4,
                 "Zduhach Might" => 5,
                 "Heal" => 6,
+                "Periodic Heal" => 6,
                 "Dope Herb" => 7,
                 "Mass Heal" => 8,
                 _ => null

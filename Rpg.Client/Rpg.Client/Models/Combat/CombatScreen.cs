@@ -236,7 +236,7 @@ namespace Rpg.Client.Models.Combat
         {
             var equipmentItemType = globeNode.EquipmentItem;
 
-            var targetUnitScheme = GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
+            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
             var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
             if (targetUnit is null)
             {
@@ -246,26 +246,6 @@ namespace Rpg.Client.Models.Combat
             if (targetUnit is not null)
             {
                 targetUnit.GainEquipmentItem(1);
-            }
-        }
-
-        private static UnitScheme? GetPlayerPersonSchemeByEquipmentType(EquipmentItemType? equipmentItemType)
-        {
-            if (equipmentItemType is null)
-            {
-                return null;
-            }
-
-            switch (equipmentItemType)
-            {
-                case EquipmentItemType.Warrior: return UnitSchemeCatalog.SwordmanHero;
-                case EquipmentItemType.Archer: return UnitSchemeCatalog.ArcherHero;
-                case EquipmentItemType.Herbalist: return UnitSchemeCatalog.HerbalistHero;
-                case EquipmentItemType.Priest: return UnitSchemeCatalog.PriestHero;
-                case EquipmentItemType.Undefined:
-                default:
-                    Debug.Fail($"Unknown resource type {equipmentItemType}.");
-                    return null;
             }
         }
 
@@ -423,10 +403,13 @@ namespace Rpg.Client.Models.Combat
 
             try
             {
-                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
+                if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
+                {
+                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
-                    new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
+                        new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+                }
             }
             catch
             {

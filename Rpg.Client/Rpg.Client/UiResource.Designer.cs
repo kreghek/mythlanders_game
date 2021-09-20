@@ -86,5 +86,14 @@ namespace Rpg.Client {
                 return ResourceManager.GetString("SwitchResolutionButtonTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sword pieces.
+        /// </summary>
+        internal static string WarriorEquipmentItemDisplayName {
+            get {
+                return ResourceManager.GetString("WarriorEquipmentItemDisplayName", resourceCulture);
+            }
+        }
     }
 }

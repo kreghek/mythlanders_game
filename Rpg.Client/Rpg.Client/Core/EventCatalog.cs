@@ -132,7 +132,7 @@ namespace Rpg.Client.Core
                 {
                     Text = "Пригласить в группу.",
                     Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero)
                 }
             };
 

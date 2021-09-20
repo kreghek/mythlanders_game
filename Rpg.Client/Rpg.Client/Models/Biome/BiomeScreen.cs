@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -247,7 +249,7 @@ namespace Rpg.Client.Models.Biome
 
             var node = nodeGameObject;
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name, toolTipPosition + new Vector2(5, 15),
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name.Replace('\n', ' '), toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
             var dialogMarkerText = node.AvailableDialog is not null ? "(!)" : string.Empty;
@@ -258,6 +260,21 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 toolTipPosition + new Vector2(5, 35), Color.Black);
 
+            var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
+            if (equipmentType is not null)
+            {
+                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+
+                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x=>x.UnitScheme == targetUnitScheme);
+
+                if (playerUnit is not null)
+                {
+                    var equipmentTypeText = GetDisplayNameOfEquipment(equipmentType);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
+                        toolTipPosition + new Vector2(5, 45), Color.Black);
+                }
+            }
+
             if (node.Combat is not null)
             {
                 var monsterIndex = 0;
@@ -265,11 +282,30 @@ namespace Rpg.Client.Models.Biome
                 {
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                         $"{monster.UnitScheme.Name} ({monster.Level})",
-                        toolTipPosition + new Vector2(5, 45 + monsterIndex * 10), Color.Black);
+                        toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
 
                     monsterIndex++;
                 }
             }
+        }
+
+        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
+        {
+            if (equipmentType is null)
+            {
+                return null;
+            }
+
+            var rm = new ResourceManager(typeof(UiResource).FullName, typeof(UiResource).Assembly);
+
+            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
+
+            if (equipmentDisplayName is null)
+            {
+                return $"{equipmentType} equipment items";
+            }
+
+            return equipmentDisplayName;
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)

@@ -225,18 +225,9 @@ namespace Rpg.Client.Core
                 if (roll > 5)
                 {
                     var minCounter = availableEvents.Min(x => x.Counter);
-                    var maxCounter = availableEvents.Max(x => x.Counter);
-
-                    for (var rank = minCounter; rank <= maxCounter; rank++)
-                    {
-                        var currentRankEventList = availableEventList.Where(x => x.Counter == rank).ToArray();
-
-                        if (currentRankEventList.Any())
-                        {
-                            node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
-                            availableEventList.Remove(node.AvailableDialog);
-                        }
-                    }
+                    var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
+                    node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
+                    availableEventList.Remove(node.AvailableDialog);
                 }
             }
         }
