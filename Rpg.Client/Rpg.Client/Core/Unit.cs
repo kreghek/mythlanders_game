@@ -13,7 +13,7 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
             Level = combatLevel;
 
-            InitStats(unitScheme, combatLevel - 1);
+            InitStats(unitScheme);
         }
 
         public int Hp { get; set; }
@@ -24,7 +24,34 @@ namespace Rpg.Client.Core
 
         public int Level { get; set; }
 
-        public int LevelupXp => 100 + Level * 100;
+        public int EquipmentLevel { get; set; }
+
+        public int EquipmentItems { get; private set; }
+
+        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+
+        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
+
+        public bool GainEquipmentItem(int amount)
+        {
+            var items = EquipmentItems;
+            var level = EquipmentLevel;
+            var equipmentLevelup = EquipmentLevelup;
+            var equipmentRemains = this.EquipmentRemains;
+            var wasLevelUp = GainCounterInner(amount, ref items, ref level, ref equipmentLevelup, ref equipmentRemains);
+            EquipmentItems = items;
+            EquipmentLevel = level;
+
+            if (wasLevelUp)
+            {
+                InitStats(UnitScheme);
+            }
+
+            return wasLevelUp;
+        }
+
+        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
+
         public int MaxHp { get; set; }
 
         public int Power { get; set; }
@@ -50,6 +77,24 @@ namespace Rpg.Client.Core
         /// <returns>Returns true is level up.</returns>
         public bool GainXp(int amount)
         {
+            var Xp = this.Xp;
+            var Level = this.Level;
+            var LevelupXp = this.LevelupXp;
+            var XpRemains = this.XpRemains;
+            var wasLevelUp = GainCounterInner(amount, ref Xp, ref Level, ref LevelupXp, ref XpRemains);
+            this.Xp = Xp;
+            this.Level = Level;
+
+            if (wasLevelUp)
+            {
+                InitStats(UnitScheme);
+            }
+
+            return wasLevelUp;
+        }
+
+        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp, ref int XpRemains)
+        {
             var currentXpCounter = amount;
             var wasLevelup = false;
 
@@ -64,8 +109,6 @@ namespace Rpg.Client.Core
                 {
                     Level++;
                     Xp = 0;
-
-                    InitStats(UnitScheme, Level - 1);
 
                     wasLevelup = true;
                 }
@@ -90,7 +133,7 @@ namespace Rpg.Client.Core
             HealTaken?.Invoke(this, heal);
         }
 
-        private void InitStats(UnitScheme unitScheme, int combatLevel)
+        private void InitStats(UnitScheme unitScheme)
         {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
             Hp = MaxHp;
@@ -99,15 +142,6 @@ namespace Rpg.Client.Core
             Power = unitScheme.Power + PowerIncrease * Level;
 
             Skills = unitScheme.Skills;
-            //    .Select(x => new CombatSkill
-            //{
-            //    Sid = x.Sid,
-            //    DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
-            //    DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
-            //    TargetType = x.TargetType,
-            //    Scope = x.Scope,
-            //    Range = x.Range
-            //}).ToArray();
         }
 
         public event EventHandler<int>? DamageTaken;

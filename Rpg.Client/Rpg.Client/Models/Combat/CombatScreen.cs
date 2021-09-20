@@ -34,7 +34,6 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
-        private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -74,8 +73,6 @@ namespace Rpg.Client.Models.Combat
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<AnimationManager>();
-
-            _dice = game.Services.GetService<IDice>();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -92,13 +89,13 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.UnitChanged += Combat_UnitChanged;
-            _combat.UnitReadyToControl += _combat_UnitReadyToControl;
+            _combat.UnitReadyToControl += Combat_UnitReadyToControl;
             _combat.UnitEntered += Combat_UnitEntered;
             _combat.UnitDied += Combat_UnitDied;
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
             _combat.UnitHadDamage += Combat_UnitHadDamage;
-            _combat.UnitPassed += _combat_UnitPassed;
+            _combat.UnitPassed += Combat_UnitPassed;
             _combat.Initialize();
             _combat.Update();
         }
@@ -137,12 +134,12 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void _combat_UnitPassed(object? sender, CombatUnit e)
+        private void Combat_UnitPassed(object? sender, CombatUnit e)
         {
             AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
         }
 
-        private void _combat_UnitReadyToControl(object? sender, CombatUnit e)
+        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled)
             {
@@ -208,6 +205,7 @@ namespace Rpg.Client.Models.Combat
                 {
                     var xpItems = HandleGainXp(completedCombats).ToArray();
                     ApplyXp(xpItems);
+                    GainEquipmentItems(_globeNodeGameObject.GlobeNode, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
@@ -232,6 +230,43 @@ namespace Rpg.Client.Models.Combat
             _combatResultModal.Show();
 
             _combatResultModal.Closed += CombatResultModal_Closed;
+        }
+
+        private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
+        {
+            var equipmentItemType = globeNode.EquipmentItem;
+
+            var targetUnitScheme = GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
+            var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            if (targetUnit is null)
+            {
+                targetUnit = player.Pool.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            }
+
+            if (targetUnit is not null)
+            {
+                targetUnit.GainEquipmentItem(1);
+            }
+        }
+
+        private static UnitScheme? GetPlayerPersonSchemeByEquipmentType(EquipmentItemType? equipmentItemType)
+        {
+            if (equipmentItemType is null)
+            {
+                return null;
+            }
+
+            switch (equipmentItemType)
+            {
+                case EquipmentItemType.Warrior: return UnitSchemeCatalog.SwordmanHero;
+                case EquipmentItemType.Archer: return UnitSchemeCatalog.ArcherHero;
+                case EquipmentItemType.Herbalist: return UnitSchemeCatalog.HerbalistHero;
+                case EquipmentItemType.Priest: return UnitSchemeCatalog.PriestHero;
+                case EquipmentItemType.Undefined:
+                default:
+                    Debug.Fail($"Unknown resource type {equipmentItemType}.");
+                    return null;
+            }
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
