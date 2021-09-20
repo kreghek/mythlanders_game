@@ -33,6 +33,11 @@ namespace Rpg.Client.Core.Effects
             IsImposed = false;
             EffectProsessor.Impose(DispelRules, Target, null);
             Dispelled?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
+            AfterDispel();
+        }
+
+        protected virtual void AfterDispel()
+        {
         }
 
         /// <summary>

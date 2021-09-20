@@ -1,26 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
+using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
     internal class Unit
     {
+        private readonly IList<IUnitModifier> _unitModifiers;
+
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
+            _unitModifiers = new List<IUnitModifier>();
+
             UnitScheme = unitScheme;
             Level = combatLevel;
 
             InitStats(unitScheme);
+            RestoreHP();
         }
 
         public int EquipmentItems { get; private set; }
 
         public int EquipmentLevel { get; set; }
 
+        internal void RemoveModifier(PowerUpModifier modifier)
+        {
+            _unitModifiers.Remove(modifier);
+            InitStats(UnitScheme);
+        }
+
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+
+        internal void AddModifier(PowerUpModifier modifier)
+        {
+            if (!_unitModifiers.Contains(modifier))
+            {
+                _unitModifiers.Add(modifier);
+            }
+
+            InitStats(UnitScheme);
+        }
 
         public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
 
@@ -137,7 +158,6 @@ namespace Rpg.Client.Core
         private void InitStats(UnitScheme unitScheme)
         {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
-            Hp = MaxHp;
 
             PowerIncrease = unitScheme.PowerPerLevel;
 
@@ -145,13 +165,35 @@ namespace Rpg.Client.Core
             {
                 Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
                     MidpointRounding.AwayFromZero);
+                
+                ApplyModifiers();
             }
             else
             {
                 Power = unitScheme.Power + PowerIncrease * Level;
+
+                ApplyModifiers();
             }
 
             Skills = unitScheme.Skills;
+        }
+
+        private void ApplyModifiers()
+        {
+            foreach (var modifier in _unitModifiers)
+            {
+                switch (modifier.Type)
+                {
+                    case ModifierType.Power:
+                        Power = (int)Math.Round(Power * 1.1f, MidpointRounding.ToEven);
+                        break;
+                }
+            }
+        }
+
+        private void RestoreHP()
+        {
+            Hp = MaxHp;
         }
 
         public event EventHandler<int>? DamageTaken;

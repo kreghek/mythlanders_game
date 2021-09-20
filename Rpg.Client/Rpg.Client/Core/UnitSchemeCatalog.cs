@@ -40,7 +40,7 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 7,
-            Name = "Соколинный глаз", // Hawkeye
+            Name = "Сокол", // Hawkeye
             Power = 11,
             PowerPerLevel = 1,
             Skills = new SkillBase[]
@@ -61,6 +61,22 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new MassStunSkill()
+            }
+        };
+
+        public static UnitScheme MissionaryHero = new()
+        {
+            Hp = 50,
+            HpPerLevel = 5,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = "Тао Чан",
+            Skills = new SkillBase[]
+            {
+                new DopeHerbSkill(),
+                new PowerUpSkill(),
+                new HealSkill()
             }
         };
 

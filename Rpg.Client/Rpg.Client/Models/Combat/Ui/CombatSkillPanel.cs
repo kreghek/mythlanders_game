@@ -120,7 +120,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
             var iconIndexNullable = GetIconIndex(sid);
 
-            Debug.Assert(iconIndexNullable is not null, "Don't forget add combat power in GetIconIndex");
+            Debug.Assert(iconIndexNullable is not null, $"Don't forget add combat power in {nameof(GetIconIndex)}");
 
             var iconIndex = iconIndexNullable is not null ? iconIndexNullable.Value : 0;
 
