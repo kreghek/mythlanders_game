@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -20,6 +21,8 @@ namespace Rpg.Client.Models.Combat.Ui
         public CombatSkillPanel(IUiContentStorage uiContentStorage)
         {
             _buttons = new List<IconButton>();
+            _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
+
             _uiContentStorage = uiContentStorage;
 
             IsEnabled = true;
@@ -73,7 +76,19 @@ namespace Rpg.Client.Models.Combat.Ui
                 button.Rect = GetButtonRectangle(graphicsDevice, buttonWidth, buttonIndex);
                 button.Draw(spriteBatch);
             }
+
+            if (_hoverButton is not null)
+            {
+                var combatPower = _buttonCombatPowerDict[_hoverButton];
+
+                var hintPosition = _hoverButton.Rect.Location.ToVector2() - new Vector2(100, 105);
+                var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(100, 100));
+                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, hintRectangle.Location.ToVector2() + new Vector2(0, 5), Color.Black);
+            }
         }
+
+        private ButtonBase? _hoverButton;
 
         internal void Update()
         {
@@ -82,9 +97,18 @@ namespace Rpg.Client.Models.Combat.Ui
                 return;
             }
 
+            var mouse = Mouse.GetState();
+            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+
+            _hoverButton = null;
             foreach (var button in _buttons)
             {
                 button.Update();
+
+                if (mouseRect.Intersects(button.Rect))
+                {
+                    _hoverButton = button;
+                }
             }
         }
 
@@ -109,6 +133,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Dope Herb" => 7,
                 "Mass Stun" => 7,
                 "Mass Heal" => 8,
+                "Power Up" => 1,
                 _ => null
             };
         }
@@ -134,6 +159,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private void RecreateButtons()
         {
             _buttons.Clear();
+            _buttonCombatPowerDict.Clear();
             SelectedCard = null;
 
             if (_unit is null)
@@ -154,13 +180,25 @@ namespace Rpg.Client.Models.Combat.Ui
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
                 var button = new IconButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty);
                 _buttons.Add(button);
-                button.OnClick += (s, e) =>
-                {
-                    SelectedCard = card;
-                };
+                _buttonCombatPowerDict[button] = card;
+                button.OnClick += CombatPowerButton_OnClick;
             }
         }
 
+        private void CombatPowerButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                Debug.Fail("Sender mustn't be null.");
+            }
+
+            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
+            SelectedCard = combatPowerCard;
+
+        }
+
         public event EventHandler<CombatSkillCard?>? CardSelected;
+
+        private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
     }
 }
