@@ -265,7 +265,7 @@ namespace Rpg.Client.Models.Biome
             {
                 var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x=>x.UnitScheme == targetUnitScheme);
+                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
                 if (playerUnit is not null)
                 {
