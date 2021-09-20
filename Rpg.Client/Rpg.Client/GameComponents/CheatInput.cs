@@ -99,6 +99,75 @@ namespace Rpg.Client.GameComponents
             return oldKeyboard.IsKeyDown(keys) && keyboard.IsKeyUp(keys);
         }
 
+        private static SystemEventMarker GetSystemMarker(string unitSchemeSid)
+        {
+            return unitSchemeSid switch
+            {
+                "archer" => SystemEventMarker.MeetArcher,
+                "herbalist" => SystemEventMarker.MeetHerbalist,
+                "priest" => SystemEventMarker.MeetPriest,
+                _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
+            };
+        }
+
+        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid)
+        {
+            return unitSchemeSid switch
+            {
+                "warrior" => UnitSchemeCatalog.SwordmanHero,
+                "archer" => UnitSchemeCatalog.ArcherHero,
+                "herbalist" => UnitSchemeCatalog.HerbalistHero,
+                "priest" => UnitSchemeCatalog.PriestHero,
+                _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
+            };
+        }
+
+        private void HandleAddUnit(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var unitSchemeSid = args[0];
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+
+            var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
+            globe.Player.Pool.Units = poolUnitList;
+
+            const int DEFAULT_LEVEL = 1;
+            var unit = new Unit(unitScheme, DEFAULT_LEVEL)
+            {
+                IsPlayerControlled = true
+            };
+
+            poolUnitList.Add(unit);
+
+            // Events
+            var targetSystemMarker = GetSystemMarker(unitSchemeSid);
+            var characterEvent = EventCatalog.Dialogs.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
+            if (characterEvent is not null)
+            {
+                // Simulate the event resolving.
+                characterEvent.Counter = 1;
+            }
+        }
+
+        private void HandleGainXp(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
+            playerUnitList.AddRange(globe.Player.Group.Units);
+
+            var unitSchemeSid = args[0];
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+
+            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var xpAmount = int.Parse(args[1]);
+
+            targetUnit.GainXp(xpAmount);
+        }
+
         /// <summary>
         /// Tries to convert keyboard input to characters and prevents repeatedly returning the
         /// same character if a key was pressed last frame, but not yet unpressed this frame.
@@ -241,75 +310,6 @@ namespace Rpg.Client.GameComponents
             }
 
             return false;
-        }
-
-        private void HandleGainXp(string[] args)
-        {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
-            var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
-
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
-            var xpAmount = int.Parse(args[1]);
-
-            targetUnit.GainXp(xpAmount);
-        }
-
-        private void HandleAddUnit(string[] args)
-        {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
-
-            var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
-            globe.Player.Pool.Units = poolUnitList;
-
-            const int DEFAULT_LEVEL = 1;
-            var unit = new Unit(unitScheme, DEFAULT_LEVEL)
-            {
-                IsPlayerControlled = true
-            };
-
-            poolUnitList.Add(unit);
-
-            // Events
-            var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-            var characterEvent = EventCatalog.Dialogs.SingleOrDefault(x=>x.SystemMarker == targetSystemMarker);
-            if (characterEvent is not null)
-            {
-                // Simulate the event resolving.
-                characterEvent.Counter = 1;
-            }
-        }
-
-        private static SystemEventMarker GetSystemMarker(string unitSchemeSid)
-        {
-            return unitSchemeSid switch
-            {
-                "archer" => SystemEventMarker.MeetArcher,
-                "herbalist" => SystemEventMarker.MeetHerbalist,
-                "priest" => SystemEventMarker.MeetPriest,
-                _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}"),
-            };
-        }
-
-        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid)
-        {
-            return unitSchemeSid switch
-            {
-                "warrior" => UnitSchemeCatalog.SwordmanHero,
-                "archer" => UnitSchemeCatalog.ArcherHero,
-                "herbalist" => UnitSchemeCatalog.HerbalistHero,
-                "priest" => UnitSchemeCatalog.PriestHero,
-                _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}"),
-            };
         }
     }
 }

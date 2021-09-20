@@ -207,9 +207,9 @@ namespace Rpg.Client.Core
         /// <summary>
         /// Goal:
         /// Do not pick used event when there are unused event in the catalog.
-        /// 
         /// Algorithm:
-        /// 1. We know the counters of all events in the catalog. So calc min and max counter to split all the event into ranked groups.
+        /// 1. We know the counters of all events in the catalog. So calc min and max counter to split all the event into ranked
+        /// groups.
         /// 2. Next start with a group with min rank. And select random event from this group.
         /// 3. We take next group when we can't take any event from current group.
         /// </summary>
