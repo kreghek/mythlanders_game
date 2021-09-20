@@ -107,6 +107,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Heal" => 6,
                 "Periodic Heal" => 6,
                 "Dope Herb" => 7,
+                "Mass Stun" => 7,
                 "Mass Heal" => 8,
                 _ => null
             };

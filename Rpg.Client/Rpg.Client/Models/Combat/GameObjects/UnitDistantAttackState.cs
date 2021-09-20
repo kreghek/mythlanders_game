@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
@@ -11,7 +11,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal class UnitDistantAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
-        private readonly UnitGraphics _graphics;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
@@ -19,15 +18,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, Action attackInteraction,
-            BulletGameObject? bullet, IList<BulletGameObject> bulletList)
+            BulletGameObject? bullet, IList<BulletGameObject> bulletList, SoundEffectInstance hitSound)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new DistantHitState(graphics, attackInteraction, bullet, bulletList, blocker)
+                new DistantHitState(graphics, attackInteraction, bullet, bulletList, blocker, hitSound)
             };
-            _graphics = graphics;
             _blocker = blocker;
         }
 

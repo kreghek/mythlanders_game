@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -12,6 +13,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
+        private readonly SoundEffectInstance? _hitSound;
         private readonly Action _attackInteraction;
         private readonly BulletGameObject _bulletGameObject;
         private readonly IList<BulletGameObject> _bulletList;
@@ -31,10 +33,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker) :
+            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker, Microsoft.Xna.Framework.Audio.SoundEffectInstance? hitSound) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
             _animationBlocker = animationBlocker;
+            _hitSound = hitSound;
         }
 
         public bool CanBeReplaced { get; }
@@ -59,9 +62,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (_counter > DURATION)
             {
-                //if (!IsComplete)
-                //    _attackInteraction?.Invoke();
-
                 IsComplete = true;
 
                 if (_animationBlocker is not null)
@@ -79,6 +79,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     }
 
                     _interactionExecuted = true;
+
+                    if (_hitSound is not null)
+                    {
+                        _hitSound.Play();
+                    }
                 }
             }
         }
