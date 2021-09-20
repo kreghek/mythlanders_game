@@ -4,18 +4,11 @@ namespace Rpg.Client.Core.Effects
 {
     internal sealed class PowerUpEffect : PeriodicEffectBase
     {
-        private PowerUpModifier _modifier;
+        private readonly PowerUpModifier _modifier;
 
         public PowerUpEffect()
         {
             _modifier = new PowerUpModifier();
-        }
-
-        protected override void AfterImpose()
-        {
-            base.AfterImpose();
-
-            Target.Unit.AddModifier(_modifier);
         }
 
         protected override void AfterDispel()
@@ -23,6 +16,13 @@ namespace Rpg.Client.Core.Effects
             base.AfterDispel();
 
             Target.Unit.RemoveModifier(_modifier);
+        }
+
+        protected override void AfterImpose()
+        {
+            base.AfterImpose();
+
+            Target.Unit.AddModifier(_modifier);
         }
     }
 }

@@ -115,51 +115,6 @@ namespace Rpg.Client.Core
             return dialog;
         }
 
-        private static Event CreateMeetPriestDialog()
-        {
-            var dialogNode1 = new EventNode
-            {
-                Text = "Вы встречаете путника. Это египетский Жрец."
-            };
-
-            var dialogNode2 = new EventNode
-            {
-                Text = "Жрец присоединился к вам."
-            };
-
-            dialogNode1.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "Пригласить в группу.",
-                    Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero)
-                }
-            };
-
-            dialogNode2.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "В бой!",
-                    IsEnd = true
-                }
-            };
-
-            var dialog = new Event
-            {
-                Nodes = new[]
-                {
-                    dialogNode1,
-                    dialogNode2
-                },
-                StartNode = dialogNode1,
-                IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetPriest
-            };
-            return dialog;
-        }
-
         private static Event CreateMeetMissionaryDialog()
         {
             var dialogNode1 = new EventNode
@@ -201,6 +156,51 @@ namespace Rpg.Client.Core
                 StartNode = dialogNode1,
                 IsUnique = true,
                 SystemMarker = SystemEventMarker.MeetMissionary
+            };
+            return dialog;
+        }
+
+        private static Event CreateMeetPriestDialog()
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = "Вы встречаете путника. Это египетский Жрец."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Жрец присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetPriest
             };
             return dialog;
         }

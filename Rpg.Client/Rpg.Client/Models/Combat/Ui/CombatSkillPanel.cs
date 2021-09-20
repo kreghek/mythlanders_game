@@ -15,8 +15,11 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
+        private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
+
+        private ButtonBase? _hoverButton;
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
 
@@ -87,7 +90,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(100, 100));
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
                 var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition, Color.Black);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
+                    Color.Black);
 
                 var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
                 var skillRules = combatPower.Skill.Rules.ToArray();
@@ -101,29 +105,31 @@ namespace Rpg.Client.Models.Combat.Ui
 
                     if (effectToDisplay is AttackEffect attackEffect)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage} to {rule.Direction}", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage} to {rule.Direction}",
+                            rulePosition, Color.Black);
                     }
                     else if (effectToDisplay is HealEffect healEffect)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Heal: {healEffect.MinHeal} - {healEffect.MaxHeal}", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"Heal: {healEffect.MinHeal} - {healEffect.MaxHeal}", rulePosition, Color.Black);
                     }
                     else if (effectToDisplay is PeriodicHealEffect)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Heal over time", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Heal over time", rulePosition,
+                            Color.Black);
                     }
                     else if (effectToDisplay is DopeHerbEffect)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Stun", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
                     }
                     else if (effectToDisplay is PowerUpEffect)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Power up", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Power up", rulePosition, Color.Black);
                     }
                 }
             }
         }
-
-        private ButtonBase? _hoverButton;
 
         internal void Update()
         {
@@ -145,6 +151,17 @@ namespace Rpg.Client.Models.Combat.Ui
                     _hoverButton = button;
                 }
             }
+        }
+
+        private void CombatPowerButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                Debug.Fail("Sender mustn't be null.");
+            }
+
+            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
+            SelectedCard = combatPowerCard;
         }
 
         private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
@@ -220,20 +237,6 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private void CombatPowerButton_OnClick(object? sender, EventArgs e)
-        {
-            if (sender is null)
-            {
-                Debug.Fail("Sender mustn't be null.");
-            }
-
-            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
-            SelectedCard = combatPowerCard;
-
-        }
-
         public event EventHandler<CombatSkillCard?>? CardSelected;
-
-        private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
     }
 }
