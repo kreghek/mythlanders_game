@@ -267,11 +267,22 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var combatUnit = _unitQueue.First(x => x.Unit == unit);
-            _unitQueue.Remove(combatUnit);
+            var combatUnit = _unitQueue.FirstOrDefault(x => x.Unit == unit);
+            if (combatUnit is not null)
+            {
+                _unitQueue.Remove(combatUnit);
+            }
+            else
+            { 
+                // Means the combat unit has made his turn and has been removed from queue yet.
+            }
 
             unit.Dead -= Unit_Dead;
-            UnitDied?.Invoke(this, combatUnit);
+
+            if (combatUnit is not null)
+            {
+                UnitDied?.Invoke(this, combatUnit);
+            }
         }
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
