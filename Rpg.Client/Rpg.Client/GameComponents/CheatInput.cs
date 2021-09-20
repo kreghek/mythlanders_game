@@ -250,6 +250,26 @@ namespace Rpg.Client.GameComponents
             };
 
             list.Add(unit);
+
+            // Events
+            var targetSystemMarker = GetSystemMarker(unitSchemeSid);
+            var characterEvent = EventCatalog.Dialogs.SingleOrDefault(x=>x.SystemMarker == targetSystemMarker);
+            if (characterEvent is not null)
+            {
+                // Simulate the event resolving.
+                characterEvent.Counter = 1;
+            }
+        }
+
+        private SystemEventMarker GetSystemMarker(string unitSchemeSid)
+        {
+            return unitSchemeSid switch
+            {
+                "archer" => SystemEventMarker.MeetArcher,
+                "herbalist" => SystemEventMarker.MeetHerbalist,
+                "priest" => SystemEventMarker.MeetPriest,
+                _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}"),
+            };
         }
 
         private static UnitScheme GetUnitSchemeByString(string unitSchemeSid)
