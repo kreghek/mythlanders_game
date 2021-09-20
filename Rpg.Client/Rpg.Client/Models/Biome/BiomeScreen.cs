@@ -249,7 +249,8 @@ namespace Rpg.Client.Models.Biome
 
             var node = nodeGameObject;
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name.Replace('\n', ' '), toolTipPosition + new Vector2(5, 15),
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name.Replace('\n', ' '),
+                toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
             var dialogMarkerText = node.AvailableDialog is not null ? "(!)" : string.Empty;
@@ -265,7 +266,7 @@ namespace Rpg.Client.Models.Biome
             {
                 var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x=>x.UnitScheme == targetUnitScheme);
+                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
                 if (playerUnit is not null)
                 {
@@ -287,25 +288,6 @@ namespace Rpg.Client.Models.Biome
                     monsterIndex++;
                 }
             }
-        }
-
-        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
-
-            var rm = new ResourceManager(typeof(UiResource).FullName, typeof(UiResource).Assembly);
-
-            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
-
-            if (equipmentDisplayName is null)
-            {
-                return $"{equipmentType} equipment items";
-            }
-
-            return equipmentDisplayName;
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
@@ -412,6 +394,25 @@ namespace Rpg.Client.Models.Biome
                     Debug.Fail("Unknown size");
                     return string.Empty;
             }
+        }
+
+        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
+        {
+            if (equipmentType is null)
+            {
+                return null;
+            }
+
+            var rm = new ResourceManager(typeof(UiResource).FullName, typeof(UiResource).Assembly);
+
+            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
+
+            if (equipmentDisplayName is null)
+            {
+                return $"{equipmentType} equipment items";
+            }
+
+            return equipmentDisplayName;
         }
 
         private static bool IsNodeOnHover(GlobeNodeGameObject1 node, Rectangle mouseRect)

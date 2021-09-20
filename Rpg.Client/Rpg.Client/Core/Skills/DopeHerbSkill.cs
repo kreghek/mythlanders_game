@@ -13,10 +13,10 @@ namespace Rpg.Client.Core.Skills
             {
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
-                { 
+                {
                     var rawEffectValue = (double)u.Unit.Level / 5;
 
-                    var effect = new DopeHerbEffect 
+                    var effect = new DopeHerbEffect
                     {
                         Value = (int)Math.Ceiling(rawEffectValue)
                     };

@@ -134,29 +134,6 @@ namespace Rpg.Client.Models.Combat
             base.Update(gameTime);
         }
 
-        private void Combat_UnitPassed(object? sender, CombatUnit e)
-        {
-            AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
-        }
-
-        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-            {
-                return;
-            }
-
-            if (_combatSkillsPanel is null)
-            {
-                return;
-            }
-
-            _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = e;
-            var unitGameObject = GetUnitGameObject(e);
-            unitGameObject.IsActive = true;
-        }
-
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
         {
             if (sender is UnitGameObject unit)
@@ -232,23 +209,6 @@ namespace Rpg.Client.Models.Combat
             _combatResultModal.Closed += CombatResultModal_Closed;
         }
 
-        private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
-        {
-            var equipmentItemType = globeNode.EquipmentItem;
-
-            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
-            var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            if (targetUnit is null)
-            {
-                targetUnit = player.Pool.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            }
-
-            if (targetUnit is not null)
-            {
-                targetUnit.GainEquipmentItem(1);
-            }
-        }
-
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
             if (e.OldUnit != null)
@@ -282,6 +242,29 @@ namespace Rpg.Client.Models.Combat
             var unitGameObject = GetUnitGameObject(e);
 
             unitGameObject.AnimateWound();
+        }
+
+        private void Combat_UnitPassed(object? sender, CombatUnit e)
+        {
+            AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
+        }
+
+        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                return;
+            }
+
+            if (_combatSkillsPanel is null)
+            {
+                return;
+            }
+
+            _combatSkillsPanel.IsEnabled = true;
+            _combatSkillsPanel.Unit = e;
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.IsActive = true;
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -427,6 +410,23 @@ namespace Rpg.Client.Models.Combat
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
+            }
+        }
+
+        private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
+        {
+            var equipmentItemType = globeNode.EquipmentItem;
+
+            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
+            var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            if (targetUnit is null)
+            {
+                targetUnit = player.Pool.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            }
+
+            if (targetUnit is not null)
+            {
+                targetUnit.GainEquipmentItem(1);
             }
         }
 

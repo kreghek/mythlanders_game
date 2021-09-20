@@ -16,6 +16,14 @@ namespace Rpg.Client.Core
             InitStats(unitScheme);
         }
 
+        public int EquipmentItems { get; private set; }
+
+        public int EquipmentLevel { get; set; }
+
+        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+
+        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
+
         public int Hp { get; set; }
 
         public bool IsDead => Hp <= 0;
@@ -23,32 +31,6 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; set; }
 
         public int Level { get; set; }
-
-        public int EquipmentLevel { get; set; }
-
-        public int EquipmentItems { get; private set; }
-
-        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
-
-        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
-
-        public bool GainEquipmentItem(int amount)
-        {
-            var items = EquipmentItems;
-            var level = EquipmentLevel;
-            var equipmentLevelup = EquipmentLevelup;
-            var equipmentRemains = this.EquipmentRemains;
-            var wasLevelUp = GainCounterInner(amount, ref items, ref level, ref equipmentLevelup, ref equipmentRemains);
-            EquipmentItems = items;
-            EquipmentLevel = level;
-
-            if (wasLevelUp)
-            {
-                InitStats(UnitScheme);
-            }
-
-            return wasLevelUp;
-        }
 
         public int LevelupXp => (int)Math.Pow(2, Level) * 100;
 
@@ -70,6 +52,24 @@ namespace Rpg.Client.Core
         /// Amount of the expirience gained for killing this unit.
         /// </summary>
         public int XpReward => Level * 20;
+
+        public bool GainEquipmentItem(int amount)
+        {
+            var items = EquipmentItems;
+            var level = EquipmentLevel;
+            var equipmentLevelup = EquipmentLevelup;
+            var equipmentRemains = EquipmentRemains;
+            var wasLevelUp = GainCounterInner(amount, ref items, ref level, ref equipmentLevelup, ref equipmentRemains);
+            EquipmentItems = items;
+            EquipmentLevel = level;
+
+            if (wasLevelUp)
+            {
+                InitStats(UnitScheme);
+            }
+
+            return wasLevelUp;
+        }
 
         /// <summary>
         /// Increase XP.
@@ -93,7 +93,24 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp, ref int XpRemains)
+        public void TakeDamage(int damage)
+        {
+            Hp -= Math.Min(Hp, damage);
+            DamageTaken?.Invoke(this, damage);
+            if (Hp <= 0)
+            {
+                Dead?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public void TakeHeal(int heal)
+        {
+            Hp += Math.Min(MaxHp - Hp, heal);
+            HealTaken?.Invoke(this, heal);
+        }
+
+        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
+            ref int XpRemains)
         {
             var currentXpCounter = amount;
             var wasLevelup = false;
@@ -117,22 +134,6 @@ namespace Rpg.Client.Core
             return wasLevelup;
         }
 
-        public void TakeDamage(int damage)
-        {
-            Hp -= Math.Min(Hp, damage);
-            DamageTaken?.Invoke(this, damage);
-            if (Hp <= 0)
-            {
-                Dead?.Invoke(this, new EventArgs());
-            }
-        }
-
-        public void TakeHeal(int heal)
-        {
-            Hp += Math.Min(MaxHp - Hp, heal);
-            HealTaken?.Invoke(this, heal);
-        }
-
         private void InitStats(UnitScheme unitScheme)
         {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
@@ -142,7 +143,8 @@ namespace Rpg.Client.Core
 
             if (EquipmentLevel > 0)
             {
-                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f), MidpointRounding.AwayFromZero);
+                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
+                    MidpointRounding.AwayFromZero);
             }
             else
             {
