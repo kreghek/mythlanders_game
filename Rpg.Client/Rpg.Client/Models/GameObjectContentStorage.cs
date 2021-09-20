@@ -56,6 +56,7 @@ namespace Rpg.Client.Models
                 { "Mass Stun", contentManager.Load<SoundEffect>("Audio/GameObjects/EgyptMassStunEffect") },
                 { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
                 { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
+                { "Power Up", contentManager.Load<SoundEffect>("Audio/GameObjects/HealEffect") },
 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
             };
