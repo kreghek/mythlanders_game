@@ -54,14 +54,20 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
-                if (_currentUnit == value)
+                if (!IsCurrentStepCompleted)
                 {
                     UnitReadyToControl?.Invoke(this, _currentUnit);
+                }
+                else
+                {
+                    Update();
                 }
             }
         }
 
         public EffectProcessor EffectProcessor { get; }
+
+        public bool IsCurrentStepCompleted { get; set; }
 
         public GlobeNodeGameObject1 Node { get; }
 
@@ -97,12 +103,21 @@ namespace Rpg.Client.Core
         public void Pass()
         {
             UnitPassed?.Invoke(this, CurrentUnit);
-            Update();
+            CompleteStep();
         }
 
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            Action action = () => EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+            if (IsCurrentStepCompleted)
+            {
+                return;
+            }
+
+            Action action = () =>
+            {
+                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                CompleteStep();
+            };
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {
@@ -142,10 +157,17 @@ namespace Rpg.Client.Core
 
             UnitChanged += ActiveCombat_UnitChanged;
             UnitReadyToControl += ActiveCombat_UnitReadyToControl;
+
+            IsCurrentStepCompleted = true;
         }
 
         internal void Update()
         {
+            if (!IsCurrentStepCompleted)
+            {
+                return;
+            }
+
             if (Finished)
             {
                 var allMonstersAreDead = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
@@ -158,6 +180,8 @@ namespace Rpg.Client.Core
             {
                 StartRound();
             }
+
+            IsCurrentStepCompleted = false;
 
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
@@ -197,6 +221,11 @@ namespace Rpg.Client.Core
                     .Single();
 
             UseSkill(skill, targetPlayerObject);
+        }
+
+        private void CompleteStep()
+        {
+            IsCurrentStepCompleted = true;
         }
 
         private IDice GetDice()

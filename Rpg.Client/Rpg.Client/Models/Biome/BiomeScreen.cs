@@ -32,6 +32,8 @@ namespace Rpg.Client.Models.Biome
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
 
+        private GlobeNodeGameObject1? _hoverNodeGameObject;
+
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
@@ -102,8 +104,6 @@ namespace Rpg.Client.Models.Biome
             base.Draw(gameTime, spriteBatch);
         }
 
-        private GlobeNodeGameObject1? _hoverNodeGameObject;
-
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -156,8 +156,8 @@ namespace Rpg.Client.Models.Biome
                         {
                             _screenTransition = true;
                             _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                             _hoverNodeGameObject,
-                              _hoverNodeGameObject.Combat, _biome,
+                                _hoverNodeGameObject,
+                                _hoverNodeGameObject.Combat, _biome,
                                 Game.Services.GetService<IDice>());
 
                             if (_hoverNodeGameObject.AvailableDialog is not null)
@@ -242,48 +242,33 @@ namespace Rpg.Client.Models.Biome
         {
             var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
 
-            spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), new Rectangle(toolTipPosition.ToPoint(), new Point(100, 100)), Color.White);
+            spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
+                new Rectangle(toolTipPosition.ToPoint(), new Point(100, 100)), Color.White);
 
             var node = nodeGameObject;
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name, toolTipPosition + new Vector2(5, 15), Color.Black);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), node.Name, toolTipPosition + new Vector2(5, 15),
+                Color.Black);
 
             var dialogMarkerText = node.AvailableDialog is not null ? "(!)" : string.Empty;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText, toolTipPosition + new Vector2(5, 25), Color.Black);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
+                toolTipPosition + new Vector2(5, 25), Color.Black);
 
             var combatSequenceSizeText = GetCombatSequenceSizeText(node);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText, toolTipPosition + new Vector2(5, 35), Color.Black);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
+                toolTipPosition + new Vector2(5, 35), Color.Black);
 
             if (node.Combat is not null)
             {
                 var monsterIndex = 0;
                 foreach (var monster in node.Combat.EnemyGroup.Units)
                 {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{monster.UnitScheme.Name} ({monster.Level})",
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        $"{monster.UnitScheme.Name} ({monster.Level})",
                         toolTipPosition + new Vector2(5, 45 + monsterIndex * 10), Color.Black);
 
                     monsterIndex++;
                 }
-            }
-        }
-
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject1 node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return "Short";
-
-                case 3:
-                    return "Medium (+25% XP)";
-
-                case 5:
-                    return "Long (+50% XP)";
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return string.Empty;
             }
         }
 
@@ -371,6 +356,26 @@ namespace Rpg.Client.Models.Biome
                 },
                 _ => throw new InvalidOperationException($"Unknown biome type {type}.")
             };
+        }
+
+        private static string GetCombatSequenceSizeText(GlobeNodeGameObject1 node)
+        {
+            var count = node.GlobeNode.CombatSequence.Combats.Count;
+            switch (count)
+            {
+                case 1:
+                    return "Short";
+
+                case 3:
+                    return "Medium (+25% XP)";
+
+                case 5:
+                    return "Long (+50% XP)";
+
+                default:
+                    Debug.Fail("Unknown size");
+                    return string.Empty;
+            }
         }
 
         private static bool IsNodeOnHover(GlobeNodeGameObject1 node, Rectangle mouseRect)
