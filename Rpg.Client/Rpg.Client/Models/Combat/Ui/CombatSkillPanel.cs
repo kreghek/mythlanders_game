@@ -89,6 +89,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition, Color.Black);
 
+                var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
                 var skillRules = combatPower.Skill.Rules.ToArray();
                 for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
                 {
@@ -96,11 +97,27 @@ namespace Rpg.Client.Models.Combat.Ui
                     var effectCreator = rule.EffectCreator;
                     var effectToDisplay = effectCreator.CreateToDisplay(Unit);
 
-                    var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
+                    var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
+
                     if (effectToDisplay is AttackEffect attackEffect)
                     {
-                        var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage}", rulePosition, Color.Black);
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage} to {rule.Direction}", rulePosition, Color.Black);
+                    }
+                    else if (effectToDisplay is HealEffect healEffect)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Heal: {healEffect.MinHeal} - {healEffect.MaxHeal}", rulePosition, Color.Black);
+                    }
+                    else if (effectToDisplay is PeriodicHealEffect)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Heal over time", rulePosition, Color.Black);
+                    }
+                    else if (effectToDisplay is DopeHerbEffect)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Stun", rulePosition, Color.Black);
+                    }
+                    else if (effectToDisplay is PowerUpEffect)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Power up", rulePosition, Color.Black);
                     }
                 }
             }
