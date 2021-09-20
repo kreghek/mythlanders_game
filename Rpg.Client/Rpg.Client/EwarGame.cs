@@ -85,6 +85,9 @@ namespace Rpg.Client
 
             var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(versionDisplay);
+
+            var cheatInput = new CheatInput(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(cheatInput);
         }
 
         private void RegisterServices(ScreenManager screenManager)

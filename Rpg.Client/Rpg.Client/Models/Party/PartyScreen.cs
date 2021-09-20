@@ -48,7 +48,7 @@ namespace Rpg.Client.Models.Party
                 {
                     _selectedCharacter.UnitScheme.Name,
                     $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.XpToLevelup}"
+                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}"
                 };
 
                 if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))

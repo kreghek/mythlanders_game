@@ -517,7 +517,7 @@ namespace Rpg.Client.Models.Combat
                     StartXp = unit.Unit.Xp,
                     Unit = unit.Unit,
                     XpAmount = gainedXp,
-                    XpToLevelup = unit.Unit.XpToLevelup
+                    XpToLevelup = unit.Unit.LevelupXp
                 };
             }
         }

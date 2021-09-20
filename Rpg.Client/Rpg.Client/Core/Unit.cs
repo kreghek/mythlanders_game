@@ -34,9 +34,15 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
+        /// <summary>
+        /// Used only by monster units.
+        /// Amount of the expirience gained for killing this unit.
+        /// </summary>
         public int XpReward => Level * 20;
 
-        public int XpToLevelup => 100 + Level * 100;
+        public int LevelupXp => 100 + Level * 100;
+
+        public int XpRemains => LevelupXp - Xp;
 
         /// <summary>
         /// Increase XP.
@@ -44,20 +50,29 @@ namespace Rpg.Client.Core
         /// <returns>Returns true is level up.</returns>
         public bool GainXp(int amount)
         {
-            Xp += amount;
+            var currentXpCounter = amount;
+            var wasLevelup = false;
 
-            var xpToLevel = XpToLevelup;
-            if (Xp >= xpToLevel)
+            while (currentXpCounter > 0)
             {
-                Level++;
-                Xp -= xpToLevel;
+                var xpToNextLevel = Math.Min(currentXpCounter, XpRemains);
+                currentXpCounter -= xpToNextLevel;
 
-                InitStats(UnitScheme, Level - 1);
+                Xp += xpToNextLevel;
 
-                return true;
+                
+                if (Xp >= LevelupXp)
+                {
+                    Level++;
+                    Xp = 0;
+
+                    InitStats(UnitScheme, Level - 1);
+
+                    wasLevelup = true;
+                }
             }
 
-            return false;
+            return wasLevelup;
         }
 
         public void TakeDamage(int damage)
