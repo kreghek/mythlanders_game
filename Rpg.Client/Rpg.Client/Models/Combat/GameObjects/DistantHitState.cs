@@ -13,11 +13,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly SoundEffectInstance? _hitSound;
         private readonly Action _attackInteraction;
         private readonly BulletGameObject _bulletGameObject;
         private readonly IList<BulletGameObject> _bulletList;
         private readonly UnitGraphics _graphics;
+        private readonly SoundEffectInstance? _hitSound;
 
         private double _counter;
 
@@ -33,7 +33,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker, Microsoft.Xna.Framework.Audio.SoundEffectInstance? hitSound) :
+            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance? hitSound) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
             _animationBlocker = animationBlocker;
