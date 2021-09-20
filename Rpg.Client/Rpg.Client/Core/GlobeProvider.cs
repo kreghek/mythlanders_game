@@ -46,17 +46,6 @@ namespace Rpg.Client.Models
             Globe = globe;
         }
 
-        private static Unit[] CreateStartUnits()
-        {
-            return new[]
-            {
-                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                {
-                    IsPlayerControlled = true
-                }
-            };
-        }
-
         public void LoadGlobe()
         {
             var binPath = AppContext.BaseDirectory;
@@ -82,6 +71,17 @@ namespace Rpg.Client.Models
             var binPath = AppContext.BaseDirectory;
             var saveFilePath = Path.Combine(binPath, "globe.json");
             File.WriteAllText(saveFilePath, serializedGlobe);
+        }
+
+        private static Unit[] CreateStartUnits()
+        {
+            return new[]
+            {
+                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                {
+                    IsPlayerControlled = true
+                }
+            };
         }
     }
 }

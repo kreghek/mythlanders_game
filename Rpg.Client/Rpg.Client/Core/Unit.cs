@@ -23,6 +23,8 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; set; }
 
         public int Level { get; set; }
+
+        public int LevelupXp => 100 + Level * 100;
         public int MaxHp { get; set; }
 
         public int Power { get; set; }
@@ -34,15 +36,13 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
+        public int XpRemains => LevelupXp - Xp;
+
         /// <summary>
         /// Used only by monster units.
         /// Amount of the expirience gained for killing this unit.
         /// </summary>
         public int XpReward => Level * 20;
-
-        public int LevelupXp => 100 + Level * 100;
-
-        public int XpRemains => LevelupXp - Xp;
 
         /// <summary>
         /// Increase XP.
@@ -59,7 +59,6 @@ namespace Rpg.Client.Core
                 currentXpCounter -= xpToNextLevel;
 
                 Xp += xpToNextLevel;
-
 
                 if (Xp >= LevelupXp)
                 {
