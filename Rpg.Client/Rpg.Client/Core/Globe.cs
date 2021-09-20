@@ -334,7 +334,7 @@ namespace Rpg.Client.Core
                             4 => EquipmentItemType.Archer,
                             5 => EquipmentItemType.Herbalist,
 
-                            _ => null,
+                            _ => null
                         };
                     }
 
@@ -344,14 +344,13 @@ namespace Rpg.Client.Core
                         {
                             0 => EquipmentItemType.Priest,
                             3 => EquipmentItemType.Priest,
-                            _ => null,
+                            _ => null
                         };
                     }
 
                 default:
                     return null;
             }
-
         }
 
         private static int GetUnitLevel(int combatLevel)

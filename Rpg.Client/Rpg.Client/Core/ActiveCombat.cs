@@ -272,10 +272,6 @@ namespace Rpg.Client.Core
             {
                 _unitQueue.Remove(combatUnit);
             }
-            else
-            {
-                // Means the combat unit has made his turn and has been removed from queue yet.
-            }
 
             unit.Dead -= Unit_Dead;
 

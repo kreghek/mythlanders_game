@@ -50,7 +50,7 @@ namespace Rpg.Client.Models.Party
                     $"Level: {_selectedCharacter.Level}",
                     $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
                     $"Equipment: {_selectedCharacter.EquipmentLevel}",
-                    $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}",
+                    $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
                 };
 
                 if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
