@@ -289,7 +289,7 @@ namespace Rpg.Client.GameComponents
             }
         }
 
-        private SystemEventMarker GetSystemMarker(string unitSchemeSid)
+        private static SystemEventMarker GetSystemMarker(string unitSchemeSid)
         {
             return unitSchemeSid switch
             {
