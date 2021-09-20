@@ -139,7 +139,15 @@ namespace Rpg.Client.Core
             Hp = MaxHp;
 
             PowerIncrease = unitScheme.PowerPerLevel;
-            Power = unitScheme.Power + PowerIncrease * Level;
+
+            if (EquipmentLevel > 0)
+            {
+                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f), MidpointRounding.AwayFromZero);
+            }
+            else
+            {
+                Power = unitScheme.Power + PowerIncrease * Level;
+            }
 
             Skills = unitScheme.Skills;
         }
