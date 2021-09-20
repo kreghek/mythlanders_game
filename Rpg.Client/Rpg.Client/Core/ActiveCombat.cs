@@ -30,8 +30,6 @@ namespace Rpg.Client.Core
             EffectProcessor = new EffectProcessor(this, _dice);
         }
 
-        public bool IsCurrentStepCompleted { get; set; }
-
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
@@ -68,6 +66,8 @@ namespace Rpg.Client.Core
         }
 
         public EffectProcessor EffectProcessor { get; }
+
+        public bool IsCurrentStepCompleted { get; set; }
 
         public GlobeNodeGameObject1 Node { get; }
 
@@ -106,15 +106,12 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
-        private void CompleteStep()
-        {
-            IsCurrentStepCompleted = true;
-        }
-
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
             if (IsCurrentStepCompleted)
+            {
                 return;
+            }
 
             Action action = () =>
             {
@@ -167,7 +164,9 @@ namespace Rpg.Client.Core
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
+            {
                 return;
+            }
 
             if (Finished)
             {
@@ -222,6 +221,11 @@ namespace Rpg.Client.Core
                     .Single();
 
             UseSkill(skill, targetPlayerObject);
+        }
+
+        private void CompleteStep()
+        {
+            IsCurrentStepCompleted = true;
         }
 
         private IDice GetDice()
