@@ -43,5 +43,7 @@ namespace Rpg.Client.Core
             Group.Units = partyList;
             Pool.Units = poolList;
         }
+
+        public IEnumerable<Unit> GetAll => Group.Units.Concat(Pool.Units);
     }
 }

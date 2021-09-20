@@ -225,18 +225,9 @@ namespace Rpg.Client.Core
                 if (roll > 5)
                 {
                     var minCounter = availableEvents.Min(x => x.Counter);
-                    var maxCounter = availableEvents.Max(x => x.Counter);
-
-                    for (var rank = minCounter; rank <= maxCounter; rank++)
-                    {
-                        var currentRankEventList = availableEventList.Where(x => x.Counter == rank).ToArray();
-
-                        if (currentRankEventList.Any())
-                        {
-                            node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
-                            availableEventList.Remove(node.AvailableDialog);
-                        }
-                    }
+                    var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
+                    node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
+                    availableEventList.Remove(node.AvailableDialog);
                 }
             }
         }
@@ -284,7 +275,8 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(name: biomNames[BiomeType.Slavic][x])
                         {
-                            Index = x
+                            Index = x,
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -295,7 +287,8 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.China][x])
                         {
-                            Index = x
+                            Index = x,
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.China)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Egypt
@@ -305,7 +298,8 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.Egypt][x])
                         {
-                            Index = x
+                            Index = x,
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Egypt)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Greek
@@ -315,12 +309,49 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.Greek][x])
                         {
-                            Index = x
+                            Index = x,
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Greek)
                         }
                     ).ToArray(),
                     IsFinal = true
                 }
             };
+        }
+
+        private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
+        {
+            switch (biomType)
+            {
+                case BiomeType.Slavic:
+                    {
+                        return nodeIndex switch
+                        {
+                            // TODO Rewrite to pattern matching with range
+                            0 => EquipmentItemType.Warrior,
+                            1 => EquipmentItemType.Archer,
+                            2 => EquipmentItemType.Herbalist,
+                            3 => EquipmentItemType.Warrior,
+                            4 => EquipmentItemType.Archer,
+                            5 => EquipmentItemType.Herbalist,
+
+                            _ => null,
+                        };
+                    }
+
+                case BiomeType.Egypt:
+                    {
+                        return nodeIndex switch
+                        {
+                            0 => EquipmentItemType.Priest,
+                            3 => EquipmentItemType.Priest,
+                            _ => null,
+                        };
+                    }
+
+                default:
+                    return null;
+            }
+
         }
 
         private static int GetUnitLevel(int combatLevel)

@@ -79,7 +79,8 @@ namespace Rpg.Client.Models
             {
                 new Unit(UnitSchemeCatalog.SwordmanHero, 1)
                 {
-                    IsPlayerControlled = true
+                    IsPlayerControlled = true,
+                    EquipmentLevel = 1
                 }
             };
         }

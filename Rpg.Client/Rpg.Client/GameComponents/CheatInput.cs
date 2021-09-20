@@ -136,7 +136,8 @@ namespace Rpg.Client.GameComponents
             const int DEFAULT_LEVEL = 1;
             var unit = new Unit(unitScheme, DEFAULT_LEVEL)
             {
-                IsPlayerControlled = true
+                IsPlayerControlled = true,
+                EquipmentLevel = 1
             };
 
             poolUnitList.Add(unit);
