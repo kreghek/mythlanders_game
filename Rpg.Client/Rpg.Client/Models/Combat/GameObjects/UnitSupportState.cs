@@ -15,7 +15,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private int _subStateIndex;
 
         public UnitSupportState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action healInteraction, Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+            AnimationBlocker blocker, Action healInteraction,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
         {
             _graphics = graphics;
             _blocker = blocker;
