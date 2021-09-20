@@ -6,7 +6,17 @@ namespace Rpg.Client.Core
     {
         private static readonly Event[] _dialogs =
         {
-            CreateTestDialog(),
+            CreateTestDialog(1),
+            CreateTestDialog(2),
+            CreateTestDialog(3),
+            CreateTestDialog(4),
+            CreateTestDialog(5),
+            CreateTestDialog(6),
+            CreateTestDialog(7),
+            CreateTestDialog(8),
+            CreateTestDialog(9),
+            CreateTestDialog(10),
+
             CreateMeetArcherDialog(),
             CreateMeetHerbalistDialog(),
             CreateMeetPriestDialog()
@@ -149,11 +159,11 @@ namespace Rpg.Client.Core
             return dialog;
         }
 
-        private static Event CreateTestDialog()
+        private static Event CreateTestDialog(int id)
         {
             var dialogNode1 = new EventNode
             {
-                Text = "Описание ситуации."
+                Text = $"Описание ситуации {id}."
             };
 
             var dialogNode2 = new EventNode

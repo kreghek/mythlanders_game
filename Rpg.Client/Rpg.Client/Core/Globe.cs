@@ -199,14 +199,45 @@ namespace Rpg.Client.Core
             }
 
             // create dialogs of nodes with combat
-            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.CombatSequence is not null).ToList();
-            var availableDialogs = EventCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
-                                               .OrderBy(x => x.Counter).ToArray();
-            foreach (var availableDialog in availableDialogs)
+            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.CombatSequence is not null).ToArray();
+
+            AssignEventToNodesWithCombat(dice, nodesWithCombat);
+        }
+
+        /// <summary>
+        /// Goal:
+        /// Do not pick used event when there are unused event in the catalog.
+        /// 
+        /// Algorithm:
+        /// 1. We know the counters of all events in the catalog. So calc min and max counter to split all the event into ranked groups.
+        /// 2. Next start with a group with min rank. And select random event from this group.
+        /// 3. We take next group when we can't take any event from current group.
+        /// </summary>
+        /// <param name="dice"></param>
+        /// <param name="nodesWithCombat"></param>
+        private static void AssignEventToNodesWithCombat(IDice dice, GlobeNode[] nodesWithCombat)
+        {
+            var availableEvents = EventCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique));
+            foreach (var node in nodesWithCombat)
             {
-                var node = dice.RollFromList(nodesWithCombat, 1).Single();
-                node.AvailableDialog = availableDialog;
-                nodesWithCombat.Remove(node);
+                var availableEventList = availableEvents.ToList();
+                var roll = dice.Roll(1, 10);
+                if (roll > 5)
+                {
+                    var minCounter = availableEvents.Min(x => x.Counter);
+                    var maxCounter = availableEvents.Max(x => x.Counter);
+
+                    for (var rank = minCounter; rank <= maxCounter; rank++)
+                    {
+                        var currentRankEventList = availableEventList.Where(x => x.Counter == rank).ToArray();
+
+                        if (currentRankEventList.Any())
+                        {
+                            node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
+                            availableEventList.Remove(node.AvailableDialog);
+                        }
+                    }
+                }
             }
         }
 
