@@ -30,6 +30,8 @@ namespace Rpg.Client.Core
             EffectProcessor = new EffectProcessor(this, _dice);
         }
 
+        public bool IsCurrentStepCompleted { get; set; }
+
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
@@ -54,9 +56,13 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
-                if (_currentUnit == value)
+                if (!IsCurrentStepCompleted)
                 {
                     UnitReadyToControl?.Invoke(this, _currentUnit);
+                }
+                else
+                {
+                    Update();
                 }
             }
         }
@@ -97,12 +103,24 @@ namespace Rpg.Client.Core
         public void Pass()
         {
             UnitPassed?.Invoke(this, CurrentUnit);
-            Update();
+            CompleteStep();
+        }
+
+        private void CompleteStep()
+        {
+            IsCurrentStepCompleted = true;
         }
 
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
-            Action action = () => EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+            if (IsCurrentStepCompleted)
+                return;
+
+            Action action = () =>
+            {
+                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                CompleteStep();
+            };
 
             ActionGenerated?.Invoke(this, new ActionEventArgs
             {
@@ -142,10 +160,15 @@ namespace Rpg.Client.Core
 
             UnitChanged += ActiveCombat_UnitChanged;
             UnitReadyToControl += ActiveCombat_UnitReadyToControl;
+
+            IsCurrentStepCompleted = true;
         }
 
         internal void Update()
         {
+            if (!IsCurrentStepCompleted)
+                return;
+
             if (Finished)
             {
                 var allMonstersAreDead = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
@@ -158,6 +181,8 @@ namespace Rpg.Client.Core
             {
                 StartRound();
             }
+
+            IsCurrentStepCompleted = false;
 
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
