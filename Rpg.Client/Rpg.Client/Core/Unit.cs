@@ -34,6 +34,10 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
+        /// <summary>
+        /// Used only by monster units.
+        /// Amount of the expirience gained for killing this unit.
+        /// </summary>
         public int XpReward => Level * 20;
 
         public int XpToLevelup => 100 + Level * 100;

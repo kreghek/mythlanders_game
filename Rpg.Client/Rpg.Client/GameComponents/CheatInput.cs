@@ -227,9 +227,37 @@ namespace Rpg.Client.GameComponents
                     {
                         return false;
                     }
+
+                case "gain-xp":
+                    try
+                    {
+                        HandleGainXp(cheatParts.Skip(1).ToArray());
+                        return true;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        return false;
+                    }
             }
 
             return false;
+        }
+
+        private void HandleGainXp(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
+            playerUnitList.AddRange(globe.Player.Group.Units);
+
+            var unitSchemeSid = args[0];
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+
+            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var xpAmount = int.Parse(args[1]);
+
+            targetUnit.GainXp(xpAmount);
         }
 
         private void HandleAddUnit(string[] args)
@@ -240,8 +268,8 @@ namespace Rpg.Client.GameComponents
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid);
 
-            var list = new List<Unit>(globe.Player.Pool.Units);
-            globe.Player.Pool.Units = list;
+            var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
+            globe.Player.Pool.Units = poolUnitList;
 
             const int DEFAULT_LEVEL = 1;
             var unit = new Unit(unitScheme, DEFAULT_LEVEL)
@@ -249,7 +277,7 @@ namespace Rpg.Client.GameComponents
                 IsPlayerControlled = true
             };
 
-            list.Add(unit);
+            poolUnitList.Add(unit);
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
