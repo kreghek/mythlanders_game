@@ -38,22 +38,23 @@ namespace Rpg.Client.Models
                 {
                     Group = new Group
                     {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.PriestHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
+                        Units = CreateStartUnits()
                     }
                 }
             };
 
             Globe = globe;
+        }
+
+        private static Unit[] CreateStartUnits()
+        {
+            return new[]
+            {
+                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                {
+                    IsPlayerControlled = true
+                }
+            };
         }
 
         public void LoadGlobe()
