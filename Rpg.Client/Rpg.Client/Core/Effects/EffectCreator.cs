@@ -22,5 +22,12 @@ namespace Rpg.Client.Core.Effects
 
             return effect;
         }
+
+        //TODO Looks like design smell.
+        public EffectBase CreateToDisplay(CombatUnit actor)
+        {
+            var effect = _factory(actor);
+            return effect;
+        }
     }
 }

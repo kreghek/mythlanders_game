@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Effects;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.Ui
@@ -84,7 +86,23 @@ namespace Rpg.Client.Models.Combat.Ui
                 var hintPosition = _hoverButton.Rect.Location.ToVector2() - new Vector2(100, 105);
                 var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(100, 100));
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, hintRectangle.Location.ToVector2() + new Vector2(0, 5), Color.Black);
+                var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition, Color.Black);
+
+                var skillRules = combatPower.Skill.Rules.ToArray();
+                for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
+                {
+                    var rule = skillRules[ruleIndex];
+                    var effectCreator = rule.EffectCreator;
+                    var effectToDisplay = effectCreator.CreateToDisplay(Unit);
+
+                    var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
+                    if (effectToDisplay is AttackEffect attackEffect)
+                    {
+                        var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage}", rulePosition, Color.Black);
+                    }
+                }
             }
         }
 
