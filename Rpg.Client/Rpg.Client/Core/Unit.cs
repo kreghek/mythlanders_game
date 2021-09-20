@@ -60,7 +60,7 @@ namespace Rpg.Client.Core
 
                 Xp += xpToNextLevel;
 
-                
+
                 if (Xp >= LevelupXp)
                 {
                     Level++;
