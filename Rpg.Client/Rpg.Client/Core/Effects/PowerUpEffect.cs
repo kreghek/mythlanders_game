@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core.Effects
 {
-    internal sealed class PowerUpEffect: PeriodicEffectBase
+    internal sealed class PowerUpEffect : PeriodicEffectBase
     {
         private PowerUpModifier _modifier;
 

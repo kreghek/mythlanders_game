@@ -6,7 +6,7 @@
     }
 
     internal enum ModifierType
-    { 
+    {
         Undefined,
         Power
     }

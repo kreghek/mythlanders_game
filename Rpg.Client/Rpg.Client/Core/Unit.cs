@@ -165,7 +165,7 @@ namespace Rpg.Client.Core
             {
                 Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
                     MidpointRounding.AwayFromZero);
-                
+
                 ApplyModifiers();
             }
             else

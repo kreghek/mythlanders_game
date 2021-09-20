@@ -5,7 +5,7 @@ using Rpg.Client.Core.Effects;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal sealed class PowerUpSkill: SkillBase
+    internal sealed class PowerUpSkill : SkillBase
     {
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
