@@ -16,10 +16,13 @@ namespace Rpg.Client.Core.Effects
 
         public int ValueRange { get; set; }
 
+        public int MinDamage => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
+        public int MaxDamage => (int)(Power * PowerMultiplier + ValueRange);
+
         protected override void InfluenceAction()
         {
-            var min = Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-            Target.Unit.TakeDamage(Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
+            var rolledDamage = Dice.Roll(MinDamage, MaxDamage);
+            Target.Unit.TakeDamage(rolledDamage);
         }
     }
 }

@@ -16,10 +16,13 @@ namespace Rpg.Client.Core.Effects
 
         public int ValueRange { get; set; }
 
+        public int MinHeal => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
+
+        public int MaxHeal => (int)(Power * PowerMultiplier + ValueRange);
+
         protected override void InfluenceAction()
         {
-            var min = Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-            Target.Unit.TakeHeal(Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
+            Target.Unit.TakeHeal(Dice.Roll(MinHeal, MaxHeal));
         }
     }
 }

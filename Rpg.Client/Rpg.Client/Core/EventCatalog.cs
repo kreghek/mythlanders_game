@@ -19,7 +19,8 @@ namespace Rpg.Client.Core
 
             CreateMeetArcherDialog(),
             CreateMeetHerbalistDialog(),
-            CreateMeetPriestDialog()
+            CreateMeetPriestDialog(),
+            CreateMeetMissionaryDialog()
         };
 
         public static IEnumerable<Event> Dialogs => _dialogs;
@@ -123,7 +124,7 @@ namespace Rpg.Client.Core
 
             var dialogNode2 = new EventNode
             {
-                Text = "Жрец присоединилась к вам."
+                Text = "Жрец присоединился к вам."
             };
 
             dialogNode1.Options = new[]
@@ -155,6 +156,51 @@ namespace Rpg.Client.Core
                 StartNode = dialogNode1,
                 IsUnique = true,
                 SystemMarker = SystemEventMarker.MeetPriest
+            };
+            return dialog;
+        }
+
+        private static Event CreateMeetMissionaryDialog()
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = "Вы встречаете путника. Это китайский миссионер."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Миссионер присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetMissionary
             };
             return dialog;
         }

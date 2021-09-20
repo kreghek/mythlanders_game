@@ -17,6 +17,7 @@ namespace Rpg.Client.Core
         Undefined,
         MeetArcher,
         MeetHerbalist,
-        MeetPriest
+        MeetPriest,
+        MeetMissionary
     }
 }
