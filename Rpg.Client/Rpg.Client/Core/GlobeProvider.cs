@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 
 using Rpg.Client.Core;
-using Rpg.Client.Models.Save;
+using Rpg.Client.Core.ProgressStorage;
 
 namespace Rpg.Client.Models
 {
@@ -79,7 +79,7 @@ namespace Rpg.Client.Models
 
             var json = File.ReadAllText(_saveFilePath);
 
-            var lastSave = JsonSerializer.Deserialize<SaveDto>(json);
+            var lastSave = JsonSerializer.Deserialize<ProgressDto>(json);
 
             if (lastSave is null)
             {
@@ -90,8 +90,8 @@ namespace Rpg.Client.Models
             {
                 Player = new Player
                 {
-                    Pool = GetSavedGroup(lastSave.Player.Pool),
-                    Group = GetSavedGroup(lastSave.Player.Group)
+                    Pool = LoadPlayerGroup(lastSave.Player.Pool),
+                    Group = LoadPlayerGroup(lastSave.Player.Group)
                 }
             };
 
@@ -102,52 +102,53 @@ namespace Rpg.Client.Models
 
         public void StoreGlobe()
         {
-            var save = new SaveDto
+            var progress = new ProgressDto
             {
-                Combats = new List<Core.Combat>(),
-                Player = new PlayerParty
+                Player = new PlayerDto
                 {
                     Group = GetGroupToSave(Globe.Player.Group.Units),
                     Pool = GetGroupToSave(Globe.Player.Pool.Units)
                 }
             };
-            var serializedSave = JsonSerializer.Serialize(save);
+            var serializedSave = JsonSerializer.Serialize(progress);
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
-        private static GroupUnits GetGroupToSave(IEnumerable<Unit> units)
+        private static GroupDto GetGroupToSave(IEnumerable<Unit> units)
         {
-            var savedUnits = units.Select(
+            var unitDtos = units.Select(
                 unit => new UnitDto
                 {
-                    SchemeName = unit.UnitScheme.Name,
+                    SchemeSid = unit.UnitScheme.Name,
                     Hp = unit.Hp,
-                    SkillSids = unit.Skills.Select(x => x.Sid),
                     Xp = unit.Xp,
                     Level = unit.Level
                 });
 
-            var savedGroup = new GroupUnits
+            var groupDto = new GroupDto
             {
-                Units = savedUnits
+                Units = unitDtos
             };
 
-            return savedGroup;
+            return groupDto;
         }
 
-        private static Group GetSavedGroup(GroupUnits groupUnits)
+        private static Group LoadPlayerGroup(GroupDto groupDto)
         {
-            var restoredUnits = groupUnits.Units.Select(
-                                              unit => UnitSchemeCatalog.PlayerUnits.TryGetValue(
-                                                  unit.SchemeName,
-                                                  out var unitScheme)
-                                                  ? new Unit(unitScheme, unit.Level)
-                                                  : null)
-                                          .Where(x => x != null)
-                                          .Cast<Unit>();
+            var units = new List<Unit>();
+            foreach (var unitDto in groupDto.Units)
+            {
+                var unitScheme = UnitSchemeCatalog.PlayerUnits[unitDto.SchemeSid];
+                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp, unitDto.EquipmentItems)
+                {
+                    IsPlayerControlled = true
+                };
+                units.Add(unit);
+            }
+
             var restoredGroup = new Group
             {
-                Units = restoredUnits
+                Units = units
             };
 
             return restoredGroup;
