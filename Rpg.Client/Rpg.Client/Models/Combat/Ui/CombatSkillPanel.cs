@@ -85,57 +85,15 @@ namespace Rpg.Client.Models.Combat.Ui
                 var button = _buttons[buttonIndex];
                 button.Rect = GetButtonRectangle(graphicsDevice, buttonWidth, buttonIndex);
                 button.Draw(spriteBatch);
+
+                var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
+                var hotKey = buttonIndex + 1;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey.ToString(), hotkeyPosition, Color.Wheat);
             }
 
             if (_hoverButton is not null)
             {
-                var combatPower = _buttonCombatPowerDict[_hoverButton];
-
-                var hintPosition = _hoverButton.Rect.Location.ToVector2() - new Vector2(100, 105);
-                var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(100, 100));
-                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
-                var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
-                    Color.Black);
-
-                var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
-                var skillRules = combatPower.Skill.Rules.ToArray();
-                for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
-                {
-                    var rule = skillRules[ruleIndex];
-                    var effectCreator = rule.EffectCreator;
-                    var effectToDisplay = effectCreator.Create(Unit, Combat);
-
-                    var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
-
-                    if (effectToDisplay is AttackEffect attackEffect)
-                    {
-                        var damage = attackEffect.CalculateDamage();
-
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"Damage: {damage.Min} - {damage.Max} to {rule.Direction}",
-                            rulePosition, Color.Black);
-                    }
-                    else if (effectToDisplay is HealEffect healEffect)
-                    {
-                        var heal = healEffect.CalculateHeal();
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"Heal: {heal.Min} - {heal.Max}", rulePosition, Color.Black);
-                    }
-                    else if (effectToDisplay is PeriodicHealEffect)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Heal over time", rulePosition,
-                            Color.Black);
-                    }
-                    else if (effectToDisplay is DopeHerbEffect)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
-                    }
-                    else if (effectToDisplay is IncreaseAttackEffect)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Power up", rulePosition, Color.Black);
-                    }
-                }
+                DrawHoverCombatSkillInfo(_hoverButton, spriteBatch);
             }
         }
 
@@ -156,10 +114,7 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 button.Update();
 
-                if (mouseRect.Intersects(button.Rect))
-                {
-                    _hoverButton = button;
-                }
+                DetectMouseHoverOnButton(mouseRect, button);
             }
         }
 
@@ -172,6 +127,65 @@ namespace Rpg.Client.Models.Combat.Ui
 
             var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
             SelectedCard = combatPowerCard;
+        }
+
+        private void DetectMouseHoverOnButton(Rectangle mouseRect, IconButton button)
+        {
+            if (mouseRect.Intersects(button.Rect))
+            {
+                _hoverButton = button;
+            }
+        }
+
+        private void DrawHoverCombatSkillInfo(ButtonBase hoverButton, SpriteBatch spriteBatch)
+        {
+            var combatPower = _buttonCombatPowerDict[hoverButton];
+
+            var hintPosition = hoverButton.Rect.Location.ToVector2() - new Vector2(0, 105);
+            var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(200, 75));
+            spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
+            var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
+                Color.Black);
+
+            var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
+            var skillRules = combatPower.Skill.Rules.ToArray();
+            for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
+            {
+                var rule = skillRules[ruleIndex];
+                var effectCreator = rule.EffectCreator;
+                var effectToDisplay = effectCreator.Create(Unit, Combat);
+
+                var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
+
+                if (effectToDisplay is AttackEffect attackEffect)
+                {
+                    var damage = attackEffect.CalculateDamage();
+
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        $"Damage: {damage.Min} - {damage.Max} to {rule.Direction}",
+                        rulePosition, Color.Black);
+                }
+                else if (effectToDisplay is HealEffect healEffect)
+                {
+                    var heal = healEffect.CalculateHeal();
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        $"Heal: {heal.Min} - {heal.Max}", rulePosition, Color.Black);
+                }
+                else if (effectToDisplay is PeriodicHealEffect)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Heal over time", rulePosition,
+                        Color.Black);
+                }
+                else if (effectToDisplay is DopeHerbEffect)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
+                }
+                else if (effectToDisplay is IncreaseAttackEffect)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Power up", rulePosition, Color.Black);
+                }
+            }
         }
 
         private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
@@ -194,7 +208,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Periodic Heal" => 6,
                 "Dope Herb" => 7,
                 "Mass Stun" => 7,
-                "Mass Heal" => 6,
+                "Mass Heal" => 8,
                 "Power Up" => 1,
                 _ => null
             };

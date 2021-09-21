@@ -42,7 +42,7 @@ namespace Rpg.Client.Core
             };
             var biomes = GenerateBiomes(biomNames);
 
-            Bioms = biomes;
+            Biomes = biomes;
             CurrentBiome = biomes.Single(x => x.IsStart);
         }
 
@@ -50,7 +50,7 @@ namespace Rpg.Client.Core
 
         public Event? AvailableDialog { get; internal set; }
 
-        public IEnumerable<Biome> Bioms { get; }
+        public IEnumerable<Biome> Biomes { get; }
 
         public Biome? CurrentBiome { get; set; }
 
@@ -61,7 +61,7 @@ namespace Rpg.Client.Core
         public void UpdateNodes(IDice dice)
         {
             // Reset all combat states.
-            var biomes = Bioms.Where(x => x.IsAvailable).ToArray();
+            var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
             foreach (var biom in biomes)
             {
                 foreach (var node in biom.Nodes)
@@ -72,7 +72,7 @@ namespace Rpg.Client.Core
 
                 if (biom.IsComplete && biom.UnlockBiome is not null)
                 {
-                    var unlockedBiom = Bioms.Single(x => x.Type == biom.UnlockBiome);
+                    var unlockedBiom = Biomes.Single(x => x.Type == biom.UnlockBiome);
 
                     unlockedBiom.IsAvailable = true;
                 }
@@ -220,7 +220,7 @@ namespace Rpg.Client.Core
         /// <param name="nodesWithCombat"></param>
         private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat)
         {
-            var availableEvents = EventCatalog.Dialogs
+            var availableEvents = EventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
                 .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
@@ -232,7 +232,7 @@ namespace Rpg.Client.Core
                 var roll = dice.Roll(1, 10);
                 if (roll > 5)
                 {
-                    var minCounter = availableEvents.Min(x => x.Counter);
+                    var minCounter = availableEventList.Min(x => x.Counter);
                     var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
                     var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
                     node.AvailableDialog = rolledEvent;

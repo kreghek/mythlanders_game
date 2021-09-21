@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
     internal class Unit
     {
-        public Unit(UnitScheme unitScheme, int combatLevel)
+        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
+        {
+        }
+
+        public Unit(UnitScheme unitScheme, int level, int equipmentLevel, int xp, int equipmentItems)
         {
             UnitScheme = unitScheme;
-            Level = combatLevel;
+
+            Level = level;
+            Xp = xp;
+            EquipmentLevel = equipmentLevel;
+            EquipmentItems = equipmentItems;
 
             InitStats(unitScheme);
             RestoreHP();
@@ -94,6 +101,11 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
+        public void RestoreHP()
+        {
+            Hp = MaxHp;
+        }
+
         public void TakeDamage(int damage)
         {
             Hp -= Math.Min(Hp, damage);
@@ -152,11 +164,6 @@ namespace Rpg.Client.Core
             }
 
             Skills = unitScheme.Skills;
-        }
-
-        private void RestoreHP()
-        {
-            Hp = MaxHp;
         }
 
         public event EventHandler<int>? DamageTaken;
