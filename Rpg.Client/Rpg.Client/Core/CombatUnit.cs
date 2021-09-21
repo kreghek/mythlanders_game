@@ -29,27 +29,20 @@ namespace Rpg.Client.Core
 
         public Unit Unit { get; }
 
-        public void CompleteMove()
-        {
-            CompletedMove?.Invoke(this, EventArgs.Empty);
-        }
-
         private void Unit_DamageTaken(object? sender, int e)
         {
-            Damaged?.Invoke(this, new UnitHpchangedEventArgs { Unit = this, Amount = e });
+            Damaged?.Invoke(this, new UnitHpChangedEventArgs { Unit = this, Amount = e });
         }
 
         private void Unit_HealTaken(object? sender, int e)
         {
-            Healed?.Invoke(this, new UnitHpchangedEventArgs { Unit = this, Amount = e });
+            Healed?.Invoke(this, new UnitHpChangedEventArgs { Unit = this, Amount = e });
         }
 
-        public event EventHandler? CompletedMove;
+        internal event EventHandler<UnitHpChangedEventArgs>? Damaged;
+        internal event EventHandler<UnitHpChangedEventArgs>? Healed;
 
-        internal event EventHandler<UnitHpchangedEventArgs>? Damaged;
-        internal event EventHandler<UnitHpchangedEventArgs>? Healed;
-
-        internal class UnitHpchangedEventArgs : EventArgs
+        internal class UnitHpChangedEventArgs : EventArgs
         {
             public int Amount { get; set; }
             public CombatUnit Unit { get; set; }

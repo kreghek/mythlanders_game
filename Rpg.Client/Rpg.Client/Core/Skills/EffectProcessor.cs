@@ -20,7 +20,7 @@ namespace Rpg.Client.Core.Skills
             _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
         }
 
-        public void Impose(IEnumerable<EffectRule> influences, CombatUnit self, CombatUnit? target)
+        public void Impose(IEnumerable<EffectRule>? influences, CombatUnit self, CombatUnit? target)
         {
             if (influences is null)
             {
