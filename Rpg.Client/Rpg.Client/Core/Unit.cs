@@ -1,20 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
+using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
     internal class Unit
     {
+        private readonly IList<IUnitModifier> _unitModifiers;
+
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
+            _unitModifiers = new List<IUnitModifier>();
+
             UnitScheme = unitScheme;
             Level = combatLevel;
 
-            InitStats(unitScheme, combatLevel - 1);
+            InitStats(unitScheme);
+            RestoreHP();
         }
+
+        public int EquipmentItems { get; private set; }
+
+        public int EquipmentLevel { get; set; }
+
+        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+
+        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
 
         public int Hp { get; set; }
 
@@ -23,6 +36,9 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; set; }
 
         public int Level { get; set; }
+
+        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
+
         public int MaxHp { get; set; }
 
         public int Power { get; set; }
@@ -34,9 +50,31 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
+        public int XpRemains => LevelupXp - Xp;
+
+        /// <summary>
+        /// Used only by monster units.
+        /// Amount of the expirience gained for killing this unit.
+        /// </summary>
         public int XpReward => Level * 20;
 
-        public int XpToLevelup => 100 + Level * 100;
+        public bool GainEquipmentItem(int amount)
+        {
+            var items = EquipmentItems;
+            var level = EquipmentLevel;
+            var equipmentLevelup = EquipmentLevelup;
+            var equipmentRemains = EquipmentRemains;
+            var wasLevelUp = GainCounterInner(amount, ref items, ref level, ref equipmentLevelup, ref equipmentRemains);
+            EquipmentItems = items;
+            EquipmentLevel = level;
+
+            if (wasLevelUp)
+            {
+                InitStats(UnitScheme);
+            }
+
+            return wasLevelUp;
+        }
 
         /// <summary>
         /// Increase XP.
@@ -44,20 +82,20 @@ namespace Rpg.Client.Core
         /// <returns>Returns true is level up.</returns>
         public bool GainXp(int amount)
         {
-            Xp += amount;
+            var Xp = this.Xp;
+            var Level = this.Level;
+            var LevelupXp = this.LevelupXp;
+            var XpRemains = this.XpRemains;
+            var wasLevelUp = GainCounterInner(amount, ref Xp, ref Level, ref LevelupXp, ref XpRemains);
+            this.Xp = Xp;
+            this.Level = Level;
 
-            var xpToLevel = XpToLevelup;
-            if (Xp >= xpToLevel)
+            if (wasLevelUp)
             {
-                Level++;
-                Xp -= xpToLevel;
-
-                InitStats(UnitScheme, Level - 1);
-
-                return true;
+                InitStats(UnitScheme);
             }
 
-            return false;
+            return wasLevelUp;
         }
 
         public void TakeDamage(int damage)
@@ -76,24 +114,86 @@ namespace Rpg.Client.Core
             HealTaken?.Invoke(this, heal);
         }
 
-        private void InitStats(UnitScheme unitScheme, int combatLevel)
+        internal void AddModifier(PowerUpModifier modifier)
+        {
+            if (!_unitModifiers.Contains(modifier))
+            {
+                _unitModifiers.Add(modifier);
+            }
+
+            InitStats(UnitScheme);
+        }
+
+        internal void RemoveModifier(PowerUpModifier modifier)
+        {
+            _unitModifiers.Remove(modifier);
+            InitStats(UnitScheme);
+        }
+
+        private void ApplyModifiers()
+        {
+            foreach (var modifier in _unitModifiers)
+            {
+                switch (modifier.Type)
+                {
+                    case ModifierType.Power:
+                        Power = (int)Math.Round(Power * 1.1f, MidpointRounding.ToEven);
+                        break;
+                }
+            }
+        }
+
+        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
+            ref int XpRemains)
+        {
+            var currentXpCounter = amount;
+            var wasLevelup = false;
+
+            while (currentXpCounter > 0)
+            {
+                var xpToNextLevel = Math.Min(currentXpCounter, XpRemains);
+                currentXpCounter -= xpToNextLevel;
+
+                Xp += xpToNextLevel;
+
+                if (Xp >= LevelupXp)
+                {
+                    Level++;
+                    Xp = 0;
+
+                    wasLevelup = true;
+                }
+            }
+
+            return wasLevelup;
+        }
+
+        private void InitStats(UnitScheme unitScheme)
         {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
-            Hp = MaxHp;
 
             PowerIncrease = unitScheme.PowerPerLevel;
-            Power = unitScheme.Power + PowerIncrease * Level;
+
+            if (EquipmentLevel > 0)
+            {
+                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
+                    MidpointRounding.AwayFromZero);
+
+                ApplyModifiers();
+            }
+            else
+            {
+                Power = unitScheme.Power + PowerIncrease * Level;
+
+                ApplyModifiers();
+            }
 
             Skills = unitScheme.Skills;
-            //    .Select(x => new CombatSkill
-            //{
-            //    Sid = x.Sid,
-            //    DamageMin = x.DamageMin + x.DamageMinPerLevel * combatLevel,
-            //    DamageMax = x.DamageMax + x.DamageMaxPerLevel * combatLevel,
-            //    TargetType = x.TargetType,
-            //    Scope = x.Scope,
-            //    Range = x.Range
-            //}).ToArray();
+        }
+
+        private void RestoreHP()
+        {
+            Hp = MaxHp;
         }
 
         public event EventHandler<int>? DamageTaken;

@@ -11,6 +11,8 @@
 
         public CombatSequence? CombatSequence { get; set; }
 
+        public EquipmentItemType? EquipmentItem { get; set; }
+
         public int Index { get; internal set; }
 
         public string Name { get; }

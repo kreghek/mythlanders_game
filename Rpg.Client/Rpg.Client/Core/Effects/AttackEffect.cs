@@ -10,6 +10,9 @@ namespace Rpg.Client.Core.Effects
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
+        public int MaxDamage => (int)(Power * PowerMultiplier + ValueRange);
+
+        public int MinDamage => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
 
         public int Power { get; set; }
         public float PowerMultiplier { get; set; }
@@ -18,8 +21,8 @@ namespace Rpg.Client.Core.Effects
 
         protected override void InfluenceAction()
         {
-            var min = Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-            Target.Unit.TakeDamage(Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
+            var rolledDamage = Dice.Roll(MinDamage, MaxDamage);
+            Target.Unit.TakeDamage(rolledDamage);
         }
     }
 }

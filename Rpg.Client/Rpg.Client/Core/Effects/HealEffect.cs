@@ -11,6 +11,10 @@ namespace Rpg.Client.Core.Effects
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
+        public int MaxHeal => (int)(Power * PowerMultiplier + ValueRange);
+
+        public int MinHeal => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
+
         public int Power { get; set; }
         public float PowerMultiplier { get; set; }
 
@@ -18,8 +22,7 @@ namespace Rpg.Client.Core.Effects
 
         protected override void InfluenceAction()
         {
-            var min = Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-            Target.Unit.TakeHeal(Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
+            Target.Unit.TakeHeal(Dice.Roll(MinHeal, MaxHeal));
         }
     }
 }

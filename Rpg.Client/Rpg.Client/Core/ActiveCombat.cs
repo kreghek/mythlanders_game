@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
         private readonly IDice _dice;
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
-        private CombatUnit _currentUnit;
+        private CombatUnit? _currentUnit;
 
         private int _round;
 
@@ -29,8 +29,6 @@ namespace Rpg.Client.Core
             _allUnitList = new List<CombatUnit>();
             EffectProcessor = new EffectProcessor(this, _dice);
         }
-
-        public bool IsCurrentStepCompleted { get; set; }
 
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
@@ -69,6 +67,8 @@ namespace Rpg.Client.Core
 
         public EffectProcessor EffectProcessor { get; }
 
+        public bool IsCurrentStepCompleted { get; set; }
+
         public GlobeNodeGameObject1 Node { get; }
 
         public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
@@ -106,15 +106,12 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
-        private void CompleteStep()
-        {
-            IsCurrentStepCompleted = true;
-        }
-
         public void UseSkill(SkillBase skill, CombatUnit target)
         {
             if (IsCurrentStepCompleted)
+            {
                 return;
+            }
 
             Action action = () =>
             {
@@ -167,7 +164,9 @@ namespace Rpg.Client.Core
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
+            {
                 return;
+            }
 
             if (Finished)
             {
@@ -224,6 +223,11 @@ namespace Rpg.Client.Core
             UseSkill(skill, targetPlayerObject);
         }
 
+        private void CompleteStep()
+        {
+            IsCurrentStepCompleted = true;
+        }
+
         private IDice GetDice()
         {
             return _dice;
@@ -263,11 +267,18 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var combatUnit = _unitQueue.First(x => x.Unit == unit);
-            _unitQueue.Remove(combatUnit);
+            var combatUnit = _unitQueue.FirstOrDefault(x => x.Unit == unit);
+            if (combatUnit is not null)
+            {
+                _unitQueue.Remove(combatUnit);
+            }
 
             unit.Dead -= Unit_Dead;
-            UnitDied?.Invoke(this, combatUnit);
+
+            if (combatUnit is not null)
+            {
+                UnitDied?.Invoke(this, combatUnit);
+            }
         }
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;

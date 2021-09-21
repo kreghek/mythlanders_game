@@ -201,8 +201,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                         };
 
-                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker, interaction, bullet, bulletList);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitDistantAttackState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            attackInteraction: interaction,
+                            bullet: bullet,
+                            bulletList: bulletList,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -235,9 +244,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             bulletList.Add(bullet);
                         }
 
-                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            interaction, null, bulletList);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitDistantAttackState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            attackInteraction: interaction,
+                            bullet: null,
+                            bulletList: bulletList,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -251,8 +268,37 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                         };
 
-                        state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker, interaction);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitSupportState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: interaction,
+                            hitSound: hitSound);
+                    }
+
+                    break;
+
+                case "Power Up":
+                    {
+                        bulletBlocker?.Release();
+
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitSupportState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: interaction,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -266,8 +312,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                         };
 
-                        state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker, interaction);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitSupportState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: interaction,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -281,8 +334,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                         };
 
-                        state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker, interaction);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitSupportState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: interaction,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -315,9 +375,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             bulletList.Add(bullet);
                         }
 
-                        state = new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            interaction, null, bulletList);
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitDistantAttackState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            attackInteraction: interaction,
+                            bullet: null,
+                            bulletList: bulletList,
+                            hitSound: hitSound);
                     }
 
                     break;
@@ -341,64 +409,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             return state;
         }
-
-
-        //private IUnitStateEngine CreateAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-        //    AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard,
-        //    Action attackInteraction)
-        //{
-
-        //    switch (combatSkillCard.Skill.Range)
-        //    {
-        //        case CombatPowerRange.Melee:
-        //            var hitSound = GetHitSound(combatSkillCard.Skill);
-        //            return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //                attackInteraction, hitSound);
-
-        //        case CombatPowerRange.Distant:
-        //            var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
-        //                bulletBlocker, attackInteraction);
-
-        //            return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-        //                animationBlocker, attackInteraction, bullet, bulletList);
-
-        //        case CombatPowerRange.Undefined:
-        //        default:
-        //            Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
-
-        //            // This is fallback behaviour.
-        //            var hitSound1 = GetHitSound(combatSkillCard.Skill);
-        //            return new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //                attackInteraction, hitSound1);
-        //    }
-        //}
-
-        //private IUnitStateEngine CreateMassAttackStateEngine(UnitGameObject target, AnimationBlocker animationBlocker,
-        //    AnimationBlocker bulletBlocker, CombatSkillCard combatSkillCard,
-        //    Action attackInteractions)
-        //{
-        //    switch (combatSkillCard.Skill.Range)
-        //    {
-        //        case CombatPowerRange.Melee:
-        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //                attackInteractions);
-
-        //        case CombatPowerRange.Distant:
-        //            //TODO Develop mass range attack
-        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //                attackInteractions);
-        //        //return new UnitDistantAttackState(_graphics, _graphics.Root, target._graphics.Root,
-        //        //    animationBlocker, attackInteractions);
-
-        //        case CombatPowerRange.Undefined:
-        //        default:
-        //            Debug.Fail($"Unknown combat power range {combatSkillCard.Skill.Range}");
-
-        //            // This is fallback behaviour.
-        //            return new UnitMassAttackState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //                attackInteractions);
-        //    }
-        //}
 
         private SoundEffectInstance GetHitSound(SkillBase skill)
         {

@@ -38,17 +38,7 @@ namespace Rpg.Client.Models
                 {
                     Group = new Group
                     {
-                        Units = new[]
-                        {
-                            new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            },
-                            new Unit(UnitSchemeCatalog.PriestHero, 1)
-                            {
-                                IsPlayerControlled = true
-                            }
-                        }
+                        Units = CreateStartUnits()
                     }
                 }
             };
@@ -81,6 +71,18 @@ namespace Rpg.Client.Models
             var binPath = AppContext.BaseDirectory;
             var saveFilePath = Path.Combine(binPath, "globe.json");
             File.WriteAllText(saveFilePath, serializedGlobe);
+        }
+
+        private static Unit[] CreateStartUnits()
+        {
+            return new[]
+            {
+                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                {
+                    IsPlayerControlled = true,
+                    EquipmentLevel = 1
+                }
+            };
         }
     }
 }

@@ -6,58 +6,26 @@ namespace Rpg.Client.Core
     {
         private static readonly Event[] _dialogs =
         {
-            CreateTestDialog(),
-            CreateNewUnitDialog(),
-            CreateNewUnit2Dialog()
+            CreateTestDialog(1),
+            CreateTestDialog(2),
+            CreateTestDialog(3),
+            CreateTestDialog(4),
+            CreateTestDialog(5),
+            CreateTestDialog(6),
+            CreateTestDialog(7),
+            CreateTestDialog(8),
+            CreateTestDialog(9),
+            CreateTestDialog(10),
+
+            CreateMeetArcherDialog(),
+            CreateMeetHerbalistDialog(),
+            CreateMeetPriestDialog(),
+            CreateMeetMissionaryDialog()
         };
 
         public static IEnumerable<Event> Dialogs => _dialogs;
 
-        private static Event CreateNewUnit2Dialog()
-        {
-            var dialogNode1 = new EventNode
-            {
-                Text = "Вы встречаете путника. Это лучник."
-            };
-
-            var dialogNode2 = new EventNode
-            {
-                Text = "Лучник присоединился к вам."
-            };
-
-            dialogNode1.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "Пригласить в группу.",
-                    Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
-                }
-            };
-
-            dialogNode2.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "В бой!",
-                    IsEnd = true
-                }
-            };
-
-            var dialog = new Event
-            {
-                Nodes = new[]
-                {
-                    dialogNode1,
-                    dialogNode2
-                },
-                StartNode = dialogNode1,
-                IsUnique = true
-            };
-            return dialog;
-        }
-
-        private static Event CreateNewUnitDialog()
+        private static Event CreateMeetArcherDialog()
         {
             var dialogNode1 = new EventNode
             {
@@ -96,16 +64,152 @@ namespace Rpg.Client.Core
                     dialogNode2
                 },
                 StartNode = dialogNode1,
-                IsUnique = true
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetHerbalist
             };
             return dialog;
         }
 
-        private static Event CreateTestDialog()
+        private static Event CreateMeetHerbalistDialog()
         {
             var dialogNode1 = new EventNode
             {
-                Text = "Описание ситуации."
+                Text = "Вы встречаете путника. Это лучник."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Лучник присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetArcher
+            };
+            return dialog;
+        }
+
+        private static Event CreateMeetMissionaryDialog()
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = "Вы встречаете путника. Это китайский миссионер."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Миссионер присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetMissionary
+            };
+            return dialog;
+        }
+
+        private static Event CreateMeetPriestDialog()
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = "Вы встречаете путника. Это египетский Жрец."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Жрец присоединился к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetPriest
+            };
+            return dialog;
+        }
+
+        private static Event CreateTestDialog(int id)
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = $"Описание ситуации {id}."
             };
 
             var dialogNode2 = new EventNode

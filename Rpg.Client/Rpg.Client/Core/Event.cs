@@ -8,5 +8,16 @@ namespace Rpg.Client.Core
         public bool IsUnique { get; set; }
         public IEnumerable<EventNode> Nodes { get; init; }
         public EventNode StartNode { get; init; }
+
+        public SystemEventMarker? SystemMarker { get; set; }
+    }
+
+    internal enum SystemEventMarker
+    {
+        Undefined,
+        MeetArcher,
+        MeetHerbalist,
+        MeetPriest,
+        MeetMissionary
     }
 }

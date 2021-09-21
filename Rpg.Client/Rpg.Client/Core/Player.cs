@@ -11,6 +11,8 @@ namespace Rpg.Client.Core
             Pool = new Group();
         }
 
+        public IEnumerable<Unit> GetAll => Group.Units.Concat(Pool.Units);
+
         public Group Group { get; set; }
 
         public Group Pool { get; set; }

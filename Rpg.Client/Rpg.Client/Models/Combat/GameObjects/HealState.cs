@@ -1,8 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-
-using Rpg.Client.Core;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
@@ -11,15 +10,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 1;
         private readonly UnitGraphics _graphics;
         private readonly Action _healInteraction;
-
+        private readonly SoundEffectInstance _hitSound;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, Action healInteraction)
+        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;
+            _hitSound = hitSound;
         }
 
         public bool CanBeReplaced { get; }
@@ -51,6 +51,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     _interactionExecuted = true;
                 }
+
+                _hitSound.Play();
             }
         }
     }
