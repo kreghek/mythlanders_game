@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
 {
     internal class Unit
     {
-        public Unit(UnitScheme unitScheme, int level): this(unitScheme, level, 0, 0, 0)
+        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
         {
         }
 
@@ -19,7 +19,6 @@ namespace Rpg.Client.Core
             Xp = xp;
             EquipmentLevel = equipmentLevel;
             EquipmentItems = equipmentItems;
-
 
             InitStats(unitScheme);
             RestoreHP();
@@ -102,6 +101,11 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
+        public void RestoreHP()
+        {
+            Hp = MaxHp;
+        }
+
         public void TakeDamage(int damage)
         {
             Hp -= Math.Min(Hp, damage);
@@ -160,11 +164,6 @@ namespace Rpg.Client.Core
             }
 
             Skills = unitScheme.Skills;
-        }
-
-        public void RestoreHP()
-        {
-            Hp = MaxHp;
         }
 
         public event EventHandler<int>? DamageTaken;
