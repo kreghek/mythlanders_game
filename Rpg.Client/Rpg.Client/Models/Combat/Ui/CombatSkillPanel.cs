@@ -23,6 +23,8 @@ namespace Rpg.Client.Models.Combat.Ui
         private ButtonBase? _hoverButton;
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
+        private KeyboardState _currentKeyboardState;
+        private KeyboardState? _lastKeyboardState;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat)
         {
@@ -143,6 +145,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 return;
             }
 
+            KeyboardInputUpdate();
+
             var mouse = Mouse.GetState();
             var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
 
@@ -156,6 +160,54 @@ namespace Rpg.Client.Models.Combat.Ui
                     _hoverButton = button;
                 }
             }
+        }
+
+        private void KeyboardInputUpdate()
+        {
+            _currentKeyboardState = Keyboard.GetState();
+
+            var buttonIndex = -1;
+
+            if (IsKeyPressed(Keys.D1))
+            {
+                buttonIndex = 0;
+            }
+            else if (IsKeyPressed(Keys.D2))
+            {
+                buttonIndex = 1;
+            }
+            else if (IsKeyPressed(Keys.D3))
+            {
+                buttonIndex = 2;
+            }
+            else if (IsKeyPressed(Keys.D4))
+            {
+                buttonIndex = 3;
+            }
+            else if (IsKeyPressed(Keys.D5))
+            {
+                buttonIndex = 4;
+            }
+
+            PressButton(buttonIndex);
+
+            _lastKeyboardState = _currentKeyboardState;
+        }
+
+        private void PressButton(int index)
+        {
+            if (index < 0 || _buttons.Count <= index)
+                return;
+
+            _buttons[index].Click();
+        }
+
+        private bool IsKeyPressed(Keys key)
+        {
+            if (_lastKeyboardState is null)
+                return false;
+
+            return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
         }
 
         private void CombatPowerButton_OnClick(object? sender, EventArgs e)
