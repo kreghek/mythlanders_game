@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Rpg.Client.Core.Skills;
 
@@ -79,6 +80,13 @@ namespace Rpg.Client.Core
                 new HealSkill()
             }
         };
+
+        public static IDictionary<string, UnitScheme> PlayerUnits = new []
+        {
+            ArcherHero,
+            HerbalistHero,
+            SwordmanHero
+        }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
         public static IEnumerable<UnitScheme> AllUnits = new[]
         {
