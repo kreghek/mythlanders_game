@@ -44,6 +44,9 @@ namespace Rpg.Client
             soundtrackComponent.Initialize(soundtrackManager);
             Components.Add(soundtrackComponent);
 
+            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            UiThemeManager.SoundStorage = uiSoundStorage;
+
             base.Initialize();
         }
 
@@ -58,6 +61,9 @@ namespace Rpg.Client
 
             var uiContentStorage = Services.GetService<IUiContentStorage>();
             uiContentStorage.LoadContent(Content);
+
+            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            uiSoundStorage.LoadContent(Content);
 
             var soundtrackManager = Services.GetService<SoundtrackManager>();
             soundtrackManager.Initialize(uiContentStorage);
@@ -96,6 +102,9 @@ namespace Rpg.Client
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
+
+            var uiSoundStorage = new UiSoundStorage();
+            Services.AddService<IUiSoundStorage>(uiSoundStorage);
 
             var gameObjectsContentStorage = new GameObjectContentStorage();
             Services.AddService(gameObjectsContentStorage);

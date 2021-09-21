@@ -54,4 +54,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Audio\Ui\" />
+  </ItemGroup>
 </Project>
