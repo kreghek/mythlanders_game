@@ -33,7 +33,8 @@ namespace Rpg.Client.Core
             {
                 new HealSkill(),
                 new DopeHerbSkill(),
-                new PeriodicHealSkill()
+                new PeriodicHealSkill(),
+                new MassHealSkill()
             }
         };
 
