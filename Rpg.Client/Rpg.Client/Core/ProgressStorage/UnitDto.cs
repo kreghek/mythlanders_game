@@ -2,7 +2,7 @@ namespace Rpg.Client.Core.ProgressStorage
 {
     internal sealed record UnitDto
     {
-        public int EquipmentItems { get; set; }
+        public int EquipmentItems { get; init; }
 
         public int EquipmentLevel { get; init; }
 
