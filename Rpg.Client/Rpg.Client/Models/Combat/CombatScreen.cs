@@ -50,6 +50,7 @@ namespace Rpg.Client.Models.Combat
         private bool _finalBossWasDefeat;
 
         private bool _unitsInitialized;
+        private IDice _dice;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -73,6 +74,7 @@ namespace Rpg.Client.Models.Combat
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<AnimationManager>();
+            _dice = Game.Services.GetService<IDice>();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -277,18 +279,19 @@ namespace Rpg.Client.Models.Combat
 
             if (_combat.Node.GlobeNode.CombatSequence.Combats.Any())
             {
+                var nextCombat = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First();
                 _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                     _globeNodeGameObject,
-                    _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First(),
+                    nextCombat,
                     _combat.Biom,
-                    Game.Services.GetService<IDice>());
+                    _dice);
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
             }
             else
             {
-                var dice = Game.Services.GetService<IDice>();
-                _globeProvider.Globe.UpdateNodes(dice);
+                _globeProvider.Globe.UpdateNodes(_dice);
+                RestoreGroupHp();
 
                 if (_bossWasDefeat)
                 {
@@ -305,6 +308,14 @@ namespace Rpg.Client.Models.Combat
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                 }
+            }
+        }
+
+        private void RestoreGroupHp()
+        {
+            foreach (var unit in _globe.Player.GetAll)
+            {
+                unit.RestoreHP();
             }
         }
 
@@ -508,7 +519,7 @@ namespace Rpg.Client.Models.Combat
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
         {
-            var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, /*not used*/0, 1.5f };
+            var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
@@ -582,7 +593,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void InitHudButton(UnitGameObject actor, UnitGameObject target, CombatSkillCard skillCard)
+        private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
             var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetButtonTexture(),
@@ -628,7 +639,7 @@ namespace Rpg.Client.Models.Combat
                     continue;
                 }
 
-                InitHudButton(actor, target, skillCard);
+                InitHudButton(target, skillCard);
             }
         }
 

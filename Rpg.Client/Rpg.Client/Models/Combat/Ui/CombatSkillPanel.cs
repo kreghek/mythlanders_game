@@ -85,14 +85,18 @@ namespace Rpg.Client.Models.Combat.Ui
                 var button = _buttons[buttonIndex];
                 button.Rect = GetButtonRectangle(graphicsDevice, buttonWidth, buttonIndex);
                 button.Draw(spriteBatch);
+
+                var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
+                var hotKey = buttonIndex + 1;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey.ToString(), hotkeyPosition, Color.Wheat);
             }
 
             if (_hoverButton is not null)
             {
                 var combatPower = _buttonCombatPowerDict[_hoverButton];
 
-                var hintPosition = _hoverButton.Rect.Location.ToVector2() - new Vector2(100, 105);
-                var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(100, 100));
+                var hintPosition = _hoverButton.Rect.Location.ToVector2() - new Vector2(0, 105);
+                var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(200, 75));
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
                 var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
@@ -194,7 +198,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Periodic Heal" => 6,
                 "Dope Herb" => 7,
                 "Mass Stun" => 7,
-                "Mass Heal" => 8,
+                "Mass Heal" => 6,
                 "Power Up" => 1,
                 _ => null
             };

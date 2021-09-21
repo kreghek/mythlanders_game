@@ -23,7 +23,7 @@ namespace Rpg.Client.Core
             CreateMeetMissionaryDialog()
         };
 
-        public static IEnumerable<Event> Dialogs => _dialogs;
+        public static IEnumerable<Event> Events => _dialogs;
 
         private static Event CreateMeetArcherDialog()
         {
