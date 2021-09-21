@@ -232,7 +232,7 @@ namespace Rpg.Client.Core
                 var roll = dice.Roll(1, 10);
                 if (roll > 5)
                 {
-                    var minCounter = availableEvents.Min(x => x.Counter);
+                    var minCounter = availableEventList.Min(x => x.Counter);
                     var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
                     var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
                     node.AvailableDialog = rolledEvent;

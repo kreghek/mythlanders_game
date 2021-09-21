@@ -106,6 +106,11 @@ namespace Rpg.Client.Models
 
         private static void LoadBiomes(IEnumerable<BiomeDto> biomeDtoList, IEnumerable<Core.Biome> biomes)
         {
+            if (biomeDtoList is null)
+            {
+                return;
+            }
+
             foreach (var biomeDto in biomeDtoList)
             {
                 var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);

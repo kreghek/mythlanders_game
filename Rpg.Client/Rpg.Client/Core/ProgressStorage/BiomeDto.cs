@@ -4,7 +4,7 @@
     { 
         public BiomeType Type { get; init; }
         public int Level { get; init; }
-        public bool IsComplete { get; internal set; }
-        public bool IsAvailable { get; internal set; }
+        public bool IsComplete { get; init; }
+        public bool IsAvailable { get; init; }
     }
 }
