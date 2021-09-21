@@ -36,10 +36,6 @@ namespace Rpg.Client.Core.Effects
             AfterDispel();
         }
 
-        protected virtual void AfterDispel()
-        {
-        }
-
         /// <summary>
         /// Наложение.
         /// </summary>
@@ -67,6 +63,10 @@ namespace Rpg.Client.Core.Effects
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
             EffectProsessor.Impose(InfluenceRules, Target, null);
+        }
+
+        protected virtual void AfterDispel()
+        {
         }
 
         protected virtual void AfterImpose()

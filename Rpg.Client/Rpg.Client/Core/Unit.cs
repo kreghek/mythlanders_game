@@ -25,23 +25,7 @@ namespace Rpg.Client.Core
 
         public int EquipmentLevel { get; set; }
 
-        internal void RemoveModifier(PowerUpModifier modifier)
-        {
-            _unitModifiers.Remove(modifier);
-            InitStats(UnitScheme);
-        }
-
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
-
-        internal void AddModifier(PowerUpModifier modifier)
-        {
-            if (!_unitModifiers.Contains(modifier))
-            {
-                _unitModifiers.Add(modifier);
-            }
-
-            InitStats(UnitScheme);
-        }
 
         public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
 
@@ -130,6 +114,35 @@ namespace Rpg.Client.Core
             HealTaken?.Invoke(this, heal);
         }
 
+        internal void AddModifier(PowerUpModifier modifier)
+        {
+            if (!_unitModifiers.Contains(modifier))
+            {
+                _unitModifiers.Add(modifier);
+            }
+
+            InitStats(UnitScheme);
+        }
+
+        internal void RemoveModifier(PowerUpModifier modifier)
+        {
+            _unitModifiers.Remove(modifier);
+            InitStats(UnitScheme);
+        }
+
+        private void ApplyModifiers()
+        {
+            foreach (var modifier in _unitModifiers)
+            {
+                switch (modifier.Type)
+                {
+                    case ModifierType.Power:
+                        Power = (int)Math.Round(Power * 1.1f, MidpointRounding.ToEven);
+                        break;
+                }
+            }
+        }
+
         private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
             ref int XpRemains)
         {
@@ -165,7 +178,7 @@ namespace Rpg.Client.Core
             {
                 Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
                     MidpointRounding.AwayFromZero);
-                
+
                 ApplyModifiers();
             }
             else
@@ -176,19 +189,6 @@ namespace Rpg.Client.Core
             }
 
             Skills = unitScheme.Skills;
-        }
-
-        private void ApplyModifiers()
-        {
-            foreach (var modifier in _unitModifiers)
-            {
-                switch (modifier.Type)
-                {
-                    case ModifierType.Power:
-                        Power = (int)Math.Round(Power * 1.1f, MidpointRounding.ToEven);
-                        break;
-                }
-            }
         }
 
         private void RestoreHP()
