@@ -25,54 +25,6 @@ namespace Rpg.Client.Core
 
         public static IEnumerable<Event> Dialogs => _dialogs;
 
-        private static Event CreateMeetHerbalistDialog()
-        {
-            var dialogNode1 = new EventNode
-            {
-                Text = "Вы встречаете путника. Это травница."
-            };
-
-            var dialogNode2 = new EventNode
-            {
-                Text = "Травница присоединилась к вам."
-            };
-
-            dialogNode1.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "Пригласить в группу.",
-                    Next = dialogNode2,
-                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
-                }
-            };
-
-            dialogNode2.Options = new[]
-            {
-                new EventOption
-                {
-                    Text = "В бой!",
-                    IsEnd = true
-                }
-            };
-
-            var dialog = new Event
-            {
-                Name = "Собирая гербарий",
-                Nodes = new[]
-                {
-                    dialogNode1,
-                    dialogNode2
-                },
-                StartNode = dialogNode1,
-                IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetHerbalist,
-                Biome = BiomeType.Slavic,
-                RequiredBiomeLevel = 10
-            };
-            return dialog;
-        }
-
         private static Event CreateMeetArcherDialog()
         {
             var dialogNode1 = new EventNode
@@ -117,6 +69,54 @@ namespace Rpg.Client.Core
                 SystemMarker = SystemEventMarker.MeetArcher,
                 Biome = BiomeType.Slavic,
                 RequiredBiomeLevel = 5
+            };
+            return dialog;
+        }
+
+        private static Event CreateMeetHerbalistDialog()
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = "Вы встречаете путника. Это травница."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Травница присоединилась к вам."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Пригласить в группу.",
+                    Next = dialogNode2,
+                    Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Name = "Собирая гербарий",
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                IsUnique = true,
+                SystemMarker = SystemEventMarker.MeetHerbalist,
+                Biome = BiomeType.Slavic,
+                RequiredBiomeLevel = 10
             };
             return dialog;
         }

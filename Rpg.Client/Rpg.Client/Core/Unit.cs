@@ -10,7 +10,6 @@ namespace Rpg.Client.Core
     {
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
-
             UnitScheme = unitScheme;
             Level = combatLevel;
 
