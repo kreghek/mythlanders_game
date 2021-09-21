@@ -22,7 +22,6 @@ namespace Rpg.Client.Core.Effects
         /// </summary>
         public void Dispel()
         {
-            
             if (!IsImposed || Target is null)
             {
                 Debug.Assert(false, "Эффект не наложен");

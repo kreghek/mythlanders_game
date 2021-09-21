@@ -223,7 +223,8 @@ namespace Rpg.Client.Core
             var availableEvents = EventCatalog.Dialogs
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
-                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) || (x.RequiredBiomeLevel is null));
+                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
+                            (x.RequiredBiomeLevel is null));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)

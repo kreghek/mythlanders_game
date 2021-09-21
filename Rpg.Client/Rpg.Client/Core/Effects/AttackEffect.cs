@@ -8,8 +8,10 @@ namespace Rpg.Client.Core.Effects
 {
     internal class AttackEffect : InstantenousEffectBase
     {
+        public CombatUnit Actor { get; set; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
+
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
         //public int MaxDamage => (int)(Power * PowerMultiplier + ValueRange);
 
@@ -20,12 +22,12 @@ namespace Rpg.Client.Core.Effects
 
         public int ValueRange { get; set; }
 
-        public CombatUnit Actor { get; set; }
-
         public MinMax<int> CalculateDamage()
         {
             if (Actor is null)
+            {
                 return new MinMax<int>();
+            }
 
             var min = Actor.Unit.Power * PowerMultiplier - ValueRange;
             var max = Actor.Unit.Power * PowerMultiplier + ValueRange;

@@ -13,7 +13,6 @@ namespace Rpg.Client.Core
     internal class ActiveCombat
     {
         private readonly IList<CombatUnit> _allUnitList;
-        public IDice Dice { get; }
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit? _currentUnit;
@@ -36,8 +35,6 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
-
-        public ModifiersProcessor ModifiersProcessor { get; }
 
         public CombatUnit? CurrentUnit
         {
@@ -70,9 +67,13 @@ namespace Rpg.Client.Core
             }
         }
 
+        public IDice Dice { get; }
+
         public EffectProcessor EffectProcessor { get; }
 
         public bool IsCurrentStepCompleted { get; set; }
+
+        public ModifiersProcessor ModifiersProcessor { get; }
 
         public GlobeNodeGameObject1 Node { get; }
 

@@ -15,16 +15,15 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
-        public ActiveCombat Combat { get; }
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
+        private KeyboardState _currentKeyboardState;
 
         private ButtonBase? _hoverButton;
+        private KeyboardState? _lastKeyboardState;
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
-        private KeyboardState _currentKeyboardState;
-        private KeyboardState? _lastKeyboardState;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat)
         {
@@ -36,6 +35,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
             IsEnabled = true;
         }
+
+        public ActiveCombat Combat { get; }
 
         public bool IsEnabled { get; set; }
 
@@ -166,54 +167,6 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private void KeyboardInputUpdate()
-        {
-            _currentKeyboardState = Keyboard.GetState();
-
-            var buttonIndex = -1;
-
-            if (IsKeyPressed(Keys.D1))
-            {
-                buttonIndex = 0;
-            }
-            else if (IsKeyPressed(Keys.D2))
-            {
-                buttonIndex = 1;
-            }
-            else if (IsKeyPressed(Keys.D3))
-            {
-                buttonIndex = 2;
-            }
-            else if (IsKeyPressed(Keys.D4))
-            {
-                buttonIndex = 3;
-            }
-            else if (IsKeyPressed(Keys.D5))
-            {
-                buttonIndex = 4;
-            }
-
-            PressButton(buttonIndex);
-
-            _lastKeyboardState = _currentKeyboardState;
-        }
-
-        private void PressButton(int index)
-        {
-            if (index < 0 || _buttons.Count <= index)
-                return;
-
-            _buttons[index].Click();
-        }
-
-        private bool IsKeyPressed(Keys key)
-        {
-            if (_lastKeyboardState is null)
-                return false;
-
-            return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
-        }
-
         private void CombatPowerButton_OnClick(object? sender, EventArgs e)
         {
             if (sender is null)
@@ -267,6 +220,58 @@ namespace Rpg.Client.Models.Combat.Ui
             var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
 
             return rect;
+        }
+
+        private bool IsKeyPressed(Keys key)
+        {
+            if (_lastKeyboardState is null)
+            {
+                return false;
+            }
+
+            return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
+        }
+
+        private void KeyboardInputUpdate()
+        {
+            _currentKeyboardState = Keyboard.GetState();
+
+            var buttonIndex = -1;
+
+            if (IsKeyPressed(Keys.D1))
+            {
+                buttonIndex = 0;
+            }
+            else if (IsKeyPressed(Keys.D2))
+            {
+                buttonIndex = 1;
+            }
+            else if (IsKeyPressed(Keys.D3))
+            {
+                buttonIndex = 2;
+            }
+            else if (IsKeyPressed(Keys.D4))
+            {
+                buttonIndex = 3;
+            }
+            else if (IsKeyPressed(Keys.D5))
+            {
+                buttonIndex = 4;
+            }
+
+            PressButton(buttonIndex);
+
+            _lastKeyboardState = _currentKeyboardState;
+        }
+
+        private void PressButton(int index)
+        {
+            if (index < 0 || _buttons.Count <= index)
+            {
+                return;
+            }
+
+            _buttons[index].Click();
         }
 
         private void RecreateButtons()

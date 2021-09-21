@@ -114,6 +114,18 @@ namespace Rpg.Client.Models
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
+        private static Unit[] CreateStartUnits()
+        {
+            return new[]
+            {
+                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                {
+                    IsPlayerControlled = true,
+                    EquipmentLevel = 1
+                }
+            };
+        }
+
         private static GroupDto GetGroupToSave(IEnumerable<Unit> units)
         {
             var unitDtos = units.Select(
@@ -152,18 +164,6 @@ namespace Rpg.Client.Models
             };
 
             return restoredGroup;
-        }
-
-        private static Unit[] CreateStartUnits()
-        {
-            return new[]
-            {
-                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                {
-                    IsPlayerControlled = true,
-                    EquipmentLevel = 1
-                }
-            };
         }
     }
 }

@@ -81,7 +81,7 @@ namespace Rpg.Client.Core
             }
         };
 
-        public static IDictionary<string, UnitScheme> PlayerUnits = new []
+        public static IDictionary<string, UnitScheme> PlayerUnits = new[]
         {
             ArcherHero,
             HerbalistHero,
