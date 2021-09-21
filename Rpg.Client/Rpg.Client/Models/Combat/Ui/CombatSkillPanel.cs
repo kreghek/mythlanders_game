@@ -97,6 +97,46 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
+        internal void Update()
+        {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
+            KeyboardInputUpdate();
+
+            var mouse = Mouse.GetState();
+            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+
+            _hoverButton = null;
+            foreach (var button in _buttons)
+            {
+                button.Update();
+
+                DetectMouseHoverOnButton(mouseRect, button);
+            }
+        }
+
+        private void CombatPowerButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                Debug.Fail("Sender mustn't be null.");
+            }
+
+            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
+            SelectedCard = combatPowerCard;
+        }
+
+        private void DetectMouseHoverOnButton(Rectangle mouseRect, IconButton button)
+        {
+            if (mouseRect.Intersects(button.Rect))
+            {
+                _hoverButton = button;
+            }
+        }
+
         private void DrawHoverCombatSkillInfo(ButtonBase hoverButton, SpriteBatch spriteBatch)
         {
             var combatPower = _buttonCombatPowerDict[hoverButton];
@@ -146,46 +186,6 @@ namespace Rpg.Client.Models.Combat.Ui
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Power up", rulePosition, Color.Black);
                 }
             }
-        }
-
-        internal void Update()
-        {
-            if (!IsEnabled)
-            {
-                return;
-            }
-
-            KeyboardInputUpdate();
-
-            var mouse = Mouse.GetState();
-            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
-
-            _hoverButton = null;
-            foreach (var button in _buttons)
-            {
-                button.Update();
-
-                DetectMouseHoverOnButton(mouseRect, button);
-            }
-        }
-
-        private void DetectMouseHoverOnButton(Rectangle mouseRect, IconButton button)
-        {
-            if (mouseRect.Intersects(button.Rect))
-            {
-                _hoverButton = button;
-            }
-        }
-
-        private void CombatPowerButton_OnClick(object? sender, EventArgs e)
-        {
-            if (sender is null)
-            {
-                Debug.Fail("Sender mustn't be null.");
-            }
-
-            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
-            SelectedCard = combatPowerCard;
         }
 
         private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
