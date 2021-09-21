@@ -95,9 +95,38 @@ namespace Rpg.Client.Models
                 }
             };
 
+            LoadEvents(lastSave.Events);
+
+            LoadBiomes(lastSave.Biomes, Globe.Biomes);
+
             Globe.UpdateNodes(_dice);
 
             return true;
+        }
+
+        private static void LoadBiomes(IEnumerable<BiomeDto> biomeDtoList, IEnumerable<Core.Biome> biomes)
+        {
+            foreach (var biomeDto in biomeDtoList)
+            {
+                var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);
+                targetBiome.IsComplete = biomeDto.IsComplete;
+                targetBiome.IsAvailable = biomeDto.IsAvailable;
+                targetBiome.Level = biomeDto.Level;
+            }
+        }
+
+        private static void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
+        {
+            foreach (var eventItem in EventCatalog.Events)
+            {
+                eventItem.Counter = 0;
+            }
+
+            foreach (var eventDto in eventDtoList)
+            {
+                var eventItem = EventCatalog.Events.Single(x => x.Name == eventDto.Sid);
+                eventItem.Counter = eventDto.Counter;
+            }
         }
 
         public void StoreGlobe()
@@ -106,12 +135,47 @@ namespace Rpg.Client.Models
             {
                 Player = new PlayerDto
                 {
-                    Group = GetGroupToSave(Globe.Player.Group.Units),
-                    Pool = GetGroupToSave(Globe.Player.Pool.Units)
-                }
+                    Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
+                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
+                },
+                Events = GetUsedEventDtos(EventCatalog.Events),
+                Biomes = GetBiomeDtos(Globe.Biomes)
             };
             var serializedSave = JsonSerializer.Serialize(progress);
             File.WriteAllText(_saveFilePath, serializedSave);
+        }
+
+        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Core.Biome> biomes)
+        {
+            foreach (var biome in biomes)
+            {
+                yield return new BiomeDto
+                {
+                    Level = biome.Level,
+                    Type = biome.Type,
+                    IsComplete = biome.IsComplete,
+                    IsAvailable = biome.IsAvailable
+                };
+            }
+        }
+
+        private static IEnumerable<EventDto?> GetUsedEventDtos(IEnumerable<Core.Event> events)
+        {
+            foreach (var eventItem in events)
+            {
+                if (eventItem.Counter <= 0)
+                {
+                    continue;
+                }
+
+                var dto = new EventDto
+                {
+                    Sid = eventItem.Name,
+                    Counter = eventItem.Counter
+                };
+
+                yield return dto;
+            }
         }
 
         private static Unit[] CreateStartUnits()
@@ -126,7 +190,7 @@ namespace Rpg.Client.Models
             };
         }
 
-        private static GroupDto GetGroupToSave(IEnumerable<Unit> units)
+        private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
         {
             var unitDtos = units.Select(
                 unit => new UnitDto
@@ -134,7 +198,9 @@ namespace Rpg.Client.Models
                     SchemeSid = unit.UnitScheme.Name,
                     Hp = unit.Hp,
                     Xp = unit.Xp,
-                    Level = unit.Level
+                    Level = unit.Level,
+                    EquipmentItems = unit.EquipmentItems,
+                    EquipmentLevel = unit.EquipmentLevel
                 });
 
             var groupDto = new GroupDto
@@ -151,6 +217,9 @@ namespace Rpg.Client.Models
             foreach (var unitDto in groupDto.Units)
             {
                 var unitScheme = UnitSchemeCatalog.PlayerUnits[unitDto.SchemeSid];
+
+                Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
+
                 var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp, unitDto.EquipmentItems)
                 {
                     IsPlayerControlled = true

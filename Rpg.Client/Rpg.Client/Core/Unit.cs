@@ -162,7 +162,7 @@ namespace Rpg.Client.Core
             Skills = unitScheme.Skills;
         }
 
-        private void RestoreHP()
+        public void RestoreHP()
         {
             Hp = MaxHp;
         }

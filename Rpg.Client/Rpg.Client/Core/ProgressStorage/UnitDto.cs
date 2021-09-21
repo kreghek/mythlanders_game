@@ -14,10 +14,4 @@ namespace Rpg.Client.Core.ProgressStorage
         public int EquipmentLevel { get; init; }
         public int EquipmentItems { get; set; }
     }
-
-    internal sealed record EventDto
-    { 
-        public string Sid { get; init; }
-        public int Counter { get; set; }
-    }
 }
