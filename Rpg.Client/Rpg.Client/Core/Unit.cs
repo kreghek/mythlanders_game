@@ -8,11 +8,8 @@ namespace Rpg.Client.Core
 {
     internal class Unit
     {
-        private readonly IList<IUnitModifier> _unitModifiers;
-
         public Unit(UnitScheme unitScheme, int combatLevel)
         {
-            _unitModifiers = new List<IUnitModifier>();
 
             UnitScheme = unitScheme;
             Level = combatLevel;
@@ -114,35 +111,6 @@ namespace Rpg.Client.Core
             HealTaken?.Invoke(this, heal);
         }
 
-        internal void AddModifier(PowerUpModifier modifier)
-        {
-            if (!_unitModifiers.Contains(modifier))
-            {
-                _unitModifiers.Add(modifier);
-            }
-
-            InitStats(UnitScheme);
-        }
-
-        internal void RemoveModifier(PowerUpModifier modifier)
-        {
-            _unitModifiers.Remove(modifier);
-            InitStats(UnitScheme);
-        }
-
-        private void ApplyModifiers()
-        {
-            foreach (var modifier in _unitModifiers)
-            {
-                switch (modifier.Type)
-                {
-                    case ModifierType.Power:
-                        Power = (int)Math.Round(Power * 1.1f, MidpointRounding.ToEven);
-                        break;
-                }
-            }
-        }
-
         private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
             ref int XpRemains)
         {
@@ -178,14 +146,10 @@ namespace Rpg.Client.Core
             {
                 Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
                     MidpointRounding.AwayFromZero);
-
-                ApplyModifiers();
             }
             else
             {
                 Power = unitScheme.Power + PowerIncrease * Level;
-
-                ApplyModifiers();
             }
 
             Skills = unitScheme.Skills;

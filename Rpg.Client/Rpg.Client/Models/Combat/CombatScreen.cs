@@ -86,7 +86,7 @@ namespace Rpg.Client.Models.Combat
 
         public void Initialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.UnitChanged += Combat_UnitChanged;
             _combat.UnitReadyToControl += Combat_UnitReadyToControl;

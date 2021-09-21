@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Effects
@@ -9,11 +10,8 @@ namespace Rpg.Client.Core.Effects
     internal abstract class EffectBase
     {
         public ActiveCombat Combat { get; set; }
-        public IDice Dice { get; set; }
 
         public virtual IEnumerable<EffectRule>? DispelRules => default;
-
-        public EffectProcessor EffectProsessor { get; set; }
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;
         public CombatUnit? Target { get; private set; }
@@ -24,6 +22,7 @@ namespace Rpg.Client.Core.Effects
         /// </summary>
         public void Dispel()
         {
+            
             if (!IsImposed || Target is null)
             {
                 Debug.Assert(false, "Эффект не наложен");
@@ -31,7 +30,7 @@ namespace Rpg.Client.Core.Effects
             }
 
             IsImposed = false;
-            EffectProsessor.Impose(DispelRules, Target, null);
+            Combat.EffectProcessor.Impose(DispelRules, Target, null);
             Dispelled?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterDispel();
         }
@@ -44,7 +43,7 @@ namespace Rpg.Client.Core.Effects
         {
             Target = target;
             IsImposed = true;
-            EffectProsessor.Impose(ImposeRules, Target, null);
+            Combat.EffectProcessor.Impose(ImposeRules, Target, null);
             Imposed?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterImpose();
         }
@@ -62,7 +61,7 @@ namespace Rpg.Client.Core.Effects
 
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
-            EffectProsessor.Impose(InfluenceRules, Target, null);
+            Combat.EffectProcessor.Impose(InfluenceRules, Target, null);
         }
 
         protected virtual void AfterDispel()
