@@ -104,6 +104,88 @@ namespace Rpg.Client.Models
             return true;
         }
 
+        public void StoreGlobe()
+        {
+            var progress = new ProgressDto
+            {
+                Player = new PlayerDto
+                {
+                    Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
+                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
+                },
+                Events = GetUsedEventDtos(EventCatalog.Events),
+                Biomes = GetBiomeDtos(Globe.Biomes)
+            };
+            var serializedSave = JsonSerializer.Serialize(progress);
+            File.WriteAllText(_saveFilePath, serializedSave);
+        }
+
+        private static Unit[] CreateStartUnits()
+        {
+            return new[]
+            {
+                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                {
+                    IsPlayerControlled = true,
+                    EquipmentLevel = 1
+                }
+            };
+        }
+
+        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Core.Biome> biomes)
+        {
+            foreach (var biome in biomes)
+            {
+                yield return new BiomeDto
+                {
+                    Level = biome.Level,
+                    Type = biome.Type,
+                    IsComplete = biome.IsComplete,
+                    IsAvailable = biome.IsAvailable
+                };
+            }
+        }
+
+        private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
+        {
+            var unitDtos = units.Select(
+                unit => new UnitDto
+                {
+                    SchemeSid = unit.UnitScheme.Name,
+                    Hp = unit.Hp,
+                    Xp = unit.Xp,
+                    Level = unit.Level,
+                    EquipmentItems = unit.EquipmentItems,
+                    EquipmentLevel = unit.EquipmentLevel
+                });
+
+            var groupDto = new GroupDto
+            {
+                Units = unitDtos
+            };
+
+            return groupDto;
+        }
+
+        private static IEnumerable<EventDto?> GetUsedEventDtos(IEnumerable<Core.Event> events)
+        {
+            foreach (var eventItem in events)
+            {
+                if (eventItem.Counter <= 0)
+                {
+                    continue;
+                }
+
+                var dto = new EventDto
+                {
+                    Sid = eventItem.Name,
+                    Counter = eventItem.Counter
+                };
+
+                yield return dto;
+            }
+        }
+
         private static void LoadBiomes(IEnumerable<BiomeDto> biomeDtoList, IEnumerable<Core.Biome> biomes)
         {
             if (biomeDtoList is null)
@@ -134,88 +216,6 @@ namespace Rpg.Client.Models
             }
         }
 
-        public void StoreGlobe()
-        {
-            var progress = new ProgressDto
-            {
-                Player = new PlayerDto
-                {
-                    Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
-                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
-                },
-                Events = GetUsedEventDtos(EventCatalog.Events),
-                Biomes = GetBiomeDtos(Globe.Biomes)
-            };
-            var serializedSave = JsonSerializer.Serialize(progress);
-            File.WriteAllText(_saveFilePath, serializedSave);
-        }
-
-        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Core.Biome> biomes)
-        {
-            foreach (var biome in biomes)
-            {
-                yield return new BiomeDto
-                {
-                    Level = biome.Level,
-                    Type = biome.Type,
-                    IsComplete = biome.IsComplete,
-                    IsAvailable = biome.IsAvailable
-                };
-            }
-        }
-
-        private static IEnumerable<EventDto?> GetUsedEventDtos(IEnumerable<Core.Event> events)
-        {
-            foreach (var eventItem in events)
-            {
-                if (eventItem.Counter <= 0)
-                {
-                    continue;
-                }
-
-                var dto = new EventDto
-                {
-                    Sid = eventItem.Name,
-                    Counter = eventItem.Counter
-                };
-
-                yield return dto;
-            }
-        }
-
-        private static Unit[] CreateStartUnits()
-        {
-            return new[]
-            {
-                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
-                {
-                    IsPlayerControlled = true,
-                    EquipmentLevel = 1
-                }
-            };
-        }
-
-        private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
-        {
-            var unitDtos = units.Select(
-                unit => new UnitDto
-                {
-                    SchemeSid = unit.UnitScheme.Name,
-                    Hp = unit.Hp,
-                    Xp = unit.Xp,
-                    Level = unit.Level,
-                    EquipmentItems = unit.EquipmentItems,
-                    EquipmentLevel = unit.EquipmentLevel
-                });
-
-            var groupDto = new GroupDto
-            {
-                Units = unitDtos
-            };
-
-            return groupDto;
-        }
-
         private static Group LoadPlayerGroup(GroupDto groupDto)
         {
             var units = new List<Unit>();
@@ -225,7 +225,8 @@ namespace Rpg.Client.Models
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 
-                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp, unitDto.EquipmentItems)
+                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp,
+                    unitDto.EquipmentItems)
                 {
                     IsPlayerControlled = true
                 };

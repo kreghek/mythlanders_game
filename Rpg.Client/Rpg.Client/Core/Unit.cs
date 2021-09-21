@@ -20,7 +20,6 @@ namespace Rpg.Client.Core
             EquipmentLevel = equipmentLevel;
             EquipmentItems = equipmentItems;
 
-
             InitStats(unitScheme);
             RestoreHP();
         }
@@ -102,6 +101,11 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
+        public void RestoreHP()
+        {
+            Hp = MaxHp;
+        }
+
         public void TakeDamage(int damage)
         {
             Hp -= Math.Min(Hp, damage);
@@ -160,11 +164,6 @@ namespace Rpg.Client.Core
             }
 
             Skills = unitScheme.Skills;
-        }
-
-        public void RestoreHP()
-        {
-            Hp = MaxHp;
         }
 
         public event EventHandler<int>? DamageTaken;

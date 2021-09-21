@@ -46,11 +46,11 @@ namespace Rpg.Client.Models.Combat
         private bool _bossWasDefeat;
         private CombatResultModal? _combatResultModal;
         private CombatSkillPanel? _combatSkillsPanel;
+        private readonly IDice _dice;
 
         private bool _finalBossWasDefeat;
 
         private bool _unitsInitialized;
-        private IDice _dice;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -308,14 +308,6 @@ namespace Rpg.Client.Models.Combat
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                 }
-            }
-        }
-
-        private void RestoreGroupHp()
-        {
-            foreach (var unit in _globe.Player.GetAll)
-            {
-                unit.RestoreHP();
             }
         }
 
@@ -640,6 +632,14 @@ namespace Rpg.Client.Models.Combat
                 }
 
                 InitHudButton(target, skillCard);
+            }
+        }
+
+        private void RestoreGroupHp()
+        {
+            foreach (var unit in _globe.Player.GetAll)
+            {
+                unit.RestoreHP();
             }
         }
 
