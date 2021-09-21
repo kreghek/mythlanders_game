@@ -199,7 +199,7 @@ namespace Rpg.Client.Models.Combat.Ui
             return sid switch
             {
                 "Slash" => 0,
-                "Defence Stance" => 1,
+                "Defense Stance" => 1,
                 "Wide Slash" => 2,
                 "Strike" => 3,
                 "Arrow Rain" => 4,

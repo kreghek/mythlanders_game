@@ -185,6 +185,28 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     break;
 
+                case "Defense Stance":
+                    {
+                        bulletBlocker?.Release();
+
+                        animationBlocker.Released += (s, e) =>
+                        {
+                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                        };
+
+                        var hitSound = GetHitSound(skill);
+
+                        state = new UnitSupportState(
+                            graphics: _graphics,
+                            graphicsRoot: _graphics.Root,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: interaction,
+                            hitSound: hitSound);
+                    }
+
+                    break;
+
                 case "Strike":
                     {
                         if (bulletBlocker is null)
