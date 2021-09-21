@@ -253,7 +253,7 @@ namespace Rpg.Client.Models.Biome
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
-            var dialogMarkerText = node.AvailableDialog is not null ? "(!)" : string.Empty;
+            var dialogMarkerText = node.AvailableDialog is not null ? $"(!) {node.AvailableDialog.Name}" : string.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 toolTipPosition + new Vector2(5, 25), Color.Black);
 
