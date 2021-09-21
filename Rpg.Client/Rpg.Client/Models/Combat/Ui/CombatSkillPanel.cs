@@ -15,6 +15,7 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
+        public ActiveCombat Combat { get; }
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
@@ -22,9 +23,12 @@ namespace Rpg.Client.Models.Combat.Ui
         private ButtonBase? _hoverButton;
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
+        private KeyboardState _currentKeyboardState;
+        private KeyboardState? _lastKeyboardState;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage)
+        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat)
         {
+            Combat = combat;
             _buttons = new List<IconButton>();
             _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
 
@@ -99,20 +103,23 @@ namespace Rpg.Client.Models.Combat.Ui
                 {
                     var rule = skillRules[ruleIndex];
                     var effectCreator = rule.EffectCreator;
-                    var effectToDisplay = effectCreator.CreateToDisplay(Unit);
+                    var effectToDisplay = effectCreator.Create(Unit, Combat);
 
                     var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 
                     if (effectToDisplay is AttackEffect attackEffect)
                     {
+                        var damage = attackEffect.CalculateDamage();
+
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"Damage: {attackEffect.MinDamage} - {attackEffect.MaxDamage} to {rule.Direction}",
+                            $"Damage: {damage.Min} - {damage.Max} to {rule.Direction}",
                             rulePosition, Color.Black);
                     }
                     else if (effectToDisplay is HealEffect healEffect)
                     {
+                        var heal = healEffect.CalculateHeal();
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"Heal: {healEffect.MinHeal} - {healEffect.MaxHeal}", rulePosition, Color.Black);
+                            $"Heal: {heal.Min} - {heal.Max}", rulePosition, Color.Black);
                     }
                     else if (effectToDisplay is PeriodicHealEffect)
                     {
@@ -123,7 +130,7 @@ namespace Rpg.Client.Models.Combat.Ui
                     {
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
                     }
-                    else if (effectToDisplay is PowerUpEffect)
+                    else if (effectToDisplay is IncreaseAttackEffect)
                     {
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Power up", rulePosition, Color.Black);
                     }
@@ -138,6 +145,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 return;
             }
 
+            KeyboardInputUpdate();
+
             var mouse = Mouse.GetState();
             var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
 
@@ -151,6 +160,54 @@ namespace Rpg.Client.Models.Combat.Ui
                     _hoverButton = button;
                 }
             }
+        }
+
+        private void KeyboardInputUpdate()
+        {
+            _currentKeyboardState = Keyboard.GetState();
+
+            var buttonIndex = -1;
+
+            if (IsKeyPressed(Keys.D1))
+            {
+                buttonIndex = 0;
+            }
+            else if (IsKeyPressed(Keys.D2))
+            {
+                buttonIndex = 1;
+            }
+            else if (IsKeyPressed(Keys.D3))
+            {
+                buttonIndex = 2;
+            }
+            else if (IsKeyPressed(Keys.D4))
+            {
+                buttonIndex = 3;
+            }
+            else if (IsKeyPressed(Keys.D5))
+            {
+                buttonIndex = 4;
+            }
+
+            PressButton(buttonIndex);
+
+            _lastKeyboardState = _currentKeyboardState;
+        }
+
+        private void PressButton(int index)
+        {
+            if (index < 0 || _buttons.Count <= index)
+                return;
+
+            _buttons[index].Click();
+        }
+
+        private bool IsKeyPressed(Keys key)
+        {
+            if (_lastKeyboardState is null)
+                return false;
+
+            return _lastKeyboardState.Value.IsKeyDown(key) && _currentKeyboardState.IsKeyUp(key);
         }
 
         private void CombatPowerButton_OnClick(object? sender, EventArgs e)

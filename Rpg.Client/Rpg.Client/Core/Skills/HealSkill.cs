@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Skills
                 {
                     var res = new HealEffect
                     {
-                        Power = u.Unit.Power,
+                        Actor = u,
                         PowerMultiplier = 1,
                         ValueRange = 1
                     };
