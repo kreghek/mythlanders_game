@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
 {
     internal class Unit
     {
-        public Unit(UnitScheme unitScheme, int level): this(unitScheme, level, 0, 0, 0)
+        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
         {
         }
 
