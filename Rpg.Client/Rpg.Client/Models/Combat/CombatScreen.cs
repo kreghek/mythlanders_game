@@ -82,6 +82,15 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
 
             base.Draw(gameTime, spriteBatch);
+
+            DrawModals(spriteBatch);
+        }
+
+        private void DrawModals(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            _combatResultModal?.Draw(spriteBatch);
+            spriteBatch.End();
         }
 
         public void Initialize()
@@ -398,8 +407,6 @@ namespace Rpg.Client.Models.Combat
             {
                 // TODO Fix NRE in the end of the combat with more prefessional way 
             }
-
-            _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();
         }
