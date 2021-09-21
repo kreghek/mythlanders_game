@@ -13,13 +13,16 @@ namespace Rpg.Client.Models.Title
 {
     internal sealed class TitleScreen : GameScreenBase
     {
-        private const int BUTTON_WIDTH = 100;
         private const int BUTTON_HEIGHT = 20;
 
+        private const int BUTTON_WIDTH = 100;
+
         private readonly IList<ButtonBase> _buttons;
+
         private readonly GlobeProvider _globeProvider;
 
-        public TitleScreen(EwarGame game) : base(game)
+        public TitleScreen(EwarGame game)
+            : base(game)
         {
 #if DEBUG
             var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
@@ -40,12 +43,16 @@ namespace Rpg.Client.Models.Title
 
             _buttons = new List<ButtonBase>();
 
-            var startButton = new TextButton(UiResource.StartGameButtonTitle, buttonTexture, font,
+            var startButton = new TextButton(
+                UiResource.StartGameButtonTitle,
+                buttonTexture,
+                font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 150, 100, 20));
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
 
-            var switchLanguageButton = new TextButton(UiResource.SwitchLanguageButtonTitle,
+            var switchLanguageButton = new TextButton(
+                UiResource.SwitchLanguageButtonTitle,
                 buttonTexture,
                 font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 200, 100, 20));
@@ -53,23 +60,19 @@ namespace Rpg.Client.Models.Title
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
             _buttons.Add(switchLanguageButton);
 
-            var switchResolutionButton = new TextButton(UiResource.SwitchResolutionButtonTitle,
+            var switchResolutionButton = new TextButton(
+                UiResource.SwitchResolutionButtonTitle,
                 buttonTexture,
                 font,
                 new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 250, 100, 20));
             switchResolutionButton.OnClick += SwitchResolutionButton_OnClick;
             _buttons.Add(switchResolutionButton);
 
-            var loadGameButton = new TextButton("Load", buttonTexture,
-                font, new Rectangle(0, 0, 100, 25));
-
-            loadGameButton.OnClick += (s, e) =>
+            var loadGameButton = GetLoadButton(buttonTexture, font);
+            if (loadGameButton != null)
             {
-                _globeProvider.LoadGlobe();
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-            };
-            _buttons.Add(loadGameButton);
+                _buttons.Add(loadGameButton);   
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -104,6 +107,33 @@ namespace Rpg.Client.Models.Title
             base.Update(gameTime);
         }
 
+        private ButtonBase? GetLoadButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            if (!_globeProvider.CheckExistsSave())
+            {
+                return null;
+            }
+
+            var loadGameButton = new TextButton(
+                "Load last save",
+                buttonTexture,
+                font,
+                new Rectangle(0, 0, 100, 25));
+
+            loadGameButton.OnClick += (s, e) =>
+            {
+                var isSuccessLoaded = _globeProvider.LoadGlobe();
+                if (!isSuccessLoaded)
+                {
+                    return;
+                }
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+            };
+
+            return loadGameButton;
+        }
+
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
@@ -113,7 +143,9 @@ namespace Rpg.Client.Models.Title
         private void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
         {
             var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-            if (string.Equals(currentLanguage.TwoLetterISOLanguageName, "en",
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "en",
                 StringComparison.InvariantCultureIgnoreCase))
             {
                 var newCulture = CultureInfo.GetCultureInfo("ru-RU");

@@ -1,6 +1,8 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -95,31 +97,31 @@ namespace Rpg.Client.Engine
 
         private static void PlayClickSoundIfExists()
         {
-            //if (UiThemeManager.SoundStorage == null)
-            //{
-            //    // See the description in PlayHoverSoundIfExists method.
-            //    return;
-            //}
+            if (UiThemeManager.SoundStorage is null)
+            {
+                // See the description in PlayHoverSoundIfExists method.
+                return;
+            }
 
-            //var soundEffect = UiThemeManager.SoundStorage.GetButtonClickEffect();
-            //soundEffect.Play();
+            var soundEffect = UiThemeManager.SoundStorage.GetButtonClickEffect();
+            soundEffect.Play();
         }
 
         private static void PlayHoverSoundIfExists()
         {
-            //if (UiThemeManager.SoundStorage == null)
-            //{
-            //    // Sound content was not loaded.
-            //    // This may occured by a few reasons:
-            //    // - Content was not loaded yet. This is not critical to skip effect playing once. May be next time sound effect will be ready to play.
-            //    // - There is test environment. So there is need no sounds to auto-tests.
-            //    // - Developer forget to load content and assign UiThemeManager.SoundStorage. This is error bu no way to differ is from two other reasons above.
-            //    // So just do nothing.
-            //    return;
-            //}
+            if (UiThemeManager.SoundStorage is null)
+            {
+                // Sound content was not loaded.
+                // This may occured by a few reasons:
+                // - Content was not loaded yet. This is not critical to skip effect playing once. May be next time sound effect will be ready to play.
+                // - There is test environment. So there is need no sounds to auto-tests.
+                // - Developer forget to load content and assign UiThemeManager.SoundStorage. This is error bu no way to differ is from two other reasons above.
+                // So just do nothing.
+                return;
+            }
 
-            //var soundEffect = UiThemeManager.SoundStorage.GetButtonHoverEffect();
-            //soundEffect.Play();
+            var soundEffect = UiThemeManager.SoundStorage.GetButtonHoverEffect();
+            soundEffect.Play();
         }
 
         private Color SelectColorByState()
@@ -135,5 +137,61 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
+    }
+
+    internal static class UiThemeManager
+    {
+        private static IUiSoundStorage? _soundStorage;
+
+        public static IUiSoundStorage? SoundStorage
+        {
+            get => _soundStorage;
+            set
+            {
+                if (_soundStorage?.ContentWasLoaded == false)
+                {
+                    throw new InvalidOperationException(
+                        "Sound Storage must load content before assigning in Ui theme manager.");
+                }
+
+                _soundStorage = value;
+            }
+        }
+    }
+
+    internal interface IUiSoundStorage
+    {
+        bool ContentWasLoaded { get; }
+
+        SoundEffect GetButtonClickEffect();
+        SoundEffect GetButtonHoverEffect();
+
+        void LoadContent(ContentManager contentManager);
+    }
+
+    internal sealed class UiSoundStorage : IUiSoundStorage
+    {
+        private SoundEffect? _buttonClickSoundEffect;
+        private SoundEffect? _buttonHoverSoundEffect;
+
+        public bool ContentWasLoaded { get; private set; }
+
+        public SoundEffect GetButtonClickEffect()
+        {
+            return _buttonClickSoundEffect ?? throw new InvalidOperationException("Sound must be loaded before using.");
+        }
+
+        public SoundEffect GetButtonHoverEffect()
+        {
+            return _buttonHoverSoundEffect ?? throw new InvalidOperationException("Sound must be loaded before using.");
+        }
+
+        public void LoadContent(ContentManager contentManager)
+        {
+            _buttonClickSoundEffect = contentManager.Load<SoundEffect>("Audio/Ui/ButtonClick");
+            _buttonHoverSoundEffect = contentManager.Load<SoundEffect>("Audio/Ui/ButtonHover");
+
+            ContentWasLoaded = true;
+        }
     }
 }

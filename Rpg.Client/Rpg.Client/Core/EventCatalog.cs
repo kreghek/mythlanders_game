@@ -6,26 +6,26 @@ namespace Rpg.Client.Core
     {
         private static readonly Event[] _dialogs =
         {
-            CreateTestDialog(1),
-            CreateTestDialog(2),
-            CreateTestDialog(3),
-            CreateTestDialog(4),
-            CreateTestDialog(5),
-            CreateTestDialog(6),
-            CreateTestDialog(7),
-            CreateTestDialog(8),
-            CreateTestDialog(9),
-            CreateTestDialog(10),
+            CreateTestDialog(1, BiomeType.Slavic),
+            CreateTestDialog(2, BiomeType.Slavic),
+            CreateTestDialog(3, BiomeType.Slavic),
+            CreateTestDialog(4, BiomeType.Slavic),
+            CreateTestDialog(5, BiomeType.Slavic),
+            CreateTestDialog(6, BiomeType.Slavic),
+            CreateTestDialog(7, BiomeType.Slavic),
+            CreateTestDialog(8, BiomeType.Slavic),
+            CreateTestDialog(9, BiomeType.Slavic),
+            CreateTestDialog(10, BiomeType.Slavic),
 
-            CreateMeetArcherDialog(),
             CreateMeetHerbalistDialog(),
+            CreateMeetArcherDialog(),
             CreateMeetPriestDialog(),
             CreateMeetMissionaryDialog()
         };
 
         public static IEnumerable<Event> Dialogs => _dialogs;
 
-        private static Event CreateMeetArcherDialog()
+        private static Event CreateMeetHerbalistDialog()
         {
             var dialogNode1 = new EventNode
             {
@@ -58,6 +58,7 @@ namespace Rpg.Client.Core
 
             var dialog = new Event
             {
+                Name = "Собирая гербарий",
                 Nodes = new[]
                 {
                     dialogNode1,
@@ -65,12 +66,14 @@ namespace Rpg.Client.Core
                 },
                 StartNode = dialogNode1,
                 IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetHerbalist
+                SystemMarker = SystemEventMarker.MeetHerbalist,
+                Biome = BiomeType.Slavic,
+                RequiredBiomeLevel = 10
             };
             return dialog;
         }
 
-        private static Event CreateMeetHerbalistDialog()
+        private static Event CreateMeetArcherDialog()
         {
             var dialogNode1 = new EventNode
             {
@@ -103,6 +106,7 @@ namespace Rpg.Client.Core
 
             var dialog = new Event
             {
+                Name = "Ты и я одной крови",
                 Nodes = new[]
                 {
                     dialogNode1,
@@ -110,7 +114,9 @@ namespace Rpg.Client.Core
                 },
                 StartNode = dialogNode1,
                 IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetArcher
+                SystemMarker = SystemEventMarker.MeetArcher,
+                Biome = BiomeType.Slavic,
+                RequiredBiomeLevel = 5
             };
             return dialog;
         }
@@ -148,6 +154,7 @@ namespace Rpg.Client.Core
 
             var dialog = new Event
             {
+                Name = "Я несу слово",
                 Nodes = new[]
                 {
                     dialogNode1,
@@ -155,7 +162,8 @@ namespace Rpg.Client.Core
                 },
                 StartNode = dialogNode1,
                 IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetMissionary
+                SystemMarker = SystemEventMarker.MeetMissionary,
+                Biome = BiomeType.China
             };
             return dialog;
         }
@@ -193,6 +201,7 @@ namespace Rpg.Client.Core
 
             var dialog = new Event
             {
+                Name = "Поклонение песку",
                 Nodes = new[]
                 {
                     dialogNode1,
@@ -200,12 +209,13 @@ namespace Rpg.Client.Core
                 },
                 StartNode = dialogNode1,
                 IsUnique = true,
-                SystemMarker = SystemEventMarker.MeetPriest
+                SystemMarker = SystemEventMarker.MeetPriest,
+                Biome = BiomeType.Egypt
             };
             return dialog;
         }
 
-        private static Event CreateTestDialog(int id)
+        private static Event CreateTestDialog(int id, BiomeType biomeType)
         {
             var dialogNode1 = new EventNode
             {
@@ -237,12 +247,14 @@ namespace Rpg.Client.Core
 
             var dialog = new Event
             {
+                Name = $"Тестовое событие {id}",
                 Nodes = new[]
                 {
                     dialogNode1,
                     dialogNode2
                 },
-                StartNode = dialogNode1
+                StartNode = dialogNode1,
+                Biome = biomeType
             };
             return dialog;
         }

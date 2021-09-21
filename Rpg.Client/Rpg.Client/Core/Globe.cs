@@ -61,8 +61,8 @@ namespace Rpg.Client.Core
         public void UpdateNodes(IDice dice)
         {
             // Reset all combat states.
-            var bioms = Bioms.Where(x => x.IsAvailable).ToArray();
-            foreach (var biom in bioms)
+            var biomes = Bioms.Where(x => x.IsAvailable).ToArray();
+            foreach (var biom in biomes)
             {
                 foreach (var node in biom.Nodes)
                 {
@@ -79,11 +79,11 @@ namespace Rpg.Client.Core
             }
 
             // Create new combats
-            foreach (var biom in bioms)
+            foreach (var biome in biomes)
             {
-                if (biom.Level < 10)
+                if (biome.Level < 10)
                 {
-                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
+                    var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                     var combatLevelAdditional = 0;
@@ -92,11 +92,11 @@ namespace Rpg.Client.Core
                         var selectedNode = nodesWithCombats[i];
                         var targetCombatCount = selectedNodeCombatCount[i];
 
-                        var combatLevel = biom.Level + combatLevelAdditional;
+                        var combatLevel = biome.Level + combatLevelAdditional;
                         var combatList = new List<Combat>();
                         for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                         {
-                            var units = CreateReqularMonsters(selectedNode, dice, biom, combatLevel);
+                            var units = CreateReqularMonsters(selectedNode, dice, biome, combatLevel);
 
                             var combat = new Combat
                             {
@@ -124,7 +124,7 @@ namespace Rpg.Client.Core
                 {
                     var combatLevelAdditional = 0;
 
-                    var nodesWithCombats = dice.RollFromList(biom.Nodes.ToList(), 3).ToArray();
+                    var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
                     for (var i = 0; i < nodesWithCombats.Length; i++)
@@ -135,7 +135,7 @@ namespace Rpg.Client.Core
                         if (i == 0)
                         {
                             var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
-                                .Where(x => x.IsBoss && x.Biom == biom.Type).ToList();
+                                .Where(x => x.IsBoss && x.Biom == biome.Type).ToList();
                             var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
 
                             var combatList = new[]
@@ -149,7 +149,7 @@ namespace Rpg.Client.Core
                                         {
                                             new Unit(
                                                 bossUnitScheme,
-                                                biom.Level)
+                                                biome.Level)
                                         }
                                     }
                                 }
@@ -164,14 +164,14 @@ namespace Rpg.Client.Core
                         }
                         else
                         {
-                            var combatLevel = biom.Level + combatLevelAdditional;
+                            var combatLevel = biome.Level + combatLevelAdditional;
                             var targetCombatCount = selectedNodeCombatCount[i - 1];
 
                             var combatList = new List<Combat>();
 
                             for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                             {
-                                var units = CreateReqularMonsters(selectedNode, dice, biom, combatLevel);
+                                var units = CreateReqularMonsters(selectedNode, dice, biome, combatLevel);
 
                                 var combat = new Combat
                                 {
@@ -199,9 +199,12 @@ namespace Rpg.Client.Core
             }
 
             // create dialogs of nodes with combat
-            var nodesWithCombat = bioms.SelectMany(x => x.Nodes).Where(x => x.CombatSequence is not null).ToArray();
+            foreach (var biome in biomes)
+            {
+                var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
-            AssignEventToNodesWithCombat(dice, nodesWithCombat);
+                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat);
+            }
         }
 
         /// <summary>
@@ -215,18 +218,23 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(IDice dice, GlobeNode[] nodesWithCombat)
+        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat)
         {
-            var availableEvents = EventCatalog.Dialogs.Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique));
+            var availableEvents = EventCatalog.Dialogs
+                .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
+                .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
+                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) || (x.RequiredBiomeLevel is null));
+            var availableEventList = availableEvents.ToList();
+
             foreach (var node in nodesWithCombat)
             {
-                var availableEventList = availableEvents.ToList();
                 var roll = dice.Roll(1, 10);
                 if (roll > 5)
                 {
                     var minCounter = availableEvents.Min(x => x.Counter);
                     var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
-                    node.AvailableDialog = dice.RollFromList(currentRankEventList, 1).Single();
+                    var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
+                    node.AvailableDialog = rolledEvent;
                     availableEventList.Remove(node.AvailableDialog);
                 }
             }

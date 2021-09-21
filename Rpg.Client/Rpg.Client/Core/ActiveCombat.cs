@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Core.Effects;
+using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Models.Biome.GameObjects;
 
@@ -11,7 +13,7 @@ namespace Rpg.Client.Core
     internal class ActiveCombat
     {
         private readonly IList<CombatUnit> _allUnitList;
-        private readonly IDice _dice;
+        public IDice Dice { get; }
         private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit? _currentUnit;
@@ -24,15 +26,18 @@ namespace Rpg.Client.Core
             Node = node;
             Combat = combat;
             Biom = biom;
-            _dice = dice;
+            Dice = dice;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
-            EffectProcessor = new EffectProcessor(this, _dice);
+            EffectProcessor = new EffectProcessor(this);
+            ModifiersProcessor = new ModifiersProcessor();
         }
 
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
+
+        public ModifiersProcessor ModifiersProcessor { get; }
 
         public CombatUnit? CurrentUnit
         {
@@ -230,7 +235,7 @@ namespace Rpg.Client.Core
 
         private IDice GetDice()
         {
-            return _dice;
+            return Dice;
         }
 
 

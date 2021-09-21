@@ -86,7 +86,7 @@ namespace Rpg.Client.Models.Combat
 
         public void Initialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.UnitChanged += Combat_UnitChanged;
             _combat.UnitReadyToControl += Combat_UnitReadyToControl;
@@ -632,13 +632,13 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void Unit_Damaged(object? sender, CombatUnit.UnitHpchangedEventArgs e)
+        private void Unit_Damaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unitView = GetUnitGameObject(e.Unit);
             AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
         }
 
-        private void Unit_Healed(object? sender, CombatUnit.UnitHpchangedEventArgs e)
+        private void Unit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unitView = GetUnitGameObject(e.Unit);
             AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));

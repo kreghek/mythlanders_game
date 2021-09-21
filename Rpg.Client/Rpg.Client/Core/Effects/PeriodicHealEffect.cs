@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Effects
         protected override void InfluenceAction()
         {
             var min = Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-            Target.Unit.TakeHeal(Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
+            Target.Unit.TakeHeal(Combat.Dice.Roll(min, (int)(Power * PowerMultiplier + ValueRange)));
             base.InfluenceAction();
         }
     }
