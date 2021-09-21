@@ -37,7 +37,7 @@ namespace Rpg.Client.Core.Effects
             if (Modifiers is null)
                 return;
 
-            foreach(var modifier in Modifiers)
+            foreach (var modifier in Modifiers)
                 Combat.ModifiersProcessor.RegisterModifier(Target, modifier);
         }
     }

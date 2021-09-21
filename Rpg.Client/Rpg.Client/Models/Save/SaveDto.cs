@@ -26,11 +26,11 @@ namespace Rpg.Client.Models.Save
     internal record UnitDto
     {
         public string SchemeName { get; init; }
-        
+
         public int Hp { get; init; }
-        
+
         public int Xp { get; init; }
-        
+
         public int Level { get; init; }
 
         public IEnumerable<string> SkillSids { get; init; }

@@ -71,7 +71,7 @@ namespace Rpg.Client.Models.Title
             var loadGameButton = GetLoadButton(buttonTexture, font);
             if (loadGameButton != null)
             {
-                _buttons.Add(loadGameButton);   
+                _buttons.Add(loadGameButton);
             }
         }
 
