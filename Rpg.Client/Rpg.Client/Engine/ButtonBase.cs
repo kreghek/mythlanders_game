@@ -22,7 +22,8 @@ namespace Rpg.Client.Engine
 
         public Rectangle Rect
         {
-            get { 
+            get
+            {
                 return _rect;
             }
             set

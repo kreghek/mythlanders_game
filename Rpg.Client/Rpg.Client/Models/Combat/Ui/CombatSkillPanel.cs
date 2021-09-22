@@ -158,7 +158,7 @@ namespace Rpg.Client.Models.Combat.Ui
             var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
                 Color.Black);
-            
+
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
             if (combatPower.Skill.Cost is not null)
             {

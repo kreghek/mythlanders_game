@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
             PowerPerLevel = 2,
 
             Name = "Беримир",
-            SkillSets = new List<SkillSet> { 
+            SkillSets = new List<SkillSet> {
                 new SkillSet{
                     Skills = new List<SkillBase>
                     {
@@ -220,7 +220,7 @@ namespace Rpg.Client.Core
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(), // Bite
-                            new DefenseSkill(), 
+                            new DefenseSkill(),
                             new WideSlashSkill()
                         }
                     }

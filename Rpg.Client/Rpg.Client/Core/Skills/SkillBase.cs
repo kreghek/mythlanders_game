@@ -4,7 +4,8 @@ namespace Rpg.Client.Core.Skills
 {
     internal abstract class SkillBase
     {
-        protected SkillBase() {
+        protected SkillBase()
+        {
             Cost = null;
         }
 
