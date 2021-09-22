@@ -13,6 +13,7 @@ namespace Rpg.Client.Engine
 
         private string? _state;
         private IUiContentStorage? _uiContentStorage;
+        private Song? _currentSong;
 
         public SoundtrackManager()
         {
@@ -57,6 +58,7 @@ namespace Rpg.Client.Engine
             switch (_state)
             {
                 case null:
+                    _currentSong = null;
                     MediaPlayer.Stop();
                     break;
 
@@ -69,7 +71,8 @@ namespace Rpg.Client.Engine
                         {
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.75f;
-                            MediaPlayer.Play(_uiContentStorage.GetTitleSong(), TimeSpan.Zero);
+                            _currentSong = _uiContentStorage.GetTitleSong();
+                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
                     }
 
@@ -84,6 +87,8 @@ namespace Rpg.Client.Engine
                         {
                             var songs = _uiContentStorage.GetMapSong().ToArray();
                             var song = songs[_random.Next(0, songs.Length)];
+
+                            _currentSong = song;
 
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.75f;
@@ -104,6 +109,8 @@ namespace Rpg.Client.Engine
                             var soundIndex = _random.Next(0, songs.Length);
                             var song = songs[soundIndex];
 
+                            _currentSong = song;
+
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.75f;
                             MediaPlayer.Play(song, TimeSpan.Zero);
@@ -113,6 +120,8 @@ namespace Rpg.Client.Engine
                     break;
             }
         }
+
+        public string? CurrentTrackName => _currentSong?.Name;
 
         private void ChangeState(string targetState)
         {
