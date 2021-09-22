@@ -299,7 +299,12 @@ namespace Rpg.Client.Core
 
             if (e.Damager.Unit.IsPlayerControlled)
             {
-                e.Damager.Unit.RestoreManaPoint();
+                var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+
+                foreach (var unitToRestoreMana in playerUnits)
+                {
+                    unitToRestoreMana.Unit.RestoreManaPoint();
+                }
             }
 
             var combatUnit = _unitQueue.FirstOrDefault(x => x.Unit == unit);
