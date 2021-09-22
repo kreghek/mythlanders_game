@@ -245,7 +245,7 @@ namespace Rpg.Client.Models.Biome
             var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
 
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                new Rectangle(toolTipPosition.ToPoint(), new Point(100, 100)), Color.White);
+                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 200)), Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
             var node = nodeGameObject;
 
@@ -276,16 +276,21 @@ namespace Rpg.Client.Models.Biome
                 }
             }
 
-            if (node.Combat is not null)
+            if (node.GlobeNode.CombatSequence is not null)
             {
                 var monsterIndex = 0;
-                foreach (var monster in node.Combat.EnemyGroup.Units)
+                var roundIndex = 1;
+                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
                 {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        $"{monster.UnitScheme.Name} ({monster.Level})",
-                        toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
+                    foreach (var monster in node.Combat.EnemyGroup.Units)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
+                            toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
 
-                    monsterIndex++;
+                        monsterIndex++;
+                    }
+                    roundIndex++;
                 }
             }
         }

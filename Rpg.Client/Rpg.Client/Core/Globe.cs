@@ -85,6 +85,7 @@ namespace Rpg.Client.Core
                 {
                     var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                     var combatLevelAdditional = 0;
                     for (var i = 0; i < nodesWithCombats.Length; i++)
@@ -92,7 +93,7 @@ namespace Rpg.Client.Core
                         var selectedNode = nodesWithCombats[i];
                         var targetCombatCount = selectedNodeCombatCount[i];
 
-                        var combatLevel = biome.Level + combatLevelAdditional;
+                        var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                         var combatList = new List<Combat>();
                         for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                         {
@@ -126,6 +127,7 @@ namespace Rpg.Client.Core
 
                     var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
                     for (var i = 0; i < nodesWithCombats.Length; i++)
                     {
@@ -164,7 +166,7 @@ namespace Rpg.Client.Core
                         }
                         else
                         {
-                            var combatLevel = biome.Level + combatLevelAdditional;
+                            var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                             var targetCombatCount = selectedNodeCombatCount[i - 1];
 
                             var combatList = new List<Combat>();
