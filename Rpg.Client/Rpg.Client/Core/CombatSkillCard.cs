@@ -14,8 +14,6 @@ namespace Rpg.Client.Core
             _combatSkillContext = combatSkillContext;
         }
 
-        public SkillBase Skill { get; }
-
         public bool IsAvailable
         {
             get
@@ -25,12 +23,12 @@ namespace Rpg.Client.Core
                     var currentMana = _combatSkillContext.GetMana();
                     return currentMana >= Skill.Cost;
                 }
-                else
-                {
-                    return true;
-                }
+
+                return true;
             }
         }
+
+        public SkillBase Skill { get; }
     }
 
     internal interface ICombatSkillContext

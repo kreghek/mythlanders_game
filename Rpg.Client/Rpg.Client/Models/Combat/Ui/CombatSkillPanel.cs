@@ -98,12 +98,6 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ButtonBase button)
-        {
-            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey.ToString(), hotkeyPosition, Color.Wheat);
-        }
-
         internal void Update()
         {
             if (!IsEnabled)
@@ -147,6 +141,12 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
+        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ButtonBase button)
+        {
+            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
+        }
+
         private void DrawHoverCombatSkillInfo(ButtonBase hoverButton, SpriteBatch spriteBatch)
         {
             var combatPower = _buttonCombatPowerDict[hoverButton];
@@ -163,7 +163,8 @@ namespace Rpg.Client.Models.Combat.Ui
             if (combatPower.Skill.Cost is not null)
             {
                 var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}", manaCostPosition, manaCostColor);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}",
+                    manaCostPosition, manaCostColor);
             }
 
             var ruleBlockPosition = manaCostPosition + new Vector2(0, 10);

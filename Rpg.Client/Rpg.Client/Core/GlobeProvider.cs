@@ -229,7 +229,7 @@ namespace Rpg.Client.Models
                 var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp,
                     unitDto.EquipmentItems)
                 {
-                    IsPlayerControlled = true,
+                    IsPlayerControlled = true
                 };
 
                 if (unitDto.ManaPool is not null)

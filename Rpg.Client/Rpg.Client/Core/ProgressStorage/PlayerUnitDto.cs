@@ -10,10 +10,10 @@ namespace Rpg.Client.Core.ProgressStorage
 
         public int Level { get; init; }
 
+        public int? ManaPool { get; init; }
+
         public string SchemeSid { get; init; }
 
         public int Xp { get; init; }
-
-        public int? ManaPool { get; init; }
     }
 }

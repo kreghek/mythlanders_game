@@ -632,7 +632,8 @@ namespace Rpg.Client.Models.Combat
                     continue;
                 }
 
-                if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.CombatUnit.Unit.IsPlayerControlled !=
+                if (skillCard.Skill.TargetType == SkillTargetType.Friendly &&
+                    target.CombatUnit.Unit.IsPlayerControlled !=
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;

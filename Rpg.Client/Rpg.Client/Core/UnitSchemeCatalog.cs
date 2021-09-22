@@ -15,21 +15,25 @@ namespace Rpg.Client.Core
             PowerPerLevel = 2,
 
             Name = "Беримир",
-            SkillSets = new List<SkillSet> {
-                new SkillSet{
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new SlashSkill()
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new SlashSkill(),
                         new DefenseSkill(true)
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new SlashSkill(),
@@ -48,21 +52,25 @@ namespace Rpg.Client.Core
             Power = 6,
             PowerPerLevel = 1,
 
-            SkillSets = new List<SkillSet> {
-                new SkillSet{
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new PeriodicHealSkill()
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new PeriodicHealSkill(),
                         new DopeHerbSkill(true)
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new PeriodicHealSkill(),
@@ -81,21 +89,25 @@ namespace Rpg.Client.Core
             Power = 13,
             PowerPerLevel = 2,
 
-            SkillSets = new List<SkillSet> {
-                new SkillSet{
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill()
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
                         new ArrowRainSkill(true)
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
@@ -115,21 +127,25 @@ namespace Rpg.Client.Core
 
             Name = "Кахотеп",
 
-            SkillSets = new List<SkillSet> {
-                new SkillSet{
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill()
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
                         new MassStunSkill(true)
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
@@ -149,24 +165,28 @@ namespace Rpg.Client.Core
 
             Name = "Тао Чан",
 
-            SkillSets = new List<SkillSet> {
-                new SkillSet{
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new DopeHerbSkill()
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
                         new DopeHerbSkill(),
                         new PowerUpSkill(true)
                     }
                 },
-                new SkillSet{
+                new SkillSet
+                {
                     Skills = new List<SkillBase>
                     {
-                        new DopeHerbSkill(),  // No violence, please
+                        new DopeHerbSkill(), // No violence, please
                         new PowerUpSkill(true), // Trust
                         new HealSkill(true) // God Mercifull Touch
                     }
@@ -193,8 +213,10 @@ namespace Rpg.Client.Core
                 Power = 2,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(), // Bite
@@ -215,8 +237,10 @@ namespace Rpg.Client.Core
                 Power = 1,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(), // Bite
@@ -225,7 +249,6 @@ namespace Rpg.Client.Core
                         }
                     }
                 }
-
             },
             new UnitScheme
             {
@@ -237,8 +260,10 @@ namespace Rpg.Client.Core
                 Power = 4,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new StrikeSkill(),
@@ -259,8 +284,10 @@ namespace Rpg.Client.Core
                 Power = 4,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(),
@@ -280,13 +307,15 @@ namespace Rpg.Client.Core
                 Power = 4,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(),
-                    new HealSkill(),
-                    new WideSlashSkill()
+                            new HealSkill(),
+                            new WideSlashSkill()
                         }
                     }
                 }
@@ -301,13 +330,15 @@ namespace Rpg.Client.Core
                 Power = 3,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
                             new MonsterAttackSkill(),
-                    new WideSlashSkill(),
-                    new HealSkill()
+                            new WideSlashSkill(),
+                            new HealSkill()
                         }
                     }
                 }
@@ -323,17 +354,18 @@ namespace Rpg.Client.Core
                 Power = 5,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
-                             new MonsterAttackSkill(),
-                    new DopeHerbSkill(),
-                    new MassHealSkill()
+                            new MonsterAttackSkill(),
+                            new DopeHerbSkill(),
+                            new MassHealSkill()
                         }
                     }
                 }
-
             },
             new UnitScheme
             {
@@ -345,12 +377,14 @@ namespace Rpg.Client.Core
                 Power = 3,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
-                           new MonsterAttackSkill(),
-                           new DefenseSkill()
+                            new MonsterAttackSkill(),
+                            new DefenseSkill()
                         }
                     }
                 }
@@ -366,13 +400,15 @@ namespace Rpg.Client.Core
                 Power = 4,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
-                           new MonsterAttackSkill(),
-                    new DopeHerbSkill(),
-                    new WideSlashSkill()
+                            new MonsterAttackSkill(),
+                            new DopeHerbSkill(),
+                            new WideSlashSkill()
                         }
                     }
                 }
@@ -387,13 +423,15 @@ namespace Rpg.Client.Core
                 Power = 13,
                 PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet> {
-                    new SkillSet{
+                SkillSets = new List<SkillSet>
+                {
+                    new SkillSet
+                    {
                         Skills = new List<SkillBase>
                         {
-                           new MonsterAttackSkill(),
-                    new DopeHerbSkill(),
-                    new ArrowRainSkill()
+                            new MonsterAttackSkill(),
+                            new DopeHerbSkill(),
+                            new ArrowRainSkill()
                         }
                     }
                 }

@@ -20,22 +20,16 @@ namespace Rpg.Client.Engine
             _buttonState = UiButtonState.OutOfButton;
         }
 
+        public bool IsEnabled { get; set; } = true;
+
         public Rectangle Rect
         {
-            get
-            {
-                return _rect;
-            }
+            get => _rect;
             set
             {
                 _rect = value;
                 HandleRectChanges();
             }
-        }
-
-        protected virtual void HandleRectChanges()
-        {
-            // Used only by children.
         }
 
         public Texture2D Texture { get; }
@@ -103,6 +97,11 @@ namespace Rpg.Client.Engine
 
         protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color);
 
+        protected virtual void HandleRectChanges()
+        {
+            // Used only by children.
+        }
+
         private bool CheckMouseOver()
         {
             var mouseState = Mouse.GetState();
@@ -156,7 +155,5 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
-
-        public bool IsEnabled { get; set; } = true;
     }
 }

@@ -33,11 +33,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
+        public CombatUnit CombatUnit { get; }
+
         public bool IsActive { get; set; }
 
         public Vector2 Position { get; }
-
-        public CombatUnit CombatUnit { get; }
 
         public void AnimateDeath()
         {
@@ -59,12 +59,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), CombatUnit.Unit.UnitScheme.Name,
                 _graphics.Root.Position - new Vector2(0, 100), color);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{CombatUnit.Unit.Hp}/{CombatUnit.Unit.MaxHp} HP",
+            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
+                $"{CombatUnit.Unit.Hp}/{CombatUnit.Unit.MaxHp} HP",
                 _graphics.Root.Position - new Vector2(0, 80), color);
 
             if (CombatUnit.Unit.IsPlayerControlled && CombatUnit.Unit.HasSkillsWithCost)
             {
-                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{CombatUnit.Unit.ManaPool}/{CombatUnit.Unit.ManaPoolSize} Mana",
+                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
+                    $"{CombatUnit.Unit.ManaPool}/{CombatUnit.Unit.ManaPoolSize} Mana",
                     _graphics.Root.Position - new Vector2(0, 70), color);
             }
         }
