@@ -10,15 +10,17 @@ namespace Rpg.Client.Engine
         private readonly Random _random;
 
         private bool _changeTrack;
+        private Song? _currentSong;
 
         private string? _state;
         private IUiContentStorage? _uiContentStorage;
-        private Song? _currentSong;
 
         public SoundtrackManager()
         {
             _random = new Random();
         }
+
+        public string? CurrentTrackName => _currentSong?.Name;
 
         public bool IsInitialized { get; private set; }
 
@@ -121,8 +123,6 @@ namespace Rpg.Client.Engine
                     break;
             }
         }
-
-        public string? CurrentTrackName => _currentSong?.Name;
 
         private void ChangeState(string targetState)
         {

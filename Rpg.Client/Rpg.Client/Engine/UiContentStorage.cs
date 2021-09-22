@@ -70,7 +70,7 @@ namespace Rpg.Client.Engine
             {
                 contentManager.Load<Song>("Audio/Background/Map"),
                 contentManager.Load<Song>("Audio/Background/Map2"),
-                contentManager.Load<Song>("Audio/Background/Map3"),
+                contentManager.Load<Song>("Audio/Background/Map3")
             };
             _battleTracks = new[]
             {
@@ -80,7 +80,7 @@ namespace Rpg.Client.Engine
                 contentManager.Load<Song>("Audio/Background/Battle4"),
                 contentManager.Load<Song>("Audio/Background/Battle5"),
                 contentManager.Load<Song>("Audio/Background/Battle6"),
-                contentManager.Load<Song>("Audio/Background/Battle7"),
+                contentManager.Load<Song>("Audio/Background/Battle7")
             };
         }
 

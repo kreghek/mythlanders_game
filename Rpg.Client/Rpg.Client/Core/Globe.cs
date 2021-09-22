@@ -211,8 +211,6 @@ namespace Rpg.Client.Core
             Updated?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler? Updated;
-
         /// <summary>
         /// Goal:
         /// Do not pick used event when there are unused event in the catalog.
@@ -334,24 +332,6 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
-        {
-            switch (biomType)
-            {
-                case BiomeType.Slavic:
-                    {
-                        switch (nodeIndex)
-                        {
-                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
-                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
-                            default: return GlobeNodeRegularTheme.Undefined;
-                        }
-                    }
-
-                default: return GlobeNodeRegularTheme.Undefined;
-            }
-        }
-
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -387,11 +367,31 @@ namespace Rpg.Client.Core
             }
         }
 
+        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
+        {
+            switch (biomType)
+            {
+                case BiomeType.Slavic:
+                    {
+                        switch (nodeIndex)
+                        {
+                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
+                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
+                            default: return GlobeNodeRegularTheme.Undefined;
+                        }
+                    }
+
+                default: return GlobeNodeRegularTheme.Undefined;
+            }
+        }
+
         private static int GetUnitLevel(int combatLevel)
         {
             // +1 because combat starts with zero.
             // But a unit's level have to starts with 1.
             return combatLevel + 1;
         }
+
+        public event EventHandler? Updated;
     }
 }

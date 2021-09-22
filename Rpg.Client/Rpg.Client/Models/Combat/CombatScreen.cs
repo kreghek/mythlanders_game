@@ -374,16 +374,6 @@ namespace Rpg.Client.Models.Combat
             spriteBatch.End();
         }
 
-        private BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
-        {
-            switch (regularTheme)
-            {
-                case GlobeNodeRegularTheme.SlavicBattleground: return BackgroundType.SlavicBattleground;
-                case GlobeNodeRegularTheme.SlavicSwamp: return BackgroundType.SlavicSwamp;
-                default: return BackgroundType.SlavicBattleground;
-            }
-        }
-
         private void DrawHud(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -449,6 +439,16 @@ namespace Rpg.Client.Models.Combat
             if (targetUnit is not null)
             {
                 targetUnit.GainEquipmentItem(1);
+            }
+        }
+
+        private BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
+        {
+            switch (regularTheme)
+            {
+                case GlobeNodeRegularTheme.SlavicBattleground: return BackgroundType.SlavicBattleground;
+                case GlobeNodeRegularTheme.SlavicSwamp: return BackgroundType.SlavicSwamp;
+                default: return BackgroundType.SlavicBattleground;
             }
         }
 
