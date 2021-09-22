@@ -85,6 +85,7 @@ namespace Rpg.Client.Core
                 {
                     var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                     var combatLevelAdditional = 0;
                     for (var i = 0; i < nodesWithCombats.Length; i++)
@@ -92,7 +93,7 @@ namespace Rpg.Client.Core
                         var selectedNode = nodesWithCombats[i];
                         var targetCombatCount = selectedNodeCombatCount[i];
 
-                        var combatLevel = biome.Level + combatLevelAdditional;
+                        var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                         var combatList = new List<Combat>();
                         for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                         {
@@ -126,6 +127,7 @@ namespace Rpg.Client.Core
 
                     var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
                     for (var i = 0; i < nodesWithCombats.Length; i++)
                     {
@@ -164,7 +166,7 @@ namespace Rpg.Client.Core
                         }
                         else
                         {
-                            var combatLevel = biome.Level + combatLevelAdditional;
+                            var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                             var targetCombatCount = selectedNodeCombatCount[i - 1];
 
                             var combatList = new List<Combat>();
@@ -205,7 +207,11 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat);
             }
+
+            Updated?.Invoke(this, EventArgs.Empty);
         }
+
+        public event EventHandler? Updated;
 
         /// <summary>
         /// Goal:
@@ -285,7 +291,8 @@ namespace Rpg.Client.Core
                         new GlobeNode(name: biomNames[BiomeType.Slavic][x])
                         {
                             Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic)
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
+                            RegularTheme = GetNodeTheme(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -325,6 +332,24 @@ namespace Rpg.Client.Core
                     IsFinal = true
                 }
             };
+        }
+
+        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
+        {
+            switch (biomType)
+            {
+                case BiomeType.Slavic:
+                    {
+                        switch (nodeIndex)
+                        {
+                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
+                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
+                            default: return GlobeNodeRegularTheme.Undefined;
+                        }
+                    }
+
+                default: return GlobeNodeRegularTheme.Undefined;
+            }
         }
 
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)

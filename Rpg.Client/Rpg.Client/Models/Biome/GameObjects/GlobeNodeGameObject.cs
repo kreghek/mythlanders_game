@@ -8,11 +8,11 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Biome.GameObjects
 {
-    internal class GlobeNodeGameObject1
+    internal class GlobeNodeGameObject
     {
         private readonly Sprite _graphics;
 
-        public GlobeNodeGameObject1(GlobeNode globeNode, Vector2 position,
+        public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage)
         {
             if (globeNode.CombatSequence is not null)

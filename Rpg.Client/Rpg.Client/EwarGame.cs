@@ -94,6 +94,9 @@ namespace Rpg.Client
 
             var cheatInput = new CheatInput(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(cheatInput);
+
+            var trackNameDisplay = new TrackNameDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
+            Components.Add(trackNameDisplay);
         }
 
         private void RegisterServices(ScreenManager screenManager)

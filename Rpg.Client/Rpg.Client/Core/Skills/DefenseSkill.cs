@@ -18,7 +18,7 @@ namespace Rpg.Client.Core.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.AllFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effect = new DecreaseDamageEffect(0.5f) { Value = 1 };

@@ -38,7 +38,7 @@ namespace Rpg.Client.Models.Combat
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
-        private readonly GlobeNodeGameObject1 _globeNodeGameObject;
+        private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
@@ -352,7 +352,9 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds();
+            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.RegularTheme);
+
+            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
             const int BG_START_OFFSET = -100;
             const int BG_MAX_OFSSET = 200;
@@ -370,6 +372,16 @@ namespace Rpg.Client.Models.Combat
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             spriteBatch.End();
+        }
+
+        private BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
+        {
+            switch (regularTheme)
+            {
+                case GlobeNodeRegularTheme.SlavicBattleground: return BackgroundType.SlavicBattleground;
+                case GlobeNodeRegularTheme.SlavicSwamp: return BackgroundType.SlavicSwamp;
+                default: return BackgroundType.SlavicBattleground;
+            }
         }
 
         private void DrawHud(SpriteBatch spriteBatch)

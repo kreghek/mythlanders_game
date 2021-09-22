@@ -16,5 +16,14 @@
         public int Index { get; internal set; }
 
         public string Name { get; }
+
+        public GlobeNodeRegularTheme RegularTheme { get; set; }
+    }
+
+    internal enum GlobeNodeRegularTheme
+    { 
+        Undefined,
+        SlavicBattleground,
+        SlavicSwamp
     }
 }

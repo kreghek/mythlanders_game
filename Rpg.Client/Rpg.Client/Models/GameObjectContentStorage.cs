@@ -6,10 +6,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models
 {
+    internal enum BackgroundType
+    { 
+        Undefined,
+        SlavicBattleground,
+        SlavicSwamp
+    }
+
     internal class GameObjectContentStorage
     {
         private Texture2D _biomClouds;
-        private Texture2D[] _combatBackgrounds;
+        private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
         private Texture2D _combatUnitMarkers;
@@ -39,12 +46,22 @@ namespace Rpg.Client.Models
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
-            _combatBackgrounds = new Texture2D[]
-            {
-                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/CloudsLayer"),
-                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/FarLayer"),
-                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/MainLayer"),
-                contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/ClosestLayer")
+            _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>{
+                { BackgroundType.SlavicBattleground, new Texture2D[]
+                    {
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/CloudsLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/FarLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer")
+                    }} ,
+
+                { BackgroundType.SlavicSwamp, new Texture2D[]
+                    {
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/CloudsLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/FarLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer"),
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/ClosestLayer")
+                    }} ,
             };
 
             _combatPowerDict = new Dictionary<string, SoundEffect>
@@ -72,9 +89,9 @@ namespace Rpg.Client.Models
             return _mapNodes;
         }
 
-        internal Texture2D[] GetCombatBackgrounds()
+        internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
         {
-            return _combatBackgrounds;
+            return _combatBackgroundDict[backgroundType];
         }
 
         internal Texture2D GetCombatUnitMarker()

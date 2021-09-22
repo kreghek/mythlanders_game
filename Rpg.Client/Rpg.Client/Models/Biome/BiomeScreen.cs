@@ -29,12 +29,12 @@ namespace Rpg.Client.Models.Biome
 
         private readonly ButtonBase[] _menuButtons;
 
-        private readonly IList<GlobeNodeGameObject1> _nodeModels;
+        private readonly IList<GlobeNodeGameObject> _nodeModels;
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
 
-        private GlobeNodeGameObject1? _hoverNodeGameObject;
+        private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
@@ -53,7 +53,7 @@ namespace Rpg.Client.Models.Biome
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _nodeModels = new List<GlobeNodeGameObject1>();
+            _nodeModels = new List<GlobeNodeGameObject>();
 
             var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
@@ -90,6 +90,15 @@ namespace Rpg.Client.Models.Biome
                 var cloud = CreateCloud(cloudIndex);
                 _clouds[cloudIndex] = cloud;
             }
+
+            _globe.Updated += Globe_Updated;
+        }
+
+        private void Globe_Updated(object? sender, EventArgs e)
+        {
+            // This happens when cheat is used.
+            _nodeModels.Clear();
+            _isNodeModelsCreated = false;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -120,7 +129,7 @@ namespace Rpg.Client.Models.Biome
                     foreach (var node in _biome.Nodes)
                     {
                         var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
-                        var nodeModel = new GlobeNodeGameObject1(node, position, _gameObjectContentStorage);
+                        var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
                         _nodeModels.Add(nodeModel);
                     }
@@ -168,10 +177,14 @@ namespace Rpg.Client.Models.Biome
 
                                 _globe.AvailableDialog.Counter++;
 
+                                ClearEventHandlerToGlobeObjects();
+
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                             }
                             else
                             {
+                                ClearEventHandlerToGlobeObjects();
+
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                             }
                         }
@@ -195,6 +208,11 @@ namespace Rpg.Client.Models.Biome
             }
 
             base.Update(gameTime);
+        }
+
+        private void ClearEventHandlerToGlobeObjects()
+        {
+            _globe.Updated -= Globe_Updated;
         }
 
         private Cloud CreateCloud(int index)
@@ -240,12 +258,12 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.End();
         }
 
-        private void DrawNodeInfo(SpriteBatch spriteBatch, GlobeNodeGameObject1 nodeGameObject)
+        private void DrawNodeInfo(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject)
         {
             var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
 
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                new Rectangle(toolTipPosition.ToPoint(), new Point(100, 100)), Color.White);
+                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 200)), Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
             var node = nodeGameObject;
 
@@ -276,16 +294,21 @@ namespace Rpg.Client.Models.Biome
                 }
             }
 
-            if (node.Combat is not null)
+            if (node.GlobeNode.CombatSequence is not null)
             {
                 var monsterIndex = 0;
-                foreach (var monster in node.Combat.EnemyGroup.Units)
+                var roundIndex = 1;
+                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
                 {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        $"{monster.UnitScheme.Name} ({monster.Level})",
-                        toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
+                    foreach (var monster in node.Combat.EnemyGroup.Units)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
+                            toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
 
-                    monsterIndex++;
+                        monsterIndex++;
+                    }
+                    roundIndex++;
                 }
             }
         }
@@ -376,7 +399,7 @@ namespace Rpg.Client.Models.Biome
             };
         }
 
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject1 node)
+        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
         {
             var count = node.GlobeNode.CombatSequence.Combats.Count;
             switch (count)
@@ -415,7 +438,7 @@ namespace Rpg.Client.Models.Biome
             return equipmentDisplayName;
         }
 
-        private static bool IsNodeOnHover(GlobeNodeGameObject1 node, Rectangle mouseRect)
+        private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
         {
             return (mouseRect.Location.ToVector2() - node.Position).Length() <= 16;
         }
