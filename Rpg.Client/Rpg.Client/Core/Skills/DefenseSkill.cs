@@ -10,11 +10,10 @@ namespace Rpg.Client.Core.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
+                Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(0.5f);
-                    effect.Value = 1;
+                    var effect = new DecreaseDamageEffect(0.5f) { Value = 1 };
 
                     return effect;
                 })

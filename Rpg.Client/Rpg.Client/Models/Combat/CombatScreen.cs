@@ -400,7 +400,7 @@ namespace Rpg.Client.Models.Combat
             {
                 if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
                 {
-                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
+                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
                         new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);

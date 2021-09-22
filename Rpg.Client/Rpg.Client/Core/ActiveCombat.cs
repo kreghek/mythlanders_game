@@ -222,9 +222,28 @@ namespace Rpg.Client.Core
             var skills = CurrentUnit.Unit.Skills.ToArray();
             var skill = dice.RollFromList(skills, 1).Single();
 
-            var targetPlayerObject =
-                dice.RollFromList(Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList(), 1)
-                    .Single();
+            IList<CombatUnit> possibleTargetList;
+            switch (skill.TargetType)
+            {
+                case SkillTargetType.Enemy:
+                    {
+                        possibleTargetList = Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        break;
+                    }
+
+                case SkillTargetType.Friendly:
+                    {
+                        possibleTargetList = Units.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        break;
+                    }
+
+                default:
+                    // There is a skill with unknown target. So we can't form the target list.
+                    Debug.Fail("Unknown case.");
+                    return;
+            }
+
+            var targetPlayerObject = dice.RollFromList(possibleTargetList);
 
             UseSkill(skill, targetPlayerObject);
         }
