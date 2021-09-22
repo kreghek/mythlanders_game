@@ -49,42 +49,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
-        //public void Attack(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-        //    IList<BulletGameObject> bulletList, CombatSkillCard combatSkillCard, Action action)
-        //{
-        //    if (combatSkillCard.Skill.Range != CombatPowerRange.Distant)
-        //    {
-        //        bulletBlocker.Release();
-        //    }
-
-        //    var state = CreateAttackStateEngine(target, animationBlocker, bulletBlocker, bulletList, combatSkillCard,
-        //        action);
-
-        //    AddStateEngine(state);
-        //}
-
-        //public void Attack(UnitGameObject target, IEnumerable<UnitGameObject> targets,
-        //    AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker, IList<BulletGameObject> bulletList,
-        //    CombatSkillCard combatSkillCard, Action action)
-        //{
-        //    if (combatSkillCard.Skill.Range == CombatPowerRange.Distant)
-        //    {
-        //        //TODO Make multiple bullets or bullet with multiple interactions.
-        //        var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker,
-        //            action);
-        //        bulletList.Add(bullet);
-        //    }
-        //    else
-        //    {
-        //        bulletBlocker.Release();
-        //    }
-
-        //    var state = CreateMassAttackStateEngine(target, animationBlocker, bulletBlocker, combatSkillCard,
-        //        action);
-
-        //    AddStateEngine(state);
-        //}
-
         public void Draw(SpriteBatch spriteBatch)
         {
             _graphics.ShowActiveMarker = IsActive;
@@ -97,15 +61,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _graphics.Root.Position - new Vector2(0, 100), color);
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Hp}/{Unit.Unit.MaxHp} HP",
                 _graphics.Root.Position - new Vector2(0, 80), color);
-        }
 
-        //public void Heal(UnitGameObject target, AnimationBlocker animationBlocker, CombatSkillCard combatSkillCard,
-        //    Action action)
-        //{
-        //    var state = new UnitSupportState(_graphics, _graphics.Root, target._graphics.Root, animationBlocker,
-        //        action);
-        //    AddStateEngine(state);
-        //}
+            if (Unit.Unit.IsPlayerControlled)
+            {
+                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Mana} Mana",
+                    _graphics.Root.Position - new Vector2(0, 60), color);
+            }
+        }
 
         public void Update(GameTime gameTime)
         {

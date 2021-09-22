@@ -647,6 +647,7 @@ namespace Rpg.Client.Models.Combat
             foreach (var unit in _globe.Player.GetAll)
             {
                 unit.RestoreHP();
+                unit.RestoreManaPoint();
             }
         }
 

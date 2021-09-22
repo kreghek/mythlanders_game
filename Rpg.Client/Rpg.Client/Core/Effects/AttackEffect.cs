@@ -52,7 +52,7 @@ namespace Rpg.Client.Core.Effects
         {
             var damage = CalculateDamage();
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            Target.Unit.TakeDamage(rolledDamage);
+            Target.Unit.TakeDamage(Actor, rolledDamage);
         }
     }
 }

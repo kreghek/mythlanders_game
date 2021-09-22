@@ -45,7 +45,10 @@ namespace Rpg.Client.Core
         public int MaxHp { get; set; }
 
         public int Power { get; set; }
+
         public int PowerIncrease { get; set; }
+
+        public int Mana { get; set; } = 10;
 
         public IEnumerable<SkillBase> Skills { get; set; }
 
@@ -106,14 +109,24 @@ namespace Rpg.Client.Core
             Hp = MaxHp;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(CombatUnit damager, int damage)
         {
             Hp -= Math.Min(Hp, damage);
             DamageTaken?.Invoke(this, damage);
             if (Hp <= 0)
             {
-                Dead?.Invoke(this, new EventArgs());
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damager));
             }
+        }
+
+        public sealed class UnitDamagedEventArgs : EventArgs
+        {
+            public UnitDamagedEventArgs(CombatUnit damager)
+            {
+                Damager = damager ?? throw new ArgumentNullException(nameof(damager));
+            }
+
+            public CombatUnit Damager { get; }
         }
 
         public void TakeHeal(int heal)
@@ -170,6 +183,11 @@ namespace Rpg.Client.Core
 
         public event EventHandler<int>? HealTaken;
 
-        public event EventHandler? Dead;
+        public event EventHandler<UnitDamagedEventArgs>? Dead;
+
+        internal void RestoreManaPoint()
+        {
+            Mana++;
+        }
     }
 }

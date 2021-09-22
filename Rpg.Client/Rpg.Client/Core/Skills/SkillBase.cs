@@ -10,5 +10,7 @@ namespace Rpg.Client.Core.Skills
         public abstract SkillTargetType TargetType { get; }
 
         public abstract SkillType Type { get; }
+
+        public int? Cost => 3;
     }
 }
