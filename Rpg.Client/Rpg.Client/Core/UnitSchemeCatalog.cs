@@ -18,7 +18,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new SlashSkill(),
-                new WideSlashSkill()
+                new WideSlashSkill(),
+                new DefenseSkill()
             }
         };
 
@@ -31,9 +32,8 @@ namespace Rpg.Client.Core
             PowerPerLevel = 1,
             Skills = new SkillBase[]
             {
-                new HealSkill(),
-                new DopeHerbSkill(),
                 new PeriodicHealSkill(),
+                new DopeHerbSkill(),
                 new MassHealSkill()
             }
         };
@@ -43,8 +43,8 @@ namespace Rpg.Client.Core
             Hp = 50,
             HpPerLevel = 7,
             Name = "Сокол", // Hawkeye
-            Power = 11,
-            PowerPerLevel = 1,
+            Power = 13,
+            PowerPerLevel = 2,
             Skills = new SkillBase[]
             {
                 new StrikeSkill(),
@@ -62,7 +62,9 @@ namespace Rpg.Client.Core
             Name = "Кахотеп",
             Skills = new SkillBase[]
             {
-                new MassStunSkill()
+                new StrikeSkill(),
+                new MassStunSkill(),
+                new SlashSkill()
             }
         };
 
@@ -100,9 +102,11 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 0, 1, 2 },
                 Power = 2,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new PowerUpSkill(),
+                    new HealSkill()
                 }
             },
             new UnitScheme
@@ -115,9 +119,11 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 1,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DefenseSkill(),
+                    new WideSlashSkill(),
                 }
             },
             new UnitScheme
@@ -132,7 +138,8 @@ namespace Rpg.Client.Core
                 Skills = new SkillBase[]
                 {
                     new StrikeSkill(),
-                    new ArrowRainSkill()
+                    new ArrowRainSkill(),
+                    new PowerUpSkill()
                 }
             },
             new UnitScheme
@@ -148,7 +155,8 @@ namespace Rpg.Client.Core
                 Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
-                    new WideSlashSkill()
+                    new WideSlashSkill(),
+                    new PowerUpSkill()
                 }
             },
             new UnitScheme
@@ -160,9 +168,11 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 6, 7, 8 },
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new HealSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme
@@ -177,7 +187,8 @@ namespace Rpg.Client.Core
                 Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
-                    new WideSlashSkill()
+                    new WideSlashSkill(),
+                    new HealSkill()
                 }
             },
             new UnitScheme
@@ -193,7 +204,8 @@ namespace Rpg.Client.Core
                 Skills = new SkillBase[]
                 {
                     new MonsterAttackSkill(),
-                    new DopeHerbSkill()
+                    new DopeHerbSkill(),
+                    new MassHealSkill()
                 }
             },
             new UnitScheme
@@ -205,9 +217,10 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 7, 8, 9 },
                 Power = 3,
                 PowerPerLevel = 1,
-                Skills = new[]
+                Skills = new SkillBase[]
                 {
-                    new MonsterAttackSkill()
+                    new MonsterAttackSkill(),
+                    new DefenseSkill()
                 }
             },
             new UnitScheme

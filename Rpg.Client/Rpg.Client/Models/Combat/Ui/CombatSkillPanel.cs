@@ -15,6 +15,8 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
+        private const int SKILL_BUTTON_SIZE = 32;
+
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<IconButton> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
@@ -79,11 +81,11 @@ namespace Rpg.Client.Models.Combat.Ui
                 return;
             }
 
-            var buttonWidth = _buttons.Count * 32;
+            var panelWidth = _buttons.Count * 32;
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = GetButtonRectangle(graphicsDevice, buttonWidth, buttonIndex);
+                button.Rect = GetButtonRectangle(graphicsDevice, panelWidth, buttonIndex);
                 button.Draw(spriteBatch);
 
                 var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
@@ -188,10 +190,16 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int buttonWidth, int i)
+        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int panelWidth, int buttonIndex)
         {
-            return new Rectangle(graphicsDevice.Viewport.Bounds.Center.X - buttonWidth / 2 + 32 * i,
-                graphicsDevice.Viewport.Bounds.Bottom - 32, 32, 32);
+            var panelMiddleX = panelWidth / 2;
+            var buttonOffsetX = SKILL_BUTTON_SIZE * buttonIndex;
+            var panelLeftX = graphicsDevice.Viewport.Bounds.Center.X - panelMiddleX;
+
+            return new Rectangle(panelLeftX + buttonOffsetX,
+                graphicsDevice.Viewport.Bounds.Bottom - SKILL_BUTTON_SIZE,
+                SKILL_BUTTON_SIZE,
+                SKILL_BUTTON_SIZE);
         }
 
         private static int? GetIconIndex(string sid)
@@ -199,7 +207,7 @@ namespace Rpg.Client.Models.Combat.Ui
             return sid switch
             {
                 "Slash" => 0,
-                "Defence Stance" => 1,
+                "Defense Stance" => 1,
                 "Wide Slash" => 2,
                 "Strike" => 3,
                 "Arrow Rain" => 4,

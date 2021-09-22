@@ -84,6 +84,15 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
 
             base.Draw(gameTime, spriteBatch);
+
+            DrawModals(spriteBatch);
+        }
+
+        private void DrawModals(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            _combatResultModal?.Draw(spriteBatch);
+            spriteBatch.End();
         }
 
         public void Initialize()
@@ -391,7 +400,7 @@ namespace Rpg.Client.Models.Combat
             {
                 if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
                 {
-                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count();
+                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
                         new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
@@ -401,8 +410,6 @@ namespace Rpg.Client.Models.Combat
             {
                 // TODO Fix NRE in the end of the combat with more prefessional way 
             }
-
-            _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();
         }
