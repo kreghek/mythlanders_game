@@ -6,6 +6,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal class StrikeSkill : SkillBase
     {
+        public StrikeSkill()
+        {
+        }
+
+        public StrikeSkill(bool costRequired) : base(costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule

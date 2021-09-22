@@ -6,6 +6,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SlashSkill : SkillBase
     {
+        public SlashSkill()
+        {
+        }
+
+        public SlashSkill(bool costRequired) : base(costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule

@@ -18,8 +18,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new SlashSkill(),
-                new WideSlashSkill(),
-                new DefenseSkill()
+                new DefenseSkill(true),
+                new WideSlashSkill(true)
             }
         };
 
@@ -33,8 +33,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new PeriodicHealSkill(),
-                new DopeHerbSkill(),
-                new MassHealSkill()
+                new DopeHerbSkill(true),
+                new MassHealSkill(true)
             }
         };
 
@@ -48,7 +48,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new StrikeSkill(),
-                new ArrowRainSkill()
+                new ArrowRainSkill(true),
+                new DefenseSkill(true)
             }
         };
 
@@ -63,8 +64,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new StrikeSkill(),
-                new MassStunSkill(),
-                new SlashSkill()
+                new MassStunSkill(true),
+                new SlashSkill(true)
             }
         };
 
@@ -79,8 +80,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new DopeHerbSkill(),
-                new PowerUpSkill(),
-                new HealSkill()
+                new PowerUpSkill(true),
+                new HealSkill(true)
             }
         };
 

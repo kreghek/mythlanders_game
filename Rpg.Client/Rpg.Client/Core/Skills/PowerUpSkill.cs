@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
 
@@ -9,6 +6,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal sealed class PowerUpSkill : SkillBase
     {
+        public PowerUpSkill()
+        {
+        }
+
+        public PowerUpSkill(bool costRequired) : base(costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule

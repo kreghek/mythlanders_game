@@ -6,6 +6,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassHealSkill : SkillBase
     {
+        public MassHealSkill()
+        {
+        }
+
+        public MassHealSkill(bool costRequired) : base(costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule

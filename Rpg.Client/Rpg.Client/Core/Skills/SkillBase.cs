@@ -4,6 +4,18 @@ namespace Rpg.Client.Core.Skills
 {
     internal abstract class SkillBase
     {
+        protected SkillBase() {
+            Cost = null;
+        }
+
+        protected SkillBase(bool costRequired)
+        {
+            if (costRequired)
+            {
+                Cost = BASE_COST;
+            }
+        }
+
         public abstract IEnumerable<EffectRule> Rules { get; }
         public abstract string Sid { get; }
 
@@ -11,6 +23,8 @@ namespace Rpg.Client.Core.Skills
 
         public abstract SkillType Type { get; }
 
-        public int? Cost => 3;
+        public int? Cost { get; }
+
+        public int BASE_COST = 3;
     }
 }

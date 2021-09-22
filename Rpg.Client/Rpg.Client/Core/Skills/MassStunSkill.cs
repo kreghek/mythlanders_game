@@ -7,6 +7,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassStunSkill : SkillBase
     {
+        public MassStunSkill()
+        {
+        }
+
+        public MassStunSkill(bool costRequired) : base(costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
