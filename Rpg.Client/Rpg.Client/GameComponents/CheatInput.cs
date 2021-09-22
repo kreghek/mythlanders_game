@@ -310,9 +310,29 @@ namespace Rpg.Client.GameComponents
                     {
                         return false;
                     }
+
+                case "update-globe":
+                    try
+                    {
+                        HandleUpdateGlobe(cheatParts.Skip(1).ToArray());
+                        return true;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        return false;
+                    }
             }
 
             return false;
+        }
+
+        private void HandleUpdateGlobe(string[] vs)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var dice = Game.Services.GetService<IDice>();
+            globe.UpdateNodes(dice);
         }
     }
 }

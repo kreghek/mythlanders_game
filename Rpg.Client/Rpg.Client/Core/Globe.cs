@@ -207,7 +207,11 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat);
             }
+
+            Updated?.Invoke(this, EventArgs.Empty);
         }
+
+        public event EventHandler? Updated;
 
         /// <summary>
         /// Goal:
@@ -287,7 +291,8 @@ namespace Rpg.Client.Core
                         new GlobeNode(name: biomNames[BiomeType.Slavic][x])
                         {
                             Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic)
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
+                            RegularTheme = GetNodeTheme(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -327,6 +332,24 @@ namespace Rpg.Client.Core
                     IsFinal = true
                 }
             };
+        }
+
+        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
+        {
+            switch (biomType)
+            {
+                case BiomeType.Slavic:
+                    {
+                        switch (nodeIndex)
+                        {
+                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
+                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
+                            default: return GlobeNodeRegularTheme.Undefined;
+                        }
+                    }
+
+                default: return GlobeNodeRegularTheme.Undefined;
+            }
         }
 
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)

@@ -182,7 +182,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/Clouds.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/ClosestLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,10 +191,10 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/ClosestLayer.png
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/CloudsLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/CloudsLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,10 +203,10 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/CloudsLayer.png
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/CloudsLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/FarLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/FarLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -215,10 +215,10 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/FarLayer.png
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/FarLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/MainLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,8 +227,56 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/MainLayer.png
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/ClosestLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/ClosestLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/CloudsLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/CloudsLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/FarLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/FarLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer.png
 
 #begin Sprites/GameObjects/CombatUnitMarkers.png
 /importer:TextureImporter
