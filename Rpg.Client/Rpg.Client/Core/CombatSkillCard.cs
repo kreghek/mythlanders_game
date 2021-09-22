@@ -49,7 +49,7 @@ namespace Rpg.Client.Core
 
         public int GetMana()
         {
-            return _combatUnit.Unit.Mana;
+            return _combatUnit.Unit.ManaPool;
         }
     }
 }

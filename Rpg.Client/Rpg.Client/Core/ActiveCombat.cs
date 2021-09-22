@@ -121,7 +121,7 @@ namespace Rpg.Client.Core
 
             if (skill.Cost is not null)
             {
-                CurrentUnit.Unit.Mana -= skill.Cost.Value;
+                CurrentUnit.Unit.ManaPool -= skill.Cost.Value;
             }
 
             Action action = () =>

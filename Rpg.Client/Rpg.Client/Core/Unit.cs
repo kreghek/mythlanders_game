@@ -7,6 +7,9 @@ namespace Rpg.Client.Core
 {
     internal class Unit
     {
+        private const int BASE_MANA_POOL_SIZE = 10;
+        private const int MANA_PER_LEVEL = 1;
+
         public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
         {
         }
@@ -22,6 +25,8 @@ namespace Rpg.Client.Core
 
             InitStats(unitScheme);
             RestoreHP();
+
+            ManaPool = ManaPoolSize;
         }
 
         public int EquipmentItems { get; private set; }
@@ -48,7 +53,8 @@ namespace Rpg.Client.Core
 
         public int PowerIncrease { get; set; }
 
-        public int Mana { get; set; } = 10;
+        public int ManaPool { get; set; }
+        public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
         public IEnumerable<SkillBase> Skills { get; set; }
 
@@ -187,7 +193,10 @@ namespace Rpg.Client.Core
 
         internal void RestoreManaPoint()
         {
-            Mana++;
+            if (ManaPool < ManaPoolSize)
+            {
+                ManaPool++;
+            }
         }
     }
 }

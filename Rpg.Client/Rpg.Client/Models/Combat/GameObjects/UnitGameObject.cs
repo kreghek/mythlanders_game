@@ -64,8 +64,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (Unit.Unit.IsPlayerControlled)
             {
-                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.Mana} Mana",
-                    _graphics.Root.Position - new Vector2(0, 60), color);
+                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), $"{Unit.Unit.ManaPool}/{Unit.Unit.ManaPoolSize} Mana",
+                    _graphics.Root.Position - new Vector2(0, 70), color);
             }
         }
 
