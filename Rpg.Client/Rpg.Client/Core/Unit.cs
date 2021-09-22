@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal class Unit
+    internal sealed class Unit
     {
+        private const int BASE_MANA_POOL_SIZE = 10;
+        private const int MANA_PER_LEVEL = 1;
+
         public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
         {
         }
@@ -22,11 +26,38 @@ namespace Rpg.Client.Core
 
             InitStats(unitScheme);
             RestoreHP();
+
+            ManaPool = ManaPoolSize;
         }
 
         public int EquipmentItems { get; private set; }
 
         public int EquipmentLevel { get; set; }
+
+        public int SkillSetIndex
+        {
+            get
+            {
+                var skillSetIndex = 0;
+                if (EquipmentLevel > 0)
+                {
+                    skillSetIndex = EquipmentLevel - 1;
+                }
+
+                var skillSetIndexNormalized = Math.Min(skillSetIndex, UnitScheme.SkillSets.Count - 1);
+
+                return skillSetIndexNormalized;
+            }
+        }
+
+        public bool HasSkillsWithCost
+        {
+            get
+            {
+                var manaDependentSkills = Skills.Where(x => x.Cost is not null);
+                return manaDependentSkills.Any();
+            }
+        }
 
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
 
@@ -45,9 +76,13 @@ namespace Rpg.Client.Core
         public int MaxHp { get; set; }
 
         public int Power { get; set; }
+
         public int PowerIncrease { get; set; }
 
-        public IEnumerable<SkillBase> Skills { get; set; }
+        public int ManaPool { get; set; }
+        public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
+
+        public IReadOnlyList<SkillBase> Skills { get; set; }
 
         public UnitScheme UnitScheme { get; init; }
 
@@ -101,19 +136,41 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        public void RestoreHP()
+        private void RestoreHP()
         {
             Hp = MaxHp;
         }
 
-        public void TakeDamage(int damage)
+        public void RestoreHPAfterCombat()
+        {
+            var hpBonus = (int)Math.Round(MaxHp * 0.1f, MidpointRounding.ToEven);
+
+            Hp += hpBonus;
+
+            if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
+            }
+        }
+
+        public void TakeDamage(CombatUnit damager, int damage)
         {
             Hp -= Math.Min(Hp, damage);
             DamageTaken?.Invoke(this, damage);
             if (Hp <= 0)
             {
-                Dead?.Invoke(this, new EventArgs());
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damager));
             }
+        }
+
+        public sealed class UnitDamagedEventArgs : EventArgs
+        {
+            public UnitDamagedEventArgs(CombatUnit damager)
+            {
+                Damager = damager ?? throw new ArgumentNullException(nameof(damager));
+            }
+
+            public CombatUnit Damager { get; }
         }
 
         public void TakeHeal(int heal)
@@ -163,13 +220,21 @@ namespace Rpg.Client.Core
                 Power = unitScheme.Power + PowerIncrease * Level;
             }
 
-            Skills = unitScheme.Skills;
+            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
         public event EventHandler<int>? DamageTaken;
 
         public event EventHandler<int>? HealTaken;
 
-        public event EventHandler? Dead;
+        public event EventHandler<UnitDamagedEventArgs>? Dead;
+
+        internal void RestoreManaPoint()
+        {
+            if (ManaPool < ManaPoolSize)
+            {
+                ManaPool++;
+            }
+        }
     }
 }

@@ -293,7 +293,7 @@ namespace Rpg.Client.Models.Combat
             else
             {
                 _globeProvider.Globe.UpdateNodes(_dice);
-                RestoreGroupHp();
+                RestoreGroupAfterCombat();
 
                 if (_bossWasDefeat)
                 {
@@ -442,7 +442,7 @@ namespace Rpg.Client.Models.Combat
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
         {
-            return _gameObjects.First(x => x.Unit == combatUnit);
+            return _gameObjects.First(x => x.CombatUnit == combatUnit);
         }
 
         private Vector2 GetUnitPosition(int index, bool isPlayerControlled)
@@ -600,7 +600,7 @@ namespace Rpg.Client.Models.Combat
 
             icon.OnClick += (s, e) =>
             {
-                _combat.UseSkill(skillCard.Skill, target.Unit);
+                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
             _hudButtons.Add(icon);
@@ -624,15 +624,15 @@ namespace Rpg.Client.Models.Combat
             var actor = GetUnitGameObject(_combat.CurrentUnit);
             var skill = skillCard.Skill;
 
-            foreach (var target in _gameObjects.Where(x => !x.Unit.Unit.IsDead))
+            foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
             {
-                if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.Unit.Unit.IsPlayerControlled ==
+                if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.CombatUnit.Unit.IsPlayerControlled ==
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }
 
-                if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.Unit.Unit.IsPlayerControlled !=
+                if (skillCard.Skill.TargetType == SkillTargetType.Friendly && target.CombatUnit.Unit.IsPlayerControlled !=
                     _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
@@ -642,11 +642,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void RestoreGroupHp()
+        private void RestoreGroupAfterCombat()
         {
             foreach (var unit in _globe.Player.GetAll)
             {
-                unit.RestoreHP();
+                unit.RestoreHPAfterCombat();
+                unit.RestoreManaPoint();
             }
         }
 

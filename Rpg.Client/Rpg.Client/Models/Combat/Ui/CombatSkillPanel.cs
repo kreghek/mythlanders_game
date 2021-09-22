@@ -18,7 +18,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int SKILL_BUTTON_SIZE = 32;
 
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
-        private readonly IList<IconButton> _buttons;
+        private readonly IList<ButtonBase> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
         private KeyboardState _currentKeyboardState;
 
@@ -30,7 +30,7 @@ namespace Rpg.Client.Models.Combat.Ui
         public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat)
         {
             Combat = combat;
-            _buttons = new List<IconButton>();
+            _buttons = new List<ButtonBase>();
             _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
 
             _uiContentStorage = uiContentStorage;
@@ -88,15 +88,20 @@ namespace Rpg.Client.Models.Combat.Ui
                 button.Rect = GetButtonRectangle(graphicsDevice, panelWidth, buttonIndex);
                 button.Draw(spriteBatch);
 
-                var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
-                var hotKey = buttonIndex + 1;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey.ToString(), hotkeyPosition, Color.Wheat);
+                var hotKey = (buttonIndex + 1).ToString();
+                DrawHotkey(spriteBatch, hotKey, button);
             }
 
             if (_hoverButton is not null)
             {
                 DrawHoverCombatSkillInfo(_hoverButton, spriteBatch);
             }
+        }
+
+        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ButtonBase button)
+        {
+            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey.ToString(), hotkeyPosition, Color.Wheat);
         }
 
         internal void Update()
@@ -116,6 +121,9 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 button.Update();
 
+                var combatSkill = _buttonCombatPowerDict[button];
+                button.IsEnabled = combatSkill.IsAvailable;
+
                 DetectMouseHoverOnButton(mouseRect, button);
             }
         }
@@ -131,7 +139,7 @@ namespace Rpg.Client.Models.Combat.Ui
             SelectedCard = combatPowerCard;
         }
 
-        private void DetectMouseHoverOnButton(Rectangle mouseRect, IconButton button)
+        private void DetectMouseHoverOnButton(Rectangle mouseRect, ButtonBase button)
         {
             if (mouseRect.Intersects(button.Rect))
             {
@@ -146,11 +154,19 @@ namespace Rpg.Client.Models.Combat.Ui
             var hintPosition = hoverButton.Rect.Location.ToVector2() - new Vector2(0, 105);
             var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(200, 75));
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
+
             var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
                 Color.Black);
+            
+            var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
+            if (combatPower.Skill.Cost is not null)
+            {
+                var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}", manaCostPosition, manaCostColor);
+            }
 
-            var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
+            var ruleBlockPosition = manaCostPosition + new Vector2(0, 10);
             var skillRules = combatPower.Skill.Rules.ToArray();
             for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
             {
@@ -314,7 +330,7 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new IconButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty);
+                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty);
                 _buttons.Add(button);
                 _buttonCombatPowerDict[button] = card;
                 button.OnClick += CombatPowerButton_OnClick;

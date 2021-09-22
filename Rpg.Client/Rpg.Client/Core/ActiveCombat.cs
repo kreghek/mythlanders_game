@@ -119,6 +119,11 @@ namespace Rpg.Client.Core
                 return;
             }
 
+            if (skill.Cost is not null)
+            {
+                CurrentUnit.Unit.ManaPool -= skill.Cost.Value;
+            }
+
             Action action = () =>
             {
                 EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
@@ -285,11 +290,16 @@ namespace Rpg.Client.Core
             _round++;
         }
 
-        private void Unit_Dead(object? sender, EventArgs e)
+        private void Unit_Dead(object? sender, Unit.UnitDamagedEventArgs e)
         {
             if (sender is not Unit unit)
             {
                 return;
+            }
+
+            if (e.Damager.Unit.IsPlayerControlled)
+            {
+                e.Damager.Unit.RestoreManaPoint();
             }
 
             var combatUnit = _unitQueue.FirstOrDefault(x => x.Unit == unit);

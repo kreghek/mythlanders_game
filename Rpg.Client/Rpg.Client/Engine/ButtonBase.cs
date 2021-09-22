@@ -2,24 +2,16 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal enum UiButtonState
-    {
-        Undefined,
-        OutOfButton,
-        Hover,
-        Pressed
-    }
-
     internal abstract class ButtonBase
     {
         private const int CONTENT_MARGIN = 0;
         private UiButtonState _buttonState;
+        private Rectangle _rect;
 
         protected ButtonBase(Texture2D texture, Rectangle rect)
         {
@@ -28,12 +20,32 @@ namespace Rpg.Client.Engine
             _buttonState = UiButtonState.OutOfButton;
         }
 
-        public Rectangle Rect { get; set; }
+        public Rectangle Rect
+        {
+            get { 
+                return _rect;
+            }
+            set
+            {
+                _rect = value;
+                HandleRectChanges();
+            }
+        }
+
+        protected virtual void HandleRectChanges()
+        {
+            // Used only by children.
+        }
 
         public Texture2D Texture { get; }
 
         public void Click()
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
             OnClick?.Invoke(this, EventArgs.Empty);
             PlayClickSoundIfExists();
         }
@@ -55,6 +67,11 @@ namespace Rpg.Client.Engine
 
         public void Update()
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
             var mouseState = Mouse.GetState();
             if (CheckMouseOver())
             {
@@ -127,6 +144,7 @@ namespace Rpg.Client.Engine
         private Color SelectColorByState()
         {
             var color = Color.White;
+
             return _buttonState switch
             {
                 UiButtonState.OutOfButton => color, // Do not modify start color.
@@ -137,61 +155,7 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
-    }
 
-    internal static class UiThemeManager
-    {
-        private static IUiSoundStorage? _soundStorage;
-
-        public static IUiSoundStorage? SoundStorage
-        {
-            get => _soundStorage;
-            set
-            {
-                if (_soundStorage?.ContentWasLoaded == false)
-                {
-                    throw new InvalidOperationException(
-                        "Sound Storage must load content before assigning in Ui theme manager.");
-                }
-
-                _soundStorage = value;
-            }
-        }
-    }
-
-    internal interface IUiSoundStorage
-    {
-        bool ContentWasLoaded { get; }
-
-        SoundEffect GetButtonClickEffect();
-        SoundEffect GetButtonHoverEffect();
-
-        void LoadContent(ContentManager contentManager);
-    }
-
-    internal sealed class UiSoundStorage : IUiSoundStorage
-    {
-        private SoundEffect? _buttonClickSoundEffect;
-        private SoundEffect? _buttonHoverSoundEffect;
-
-        public bool ContentWasLoaded { get; private set; }
-
-        public SoundEffect GetButtonClickEffect()
-        {
-            return _buttonClickSoundEffect ?? throw new InvalidOperationException("Sound must be loaded before using.");
-        }
-
-        public SoundEffect GetButtonHoverEffect()
-        {
-            return _buttonHoverSoundEffect ?? throw new InvalidOperationException("Sound must be loaded before using.");
-        }
-
-        public void LoadContent(ContentManager contentManager)
-        {
-            _buttonClickSoundEffect = contentManager.Load<SoundEffect>("Audio/Ui/ButtonClick");
-            _buttonHoverSoundEffect = contentManager.Load<SoundEffect>("Audio/Ui/ButtonHover");
-
-            ContentWasLoaded = true;
-        }
+        public bool IsEnabled { get; set; } = true;
     }
 }

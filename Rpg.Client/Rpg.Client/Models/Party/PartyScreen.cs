@@ -47,11 +47,24 @@ namespace Rpg.Client.Models.Party
                 var sb = new List<string>
                 {
                     _selectedCharacter.UnitScheme.Name,
+                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
+                    $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
                     $"Level: {_selectedCharacter.Level}",
                     $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
                     $"Equipment: {_selectedCharacter.EquipmentLevel}",
                     $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
                 };
+
+                foreach (var skill in _selectedCharacter.Skills)
+                {
+                    sb.Add($"{skill.Sid}");
+                    if (skill.Cost is not null)
+                    {
+                        sb.Add($"Cost: {skill.Cost}");
+                    }
+
+                    // TODO Display skill efficient - damages, durations, etc.
+                }
 
                 if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
                 {

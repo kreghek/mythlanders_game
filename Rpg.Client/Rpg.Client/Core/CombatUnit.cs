@@ -10,9 +10,11 @@ namespace Rpg.Client.Core
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = index;
             var cards = new List<CombatSkillCard>();
-            foreach (var skill in Unit.Skills)
+            var skillContext = new CombatSkillContext(this);
+
+            foreach (var skill in unit.Skills)
             {
-                var card = new CombatSkillCard(skill);
+                var card = new CombatSkillCard(skill, skillContext);
 
                 cards.Add(card);
             }
