@@ -243,7 +243,7 @@ namespace Rpg.Client.Core
             },
             new UnitScheme
             {
-                Hp = 1200,
+                Hp = 400,
                 Name = "Zmey Gorynych",
                 Biom = BiomeType.Slavic,
 

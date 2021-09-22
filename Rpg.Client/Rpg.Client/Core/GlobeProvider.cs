@@ -149,14 +149,15 @@ namespace Rpg.Client.Models
         private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
         {
             var unitDtos = units.Select(
-                unit => new UnitDto
+                unit => new PlayerUnitDto
                 {
                     SchemeSid = unit.UnitScheme.Name,
                     Hp = unit.Hp,
                     Xp = unit.Xp,
                     Level = unit.Level,
                     EquipmentItems = unit.EquipmentItems,
-                    EquipmentLevel = unit.EquipmentLevel
+                    EquipmentLevel = unit.EquipmentLevel,
+                    ManaPool = unit.ManaPool
                 });
 
             var groupDto = new GroupDto
@@ -228,8 +229,14 @@ namespace Rpg.Client.Models
                 var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp,
                     unitDto.EquipmentItems)
                 {
-                    IsPlayerControlled = true
+                    IsPlayerControlled = true,
                 };
+
+                if (unitDto.ManaPool is not null)
+                {
+                    unit.ManaPool = unitDto.ManaPool.Value;
+                }
+
                 units.Add(unit);
             }
 

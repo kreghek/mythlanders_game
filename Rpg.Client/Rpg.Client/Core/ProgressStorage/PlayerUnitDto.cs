@@ -1,6 +1,6 @@
 namespace Rpg.Client.Core.ProgressStorage
 {
-    internal sealed record UnitDto
+    internal sealed record PlayerUnitDto
     {
         public int EquipmentItems { get; init; }
 
@@ -9,8 +9,11 @@ namespace Rpg.Client.Core.ProgressStorage
         public int Hp { get; init; }
 
         public int Level { get; init; }
+
         public string SchemeSid { get; init; }
 
         public int Xp { get; init; }
+
+        public int? ManaPool { get; init; }
     }
 }

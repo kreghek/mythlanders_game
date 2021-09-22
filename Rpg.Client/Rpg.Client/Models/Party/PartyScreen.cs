@@ -47,6 +47,8 @@ namespace Rpg.Client.Models.Party
                 var sb = new List<string>
                 {
                     _selectedCharacter.UnitScheme.Name,
+                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
+                    $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
                     $"Level: {_selectedCharacter.Level}",
                     $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
                     $"Equipment: {_selectedCharacter.EquipmentLevel}",

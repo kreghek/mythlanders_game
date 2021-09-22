@@ -154,11 +154,19 @@ namespace Rpg.Client.Models.Combat.Ui
             var hintPosition = hoverButton.Rect.Location.ToVector2() - new Vector2(0, 105);
             var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(200, 75));
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
+
             var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
                 Color.Black);
+            
+            var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
+            if (combatPower.Skill.Cost is not null)
+            {
+                var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}", manaCostPosition, manaCostColor);
+            }
 
-            var ruleBlockPosition = skillTitlePosition + new Vector2(0, 10);
+            var ruleBlockPosition = manaCostPosition + new Vector2(0, 10);
             var skillRules = combatPower.Skill.Rules.ToArray();
             for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
             {

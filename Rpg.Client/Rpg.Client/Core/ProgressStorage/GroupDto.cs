@@ -4,6 +4,6 @@ namespace Rpg.Client.Core.ProgressStorage
 {
     internal sealed record GroupDto
     {
-        public IEnumerable<UnitDto> Units { get; init; }
+        public IEnumerable<PlayerUnitDto> Units { get; init; }
     }
 }
