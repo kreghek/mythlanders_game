@@ -55,6 +55,17 @@ namespace Rpg.Client.Models.Party
                     $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
                 };
 
+                foreach (var skill in _selectedCharacter.Skills)
+                {
+                    sb.Add($"{skill.Sid}");
+                    if (skill.Cost is not null)
+                    {
+                        sb.Add($"Cost: {skill.Cost}");
+                    }
+
+                    // TODO Display skill efficient - damages, durations, etc.
+                }
+
                 if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
                 {
                     var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal class Unit
+    internal sealed class Unit
     {
         private const int BASE_MANA_POOL_SIZE = 10;
         private const int MANA_PER_LEVEL = 1;
@@ -33,6 +34,31 @@ namespace Rpg.Client.Core
 
         public int EquipmentLevel { get; set; }
 
+        public int SkillSetIndex
+        {
+            get
+            {
+                var skillSetIndex = 0;
+                if (EquipmentLevel > 0)
+                {
+                    skillSetIndex = EquipmentLevel - 1;
+                }
+
+                var skillSetIndexNormalized = Math.Min(skillSetIndex, UnitScheme.SkillSets.Count - 1);
+
+                return skillSetIndexNormalized;
+            }
+        }
+
+        public bool HasSkillsWithCost
+        {
+            get
+            {
+                var manaDependentSkills = Skills.Where(x => x.Cost is not null);
+                return manaDependentSkills.Any();
+            }
+        }
+
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
 
         public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
@@ -56,7 +82,7 @@ namespace Rpg.Client.Core
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
-        public IEnumerable<SkillBase> Skills { get; set; }
+        public IReadOnlyList<SkillBase> Skills { get; set; }
 
         public UnitScheme UnitScheme { get; init; }
 
@@ -194,7 +220,7 @@ namespace Rpg.Client.Core
                 Power = unitScheme.Power + PowerIncrease * Level;
             }
 
-            Skills = unitScheme.Skills;
+            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
         public event EventHandler<int>? DamageTaken;

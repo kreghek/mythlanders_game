@@ -11,7 +11,8 @@ namespace Rpg.Client.Core
             Index = index;
             var cards = new List<CombatSkillCard>();
             var skillContext = new CombatSkillContext(this);
-            foreach (var skill in Unit.Skills)
+
+            foreach (var skill in unit.Skills)
             {
                 var card = new CombatSkillCard(skill, skillContext);
 

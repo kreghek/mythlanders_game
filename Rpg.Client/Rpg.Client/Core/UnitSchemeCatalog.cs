@@ -15,11 +15,28 @@ namespace Rpg.Client.Core
             PowerPerLevel = 2,
 
             Name = "Беримир",
-            Skills = new SkillBase[]
-            {
-                new SlashSkill(),
-                new DefenseSkill(true),
-                new WideSlashSkill(true)
+            SkillSets = new List<SkillSet> { 
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill()
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true)
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true),
+                        new WideSlashSkill(true)
+                    }
+                }
             }
         };
 
@@ -30,11 +47,29 @@ namespace Rpg.Client.Core
             Name = "Рада",
             Power = 6,
             PowerPerLevel = 1,
-            Skills = new SkillBase[]
-            {
-                new PeriodicHealSkill(),
-                new DopeHerbSkill(true),
-                new MassHealSkill(true)
+
+            SkillSets = new List<SkillSet> {
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new PeriodicHealSkill()
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new PeriodicHealSkill(),
+                        new DopeHerbSkill(true)
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new PeriodicHealSkill(),
+                        new DopeHerbSkill(true),
+                        new MassHealSkill(true)
+                    }
+                }
             }
         };
 
@@ -45,11 +80,29 @@ namespace Rpg.Client.Core
             Name = "Сокол", // Hawkeye
             Power = 13,
             PowerPerLevel = 2,
-            Skills = new SkillBase[]
-            {
-                new StrikeSkill(),
-                new ArrowRainSkill(true),
-                new DefenseSkill(true)
+
+            SkillSets = new List<SkillSet> {
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill()
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill(),
+                        new ArrowRainSkill(true)
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill(),
+                        new ArrowRainSkill(true),
+                        new DefenseSkill(true)
+                    }
+                }
             }
         };
 
@@ -61,11 +114,29 @@ namespace Rpg.Client.Core
             PowerPerLevel = 2,
 
             Name = "Кахотеп",
-            Skills = new SkillBase[]
-            {
-                new StrikeSkill(),
-                new MassStunSkill(true),
-                new SlashSkill(true)
+
+            SkillSets = new List<SkillSet> {
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill()
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill(),
+                        new MassStunSkill(true)
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new StrikeSkill(),
+                        new MassStunSkill(true),
+                        new SlashSkill(true) // Finger of the Anubis
+                    }
+                }
             }
         };
 
@@ -77,11 +148,29 @@ namespace Rpg.Client.Core
             PowerPerLevel = 2,
 
             Name = "Тао Чан",
-            Skills = new SkillBase[]
-            {
-                new DopeHerbSkill(),
-                new PowerUpSkill(true),
-                new HealSkill(true)
+
+            SkillSets = new List<SkillSet> {
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new DopeHerbSkill()
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new DopeHerbSkill(),
+                        new PowerUpSkill(true)
+                    }
+                },
+                new SkillSet{
+                    Skills = new List<SkillBase>
+                    {
+                        new DopeHerbSkill(),  // No violence, please
+                        new PowerUpSkill(true), // Trust
+                        new HealSkill(true) // God Mercifull Touch
+                    }
+                }
             }
         };
 
@@ -103,11 +192,16 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 0, 1, 2 },
                 Power = 2,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
-                    new PowerUpSkill(),
-                    new HealSkill()
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new MonsterAttackSkill(), // Bite
+                            new PowerUpSkill(), // Wolf howl
+                            new HealSkill() // lick wounds
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -120,12 +214,18 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 1,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
-                    new DefenseSkill(),
-                    new WideSlashSkill()
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new MonsterAttackSkill(), // Bite
+                            new DefenseSkill(), 
+                            new WideSlashSkill()
+                        }
+                    }
                 }
+
             },
             new UnitScheme
             {
@@ -136,11 +236,16 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 2, 3, 5 },
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new StrikeSkill(),
-                    new ArrowRainSkill(),
-                    new PowerUpSkill()
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new StrikeSkill(),
+                            new ArrowRainSkill(),
+                            new PowerUpSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -153,11 +258,16 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
-                    new WideSlashSkill(),
-                    new PowerUpSkill()
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new MonsterAttackSkill(),
+                            new WideSlashSkill(),
+                            new PowerUpSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -169,11 +279,16 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 6, 7, 8 },
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new MonsterAttackSkill(),
                     new HealSkill(),
                     new WideSlashSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -185,11 +300,16 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 6, 7, 8 },
                 Power = 3,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                            new MonsterAttackSkill(),
                     new WideSlashSkill(),
                     new HealSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -202,12 +322,18 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 5,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                             new MonsterAttackSkill(),
                     new DopeHerbSkill(),
                     new MassHealSkill()
+                        }
+                    }
                 }
+
             },
             new UnitScheme
             {
@@ -218,10 +344,15 @@ namespace Rpg.Client.Core
                 NodeIndexes = new[] { 7, 8, 9 },
                 Power = 3,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
-                    new DefenseSkill()
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                           new MonsterAttackSkill(),
+                           new DefenseSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -234,11 +365,16 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Power = 4,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                           new MonsterAttackSkill(),
                     new DopeHerbSkill(),
                     new WideSlashSkill()
+                        }
+                    }
                 }
             },
             new UnitScheme
@@ -250,449 +386,16 @@ namespace Rpg.Client.Core
                 IsBoss = true,
                 Power = 13,
                 PowerPerLevel = 1,
-                Skills = new SkillBase[]
-                {
-                    new MonsterAttackSkill(),
+
+                SkillSets = new List<SkillSet> {
+                    new SkillSet{
+                        Skills = new List<SkillBase>
+                        {
+                           new MonsterAttackSkill(),
                     new DopeHerbSkill(),
                     new ArrowRainSkill()
-                }
-            },
-
-            // China
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Grey Wolf",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Bear",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 1, 2, 4 },
-                IsUnique = true,
-                Power = 1,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Wisp",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 2, 3, 5 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Volkolak",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 2, 3, 5 },
-                IsUnique = true,
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Korgorush",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Stryga",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Vampire",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 6, 7, 8 },
-                IsUnique = true,
-                Power = 5,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Gaint frog",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 7, 8, 9 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 30,
-                HpPerLevel = 3,
-                Name = "Basilisk",
-                Biom = BiomeType.China,
-                NodeIndexes = new[] { 7, 8, 9 },
-                IsUnique = true,
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 1200,
-                Name = "Dragon",
-                Biom = BiomeType.China,
-
-                IsBoss = true,
-                Power = 13,
-                PowerPerLevel = 2,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-
-            // Egypt
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Jakal",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 2,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Leopard",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 1, 2, 4 },
-                IsUnique = true,
-                Power = 1,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Bat",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 2, 3, 5 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Volkolak",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 2, 3, 5 },
-                IsUnique = true,
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Korgorush",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Stryga",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Vampire",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 6, 7, 8 },
-                IsUnique = true,
-                Power = 5,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Gaint frog",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 7, 8, 9 },
-                Power = 2,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 30,
-                HpPerLevel = 3,
-                Name = "Basilisk",
-                Biom = BiomeType.Egypt,
-                NodeIndexes = new[] { 7, 8, 9 },
-                IsUnique = true,
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 1200,
-                Name = "Sphynx",
-                Biom = BiomeType.Egypt,
-
-                IsBoss = true,
-                Power = 13,
-                PowerPerLevel = 2,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-
-            // Greek
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Jakal",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Leopard",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 1, 2, 4 },
-                IsUnique = true,
-                Power = 1,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Bat",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 2, 3, 5 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 25,
-                HpPerLevel = 3,
-                Name = "Volkolak",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 2, 3, 5 },
-                IsUnique = true,
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 15,
-                HpPerLevel = 3,
-                Name = "Korgorush",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 4,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Stryga",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 6, 7, 8 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Vampire",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 6, 7, 8 },
-                IsUnique = true,
-                Power = 5,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Gaint frog",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 7, 8, 9 },
-                Power = 3,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 30,
-                HpPerLevel = 3,
-                Name = "Basilisk",
-                Biom = BiomeType.Greek,
-                NodeIndexes = new[] { 7, 8, 9 },
-                IsUnique = true,
-                Power = 5,
-                PowerPerLevel = 1,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
-                }
-            },
-            new UnitScheme
-            {
-                Hp = 1200,
-                Name = "Sphynx",
-                Biom = BiomeType.Greek,
-
-                IsBoss = true,
-                Power = 13,
-                PowerPerLevel = 2,
-                Skills = new[]
-                {
-                    new MonsterAttackSkill()
+                        }
+                    }
                 }
             }
         };
