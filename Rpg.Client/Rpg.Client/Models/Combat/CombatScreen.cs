@@ -34,6 +34,7 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
+        private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -46,7 +47,6 @@ namespace Rpg.Client.Models.Combat
         private bool _bossWasDefeat;
         private CombatResultModal? _combatResultModal;
         private CombatSkillPanel? _combatSkillsPanel;
-        private readonly IDice _dice;
 
         private bool _finalBossWasDefeat;
 
@@ -84,6 +84,15 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
 
             base.Draw(gameTime, spriteBatch);
+
+            DrawModals(spriteBatch);
+        }
+
+        private void DrawModals(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            _combatResultModal?.Draw(spriteBatch);
+            spriteBatch.End();
         }
 
         public void Initialize()
@@ -401,8 +410,6 @@ namespace Rpg.Client.Models.Combat
             {
                 // TODO Fix NRE in the end of the combat with more prefessional way 
             }
-
-            _combatResultModal?.Draw(spriteBatch);
 
             spriteBatch.End();
         }

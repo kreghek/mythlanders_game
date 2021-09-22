@@ -18,7 +18,8 @@ namespace Rpg.Client.Core
             Skills = new SkillBase[]
             {
                 new SlashSkill(),
-                new WideSlashSkill()
+                new WideSlashSkill(),
+                new DefenseSkill()
             }
         };
 
