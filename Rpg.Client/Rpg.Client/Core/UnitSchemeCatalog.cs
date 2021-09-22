@@ -123,7 +123,7 @@ namespace Rpg.Client.Core
                 {
                     new MonsterAttackSkill(),
                     new DefenseSkill(),
-                    new WideSlashSkill(),
+                    new WideSlashSkill()
                 }
             },
             new UnitScheme

@@ -88,13 +88,6 @@ namespace Rpg.Client.Models.Combat
             DrawModals(spriteBatch);
         }
 
-        private void DrawModals(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            _combatResultModal?.Draw(spriteBatch);
-            spriteBatch.End();
-        }
-
         public void Initialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
@@ -411,6 +404,13 @@ namespace Rpg.Client.Models.Combat
                 // TODO Fix NRE in the end of the combat with more prefessional way 
             }
 
+            spriteBatch.End();
+        }
+
+        private void DrawModals(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            _combatResultModal?.Draw(spriteBatch);
             spriteBatch.End();
         }
 
