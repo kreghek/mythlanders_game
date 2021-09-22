@@ -100,9 +100,12 @@ namespace Rpg.Client.Engine
 
                         if (_uiContentStorage is not null)
                         {
+                            var songs = _uiContentStorage.GetBattleSongs().ToArray();
+                            var song = songs[_random.Next(0, songs.Length)];
+
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = 0.75f;
-                            MediaPlayer.Play(_uiContentStorage.GetBattleSong(), TimeSpan.Zero);
+                            MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
 

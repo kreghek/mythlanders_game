@@ -19,6 +19,18 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Battle.mp3
 
+#begin Audio/Background/Battle2.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Battle2.mp3
+
+#begin Audio/Background/Battle3.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Battle3.mp3
+
 #begin Audio/Background/Map.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
