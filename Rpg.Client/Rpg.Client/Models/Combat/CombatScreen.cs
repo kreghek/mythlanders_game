@@ -293,7 +293,7 @@ namespace Rpg.Client.Models.Combat
             else
             {
                 _globeProvider.Globe.UpdateNodes(_dice);
-                RestoreGroupHp();
+                RestoreGroupAfterCombat();
 
                 if (_bossWasDefeat)
                 {
@@ -642,11 +642,11 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void RestoreGroupHp()
+        private void RestoreGroupAfterCombat()
         {
             foreach (var unit in _globe.Player.GetAll)
             {
-                unit.RestoreHP();
+                unit.RestoreHPAfterCombat();
                 unit.RestoreManaPoint();
             }
         }

@@ -110,9 +110,21 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        public void RestoreHP()
+        private void RestoreHP()
         {
             Hp = MaxHp;
+        }
+
+        public void RestoreHPAfterCombat()
+        {
+            var hpBonus = (int)Math.Round(MaxHp * 0.1f, MidpointRounding.ToEven);
+
+            Hp += hpBonus;
+
+            if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
+            }
         }
 
         public void TakeDamage(CombatUnit damager, int damage)
