@@ -68,7 +68,7 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 SystemMarker = SystemEventMarker.MeetArcher,
                 Biome = BiomeType.Slavic,
-                RequiredBiomeLevel = 5
+                RequiredBiomeLevel = 3
             };
             return dialog;
         }
@@ -116,7 +116,7 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 SystemMarker = SystemEventMarker.MeetHerbalist,
                 Biome = BiomeType.Slavic,
-                RequiredBiomeLevel = 10
+                RequiredBiomeLevel = 6
             };
             return dialog;
         }
