@@ -34,6 +34,40 @@ namespace Rpg.Client.Core
 
         public int EquipmentLevel { get; set; }
 
+        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+
+        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
+
+        public bool HasSkillsWithCost
+        {
+            get
+            {
+                var manaDependentSkills = Skills.Where(x => x.Cost is not null);
+                return manaDependentSkills.Any();
+            }
+        }
+
+        public int Hp { get; set; }
+
+        public bool IsDead => Hp <= 0;
+
+        public bool IsPlayerControlled { get; set; }
+
+        public int Level { get; set; }
+
+        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
+
+        public int ManaPool { get; set; }
+        public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
+
+        public int MaxHp { get; set; }
+
+        public int Power { get; set; }
+
+        public int PowerIncrease { get; set; }
+
+        public IReadOnlyList<SkillBase> Skills { get; set; }
+
         public int SkillSetIndex
         {
             get
@@ -49,40 +83,6 @@ namespace Rpg.Client.Core
                 return skillSetIndexNormalized;
             }
         }
-
-        public bool HasSkillsWithCost
-        {
-            get
-            {
-                var manaDependentSkills = Skills.Where(x => x.Cost is not null);
-                return manaDependentSkills.Any();
-            }
-        }
-
-        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
-
-        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
-
-        public int Hp { get; set; }
-
-        public bool IsDead => Hp <= 0;
-
-        public bool IsPlayerControlled { get; set; }
-
-        public int Level { get; set; }
-
-        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
-
-        public int MaxHp { get; set; }
-
-        public int Power { get; set; }
-
-        public int PowerIncrease { get; set; }
-
-        public int ManaPool { get; set; }
-        public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
-
-        public IReadOnlyList<SkillBase> Skills { get; set; }
 
         public UnitScheme UnitScheme { get; init; }
 
@@ -136,11 +136,6 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        private void RestoreHP()
-        {
-            Hp = MaxHp;
-        }
-
         public void RestoreHPAfterCombat()
         {
             var hpBonus = (int)Math.Round(MaxHp * 0.1f, MidpointRounding.ToEven);
@@ -163,20 +158,18 @@ namespace Rpg.Client.Core
             }
         }
 
-        public sealed class UnitDamagedEventArgs : EventArgs
-        {
-            public UnitDamagedEventArgs(CombatUnit damager)
-            {
-                Damager = damager ?? throw new ArgumentNullException(nameof(damager));
-            }
-
-            public CombatUnit Damager { get; }
-        }
-
         public void TakeHeal(int heal)
         {
             Hp += Math.Min(MaxHp - Hp, heal);
             HealTaken?.Invoke(this, heal);
+        }
+
+        internal void RestoreManaPoint()
+        {
+            if (ManaPool < ManaPoolSize)
+            {
+                ManaPool++;
+            }
         }
 
         private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
@@ -223,18 +216,25 @@ namespace Rpg.Client.Core
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
+        private void RestoreHP()
+        {
+            Hp = MaxHp;
+        }
+
         public event EventHandler<int>? DamageTaken;
 
         public event EventHandler<int>? HealTaken;
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
-        internal void RestoreManaPoint()
+        public sealed class UnitDamagedEventArgs : EventArgs
         {
-            if (ManaPool < ManaPoolSize)
+            public UnitDamagedEventArgs(CombatUnit damager)
             {
-                ManaPool++;
+                Damager = damager ?? throw new ArgumentNullException(nameof(damager));
             }
+
+            public CombatUnit Damager { get; }
         }
     }
 }
