@@ -47,8 +47,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
             switch (unit.Unit.UnitScheme.Name)
             {
                 case "Беримир":
+                case "Сокол":
                 case "Рада":
-                case "Соколинный глаз":
+                case "Тао Чан":
+                case "Кахотеп":
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 2, speed: 1) },

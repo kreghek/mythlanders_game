@@ -1,14 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core.Skills;
-
 namespace Rpg.Client.Core
 {
-    internal sealed class SkillSet
-    {
-        public IReadOnlyList<SkillBase> Skills { get; set; }
-    }
-
     internal sealed class UnitScheme
     {
         public BiomeType Biom { get; init; }
@@ -27,5 +20,13 @@ namespace Rpg.Client.Core
         public int PowerPerLevel { get; set; }
 
         public IReadOnlyList<SkillSet> SkillSets { get; init; }
+
+        public UnitSchemeAutoTransition SchemeAudoTransiton { get; set; }
+    }
+
+    internal sealed class UnitSchemeAutoTransition
+    {
+        public UnitScheme NextScheme { get; set; }
+        public float HpShare { get; set; }
     }
 }
