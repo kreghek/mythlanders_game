@@ -445,13 +445,14 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 400,
+                    Hp = 8,
+                    HpPerLevel = 60,
                     Name = "Zmey Gorynych",
                     Biom = BiomeType.Slavic,
 
                     IsBoss = true,
                     Power = 13,
-                    PowerPerLevel = 1,
+                    PowerPerLevel = 2,
 
                     SkillSets = new List<SkillSet>
                     {

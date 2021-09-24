@@ -6,6 +6,7 @@ namespace Rpg.Client.Core
     {
         public BiomeType? Biome { get; internal set; }
         public int Counter { get; set; }
+        public bool Completed { get; set; }
         public bool IsUnique { get; set; }
         public string Name { get; set; }
         public IEnumerable<EventNode> Nodes { get; init; }
