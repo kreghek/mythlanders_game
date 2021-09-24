@@ -18,14 +18,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action attackInteractions)
+            AnimationBlocker blocker, Action attackInteractions, int index)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
                 new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new MassHitState(graphics, attackInteractions),
+                new MassHitState(graphics, attackInteractions, index),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
             _graphics = graphics;

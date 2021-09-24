@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
 
             CombatCards = cards;
 
-            unit.DamageTaken += Unit_DamageTaken;
+            unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HealTaken += Unit_HealTaken;
         }
 
@@ -31,23 +31,23 @@ namespace Rpg.Client.Core
 
         public Unit Unit { get; }
 
-        private void Unit_DamageTaken(object? sender, int e)
+        private void Unit_HasBeenDamaged(object? sender, int e)
         {
-            Damaged?.Invoke(this, new UnitHpChangedEventArgs { Unit = this, Amount = e });
+            HasBeenDamaged?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_HealTaken(object? sender, int e)
         {
-            Healed?.Invoke(this, new UnitHpChangedEventArgs { Unit = this, Amount = e });
+            Healed?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
-        internal event EventHandler<UnitHpChangedEventArgs>? Damaged;
+        internal event EventHandler<UnitHpChangedEventArgs>? HasBeenDamaged;
         internal event EventHandler<UnitHpChangedEventArgs>? Healed;
 
         internal class UnitHpChangedEventArgs : EventArgs
         {
             public int Amount { get; set; }
-            public CombatUnit Unit { get; set; }
+            public CombatUnit CombatUnit { get; set; }
         }
     }
 }

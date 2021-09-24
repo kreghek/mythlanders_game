@@ -81,7 +81,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
             IList<BulletGameObject> bulletList, SkillBase skill, Action action)
         {
-            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList));
+            var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
+            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList, skillIndex));
         }
 
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)
@@ -99,7 +100,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList)
+            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList ,int skillIndex)
         {
             IUnitStateEngine state;
 
@@ -118,7 +119,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         var hitSound = GetHitSound(skill);
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            interaction, hitSound);
+                            interaction, hitSound, skillIndex);
                     }
 
                     break;
@@ -135,7 +136,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         var hitSound = GetHitSound(skill);
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            interaction, hitSound);
+                            interaction, hitSound, skillIndex);
                     }
 
                     break;
@@ -157,7 +158,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -188,7 +190,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             attackInteraction: interaction,
                             bullet: bullet,
                             bulletList: bulletList,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -231,7 +234,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             attackInteraction: interaction,
                             bullet: null,
                             bulletList: bulletList,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -253,7 +257,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -275,7 +280,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -297,7 +303,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -319,7 +326,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -341,7 +349,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
                             healInteraction: interaction,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -384,7 +393,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             attackInteraction: interaction,
                             bullet: null,
                             bulletList: bulletList,
-                            hitSound: hitSound);
+                            hitSound: hitSound,
+                            skillIndex);
                     }
 
                     break;
@@ -400,7 +410,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         var hitSound = GetHitSound(skill);
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            interaction, hitSound);
+                            interaction, hitSound, skillIndex);
                     }
 
                     break;

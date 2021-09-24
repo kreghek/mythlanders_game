@@ -93,15 +93,24 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.UnitChanged += Combat_UnitChanged;
-            _combat.UnitReadyToControl += Combat_UnitReadyToControl;
-            _combat.UnitEntered += Combat_UnitEntered;
+            _combat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            _combat.CombatUnitEntered += ActiveCombat_UnitEntered;
+            _combat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
             _combat.UnitDied += Combat_UnitDied;
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
-            _combat.UnitHadDamage += Combat_UnitHadDamage;
+            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
             _combat.UnitPassed += Combat_UnitPassed;
             _combat.Initialize();
             _combat.Update();
+        }
+
+        private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
+        {
+            var gameObject = _gameObjects.Single(x=>x.CombatUnit == combatUnit);
+            _gameObjects.Remove(gameObject);
+            combatUnit.HasBeenDamaged -= CombatUnit_HasBeenDamaged;
+            combatUnit.Healed -= CombatUnit_Healed;
         }
 
         public override void Update(GameTime gameTime)
@@ -232,16 +241,16 @@ namespace Rpg.Client.Models.Combat
             unitGameObject.AnimateDeath();
         }
 
-        private void Combat_UnitEntered(object? sender, CombatUnit unit)
+        private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
-            var position = GetUnitPosition(unit.Index, unit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(unit, position, _gameObjectContentStorage);
+            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
+            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage);
             _gameObjects.Add(gameObject);
-            unit.Damaged += Unit_Damaged;
-            unit.Healed += Unit_Healed;
+            combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
+            combatUnit.Healed += CombatUnit_Healed;
         }
 
-        private void Combat_UnitHadDamage(object? sender, CombatUnit e)
+        private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
 
@@ -253,7 +262,7 @@ namespace Rpg.Client.Models.Combat
             AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
         }
 
-        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
+        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled)
             {
@@ -598,7 +607,7 @@ namespace Rpg.Client.Models.Combat
 
         private void HandleUnits(GameTime gameTime)
         {
-            foreach (var unitModel in _gameObjects)
+            foreach (var unitModel in _gameObjects.ToArray())
             {
                 unitModel.Update(gameTime);
             }
@@ -664,15 +673,15 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void Unit_Damaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
-            var unitView = GetUnitGameObject(e.Unit);
+            var unitView = GetUnitGameObject(e.CombatUnit);
             AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
         }
 
-        private void Unit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
-            var unitView = GetUnitGameObject(e.Unit);
+            var unitView = GetUnitGameObject(e.CombatUnit);
             AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
         }
     }

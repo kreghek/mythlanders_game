@@ -11,15 +11,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly Action _healInteraction;
         private readonly SoundEffectInstance _hitSound;
+        private readonly int _index;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound)
+        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound, int index)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;
             _hitSound = hitSound;
+            _index = index;
         }
 
         public bool CanBeReplaced { get; }
@@ -34,7 +36,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("Hit");
+                _graphics.PlayAnimation($"Skill{_index}");
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

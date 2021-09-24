@@ -151,7 +151,7 @@ namespace Rpg.Client.Core
         public void TakeDamage(CombatUnit damager, int damage)
         {
             Hp -= Math.Min(Hp, damage);
-            DamageTaken?.Invoke(this, damage);
+            HasBeenDamaged?.Invoke(this, damage);
             if (Hp <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damager));
@@ -221,7 +221,7 @@ namespace Rpg.Client.Core
             Hp = MaxHp;
         }
 
-        public event EventHandler<int>? DamageTaken;
+        public event EventHandler<int>? HasBeenDamaged;
 
         public event EventHandler<int>? HealTaken;
 

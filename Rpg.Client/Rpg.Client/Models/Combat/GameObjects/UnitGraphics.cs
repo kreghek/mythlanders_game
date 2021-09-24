@@ -47,16 +47,20 @@ namespace Rpg.Client.Models.Combat.GameObjects
             switch (unit.Unit.UnitScheme.Name)
             {
                 case "Беримир":
+                case "Сокол":
                 case "Рада":
-                case "Соколинный глаз":
+                case "Тао Чан":
+                case "Кахотеп":
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
-                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 2, speed: 1) },
-                        { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                        { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                        { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
-                        { "Wound", new AnimationInfo(startFrame: 5, frames: 2, speed: 1) },
-                        { "Death", new AnimationInfo(startFrame: 7, frames: 5, speed: 1) { IsFinal = true } }
+                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
+                        { "MoveForward", new AnimationInfo(startFrame: 32 + 3, frames: 1, speed: 8){ IsFinal = true } },
+                        { "MoveBackward", new AnimationInfo(startFrame: 32 + 3, frames: 1, speed: 8){ IsFinal = true } },
+                        { "Skill1", new AnimationInfo(startFrame: 24, frames: 8, speed: 8){ IsFinal = true } },
+                        { "Skill2", new AnimationInfo(startFrame: 16, frames: 1, speed: 8){ IsFinal = true } },
+                        { "Skill3", new AnimationInfo(startFrame: 8, frames: 8, speed: 8){ IsFinal = true } },
+                        { "Wound", new AnimationInfo(startFrame: 40, frames: 8, speed: 8){ IsFinal = true } },
+                        { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
                     };
                     break;
 
@@ -66,7 +70,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "MoveForward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "MoveBackward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                        { "Hit", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Skill1", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Skill2", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                        { "Skill3", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Wound", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Death", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } }
                     };
@@ -138,7 +144,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
 
-            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, FRAME_WIDTH,
+            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 8, FRAME_WIDTH,
                 FRAME_HEIGHT);
         }
     }

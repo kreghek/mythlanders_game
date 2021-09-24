@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Engine;
 
@@ -48,7 +50,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)_counter);
+                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)_counter);
+
+                //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
+
+                //var fullPosition = horizontalPosition + jumpTopPosition;
+
+                _graphicsRoot.Position = horizontalPosition;
             }
             else
             {

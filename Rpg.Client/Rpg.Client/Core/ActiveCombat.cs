@@ -58,7 +58,7 @@ namespace Rpg.Client.Core
 
                 if (!IsCurrentStepCompleted)
                 {
-                    UnitReadyToControl?.Invoke(this, _currentUnit);
+                    CombatUnitReadyToControl?.Invoke(this, _currentUnit);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace Rpg.Client.Core
             {
                 var combatUnit = new CombatUnit(unit, index);
                 _allUnitList.Add(combatUnit);
-                UnitEntered?.Invoke(this, combatUnit);
+                CombatUnitEntered?.Invoke(this, combatUnit);
                 index++;
             }
 
@@ -157,20 +157,52 @@ namespace Rpg.Client.Core
             {
                 var combatUnit = new CombatUnit(unit, index);
                 _allUnitList.Add(combatUnit);
-                UnitEntered?.Invoke(this, combatUnit);
+                CombatUnitEntered?.Invoke(this, combatUnit);
                 index++;
             }
 
-            foreach (var unit in _allUnitList)
+            foreach (var combatUnit in _allUnitList)
             {
-                unit.Unit.Dead += Unit_Dead;
+                combatUnit.Unit.Dead += Unit_Dead;
+                combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
             }
 
             UnitChanged += ActiveCombat_UnitChanged;
-            UnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
 
             IsCurrentStepCompleted = true;
         }
+
+        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        {
+            var unit = e.CombatUnit.Unit;
+            var transition = unit.UnitScheme.SchemeAudoTransiton;
+            if (transition is not null)
+            {
+                var currentHpShare = (float)unit.Hp / unit.MaxHp;
+                if (currentHpShare <= transition.HpShare)
+                {
+                    unit.Hp = (int)(transition.HpShare * unit.MaxHp);
+                    var nextScheme = transition.NextScheme;
+
+                    var combatUnit = e.CombatUnit;
+                    ReplaceUnitToNewForm(nextScheme, combatUnit);
+                }
+            }
+        }
+
+        private void ReplaceUnitToNewForm(UnitScheme nextScheme, CombatUnit combatUnit)
+        {
+            _allUnitList.Remove(combatUnit);
+
+            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Hp);
+            var newFormCombatUnit = new CombatUnit(newFormUnit, combatUnit.Index);
+            CombatUnitRemoved?.Invoke(this, combatUnit);
+            _allUnitList.Add(newFormCombatUnit);
+            CombatUnitEntered?.Invoke(this, newFormCombatUnit);
+        }
+
+        public event EventHandler<CombatUnit> CombatUnitRemoved;
 
         internal void Update()
         {
@@ -325,7 +357,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatFinishEventArgs>? Finish;
 
-        internal event EventHandler<CombatUnit>? UnitEntered;
+        internal event EventHandler<CombatUnit>? CombatUnitEntered;
 
         internal event EventHandler<CombatUnit>? UnitDied;
 
@@ -335,11 +367,11 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? MoveCompleted;
 
-        internal event EventHandler<CombatUnit>? UnitHadDamage;
+        internal event EventHandler<CombatUnit>? UnitHasBeenDamaged;
 
         internal event EventHandler<CombatUnit>? UnitPassed;
 
-        internal event EventHandler<CombatUnit>? UnitReadyToControl;
+        internal event EventHandler<CombatUnit>? CombatUnitReadyToControl;
 
         /// <summary>
         /// Event bus for combat object interactions.

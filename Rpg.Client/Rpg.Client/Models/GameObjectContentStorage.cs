@@ -31,14 +31,14 @@ namespace Rpg.Client.Models
             {
                 "Беримир" => _unit,
                 "Рада" => _unit,
-                "Соколинный глаз" => _unit,
+                "Сокол" => _unit,
                 _ => _monsterUnit
             };
         }
 
         public void LoadContent(ContentManager contentManager)
         {
-            _unit = contentManager.Load<Texture2D>("Sprites/GameObjects/Unit");
+            _unit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");

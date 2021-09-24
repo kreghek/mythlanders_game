@@ -18,7 +18,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly IList<BulletGameObject> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
-
+        private readonly int _index;
         private double _counter;
 
         private bool _interactionExecuted;
@@ -34,11 +34,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
             BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance? hitSound) :
+            SoundEffectInstance? hitSound, int index) :
             this(graphics, attackInteraction, bulletGameObject, bulletList)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
+            _index = index;
         }
 
         public bool CanBeReplaced { get; }
@@ -56,7 +57,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("Hit");
+                _graphics.PlayAnimation($"Skill{_index}");
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

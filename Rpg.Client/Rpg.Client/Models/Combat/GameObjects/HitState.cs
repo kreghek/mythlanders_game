@@ -3,7 +3,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
@@ -14,14 +13,15 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly AnimationBlocker? _animationBlocker;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance _hitSound;
+        private readonly int _index;
         private readonly Action _interaction;
         private double _counter;
 
         private bool _interactionExecuted;
 
         public HitState(UnitGraphics graphics, Action attackInteraction,
-            SoundEffectInstance hitSound)
-            : this(graphics, attackInteraction, default, hitSound)
+            SoundEffectInstance hitSound, int index)
+            : this(graphics, attackInteraction, default, hitSound, index)
         {
         }
 
@@ -29,10 +29,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
             UnitGraphics graphics,
             Action attackInteraction,
             AnimationBlocker animationBlocker,
-            SoundEffectInstance hitSound)
+            SoundEffectInstance hitSound,
+            int index)
         {
             _interaction = attackInteraction;
             _hitSound = hitSound;
+            _index = index;
             _animationBlocker = animationBlocker;
             _graphics = graphics;
         }
@@ -52,7 +54,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("Hit");
+                _graphics.PlayAnimation($"Skill{_index}");
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
