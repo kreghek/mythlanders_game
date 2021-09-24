@@ -173,37 +173,6 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
-        {
-            var unit = e.CombatUnit.Unit;
-            var transition = unit.UnitScheme.SchemeAudoTransiton;
-            if (transition is not null)
-            {
-                var currentHpShare = (float)unit.Hp / unit.MaxHp;
-                if (currentHpShare <= transition.HpShare)
-                {
-                    unit.Hp = (int)(transition.HpShare * unit.MaxHp);
-                    var nextScheme = transition.NextScheme;
-
-                    var combatUnit = e.CombatUnit;
-                    ReplaceUnitToNewForm(nextScheme, combatUnit);
-                }
-            }
-        }
-
-        private void ReplaceUnitToNewForm(UnitScheme nextScheme, CombatUnit combatUnit)
-        {
-            _allUnitList.Remove(combatUnit);
-
-            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Hp);
-            var newFormCombatUnit = new CombatUnit(newFormUnit, combatUnit.Index);
-            CombatUnitRemoved?.Invoke(this, combatUnit);
-            _allUnitList.Add(newFormCombatUnit);
-            CombatUnitEntered?.Invoke(this, newFormCombatUnit);
-        }
-
-        public event EventHandler<CombatUnit> CombatUnitRemoved;
-
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
@@ -285,6 +254,24 @@ namespace Rpg.Client.Core
             UseSkill(skill, targetPlayerObject);
         }
 
+        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        {
+            var unit = e.CombatUnit.Unit;
+            var transition = unit.UnitScheme.SchemeAudoTransiton;
+            if (transition is not null)
+            {
+                var currentHpShare = (float)unit.Hp / unit.MaxHp;
+                if (currentHpShare <= transition.HpShare)
+                {
+                    unit.Hp = (int)(transition.HpShare * unit.MaxHp);
+                    var nextScheme = transition.NextScheme;
+
+                    var combatUnit = e.CombatUnit;
+                    ReplaceUnitToNewForm(nextScheme, combatUnit);
+                }
+            }
+        }
+
         private void CompleteStep()
         {
             IsCurrentStepCompleted = true;
@@ -305,6 +292,17 @@ namespace Rpg.Client.Core
 
             _unitQueue.RemoveAt(0);
             return _unitQueue.Count != 0;
+        }
+
+        private void ReplaceUnitToNewForm(UnitScheme nextScheme, CombatUnit combatUnit)
+        {
+            _allUnitList.Remove(combatUnit);
+
+            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Hp);
+            var newFormCombatUnit = new CombatUnit(newFormUnit, combatUnit.Index);
+            CombatUnitRemoved?.Invoke(this, combatUnit);
+            _allUnitList.Add(newFormCombatUnit);
+            CombatUnitEntered?.Invoke(this, newFormCombatUnit);
         }
 
         private void StartRound()
@@ -352,6 +350,8 @@ namespace Rpg.Client.Core
                 UnitDied?.Invoke(this, combatUnit);
             }
         }
+
+        public event EventHandler<CombatUnit> CombatUnitRemoved;
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
 

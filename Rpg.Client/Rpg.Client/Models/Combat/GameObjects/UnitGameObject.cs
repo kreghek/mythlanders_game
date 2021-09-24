@@ -82,7 +82,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             IList<BulletGameObject> bulletList, SkillBase skill, Action action)
         {
             var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
-            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList, skillIndex));
+            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList,
+                skillIndex));
         }
 
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)

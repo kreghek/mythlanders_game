@@ -105,14 +105,6 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
-        private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
-        {
-            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
-            _gameObjects.Remove(gameObject);
-            combatUnit.HasBeenDamaged -= CombatUnit_HasBeenDamaged;
-            combatUnit.Healed -= CombatUnit_Healed;
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -145,6 +137,41 @@ namespace Rpg.Client.Models.Combat
             HandleBackgrounds();
 
             base.Update(gameTime);
+        }
+
+        private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
+        {
+            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
+            _gameObjects.Remove(gameObject);
+            combatUnit.HasBeenDamaged -= CombatUnit_HasBeenDamaged;
+            combatUnit.Healed -= CombatUnit_Healed;
+        }
+
+        private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
+        {
+            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
+            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage);
+            _gameObjects.Add(gameObject);
+            combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
+            combatUnit.Healed += CombatUnit_Healed;
+        }
+
+        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                return;
+            }
+
+            if (_combatSkillsPanel is null)
+            {
+                return;
+            }
+
+            _combatSkillsPanel.IsEnabled = true;
+            _combatSkillsPanel.Unit = e;
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.IsActive = true;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -241,15 +268,6 @@ namespace Rpg.Client.Models.Combat
             unitGameObject.AnimateDeath();
         }
 
-        private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
-        {
-            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage);
-            _gameObjects.Add(gameObject);
-            combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
-            combatUnit.Healed += CombatUnit_Healed;
-        }
-
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
@@ -260,24 +278,6 @@ namespace Rpg.Client.Models.Combat
         private void Combat_UnitPassed(object? sender, CombatUnit e)
         {
             AddComponent(new MovePassedComponent(Game, GetUnitGameObject(e).Position));
-        }
-
-        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-            {
-                return;
-            }
-
-            if (_combatSkillsPanel is null)
-            {
-                return;
-            }
-
-            _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = e;
-            var unitGameObject = GetUnitGameObject(e);
-            unitGameObject.IsActive = true;
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -325,6 +325,18 @@ namespace Rpg.Client.Models.Combat
         private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
         {
             RefreshHudButtons(skillCard);
+        }
+
+        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        {
+            var unitView = GetUnitGameObject(e.CombatUnit);
+            AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
+        }
+
+        private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        {
+            var unitView = GetUnitGameObject(e.CombatUnit);
+            AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -671,18 +683,6 @@ namespace Rpg.Client.Models.Combat
                 unit.RestoreHPAfterCombat();
                 unit.RestoreManaPoint();
             }
-        }
-
-        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
-        {
-            var unitView = GetUnitGameObject(e.CombatUnit);
-            AddComponent(new HpChangedComponent(Game, -e.Amount, unitView.Position));
-        }
-
-        private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
-        {
-            var unitView = GetUnitGameObject(e.CombatUnit);
-            AddComponent(new HpChangedComponent(Game, e.Amount, unitView.Position));
         }
     }
 }
