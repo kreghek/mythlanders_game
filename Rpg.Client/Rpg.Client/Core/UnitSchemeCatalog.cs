@@ -228,33 +228,33 @@ namespace Rpg.Client.Core
                         }
                     },
 
-                    SchemeAudoTransiton= new UnitSchemeAutoTransition
-                    {
-                        HpShare = 0.5f,
-                        NextScheme = new UnitScheme
-                        {
-                            Hp = 20,
-                            HpPerLevel = 3,
-                            Name = "Grey Wolf 2",
-                            Biom = BiomeType.Slavic,
-                            NodeIndexes = new[] { 0, 1, 2 },
-                            Power = 2,
-                            PowerPerLevel = 1,
+                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    //{
+                    //    HpShare = 0.5f,
+                    //    NextScheme = new UnitScheme
+                    //    {
+                    //        Hp = 20,
+                    //        HpPerLevel = 3,
+                    //        Name = "Grey Wolf 2",
+                    //        Biom = BiomeType.Slavic,
+                    //        NodeIndexes = new[] { 0, 1, 2 },
+                    //        Power = 2,
+                    //        PowerPerLevel = 1,
 
-                            SkillSets = new List<SkillSet>
-                            {
-                                new SkillSet
-                                {
-                                    Skills = new List<SkillBase>
-                                    {
-                                        new MonsterAttackSkill(), // Bite
-                                        new PowerUpSkill(), // Wolf howl
-                                        new HealSkill() // lick wounds
-                                    }
-                                }
-                            }
-                        },
-                    }
+                    //        SkillSets = new List<SkillSet>
+                    //        {
+                    //            new SkillSet
+                    //            {
+                    //                Skills = new List<SkillBase>
+                    //                {
+                    //                    new MonsterAttackSkill(), // Bite
+                    //                    new PowerUpSkill(), // Wolf howl
+                    //                    new HealSkill() // lick wounds
+                    //                }
+                    //            }
+                    //        }
+                    //    },
+                    //}
                 },
                 new UnitScheme
                 {

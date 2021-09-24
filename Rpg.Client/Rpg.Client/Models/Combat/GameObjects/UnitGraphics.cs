@@ -53,12 +53,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 case "Кахотеп":
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
-                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 2, speed: 1) },
-                        { "MoveForward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                        { "MoveBackward", new AnimationInfo(startFrame: 2, frames: 1, speed: 1) },
-                        { "Hit", new AnimationInfo(startFrame: 3, frames: 2, speed: 2) },
-                        { "Wound", new AnimationInfo(startFrame: 5, frames: 2, speed: 1) },
-                        { "Death", new AnimationInfo(startFrame: 7, frames: 5, speed: 1) { IsFinal = true } }
+                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 16) },
+                        { "MoveForward", new AnimationInfo(startFrame: 32, frames: 8, speed: 16) },
+                        { "MoveBackward", new AnimationInfo(startFrame: 32, frames: 8, speed: 16) },
+                        { "Hit", new AnimationInfo(startFrame: 8, frames: 8, speed: 26) },
+                        { "Wound", new AnimationInfo(startFrame: 40, frames: 8, speed: 16) },
+                        { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 16) { IsFinal = true } }
                     };
                     break;
 
@@ -140,7 +140,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
 
-            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 3, FRAME_WIDTH,
+            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 8, FRAME_WIDTH,
                 FRAME_HEIGHT);
         }
     }
