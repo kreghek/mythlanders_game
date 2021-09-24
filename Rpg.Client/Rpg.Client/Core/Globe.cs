@@ -229,7 +229,7 @@ namespace Rpg.Client.Core
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
                 .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
                             (x.RequiredBiomeLevel is null))
-                .Where(x=>IsUnlocked(x, EventCatalog.Events));
+                .Where(x => IsUnlocked(x, EventCatalog.Events));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)
@@ -263,7 +263,7 @@ namespace Rpg.Client.Core
 
             var completedEvents = events.Where(x => x.Completed).ToArray();
             foreach (var eventSid in testedEvent.RequiredEventsCompleted)
-            { 
+            {
                 if (eventSid is null)
                 {
                     continue;
