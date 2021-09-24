@@ -17,14 +17,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, Action interaction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, int index)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
                 new MoveToTarget(graphics, graphicsRoot, targetPosition),
-                new HitState(graphics, interaction, hitSound),
+                new HitState(graphics, interaction, hitSound, index),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
             _blocker = blocker;

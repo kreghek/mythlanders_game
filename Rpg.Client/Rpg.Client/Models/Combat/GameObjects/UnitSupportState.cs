@@ -16,14 +16,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public UnitSupportState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, Action healInteraction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound)
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, int index)
         {
             _graphics = graphics;
             _blocker = blocker;
 
             _subStates = new IUnitStateEngine[]
             {
-                new HealState(_graphics, healInteraction, hitSound)
+                new HealState(_graphics, healInteraction, hitSound, index)
             };
         }
 

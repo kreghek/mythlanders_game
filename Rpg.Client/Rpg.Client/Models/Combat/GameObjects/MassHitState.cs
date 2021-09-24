@@ -13,17 +13,19 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly Action _attackInteractions;
+        private readonly int _index;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public MassHitState(UnitGraphics graphics, Action attackInteractions)
+        public MassHitState(UnitGraphics graphics, Action attackInteractions, int index)
         {
             _graphics = graphics;
 
             _attackInteractions = attackInteractions;
+            _index = index;
         }
 
         public bool CanBeReplaced { get; }
@@ -38,7 +40,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("Hit");
+                _graphics.PlayAnimation($"Skill{_index}");
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
