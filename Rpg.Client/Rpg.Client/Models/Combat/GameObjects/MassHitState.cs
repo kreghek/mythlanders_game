@@ -13,8 +13,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly Action _attackInteractions;
-        private readonly int _index;
         private readonly UnitGraphics _graphics;
+        private readonly int _index;
 
         private double _counter;
 

@@ -19,14 +19,14 @@ namespace Rpg.Client.Core
 
         public int PowerPerLevel { get; set; }
 
-        public IReadOnlyList<SkillSet> SkillSets { get; init; }
-
         public UnitSchemeAutoTransition SchemeAudoTransiton { get; set; }
+
+        public IReadOnlyList<SkillSet> SkillSets { get; init; }
     }
 
     internal sealed class UnitSchemeAutoTransition
     {
-        public UnitScheme NextScheme { get; set; }
         public float HpShare { get; set; }
+        public UnitScheme NextScheme { get; set; }
     }
 }

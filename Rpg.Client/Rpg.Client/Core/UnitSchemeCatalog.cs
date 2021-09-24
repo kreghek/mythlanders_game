@@ -226,7 +226,7 @@ namespace Rpg.Client.Core
                                 new HealSkill() // lick wounds
                             }
                         }
-                    },
+                    }
 
                     //SchemeAudoTransiton= new UnitSchemeAutoTransition
                     //{
@@ -469,6 +469,6 @@ namespace Rpg.Client.Core
             };
         }
 
-        public static IEnumerable<UnitScheme> AllUnits { get; private set; }
+        public static IEnumerable<UnitScheme> AllUnits { get; }
     }
 }

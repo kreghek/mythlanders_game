@@ -171,6 +171,15 @@ namespace Rpg.Client.GameComponents
             targetUnit.GainXp(xpAmount);
         }
 
+        private void HandleUpdateGlobe(string[] vs)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var dice = Game.Services.GetService<IDice>();
+            globe.UpdateNodes(dice);
+        }
+
         /// <summary>
         /// Tries to convert keyboard input to characters and prevents repeatedly returning the
         /// same character if a key was pressed last frame, but not yet unpressed this frame.
@@ -324,15 +333,6 @@ namespace Rpg.Client.GameComponents
             }
 
             return false;
-        }
-
-        private void HandleUpdateGlobe(string[] vs)
-        {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice);
         }
     }
 }

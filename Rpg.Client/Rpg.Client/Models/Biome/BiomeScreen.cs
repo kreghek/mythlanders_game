@@ -94,13 +94,6 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated += Globe_Updated;
         }
 
-        private void Globe_Updated(object? sender, EventArgs e)
-        {
-            // This happens when cheat is used.
-            _nodeModels.Clear();
-            _isNodeModelsCreated = false;
-        }
-
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (!_isNodeModelsCreated)
@@ -263,7 +256,8 @@ namespace Rpg.Client.Models.Biome
             var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
 
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 200)), Color.Lerp(Color.Transparent, Color.White, 0.75f));
+                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 200)),
+                Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
             var node = nodeGameObject;
 
@@ -308,6 +302,7 @@ namespace Rpg.Client.Models.Biome
 
                         monsterIndex++;
                     }
+
                     roundIndex++;
                 }
             }
@@ -436,6 +431,13 @@ namespace Rpg.Client.Models.Biome
             }
 
             return equipmentDisplayName;
+        }
+
+        private void Globe_Updated(object? sender, EventArgs e)
+        {
+            // This happens when cheat is used.
+            _nodeModels.Clear();
+            _isNodeModelsCreated = false;
         }
 
         private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)

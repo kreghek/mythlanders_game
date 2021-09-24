@@ -21,7 +21,7 @@
     }
 
     internal enum GlobeNodeRegularTheme
-    { 
+    {
         Undefined,
         SlavicBattleground,
         SlavicSwamp
