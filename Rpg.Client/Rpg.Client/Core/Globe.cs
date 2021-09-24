@@ -254,31 +254,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)
-        {
-            if (testedEvent.RequiredEventsCompleted is null)
-            {
-                return true;
-            }
-
-            var completedEvents = events.Where(x => x.Completed).ToArray();
-            foreach (var eventSid in testedEvent.RequiredEventsCompleted)
-            {
-                if (eventSid is null)
-                {
-                    continue;
-                }
-
-                var foundCompletedEvent = completedEvents.Any(x => x.Name == eventSid);
-                if (foundCompletedEvent)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biome biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
@@ -424,6 +399,31 @@ namespace Rpg.Client.Core
             // +1 because combat starts with zero.
             // But a unit's level have to starts with 1.
             return combatLevel + 1;
+        }
+
+        private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)
+        {
+            if (testedEvent.RequiredEventsCompleted is null)
+            {
+                return true;
+            }
+
+            var completedEvents = events.Where(x => x.Completed).ToArray();
+            foreach (var eventSid in testedEvent.RequiredEventsCompleted)
+            {
+                if (eventSid is null)
+                {
+                    continue;
+                }
+
+                var foundCompletedEvent = completedEvents.Any(x => x.Name == eventSid);
+                if (foundCompletedEvent)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public event EventHandler? Updated;
