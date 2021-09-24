@@ -11,8 +11,8 @@ namespace Rpg.Client.Core
         public string Name { get; set; }
         public IEnumerable<EventNode> Nodes { get; init; }
         public int? RequiredBiomeLevel { get; internal set; }
+        public string?[]? RequiredEventsCompleted { get; internal set; }
         public EventNode StartNode { get; init; }
-
         public SystemEventMarker? SystemMarker { get; set; }
     }
 }
