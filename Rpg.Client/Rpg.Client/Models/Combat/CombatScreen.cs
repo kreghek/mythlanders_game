@@ -308,11 +308,11 @@ namespace Rpg.Client.Models.Combat
                 {
                     if (_finalBossWasDefeat)
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
                     }
                     else
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
                     }
                 }
                 else
@@ -592,6 +592,8 @@ namespace Rpg.Client.Models.Combat
             {
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
+
+                    _globe.AvailableDialog.Completed = true;
 
                     if (_combat.Combat.IsBossLevel)
                     {

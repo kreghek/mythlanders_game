@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
@@ -17,11 +18,60 @@ namespace Rpg.Client.Core
             CreateTestDialog(9, BiomeType.Slavic),
             CreateTestDialog(10, BiomeType.Slavic),
 
+            CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
+
             CreateMeetHerbalistDialog(),
             CreateMeetArcherDialog(),
             CreateMeetPriestDialog(),
             CreateMeetMissionaryDialog()
         };
+
+        private static Event CreateDependentTestEvent(int id, string requiredEventName, BiomeType biomeType)
+        {
+            var dialogNode1 = new EventNode
+            {
+                Text = $"Описание ситуации {id}. Это событие зависит от {requiredEventName}."
+            };
+
+            var dialogNode2 = new EventNode
+            {
+                Text = "Описание последствий."
+            };
+
+            dialogNode1.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "Что-то сделать.",
+                    Next = dialogNode2
+                }
+            };
+
+            dialogNode2.Options = new[]
+            {
+                new EventOption
+                {
+                    Text = "В бой!",
+                    IsEnd = true
+                }
+            };
+
+            var dialog = new Event
+            {
+                Name = $"Зависимое Тестовое событие {id}",
+                Nodes = new[]
+                {
+                    dialogNode1,
+                    dialogNode2
+                },
+                StartNode = dialogNode1,
+                Biome = biomeType,
+                RequiredEventsCompleted = new[] {
+                    requiredEventName
+                }
+            };
+            return dialog;
+        }
 
         public static IEnumerable<Event> Events => _dialogs;
 
