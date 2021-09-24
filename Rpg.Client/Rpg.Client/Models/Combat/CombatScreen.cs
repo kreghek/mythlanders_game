@@ -107,7 +107,7 @@ namespace Rpg.Client.Models.Combat
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
         {
-            var gameObject = _gameObjects.Single(x=>x.CombatUnit == combatUnit);
+            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
             combatUnit.HasBeenDamaged -= CombatUnit_HasBeenDamaged;
             combatUnit.Healed -= CombatUnit_Healed;

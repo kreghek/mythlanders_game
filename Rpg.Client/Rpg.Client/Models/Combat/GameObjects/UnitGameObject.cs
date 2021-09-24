@@ -100,7 +100,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList ,int skillIndex)
+            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList, int skillIndex)
         {
             IUnitStateEngine state;
 
