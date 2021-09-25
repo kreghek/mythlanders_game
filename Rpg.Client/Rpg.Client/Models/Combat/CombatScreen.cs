@@ -554,6 +554,10 @@ namespace Rpg.Client.Models.Combat
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            if (aliveUnits.Length == 0)
+            {
+                yield break;
+            }
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
