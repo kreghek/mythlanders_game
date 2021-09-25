@@ -593,7 +593,10 @@ namespace Rpg.Client.Models.Combat
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
 
-                    _globe.AvailableDialog.Completed = true;
+                    if (_globe.AvailableDialog is not null)
+                    {
+                        _globe.AvailableDialog.Completed = true;
+                    }
 
                     if (_combat.Combat.IsBossLevel)
                     {
