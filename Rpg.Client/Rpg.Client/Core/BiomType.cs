@@ -6,6 +6,7 @@
         Slavic,
         China,
         Egypt,
-        Greek
+        Greek,
+        Cosmos
     }
 }

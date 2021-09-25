@@ -314,7 +314,7 @@ namespace Rpg.Client.Models.Biome
 
             var backgroundTexture = _uiContentStorage.GetBiomeBackground(_biome.Type);
 
-            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, GetBiomeMapRectange(_biome.Type), Color.White);
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
@@ -334,6 +334,28 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.End();
         }
 
+        private static Rectangle GetBiomeMapRectange(BiomeType type)
+        {
+            switch (type)
+            {
+                case BiomeType.Slavic:
+                    return new Rectangle(0, 0, 800, 480);
+
+                case BiomeType.China:
+                    return new Rectangle(0, 480, 800, 480);
+
+                case BiomeType.Egypt:
+                    return new Rectangle(0, 0, 800, 480);
+
+                case BiomeType.Greek:
+                    return new Rectangle(0, 480, 800, 480);
+                case BiomeType.Undefined:
+                case BiomeType.Cosmos:
+                default:
+                    throw new InvalidOperationException("Unknown biome type");
+            }
+        }
+
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
         {
             return type switch
@@ -348,8 +370,6 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(680, 95), // 6
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240), // 8
-                    new Vector2(720, 245), // 9
-                    new Vector2(445, 345) // 10
                 },
                 BiomeType.China => new[]
                 {
@@ -361,8 +381,6 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(680, 95), // 6
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240), // 8
-                    new Vector2(720, 245), // 9
-                    new Vector2(445, 345) // 10
                 },
                 BiomeType.Egypt => new[]
                 {
@@ -374,8 +392,6 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(680, 95), // 6
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240), // 8
-                    new Vector2(720, 245), // 9
-                    new Vector2(445, 345) // 10
                 },
                 BiomeType.Greek => new[]
                 {
@@ -387,8 +403,6 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(680, 95), // 6
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240), // 8
-                    new Vector2(720, 245), // 9
-                    new Vector2(445, 345) // 10
                 },
                 _ => throw new InvalidOperationException($"Unknown biome type {type}.")
             };
