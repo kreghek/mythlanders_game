@@ -5,10 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-using Rpg.Client.Core;
 using Rpg.Client.Core.ProgressStorage;
 
-namespace Rpg.Client.Models
+namespace Rpg.Client.Core
 {
     internal sealed class GlobeProvider
     {
@@ -138,7 +137,7 @@ namespace Rpg.Client.Models
             };
         }
 
-        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Core.Biome> biomes)
+        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Biome> biomes)
         {
             foreach (var biome in biomes)
             {
@@ -174,7 +173,7 @@ namespace Rpg.Client.Models
             return groupDto;
         }
 
-        private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Core.Event> events)
+        private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Event> events)
         {
             foreach (var eventItem in events)
             {
@@ -193,7 +192,7 @@ namespace Rpg.Client.Models
             }
         }
 
-        private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Core.Biome> biomes)
+        private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Biome> biomes)
         {
             if (biomeDtoList is null)
             {
