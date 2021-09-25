@@ -86,14 +86,15 @@ namespace Rpg.Client.Models
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            Globe = new Globe
+            Globe = new Globe();
+            if (lastSave.Player != null)
             {
-                Player = new Player
+                Globe.Player = new Player
                 {
                     Pool = LoadPlayerGroup(lastSave.Player.Pool),
                     Group = LoadPlayerGroup(lastSave.Player.Group)
-                }
-            };
+                };
+            }
 
             LoadEvents(lastSave.Events);
 
@@ -106,13 +107,18 @@ namespace Rpg.Client.Models
 
         public void StoreGlobe()
         {
-            var progress = new ProgressDto
+            PlayerDto? player = null;
+            if (Globe.Player != null)
             {
-                Player = new PlayerDto
+                player = new PlayerDto
                 {
                     Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
-                },
+                };
+            }
+            var progress = new ProgressDto
+            {
+                Player = player,
                 Events = GetUsedEventDtos(EventCatalog.Events),
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
@@ -168,7 +174,7 @@ namespace Rpg.Client.Models
             return groupDto;
         }
 
-        private static IEnumerable<EventDto?> GetUsedEventDtos(IEnumerable<Core.Event> events)
+        private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Core.Event> events)
         {
             foreach (var eventItem in events)
             {
@@ -187,7 +193,7 @@ namespace Rpg.Client.Models
             }
         }
 
-        private static void LoadBiomes(IEnumerable<BiomeDto> biomeDtoList, IEnumerable<Core.Biome> biomes)
+        private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Core.Biome> biomes)
         {
             if (biomeDtoList is null)
             {
@@ -196,6 +202,10 @@ namespace Rpg.Client.Models
 
             foreach (var biomeDto in biomeDtoList)
             {
+                if (biomeDto is null)
+                {
+                    continue;
+                }
                 var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);
                 targetBiome.IsComplete = biomeDto.IsComplete;
                 targetBiome.IsAvailable = biomeDto.IsAvailable;
@@ -210,8 +220,18 @@ namespace Rpg.Client.Models
                 eventItem.Counter = 0;
             }
 
+            if (eventDtoList == null)
+            {
+                return;
+            }
+
             foreach (var eventDto in eventDtoList)
             {
+                if (eventDto is null)
+                {
+                    continue;
+                }
+
                 var eventItem = EventCatalog.Events.Single(x => x.Name == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
