@@ -336,24 +336,16 @@ namespace Rpg.Client.Models.Biome
 
         private static Rectangle GetBiomeMapRectange(BiomeType type)
         {
-            switch (type)
+            const int WIDTH = 800;
+            const int HEIGHT = 400;
+            return type switch
             {
-                case BiomeType.Slavic:
-                    return new Rectangle(0, 0, 800, 480);
-
-                case BiomeType.China:
-                    return new Rectangle(0, 480, 800, 480);
-
-                case BiomeType.Egypt:
-                    return new Rectangle(0, 0, 800, 480);
-
-                case BiomeType.Greek:
-                    return new Rectangle(0, 480, 800, 480);
-                case BiomeType.Undefined:
-                case BiomeType.Cosmos:
-                default:
-                    throw new InvalidOperationException("Unknown biome type");
-            }
+                BiomeType.Slavic => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
+                BiomeType.China => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
+                BiomeType.Egypt => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
+                BiomeType.Greek => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
+                _ => throw new InvalidOperationException("Unknown biome type"),
+            };
         }
 
         private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
