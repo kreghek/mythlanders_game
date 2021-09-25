@@ -636,7 +636,7 @@ namespace Rpg.Client.Models.Combat
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetButtonTexture(),
                 new Rectangle(target.Position.ToPoint(),
-                new Point(32, 32)));
+                    new Point(32, 32)));
 
             interactButton.OnClick += (s, e) =>
             {
