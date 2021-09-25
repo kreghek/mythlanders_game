@@ -33,7 +33,7 @@ namespace Rpg.Client.Core
 
         private void Unit_HasBeenDamaged(object? sender, int e)
         {
-            HasBeenDamaged?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
+            HasTakenDamage?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_HealTaken(object? sender, int e)
@@ -41,7 +41,7 @@ namespace Rpg.Client.Core
             Healed?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
-        internal event EventHandler<UnitHpChangedEventArgs>? HasBeenDamaged;
+        internal event EventHandler<UnitHpChangedEventArgs>? HasTakenDamage;
         internal event EventHandler<UnitHpChangedEventArgs>? Healed;
 
         internal class UnitHpChangedEventArgs : EventArgs

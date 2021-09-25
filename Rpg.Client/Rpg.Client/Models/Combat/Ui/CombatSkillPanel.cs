@@ -47,10 +47,12 @@ namespace Rpg.Client.Models.Combat.Ui
             get => _selectedCard;
             set
             {
-                if (_selectedCard == value)
+                // Comment this block because monsters can transforms into other unit (See scheme auto transition).
+                // But interaction buttons keep reference to old unit. This is reason of a errors.
+                /*if (_selectedCard == value)
                 {
                     return;
-                }
+                }*/
 
                 _selectedCard = value;
 
@@ -63,10 +65,12 @@ namespace Rpg.Client.Models.Combat.Ui
             get => _unit;
             set
             {
-                if (_unit == value)
+                // Comment this block because monsters can transforms into other unit (See scheme auto transition).
+                // But interaction buttons keep reference to old unit. This is reason of a errors.
+                /*if (_unit == value)
                 {
                     return;
-                }
+                }*/
 
                 _unit = value;
 
