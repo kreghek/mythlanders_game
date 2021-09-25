@@ -211,290 +211,24 @@ namespace Rpg.Client.Core
             AllUnits = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters);
         }
 
-        private static IEnumerable<UnitScheme> CreateSlavicMonsters()
-        {
-            var biomeType = BiomeType.Slavic;
-            return new[] {
-            new UnitScheme
-            {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Grey Wolf",
-                Biom = biomeType,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 2,
-                PowerPerLevel = 1,
-
-                SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(), // Bite
-                                new PowerUpSkill(), // Wolf howl
-                                new HealSkill() // lick wounds
-                            }
-                        }
-                    }
-
-                //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                //{
-                //    HpShare = 0.5f,
-                //    NextScheme = new UnitScheme
-                //    {
-                //        Hp = 20,
-                //        HpPerLevel = 3,
-                //        Name = "Grey Wolf 2",
-                //        Biom = BiomeType.Slavic,
-                //        NodeIndexes = new[] { 0, 1, 2 },
-                //        Power = 2,
-                //        PowerPerLevel = 1,
-
-                //        SkillSets = new List<SkillSet>
-                //        {
-                //            new SkillSet
-                //            {
-                //                Skills = new List<SkillBase>
-                //                {
-                //                    new MonsterAttackSkill(), // Bite
-                //                    new PowerUpSkill(), // Wolf howl
-                //                    new HealSkill() // lick wounds
-                //                }
-                //            }
-                //        }
-                //    },
-                //}
-            },
-                new UnitScheme
-                {
-                    Hp = 25,
-                    HpPerLevel = 8,
-                    Name = "Bear",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
-                    IsUnique = true,
-                    Power = 1,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(), // Bite
-                                new DefenseSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 15,
-                    HpPerLevel = 2,
-                    Name = "Wisp",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    Power = 4,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new StrikeSkill(),
-                                new ArrowRainSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 25,
-                    HpPerLevel = 9,
-                    Name = "Volkolak",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsUnique = true,
-                    Power = 4,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 15,
-                    HpPerLevel = 3,
-                    Name = "Korgorush",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 4,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new HealSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 20,
-                    HpPerLevel = 5,
-                    Name = "Stryga",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 3,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new HealSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 20,
-                    HpPerLevel = 10,
-                    Name = "Vampire",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsUnique = true,
-                    Power = 5,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new MassHealSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 20,
-                    HpPerLevel = 3,
-                    Name = "Gaint frog",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    Power = 3,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DefenseSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 30,
-                    HpPerLevel = 5,
-                    Name = "Basilisk",
-                    Biom = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsUnique = true,
-                    Power = 4,
-                    PowerPerLevel = 1,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    }
-                },
-                new UnitScheme
-                {
-                    Hp = 8,
-                    HpPerLevel = 60,
-                    Name = "Koshey The Immortal",
-                    Biom = biomeType,
-
-                    IsBoss = true,
-                    Power = 13,
-                    PowerPerLevel = 2,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new ArrowRainSkill()
-                            }
-                        }
-                    }
-                }
-            };
-        }
+        public static IEnumerable<UnitScheme> AllUnits { get; }
 
         private static IEnumerable<UnitScheme> CreateChineseMonsters()
         {
             var biomeType = BiomeType.China;
-            return new[] {
-            new UnitScheme
+            return new[]
             {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Grey Wolf",
-                Biom = biomeType,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 2,
-                PowerPerLevel = 1,
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
+                    Name = "Grey Wolf",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 0, 1, 2 },
+                    Power = 2,
+                    PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet>
+                    SkillSets = new List<SkillSet>
                     {
                         new SkillSet
                         {
@@ -507,34 +241,34 @@ namespace Rpg.Client.Core
                         }
                     }
 
-                //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                //{
-                //    HpShare = 0.5f,
-                //    NextScheme = new UnitScheme
-                //    {
-                //        Hp = 20,
-                //        HpPerLevel = 3,
-                //        Name = "Grey Wolf 2",
-                //        Biom = BiomeType.Slavic,
-                //        NodeIndexes = new[] { 0, 1, 2 },
-                //        Power = 2,
-                //        PowerPerLevel = 1,
+                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    //{
+                    //    HpShare = 0.5f,
+                    //    NextScheme = new UnitScheme
+                    //    {
+                    //        Hp = 20,
+                    //        HpPerLevel = 3,
+                    //        Name = "Grey Wolf 2",
+                    //        Biom = BiomeType.Slavic,
+                    //        NodeIndexes = new[] { 0, 1, 2 },
+                    //        Power = 2,
+                    //        PowerPerLevel = 1,
 
-                //        SkillSets = new List<SkillSet>
-                //        {
-                //            new SkillSet
-                //            {
-                //                Skills = new List<SkillBase>
-                //                {
-                //                    new MonsterAttackSkill(), // Bite
-                //                    new PowerUpSkill(), // Wolf howl
-                //                    new HealSkill() // lick wounds
-                //                }
-                //            }
-                //        }
-                //    },
-                //}
-            },
+                    //        SkillSets = new List<SkillSet>
+                    //        {
+                    //            new SkillSet
+                    //            {
+                    //                Skills = new List<SkillBase>
+                    //                {
+                    //                    new MonsterAttackSkill(), // Bite
+                    //                    new PowerUpSkill(), // Wolf howl
+                    //                    new HealSkill() // lick wounds
+                    //                }
+                    //            }
+                    //        }
+                    //    },
+                    //}
+                },
                 new UnitScheme
                 {
                     Hp = 25,
@@ -752,18 +486,19 @@ namespace Rpg.Client.Core
         private static IEnumerable<UnitScheme> CreateEgyptianMonsters()
         {
             var biomeType = BiomeType.Egypt;
-            return new[] {
-            new UnitScheme
+            return new[]
             {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Grey Wolf",
-                Biom = biomeType,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 2,
-                PowerPerLevel = 1,
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
+                    Name = "Grey Wolf",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 0, 1, 2 },
+                    Power = 2,
+                    PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet>
+                    SkillSets = new List<SkillSet>
                     {
                         new SkillSet
                         {
@@ -776,34 +511,34 @@ namespace Rpg.Client.Core
                         }
                     }
 
-                //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                //{
-                //    HpShare = 0.5f,
-                //    NextScheme = new UnitScheme
-                //    {
-                //        Hp = 20,
-                //        HpPerLevel = 3,
-                //        Name = "Grey Wolf 2",
-                //        Biom = BiomeType.Slavic,
-                //        NodeIndexes = new[] { 0, 1, 2 },
-                //        Power = 2,
-                //        PowerPerLevel = 1,
+                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    //{
+                    //    HpShare = 0.5f,
+                    //    NextScheme = new UnitScheme
+                    //    {
+                    //        Hp = 20,
+                    //        HpPerLevel = 3,
+                    //        Name = "Grey Wolf 2",
+                    //        Biom = BiomeType.Slavic,
+                    //        NodeIndexes = new[] { 0, 1, 2 },
+                    //        Power = 2,
+                    //        PowerPerLevel = 1,
 
-                //        SkillSets = new List<SkillSet>
-                //        {
-                //            new SkillSet
-                //            {
-                //                Skills = new List<SkillBase>
-                //                {
-                //                    new MonsterAttackSkill(), // Bite
-                //                    new PowerUpSkill(), // Wolf howl
-                //                    new HealSkill() // lick wounds
-                //                }
-                //            }
-                //        }
-                //    },
-                //}
-            },
+                    //        SkillSets = new List<SkillSet>
+                    //        {
+                    //            new SkillSet
+                    //            {
+                    //                Skills = new List<SkillBase>
+                    //                {
+                    //                    new MonsterAttackSkill(), // Bite
+                    //                    new PowerUpSkill(), // Wolf howl
+                    //                    new HealSkill() // lick wounds
+                    //                }
+                    //            }
+                    //        }
+                    //    },
+                    //}
+                },
                 new UnitScheme
                 {
                     Hp = 25,
@@ -1021,18 +756,19 @@ namespace Rpg.Client.Core
         private static IEnumerable<UnitScheme> CreateGreekMonsters()
         {
             var biomeType = BiomeType.Greek;
-            return new[] {
-            new UnitScheme
+            return new[]
             {
-                Hp = 20,
-                HpPerLevel = 3,
-                Name = "Grey Wolf",
-                Biom = biomeType,
-                NodeIndexes = new[] { 0, 1, 2 },
-                Power = 2,
-                PowerPerLevel = 1,
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
+                    Name = "Grey Wolf",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 0, 1, 2 },
+                    Power = 2,
+                    PowerPerLevel = 1,
 
-                SkillSets = new List<SkillSet>
+                    SkillSets = new List<SkillSet>
                     {
                         new SkillSet
                         {
@@ -1045,34 +781,34 @@ namespace Rpg.Client.Core
                         }
                     }
 
-                //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                //{
-                //    HpShare = 0.5f,
-                //    NextScheme = new UnitScheme
-                //    {
-                //        Hp = 20,
-                //        HpPerLevel = 3,
-                //        Name = "Grey Wolf 2",
-                //        Biom = BiomeType.Slavic,
-                //        NodeIndexes = new[] { 0, 1, 2 },
-                //        Power = 2,
-                //        PowerPerLevel = 1,
+                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    //{
+                    //    HpShare = 0.5f,
+                    //    NextScheme = new UnitScheme
+                    //    {
+                    //        Hp = 20,
+                    //        HpPerLevel = 3,
+                    //        Name = "Grey Wolf 2",
+                    //        Biom = BiomeType.Slavic,
+                    //        NodeIndexes = new[] { 0, 1, 2 },
+                    //        Power = 2,
+                    //        PowerPerLevel = 1,
 
-                //        SkillSets = new List<SkillSet>
-                //        {
-                //            new SkillSet
-                //            {
-                //                Skills = new List<SkillBase>
-                //                {
-                //                    new MonsterAttackSkill(), // Bite
-                //                    new PowerUpSkill(), // Wolf howl
-                //                    new HealSkill() // lick wounds
-                //                }
-                //            }
-                //        }
-                //    },
-                //}
-            },
+                    //        SkillSets = new List<SkillSet>
+                    //        {
+                    //            new SkillSet
+                    //            {
+                    //                Skills = new List<SkillBase>
+                    //                {
+                    //                    new MonsterAttackSkill(), // Bite
+                    //                    new PowerUpSkill(), // Wolf howl
+                    //                    new HealSkill() // lick wounds
+                    //                }
+                    //            }
+                    //        }
+                    //    },
+                    //}
+                },
                 new UnitScheme
                 {
                     Hp = 25,
@@ -1287,6 +1023,274 @@ namespace Rpg.Client.Core
             };
         }
 
-        public static IEnumerable<UnitScheme> AllUnits { get; }
+        private static IEnumerable<UnitScheme> CreateSlavicMonsters()
+        {
+            var biomeType = BiomeType.Slavic;
+            return new[]
+            {
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
+                    Name = "Grey Wolf",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 0, 1, 2 },
+                    Power = 2,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(), // Bite
+                                new PowerUpSkill(), // Wolf howl
+                                new HealSkill() // lick wounds
+                            }
+                        }
+                    }
+
+                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    //{
+                    //    HpShare = 0.5f,
+                    //    NextScheme = new UnitScheme
+                    //    {
+                    //        Hp = 20,
+                    //        HpPerLevel = 3,
+                    //        Name = "Grey Wolf 2",
+                    //        Biom = BiomeType.Slavic,
+                    //        NodeIndexes = new[] { 0, 1, 2 },
+                    //        Power = 2,
+                    //        PowerPerLevel = 1,
+
+                    //        SkillSets = new List<SkillSet>
+                    //        {
+                    //            new SkillSet
+                    //            {
+                    //                Skills = new List<SkillBase>
+                    //                {
+                    //                    new MonsterAttackSkill(), // Bite
+                    //                    new PowerUpSkill(), // Wolf howl
+                    //                    new HealSkill() // lick wounds
+                    //                }
+                    //            }
+                    //        }
+                    //    },
+                    //}
+                },
+                new UnitScheme
+                {
+                    Hp = 25,
+                    HpPerLevel = 8,
+                    Name = "Bear",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 1, 2, 4 },
+                    IsUnique = true,
+                    Power = 1,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(), // Bite
+                                new DefenseSkill(),
+                                new WideSlashSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 15,
+                    HpPerLevel = 2,
+                    Name = "Wisp",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 2, 3, 5 },
+                    Power = 4,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new StrikeSkill(),
+                                new ArrowRainSkill(),
+                                new PowerUpSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 25,
+                    HpPerLevel = 9,
+                    Name = "Volkolak",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 2, 3, 5 },
+                    IsUnique = true,
+                    Power = 4,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new WideSlashSkill(),
+                                new PowerUpSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 15,
+                    HpPerLevel = 3,
+                    Name = "Korgorush",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 6, 7, 8 },
+                    Power = 4,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new HealSkill(),
+                                new WideSlashSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 5,
+                    Name = "Stryga",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 6, 7, 8 },
+                    Power = 3,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new WideSlashSkill(),
+                                new HealSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 10,
+                    Name = "Vampire",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 6, 7, 8 },
+                    IsUnique = true,
+                    Power = 5,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new DopeHerbSkill(),
+                                new MassHealSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
+                    Name = "Gaint frog",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 7, 8, 9 },
+                    Power = 3,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new DefenseSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 30,
+                    HpPerLevel = 5,
+                    Name = "Basilisk",
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 7, 8, 9 },
+                    IsUnique = true,
+                    Power = 4,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new DopeHerbSkill(),
+                                new WideSlashSkill()
+                            }
+                        }
+                    }
+                },
+                new UnitScheme
+                {
+                    Hp = 8,
+                    HpPerLevel = 60,
+                    Name = "Koshey The Immortal",
+                    Biom = biomeType,
+
+                    IsBoss = true,
+                    Power = 13,
+                    PowerPerLevel = 2,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill(),
+                                new DopeHerbSkill(),
+                                new ArrowRainSkill()
+                            }
+                        }
+                    }
+                }
+            };
+        }
     }
 }

@@ -26,6 +26,8 @@ namespace Rpg.Client.Core
             CreateMeetMissionaryDialog()
         };
 
+        public static IEnumerable<Event> Events => _dialogs;
+
         private static Event CreateDependentTestEvent(int id, string requiredEventName, BiomeType biomeType)
         {
             var dialogNode1 = new EventNode
@@ -66,14 +68,13 @@ namespace Rpg.Client.Core
                 },
                 StartNode = dialogNode1,
                 Biome = biomeType,
-                RequiredEventsCompleted = new[] {
+                RequiredEventsCompleted = new[]
+                {
                     requiredEventName
                 }
             };
             return dialog;
         }
-
-        public static IEnumerable<Event> Events => _dialogs;
 
         private static Event CreateMeetArcherDialog()
         {
