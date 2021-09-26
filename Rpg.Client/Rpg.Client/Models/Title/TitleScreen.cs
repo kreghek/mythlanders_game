@@ -75,7 +75,7 @@ namespace Rpg.Client.Models.Title
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             spriteBatch.Begin();
 
@@ -93,8 +93,6 @@ namespace Rpg.Client.Models.Title
             }
 
             spriteBatch.End();
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)

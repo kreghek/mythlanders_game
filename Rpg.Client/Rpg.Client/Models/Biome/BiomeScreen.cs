@@ -94,7 +94,7 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated += Globe_Updated;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             if (!_isNodeModelsCreated)
             {
@@ -104,8 +104,6 @@ namespace Rpg.Client.Models.Biome
             DrawObjects(spriteBatch);
 
             DrawHud(spriteBatch);
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -278,7 +276,7 @@ namespace Rpg.Client.Models.Biome
             {
                 var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-                var playerUnit = _globe.Player.GetAll.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+                var playerUnit = _globe.Player.GetAll.Where(x => x != null).SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
                 if (playerUnit is not null)
                 {

@@ -28,7 +28,7 @@ namespace Rpg.Client
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _screenManager.Draw(gameTime, _spriteBatch);
+            _screenManager.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }

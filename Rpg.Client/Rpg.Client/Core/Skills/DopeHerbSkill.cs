@@ -26,7 +26,7 @@ namespace Rpg.Client.Core.Skills
 
                     var effect = new DopeHerbEffect
                     {
-                        Value = (int)Math.Ceiling(rawEffectValue)
+                        Value = Math.Min(1, (int)Math.Ceiling(rawEffectValue))
                     };
 
                     return effect;

@@ -12,8 +12,9 @@ namespace Rpg.Client.Screens
     /// </summary>
     internal abstract class GameScreenBase : EwarDrawableComponentBase, IScreen
     {
-        public GameScreenBase(EwarGame game) : base(game)
+        public GameScreenBase(EwarGame game)
         {
+            Game = game;
             ScreenManager = game.Services.GetService<IScreenManager>();
         }
 
@@ -21,14 +22,14 @@ namespace Rpg.Client.Screens
 
         public IScreen? TargetScreen { get; set; }
 
-        /// <summary>
-        /// Allows the game component draw your content in game screen
-        /// </summary>
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            base.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
-        }
+        ///// <summary>
+        ///// Allows the game component draw your content in game screen
+        ///// </summary>
+        //public override void DoDraw(SpriteBatch spriteBatch)
+        //{
+        //    spriteBatch.Begin();
+        //    base.Draw(gameTime, spriteBatch);
+        //    spriteBatch.End();
+        //}
     }
 }
