@@ -141,7 +141,7 @@ namespace Rpg.Client.Models.Combat
         {
             var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
-            combatUnit.HasBeenDamaged -= CombatUnit_HasBeenDamaged;
+            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
             combatUnit.Healed -= CombatUnit_Healed;
         }
 
@@ -150,7 +150,7 @@ namespace Rpg.Client.Models.Combat
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage);
             _gameObjects.Add(gameObject);
-            combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
+            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.Healed += CombatUnit_Healed;
         }
 
@@ -325,7 +325,7 @@ namespace Rpg.Client.Models.Combat
             RefreshHudButtons(skillCard);
         }
 
-        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unitView = GetUnitGameObject(e.CombatUnit);
             AddChild(new HpChangedComponent(-e.Amount, unitView.Position));
@@ -591,7 +591,10 @@ namespace Rpg.Client.Models.Combat
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
 
-                    _globe.AvailableDialog.Completed = true;
+                    if (_globe.AvailableDialog is not null)
+                    {
+                        _globe.AvailableDialog.Completed = true;
+                    }
 
                     if (_combat.Combat.IsBossLevel)
                     {
@@ -627,16 +630,18 @@ namespace Rpg.Client.Models.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
-            var icon = new IconButton(_uiContentStorage.GetButtonTexture(),
+            var interactButton = new IconButton(
                 _uiContentStorage.GetButtonTexture(),
-                new Rectangle(target.Position.ToPoint(), new Point(32, 32)));
+                _uiContentStorage.GetButtonTexture(),
+                new Rectangle(target.Position.ToPoint(),
+                    new Point(32, 32)));
 
-            icon.OnClick += (s, e) =>
+            interactButton.OnClick += (s, e) =>
             {
                 _combat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
-            _hudButtons.Add(icon);
+            _hudButtons.Add(interactButton);
         }
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)

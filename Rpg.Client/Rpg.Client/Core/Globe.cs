@@ -287,7 +287,7 @@ namespace Rpg.Client.Core
         private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
         {
             const int BIOME_MIN_LEVEL_STEP = 25;
-            const int BIOME_NODE_COUNT = 10;
+            const int BIOME_NODE_COUNT = 8;
 
             return new[]
             {
