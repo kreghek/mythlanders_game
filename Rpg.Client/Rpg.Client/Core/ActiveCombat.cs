@@ -164,7 +164,7 @@ namespace Rpg.Client.Core
             foreach (var combatUnit in _allUnitList)
             {
                 combatUnit.Unit.Dead += Unit_Dead;
-                combatUnit.HasBeenDamaged += CombatUnit_HasBeenDamaged;
+                combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             }
 
             UnitChanged += ActiveCombat_UnitChanged;
@@ -254,7 +254,7 @@ namespace Rpg.Client.Core
             UseSkill(skill, targetPlayerObject);
         }
 
-        private void CombatUnit_HasBeenDamaged(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unit = e.CombatUnit.Unit;
             var transition = unit.UnitScheme.SchemeAudoTransiton;
@@ -297,9 +297,18 @@ namespace Rpg.Client.Core
         private void ReplaceUnitToNewForm(UnitScheme nextScheme, CombatUnit combatUnit)
         {
             _allUnitList.Remove(combatUnit);
+            _unitQueue.Remove(combatUnit);
 
-            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Hp);
+            combatUnit.Unit.Dead -= Unit_Dead;
+            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
+
+            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Level);
+            newFormUnit.Hp = combatUnit.Unit.Hp;
             var newFormCombatUnit = new CombatUnit(newFormUnit, combatUnit.Index);
+
+            newFormCombatUnit.Unit.Dead += Unit_Dead;
+            newFormCombatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+
             CombatUnitRemoved?.Invoke(this, combatUnit);
             _allUnitList.Add(newFormCombatUnit);
             CombatUnitEntered?.Invoke(this, newFormCombatUnit);
