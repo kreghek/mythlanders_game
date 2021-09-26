@@ -437,11 +437,26 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawUnits(SpriteBatch spriteBatch)
         {
-            var list = _gameObjects.ToArray();
+            var list = _gameObjects.OrderBy(x => DrawIndex(x.CombatUnit.Index)).ToArray();
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
             }
+        }
+
+        private int DrawIndex(int unitIndex)
+        {
+            switch (unitIndex)
+            {
+                case 0:
+                    return 2;
+                case 1:
+                    return 1;
+                case 2:
+                    return 3;
+            }
+
+            return 0;
         }
 
         private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
