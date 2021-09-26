@@ -1262,7 +1262,7 @@ namespace Rpg.Client.Core
                         }
                     },
 
-                    SchemeAudoTransiton= new UnitSchemeAutoTransition
+                    SchemeAudoTransiton = new UnitSchemeAutoTransition
                     {
                         HpShare = 0.6f,
                         NextScheme = new UnitScheme
@@ -1288,7 +1288,7 @@ namespace Rpg.Client.Core
                                 }
                             },
 
-                            SchemeAudoTransiton= new UnitSchemeAutoTransition
+                            SchemeAudoTransiton = new UnitSchemeAutoTransition
                             {
                                 HpShare = 0.3f,
                                 NextScheme = new UnitScheme
@@ -1313,9 +1313,9 @@ namespace Rpg.Client.Core
                                             }
                                         }
                                     }
-                                },
+                                }
                             }
-                        },
+                        }
                     }
                 }
             };
