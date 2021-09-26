@@ -12,26 +12,6 @@ namespace Rpg.Client.Engine
                 return;
             
             ewarComponen.Initialize(Game);
-            //EwarGame? game = Game;
-
-            //if (game != null)
-            //{
-            //    child = game;
-            //}
-
-            //Renderable? current = Parent;
-
-            //while (current != null)
-            //{
-            //    if (current is EwarDrawableComponentBase ewarComponent)
-            //    {
-            //        game = ewarComponent.Game;
-            //        break;
-            //    }
-            //}
-
-            //if (game == null)
-            //    throw new InvalidOperationException();
         }
 
         public void Initialize(EwarGame game)
