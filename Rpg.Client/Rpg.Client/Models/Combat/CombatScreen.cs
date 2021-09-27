@@ -437,14 +437,14 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawUnits(SpriteBatch spriteBatch)
         {
-            var list = _gameObjects.OrderBy(x => DrawIndex(x.CombatUnit.Index)).ToArray();
+            var list = _gameObjects.OrderBy(x => GetDrawIndex(x.CombatUnit.Index)).ToArray();
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
             }
         }
 
-        private int DrawIndex(int unitIndex)
+        private static int GetDrawIndex(int unitIndex)
         {
             switch (unitIndex)
             {
@@ -476,14 +476,14 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
+        private static BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
         {
-            switch (regularTheme)
+            return regularTheme switch
             {
-                case GlobeNodeRegularTheme.SlavicBattleground: return BackgroundType.SlavicBattleground;
-                case GlobeNodeRegularTheme.SlavicSwamp: return BackgroundType.SlavicSwamp;
-                default: return BackgroundType.SlavicBattleground;
-            }
+                GlobeNodeRegularTheme.SlavicBattleground => BackgroundType.SlavicBattleground,
+                GlobeNodeRegularTheme.SlavicSwamp => BackgroundType.SlavicSwamp,
+                _ => BackgroundType.SlavicBattleground,
+            };
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
