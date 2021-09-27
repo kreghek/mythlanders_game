@@ -214,7 +214,10 @@ namespace Rpg.Client.Engine
 
             // update child transformations (since now it got a new parent)
             child.UpdateTransformations();
+            AfterAddChild(child);
         }
+
+        protected virtual void AfterAddChild(Renderable child) {}
 
         /// <summary>
         /// Clone this renderable object.
@@ -260,8 +263,10 @@ namespace Rpg.Client.Engine
                 _needUpdateTransformations = false;
             }
 
+            //spriteBatch.Begin();
             // draw the entity
             DoDraw(spriteBatch, _finalZindex);
+            //spriteBatch.End();
 
             // draw children
             foreach (var child in _children)

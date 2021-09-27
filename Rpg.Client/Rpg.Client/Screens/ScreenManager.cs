@@ -24,11 +24,11 @@ namespace Rpg.Client.Screens
 
         public IScreen? ActiveScreen { get; set; }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (ActiveScreen is not null)
             {
-                ActiveScreen.Draw(gameTime, spriteBatch);
+                ActiveScreen.Draw(spriteBatch);
             }
         }
 

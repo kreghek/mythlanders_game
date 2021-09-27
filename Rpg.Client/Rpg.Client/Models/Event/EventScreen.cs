@@ -35,7 +35,7 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             if (!_isInitialized)
             {
@@ -54,8 +54,6 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.End();
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)

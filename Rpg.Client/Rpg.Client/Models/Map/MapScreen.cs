@@ -30,7 +30,7 @@ namespace Rpg.Client.Models.Map
             _biomButtons = new List<TextButton>();
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             spriteBatch.Begin();
 
@@ -46,8 +46,6 @@ namespace Rpg.Client.Models.Map
             }
 
             spriteBatch.End();
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)

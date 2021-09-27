@@ -27,10 +27,8 @@ namespace Rpg.Client.Models.Party
             _buttonList = new List<ButtonBase>();
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
-            base.Draw(gameTime, spriteBatch);
-
             spriteBatch.Begin();
 
             var contentRect = Game.GraphicsDevice.Viewport.Bounds;

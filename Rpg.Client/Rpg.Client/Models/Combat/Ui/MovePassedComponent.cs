@@ -4,7 +4,7 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class MovePassedComponent : DisapearingTextComponent
     {
-        public MovePassedComponent(EwarGame game, Vector2 startPosition) : base(game, startPosition)
+        public MovePassedComponent(Vector2 startPosition) : base(startPosition)
         {
         }
 

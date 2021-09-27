@@ -12,27 +12,28 @@ namespace Rpg.Client.Models.Combat.Ui
         private int _lifetime;
         private Vector2 _position;
 
-        public DisapearingTextComponent(EwarGame game, Vector2 startPosition) : base(game)
+        public DisapearingTextComponent(Vector2 startPosition)
         {
             _position = startPosition;
             _lifetime = 2000;
             _speed = new(0, 10f / 1000f);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
+            spriteBatch.Begin();
             var ui = Game.Services.GetService<IUiContentStorage>();
 
             spriteBatch.DrawString(ui.GetMainFont(), GetText(), _position, GetColor());
-
-            base.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
             if (_lifetime <= 0)
             {
-                Remove();
+                if (Parent != null)
+                    Parent.RemoveChild(this);
                 return;
             }
 
