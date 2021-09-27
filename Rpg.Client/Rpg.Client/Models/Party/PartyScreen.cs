@@ -27,10 +27,8 @@ namespace Rpg.Client.Models.Party
             _buttonList = new List<ButtonBase>();
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
-            base.Draw(gameTime, spriteBatch);
-
             spriteBatch.Begin();
 
             var contentRect = Game.GraphicsDevice.Viewport.Bounds;
@@ -116,6 +114,10 @@ namespace Rpg.Client.Models.Party
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 switchUnitButton.OnClick += (s, e) =>
                 {
+                    if (_selectedCharacter is null)
+                    {
+                        return;
+                    }
                     if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
                     {
                         if (_globeProvider.Globe.Player.Group.Units.Count() > 1)

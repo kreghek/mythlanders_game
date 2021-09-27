@@ -22,7 +22,7 @@ namespace Rpg.Client.Models.EndGame
             };
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             spriteBatch.Begin();
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Happy end! Or not?", new Vector2(100, 100),
@@ -31,8 +31,6 @@ namespace Rpg.Client.Models.EndGame
             _backButton.Rect = new Rectangle(100, 150, 100, 20);
             _backButton.Draw(spriteBatch);
             spriteBatch.End();
-
-            base.Draw(gameTime, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)

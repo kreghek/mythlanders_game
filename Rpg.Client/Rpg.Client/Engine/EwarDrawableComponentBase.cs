@@ -1,79 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class EwarDrawableComponentBase : IEwarDrawableComponent
+    internal abstract class EwarDrawableComponentBase : Renderable
     {
-        private readonly Queue<IEwarDrawableComponent> _componentsToRemove;
+        protected override void AfterAddChild(Renderable child)
+        {
+            if (child is not EwarDrawableComponentBase ewarComponen)
+                return;
+            
+            ewarComponen.Initialize(Game);
+        }
 
-        protected EwarDrawableComponentBase(EwarGame game)
+        public void Initialize(EwarGame game)
         {
             Game = game;
-            ComponentsCollection = new List<IEwarDrawableComponent>();
-            _componentsToRemove = new Queue<IEwarDrawableComponent>();
+            DoInitialize();
         }
 
-        protected ICollection<IEwarDrawableComponent> ComponentsCollection { get; }
-        protected EwarGame Game { get; }
+        protected virtual void DoInitialize() {}
 
-        protected void Remove()
-        {
-            NeedRemove?.Invoke(this, this);
-        }
-
-        private void Component_NeedRemove(object? sender, IEwarDrawableComponent e)
-        {
-            RemoveComponent(e);
-        }
-
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            foreach (var ewarDrawableComponent in ChildComponents)
-            {
-                ewarDrawableComponent.Draw(gameTime, spriteBatch);
-            }
-        }
+        public EwarGame Game { get; protected set; }
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (var ewarDrawableComponent in ChildComponents)
-            {
-                ewarDrawableComponent.Update(gameTime);
-            }
+            var children = _children.ToList();
 
-            while (_componentsToRemove.Count > 0)
+            foreach (var ewarDrawableComponent in children.OfType<EwarDrawableComponentBase>())
             {
-                ComponentsCollection.Remove(_componentsToRemove.Dequeue());
+                if (ewarDrawableComponent.Parent == this)
+                    ewarDrawableComponent.Update(gameTime);
             }
         }
-
-        public IEnumerable<IEwarDrawableComponent> ChildComponents => ComponentsCollection;
-
-        public void AddComponent(IEwarDrawableComponent component)
-        {
-            component.NeedRemove += Component_NeedRemove;
-            ComponentsCollection.Add(component);
-            AddChild?.Invoke(this, component);
-        }
-
-        public void RemoveComponent(IEwarDrawableComponent component)
-        {
-            component.NeedRemove -= Component_NeedRemove;
-            _componentsToRemove.Enqueue(component);
-            RemoveChild?.Invoke(this, component);
-        }
-
-        public bool HasComponent(IEwarDrawableComponent component)
-        {
-            return ComponentsCollection.Contains(component);
-        }
-
-        public event EventHandler<IEwarDrawableComponent>? RemoveChild;
-        public event EventHandler<IEwarDrawableComponent>? AddChild;
-        public event EventHandler<IEwarDrawableComponent>? NeedRemove;
     }
 }

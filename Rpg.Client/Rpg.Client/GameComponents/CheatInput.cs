@@ -50,6 +50,7 @@ namespace Rpg.Client.GameComponents
                 {
                     _errorCounter = null;
                     _errorText = null;
+                    return;
                 }
 
                 _spriteBatch.Begin();
@@ -72,7 +73,7 @@ namespace Rpg.Client.GameComponents
                 {
                     _currentText.Append(key);
                 }
-                else if (CheckIsKeyPressed(keyboardState, _lastState, Keys.Back))
+                else if (CheckIsKeyPressed(keyboardState, _lastState, Keys.Back) && _currentText.Length > 0)
                 {
                     _currentText.Remove(_currentText.Length - 1, 1);
                 }
