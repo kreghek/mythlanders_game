@@ -10,7 +10,7 @@ namespace Rpg.Client.Engine
         {
             if (child is not EwarDrawableComponentBase ewarComponen)
                 return;
-            
+
             ewarComponen.Initialize(Game);
         }
 
@@ -20,7 +20,7 @@ namespace Rpg.Client.Engine
             DoInitialize();
         }
 
-        protected virtual void DoInitialize() {}
+        protected virtual void DoInitialize() { }
 
         public EwarGame Game { get; protected set; }
 

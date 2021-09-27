@@ -217,7 +217,7 @@ namespace Rpg.Client.Engine
             AfterAddChild(child);
         }
 
-        protected virtual void AfterAddChild(Renderable child) {}
+        protected virtual void AfterAddChild(Renderable child) { }
 
         /// <summary>
         /// Clone this renderable object.
