@@ -114,6 +114,10 @@ namespace Rpg.Client.Models.Party
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 switchUnitButton.OnClick += (s, e) =>
                 {
+                    if (_selectedCharacter is null)
+                    {
+                        return;
+                    }
                     if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
                     {
                         if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
