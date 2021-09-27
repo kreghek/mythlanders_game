@@ -30,24 +30,6 @@ namespace Rpg.Client.Models.Map
             _biomButtons = new List<TextButton>();
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
-        {
-            spriteBatch.Begin();
-
-            if (_isNodeModelsCreated)
-            {
-                var index = 0;
-                foreach (var button in _biomButtons)
-                {
-                    button.Rect = new Rectangle(100, 100 + index * 30, 200, 25);
-                    button.Draw(spriteBatch);
-                    index++;
-                }
-            }
-
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -84,6 +66,24 @@ namespace Rpg.Client.Models.Map
             }
 
             base.Update(gameTime);
+        }
+
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        {
+            spriteBatch.Begin();
+
+            if (_isNodeModelsCreated)
+            {
+                var index = 0;
+                foreach (var button in _biomButtons)
+                {
+                    button.Rect = new Rectangle(100, 100 + index * 30, 200, 25);
+                    button.Draw(spriteBatch);
+                    index++;
+                }
+            }
+
+            spriteBatch.End();
         }
     }
 }

@@ -77,15 +77,6 @@ namespace Rpg.Client.Models.Combat
             _dice = Game.Services.GetService<IDice>();
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
-        {
-            DrawGameObjects(spriteBatch);
-
-            DrawHud(spriteBatch);
-
-            DrawModals(spriteBatch);
-        }
-
         public void Initialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
@@ -135,6 +126,15 @@ namespace Rpg.Client.Models.Combat
             HandleBackgrounds();
 
             base.Update(gameTime);
+        }
+
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        {
+            DrawGameObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+
+            DrawModals(spriteBatch);
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
@@ -444,21 +444,6 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static int GetDrawIndex(int unitIndex)
-        {
-            switch (unitIndex)
-            {
-                case 0:
-                    return 2;
-                case 1:
-                    return 1;
-                case 2:
-                    return 3;
-            }
-
-            return 0;
-        }
-
         private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
         {
             var equipmentItemType = globeNode.EquipmentItem;
@@ -482,8 +467,23 @@ namespace Rpg.Client.Models.Combat
             {
                 GlobeNodeRegularTheme.SlavicBattleground => BackgroundType.SlavicBattleground,
                 GlobeNodeRegularTheme.SlavicSwamp => BackgroundType.SlavicSwamp,
-                _ => BackgroundType.SlavicBattleground,
+                _ => BackgroundType.SlavicBattleground
             };
+        }
+
+        private static int GetDrawIndex(int unitIndex)
+        {
+            switch (unitIndex)
+            {
+                case 0:
+                    return 2;
+                case 1:
+                    return 1;
+                case 2:
+                    return 3;
+            }
+
+            return 0;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
