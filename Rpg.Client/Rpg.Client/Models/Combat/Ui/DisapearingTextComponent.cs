@@ -19,21 +19,15 @@ namespace Rpg.Client.Models.Combat.Ui
             _speed = new(0, 10f / 1000f);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
-        {
-            spriteBatch.Begin();
-            var ui = Game.Services.GetService<IUiContentStorage>();
-
-            spriteBatch.DrawString(ui.GetMainFont(), GetText(), _position, GetColor());
-            spriteBatch.End();
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (_lifetime <= 0)
             {
                 if (Parent != null)
+                {
                     Parent.RemoveChild(this);
+                }
+
                 return;
             }
 
@@ -44,6 +38,15 @@ namespace Rpg.Client.Models.Combat.Ui
             _lifetime -= elapsed;
 
             base.Update(gameTime);
+        }
+
+        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        {
+            spriteBatch.Begin();
+            var ui = Game.Services.GetService<IUiContentStorage>();
+
+            spriteBatch.DrawString(ui.GetMainFont(), GetText(), _position, GetColor());
+            spriteBatch.End();
         }
 
         protected abstract Color GetColor();

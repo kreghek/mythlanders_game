@@ -27,6 +27,72 @@ namespace Rpg.Client.Models.Party
             _buttonList = new List<ButtonBase>();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (!_isInitialized)
+            {
+                var globe = _globeProvider.Globe;
+                var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
+
+                _buttonList.Clear();
+                foreach (var character in playerCharacters)
+                {
+                    var button = new TextButton(character.UnitScheme.Name, _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetMainFont(), new Rectangle());
+                    button.OnClick += (s, e) =>
+                    {
+                        _selectedCharacter = character;
+                    };
+                    _buttonList.Add(button);
+                }
+
+                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                biomeButton.OnClick += (s, e) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                };
+                _buttonList.Add(biomeButton);
+
+                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                switchUnitButton.OnClick += (s, e) =>
+                {
+                    if (_selectedCharacter is null)
+                    {
+                        return;
+                    }
+
+                    if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                    {
+                        if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
+                        {
+                            _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
+                        }
+                    }
+                    else
+                    {
+                        if (_globeProvider.Globe.Player.Group.Units.Count() < 3)
+                        {
+                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter);
+                        }
+                    }
+                };
+                _buttonList.Add(switchUnitButton);
+
+                _isInitialized = true;
+            }
+            else
+            {
+                foreach (var button in _buttonList)
+                {
+                    button.Update();
+                }
+            }
+        }
+
         protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
             spriteBatch.Begin();
@@ -79,71 +145,6 @@ namespace Rpg.Client.Models.Party
             }
 
             spriteBatch.End();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (!_isInitialized)
-            {
-                var globe = _globeProvider.Globe;
-                var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
-
-                _buttonList.Clear();
-                foreach (var character in playerCharacters)
-                {
-                    var button = new TextButton(character.UnitScheme.Name, _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(), new Rectangle());
-                    button.OnClick += (s, e) =>
-                    {
-                        _selectedCharacter = character;
-                    };
-                    _buttonList.Add(button);
-                }
-
-                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                biomeButton.OnClick += (s, e) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                };
-                _buttonList.Add(biomeButton);
-
-                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                switchUnitButton.OnClick += (s, e) =>
-                {
-                    if (_selectedCharacter is null)
-                    {
-                        return;
-                    }
-                    if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
-                    {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
-                        {
-                            _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
-                        }
-                    }
-                    else
-                    {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() < 3)
-                        {
-                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter);
-                        }
-                    }
-                };
-                _buttonList.Add(switchUnitButton);
-
-                _isInitialized = true;
-            }
-            else
-            {
-                foreach (var button in _buttonList)
-                {
-                    button.Update();
-                }
-            }
         }
     }
 }

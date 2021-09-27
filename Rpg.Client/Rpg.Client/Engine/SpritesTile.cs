@@ -12,18 +12,20 @@ namespace Rpg.Client.Engine
             Count = count;
         }
 
+        public int Columns { get; }
+
         //public SpritesTile()
         public Texture2D Content { get; }
 
-        public int Columns { get; }
-        public int Rows { get; }
-
         public int Count { get; }
+        public int Rows { get; }
 
         public Texture2D GetSprite(int number)
         {
             if (number > Count)
+            {
                 return null;
+            }
 
             var width = Content.Width / Columns;
             var height = Content.Height / Rows;

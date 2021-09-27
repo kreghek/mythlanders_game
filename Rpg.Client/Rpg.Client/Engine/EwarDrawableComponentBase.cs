@@ -6,23 +6,13 @@ namespace Rpg.Client.Engine
 {
     internal abstract class EwarDrawableComponentBase : Renderable
     {
-        protected override void AfterAddChild(Renderable child)
-        {
-            if (child is not EwarDrawableComponentBase ewarComponen)
-                return;
-
-            ewarComponen.Initialize(Game);
-        }
+        public EwarGame Game { get; protected set; }
 
         public void Initialize(EwarGame game)
         {
             Game = game;
             DoInitialize();
         }
-
-        protected virtual void DoInitialize() { }
-
-        public EwarGame Game { get; protected set; }
 
         public virtual void Update(GameTime gameTime)
         {
@@ -31,8 +21,22 @@ namespace Rpg.Client.Engine
             foreach (var ewarDrawableComponent in children.OfType<EwarDrawableComponentBase>())
             {
                 if (ewarDrawableComponent.Parent == this)
+                {
                     ewarDrawableComponent.Update(gameTime);
+                }
             }
         }
+
+        protected override void AfterAddChild(Renderable child)
+        {
+            if (child is not EwarDrawableComponentBase ewarComponen)
+            {
+                return;
+            }
+
+            ewarComponen.Initialize(Game);
+        }
+
+        protected virtual void DoInitialize() { }
     }
 }

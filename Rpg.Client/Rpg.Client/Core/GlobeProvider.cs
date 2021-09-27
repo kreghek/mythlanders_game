@@ -115,6 +115,7 @@ namespace Rpg.Client.Core
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
                 };
             }
+
             var progress = new ProgressDto
             {
                 Player = player,
@@ -205,6 +206,7 @@ namespace Rpg.Client.Core
                 {
                     continue;
                 }
+
                 var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);
                 targetBiome.IsComplete = biomeDto.IsComplete;
                 targetBiome.IsAvailable = biomeDto.IsAvailable;

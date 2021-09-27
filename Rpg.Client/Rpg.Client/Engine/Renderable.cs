@@ -217,8 +217,6 @@ namespace Rpg.Client.Engine
             AfterAddChild(child);
         }
 
-        protected virtual void AfterAddChild(Renderable child) { }
-
         /// <summary>
         /// Clone this renderable object.
         /// </summary>
@@ -313,6 +311,8 @@ namespace Rpg.Client.Engine
             // update child transformations (since now it no longer got a parent)
             child.UpdateTransformations();
         }
+
+        protected virtual void AfterAddChild(Renderable child) { }
 
         /// <summary>
         /// Do the object-specific drawing function.
