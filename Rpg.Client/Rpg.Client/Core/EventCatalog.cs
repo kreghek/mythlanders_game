@@ -6,6 +6,8 @@ namespace Rpg.Client.Core
 {
     internal static class EventCatalog
     {
+        private static readonly Event[] _events;
+
         static EventCatalog()
         {
             var testEvents = CreateTestEvents();
@@ -13,6 +15,134 @@ namespace Rpg.Client.Core
             var plotEvents = CreatePlotEvents();
 
             _events = testEvents.Concat(plotEvents).ToArray();
+        }
+
+        public static IEnumerable<Event> Events => _events;
+
+        private static IEnumerable<Event> CreatePlotEvents()
+        {
+            var slavicPlotEvent1 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                IsUnique = true,
+                Name = "SlavicPlot_1",
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_1_b_1"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            Text = "В бой!",
+                            IsEnd = true
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_1_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_1_a_2"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            Text = "Продолжить",
+                            IsEnd = true
+                        }
+                    }
+                }
+            };
+
+            yield return slavicPlotEvent1;
+
+            var slavicPlotEvent3 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                IsUnique = true,
+                Name = "SlavicPlot_3",
+                RequiredBiomeLevel = 3,
+                RequiredEventsCompleted = new[] { "SlavicPlot_1" },
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_b_1"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            Text = "В бой!",
+                            IsEnd = true,
+                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hawk,
+                                TextSid = "SlavicPlot_3_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_2"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            Text = "Продолжить",
+                            IsEnd = true
+                        }
+                    }
+                }
+            };
+
+            yield return slavicPlotEvent3;
         }
 
         private static Event[] CreateTestEvents()
@@ -39,128 +169,6 @@ namespace Rpg.Client.Core
             //    CreateMeetMissionaryDialog()
             //};
         }
-
-        private static IEnumerable<Event> CreatePlotEvents()
-        {
-            var slavicPlotEvent1 = new Event
-            {
-                Biome = BiomeType.Slavic,
-                IsUnique = true,
-                Name = "SlavicPlot_1",
-                BeforeCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[] {
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_1_b_1"
-                            }
-                        }
-                    },
-                    Options = new[] {
-                        new EventOption
-                        {
-                            Text = "В бой!",
-                            IsEnd = true
-                        }
-                    }
-                },
-                AfterCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[] {
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Berimir,
-                                TextSid = "SlavicPlot_1_a_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_1_a_2"
-                            },
-                        }
-                    },
-                    Options = new[] {
-                        new EventOption
-                        {
-                            Text = "Продолжить",
-                            IsEnd = true
-                        }
-                    }
-                },
-            };
-
-            yield return slavicPlotEvent1;
-
-            var slavicPlotEvent3 = new Event
-            {
-                Biome = BiomeType.Slavic,
-                IsUnique = true,
-                Name = "SlavicPlot_3",
-                RequiredBiomeLevel = 3,
-                RequiredEventsCompleted = new[] { "SlavicPlot_1" },
-                BeforeCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[] {
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_3_b_1"
-                            }
-                        }
-                    },
-                    Options = new[] {
-                        new EventOption
-                        {
-                            Text = "В бой!",
-                            IsEnd = true,
-                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
-                        }
-                    }
-                },
-                AfterCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[] {
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Hawk,
-                                TextSid = "SlavicPlot_3_a_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_3_a_2"
-                            },
-                        }
-                    },
-                    Options = new[] {
-                        new EventOption
-                        {
-                            Text = "Продолжить",
-                            IsEnd = true
-                        }
-                    }
-                },
-            };
-
-            yield return slavicPlotEvent3;
-        }
-
-        private static readonly Event[] _events;
-
-        public static IEnumerable<Event> Events => _events;
 
         //private static Event CreateDependentTestEvent(int id, string requiredEventName, BiomeType biomeType)
         //{
