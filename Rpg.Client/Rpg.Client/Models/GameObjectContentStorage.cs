@@ -17,17 +17,17 @@ namespace Rpg.Client.Models
     internal class GameObjectContentStorage
     {
         private Texture2D _biomClouds;
+        private Texture2D? _bowmanUnit;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
-        private Texture2D _shadowTexture;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
-        private Texture2D? _warriorUnit;
-        private Texture2D? _bowmanUnit;
+        private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
+        private Texture2D? _warriorUnit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -99,16 +99,6 @@ namespace Rpg.Client.Models
             _unitPortrains = contentManager.Load<Texture2D>("Sprites/GameObjects/UnitPortrains");
         }
 
-        internal Texture2D GetUnitPortrains()
-        {
-            return _unitPortrains;
-        }
-
-        internal Texture2D GetUnitShadow()
-        {
-            return _shadowTexture;
-        }
-
         internal Texture2D GetBiomeClouds()
         {
             return _biomClouds;
@@ -147,6 +137,16 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
+        }
+
+        internal Texture2D GetUnitPortrains()
+        {
+            return _unitPortrains;
+        }
+
+        internal Texture2D GetUnitShadow()
+        {
+            return _shadowTexture;
         }
     }
 }

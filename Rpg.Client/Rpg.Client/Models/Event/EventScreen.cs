@@ -18,9 +18,9 @@ namespace Rpg.Client.Models.Event
         private const int OPTIONS_BLOCK_MARGIN = 10;
         private readonly IList<ButtonBase> _buttons;
         private readonly EventContext _dialogContext;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
@@ -36,7 +36,9 @@ namespace Rpg.Client.Models.Event
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
-            _currentDialogNode = _globe.CurrentEventNode ?? throw new InvalidOperationException("The screen was started before CurrentEventNode was assigned.");
+            _currentDialogNode = _globe.CurrentEventNode ??
+                                 throw new InvalidOperationException(
+                                     "The screen was started before CurrentEventNode was assigned.");
 
             _buttons = new List<ButtonBase>();
 
@@ -107,7 +109,7 @@ namespace Rpg.Client.Models.Event
 
             spriteBatch.Begin();
 
-            var textRect = new Rectangle(0,0, 400, 350);
+            var textRect = new Rectangle(0, 0, 400, 350);
             var textContentRect = new Rectangle(
                 Game.GraphicsDevice.Viewport.Bounds.Center.X - textRect.Center.X,
                 Game.GraphicsDevice.Viewport.Bounds.Center.Y - textRect.Center.Y,
@@ -130,18 +132,27 @@ namespace Rpg.Client.Models.Event
                 if (localizedSpeakerName is not null)
                 {
                     var portrainSourceRect = GetUnitPortrainRect(fragment.Speaker);
-                    spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
-                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32, Color.White);
+                    spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+                        rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
+                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32,
+                        Color.White);
                 }
 
-                var speakerTextPosition = localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
-                var normalizedSpeakerTextSize = new Point((int)Math.Max(textContentRect.Width - (localizedSpeakerName is not null ? 100 : 0), speakerTextSize.X + TEXT_MARGIN * 2), (int)speakerTextSize.Y + TEXT_MARGIN * 2);
-                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), new Rectangle(speakerTextPosition.ToPoint(), normalizedSpeakerTextSize), Color.White);
-                spriteBatch.DrawString(font, localizedSpeakerText, speakerTextPosition + new Vector2(TEXT_MARGIN, TEXT_MARGIN), Color.White);
+                var speakerTextPosition =
+                    localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
+                var normalizedSpeakerTextSize =
+                    new Point(
+                        Math.Max(textContentRect.Width - (localizedSpeakerName is not null ? 100 : 0),
+                            speakerTextSize.X + TEXT_MARGIN * 2), (int)speakerTextSize.Y + TEXT_MARGIN * 2);
+                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
+                    new Rectangle(speakerTextPosition.ToPoint(), normalizedSpeakerTextSize), Color.White);
+                spriteBatch.DrawString(font, localizedSpeakerText,
+                    speakerTextPosition + new Vector2(TEXT_MARGIN, TEXT_MARGIN), Color.White);
 
                 var textSize = font.MeasureString(localizedSpeakerText);
 
-                bottomPosition = new Vector2(startPosition.X, Math.Max((speakerTextPosition + textSize).Y + TEXT_MARGIN * 2, 32 + 10));
+                bottomPosition = new Vector2(startPosition.X,
+                    Math.Max((speakerTextPosition + textSize).Y + TEXT_MARGIN * 2, 32 + 10));
             }
 
             var optionsStartPosition = new Vector2(textContentRect.X, bottomPosition.Y + OPTIONS_BLOCK_MARGIN);
