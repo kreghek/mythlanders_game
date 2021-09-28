@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +13,7 @@ namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
+        private const int ROW_SIZE = 10;
         private readonly IList<ButtonBase> _buttons;
         private readonly EventContext _dialogContext;
         private readonly Globe _globe;
@@ -28,7 +31,7 @@ namespace Rpg.Client.Models.Event
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _currentDialogNode = _globe.AvailableDialog.StartNode;
+            _currentDialogNode = _globe.AvailableDialog.BeforeCombatStartNode;
 
             _buttons = new List<ButtonBase>();
 
@@ -87,7 +90,20 @@ namespace Rpg.Client.Models.Event
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _currentDialogNode.Text, Vector2.Zero, Color.White);
+            var startPosition = Vector2.Zero;
+
+            for (var fragmentIndex = 0; fragmentIndex < _currentDialogNode.TextBlock.Fragments.Count; fragmentIndex++)
+            {
+                var fragment = _currentDialogNode.TextBlock.Fragments[fragmentIndex];
+                var localizedSpeakerName = GetSpeaker(fragment.Speaker);
+                var localizedSpeakerText = GetLocalizedText(fragment.TextSid);
+
+                var speakerNamePosition = startPosition + (Vector2.UnitX * ROW_SIZE);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerName, speakerNamePosition, Color.White);
+
+                var speakerTextPosition = startPosition + (Vector2.UnitX * ROW_SIZE) + Vector2.UnitY * 100;
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerText, speakerTextPosition, Color.White);
+            }
 
             var index = 0;
             foreach (var button in _buttons)
@@ -97,6 +113,29 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.End();
+        }
+
+        private string GetLocalizedText(string textSid)
+        {
+            var rm = new ResourceManager(typeof(UiResource));
+            var text = rm.GetString($"EventPlot{textSid}");
+            return text;
+        }
+
+        private string GetSpeaker(EventSpeaker speaker)
+        {
+            if (speaker == EventSpeaker.Environment)
+            {
+                return string.Empty;
+            }
+
+            if (speaker == EventSpeaker.Undefined)
+            {
+                Debug.Fail("Speaker is undefined.");
+                return string.Empty;
+            }
+
+            return speaker.ToString();
         }
     }
 }
