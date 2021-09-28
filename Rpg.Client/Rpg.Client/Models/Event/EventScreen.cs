@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Resources;
 
@@ -13,7 +14,8 @@ namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
-        private const int ROW_SIZE = 10;
+        private const int TEXT_MARGIN = 10;
+        private const int OPTIONS_BLOCK_MARGIN = 10;
         private readonly IList<ButtonBase> _buttons;
         private readonly EventContext _dialogContext;
         private readonly Globe _globe;
@@ -31,7 +33,7 @@ namespace Rpg.Client.Models.Event
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _currentDialogNode = _globe.CurrentEvent.BeforeCombatStartNode;
+            _currentDialogNode = _globe.CurrentEventNode;
 
             _buttons = new List<ButtonBase>();
 
@@ -96,29 +98,53 @@ namespace Rpg.Client.Models.Event
                 return;
             }
 
+            var font = _uiContentStorage.GetMainFont();
+
             spriteBatch.Begin();
 
-            var startPosition = Vector2.Zero;
+            var textRect = new Rectangle(0,0, 400, 350);
+            var textContentRect = new Rectangle(
+                Game.GraphicsDevice.Viewport.Bounds.Center.X - textRect.Center.X,
+                Game.GraphicsDevice.Viewport.Bounds.Center.Y - textRect.Center.Y,
+                textRect.Width,
+                textRect.Height);
+
+            var startPosition = textContentRect.Location.ToVector2();
+            var bottomPosition = startPosition;
 
             for (var fragmentIndex = 0; fragmentIndex < _currentDialogNode.TextBlock.Fragments.Count; fragmentIndex++)
             {
                 var fragment = _currentDialogNode.TextBlock.Fragments[fragmentIndex];
                 var localizedSpeakerName = GetSpeaker(fragment.Speaker);
                 var localizedSpeakerText = GetLocalizedText(fragment.TextSid);
+                var speakerTextSize = font.MeasureString(localizedSpeakerText);
 
-                var rowPosition = startPosition + (Vector2.UnitY * ROW_SIZE * fragmentIndex);
+                var rowPosition = bottomPosition;// + new Vector2(0, speakerTextSize.Y + TEXT_MARGIN * 2);
 
-                var speakerNamePosition = startPosition + rowPosition;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerName, speakerNamePosition, Color.White);
+                var speakerNamePosition = rowPosition;
+                if (localizedSpeakerName is not null)
+                {
+                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition, Color.White);
+                }
 
-                var speakerTextPosition = startPosition + rowPosition + (Vector2.UnitX * 100);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerText, speakerTextPosition, Color.White);
+                var speakerTextPosition = localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
+                var normalizedSpeakerTextSize = new Point((int)Math.Max(textContentRect.Width - (localizedSpeakerName is not null ? 100 : 0), speakerTextSize.X + TEXT_MARGIN * 2), (int)speakerTextSize.Y + TEXT_MARGIN * 2);
+                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), new Rectangle(speakerTextPosition.ToPoint(), normalizedSpeakerTextSize), Color.White);
+                spriteBatch.DrawString(font, localizedSpeakerText, speakerTextPosition + new Vector2(TEXT_MARGIN, TEXT_MARGIN), Color.White);
+
+                var textSize = font.MeasureString(localizedSpeakerText);
+
+                bottomPosition = new Vector2(startPosition.X, (speakerTextPosition + textSize).Y + TEXT_MARGIN * 2);
             }
+
+            var optionsStartPosition = new Vector2(textContentRect.X, bottomPosition.Y + OPTIONS_BLOCK_MARGIN);
 
             var index = 0;
             foreach (var button in _buttons)
             {
-                button.Rect = new Rectangle(0, 100 + index * 25, 100, 20);
+                var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
+                var optionButtonSize = new Point(100, 25);
+                button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
                 button.Draw(spriteBatch);
             }
 
@@ -135,17 +161,17 @@ namespace Rpg.Client.Models.Event
             return text ?? textSid;
         }
 
-        private static string GetSpeaker(EventSpeaker speaker)
+        private static string? GetSpeaker(EventSpeaker speaker)
         {
             if (speaker == EventSpeaker.Environment)
             {
-                return string.Empty;
+                return null;
             }
 
             if (speaker == EventSpeaker.Undefined)
             {
                 Debug.Fail("Speaker is undefined.");
-                return string.Empty;
+                return null;
             }
 
             return speaker.ToString();
