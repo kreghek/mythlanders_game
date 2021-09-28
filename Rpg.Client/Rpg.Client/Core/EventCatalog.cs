@@ -135,7 +135,7 @@ namespace Rpg.Client.Core
                         Fragments = new[] {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = EventSpeaker.Hawk,
                                 TextSid = "SlavicPlot_3_a_1"
                             },
                             new EventTextFragment

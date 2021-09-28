@@ -20,6 +20,7 @@ namespace Rpg.Client.Models.Event
         private readonly EventContext _dialogContext;
         private readonly Globe _globe;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
@@ -32,6 +33,8 @@ namespace Rpg.Client.Models.Event
             _globe = game.Services.GetService<GlobeProvider>().Globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+
+            _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             _currentDialogNode = _globe.CurrentEventNode ?? throw new InvalidOperationException("The screen was started before CurrentEventNode was assigned.");
 
@@ -126,7 +129,9 @@ namespace Rpg.Client.Models.Event
                 var speakerNamePosition = rowPosition;
                 if (localizedSpeakerName is not null)
                 {
-                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition, Color.White);
+                    var portrainSourceRect = GetUnitPortrainRect(fragment.Speaker);
+                    spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
+                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32, Color.White);
                 }
 
                 var speakerTextPosition = localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
@@ -136,7 +141,7 @@ namespace Rpg.Client.Models.Event
 
                 var textSize = font.MeasureString(localizedSpeakerText);
 
-                bottomPosition = new Vector2(startPosition.X, (speakerTextPosition + textSize).Y + TEXT_MARGIN * 2);
+                bottomPosition = new Vector2(startPosition.X, Math.Max((speakerTextPosition + textSize).Y + TEXT_MARGIN * 2, 32 + 10));
             }
 
             var optionsStartPosition = new Vector2(textContentRect.X, bottomPosition.Y + OPTIONS_BLOCK_MARGIN);
@@ -177,6 +182,21 @@ namespace Rpg.Client.Models.Event
             }
 
             return speaker.ToString();
+        }
+
+        private static Rectangle GetUnitPortrainRect(EventSpeaker speaker)
+        {
+            switch (speaker)
+            {
+                case EventSpeaker.Berimir:
+                    return new Rectangle(0, 0, 32, 32);
+
+                case EventSpeaker.Hawk:
+                    return new Rectangle(0, 32, 32, 32);
+
+                default:
+                    return Rectangle.Empty;
+            }
         }
     }
 }

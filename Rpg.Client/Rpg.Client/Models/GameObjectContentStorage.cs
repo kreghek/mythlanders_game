@@ -27,6 +27,7 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private Texture2D? _warriorUnit;
         private Texture2D? _bowmanUnit;
+        private Texture2D _unitPortrains;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -94,6 +95,13 @@ namespace Rpg.Client.Models
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
+
+            _unitPortrains = contentManager.Load<Texture2D>("Sprites/GameObjects/UnitPortrains");
+        }
+
+        internal Texture2D GetUnitPortrains()
+        {
+            return _unitPortrains;
         }
 
         internal Texture2D GetUnitShadow()

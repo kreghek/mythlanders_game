@@ -123,18 +123,18 @@
 на него аспида, он не мог</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>Какой-то текст после боя</value>
+    <value>Какое-то описание ситуации после боя.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value>Какой-то текст после боя</value>
+    <value>Какие-то слова говорит воин</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
     <value>Описание встречи с лучником.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
-    <value>Какой-то текст после боя с участием лучника</value>
+    <value>Какой-то текст после боя говорит лучник</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
-    <value>Какой-то текст после боя с участием лучника</value>
+    <value>Какое-то описание после боя с участием лучника</value>
   </data>
 </root>
