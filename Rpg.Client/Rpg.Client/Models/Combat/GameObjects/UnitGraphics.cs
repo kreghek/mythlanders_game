@@ -33,7 +33,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             var shadow = new Sprite(gameObjectContentStorage.GetUnitShadow())
             {
                 Origin = new Vector2(0.5f, 0.5f),
-                Position = new Vector2(0, FRAME_HEIGHT / 4),
+                Position = new Vector2(-16,0), //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2),
                 Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
             Root.AddChild(shadow);
@@ -41,13 +41,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f),
-                Position = new Vector2(0, FRAME_HEIGHT / 4)
+                Position = new Vector2(-16, 0), //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2)
             };
             Root.AddChild(_selectedMarker);
 
             _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics(unit.Unit.UnitScheme.Name))
             {
-                Origin = new Vector2(0.5f, 0.75f),
+                Origin = new Vector2(0.5f, 0.875f),
                 SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),
                 Position = new Vector2(FRAME_WIDTH / 4, 0)
             };
@@ -64,7 +64,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
                         {
-                            "MoveForward", new AnimationInfo(startFrame: 32 + 3, frames: 1, speed: 8) { IsFinal = true }
+                            "MoveForward", new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
                         },
                         {
                             "MoveBackward",
