@@ -270,6 +270,15 @@ namespace Rpg.Client.Core
                     ReplaceUnitToNewForm(nextScheme, combatUnit);
                 }
             }
+
+            if (unit.IsDead)
+            {
+                UnitDied?.Invoke(this, e.CombatUnit);
+            }
+            else
+            {
+                UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
+            }
         }
 
         private void CompleteStep()

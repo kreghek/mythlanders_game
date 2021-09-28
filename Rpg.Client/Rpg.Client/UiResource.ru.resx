@@ -117,35 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="StartGameButtonTitle" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SwitchLanguageButtonTitle" xml:space="preserve">
-    <value>Switch lang</value>
-  </data>
-  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
-    <value>Switch res</value>
-  </data>
-  <data name="WarriorEquipmentItemDisplayName" xml:space="preserve">
-    <value>Sword pieces</value>
-    <comment>Осколки меча</comment>
-  </data>
   <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value>1 b 1</value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value>1 a 1</value>
+    <value>Беримир несколько раз моргнул. Глаза болели от яркого света.
+Очертания местности были нечёткими, но не заметить бегущего
+на него аспида, он не мог</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>1 a 2</value>
+    <value>Какое-то описание ситуации после боя.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
+    <value>Какие-то слова говорит воин</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
-    <value></value>
+    <value>Описание встречи с лучником.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
-    <value></value>
+    <value>Какой-то текст после боя говорит лучник</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
-    <value></value>
+    <value>Какое-то описание после боя с участием лучника</value>
   </data>
 </root>

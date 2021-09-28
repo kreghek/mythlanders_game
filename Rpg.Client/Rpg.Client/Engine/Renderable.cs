@@ -261,10 +261,8 @@ namespace Rpg.Client.Engine
                 _needUpdateTransformations = false;
             }
 
-            //spriteBatch.Begin();
             // draw the entity
             DoDraw(spriteBatch, _finalZindex);
-            //spriteBatch.End();
 
             // draw children
             foreach (var child in _children)

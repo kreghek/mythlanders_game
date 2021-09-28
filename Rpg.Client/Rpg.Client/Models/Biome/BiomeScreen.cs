@@ -152,9 +152,10 @@ namespace Rpg.Client.Models.Biome
 
                             if (_hoverNodeGameObject.AvailableDialog is not null)
                             {
-                                _globe.AvailableDialog = _hoverNodeGameObject.AvailableDialog;
+                                _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
-                                _globe.AvailableDialog.Counter++;
+                                _globe.CurrentEvent.Counter++;
 
                                 ClearEventHandlerToGlobeObjects();
 

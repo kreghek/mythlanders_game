@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -19,27 +20,31 @@ namespace Rpg.Client.Models
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
+        private Texture2D _shadowTexture;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
-        private Texture2D? _unit;
+        private Texture2D? _warriorUnit;
+        private Texture2D? _bowmanUnit;
+        private Texture2D _unitPortrains;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
             return unitName switch
             {
-                "Беримир" => _unit,
-                "Рада" => _unit,
-                "Сокол" => _unit,
+                "Беримир" => _warriorUnit,
+                "Рада" => _warriorUnit,
+                "Сокол" => _bowmanUnit,
                 _ => _monsterUnit
             };
         }
 
         public void LoadContent(ContentManager contentManager)
         {
-            _unit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
-            _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
+            _warriorUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
+            _bowmanUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer");
+            _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
             _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
@@ -88,6 +93,20 @@ namespace Rpg.Client.Models
 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
             };
+
+            _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
+
+            _unitPortrains = contentManager.Load<Texture2D>("Sprites/GameObjects/UnitPortrains");
+        }
+
+        internal Texture2D GetUnitPortrains()
+        {
+            return _unitPortrains;
+        }
+
+        internal Texture2D GetUnitShadow()
+        {
+            return _shadowTexture;
         }
 
         internal Texture2D GetBiomeClouds()
