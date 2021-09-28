@@ -33,7 +33,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             var shadow = new Sprite(gameObjectContentStorage.GetUnitShadow())
             {
                 Origin = new Vector2(0.5f, 0.5f),
-                Position = new Vector2(-16,0), //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2),
+                Position = new Vector2(-16, 0), //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2),
                 Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
             Root.AddChild(shadow);
