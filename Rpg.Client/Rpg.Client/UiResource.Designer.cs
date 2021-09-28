@@ -61,6 +61,33 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1 a 1.
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_a_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_a_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 a 2.
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_a_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_a_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 b 1.
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         internal static string StartGameButtonTitle {

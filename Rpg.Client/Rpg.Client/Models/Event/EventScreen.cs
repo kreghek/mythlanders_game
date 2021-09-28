@@ -98,10 +98,12 @@ namespace Rpg.Client.Models.Event
                 var localizedSpeakerName = GetSpeaker(fragment.Speaker);
                 var localizedSpeakerText = GetLocalizedText(fragment.TextSid);
 
-                var speakerNamePosition = startPosition + (Vector2.UnitX * ROW_SIZE);
+                var rowPosition = startPosition + (Vector2.UnitY * ROW_SIZE * fragmentIndex);
+
+                var speakerNamePosition = startPosition + rowPosition;
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerName, speakerNamePosition, Color.White);
 
-                var speakerTextPosition = startPosition + (Vector2.UnitX * ROW_SIZE) + Vector2.UnitY * 100;
+                var speakerTextPosition = startPosition + rowPosition + (Vector2.UnitX * 100);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedSpeakerText, speakerTextPosition, Color.White);
             }
 
@@ -115,14 +117,17 @@ namespace Rpg.Client.Models.Event
             spriteBatch.End();
         }
 
-        private string GetLocalizedText(string textSid)
+        private static string GetLocalizedText(string textSid)
         {
             var rm = new ResourceManager(typeof(UiResource));
             var text = rm.GetString($"EventPlot{textSid}");
-            return text;
+
+            Debug.Assert(text is not null, "Localize every text in events.");
+
+            return text ?? textSid;
         }
 
-        private string GetSpeaker(EventSpeaker speaker)
+        private static string GetSpeaker(EventSpeaker speaker)
         {
             if (speaker == EventSpeaker.Environment)
             {
