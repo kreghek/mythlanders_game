@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -19,6 +20,7 @@ namespace Rpg.Client.Models
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
+        private Texture2D _shadowTexture;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D? _mapNodes;
@@ -88,6 +90,13 @@ namespace Rpg.Client.Models
 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
             };
+
+            _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
+        }
+
+        internal Texture2D GetUnitShadow()
+        {
+            return _shadowTexture;
         }
 
         internal Texture2D GetBiomeClouds()

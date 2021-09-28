@@ -30,6 +30,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 FlipX = !unit.Unit.IsPlayerControlled
             };
 
+            var shadow = new Sprite(gameObjectContentStorage.GetUnitShadow())
+            {
+                Origin = new Vector2(0.5f, 0.5f),
+                Position = new Vector2(FRAME_WIDTH / 2, FRAME_HEIGHT / 4 * 3)
+            };
+            Root.AddChild(shadow);
+
             _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics(unit.Unit.UnitScheme.Name))
             {
                 Origin = new Vector2(0.5f, 0.75f),
