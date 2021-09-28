@@ -107,7 +107,7 @@ namespace Rpg.Client.Models.Event
 
             spriteBatch.Begin();
 
-            var textRect = new Rectangle(0,0, 400, 350);
+            var textRect = new Rectangle(0, 0, 400, 350);
             var textContentRect = new Rectangle(
                 Game.GraphicsDevice.Viewport.Bounds.Center.X - textRect.Center.X,
                 Game.GraphicsDevice.Viewport.Bounds.Center.Y - textRect.Center.Y,

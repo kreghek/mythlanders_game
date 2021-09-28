@@ -48,13 +48,13 @@ namespace Rpg.Client.Core
                 IsUnique = true,
                 Name = "SlavicPlot_1",
                 BeforeCombatStartNode = new EventNode
-                { 
+                {
                     CombatPosition = EventPosition.BeforeCombat,
                     TextBlock = new EventTextBlock
-                    { 
-                        Fragments = new[] { 
+                    {
+                        Fragments = new[] {
                             new EventTextFragment
-                            { 
+                            {
                                 Speaker = EventSpeaker.Environment,
                                 TextSid = "SlavicPlot_1_b_1"
                             }

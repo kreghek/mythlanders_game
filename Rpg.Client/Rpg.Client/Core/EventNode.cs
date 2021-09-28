@@ -22,7 +22,7 @@ namespace Rpg.Client.Core
     }
 
     internal enum EventSpeaker
-    { 
+    {
         Undefined = 0,
         Environment,
         Berimir,
@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
     }
 
     internal enum EventPosition
-    { 
+    {
         Undefined,
         BeforeCombat,
         AfterCombat
