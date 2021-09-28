@@ -25,22 +25,24 @@ namespace Rpg.Client.Models
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
-        private Texture2D? _unit;
+        private Texture2D? _warriorUnit;
+        private Texture2D? _bowmanUnit;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
             return unitName switch
             {
-                "Беримир" => _unit,
-                "Рада" => _unit,
-                "Сокол" => _unit,
+                "Беримир" => _warriorUnit,
+                "Рада" => _warriorUnit,
+                "Сокол" => _bowmanUnit,
                 _ => _monsterUnit
             };
         }
 
         public void LoadContent(ContentManager contentManager)
         {
-            _unit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
+            _warriorUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
+            _bowmanUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Bowman");
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");

@@ -33,7 +33,7 @@ namespace Rpg.Client.Models.Event
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _currentDialogNode = _globe.CurrentEventNode;
+            _currentDialogNode = _globe.CurrentEventNode ?? throw new InvalidOperationException("The screen was started before CurrentEventNode was assigned.");
 
             _buttons = new List<ButtonBase>();
 
@@ -71,6 +71,8 @@ namespace Rpg.Client.Models.Event
                             }
                             else
                             {
+                                _globe.CurrentEvent = null;
+                                _globe.CurrentEventNode = null;
                                 _globe.UpdateNodes(Game.Services.GetService<IDice>());
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                             }
@@ -119,7 +121,7 @@ namespace Rpg.Client.Models.Event
                 var localizedSpeakerText = GetLocalizedText(fragment.TextSid);
                 var speakerTextSize = font.MeasureString(localizedSpeakerText);
 
-                var rowPosition = bottomPosition;// + new Vector2(0, speakerTextSize.Y + TEXT_MARGIN * 2);
+                var rowPosition = bottomPosition;
 
                 var speakerNamePosition = rowPosition;
                 if (localizedSpeakerName is not null)

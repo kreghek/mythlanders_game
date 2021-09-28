@@ -50,7 +50,7 @@ namespace Rpg.Client.Core
 
         public Event? CurrentEvent { get; internal set; }
 
-        public EventNode CurrentEventNode { get; set; }
+        public EventNode? CurrentEventNode { get; set; }
 
         public IEnumerable<Biome> Biomes { get; }
 
@@ -419,7 +419,7 @@ namespace Rpg.Client.Core
                 }
 
                 var foundCompletedEvent = completedEvents.Any(x => x.Name == eventSid);
-                if (foundCompletedEvent)
+                if (!foundCompletedEvent)
                 {
                     return false;
                 }

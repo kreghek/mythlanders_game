@@ -118,6 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value>Беримир несколько раз моргнул. Глаза болели от яркого света. Очертания местности были нечёткими, но не заметить бегущего на него аспида, он не мог</value>
+    <value>Беримир несколько раз моргнул. Глаза болели от яркого света.
+Очертания местности были нечёткими, но не заметить бегущего
+на него аспида, он не мог</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
+    <value>Какой-то текст после боя</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
+    <value>Какой-то текст после боя</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
+    <value>Описание встречи с лучником.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
+    <value>Какой-то текст после боя с участием лучника</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
+    <value>Какой-то текст после боя с участием лучника</value>
   </data>
 </root>

@@ -97,6 +97,65 @@ namespace Rpg.Client.Core
             };
 
             yield return slavicPlotEvent1;
+
+            var slavicPlotEvent3 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                IsUnique = true,
+                Name = "SlavicPlot_3",
+                RequiredBiomeLevel = 3,
+                RequiredEventsCompleted = new[] { "SlavicPlot_1" },
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[] {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_b_1"
+                            }
+                        }
+                    },
+                    Options = new[] {
+                        new EventOption
+                        {
+                            Text = "В бой!",
+                            IsEnd = true,
+                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[] {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_3_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_2"
+                            },
+                        }
+                    },
+                    Options = new[] {
+                        new EventOption
+                        {
+                            Text = "Продолжить",
+                            IsEnd = true
+                        }
+                    }
+                },
+            };
+
+            yield return slavicPlotEvent3;
         }
 
         private static readonly Event[] _events;

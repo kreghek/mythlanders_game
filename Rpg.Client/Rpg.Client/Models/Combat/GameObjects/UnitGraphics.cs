@@ -34,8 +34,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 Origin = new Vector2(0.5f, 0.5f),
                 Position = new Vector2(0, FRAME_HEIGHT / 4),
-                Color = Color.Lerp(Color.Black, Color.Transparent, 0.25f),
-                ScaleScalar = 7
+                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
             Root.AddChild(shadow);
 
@@ -70,9 +69,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             "MoveBackward",
                             new AnimationInfo(startFrame: 32 + 3, frames: 1, speed: 8) { IsFinal = true }
                         },
-                        { "Skill1", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
                         { "Skill2", new AnimationInfo(startFrame: 16, frames: 1, speed: 8) { IsFinal = true } },
-                        { "Skill3", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Skill3", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
                         { "Wound", new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
                         { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
                     };
