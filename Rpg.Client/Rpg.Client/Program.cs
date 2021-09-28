@@ -9,7 +9,7 @@ namespace Rpg.Client
         [STAThread]
         private static void Main()
         {
-            var defaultCulture = CultureInfo.GetCultureInfo("en-US");
+            var defaultCulture = CultureInfo.GetCultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = defaultCulture;
             Thread.CurrentThread.CurrentUICulture = defaultCulture;
 
