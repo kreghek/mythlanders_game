@@ -31,7 +31,7 @@ namespace Rpg.Client.Models.Event
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            _currentDialogNode = _globe.AvailableDialog.BeforeCombatStartNode;
+            _currentDialogNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
             _buttons = new List<ButtonBase>();
 

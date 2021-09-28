@@ -48,7 +48,9 @@ namespace Rpg.Client.Core
 
         public ActiveCombat? ActiveCombat { get; set; }
 
-        public Event? AvailableDialog { get; internal set; }
+        public Event? CurrentEvent { get; internal set; }
+
+        public EventNode CurrentEventNode { get; set; }
 
         public IEnumerable<Biome> Biomes { get; }
 

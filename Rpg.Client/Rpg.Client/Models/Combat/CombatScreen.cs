@@ -310,12 +310,26 @@ namespace Rpg.Client.Models.Combat
                     }
                     else
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                        if (_globe.CurrentEventNode is null)
+                        {
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                        }
+                        else
+                        {
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                        }
                     }
                 }
                 else
                 {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                    if (_globe.CurrentEventNode is null)
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                    }
+                    else
+                    {
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                    }
                 }
             }
         }
@@ -606,9 +620,14 @@ namespace Rpg.Client.Models.Combat
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
 
-                    if (_globe.AvailableDialog is not null)
+                    if (_globe.CurrentEvent is not null)
                     {
-                        _globe.AvailableDialog.Completed = true;
+                        _globe.CurrentEvent.Completed = true;
+
+                        if (_globe.CurrentEvent.AfterCombatStartNode is not null)
+                        {
+                            _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
+                        }
                     }
 
                     if (_combat.Combat.IsBossLevel)
