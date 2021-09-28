@@ -38,6 +38,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             };
             Root.AddChild(shadow);
 
+            _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
+            {
+                Origin = new Vector2(0.5f, 0.75f),
+                Position = new Vector2(0, FRAME_HEIGHT / 4)
+            };
+            Root.AddChild(_selectedMarker);
+
             _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics(unit.Unit.UnitScheme.Name))
             {
                 Origin = new Vector2(0.5f, 0.75f),
@@ -45,12 +52,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 Position = new Vector2(FRAME_WIDTH / 4, 0)
             };
             Root.AddChild(_graphics);
-
-            _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
-            {
-                Origin = new Vector2(0.5f, 0.75f)
-            };
-            Root.AddChild(_selectedMarker);
 
             switch (unit.Unit.UnitScheme.Name)
             {

@@ -42,8 +42,8 @@ namespace Rpg.Client.Models
         public void LoadContent(ContentManager contentManager)
         {
             _warriorUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
-            _bowmanUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Bowman");
-            _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/Wolf");
+            _bowmanUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer");
+            _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
             _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
