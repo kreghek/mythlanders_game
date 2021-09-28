@@ -41,7 +41,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f),
-                Position = new Vector2(-16, 0), //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2)
+                Position = new Vector2(-16, 0) //new Vector2(0, FRAME_HEIGHT - (FRAME_HEIGHT / 8) / 2)
             };
             Root.AddChild(_selectedMarker);
 

@@ -141,8 +141,8 @@ namespace Rpg.Client.Models.Event
                 var speakerTextPosition =
                     localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
                 var maxTextBlockWidth = Math.Max(textContentRect.Width - (localizedSpeakerName is not null ? 100 : 0),
-                                            speakerTextSize.X + TEXT_MARGIN * 2);
-                var normalizedSpeakerTextSize = new Point((int)maxTextBlockWidth, (int)speakerTextSize.Y + TEXT_MARGIN * 2);
+                    speakerTextSize.X + TEXT_MARGIN * 2);
+                var normalizedSpeakerTextSize = new Point(maxTextBlockWidth, (int)speakerTextSize.Y + TEXT_MARGIN * 2);
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
                     new Rectangle(speakerTextPosition.ToPoint(), normalizedSpeakerTextSize), Color.White);
                 spriteBatch.DrawString(font, localizedSpeakerText,
