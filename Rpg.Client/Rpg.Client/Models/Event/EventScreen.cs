@@ -63,7 +63,15 @@ namespace Rpg.Client.Models.Event
 
                         if (option.IsEnd)
                         {
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            }
+                            else
+                            {
+                                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            }
                         }
                         else
                         {

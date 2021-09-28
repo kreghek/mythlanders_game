@@ -49,6 +49,7 @@ namespace Rpg.Client.Core
                 Name = "SlavicPlot_1",
                 BeforeCombatStartNode = new EventNode
                 { 
+                    CombatPosition = EventPosition.BeforeCombat,
                     TextBlock = new EventTextBlock
                     { 
                         Fragments = new[] { 
@@ -69,6 +70,7 @@ namespace Rpg.Client.Core
                 },
                 AfterCombatStartNode = new EventNode
                 {
+                    CombatPosition = EventPosition.AfterCombat,
                     TextBlock = new EventTextBlock
                     {
                         Fragments = new[] {

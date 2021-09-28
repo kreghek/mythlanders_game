@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Rpg.Client.Core
+﻿namespace Rpg.Client.Core
 {
     internal sealed class Event
     {

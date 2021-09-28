@@ -299,7 +299,6 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                _globeProvider.Globe.UpdateNodes(_dice);
                 RestoreGroupAfterCombat();
 
                 if (_bossWasDefeat)
@@ -312,10 +311,12 @@ namespace Rpg.Client.Models.Combat
                     {
                         if (_globe.CurrentEventNode is null)
                         {
+                            _globeProvider.Globe.UpdateNodes(_dice);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                         }
                         else
                         {
+                            _globeProvider.Globe.UpdateNodes(_dice);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
                         }
                     }
@@ -324,6 +325,7 @@ namespace Rpg.Client.Models.Combat
                 {
                     if (_globe.CurrentEventNode is null)
                     {
+                        _globeProvider.Globe.UpdateNodes(_dice);
                         ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                     }
                     else

@@ -6,6 +6,8 @@ namespace Rpg.Client.Core
     {
         public IEnumerable<EventOption> Options { get; set; }
         public EventTextBlock TextBlock { get; init; }
+
+        public EventPosition CombatPosition { get; set; }
     }
 
     internal sealed class EventTextBlock
@@ -25,5 +27,12 @@ namespace Rpg.Client.Core
         Environment,
         Berimir,
         Hawk
+    }
+
+    internal enum EventPosition
+    { 
+        Undefined,
+        BeforeCombat,
+        AfterCombat
     }
 }
