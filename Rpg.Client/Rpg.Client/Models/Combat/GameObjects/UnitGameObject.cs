@@ -109,6 +109,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 case "Slash":
                 case "Monster Attack":
+                case "Vampiric Bite":
                     {
                         bulletBlocker?.Release();
 

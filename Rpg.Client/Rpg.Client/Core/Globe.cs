@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Rpg.Client.Core
 {
@@ -244,13 +243,27 @@ namespace Rpg.Client.Core
                     break;
                 }
 
-                var roll = dice.Roll(1, 10);
-                if (roll > 5)
+                var nodeEvents = availableEventList.Where(x => (x.ApplicableOnlyFor is null) || (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
+                if (nodeEvents.Any())
                 {
-                    var minCounter = availableEventList.Min(x => x.Counter);
-                    var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
-                    var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
-                    node.AvailableDialog = rolledEvent;
+                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
+                    if (highPriorityEvent is not null)
+                    {
+                        node.AvailableDialog = highPriorityEvent;
+                    }
+                    else
+                    {
+                        var roll = dice.Roll(1, 10);
+                        if (roll > 5)
+                        {
+                            var minCounter = nodeEvents.Min(x => x.Counter);
+                            var currentRankEventList = nodeEvents.Where(x => x.Counter == minCounter).ToArray();
+                            var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
+
+                            node.AvailableDialog = rolledEvent;
+                        }
+                    }
+
                     availableEventList.Remove(node.AvailableDialog);
                 }
             }
@@ -301,7 +314,7 @@ namespace Rpg.Client.Core
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            RegularTheme = GetNodeTheme(x, BiomeType.Slavic)
+                            Sid = GetNodeSid(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -378,21 +391,22 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
+        private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
             {
                 case BiomeType.Slavic:
                     {
-                        switch (nodeIndex)
+                        return nodeIndex switch
                         {
-                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
-                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
-                            default: return GlobeNodeRegularTheme.Undefined;
-                        }
+                            0 => GlobeNodeSid.SlavicThicket,
+                            1 => GlobeNodeSid.SlavicSwamp,
+                            7 => GlobeNodeSid.SlavicBattleground,
+                            _ => GlobeNodeSid.Undefined,
+                        };
                     }
 
-                default: return GlobeNodeRegularTheme.Undefined;
+                default: return GlobeNodeSid.Undefined;
             }
         }
 
@@ -418,7 +432,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var foundCompletedEvent = completedEvents.Any(x => x.Name == eventSid);
+                var foundCompletedEvent = completedEvents.Any(x => x.Sid == eventSid);
                 if (!foundCompletedEvent)
                 {
                     return false;

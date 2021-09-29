@@ -27,6 +27,7 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
+        private Texture2D _arrowTexture;
         private Texture2D? _warriorUnit;
 
         public Texture2D GetUnitGraphics(string unitName)
@@ -97,6 +98,8 @@ namespace Rpg.Client.Models
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
 
             _unitPortrains = contentManager.Load<Texture2D>("Sprites/GameObjects/UnitPortrains");
+
+            _arrowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Arrow");
         }
 
         internal Texture2D GetBiomeClouds()
@@ -106,7 +109,7 @@ namespace Rpg.Client.Models
 
         internal Texture2D GetBulletGraphics()
         {
-            return _mapNodes;
+            return _arrowTexture;
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)

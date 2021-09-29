@@ -387,7 +387,7 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.RegularTheme);
+            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -477,12 +477,12 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private static BackgroundType GetBackgroundType(GlobeNodeRegularTheme regularTheme)
+        private static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
         {
             return regularTheme switch
             {
-                GlobeNodeRegularTheme.SlavicBattleground => BackgroundType.SlavicBattleground,
-                GlobeNodeRegularTheme.SlavicSwamp => BackgroundType.SlavicSwamp,
+                GlobeNodeSid.SlavicBattleground => BackgroundType.SlavicBattleground,
+                GlobeNodeSid.SlavicSwamp => BackgroundType.SlavicSwamp,
                 _ => BackgroundType.SlavicBattleground
             };
         }
@@ -666,11 +666,11 @@ namespace Rpg.Client.Models.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
-            var interactButton = new IconButton(
+            var interactButton = new UnitButton(
                 _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetButtonTexture(),
-                new Rectangle(target.Position.ToPoint(),
-                    new Point(32, 32)));
+                new Rectangle((target.Position - new Vector2(64, 128)).ToPoint(),
+                    new Point(128, 128)),
+                _gameObjectContentStorage);
 
             interactButton.OnClick += (s, e) =>
             {
