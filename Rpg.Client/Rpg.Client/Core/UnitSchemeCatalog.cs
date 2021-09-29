@@ -112,7 +112,7 @@ namespace Rpg.Client.Core
                     {
                         new StrikeSkill(),
                         new DefenseSkill(true),
-                        new ArrowRainSkill(true),
+                        new ArrowRainSkill(true)
                     }
                 }
             }
@@ -1044,7 +1044,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(), // Bite
+                                new MonsterAttackSkill() // Bite
                             }
                         }
                     }
@@ -1066,7 +1066,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(), // Bite
+                                new MonsterAttackSkill() // Bite
                             }
                         }
                     }
@@ -1130,7 +1130,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new HealSkill(),
+                                new HealSkill()
                             }
                         }
                     }

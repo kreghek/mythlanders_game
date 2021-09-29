@@ -9,7 +9,8 @@ namespace Rpg.Client.Models.Combat.Ui
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        public UnitButton(Texture2D texture, Rectangle rect, GameObjectContentStorage gameObjectContentStorage) : base(texture, rect)
+        public UnitButton(Texture2D texture, Rectangle rect, GameObjectContentStorage gameObjectContentStorage) : base(
+            texture, rect)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
         }
@@ -22,7 +23,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {
-            spriteBatch.Draw(_gameObjectContentStorage.GetCombatUnitMarker(), new Rectangle(Rect.X, Rect.Bottom - 32, 128, 32), new Rectangle(0, 32, 128, 32), color);
+            spriteBatch.Draw(_gameObjectContentStorage.GetCombatUnitMarker(),
+                new Rectangle(Rect.X, Rect.Bottom - 32, 128, 32), new Rectangle(0, 32, 128, 32), color);
         }
     }
 }

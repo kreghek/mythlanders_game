@@ -243,7 +243,9 @@ namespace Rpg.Client.Core
                     break;
                 }
 
-                var nodeEvents = availableEventList.Where(x => (x.ApplicableOnlyFor is null) || (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
+                var nodeEvents = availableEventList.Where(x =>
+                    (x.ApplicableOnlyFor is null) ||
+                    (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
                 if (nodeEvents.Any())
                 {
                     var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
@@ -402,7 +404,7 @@ namespace Rpg.Client.Core
                             0 => GlobeNodeSid.SlavicThicket,
                             1 => GlobeNodeSid.SlavicSwamp,
                             7 => GlobeNodeSid.SlavicBattleground,
-                            _ => GlobeNodeSid.Undefined,
+                            _ => GlobeNodeSid.Undefined
                         };
                     }
 

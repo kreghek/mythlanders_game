@@ -45,11 +45,6 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
-        protected virtual void DrawBackground(SpriteBatch spriteBatch, Color color)
-        {
-            spriteBatch.Draw(Texture, Rect, color);
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             var color = SelectColorByState();
@@ -98,6 +93,11 @@ namespace Rpg.Client.Engine
             {
                 _buttonState = UiButtonState.OutOfButton;
             }
+        }
+
+        protected virtual void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(Texture, Rect, color);
         }
 
         protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color);
