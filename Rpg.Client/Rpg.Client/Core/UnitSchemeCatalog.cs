@@ -103,7 +103,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
-                        new ArrowRainSkill(true)
+                        new DefenseSkill(true)
                     }
                 },
                 new SkillSet
@@ -111,8 +111,8 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new StrikeSkill(),
+                        new DefenseSkill(true),
                         new ArrowRainSkill(true),
-                        new DefenseSkill(true)
                     }
                 }
             }
