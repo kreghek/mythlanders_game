@@ -185,7 +185,7 @@ namespace Rpg.Client.Core
 
                 var dto = new EventDto
                 {
-                    Sid = eventItem.Name,
+                    Sid = eventItem.Sid,
                     Counter = eventItem.Counter
                 };
 
@@ -233,7 +233,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var eventItem = EventCatalog.Events.Single(x => x.Name == eventDto.Sid);
+                var eventItem = EventCatalog.Events.Single(x => x.Sid == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
         }

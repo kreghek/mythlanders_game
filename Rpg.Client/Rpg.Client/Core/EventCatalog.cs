@@ -26,7 +26,8 @@ namespace Rpg.Client.Core
                 Biome = BiomeType.Slavic,
                 ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicThicket },
                 IsUnique = true,
-                Name = "SlavicPlot_1",
+                IsHighPriority = true,
+                Sid = "SlavicPlot_1",
                 BeforeCombatStartNode = new EventNode
                 {
                     CombatPosition = EventPosition.BeforeCombat,
@@ -87,7 +88,8 @@ namespace Rpg.Client.Core
                 Biome = BiomeType.Slavic,
                 ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
                 IsUnique = true,
-                Name = "SlavicPlot_3",
+                IsHighPriority = true,
+                Sid = "SlavicPlot_3",
                 RequiredBiomeLevel = 3,
                 RequiredEventsCompleted = new[] { "SlavicPlot_1" },
                 BeforeCombatStartNode = new EventNode

@@ -244,15 +244,27 @@ namespace Rpg.Client.Core
                     break;
                 }
 
-                var plotEvent
-
-                var roll = dice.Roll(1, 10);
-                if (roll > 5)
+                var nodeEvents = availableEventList.Where(x => (x.ApplicableOnlyFor is null) || (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
+                if (nodeEvents.Any())
                 {
-                    var minCounter = availableEventList.Min(x => x.Counter);
-                    var currentRankEventList = availableEventList.Where(x => x.Counter == minCounter).ToArray();
-                    var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
-                    node.AvailableDialog = rolledEvent;
+                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
+                    if (highPriorityEvent is not null)
+                    {
+                        node.AvailableDialog = highPriorityEvent;
+                    }
+                    else
+                    {
+                        var roll = dice.Roll(1, 10);
+                        if (roll > 5)
+                        {
+                            var minCounter = nodeEvents.Min(x => x.Counter);
+                            var currentRankEventList = nodeEvents.Where(x => x.Counter == minCounter).ToArray();
+                            var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
+
+                            node.AvailableDialog = rolledEvent;
+                        }
+                    }
+
                     availableEventList.Remove(node.AvailableDialog);
                 }
             }
@@ -386,13 +398,13 @@ namespace Rpg.Client.Core
             {
                 case BiomeType.Slavic:
                     {
-                        switch (nodeIndex)
+                        return nodeIndex switch
                         {
-                            case 0: return GlobeNodeSid.SlavicThicket;
-                            case 1: return GlobeNodeSid.SlavicSwamp;
-                            case 7: return GlobeNodeSid.SlavicBattleground;
-                            default: return GlobeNodeSid.Undefined;
-                        }
+                            0 => GlobeNodeSid.SlavicThicket,
+                            1 => GlobeNodeSid.SlavicSwamp,
+                            7 => GlobeNodeSid.SlavicBattleground,
+                            _ => GlobeNodeSid.Undefined,
+                        };
                     }
 
                 default: return GlobeNodeSid.Undefined;
@@ -421,7 +433,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var foundCompletedEvent = completedEvents.Any(x => x.Name == eventSid);
+                var foundCompletedEvent = completedEvents.Any(x => x.Sid == eventSid);
                 if (!foundCompletedEvent)
                 {
                     return false;
