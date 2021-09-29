@@ -1045,8 +1045,6 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(), // Bite
-                                new PowerUpSkill(), // Wolf howl
-                                new HealSkill() // lick wounds
                             }
                         }
                     }
@@ -1069,8 +1067,6 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(), // Bite
-                                new DefenseSkill(),
-                                new WideSlashSkill()
                             }
                         }
                     }
@@ -1091,9 +1087,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new StrikeSkill(),
-                                new ArrowRainSkill(),
-                                new PowerUpSkill()
+                                new ArrowRainSkill()
                             }
                         }
                     }
@@ -1115,9 +1109,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new PowerUpSkill()
+                                new WideSlashSkill()
                             }
                         }
                     }
@@ -1138,9 +1130,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
                                 new HealSkill(),
-                                new WideSlashSkill()
                             }
                         }
                     }
@@ -1161,9 +1151,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new HealSkill()
+                                new MonsterAttackSkill()
                             }
                         }
                     }
@@ -1176,7 +1164,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
-                    Power = 5,
+                    Power = 10,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1185,9 +1173,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new MassHealSkill()
+                                new MonsterAttackSkill()
                             }
                         }
                     }
@@ -1208,7 +1194,6 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
                                 new DefenseSkill()
                             }
                         }
@@ -1231,8 +1216,6 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
                                 new WideSlashSkill()
                             }
                         }
