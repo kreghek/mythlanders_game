@@ -182,8 +182,12 @@ namespace Rpg.Client.Core
 
             if (Finished)
             {
-                var allMonstersAreDead = Units.Any(x => x.Unit.IsDead && !x.Unit.IsPlayerControlled);
-                var eventArgs = new CombatFinishEventArgs { Victory = allMonstersAreDead };
+                var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
+                var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
+
+                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
+                var allMonstersAreDead = !monsterUnits.Any(x => !x.Unit.IsDead);
+                var eventArgs = new CombatFinishEventArgs { Victory = anyPlayerUnitsAlive && allMonstersAreDead };
                 Finish?.Invoke(this, eventArgs);
                 return;
             }
