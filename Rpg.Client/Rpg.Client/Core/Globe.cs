@@ -244,6 +244,8 @@ namespace Rpg.Client.Core
                     break;
                 }
 
+                var plotEvent
+
                 var roll = dice.Roll(1, 10);
                 if (roll > 5)
                 {
@@ -301,7 +303,7 @@ namespace Rpg.Client.Core
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            RegularTheme = GetNodeTheme(x, BiomeType.Slavic)
+                            Sid = GetNodeSid(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.China,
@@ -378,7 +380,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static GlobeNodeRegularTheme GetNodeTheme(int nodeIndex, BiomeType biomType)
+        private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
             {
@@ -386,13 +388,14 @@ namespace Rpg.Client.Core
                     {
                         switch (nodeIndex)
                         {
-                            case 0: return GlobeNodeRegularTheme.SlavicBattleground;
-                            case 1: return GlobeNodeRegularTheme.SlavicSwamp;
-                            default: return GlobeNodeRegularTheme.Undefined;
+                            case 0: return GlobeNodeSid.SlavicThicket;
+                            case 1: return GlobeNodeSid.SlavicSwamp;
+                            case 7: return GlobeNodeSid.SlavicBattleground;
+                            default: return GlobeNodeSid.Undefined;
                         }
                     }
 
-                default: return GlobeNodeRegularTheme.Undefined;
+                default: return GlobeNodeSid.Undefined;
             }
         }
 

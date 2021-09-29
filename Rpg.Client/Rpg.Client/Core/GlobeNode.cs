@@ -17,13 +17,6 @@
 
         public string Name { get; }
 
-        public GlobeNodeRegularTheme RegularTheme { get; set; }
-    }
-
-    internal enum GlobeNodeRegularTheme
-    {
-        Undefined,
-        SlavicBattleground,
-        SlavicSwamp
+        public GlobeNodeSid Sid { get; set; }
     }
 }
