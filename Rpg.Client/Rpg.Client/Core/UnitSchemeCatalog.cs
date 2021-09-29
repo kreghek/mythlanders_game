@@ -1173,7 +1173,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill()
+                                new VampiricBiteSkill()
                             }
                         }
                     }
