@@ -292,6 +292,7 @@ namespace Rpg.Client.Models.Biome
             {
                 var monsterIndex = 0;
                 var roundIndex = 1;
+
                 foreach (var combat in node.GlobeNode.CombatSequence.Combats)
                 {
                     foreach (var monster in node.Combat.EnemyGroup.Units)
@@ -305,7 +306,25 @@ namespace Rpg.Client.Models.Biome
 
                     roundIndex++;
                 }
+
+                DrawSummaryXpLabel(spriteBatch, node, toolTipPosition);
             }
+        }
+
+        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        {
+            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
+            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
+            var summaryXpLabelOffset = new Vector2(5, 55 + monstersAmount * roundsAmount * 10);
+            var summaryXpLabelPosition = toolTipPosition + summaryXpLabelOffset;
+
+            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
+            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
+            spriteBatch.DrawString(
+                _uiContentStorage.GetMainFont(),
+                $"Summary Xp: {summaryXp}",
+                summaryXpLabelPosition,
+                Color.Black);
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
@@ -418,6 +437,26 @@ namespace Rpg.Client.Models.Biome
                 default:
                     Debug.Fail("Unknown size");
                     return string.Empty;
+            }
+        }
+        
+        private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
+        {
+            var count = node.GlobeNode.CombatSequence.Combats.Count;
+            switch (count)
+            {
+                case 1:
+                    return 1;
+
+                case 3:
+                    return 1.25f;
+
+                case 5:
+                    return 1.5f;
+
+                default:
+                    Debug.Fail("Unknown size");
+                    return 1;
             }
         }
 
