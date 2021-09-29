@@ -51,5 +51,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev#${{ github.run_number }}
+        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}
         path: bin
