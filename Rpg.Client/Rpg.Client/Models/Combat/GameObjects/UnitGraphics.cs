@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -129,22 +127,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             UpdateAnimation(gameTime);
-
-            var mouseState = Mouse.GetState();
-            var mouseRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
-            var graphicRect = new Rectangle(Root.Position.ToPoint(), new Point(128, 128));
-
-            if (mouseState.LeftButton == ButtonState.Released && _lastState.LeftButton == ButtonState.Pressed && graphicRect.Contains(mouseRect))
-            {
-                Clicked?.Invoke(this, EventArgs.Empty);
-            }
-
-            _lastState = mouseState;
         }
-
-        private MouseState _lastState;
-
-        public event EventHandler Clicked;
 
         private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
         {

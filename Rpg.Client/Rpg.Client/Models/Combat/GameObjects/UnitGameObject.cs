@@ -28,19 +28,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             _graphics = new UnitGraphics(unit, position, gameObjectContentStorage);
 
-            _graphics.Clicked += Graphics_Clicked;
-
             CombatUnit = unit;
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
         }
-
-        private void Graphics_Clicked(object? sender, EventArgs e)
-        {
-            Clicked?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler Clicked;
 
         public CombatUnit CombatUnit { get; }
 

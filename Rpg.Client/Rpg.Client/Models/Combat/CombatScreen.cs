@@ -40,6 +40,7 @@ namespace Rpg.Client.Models.Combat
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly GlobeProvider _globeProvider;
+        private readonly IList<ButtonBase> _hudButtons;
         private readonly IUiContentStorage _uiContentStorage;
 
         private float _bgCenterOffsetPercentage;
@@ -68,6 +69,7 @@ namespace Rpg.Client.Models.Combat
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<BulletGameObject>();
+            _hudButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -205,6 +207,7 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
         {
+            _hudButtons.Clear();
             _combatSkillsPanel = null;
 
             if (e.Victory)
@@ -416,6 +419,11 @@ namespace Rpg.Client.Models.Combat
                 {
                     _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
                 }
+
+                foreach (var button in _hudButtons)
+                {
+                    button.Draw(spriteBatch);
+                }
             }
 
             try
@@ -552,6 +560,11 @@ namespace Rpg.Client.Models.Combat
 
         private void HandleCombatHud(GameTime gameTime)
         {
+            foreach (var hudButton in _hudButtons)
+            {
+                hudButton.Update();
+            }
+
             _combatSkillsPanel?.Update();
 
             _combatResultModal?.Update(gameTime);
@@ -653,11 +666,18 @@ namespace Rpg.Client.Models.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
-            target.Clicked+=
-                
-            //{
-            //    _combat.UseSkill(skillCard.Skill, target.CombatUnit);
-            //};
+            var interactButton = new IconButton(
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetButtonTexture(),
+                new Rectangle(target.Position.ToPoint(),
+                    new Point(32, 32)));
+
+            interactButton.OnClick += (s, e) =>
+            {
+                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
+            };
+
+            _hudButtons.Add(interactButton);
         }
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)
