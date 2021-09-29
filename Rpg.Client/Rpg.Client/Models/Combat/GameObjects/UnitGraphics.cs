@@ -40,6 +40,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f),
+                SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
             Root.AddChild(_selectedMarker);
 

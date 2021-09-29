@@ -45,11 +45,16 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
+        protected virtual void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(Texture, Rect, color);
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             var color = SelectColorByState();
 
-            spriteBatch.Draw(Texture, Rect, color);
+            DrawBackground(spriteBatch, color);
 
             var contentRect = new Rectangle(
                 CONTENT_MARGIN + Rect.Left,

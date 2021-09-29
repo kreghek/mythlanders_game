@@ -666,11 +666,11 @@ namespace Rpg.Client.Models.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
-            var interactButton = new IconButton(
+            var interactButton = new UnitButton(
                 _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetButtonTexture(),
-                new Rectangle(target.Position.ToPoint(),
-                    new Point(32, 32)));
+                new Rectangle((target.Position - new Vector2(64, 128)).ToPoint(),
+                    new Point(128, 128)),
+                _gameObjectContentStorage);
 
             interactButton.OnClick += (s, e) =>
             {
