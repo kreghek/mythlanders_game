@@ -451,7 +451,7 @@ namespace Rpg.Client.Models.Biome
                     return string.Empty;
             }
         }
-        
+
         private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
         {
             var count = node.GlobeNode.CombatSequence.Combats.Count;

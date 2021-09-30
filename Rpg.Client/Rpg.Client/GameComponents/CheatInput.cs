@@ -171,7 +171,7 @@ namespace Rpg.Client.GameComponents
 
             targetUnit.GainXp(xpAmount);
         }
-        
+
         private void HandleChangeHp(string[] args)
         {
             var globeProvider = Game.Services.GetService<GlobeProvider>();
@@ -337,7 +337,7 @@ namespace Rpg.Client.GameComponents
                     {
                         return false;
                     }
-                    
+
                 case "change-hp":
                     try
                     {
