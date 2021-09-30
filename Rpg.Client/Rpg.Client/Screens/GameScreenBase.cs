@@ -36,6 +36,8 @@ namespace Rpg.Client.Screens
 
         private void DrawModals(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+
             foreach (var modal in _modals)
             {
                 if (modal.IsVisible)
@@ -44,6 +46,8 @@ namespace Rpg.Client.Screens
                     break;
                 }
             }
+
+            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
