@@ -16,6 +16,7 @@ namespace Rpg.Client.Models
 
     internal class GameObjectContentStorage
     {
+        private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
         private Texture2D? _bowmanUnit;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
@@ -27,7 +28,6 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
-        private Texture2D _arrowTexture;
         private Texture2D? _warriorUnit;
 
         public Texture2D GetUnitGraphics(string unitName)

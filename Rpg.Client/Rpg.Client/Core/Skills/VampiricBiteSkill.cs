@@ -14,7 +14,7 @@ namespace Rpg.Client.Core.Skills
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new EffectRule[]
+        public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
@@ -45,7 +45,7 @@ namespace Rpg.Client.Core.Skills
 
                     return res;
                 })
-            },
+            }
         };
 
         public override string Sid => "Vampiric Bite";

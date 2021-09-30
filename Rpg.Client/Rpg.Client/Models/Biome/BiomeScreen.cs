@@ -228,6 +228,36 @@ namespace Rpg.Client.Models.Biome
             return cloud;
         }
 
+        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
+            Vector2 toolTipPosition, GlobeNodeGameObject node)
+        {
+            if (node.GlobeNode.CombatSequence is null)
+            {
+                // No combat - no rewards
+                return;
+            }
+
+            // TODO Display icons
+
+            DrawSummaryXpLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+
+            var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
+            if (equipmentType is not null)
+            {
+                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+
+                var playerUnit = _globe.Player.GetAll.Where(x => x != null)
+                    .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+
+                if (playerUnit is not null)
+                {
+                    var equipmentTypeText = GetDisplayNameOfEquipment(equipmentType);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
+                        toolTipPosition + new Vector2(5, 45), Color.Black);
+                }
+            }
+        }
+
         private void DrawHud(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -295,50 +325,6 @@ namespace Rpg.Client.Models.Biome
             }
         }
 
-        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject, Vector2 toolTipPosition, GlobeNodeGameObject node)
-        {
-            if (node.GlobeNode.CombatSequence is null)
-            {
-                // No combat - no rewards
-                return;
-            }
-
-            // TODO Display icons
-
-            DrawSummaryXpLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
-
-            var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
-            if (equipmentType is not null)
-            {
-                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
-
-                var playerUnit = _globe.Player.GetAll.Where(x => x != null)
-                    .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-
-                if (playerUnit is not null)
-                {
-                    var equipmentTypeText = GetDisplayNameOfEquipment(equipmentType);
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
-                        toolTipPosition + new Vector2(5, 45), Color.Black);
-                }
-            }
-        }
-
-        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
-        {
-            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
-            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
-            var summaryXpLabelPosition = toolTipPosition;
-
-            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
-            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
-            spriteBatch.DrawString(
-                _uiContentStorage.GetMainFont(),
-                $"Xp Reward: {summaryXp}",
-                summaryXpLabelPosition,
-                Color.Black);
-        }
-
         private void DrawObjects(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -364,6 +350,21 @@ namespace Rpg.Client.Models.Biome
             }
 
             spriteBatch.End();
+        }
+
+        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        {
+            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
+            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
+            var summaryXpLabelPosition = toolTipPosition;
+
+            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
+            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
+            spriteBatch.DrawString(
+                _uiContentStorage.GetMainFont(),
+                $"Xp Reward: {summaryXp}",
+                summaryXpLabelPosition,
+                Color.Black);
         }
 
         private static Rectangle GetBiomeMapRectange(BiomeType type)
@@ -432,26 +433,6 @@ namespace Rpg.Client.Models.Biome
             };
         }
 
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return "Short";
-
-                case 3:
-                    return "Medium (+25% XP)";
-
-                case 5:
-                    return "Long (+50% XP)";
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return string.Empty;
-            }
-        }
-        
         private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
         {
             var count = node.GlobeNode.CombatSequence.Combats.Count;
@@ -469,6 +450,26 @@ namespace Rpg.Client.Models.Biome
                 default:
                     Debug.Fail("Unknown size");
                     return 1;
+            }
+        }
+
+        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
+        {
+            var count = node.GlobeNode.CombatSequence.Combats.Count;
+            switch (count)
+            {
+                case 1:
+                    return "Short";
+
+                case 3:
+                    return "Medium (+25% XP)";
+
+                case 5:
+                    return "Long (+50% XP)";
+
+                default:
+                    Debug.Fail("Unknown size");
+                    return string.Empty;
             }
         }
 
