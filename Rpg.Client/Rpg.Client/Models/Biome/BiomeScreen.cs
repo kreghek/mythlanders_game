@@ -239,7 +239,7 @@ namespace Rpg.Client.Models.Biome
 
             // TODO Display icons
 
-            DrawSummaryXpLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+            DrawSummaryXpAwardLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
 
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)

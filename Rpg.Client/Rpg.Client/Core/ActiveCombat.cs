@@ -315,8 +315,10 @@ namespace Rpg.Client.Core
             combatUnit.Unit.Dead -= Unit_Dead;
             combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
 
-            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Level);
-            newFormUnit.Hp = combatUnit.Unit.Hp;
+            var newFormUnit = new Unit(nextScheme, combatUnit.Unit.Level)
+            {
+                Hp = combatUnit.Unit.Hp
+            };
             var newFormCombatUnit = new CombatUnit(newFormUnit, combatUnit.Index);
 
             newFormCombatUnit.Unit.Dead += Unit_Dead;
@@ -383,12 +385,6 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitDied;
 
-        internal event EventHandler<SkillUsingEventArgs>? BeforeSkillUsing;
-
-        internal event EventHandler<SkillUsingEventArgs>? AfterSkillUsing;
-
-        internal event EventHandler<CombatUnit>? MoveCompleted;
-
         internal event EventHandler<CombatUnit>? UnitHasBeenDamaged;
 
         internal event EventHandler<CombatUnit>? UnitPassed;
@@ -399,13 +395,6 @@ namespace Rpg.Client.Core
         /// Event bus for combat object interactions.
         /// </summary>
         internal event EventHandler<ActionEventArgs>? ActionGenerated;
-
-        internal class SkillUsingEventArgs : EventArgs
-        {
-            public CombatUnit Actor { get; set; }
-            public CombatSkill Skill { get; set; }
-            public CombatUnit? Target { get; set; }
-        }
 
         internal class ActionEventArgs : EventArgs
         {
