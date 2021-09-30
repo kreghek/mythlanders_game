@@ -62,23 +62,32 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter > DURATION)
             {
                 IsComplete = true;
-
-                if (_animationBlocker is not null)
-                {
-                    _animationBlocker.Release();
-                }
+                HandleStateEnding();
             }
             else if (_counter > DURATION / 2)
             {
                 if (!_interactionExecuted)
                 {
-                    _hitSound.Play();
-
-                    _interactionExecuted = true;
-
-                    _interaction?.Invoke();
+                    HandleStateExecution();
                 }
             }
+        }
+
+        private void HandleStateEnding()
+        {
+            if (_animationBlocker is not null)
+            {
+                _animationBlocker.Release();
+            }
+        }
+
+        private void HandleStateExecution()
+        {
+            _hitSound.Play();
+
+            _interactionExecuted = true;
+
+            _interaction?.Invoke();
         }
     }
 }
