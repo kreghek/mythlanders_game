@@ -28,7 +28,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public HitState(
             UnitGraphics graphics,
             Action attackInteraction,
-            AnimationBlocker animationBlocker,
+            AnimationBlocker? animationBlocker,
             SoundEffectInstance hitSound,
             int index)
         {
