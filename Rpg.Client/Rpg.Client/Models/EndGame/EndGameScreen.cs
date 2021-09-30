@@ -22,11 +22,6 @@ namespace Rpg.Client.Models.EndGame
             };
         }
 
-        protected override void UpdateContent(GameTime gameTime)
-        {
-            _backButton.Update();
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -36,6 +31,11 @@ namespace Rpg.Client.Models.EndGame
             _backButton.Rect = new Rectangle(100, 150, 100, 20);
             _backButton.Draw(spriteBatch);
             spriteBatch.End();
+        }
+
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            _backButton.Update();
         }
     }
 }

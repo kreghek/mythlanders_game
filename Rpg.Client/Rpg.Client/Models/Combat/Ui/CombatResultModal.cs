@@ -13,7 +13,6 @@ namespace Rpg.Client.Models.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly TextButton _closeButton;
-        private readonly CombatResult _combatResult;
         private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
@@ -26,7 +25,7 @@ namespace Rpg.Client.Models.Combat.Ui
             IEnumerable<XpAward> xpItems) : base(uiContentStorage, graphicsDevice)
         {
             _uiContentStorage = uiContentStorage;
-            _combatResult = combatResult;
+            CombatResult = combatResult;
             _sourceXpItems = xpItems;
 
             _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
@@ -34,7 +33,7 @@ namespace Rpg.Client.Models.Combat.Ui
             _closeButton.OnClick += CloseButton_OnClick;
         }
 
-        internal CombatResult CombatResult => _combatResult;
+        internal CombatResult CombatResult { get; }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {

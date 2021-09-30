@@ -45,57 +45,6 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
         }
 
-        protected override void UpdateContent(GameTime gameTime)
-        {
-            if (_isInitialized)
-            {
-                foreach (var button in _buttons)
-                {
-                    button.Update();
-                }
-            }
-            else
-            {
-                _buttons.Clear();
-                foreach (var option in _currentDialogNode.Options)
-                {
-                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                    button.OnClick += (s, e) =>
-                    {
-                        if (option.Aftermath is not null)
-                        {
-                            option.Aftermath.Apply(_dialogContext);
-                        }
-
-                        if (option.IsEnd)
-                        {
-                            if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
-                            {
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                            }
-                            else
-                            {
-                                _globe.CurrentEvent = null;
-                                _globe.CurrentEventNode = null;
-                                _globe.UpdateNodes(Game.Services.GetService<IDice>());
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            }
-                        }
-                        else
-                        {
-                            _currentDialogNode = option.Next;
-                            _isInitialized = false;
-                        }
-                    };
-
-                    _buttons.Add(button);
-                }
-
-                _isInitialized = true;
-            }
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             if (!_isInitialized)
@@ -164,6 +113,57 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.End();
+        }
+
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            if (_isInitialized)
+            {
+                foreach (var button in _buttons)
+                {
+                    button.Update();
+                }
+            }
+            else
+            {
+                _buttons.Clear();
+                foreach (var option in _currentDialogNode.Options)
+                {
+                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                    button.OnClick += (s, e) =>
+                    {
+                        if (option.Aftermath is not null)
+                        {
+                            option.Aftermath.Apply(_dialogContext);
+                        }
+
+                        if (option.IsEnd)
+                        {
+                            if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            }
+                            else
+                            {
+                                _globe.CurrentEvent = null;
+                                _globe.CurrentEventNode = null;
+                                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            }
+                        }
+                        else
+                        {
+                            _currentDialogNode = option.Next;
+                            _isInitialized = false;
+                        }
+                    };
+
+                    _buttons.Add(button);
+                }
+
+                _isInitialized = true;
+            }
         }
 
         private static string GetLocalizedText(string textSid)

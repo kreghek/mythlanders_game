@@ -94,6 +94,18 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated += Globe_Updated;
         }
 
+        protected override void DrawContent(SpriteBatch spriteBatch)
+        {
+            if (!_isNodeModelsCreated)
+            {
+                return;
+            }
+
+            DrawObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
@@ -186,18 +198,6 @@ namespace Rpg.Client.Models.Biome
             {
                 button.Update();
             }
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch)
-        {
-            if (!_isNodeModelsCreated)
-            {
-                return;
-            }
-
-            DrawObjects(spriteBatch);
-
-            DrawHud(spriteBatch);
         }
 
         private void ClearEventHandlerToGlobeObjects()

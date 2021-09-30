@@ -93,6 +93,13 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
+        protected override void DrawContent(SpriteBatch spriteBatch)
+        {
+            DrawGameObjects(spriteBatch);
+
+            DrawHud(spriteBatch);
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -119,13 +126,6 @@ namespace Rpg.Client.Models.Combat
             }
 
             HandleBackgrounds();
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch)
-        {
-            DrawGameObjects(spriteBatch);
-
-            DrawHud(spriteBatch);
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
@@ -282,9 +282,9 @@ namespace Rpg.Client.Models.Combat
 
             var combatResultModal = (CombatResultModal)sender;
 
-            if (combatResultModal.CombatResult == CombatResult.Victory || combatResultModal.CombatResult == CombatResult.NextCombat)
+            if (combatResultModal.CombatResult == CombatResult.Victory ||
+                combatResultModal.CombatResult == CombatResult.NextCombat)
             {
-
                 var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
                 currentCombatList.Remove(_combat.Combat);
                 _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;

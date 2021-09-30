@@ -12,6 +12,8 @@ namespace Rpg.Client.Screens
     /// </summary>
     internal abstract class GameScreenBase : EwarDrawableComponentBase, IScreen
     {
+        private readonly IList<IModalWindow> _modals;
+
         public GameScreenBase(EwarGame game)
         {
             Game = game;
@@ -23,7 +25,14 @@ namespace Rpg.Client.Screens
 
         public IScreenManager ScreenManager { get; }
 
-        public IScreen? TargetScreen { get; set; }
+        protected void AddModal(IModalWindow modal, bool isLate)
+        {
+            _modals.Add(modal);
+            if (!isLate)
+            {
+                modal.Show();
+            }
+        }
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
@@ -32,6 +41,22 @@ namespace Rpg.Client.Screens
             DrawContent(spriteBatch);
 
             DrawModals(spriteBatch);
+        }
+
+        protected abstract void DrawContent(SpriteBatch spriteBatch);
+
+        protected abstract void UpdateContent(GameTime gameTime);
+
+        protected void UpdateModals(GameTime gameTime)
+        {
+            foreach (var modal in _modals)
+            {
+                if (modal.IsVisible)
+                {
+                    modal.Update(gameTime);
+                    break;
+                }
+            }
         }
 
         private void DrawModals(SpriteBatch spriteBatch)
@@ -50,6 +75,8 @@ namespace Rpg.Client.Screens
             spriteBatch.End();
         }
 
+        public IScreen? TargetScreen { get; set; }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -58,32 +85,5 @@ namespace Rpg.Client.Screens
 
             UpdateModals(gameTime);
         }
-
-        protected abstract void UpdateContent(GameTime gameTime);
-
-        protected void UpdateModals(GameTime gameTime)
-        {
-            foreach (var modal in _modals)
-            {
-                if (modal.IsVisible)
-                {
-                    modal.Update(gameTime);
-                    break;
-                }
-            }
-        }
-
-        protected abstract void DrawContent(SpriteBatch spriteBatch);
-
-        protected void AddModal(IModalWindow modal, bool isLate)
-        {
-            _modals.Add(modal);
-            if (!isLate)
-            {
-                modal.Show();
-            }
-        }
-
-        private readonly IList<IModalWindow> _modals;
     }
 }

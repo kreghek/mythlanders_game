@@ -50,9 +50,26 @@ namespace Rpg.Client.Engine
                 _dialogRect.Height - MODAL_CONTENT_MARGIN * 2 - MODAL_HEADER_HEIGHT);
         }
 
-        public bool IsVisible { get; private set; }
-
         protected Rectangle ContentRect { get; set; }
+
+        protected abstract void DrawContent(SpriteBatch spriteBatch);
+
+        protected virtual void InitContent()
+        {
+            // Empty implementation to avoid empty implementation in every concrete class.
+        }
+
+        protected virtual void UpdateContent(GameTime gameTime)
+        {
+            // Empty implementation to avoid empty implementation in every concrete class.
+        }
+
+        private void CloseButton_OnClick(object? sender, EventArgs e)
+        {
+            Close();
+        }
+
+        public bool IsVisible { get; private set; }
 
         public void Close()
         {
@@ -98,23 +115,6 @@ namespace Rpg.Client.Engine
             UpdateContent(gameTime);
 
             _closeButton.Update();
-        }
-
-        protected abstract void DrawContent(SpriteBatch spriteBatch);
-
-        protected virtual void InitContent()
-        {
-            // Empty implementation to avoid empty implementation in every concrete class.
-        }
-
-        protected virtual void UpdateContent(GameTime gameTime)
-        {
-            // Empty implementation to avoid empty implementation in every concrete class.
-        }
-
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

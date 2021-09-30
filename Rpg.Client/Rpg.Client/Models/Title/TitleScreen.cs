@@ -76,14 +76,6 @@ namespace Rpg.Client.Models.Title
             }
         }
 
-        protected override void UpdateContent(GameTime gameTime)
-        {
-            foreach (var button in _buttons)
-            {
-                button.Update();
-            }
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -102,6 +94,14 @@ namespace Rpg.Client.Models.Title
             }
 
             spriteBatch.End();
+        }
+
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            foreach (var button in _buttons)
+            {
+                button.Update();
+            }
         }
 
         private ButtonBase? GetLoadButton(Texture2D buttonTexture, SpriteFont font)

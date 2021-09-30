@@ -27,6 +27,60 @@ namespace Rpg.Client.Models.Party
             _buttonList = new List<ButtonBase>();
         }
 
+        protected override void DrawContent(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            var contentRect = Game.GraphicsDevice.Viewport.Bounds;
+
+            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
+            {
+                var button = _buttonList[characterIndex];
+                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
+                button.Draw(spriteBatch);
+            }
+
+            if (_selectedCharacter is not null)
+            {
+                var sb = new List<string>
+                {
+                    _selectedCharacter.UnitScheme.Name,
+                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
+                    $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
+                    $"Level: {_selectedCharacter.Level}",
+                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
+                    $"Equipment: {_selectedCharacter.EquipmentLevel}",
+                    $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
+                };
+
+                foreach (var skill in _selectedCharacter.Skills)
+                {
+                    sb.Add($"{skill.Sid}");
+                    if (skill.Cost is not null)
+                    {
+                        sb.Add($"Cost: {skill.Cost}");
+                    }
+
+                    // TODO Display skill efficient - damages, durations, etc.
+                }
+
+                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                {
+                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
+                    sb.Add($"Is in party. Slot {index + 1}.");
+                }
+
+                for (var statIndex = 0; statIndex < sb.Count; statIndex++)
+                {
+                    var line = sb[statIndex];
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
+                        new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                }
+            }
+
+            spriteBatch.End();
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             if (!_isInitialized)
@@ -89,60 +143,6 @@ namespace Rpg.Client.Models.Party
                     button.Update();
                 }
             }
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-
-            var contentRect = Game.GraphicsDevice.Viewport.Bounds;
-
-            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
-            {
-                var button = _buttonList[characterIndex];
-                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
-                button.Draw(spriteBatch);
-            }
-
-            if (_selectedCharacter is not null)
-            {
-                var sb = new List<string>
-                {
-                    _selectedCharacter.UnitScheme.Name,
-                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
-                    $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
-                    $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
-                    $"Equipment: {_selectedCharacter.EquipmentLevel}",
-                    $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
-                };
-
-                foreach (var skill in _selectedCharacter.Skills)
-                {
-                    sb.Add($"{skill.Sid}");
-                    if (skill.Cost is not null)
-                    {
-                        sb.Add($"Cost: {skill.Cost}");
-                    }
-
-                    // TODO Display skill efficient - damages, durations, etc.
-                }
-
-                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
-                {
-                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
-                    sb.Add($"Is in party. Slot {index + 1}.");
-                }
-
-                for (var statIndex = 0; statIndex < sb.Count; statIndex++)
-                {
-                    var line = sb[statIndex];
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                        new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
-                }
-            }
-
-            spriteBatch.End();
         }
     }
 }
