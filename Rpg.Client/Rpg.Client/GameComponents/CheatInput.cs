@@ -155,23 +155,6 @@ namespace Rpg.Client.GameComponents
             }
         }
 
-        private void HandleGainXp(string[] args)
-        {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
-            var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
-
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
-            var xpAmount = int.Parse(args[1]);
-
-            targetUnit.GainXp(xpAmount);
-        }
-
         private void HandleChangeHp(string[] args)
         {
             var globeProvider = Game.Services.GetService<GlobeProvider>();
@@ -187,6 +170,23 @@ namespace Rpg.Client.GameComponents
             var hpAmount = int.Parse(args[1]);
 
             targetUnit.Hp = hpAmount > 0 ? hpAmount : 0;
+        }
+
+        private void HandleGainXp(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
+            playerUnitList.AddRange(globe.Player.Group.Units);
+
+            var unitSchemeSid = args[0];
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+
+            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var xpAmount = int.Parse(args[1]);
+
+            targetUnit.GainXp(xpAmount);
         }
 
         private void HandleUpdateGlobe(string[] vs)
@@ -333,7 +333,8 @@ namespace Rpg.Client.GameComponents
                         HandleGainXp(cheatParts.Skip(1).ToArray());
                         return true;
                     }
-                    catch (Exception ex) when (ex is InvalidOperationException or FormatException or InvalidOperationException)
+                    catch (Exception ex) when (
+                        ex is InvalidOperationException or FormatException or InvalidOperationException)
                     {
                         return false;
                     }
@@ -344,7 +345,8 @@ namespace Rpg.Client.GameComponents
                         HandleChangeHp(cheatParts.Skip(1).ToArray());
                         return true;
                     }
-                    catch (Exception ex) when (ex is InvalidOperationException or FormatException or InvalidOperationException)
+                    catch (Exception ex) when (
+                        ex is InvalidOperationException or FormatException or InvalidOperationException)
                     {
                         return false;
                     }
