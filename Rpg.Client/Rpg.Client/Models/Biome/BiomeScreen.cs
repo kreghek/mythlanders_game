@@ -272,6 +272,41 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 toolTipPosition + new Vector2(5, 35), Color.Black);
 
+            DisplayCombatRewards(spriteBatch, nodeGameObject, toolTipPosition, node);
+
+            if (node.GlobeNode.CombatSequence is not null)
+            {
+                var monsterIndex = 0;
+                var roundIndex = 1;
+
+                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
+                {
+                    foreach (var monster in node.Combat.EnemyGroup.Units)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
+                            toolTipPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Black);
+
+                        monsterIndex++;
+                    }
+
+                    roundIndex++;
+                }
+            }
+        }
+
+        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject, Vector2 toolTipPosition, GlobeNodeGameObject node)
+        {
+            if (node.GlobeNode.CombatSequence is null)
+            {
+                // No combat - no rewards
+                return;
+            }
+
+            // TODO Display icons
+
+            DrawSummaryXpLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)
             {
@@ -287,25 +322,21 @@ namespace Rpg.Client.Models.Biome
                         toolTipPosition + new Vector2(5, 45), Color.Black);
                 }
             }
+        }
 
-            if (node.GlobeNode.CombatSequence is not null)
-            {
-                var monsterIndex = 0;
-                var roundIndex = 1;
-                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
-                {
-                    foreach (var monster in node.Combat.EnemyGroup.Units)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
-                            toolTipPosition + new Vector2(5, 55 + monsterIndex * 10), Color.Black);
+        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        {
+            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
+            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
+            var summaryXpLabelPosition = toolTipPosition;
 
-                        monsterIndex++;
-                    }
-
-                    roundIndex++;
-                }
-            }
+            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
+            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
+            spriteBatch.DrawString(
+                _uiContentStorage.GetMainFont(),
+                $"Xp Reward: {summaryXp}",
+                summaryXpLabelPosition,
+                Color.Black);
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
@@ -418,6 +449,26 @@ namespace Rpg.Client.Models.Biome
                 default:
                     Debug.Fail("Unknown size");
                     return string.Empty;
+            }
+        }
+        
+        private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
+        {
+            var count = node.GlobeNode.CombatSequence.Combats.Count;
+            switch (count)
+            {
+                case 1:
+                    return 1;
+
+                case 3:
+                    return 1.25f;
+
+                case 5:
+                    return 1.5f;
+
+                default:
+                    Debug.Fail("Unknown size");
+                    return 1;
             }
         }
 
