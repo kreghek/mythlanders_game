@@ -15,21 +15,75 @@ namespace Rpg.Client.Screens
         public GameScreenBase(EwarGame game)
         {
             Game = game;
+
             ScreenManager = game.Services.GetService<IScreenManager>();
+
+            _modals = new List<IModalWindow>();
         }
 
         public IScreenManager ScreenManager { get; }
 
         public IScreen? TargetScreen { get; set; }
 
-        ///// <summary>
-        ///// Allows the game component draw your content in game screen
-        ///// </summary>
-        //public override void DoDraw(SpriteBatch spriteBatch)
-        //{
-        //    spriteBatch.Begin();
-        //    base.Draw(gameTime, spriteBatch);
-        //    spriteBatch.End();
-        //}
+        protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
+        {
+            base.DoDraw(spriteBatch, zindex);
+
+            DrawContent(spriteBatch);
+
+            DrawModals(spriteBatch);
+        }
+
+        private void DrawModals(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+
+            foreach (var modal in _modals)
+            {
+                if (modal.IsVisible)
+                {
+                    modal.Draw(spriteBatch);
+                    break;
+                }
+            }
+
+            spriteBatch.End();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            UpdateContent(gameTime);
+
+            UpdateModals(gameTime);
+        }
+
+        protected abstract void UpdateContent(GameTime gameTime);
+
+        protected void UpdateModals(GameTime gameTime)
+        {
+            foreach (var modal in _modals)
+            {
+                if (modal.IsVisible)
+                {
+                    modal.Update(gameTime);
+                    break;
+                }
+            }
+        }
+
+        protected abstract void DrawContent(SpriteBatch spriteBatch);
+
+        protected void AddModal(IModalWindow modal, bool isLate)
+        {
+            _modals.Add(modal);
+            if (!isLate)
+            {
+                modal.Show();
+            }
+        }
+
+        private readonly IList<IModalWindow> _modals;
     }
 }

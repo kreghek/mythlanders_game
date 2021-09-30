@@ -22,14 +22,12 @@ namespace Rpg.Client.Models.EndGame
             };
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             _backButton.Update();
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Happy end! Or not?", new Vector2(100, 100),

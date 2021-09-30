@@ -34,17 +34,19 @@ namespace Rpg.Client.Models.Combat.Ui
             _closeButton.OnClick += CloseButton_OnClick;
         }
 
+        internal CombatResult CombatResult => _combatResult;
+
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            if (_combatResult == CombatResult.Victory)
+            if (CombatResult == CombatResult.Victory)
             {
                 DrawVictoryBenefits(spriteBatch, ContentRect);
             }
-            else if (_combatResult == CombatResult.NextCombat)
+            else if (CombatResult == CombatResult.NextCombat)
             {
                 DrawNextCombatBenefits(spriteBatch, ContentRect);
             }
-            else if (_combatResult == CombatResult.Defeat)
+            else if (CombatResult == CombatResult.Defeat)
             {
                 DrawDefeatBenefits(spriteBatch, ContentRect);
             }
@@ -95,7 +97,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
                 Color.Wheat);
 
             var biomeChangesPosition = resultPosition + new Vector2(0, 10);
@@ -106,7 +108,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
                 Color.Wheat);
         }
 
@@ -115,7 +117,7 @@ namespace Rpg.Client.Models.Combat.Ui
             var xpItems = _xpItems.ToArray();
 
             var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _combatResult.ToString(), resultPosition,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
                 Color.Wheat);
 
             var benefitsPosition = resultPosition + new Vector2(0, 10);

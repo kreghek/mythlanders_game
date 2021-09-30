@@ -45,7 +45,6 @@ namespace Rpg.Client.Models.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
-        private CombatResultModal? _combatResultModal;
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
@@ -94,7 +93,7 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -113,28 +112,20 @@ namespace Rpg.Client.Models.Combat
 
                 HandleUnits(gameTime);
 
-                if (_combat.Finished)
-                {
-                    HandleFinishedCombatHud(gameTime);
-                }
-                else
+                if (!_combat.Finished)
                 {
                     HandleCombatHud(gameTime);
                 }
             }
 
             HandleBackgrounds();
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch);
-
-            DrawModals(spriteBatch);
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
@@ -210,6 +201,8 @@ namespace Rpg.Client.Models.Combat
             _hudButtons.Clear();
             _combatSkillsPanel = null;
 
+            CombatResultModal _combatResultModal;
+
             if (e.Victory)
             {
                 var completedCombats = _globeNodeGameObject.GlobeNode.CombatSequence.CompletedCombats;
@@ -242,7 +235,7 @@ namespace Rpg.Client.Models.Combat
                     Array.Empty<XpAward>());
             }
 
-            _combatResultModal.Show();
+            AddModal(_combatResultModal, isLate: false);
 
             _combatResultModal.Closed += CombatResultModal_Closed;
         }
@@ -282,30 +275,54 @@ namespace Rpg.Client.Models.Combat
         {
             _animationManager.DropBlockers();
 
-            var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
-            currentCombatList.Remove(_combat.Combat);
-            _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;
-
-            if (_combat.Node.GlobeNode.CombatSequence.Combats.Any())
+            if (sender is null)
             {
-                var nextCombat = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First();
-                _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                    _globeNodeGameObject,
-                    nextCombat,
-                    _combat.Biom,
-                    _dice);
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                throw new InvalidOperationException("Handler must be assigned to object instance instead static.");
             }
-            else
-            {
-                RestoreGroupAfterCombat();
 
-                if (_bossWasDefeat)
+            var combatResultModal = (CombatResultModal)sender;
+
+            if (combatResultModal.CombatResult == CombatResult.Victory || combatResultModal.CombatResult == CombatResult.NextCombat)
+            {
+
+                var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
+                currentCombatList.Remove(_combat.Combat);
+                _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;
+
+                if (_combat.Node.GlobeNode.CombatSequence.Combats.Any())
                 {
-                    if (_finalBossWasDefeat)
+                    var nextCombat = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First();
+                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                        _globeNodeGameObject,
+                        nextCombat,
+                        _combat.Biom,
+                        _dice);
+
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                }
+                else
+                {
+                    RestoreGroupAfterCombat();
+
+                    if (_bossWasDefeat)
                     {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                        if (_finalBossWasDefeat)
+                        {
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                        }
+                        else
+                        {
+                            if (_globe.CurrentEventNode is null)
+                            {
+                                _globeProvider.Globe.UpdateNodes(_dice);
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            }
+                            else
+                            {
+                                _globeProvider.Globe.UpdateNodes(_dice);
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                            }
+                        }
                     }
                     else
                     {
@@ -316,23 +333,23 @@ namespace Rpg.Client.Models.Combat
                         }
                         else
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice);
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
                     }
                 }
-                else
-                {
-                    if (_globe.CurrentEventNode is null)
-                    {
-                        _globeProvider.Globe.UpdateNodes(_dice);
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                    }
-                    else
-                    {
-                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                    }
-                }
+            }
+            else if (combatResultModal.CombatResult == CombatResult.Defeat)
+            {
+                _globeProvider.Globe.UpdateNodes(_dice);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            }
+            else
+            {
+                Debug.Fail("Unknown combat result.");
+
+                // Fallback is just show biome.
+                _globeProvider.Globe.UpdateNodes(_dice);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
         }
 
@@ -441,13 +458,6 @@ namespace Rpg.Client.Models.Combat
                 // TODO Fix NRE in the end of the combat with more prefessional way 
             }
 
-            spriteBatch.End();
-        }
-
-        private void DrawModals(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            _combatResultModal?.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -566,16 +576,6 @@ namespace Rpg.Client.Models.Combat
             }
 
             _combatSkillsPanel?.Update();
-
-            _combatResultModal?.Update(gameTime);
-        }
-
-        private void HandleFinishedCombatHud(GameTime gameTime)
-        {
-            if (_combatResultModal?.IsVisible == true)
-            {
-                _combatResultModal?.Update(gameTime);
-            }
         }
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)

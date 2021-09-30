@@ -45,7 +45,7 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             if (_isInitialized)
             {
@@ -94,11 +94,9 @@ namespace Rpg.Client.Models.Event
 
                 _isInitialized = true;
             }
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             if (!_isInitialized)
             {

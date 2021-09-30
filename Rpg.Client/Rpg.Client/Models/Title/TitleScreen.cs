@@ -76,17 +76,15 @@ namespace Rpg.Client.Models.Title
             }
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             foreach (var button in _buttons)
             {
                 button.Update();
             }
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
 
