@@ -39,6 +39,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics = graphics;
         }
 
+        private void HandleStateEnding()
+        {
+            if (_animationBlocker is not null)
+            {
+                _animationBlocker.Release();
+            }
+        }
+
+        private void HandleStateExecution()
+        {
+            _hitSound.Play();
+
+            _interactionExecuted = true;
+
+            _interaction?.Invoke();
+        }
+
         public bool CanBeReplaced { get; }
         public bool IsComplete { get; private set; }
 
@@ -72,23 +89,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     HandleStateExecution();
                 }
             }
-        }
-
-        private void HandleStateEnding()
-        {
-            if (_animationBlocker is not null)
-            {
-                _animationBlocker.Release();
-            }
-        }
-
-        private void HandleStateExecution()
-        {
-            _hitSound.Play();
-
-            _interactionExecuted = true;
-
-            _interaction?.Invoke();
         }
     }
 }
