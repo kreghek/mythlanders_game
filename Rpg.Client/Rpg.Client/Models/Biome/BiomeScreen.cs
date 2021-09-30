@@ -239,7 +239,7 @@ namespace Rpg.Client.Models.Biome
 
             // TODO Display icons
 
-            DrawSummaryXpLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+            DrawSummaryXpAwardLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
 
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)
@@ -352,7 +352,7 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.End();
         }
 
-        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
             var monstersAmount = node.Combat.EnemyGroup.Units.Count();
             var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
