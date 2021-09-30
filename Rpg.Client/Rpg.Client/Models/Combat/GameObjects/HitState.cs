@@ -62,6 +62,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter > DURATION)
             {
                 IsComplete = true;
+
                 HandleStateEnding();
             }
             else if (_counter > DURATION / 2)

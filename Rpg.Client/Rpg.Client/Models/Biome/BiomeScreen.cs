@@ -352,7 +352,7 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.End();
         }
 
-        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        private void DrawSummaryXpLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
             var monstersAmount = node.Combat.EnemyGroup.Units.Count();
             var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
