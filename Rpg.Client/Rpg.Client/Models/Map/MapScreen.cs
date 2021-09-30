@@ -30,7 +30,7 @@ namespace Rpg.Client.Models.Map
             _biomButtons = new List<TextButton>();
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
             {
@@ -64,11 +64,9 @@ namespace Rpg.Client.Models.Map
                     }
                 }
             }
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
 

@@ -27,10 +27,8 @@ namespace Rpg.Client.Models.Party
             _buttonList = new List<ButtonBase>();
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (!_isInitialized)
             {
                 var globe = _globeProvider.Globe;
@@ -93,7 +91,7 @@ namespace Rpg.Client.Models.Party
             }
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
 

@@ -94,7 +94,7 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated += Globe_Updated;
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             if (!_globe.IsNodeInitialied)
             {
@@ -186,11 +186,9 @@ namespace Rpg.Client.Models.Biome
             {
                 button.Update();
             }
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             if (!_isNodeModelsCreated)
             {

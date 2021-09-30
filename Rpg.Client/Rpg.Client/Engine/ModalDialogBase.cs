@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class ModalDialogBase
+    internal abstract class ModalDialogBase : IModalWindow
     {
         private const int CLOSE_BUTTON_SIZE = 16;
         private const int CLOSE_BUTTON_PADDING = 3;

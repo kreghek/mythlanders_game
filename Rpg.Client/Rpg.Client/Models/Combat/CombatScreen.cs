@@ -45,7 +45,6 @@ namespace Rpg.Client.Models.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
-        private CombatResultModal? _combatResultModal;
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
@@ -94,7 +93,7 @@ namespace Rpg.Client.Models.Combat
             _combat.Update();
         }
 
-        public override void Update(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -113,28 +112,20 @@ namespace Rpg.Client.Models.Combat
 
                 HandleUnits(gameTime);
 
-                if (_combat.Finished)
-                {
-                    HandleFinishedCombatHud(gameTime);
-                }
-                else
+                if (!_combat.Finished)
                 {
                     HandleCombatHud(gameTime);
                 }
             }
 
             HandleBackgrounds();
-
-            base.Update(gameTime);
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
+        protected override void DrawContent(SpriteBatch spriteBatch)
         {
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch);
-
-            DrawModals(spriteBatch);
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
@@ -210,6 +201,8 @@ namespace Rpg.Client.Models.Combat
             _hudButtons.Clear();
             _combatSkillsPanel = null;
 
+            CombatResultModal _combatResultModal;
+
             if (e.Victory)
             {
                 var completedCombats = _globeNodeGameObject.GlobeNode.CombatSequence.CompletedCombats;
@@ -242,7 +235,7 @@ namespace Rpg.Client.Models.Combat
                     Array.Empty<XpAward>());
             }
 
-            _combatResultModal.Show();
+            AddModal(_combatResultModal, isLate: false);
 
             _combatResultModal.Closed += CombatResultModal_Closed;
         }
@@ -444,13 +437,6 @@ namespace Rpg.Client.Models.Combat
             spriteBatch.End();
         }
 
-        private void DrawModals(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            _combatResultModal?.Draw(spriteBatch);
-            spriteBatch.End();
-        }
-
         private void DrawUnits(SpriteBatch spriteBatch)
         {
             var list = _gameObjects.OrderBy(x => GetDrawIndex(x.CombatUnit.Index)).ToArray();
@@ -566,16 +552,6 @@ namespace Rpg.Client.Models.Combat
             }
 
             _combatSkillsPanel?.Update();
-
-            _combatResultModal?.Update(gameTime);
-        }
-
-        private void HandleFinishedCombatHud(GameTime gameTime)
-        {
-            if (_combatResultModal?.IsVisible == true)
-            {
-                _combatResultModal?.Update(gameTime);
-            }
         }
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
