@@ -13,14 +13,12 @@ namespace Rpg.Client.Models.Common
 {
     internal abstract class TutorialPageDrawerBase
     {
-        private readonly IUiContentStorage _uiContentStorage;
-
         protected TutorialPageDrawerBase(IUiContentStorage uiContentStorage)
         {
-            _uiContentStorage = uiContentStorage;
+            UiContentStorage = uiContentStorage;
         }
 
-        internal IUiContentStorage UiContentStorage => _uiContentStorage;
+        internal IUiContentStorage UiContentStorage { get; }
 
         public abstract void Draw(SpriteBatch spriteBatch, Rectangle contentRect);
     }

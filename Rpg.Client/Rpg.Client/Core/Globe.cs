@@ -351,7 +351,10 @@ namespace Rpg.Client.Core
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.Egyptian][x])
-                        {Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian), Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)}
+                        {
+                            Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian),
+                            Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)
+                        }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Greek
                 },
@@ -359,16 +362,14 @@ namespace Rpg.Client.Core
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.Greek][x])
-                        {Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek), Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)}
+                        {
+                            Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek),
+                            Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)
+                        }
                     ).ToArray(),
                     IsFinal = true
                 }
             };
-        }
-
-        private static bool GetStartAvailability(int nodeIndex)
-        {
-            return nodeIndex == 0;
         }
 
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
@@ -423,6 +424,11 @@ namespace Rpg.Client.Core
 
                 default: return GlobeNodeSid.Undefined;
             }
+        }
+
+        private static bool GetStartAvailability(int nodeIndex)
+        {
+            return nodeIndex == 0;
         }
 
         private static int GetUnitLevel(int combatLevel)

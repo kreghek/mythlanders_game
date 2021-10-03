@@ -19,11 +19,10 @@ namespace Rpg.Client.Models.Biome
 {
     internal class BiomeScreen : GameScreenBase
     {
-        private static bool _tutorial;
-
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
+        private static bool _tutorial;
 
         private readonly Core.Biome _biome;
 
@@ -115,7 +114,8 @@ namespace Rpg.Client.Models.Biome
             if (!_tutorial)
             {
                 _tutorial = true;
-                var tutorialModal = new TutorialModal(new BiomeTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                var tutorialModal = new TutorialModal(new BiomeTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                    Game.GraphicsDevice);
                 AddModal(tutorialModal, isLate: false);
             }
 

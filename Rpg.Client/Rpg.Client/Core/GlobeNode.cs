@@ -9,13 +9,13 @@
 
         public Event? AssignedEvent { get; set; }
 
-        public bool IsAvailable { get; set; }
-
         public CombatSequence? CombatSequence { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }
 
         public int Index { get; internal set; }
+
+        public bool IsAvailable { get; set; }
 
         public string Name { get; }
 
