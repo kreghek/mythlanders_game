@@ -133,6 +133,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventTutorualText {
+            get {
+                return ResourceManager.GetString("EventTutorualText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         internal static string StartGameButtonTitle {

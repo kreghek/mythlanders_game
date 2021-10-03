@@ -154,4 +154,7 @@
   <data name="BiomeTutorualText" xml:space="preserve">
     <value></value>
   </data>
+  <data name="EventTutorualText" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
