@@ -131,13 +131,13 @@
     <comment>Осколки меча</comment>
   </data>
   <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value>1 b 1</value>
+    <value></value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value>1 a 1</value>
+    <value></value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>1 a 2</value>
+    <value></value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
     <value></value>
@@ -176,6 +176,36 @@
     <value></value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_2" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_3" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_4" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_2" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_3" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_4" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventOptionCombatText" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventOptionContinueText" xml:space="preserve">
     <value></value>
   </data>
 </root>

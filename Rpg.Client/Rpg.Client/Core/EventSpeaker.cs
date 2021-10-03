@@ -6,6 +6,7 @@
         Hq,
         Environment,
         Berimir,
-        Hawk
+        Hawk,
+        Oldman
     }
 }

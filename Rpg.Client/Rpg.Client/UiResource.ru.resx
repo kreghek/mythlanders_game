@@ -121,7 +121,7 @@
     <value>Гнездо аспидов прямо пред тобой. Надобно уничтожить гадов</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>Лютик! Аспиды отправились в тартарары. Дивну невидаль оставили</value>
+    <value>Лютик! Аспиды отправились в тартарары. Дивну невидаль оставили.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
     <value>На месте убитых гадов появился чёрный ромб, похожий на камень.</value>
@@ -178,15 +178,54 @@
     <value>Сокол</value>
   </data>
   <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
-    <value>Небыль какая. Ещё же дед сказывал, как перевели они аспидов</value>
+    <value>Небыль какая. Ещё же дед сказывал, как перевели они аспидов.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_b_3" xml:space="preserve">
-    <value>Темны времена, земли полнятся порождениями, о которых мы и слыхом не слыхивали. Пусть будет верно оружие в бою</value>
+    <value>Темны времена, земли полнятся порождениями, о которых мы и слыхом не слыхивали.
+Пусть будет верно оружие в бою.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_b_4" xml:space="preserve">
-    <value>Беримир отыскал гнездо поганых змеев. Стоило убить одного - приползали десятки. Блестящие шкуры виднелись на сажени вперёд. Он крепче перехватил меч</value>
+    <value>Беримир отыскал гнездо поганых змеев. Стоило убить одного - приползали десятки.
+Блестящие шкуры виднелись на сажени вперёд. Он крепче перехватил меч.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
-    <value>Славна битва твоя. Недалече мужи учёные, растолкуют. Да перестали слово молвить. Поищи, аль не случилось ли чего</value>
+    <value>Славна битва твоя. Недалече мужи учёные, растолкуют. Да перестали слово
+молвить. Поищи, аль не случилось ли чего.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_1" xml:space="preserve">
+    <value>Куда путь держать-то...</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_2" xml:space="preserve">
+    <value>Беримир бережно вынимает из котомки потрёпанный шерстяной клубок.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_3" xml:space="preserve">
+    <value>Ты катись-катись клубок, через Запад на Восток, покажи мне все пути...
+Ах, чёрт. Ненавижу болота.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_4" xml:space="preserve">
+    <value>Ноги всё глубже вязнут в трясине. Наконец показывается научная станция.
+Комплекс выглядит заброшенным, но ближе не рассмотреть: топь приходит
+в движение.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_1" xml:space="preserve">
+    <value>В дверях показывается древний старец. Он едва стоит на ногах и с трудом
+удерживает переданный Беримиром предмет.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_2" xml:space="preserve">
+    <value>Добрался, добрый молодец. Да время вышло, всех нас извели. Сие есть семена зла!
+Они призывают порождения тьмы. Где упали - нечисть гнездится.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_3" xml:space="preserve">
+    <value>Выжги калёным железом порождения поганые. Где их искать блюдечко с голубой
+каёмочкой кажет. Поспеши, да возьми флеш-летопись в помощь.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_4" xml:space="preserve">
+    <value>Старик падает без сил. Из его руки выпадает карточка флеш-летописи.</value>
+  </data>
+  <data name="EventOptionCombatText" xml:space="preserve">
+    <value>В бой!</value>
+  </data>
+  <data name="EventOptionContinueText" xml:space="preserve">
+    <value>Продолжить</value>
   </data>
 </root>

@@ -141,7 +141,7 @@ namespace Rpg.Client.Models.Event
                 _buttons.Clear();
                 foreach (var option in _currentDialogNode.Options)
                 {
-                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                    var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {
@@ -227,6 +227,9 @@ namespace Rpg.Client.Models.Event
 
                 case EventSpeaker.Hawk:
                     return new Rectangle(0, 32, 32, 32);
+
+                case EventSpeaker.Oldman:
+                    return new Rectangle(32, 32, 32, 32);
 
                 default:
                     return Rectangle.Empty;
