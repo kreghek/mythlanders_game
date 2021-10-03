@@ -11,12 +11,16 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
+using Rpg.Client.Models.Biome.Tutorial;
+using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biome
 {
     internal class BiomeScreen : GameScreenBase
     {
+        private static bool _tutorial;
+
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
@@ -108,6 +112,13 @@ namespace Rpg.Client.Models.Biome
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            if (!_tutorial)
+            {
+                _tutorial = true;
+                var tutorialModal = new TutorialModal(new BiomeTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                AddModal(tutorialModal, isLate: false);
+            }
+
             if (!_globe.IsNodeInitialied)
             {
                 _globe.UpdateNodes(Game.Services.GetService<IDice>());
