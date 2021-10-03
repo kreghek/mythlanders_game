@@ -201,15 +201,29 @@ namespace Rpg.Client.Models.Event
                 return null;
             }
 
-            return speaker.ToString();
+            var rm = new ResourceManager(typeof(UiResource));
+            var text = rm.GetString($"EventSpeaker{speaker}");
+
+            Debug.Assert(text is not null, "Speaker localiztion must be defined.");
+            if (text is not null)
+            {
+                return text;
+            }
+            else
+            {
+                return speaker.ToString();
+            }
         }
 
         private static Rectangle GetUnitPortrainRect(EventSpeaker speaker)
         {
             switch (speaker)
             {
-                case EventSpeaker.Berimir:
+                case EventSpeaker.Hq:
                     return new Rectangle(0, 0, 32, 32);
+
+                case EventSpeaker.Berimir:
+                    return new Rectangle(0, 32, 32, 32);
 
                 case EventSpeaker.Hawk:
                     return new Rectangle(0, 32, 32, 32);

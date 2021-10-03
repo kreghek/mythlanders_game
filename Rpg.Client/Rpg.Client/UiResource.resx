@@ -157,4 +157,25 @@
   <data name="EventTutorualText" xml:space="preserve">
     <value></value>
   </data>
+  <data name="EventSpeakerHq" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventSpeakerBerimir" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventSpeakerHawk" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_3" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_4" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

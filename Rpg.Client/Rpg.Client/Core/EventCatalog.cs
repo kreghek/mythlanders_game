@@ -37,8 +37,23 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = EventSpeaker.Hq,
                                 TextSid = "SlavicPlot_1_b_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_1_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_1_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_1_b_4"
                             }
                         }
                     },
@@ -60,13 +75,18 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = EventSpeaker.Environment,
                                 TextSid = "SlavicPlot_1_a_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = EventSpeaker.Hq,
                                 TextSid = "SlavicPlot_1_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_1_a_3"
                             }
                         }
                     },

@@ -118,15 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value>Беримир несколько раз моргнул. Глаза болели от яркого света.
-Очертания местности были нечёткими, но не заметить бегущего
-на него аспида, он не мог</value>
+    <value>Гнездо аспидов прямо пред тобой. Надобно уничтожить гадов</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>Какое-то описание ситуации после боя.</value>
+    <value>Лютик! Аспиды отправились в тартарары. Дивну невидаль оставили</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value>Какие-то слова говорит воин</value>
+    <value>На месте убитых гадов появился чёрный ромб, похожий на камень.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
     <value>Описание встречи с лучником.</value>
@@ -169,5 +167,26 @@
 
 1. Некоторые события продвигают партию по сюжету.
 2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+  </data>
+  <data name="EventSpeakerHq" xml:space="preserve">
+    <value>Штаб</value>
+  </data>
+  <data name="EventSpeakerBerimir" xml:space="preserve">
+    <value>Беримир</value>
+  </data>
+  <data name="EventSpeakerHawk" xml:space="preserve">
+    <value>Сокол</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
+    <value>Небыль какая. Ещё же дед сказывал, как перевели они аспидов</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_3" xml:space="preserve">
+    <value>Темны времена, земли полнятся порождениями, о которых мы и слыхом не слыхивали. Пусть будет верно оружие в бою</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_4" xml:space="preserve">
+    <value>Беримир отыскал гнездо поганых змеев. Стоило убить одного - приползали десятки. Блестящие шкуры виднелись на сажени вперёд. Он крепче перехватил меч</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
+    <value>Славна битва твоя. Недалече мужи учёные, растолкуют. Да перестали слово молвить. Поищи, аль не случилось ли чего</value>
   </data>
 </root>

@@ -97,11 +97,47 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_a_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_a_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1 b 1.
         /// </summary>
         internal static string EventPlotSlavicPlot_1_b_1 {
             get {
                 return ResourceManager.GetString("EventPlotSlavicPlot_1_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_4", resourceCulture);
             }
         }
         
@@ -129,6 +165,33 @@ namespace Rpg.Client {
         internal static string EventPlotSlavicPlot_3_b_1 {
             get {
                 return ResourceManager.GetString("EventPlotSlavicPlot_3_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerBerimir {
+            get {
+                return ResourceManager.GetString("EventSpeakerBerimir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerHawk {
+            get {
+                return ResourceManager.GetString("EventSpeakerHawk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerHq {
+            get {
+                return ResourceManager.GetString("EventSpeakerHq", resourceCulture);
             }
         }
         
