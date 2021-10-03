@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
@@ -20,7 +14,7 @@ namespace Rpg.Client.Models.Biome.Tutorial
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            
+            spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.BiomeTutorualText, contentRect.Location.ToVector2() + new Vector2(0, 5), Color.White);
         }
     }
 }

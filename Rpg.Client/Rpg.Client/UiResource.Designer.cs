@@ -63,6 +63,15 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string BiomeTutorualText {
+            get {
+                return ResourceManager.GetString("BiomeTutorualText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string CombatTutorualText {
             get {
                 return ResourceManager.GetString("CombatTutorualText", resourceCulture);
