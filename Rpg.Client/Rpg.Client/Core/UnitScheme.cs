@@ -23,10 +23,4 @@ namespace Rpg.Client.Core
 
         public IReadOnlyList<SkillSet> SkillSets { get; init; }
     }
-
-    internal sealed class UnitSchemeAutoTransition
-    {
-        public float HpShare { get; set; }
-        public UnitScheme NextScheme { get; set; }
-    }
 }

@@ -90,7 +90,7 @@ namespace Rpg.Client.Models.Biome
             _clouds = new Cloud[CLOUD_COUNT];
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
-                var cloud = CreateCloud(cloudIndex);
+                var cloud = CreateCloud(cloudIndex, screenInitStage: true);
                 _clouds[cloudIndex] = cloud;
             }
 
@@ -198,7 +198,7 @@ namespace Rpg.Client.Models.Biome
 
                             if (_clouds[cloudIndex].IsDestroyed)
                             {
-                                _clouds[cloudIndex] = CreateCloud(cloudIndex);
+                                _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
                             }
                         }
                     }
@@ -216,16 +216,14 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated -= Globe_Updated;
         }
 
-        private Cloud CreateCloud(int index)
+        private Cloud CreateCloud(int index, bool screenInitStage)
         {
-            var startPosition1 = new Vector2(
+            var endPosition = new Vector2(
                 Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index -
                 Game.GraphicsDevice.Viewport.Width / 2,
                 Game.GraphicsDevice.Viewport.Height);
-            var endPosition1 = new Vector2(startPosition1.X + Game.GraphicsDevice.Viewport.Width / 2, 0);
-
-            var startPosition = endPosition1;
-            var endPosition = startPosition1;
+            const float START_VIEWPORT_Y_POSITION = -100;
+            var startPosition = new Vector2(endPosition.X + Game.GraphicsDevice.Viewport.Width / 2, START_VIEWPORT_Y_POSITION);
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
             var speed = _random.NextDouble() + MAX_CLOUD_SPEED;
@@ -233,7 +231,9 @@ namespace Rpg.Client.Models.Biome
                 textureIndex,
                 startPosition,
                 endPosition,
-                speed);
+                speed,
+                screenInitStage);
+            
             return cloud;
         }
 

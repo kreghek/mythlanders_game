@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models.Biome
@@ -15,14 +17,23 @@ namespace Rpg.Client.Models.Biome
         private Vector2 _currentPosition;
         private double _lifetimeCounter;
 
-        public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed)
+        private static Random _random = new Random();
+
+        public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed, bool screenInitStage)
         {
             _texture = texture;
             _textureIndex = textureIndex;
             _startPosition = startPosition;
             _endPosition = endPosition;
             _speed = speed;
-            _lifetimeCounter = DURATION_SECONDS;
+            if (screenInitStage)
+            {
+                _lifetimeCounter = DURATION_SECONDS * _random.NextDouble();
+            }
+            else
+            {
+                _lifetimeCounter = DURATION_SECONDS;
+            }
         }
 
         public bool IsDestroyed { get; private set; }
