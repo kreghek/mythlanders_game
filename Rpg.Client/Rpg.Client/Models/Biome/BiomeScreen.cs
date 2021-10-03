@@ -91,7 +91,7 @@ namespace Rpg.Client.Models.Biome
             _clouds = new Cloud[CLOUD_COUNT];
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
-                var cloud = CreateCloud(cloudIndex);
+                var cloud = CreateCloud(cloudIndex, screenInitStage: true);
                 _clouds[cloudIndex] = cloud;
             }
 
@@ -198,7 +198,7 @@ namespace Rpg.Client.Models.Biome
 
                             if (_clouds[cloudIndex].IsDestroyed)
                             {
-                                _clouds[cloudIndex] = CreateCloud(cloudIndex);
+                                _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
                             }
                         }
                     }
@@ -216,7 +216,7 @@ namespace Rpg.Client.Models.Biome
             _globe.Updated -= Globe_Updated;
         }
 
-        private Cloud CreateCloud(int index)
+        private Cloud CreateCloud(int index, bool screenInitStage)
         {
             var endPosition = new Vector2(
                 Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index -
@@ -231,7 +231,8 @@ namespace Rpg.Client.Models.Biome
                 textureIndex,
                 startPosition,
                 endPosition,
-                speed);
+                speed,
+                screenInitStage);
             
             return cloud;
         }
