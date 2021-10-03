@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Engine;
+
 namespace Rpg.Client.Models.Common
 {
     internal abstract class TutorialPageDrawerBase
     {
-        public abstract void Draw(SpriteBatch spriteBatch, Rectangle contentRect);
-    }
+        private readonly IUiContentStorage _uiContentStorage;
 
-    internal class CombatTutorialPageDrawer : TutorialPageDrawerBase
-    {
-        public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
+        protected TutorialPageDrawerBase(IUiContentStorage uiContentStorage)
         {
-            
+            _uiContentStorage = uiContentStorage;
         }
+
+        internal IUiContentStorage UiContentStorage => _uiContentStorage;
+
+        public abstract void Draw(SpriteBatch spriteBatch, Rectangle contentRect);
     }
 }

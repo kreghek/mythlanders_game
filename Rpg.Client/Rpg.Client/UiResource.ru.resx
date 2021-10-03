@@ -137,4 +137,7 @@
   <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
     <value>Какое-то описание после боя с участием лучника</value>
   </data>
+  <data name="CombatTutorualText" xml:space="preserve">
+    <value>Все персонажи ходят по очереди. Первым</value>
+  </data>
 </root>

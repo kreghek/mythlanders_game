@@ -12,6 +12,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects;
+using Rpg.Client.Models.Combat.Tutorial;
 using Rpg.Client.Models.Combat.Ui;
 using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
@@ -108,7 +109,7 @@ namespace Rpg.Client.Models.Combat
             if (!_tutorial)
             {
                 _tutorial = true;
-                var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(), _uiContentStorage, Game.GraphicsDevice);
+                var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
                 AddModal(tutorialModal, isLate: false);
             }
 
