@@ -191,6 +191,100 @@ namespace Rpg.Client.Core
             };
 
             yield return slavicPlotEvent2;
+
+            var slavicPlotEvent3 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
+                IsUnique = true,
+                IsHighPriority = true,
+                Sid = "SlavicPlot_3",
+                RequiredBiomeLevel = 1,
+                RequiredEventsCompleted = new[] { "SlavicPlot_2" },
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_3_b_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hawk,
+                                TextSid = "SlavicPlot_3_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_3_b_4"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hawk,
+                                TextSid = "SlavicPlot_3_b_5"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Combat",
+                            IsEnd = true
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.GuardianWoman,
+                                TextSid = "SlavicPlot_3_a_4"
+                            },
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Continue",
+                            IsEnd = true
+                        }
+                    }
+                }
+            };
+
+            yield return slavicPlotEvent3;
         }
 
         private static Event[] CreateTestEvents()

@@ -231,6 +231,9 @@ namespace Rpg.Client.Models.Event
                 case EventSpeaker.Oldman:
                     return new Rectangle(32, 32, 32, 32);
 
+                case EventSpeaker.GuardianWoman:
+                    return new Rectangle(32, 64, 32, 32);
+
                 default:
                     return Rectangle.Empty;
             }

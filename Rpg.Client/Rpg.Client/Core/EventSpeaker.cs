@@ -7,6 +7,7 @@
         Environment,
         Berimir,
         Hawk,
-        Oldman
+        Oldman,
+        GuardianWoman
     }
 }
