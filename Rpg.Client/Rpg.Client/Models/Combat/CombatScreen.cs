@@ -627,6 +627,16 @@ namespace Rpg.Client.Models.Combat
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
 
+                    var node = _globeNodeGameObject.GlobeNode;
+                    var nodeIndex = node.Index;
+                    var unlockedBiomeIndex = nodeIndex + 1;
+
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
+                    if (unlockedNode is not null)
+                    {
+                        unlockedNode.IsAvailable = true;
+                    }
+
                     if (_globe.CurrentEvent is not null)
                     {
                         _globe.CurrentEvent.Completed = true;

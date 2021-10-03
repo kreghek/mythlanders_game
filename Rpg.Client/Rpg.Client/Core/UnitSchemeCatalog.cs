@@ -215,7 +215,7 @@ namespace Rpg.Client.Core
 
         private static IEnumerable<UnitScheme> CreateChineseMonsters()
         {
-            var biomeType = BiomeType.China;
+            var biomeType = BiomeType.Chinese;
             return new[]
             {
                 new UnitScheme
@@ -485,7 +485,7 @@ namespace Rpg.Client.Core
 
         private static IEnumerable<UnitScheme> CreateEgyptianMonsters()
         {
-            var biomeType = BiomeType.Egypt;
+            var biomeType = BiomeType.Egyptian;
             return new[]
             {
                 new UnitScheme

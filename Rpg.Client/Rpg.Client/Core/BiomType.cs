@@ -4,8 +4,8 @@
     {
         Undefined,
         Slavic,
-        China,
-        Egypt,
+        Chinese,
+        Egyptian,
         Greek,
         Cosmos
     }

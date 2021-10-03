@@ -223,7 +223,7 @@ namespace Rpg.Client.Models.Event
                     return new Rectangle(0, 0, 32, 32);
 
                 case EventSpeaker.Berimir:
-                    return new Rectangle(0, 32, 32, 32);
+                    return new Rectangle(32, 0, 32, 32);
 
                 case EventSpeaker.Hawk:
                     return new Rectangle(0, 32, 32, 32);

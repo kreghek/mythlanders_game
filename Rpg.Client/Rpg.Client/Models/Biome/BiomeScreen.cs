@@ -383,8 +383,8 @@ namespace Rpg.Client.Models.Biome
             return type switch
             {
                 BiomeType.Slavic => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
-                BiomeType.China => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
-                BiomeType.Egypt => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
+                BiomeType.Chinese => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
+                BiomeType.Egyptian => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
                 BiomeType.Greek => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
                 _ => throw new InvalidOperationException("Unknown biome type")
             };
@@ -405,7 +405,7 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240) // 8
                 },
-                BiomeType.China => new[]
+                BiomeType.Chinese => new[]
                 {
                     new Vector2(92, 82), // 1
                     new Vector2(320, 115), // 2
@@ -416,7 +416,7 @@ namespace Rpg.Client.Models.Biome
                     new Vector2(740, 200), // 7
                     new Vector2(545, 240) // 8
                 },
-                BiomeType.Egypt => new[]
+                BiomeType.Egyptian => new[]
                 {
                     new Vector2(92, 82), // 1
                     new Vector2(320, 115), // 2

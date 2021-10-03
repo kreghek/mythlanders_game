@@ -80,7 +80,7 @@ namespace Rpg.Client.Core
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = EventSpeaker.Berimir,
                                 TextSid = "SlavicPlot_1_a_2"
                             },
                             new EventTextFragment
