@@ -20,7 +20,7 @@ namespace Rpg.Client.Models.Common
             _pageDrawer = pageDrawer;
         }
 
-        
+
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
