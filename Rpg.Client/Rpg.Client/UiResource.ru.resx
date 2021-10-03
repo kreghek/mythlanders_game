@@ -118,23 +118,148 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value>Беримир несколько раз моргнул. Глаза болели от яркого света.
-Очертания местности были нечёткими, но не заметить бегущего
-на него аспида, он не мог</value>
+    <value>Гнездо аспидов прямо пред тобой. Надобно уничтожить гадов</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value>Какое-то описание ситуации после боя.</value>
+    <value>Лютик! Аспиды отправились в тартарары. Дивну невидаль оставили.</value>
   </data>
   <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value>Какие-то слова говорит воин</value>
+    <value>На месте убитых гадов появился чёрный ромб, похожий на камень.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
-    <value>Описание встречи с лучником.</value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
-    <value>Какой-то текст после боя говорит лучник</value>
+    <value>Вести учёных мужей получены. Отослали наногонца в палаты штабные. В версте
+экипаж "Полынь", довезёт до схрона, где ларец с блюдечком запрятан.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
-    <value>Какое-то описание после боя с участием лучника</value>
+    <value>Село лучника сгинуло под водой. А сам он невесть как очутился за тысячи лет
+вперёд. Беримир было воспрял: жива надежда друзей сыскать.</value>
+  </data>
+  <data name="CombatTutorualText" xml:space="preserve">
+    <value>Вы попали в бой с монстрами!
+1. Все персонажи ходят по очереди. Сначала ходят все персонажи игрока.
+Затем - все монстры.
+2. Каждый персонаж может использовать один из доступных боевых навыков.
+Набор навыков персонажей игрока может быть расширен до 3-х.
+У обычных монстров всегда только одна атака. У боссов - до 3-х.
+3. Боевые навыки могут отнимать ХП противников или восстанавливать ХП союзников,
+влиять на разные характеристики персонажей, влиять на порядок ходов.
+Как только персонаж теряет все ХП, он выходит из боя.
+4. Для использования некоторых навыков требуется мана. Мана пополняется
+на 1 ед в конце боя и за каждого побеждённого противника.
+5. В конце боя в случае победы персонажи игроки получат опыт и улучшат
+свою экипировку. Так же победа увеличит уровень биома на 1.
+Всем монстры становятся сильнее. На 10 уровне появится босс.
+6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
+Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
+  </data>
+  <data name="BiomeTutorualText" xml:space="preserve">
+    <value>Это карта локаций.
+1. Каждая последующая локация становится доступной после победы в предыдущей.
+2. В нескольких локациях буйствуют монстры. Эти локации отмечены
+ярким символом мечей.
+3. В некоторых локациях могут происходить различные события, которые
+могут повлиять на
+текущий бой, отдельных персонажей или партию.</value>
+  </data>
+  <data name="EventTutorualText" xml:space="preserve">
+    <value>В игре произошло событие.
+
+1. Некоторые события продвигают партию по сюжету.
+2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+  </data>
+  <data name="EventSpeakerHq" xml:space="preserve">
+    <value>Штаб</value>
+  </data>
+  <data name="EventSpeakerBerimir" xml:space="preserve">
+    <value>Беримир</value>
+  </data>
+  <data name="EventSpeakerHawk" xml:space="preserve">
+    <value>Сокол</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
+    <value>Небыль какая. Ещё же дед сказывал, как перевели они аспидов.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_3" xml:space="preserve">
+    <value>Темны времена, земли полнятся порождениями, о которых мы и слыхом не слыхивали.
+Пусть будет верно оружие в бою.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_b_4" xml:space="preserve">
+    <value>Беримир отыскал гнездо поганых змеев. Стоило убить одного - приползали десятки.
+Блестящие шкуры виднелись на сажени вперёд. Он крепче перехватил меч.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
+    <value>Славна битва твоя. Недалече мужи учёные, растолкуют. Да перестали слово
+молвить. Поищи, аль не случилось ли чего.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_1" xml:space="preserve">
+    <value>Куда путь держать-то...</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_2" xml:space="preserve">
+    <value>Беримир бережно вынимает из котомки потрёпанный шерстяной клубок.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_3" xml:space="preserve">
+    <value>Ты катись-катись клубок, через Запад на Восток, покажи мне все пути...
+Ах, чёрт. Ненавижу болота.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_b_4" xml:space="preserve">
+    <value>Ноги всё глубже вязнут в трясине. Наконец показывается научная станция.
+Комплекс выглядит заброшенным, но ближе не рассмотреть: топь приходит
+в движение.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_1" xml:space="preserve">
+    <value>В дверях показывается древний старец. Он едва стоит на ногах и с трудом
+удерживает переданный Беримиром предмет.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_2" xml:space="preserve">
+    <value>Добрался, добрый молодец. Да время вышло, всех нас извели. Сие есть семена зла!
+Они призывают порождения тьмы. Где упали - нечисть гнездится.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_3" xml:space="preserve">
+    <value>Выжги калёным железом порождения поганые. Где их искать блюдечко с голубой
+каёмочкой кажет. Поспеши, да возьми флеш-летопись в помощь.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_2_a_4" xml:space="preserve">
+    <value>Старик падает без сил. Из его руки выпадает карточка флеш-летописи.</value>
+  </data>
+  <data name="EventOptionCombatText" xml:space="preserve">
+    <value>В бой!</value>
+  </data>
+  <data name="EventOptionContinueText" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_b_2" xml:space="preserve">
+    <value>Беримир отправляется к полученному сигналу. Постепенно вокруг наступает тишина.
+Подозрительная тишина. Рука тянется к эфесу. Внезапно рядом вонзается стрела.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_b_3" xml:space="preserve">
+    <value>Стой! Ты чьих будешь?</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_b_4" xml:space="preserve">
+    <value>Нет во мне злого умысла. Товарищей из космодружины “Полынь” разыскиваю.
+Ты мне друг, али нет?</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_b_5" xml:space="preserve">
+    <value>Полегли все в сыру землю-матушку. Да и мы не ровен час костьми
+ляжем: разбудили лихо.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
+    <value>Схватка была тяжкой. Последнее лихо, испустив дикий вопль, сгинуло. После
+краткого привала воины следуют к тайнику. Сокол немногословен.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_a_3" xml:space="preserve">
+    <value>Губы Сокола сжимаются в узкую полоску: пустое это. Здесь только нежить.
+В молчании ратники встретили стражницу схрона. С виду юна, да глаза
+больно старые.</value>
+  </data>
+  <data name="EventPlotSlavicPlot_3_a_4" xml:space="preserve">
+    <value>Знаю, знаю, зачем добры молодцы пожаловали. Забирайте блюдечко, да убирайтесь
+подобру-поздорову. В нём куда ни глянь - тьма и мрак, а без яблочка больше
+не разглядеть.</value>
+  </data>
+  <data name="EventSpeakerOldman" xml:space="preserve">
+    <value>Старик</value>
+  </data>
+  <data name="EventSpeakerGuardianWoman" xml:space="preserve">
+    <value>Стражница</value>
   </data>
 </root>

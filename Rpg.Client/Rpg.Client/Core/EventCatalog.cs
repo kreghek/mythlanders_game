@@ -37,8 +37,23 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = EventSpeaker.Hq,
                                 TextSid = "SlavicPlot_1_b_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_1_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_1_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_1_b_4"
                             }
                         }
                     },
@@ -46,7 +61,7 @@ namespace Rpg.Client.Core
                     {
                         new EventOption
                         {
-                            Text = "В бой!",
+                            TextSid = "Combat",
                             IsEnd = true
                         }
                     }
@@ -60,13 +75,18 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = EventSpeaker.Environment,
                                 TextSid = "SlavicPlot_1_a_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = EventSpeaker.Berimir,
                                 TextSid = "SlavicPlot_1_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_1_a_3"
                             }
                         }
                     },
@@ -74,7 +94,7 @@ namespace Rpg.Client.Core
                     {
                         new EventOption
                         {
-                            Text = "Продолжить",
+                            TextSid = "Continue",
                             IsEnd = true
                         }
                     }
@@ -83,14 +103,14 @@ namespace Rpg.Client.Core
 
             yield return slavicPlotEvent1;
 
-            var slavicPlotEvent3 = new Event
+            var slavicPlotEvent2 = new Event
             {
                 Biome = BiomeType.Slavic,
                 ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
                 IsUnique = true,
                 IsHighPriority = true,
-                Sid = "SlavicPlot_3",
-                RequiredBiomeLevel = 3,
+                Sid = "SlavicPlot_2",
+                RequiredBiomeLevel = 1,
                 RequiredEventsCompleted = new[] { "SlavicPlot_1" },
                 BeforeCombatStartNode = new EventNode
                 {
@@ -101,8 +121,23 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_2_b_1"
+                            },
+                            new EventTextFragment
+                            {
                                 Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_3_b_1"
+                                TextSid = "SlavicPlot_2_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_2_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_2_b_4"
                             }
                         }
                     },
@@ -110,9 +145,8 @@ namespace Rpg.Client.Core
                     {
                         new EventOption
                         {
-                            Text = "В бой!",
-                            IsEnd = true,
-                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
+                            TextSid = "Combat",
+                            IsEnd = true
                         }
                     }
                 },
@@ -125,13 +159,79 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hawk,
-                                TextSid = "SlavicPlot_3_a_1"
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_2_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Oldman,
+                                TextSid = "SlavicPlot_2_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Oldman,
+                                TextSid = "SlavicPlot_2_a_3"
                             },
                             new EventTextFragment
                             {
                                 Speaker = EventSpeaker.Environment,
-                                TextSid = "SlavicPlot_3_a_2"
+                                TextSid = "SlavicPlot_2_a_4"
+                            },
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Continue",
+                            IsEnd = true
+                        }
+                    }
+                }
+            };
+
+            yield return slavicPlotEvent2;
+
+            var slavicPlotEvent3 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
+                IsUnique = true,
+                IsHighPriority = true,
+                Sid = "SlavicPlot_3",
+                RequiredBiomeLevel = 1,
+                RequiredEventsCompleted = new[] { "SlavicPlot_2" },
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_3_b_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hawk,
+                                TextSid = "SlavicPlot_3_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Berimir,
+                                TextSid = "SlavicPlot_3_b_4"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hawk,
+                                TextSid = "SlavicPlot_3_b_5"
                             }
                         }
                     },
@@ -139,7 +239,45 @@ namespace Rpg.Client.Core
                     {
                         new EventOption
                         {
-                            Text = "Продолжить",
+                            TextSid = "Combat",
+                            IsEnd = true
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_3_a_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.GuardianWoman,
+                                TextSid = "SlavicPlot_3_a_4"
+                            },
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Continue",
                             IsEnd = true
                         }
                     }

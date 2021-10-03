@@ -7,7 +7,9 @@
             Name = name;
         }
 
-        public Event? AvailableDialog { get; set; }
+        public Event? AssignedEvent { get; set; }
+
+        public bool IsAvailable { get; set; }
 
         public CombatSequence? CombatSequence { get; set; }
 

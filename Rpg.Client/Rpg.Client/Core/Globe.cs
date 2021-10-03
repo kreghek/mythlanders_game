@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Rpg.Client.Core
@@ -18,14 +19,14 @@ namespace Rpg.Client.Core
                     }
                 },
                 {
-                    BiomeType.China, new[]
+                    BiomeType.Chinese, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
                     }
                 },
                 {
-                    BiomeType.Egypt, new[]
+                    BiomeType.Egyptian, new[]
                     {
                         "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
                         "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
@@ -68,7 +69,7 @@ namespace Rpg.Client.Core
                 foreach (var node in biom.Nodes)
                 {
                     node.CombatSequence = null;
-                    node.AvailableDialog = null;
+                    node.AssignedEvent = null;
                 }
 
                 if (biom.IsComplete && biom.UnlockBiome is not null)
@@ -84,7 +85,12 @@ namespace Rpg.Client.Core
             {
                 if (biome.Level < 10)
                 {
-                    var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
+                    var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
+                    Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
+                    var rollCount = Math.Min(availableNodes.Length, 3);
+                    var nodesWithCombats = dice.RollFromList(availableNodes, rollCount).ToArray();
+
+                    //TODO Make sequence length edpending on biome level
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
@@ -126,7 +132,12 @@ namespace Rpg.Client.Core
                 {
                     var combatLevelAdditional = 0;
 
-                    var nodesWithCombats = dice.RollFromList(biome.Nodes.ToList(), 3).ToArray();
+                    var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
+                    Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
+
+                    var rollCount = Math.Min(availableNodes.Length, 3);
+                    var nodesWithCombats = dice.RollFromList(availableNodes, 3).ToArray();
+                    //TODO Make sequence length edpending on biome level
                     var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
@@ -251,7 +262,7 @@ namespace Rpg.Client.Core
                     var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
                     if (highPriorityEvent is not null)
                     {
-                        node.AvailableDialog = highPriorityEvent;
+                        node.AssignedEvent = highPriorityEvent;
                     }
                     else
                     {
@@ -262,11 +273,11 @@ namespace Rpg.Client.Core
                             var currentRankEventList = nodeEvents.Where(x => x.Counter == minCounter).ToArray();
                             var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
 
-                            node.AvailableDialog = rolledEvent;
+                            node.AssignedEvent = rolledEvent;
                         }
                     }
 
-                    availableEventList.Remove(node.AvailableDialog);
+                    availableEventList.Remove(node.AssignedEvent);
                 }
             }
         }
@@ -303,7 +314,7 @@ namespace Rpg.Client.Core
 
         private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
         {
-            const int BIOME_MIN_LEVEL_STEP = 25;
+            const int BIOME_MIN_LEVEL_STEP = 12;
             const int BIOME_NODE_COUNT = 8;
 
             return new[]
@@ -316,31 +327,31 @@ namespace Rpg.Client.Core
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            Sid = GetNodeSid(x, BiomeType.Slavic)
+                            Sid = GetNodeSid(x, BiomeType.Slavic),
+                            IsAvailable = GetStartAvailability(x)
                         }
                     ).ToArray(),
-                    UnlockBiome = BiomeType.China,
+                    UnlockBiome = BiomeType.Chinese,
                     IsStart = true
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.China)
+                new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.Chinese)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(biomNames[BiomeType.China][x])
+                        new GlobeNode(biomNames[BiomeType.Chinese][x])
                         {
                             Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.China)
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Chinese),
+                            Sid = GetNodeSid(x, BiomeType.Chinese),
+                            IsAvailable = GetStartAvailability(x)
                         }
                     ).ToArray(),
-                    UnlockBiome = BiomeType.Egypt
+                    UnlockBiome = BiomeType.Egyptian
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egypt)
+                new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egyptian)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(biomNames[BiomeType.Egypt][x])
-                        {
-                            Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Egypt)
-                        }
+                        new GlobeNode(biomNames[BiomeType.Egyptian][x])
+                        {Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian), Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)}
                     ).ToArray(),
                     UnlockBiome = BiomeType.Greek
                 },
@@ -348,14 +359,16 @@ namespace Rpg.Client.Core
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode(biomNames[BiomeType.Greek][x])
-                        {
-                            Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Greek)
-                        }
+                        {Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek), Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)}
                     ).ToArray(),
                     IsFinal = true
                 }
             };
+        }
+
+        private static bool GetStartAvailability(int nodeIndex)
+        {
+            return nodeIndex == 0;
         }
 
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
@@ -378,7 +391,7 @@ namespace Rpg.Client.Core
                         };
                     }
 
-                case BiomeType.Egypt:
+                case BiomeType.Egyptian:
                     {
                         return nodeIndex switch
                         {

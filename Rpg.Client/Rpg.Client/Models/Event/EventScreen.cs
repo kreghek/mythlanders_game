@@ -8,12 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Models.Biome.Tutorial;
+using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
+        private static bool _tutorial;
+
         private const int TEXT_MARGIN = 10;
         private const int OPTIONS_BLOCK_MARGIN = 10;
         private readonly IList<ButtonBase> _buttons;
@@ -117,6 +121,14 @@ namespace Rpg.Client.Models.Event
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            if (!_tutorial)
+            {
+                _tutorial = true;
+
+                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                AddModal(tutorialModal, isLate: false);
+            }
+
             if (_isInitialized)
             {
                 foreach (var button in _buttons)
@@ -129,7 +141,7 @@ namespace Rpg.Client.Models.Event
                 _buttons.Clear();
                 foreach (var option in _currentDialogNode.Options)
                 {
-                    var button = new TextButton(option.Text, _uiContentStorage.GetButtonTexture(),
+                    var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     button.OnClick += (s, e) =>
                     {
@@ -189,18 +201,38 @@ namespace Rpg.Client.Models.Event
                 return null;
             }
 
-            return speaker.ToString();
+            var rm = new ResourceManager(typeof(UiResource));
+            var text = rm.GetString($"EventSpeaker{speaker}");
+
+            Debug.Assert(text is not null, "Speaker localiztion must be defined.");
+            if (text is not null)
+            {
+                return text;
+            }
+            else
+            {
+                return speaker.ToString();
+            }
         }
 
         private static Rectangle GetUnitPortrainRect(EventSpeaker speaker)
         {
             switch (speaker)
             {
-                case EventSpeaker.Berimir:
+                case EventSpeaker.Hq:
                     return new Rectangle(0, 0, 32, 32);
+
+                case EventSpeaker.Berimir:
+                    return new Rectangle(32, 0, 32, 32);
 
                 case EventSpeaker.Hawk:
                     return new Rectangle(0, 32, 32, 32);
+
+                case EventSpeaker.Oldman:
+                    return new Rectangle(32, 32, 32, 32);
+
+                case EventSpeaker.GuardianWoman:
+                    return new Rectangle(32, 64, 32, 32);
 
                 default:
                     return Rectangle.Empty;

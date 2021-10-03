@@ -60,8 +60,8 @@ namespace Rpg.Client.Engine
             _biomeBackgroundDict = new Dictionary<BiomeType, Texture2D>
             {
                 { BiomeType.Slavic, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeType.China, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
-                { BiomeType.Egypt, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.Chinese, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
+                { BiomeType.Egyptian, contentManager.Load<Texture2D>("Sprites/Ui/Biome") },
                 { BiomeType.Greek, contentManager.Load<Texture2D>("Sprites/Ui/Biome") }
             };
 

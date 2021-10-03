@@ -61,7 +61,43 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1 a 1.
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string BiomeTutorualText {
+            get {
+                return ResourceManager.GetString("BiomeTutorualText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CombatTutorualText {
+            get {
+                return ResourceManager.GetString("CombatTutorualText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventOptionCombatText {
+            get {
+                return ResourceManager.GetString("EventOptionCombatText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventOptionContinueText {
+            get {
+                return ResourceManager.GetString("EventOptionContinueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventPlotSlavicPlot_1_a_1 {
             get {
@@ -70,7 +106,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1 a 2.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventPlotSlavicPlot_1_a_2 {
             get {
@@ -79,11 +115,119 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1 b 1.
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_a_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_a_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventPlotSlavicPlot_1_b_1 {
             get {
                 return ResourceManager.GetString("EventPlotSlavicPlot_1_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_1_b_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_1_b_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_a_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_a_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_a_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_a_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_a_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_a_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_a_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_a_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_b_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_b_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_b_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_b_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_b_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_2_b_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_2_b_4", resourceCulture);
             }
         }
         
@@ -108,9 +252,117 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string EventPlotSlavicPlot_3_a_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_a_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_3_a_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_a_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string EventPlotSlavicPlot_3_b_1 {
             get {
                 return ResourceManager.GetString("EventPlotSlavicPlot_3_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_3_b_2 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_b_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_3_b_3 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_b_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_3_b_4 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_b_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_3_b_5 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_3_b_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerBerimir {
+            get {
+                return ResourceManager.GetString("EventSpeakerBerimir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerGuardianWoman {
+            get {
+                return ResourceManager.GetString("EventSpeakerGuardianWoman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerHawk {
+            get {
+                return ResourceManager.GetString("EventSpeakerHawk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerHq {
+            get {
+                return ResourceManager.GetString("EventSpeakerHq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventSpeakerOldman {
+            get {
+                return ResourceManager.GetString("EventSpeakerOldman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventTutorualText {
+            get {
+                return ResourceManager.GetString("EventTutorualText", resourceCulture);
             }
         }
         

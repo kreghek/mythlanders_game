@@ -12,7 +12,9 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects;
+using Rpg.Client.Models.Combat.Tutorial;
 using Rpg.Client.Models.Combat.Ui;
+using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
 using static Rpg.Client.Core.ActiveCombat;
@@ -100,12 +102,15 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
         }
 
+        private static bool _tutorial;
+
         protected override void UpdateContent(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (!_tutorial)
             {
-                Game.Exit();
+                _tutorial = true;
+                var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                AddModal(tutorialModal, isLate: false);
             }
 
             if (!_unitsInitialized)
@@ -621,6 +626,16 @@ namespace Rpg.Client.Models.Combat
             {
                 case CombatResult.Victory:
                     _combat.Biom.Level++;
+
+                    var node = _globeNodeGameObject.GlobeNode;
+                    var nodeIndex = node.Index;
+                    var unlockedBiomeIndex = nodeIndex + 1;
+
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
+                    if (unlockedNode is not null)
+                    {
+                        unlockedNode.IsAvailable = true;
+                    }
 
                     if (_globe.CurrentEvent is not null)
                     {
