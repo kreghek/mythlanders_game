@@ -223,7 +223,8 @@ namespace Rpg.Client.Models.Biome
                 Game.GraphicsDevice.Viewport.Width / 2,
                 Game.GraphicsDevice.Viewport.Height);
             const float START_VIEWPORT_Y_POSITION = -100;
-            var startPosition = new Vector2(endPosition.X + Game.GraphicsDevice.Viewport.Width / 2, START_VIEWPORT_Y_POSITION);
+            var startPosition = new Vector2(endPosition.X + Game.GraphicsDevice.Viewport.Width / 2,
+                START_VIEWPORT_Y_POSITION);
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
             var speed = _random.NextDouble() + MAX_CLOUD_SPEED;
