@@ -128,7 +128,7 @@
   </data>
   <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
     <value>Вести учёных мужей получены. Отослали наногонца в палаты штабные. В версте
-экипаж "Полынь", довезёт до схрона, где ларец с блюдечком запрятан.</value>
+экипаж Полынь, довезёт до схрона, где ларец с блюдечком запрятан.</value>
   </data>
   <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
     <value>Село лучника сгинуло под водой. А сам он невесть как очутился за тысячи лет
@@ -235,7 +235,7 @@
     <value>Стой! Ты чьих будешь?</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_4" xml:space="preserve">
-    <value>Нет во мне злого умысла. Товарищей из космодружины “Полынь” разыскиваю.
+    <value>Нет во мне злого умысла. Товарищей из космодружины Полынь разыскиваю.
 Ты мне друг, али нет?</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_5" xml:space="preserve">
@@ -261,5 +261,20 @@
   </data>
   <data name="EventSpeakerGuardianWoman" xml:space="preserve">
     <value>Стражница</value>
+  </data>
+  <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
+    <value>SlavicPlot_5_b_1</value>
+  </data>
+  <data name="EventPlotSlavicPlot_5_a_1" xml:space="preserve">
+    <value>SlavicPlot_5_a_1</value>
+  </data>
+  <data name="SlavicThicketNodeName" xml:space="preserve">
+    <value>Чаща</value>
+  </data>
+  <data name="SlavicMinesNodeName" xml:space="preserve">
+    <value>Рудники</value>
+  </data>
+  <data name="SlavicPitNodeName" xml:space="preserve">
+    <value>Яма</value>
   </data>
 </root>

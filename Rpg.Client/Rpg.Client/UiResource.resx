@@ -232,4 +232,19 @@
   <data name="EventSpeakerGuardianWoman" xml:space="preserve">
     <value></value>
   </data>
+  <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventPlotSlavicPlot_5_a_1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="SlavicThicketNodeName" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="SlavicMinesNodeName" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="SlavicPitNodeName" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

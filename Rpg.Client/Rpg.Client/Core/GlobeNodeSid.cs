@@ -4,7 +4,9 @@
     {
         Undefined,
         SlavicThicket,
+        SlavicPit,
         SlavicBattleground,
-        SlavicSwamp
+        SlavicSwamp,
+        SlavicMines
     }
 }

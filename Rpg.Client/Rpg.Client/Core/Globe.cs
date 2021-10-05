@@ -90,8 +90,7 @@ namespace Rpg.Client.Core
                     var rollCount = Math.Min(availableNodes.Length, 3);
                     var nodesWithCombats = dice.RollFromList(availableNodes, rollCount).ToArray();
 
-                    //TODO Make sequence length edpending on biome level
-                    var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    var combatCounts = GetCombatCounts(biome.Level);
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                     var combatLevelAdditional = 0;
@@ -137,8 +136,8 @@ namespace Rpg.Client.Core
 
                     var rollCount = Math.Min(availableNodes.Length, 3);
                     var nodesWithCombats = dice.RollFromList(availableNodes, 3).ToArray();
-                    //TODO Make sequence length edpending on biome level
-                    var combatCounts = new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 };
+                    
+                    var combatCounts = GetCombatCounts(biome.Level);
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
                     for (var i = 0; i < nodesWithCombats.Length; i++)
@@ -221,6 +220,20 @@ namespace Rpg.Client.Core
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static int[] GetCombatCounts(int level)
+        {
+            return level switch
+            {
+                0 or 1 => new[] { 1, 1, 1 },
+                2 => new[] { 1, 1, 1, 3 },
+                > 3 and <= 4 => new[] { 1, 1, 1, 3, 3 },
+                > 5 and <= 7 => new[] { 1, 3, 3, 3, 5 },
+                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
+                > 10 => new[] { 3, 5, 5 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 },
+            };
         }
 
         /// <summary>
@@ -417,6 +430,8 @@ namespace Rpg.Client.Core
                         {
                             0 => GlobeNodeSid.SlavicThicket,
                             1 => GlobeNodeSid.SlavicSwamp,
+                            2 => GlobeNodeSid.SlavicPit,
+                            3 => GlobeNodeSid.SlavicMines,
                             7 => GlobeNodeSid.SlavicBattleground,
                             _ => GlobeNodeSid.Undefined
                         };
