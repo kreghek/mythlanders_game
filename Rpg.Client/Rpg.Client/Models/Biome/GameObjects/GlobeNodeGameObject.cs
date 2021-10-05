@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +13,10 @@ namespace Rpg.Client.Models.Biome.GameObjects
     {
         private readonly Sprite _graphics;
 
+        private double _counter;
+        private const double ANIMATION_RATE = 1f / 8;
+        private int _currentAnimationIndex;
+
         public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage)
         {
@@ -21,16 +26,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
                 {
                     Position = position,
                     Origin = new Vector2(0.5f, 0.5f),
-                    SourceRectangle = new Rectangle(0, 0, 32, 32)
-                };
-            }
-            else
-            {
-                _graphics = new Sprite(gameObjectContentStorage.GetNodeMarker())
-                {
-                    Position = position,
-                    Origin = new Vector2(0.5f, 0.5f),
-                    SourceRectangle = new Rectangle(0, 32, 32, 32)
+                    SourceRectangle = new Rectangle(0, 0, 64, 64)
                 };
             }
 
@@ -52,7 +48,37 @@ namespace Rpg.Client.Models.Biome.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            _graphics.SourceRectangle = GetSourceRect(_currentAnimationIndex);
             _graphics.Draw(spriteBatch);
+        }
+
+        private static Rectangle GetSourceRect(int currentAnimationIndex)
+        {
+            const int SIZE = 64;
+            const int COL_COUNT = 2;
+
+            var x = currentAnimationIndex % COL_COUNT;
+            var y = currentAnimationIndex / COL_COUNT;
+
+            var rect = new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
+            return rect;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_counter <= ANIMATION_RATE)
+            {
+                _counter += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                _counter = 0;
+                _currentAnimationIndex++;
+                if (_currentAnimationIndex >= 4)
+                {
+                    _currentAnimationIndex = 0;
+                }
+            }
         }
     }
 }

@@ -130,16 +130,22 @@ namespace Rpg.Client.Models.Biome
                 {
                     foreach (var node in _biome.Nodes)
                     {
-                        var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
-                        var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
+                        if (node.CombatSequence is not null)
+                        {
+                            var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
+                            var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
 
-                        _nodeModels.Add(nodeModel);
+                            _nodeModels.Add(nodeModel);
+                        }
                     }
 
                     _isNodeModelsCreated = true;
                 }
                 else
                 {
+                    UpdateClouds(gameTime);
+                    UpdateNodeGameObjects(gameTime);
+
                     if (!_screenTransition)
                     {
                         var mouseState = Mouse.GetState();
@@ -191,16 +197,6 @@ namespace Rpg.Client.Models.Biome
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                             }
                         }
-
-                        for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
-                        {
-                            _clouds[cloudIndex].Update(gameTime);
-
-                            if (_clouds[cloudIndex].IsDestroyed)
-                            {
-                                _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
-                            }
-                        }
                     }
                 }
             }
@@ -208,6 +204,27 @@ namespace Rpg.Client.Models.Biome
             foreach (var button in _menuButtons)
             {
                 button.Update();
+            }
+        }
+
+        private void UpdateNodeGameObjects(GameTime gameTime)
+        {
+            foreach (var nodeGameObject in _nodeModels)
+            {
+                nodeGameObject.Update(gameTime);
+            }
+        }
+
+        private void UpdateClouds(GameTime gameTime)
+        {
+            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
+            {
+                _clouds[cloudIndex].Update(gameTime);
+
+                if (_clouds[cloudIndex].IsDestroyed)
+                {
+                    _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
+                }
             }
         }
 
