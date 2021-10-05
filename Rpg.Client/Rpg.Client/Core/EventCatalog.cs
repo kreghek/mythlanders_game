@@ -176,7 +176,7 @@ namespace Rpg.Client.Core
                             {
                                 Speaker = EventSpeaker.Environment,
                                 TextSid = "SlavicPlot_2_a_4"
-                            },
+                            }
                         }
                     },
                     Options = new[]
@@ -270,7 +270,7 @@ namespace Rpg.Client.Core
                             {
                                 Speaker = EventSpeaker.GuardianWoman,
                                 TextSid = "SlavicPlot_3_a_4"
-                            },
+                            }
                         }
                     },
                     Options = new[]

@@ -15,12 +15,12 @@ namespace Rpg.Client.Models.Common
     {
         private readonly TutorialPageDrawerBase _pageDrawer;
 
-        public TutorialModal(TutorialPageDrawerBase pageDrawer, IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice) : base(uiContentStorage, graphicsDevice)
+        public TutorialModal(TutorialPageDrawerBase pageDrawer, IUiContentStorage uiContentStorage,
+            GraphicsDevice graphicsDevice) : base(uiContentStorage, graphicsDevice)
         {
             _pageDrawer = pageDrawer;
         }
 
-        
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {

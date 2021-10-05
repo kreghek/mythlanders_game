@@ -8,6 +8,8 @@ namespace Rpg.Client.Models.Biome
     internal sealed class Cloud
     {
         private const double DURATION_SECONDS = 30;
+
+        private static readonly Random _random = new Random();
         private readonly Vector2 _endPosition;
         private readonly double _speed;
         private readonly Vector2 _startPosition;
@@ -17,9 +19,8 @@ namespace Rpg.Client.Models.Biome
         private Vector2 _currentPosition;
         private double _lifetimeCounter;
 
-        private static Random _random = new Random();
-
-        public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed, bool screenInitStage)
+        public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed,
+            bool screenInitStage)
         {
             _texture = texture;
             _textureIndex = textureIndex;

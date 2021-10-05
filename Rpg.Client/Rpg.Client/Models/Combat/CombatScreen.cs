@@ -33,6 +33,8 @@ namespace Rpg.Client.Models.Combat
             new Vector2(200, 350)
         };
 
+        private static bool _tutorial;
+
         private readonly AnimationManager _animationManager;
         private readonly IList<BulletGameObject> _bulletObjects;
         private readonly ActiveCombat _combat;
@@ -102,14 +104,13 @@ namespace Rpg.Client.Models.Combat
             DrawHud(spriteBatch);
         }
 
-        private static bool _tutorial;
-
         protected override void UpdateContent(GameTime gameTime)
         {
             if (!_tutorial)
             {
                 _tutorial = true;
-                var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
+                    _uiContentStorage, Game.GraphicsDevice);
                 AddModal(tutorialModal, isLate: false);
             }
 

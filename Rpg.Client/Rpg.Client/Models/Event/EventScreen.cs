@@ -16,10 +16,9 @@ namespace Rpg.Client.Models.Event
 {
     internal sealed class EventScreen : GameScreenBase
     {
-        private static bool _tutorial;
-
         private const int TEXT_MARGIN = 10;
         private const int OPTIONS_BLOCK_MARGIN = 10;
+        private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
         private readonly EventContext _dialogContext;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -125,7 +124,8 @@ namespace Rpg.Client.Models.Event
             {
                 _tutorial = true;
 
-                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage, Game.GraphicsDevice);
+                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                    Game.GraphicsDevice);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -209,10 +209,8 @@ namespace Rpg.Client.Models.Event
             {
                 return text;
             }
-            else
-            {
-                return speaker.ToString();
-            }
+
+            return speaker.ToString();
         }
 
         private static Rectangle GetUnitPortrainRect(EventSpeaker speaker)
