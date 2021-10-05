@@ -136,7 +136,7 @@ namespace Rpg.Client.Core
 
                     var rollCount = Math.Min(availableNodes.Length, 3);
                     var nodesWithCombats = dice.RollFromList(availableNodes, 3).ToArray();
-                    
+
                     var combatCounts = GetCombatCounts(biome.Level);
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
