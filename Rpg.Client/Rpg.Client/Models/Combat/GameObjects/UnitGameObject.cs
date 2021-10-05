@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -49,6 +50,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
+        public bool ShowStats { get; private set; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             _graphics.ShowActiveMarker = IsActive;
@@ -59,15 +62,19 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), CombatUnit.Unit.UnitScheme.Name,
                 _graphics.Root.Position - new Vector2(0, 100), color);
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
-                $"{CombatUnit.Unit.Hp}/{CombatUnit.Unit.MaxHp} HP",
-                _graphics.Root.Position - new Vector2(0, 80), color);
 
-            if (CombatUnit.Unit.IsPlayerControlled && CombatUnit.Unit.HasSkillsWithCost)
+            if (ShowStats)
             {
                 spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
-                    $"{CombatUnit.Unit.ManaPool}/{CombatUnit.Unit.ManaPoolSize} Mana",
-                    _graphics.Root.Position - new Vector2(0, 70), color);
+                    $"{CombatUnit.Unit.Hp}/{CombatUnit.Unit.MaxHp} HP",
+                    _graphics.Root.Position - new Vector2(0, 80), color);
+
+                if (CombatUnit.Unit.IsPlayerControlled && CombatUnit.Unit.HasSkillsWithCost)
+                {
+                    spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
+                        $"{CombatUnit.Unit.ManaPool}/{CombatUnit.Unit.ManaPoolSize} Mana",
+                        _graphics.Root.Position - new Vector2(0, 70), color);
+                }
             }
         }
 
@@ -76,6 +83,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             HandleEngineStates(gameTime);
 
             _graphics.Update(gameTime);
+
+            var keyboard = Keyboard.GetState();
+            ShowStats = keyboard.IsKeyDown(Keys.LeftAlt);
         }
 
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
