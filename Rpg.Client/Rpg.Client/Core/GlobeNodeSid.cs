@@ -4,6 +4,7 @@
     {
         Undefined,
         SlavicThicket,
+        SlavicPit,
         SlavicBattleground,
         SlavicSwamp,
         SlavicMines

@@ -235,7 +235,7 @@
     <value>Стой! Ты чьих будешь?</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_4" xml:space="preserve">
-    <value>Нет во мне злого умысла. Товарищей из космодружины “Полынь” разыскиваю.
+    <value>Нет во мне злого умысла. Товарищей из космодружины Полынь разыскиваю.
 Ты мне друг, али нет?</value>
   </data>
   <data name="EventPlotSlavicPlot_3_b_5" xml:space="preserve">
@@ -262,10 +262,10 @@
   <data name="EventSpeakerGuardianWoman" xml:space="preserve">
     <value>Стражница</value>
   </data>
-  <data name="SlavicPlot_5_b_1" xml:space="preserve">
+  <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
     <value>SlavicPlot_5_b_1</value>
   </data>
-  <data name="SlavicPlot_5_a_1" xml:space="preserve">
+  <data name="EventPlotSlavicPlot_5_a_1" xml:space="preserve">
     <value>SlavicPlot_5_a_1</value>
   </data>
   <data name="SlavicThicketNodeName" xml:space="preserve">
@@ -273,5 +273,8 @@
   </data>
   <data name="SlavicMinesNodeName" xml:space="preserve">
     <value>Рудники</value>
+  </data>
+  <data name="SlavicPitNodeName" xml:space="preserve">
+    <value>Яма</value>
   </data>
 </root>

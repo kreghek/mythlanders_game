@@ -315,6 +315,24 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string EventPlotSlavicPlot_5_a_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_5_a_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string EventPlotSlavicPlot_5_b_1 {
+            get {
+                return ResourceManager.GetString("EventPlotSlavicPlot_5_b_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string EventSpeakerBerimir {
             get {
                 return ResourceManager.GetString("EventSpeakerBerimir", resourceCulture);
@@ -378,18 +396,9 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string SlavicPlot_5_a_1 {
+        internal static string SlavicPitNodeName {
             get {
-                return ResourceManager.GetString("SlavicPlot_5_a_1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string SlavicPlot_5_b_1 {
-            get {
-                return ResourceManager.GetString("SlavicPlot_5_b_1", resourceCulture);
+                return ResourceManager.GetString("SlavicPitNodeName", resourceCulture);
             }
         }
         

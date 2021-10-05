@@ -195,7 +195,7 @@ namespace Rpg.Client.Core
             var slavicPlotEvent3 = new Event
             {
                 Biome = BiomeType.Slavic,
-                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
+                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicPit },
                 IsUnique = true,
                 IsHighPriority = true,
                 Sid = "SlavicPlot_3",
@@ -345,7 +345,7 @@ namespace Rpg.Client.Core
                 }
             };
 
-            yield return slavicPlotEvent3;
+            yield return slavicPlotEvent5;
         }
 
         private static Event[] CreateTestEvents()
