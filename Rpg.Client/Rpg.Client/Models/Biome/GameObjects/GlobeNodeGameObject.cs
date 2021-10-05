@@ -11,10 +11,10 @@ namespace Rpg.Client.Models.Biome.GameObjects
 {
     internal class GlobeNodeGameObject
     {
+        private const double ANIMATION_RATE = 1f / 8;
         private readonly Sprite _graphics;
 
         private double _counter;
-        private const double ANIMATION_RATE = 1f / 8;
         private int _currentAnimationIndex;
 
         public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
@@ -52,18 +52,6 @@ namespace Rpg.Client.Models.Biome.GameObjects
             _graphics.Draw(spriteBatch);
         }
 
-        private static Rectangle GetSourceRect(int currentAnimationIndex)
-        {
-            const int SIZE = 64;
-            const int COL_COUNT = 2;
-
-            var x = currentAnimationIndex % COL_COUNT;
-            var y = currentAnimationIndex / COL_COUNT;
-
-            var rect = new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
-            return rect;
-        }
-
         public void Update(GameTime gameTime)
         {
             if (_counter <= ANIMATION_RATE)
@@ -79,6 +67,18 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     _currentAnimationIndex = 0;
                 }
             }
+        }
+
+        private static Rectangle GetSourceRect(int currentAnimationIndex)
+        {
+            const int SIZE = 64;
+            const int COL_COUNT = 2;
+
+            var x = currentAnimationIndex % COL_COUNT;
+            var y = currentAnimationIndex / COL_COUNT;
+
+            var rect = new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
+            return rect;
         }
     }
 }

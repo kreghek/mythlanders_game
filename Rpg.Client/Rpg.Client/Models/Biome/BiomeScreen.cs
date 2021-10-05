@@ -207,27 +207,6 @@ namespace Rpg.Client.Models.Biome
             }
         }
 
-        private void UpdateNodeGameObjects(GameTime gameTime)
-        {
-            foreach (var nodeGameObject in _nodeModels)
-            {
-                nodeGameObject.Update(gameTime);
-            }
-        }
-
-        private void UpdateClouds(GameTime gameTime)
-        {
-            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
-            {
-                _clouds[cloudIndex].Update(gameTime);
-
-                if (_clouds[cloudIndex].IsDestroyed)
-                {
-                    _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
-                }
-            }
-        }
-
         private void ClearEventHandlerToGlobeObjects()
         {
             _globe.Updated -= Globe_Updated;
@@ -533,6 +512,27 @@ namespace Rpg.Client.Models.Biome
         private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
         {
             return (mouseRect.Location.ToVector2() - node.Position).Length() <= 16;
+        }
+
+        private void UpdateClouds(GameTime gameTime)
+        {
+            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
+            {
+                _clouds[cloudIndex].Update(gameTime);
+
+                if (_clouds[cloudIndex].IsDestroyed)
+                {
+                    _clouds[cloudIndex] = CreateCloud(cloudIndex, screenInitStage: false);
+                }
+            }
+        }
+
+        private void UpdateNodeGameObjects(GameTime gameTime)
+        {
+            foreach (var nodeGameObject in _nodeModels)
+            {
+                nodeGameObject.Update(gameTime);
+            }
         }
     }
 }

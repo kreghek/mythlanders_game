@@ -136,7 +136,7 @@ namespace Rpg.Client.Core
 
                     var rollCount = Math.Min(availableNodes.Length, 3);
                     var nodesWithCombats = dice.RollFromList(availableNodes, 3).ToArray();
-                    
+
                     var combatCounts = GetCombatCounts(biome.Level);
                     var combatLevelAdditionalList = new[] { 0, -1, 3 };
                     var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
@@ -220,20 +220,6 @@ namespace Rpg.Client.Core
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
-        }
-
-        private static int[] GetCombatCounts(int level)
-        {
-            return level switch
-            {
-                0 or 1 => new[] { 1, 1, 1 },
-                2 => new[] { 1, 1, 1, 3 },
-                > 3 and <= 4 => new[] { 1, 1, 1, 3, 3 },
-                > 5 and <= 7 => new[] { 1, 3, 3, 3, 5 },
-                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
-                > 10 => new[] { 3, 5, 5 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 },
-            };
         }
 
         /// <summary>
@@ -382,6 +368,20 @@ namespace Rpg.Client.Core
                     ).ToArray(),
                     IsFinal = true
                 }
+            };
+        }
+
+        private static int[] GetCombatCounts(int level)
+        {
+            return level switch
+            {
+                0 or 1 => new[] { 1, 1, 1 },
+                2 => new[] { 1, 1, 1, 3 },
+                > 3 and <= 4 => new[] { 1, 1, 1, 3, 3 },
+                > 5 and <= 7 => new[] { 1, 3, 3, 3, 5 },
+                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
+                > 10 => new[] { 3, 5, 5 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
             };
         }
 
