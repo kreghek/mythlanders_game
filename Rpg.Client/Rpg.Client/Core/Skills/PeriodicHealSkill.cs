@@ -31,6 +31,21 @@ namespace Rpg.Client.Core.Skills
 
                     return effect;
                 })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new HealEffect
+                    {
+                        Actor = u,
+                        PowerMultiplier = 1,
+                        ValueRange = 1
+                    };
+
+                    return effect;
+                })
             }
         };
 
