@@ -247,4 +247,16 @@
   <data name="SlavicPitNodeName" xml:space="preserve">
     <value></value>
   </data>
+  <data name="SettingsButtonTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
+    <value>Switch fullscreen</value>
+  </data>
+  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
+    <value>Back to main menu</value>
+  </data>
+  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
+    <value>Load last save</value>
+  </data>
 </root>

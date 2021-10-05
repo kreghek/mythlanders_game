@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Models;
 using Rpg.Client.Models.Biome;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.EndGame;
@@ -59,6 +60,7 @@ namespace Rpg.Client.Screens
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
+                ScreenTransition.Settings => new SettingsScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }

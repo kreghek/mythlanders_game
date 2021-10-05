@@ -27,6 +27,8 @@ namespace Rpg.Client.Core
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
         }
 
+        public (int Width, int Height)? ChoisedUserMonitorResolution { get; set; } = null;
+
         public Globe Globe
         {
             get
