@@ -25,9 +25,9 @@ namespace Rpg.Client.Models
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
+        private IDictionary<string, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
-        private IDictionary<string, Texture2D> _playerUnitTextureDict;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
@@ -35,10 +35,8 @@ namespace Rpg.Client.Models
             {
                 return playerUnitTexture;
             }
-            else
-            {
-                return _monsterUnit;
-            }
+
+            return _monsterUnit;
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -54,7 +52,7 @@ namespace Rpg.Client.Models
             {
                 { "Беримир", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
                 { "Рада", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
-                { "Сокол", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") },
+                { "Сокол", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>

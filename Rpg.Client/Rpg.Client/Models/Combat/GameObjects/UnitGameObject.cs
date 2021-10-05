@@ -40,6 +40,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public Vector2 Position { get; }
 
+        public bool ShowStats { get; private set; }
+
         public void AnimateDeath()
         {
             AddStateEngine(new DeathState(_graphics));
@@ -49,8 +51,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             AddStateEngine(new WoundState(_graphics));
         }
-
-        public bool ShowStats { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
