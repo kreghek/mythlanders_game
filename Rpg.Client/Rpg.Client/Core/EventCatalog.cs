@@ -240,7 +240,8 @@ namespace Rpg.Client.Core
                         new EventOption
                         {
                             TextSid = "Combat",
-                            IsEnd = true
+                            IsEnd = true,
+                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
                         }
                     }
                 },
@@ -270,6 +271,66 @@ namespace Rpg.Client.Core
                             {
                                 Speaker = EventSpeaker.GuardianWoman,
                                 TextSid = "SlavicPlot_3_a_4"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Continue",
+                            IsEnd = true
+                        }
+                    }
+                }
+            };
+
+            yield return slavicPlotEvent3;
+
+            var slavicPlotEvent5 = new Event
+            {
+                Biome = BiomeType.Slavic,
+                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicMines },
+                IsUnique = true,
+                IsHighPriority = true,
+                Sid = "SlavicPlot_5",
+                RequiredBiomeLevel = 1,
+                RequiredEventsCompleted = new[] { "SlavicPlot_2" },
+                BeforeCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.BeforeCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Hq,
+                                TextSid = "SlavicPlot_5_b_1"
+                            }
+                        }
+                    },
+                    Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Combat",
+                            IsEnd = true,
+                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
+                        }
+                    }
+                },
+                AfterCombatStartNode = new EventNode
+                {
+                    CombatPosition = EventPosition.AfterCombat,
+                    TextBlock = new EventTextBlock
+                    {
+                        Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = EventSpeaker.Environment,
+                                TextSid = "SlavicPlot_5_a_1"
                             }
                         }
                     },

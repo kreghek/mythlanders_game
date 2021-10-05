@@ -5,6 +5,7 @@
         Undefined,
         SlavicThicket,
         SlavicBattleground,
-        SlavicSwamp
+        SlavicSwamp,
+        SlavicMines
     }
 }

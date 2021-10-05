@@ -417,6 +417,7 @@ namespace Rpg.Client.Core
                         {
                             0 => GlobeNodeSid.SlavicThicket,
                             1 => GlobeNodeSid.SlavicSwamp,
+                            3 => GlobeNodeSid.SlavicMines,
                             7 => GlobeNodeSid.SlavicBattleground,
                             _ => GlobeNodeSid.Undefined
                         };
