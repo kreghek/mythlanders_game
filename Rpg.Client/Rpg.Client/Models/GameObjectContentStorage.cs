@@ -18,7 +18,6 @@ namespace Rpg.Client.Models
     {
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
-        private Texture2D? _bowmanUnit;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
@@ -28,29 +27,35 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
-        private Texture2D? _warriorUnit;
+        private IDictionary<string, Texture2D> _playerUnitTextureDict;
 
         public Texture2D GetUnitGraphics(string unitName)
         {
-            return unitName switch
+            if (_playerUnitTextureDict.TryGetValue(unitName, out var playerUnitTexture))
             {
-                "Беримир" => _warriorUnit,
-                "Рада" => _warriorUnit,
-                "Сокол" => _bowmanUnit,
-                _ => _monsterUnit
-            };
+                return playerUnitTexture;
+            }
+            else
+            {
+                return _monsterUnit;
+            }
         }
 
         public void LoadContent(ContentManager contentManager)
         {
-            _warriorUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior");
-            _bowmanUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer");
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
             _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
+
+            _playerUnitTextureDict = new Dictionary<string, Texture2D>
+            {
+                { "Беримир", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
+                { "Рада", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
+                { "Сокол", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") },
+            };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
             {
