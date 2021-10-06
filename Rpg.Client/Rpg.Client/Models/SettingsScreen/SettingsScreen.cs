@@ -45,7 +45,8 @@ namespace Rpg.Client.Models.Title
                 buttonTexture,
                 font,
                 Game.GraphicsDevice.Adapter.SupportedDisplayModes);
-            _resolutionsButtonsInfos = resolutionsButtonsInfos.ToDictionary(key => key.Button, value => value.Resolution);
+            _resolutionsButtonsInfos =
+                resolutionsButtonsInfos.ToDictionary(key => key.Button, value => value.Resolution);
 
             _buttons.AddRange(_resolutionsButtonsInfos.Keys);
 
@@ -105,7 +106,8 @@ namespace Rpg.Client.Models.Title
             return switchLanguageButton;
         }
 
-        private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(Texture2D buttonTexture,
+        private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(
+            Texture2D buttonTexture,
             SpriteFont font)
         {
             var (width, height) = (800, 480);
@@ -125,21 +127,22 @@ namespace Rpg.Client.Models.Title
             return button;
         }
 
-        private IEnumerable<(ButtonBase Button, (int Width, int Height) Resolution)> GetSupportedMonitorResolutionButtons(
-            Texture2D buttonTexture, SpriteFont font,
-            DisplayModeCollection displayModes)
+        private IEnumerable<(ButtonBase Button, (int Width, int Height) Resolution)>
+            GetSupportedMonitorResolutionButtons(
+                Texture2D buttonTexture, SpriteFont font,
+                DisplayModeCollection displayModes)
         {
             const byte DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT = 5;
 
             var supportedResolutions = displayModes
-                                       .Select(
-                                           x => new
-                                           {
-                                               BtnLabel = $"{x.Width}x{x.Height}",
-                                               Resolution = (x.Width, x.Height)
-                                           })
-                                       .OrderByDescending(x => x.Resolution.Width)
-                                       .Take(DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT);
+                .Select(
+                    x => new
+                    {
+                        BtnLabel = $"{x.Width}x{x.Height}",
+                        Resolution = (x.Width, x.Height)
+                    })
+                .OrderByDescending(x => x.Resolution.Width)
+                .Take(DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT);
             var buttonInfos = supportedResolutions.Select(
                 (x, i) =>
                 {

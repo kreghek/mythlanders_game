@@ -33,12 +33,11 @@ namespace Rpg.Client.Models.Title
                 graphicsManager.IsFullScreen = false;
                 graphicsManager.PreferredBackBufferWidth = 800;
                 graphicsManager.PreferredBackBufferHeight = 480;
-                graphicsManager.ApplyChanges();   
+                graphicsManager.ApplyChanges();
             }
 #endif
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
-            
 
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
@@ -55,7 +54,7 @@ namespace Rpg.Client.Models.Title
                 emptyRect);
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
-            
+
             var settingsButton = new TextButton(
                 UiResource.SettingsButtonTitle,
                 buttonTexture,
@@ -126,15 +125,15 @@ namespace Rpg.Client.Models.Title
             return loadGameButton;
         }
 
+        private void SettingsButton_OnClick(object? sender, EventArgs e)
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
+        }
+
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
             ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-        }
-        
-        private void SettingsButton_OnClick(object? sender, EventArgs e)
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
         }
     }
 }

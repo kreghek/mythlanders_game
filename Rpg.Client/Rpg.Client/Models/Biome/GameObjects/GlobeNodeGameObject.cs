@@ -13,9 +13,9 @@ namespace Rpg.Client.Models.Biome.GameObjects
     {
         private const double ANIMATION_RATE = 1f / 8;
         private const double EVENT_ANIMATION_RATE = 1f / 30;
-        private readonly SpriteContainer _root;
         private readonly Sprite _combatMarker;
         private readonly Sprite _eventMarker;
+        private readonly SpriteContainer _root;
         private double _counterCombat;
         private double _counterEvent;
         private int _currentCombatAnimationIndex;
@@ -75,6 +75,30 @@ namespace Rpg.Client.Models.Biome.GameObjects
             UpdateEventMarkerAnimation(gameTime);
         }
 
+        private static Rectangle GetCombatMarkerSourceRect(int currentAnimationIndex)
+        {
+            const int SIZE = 64;
+            const int COL_COUNT = 4;
+
+            var x = currentAnimationIndex % COL_COUNT;
+            var y = currentAnimationIndex / COL_COUNT;
+
+            var rect = new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
+            return rect;
+        }
+
+        private static Rectangle GetEventMarkerSourceRect(int currentAnimationIndex)
+        {
+            const int SIZE = 64;
+            const int COL_COUNT = 4;
+
+            var x = currentAnimationIndex % COL_COUNT;
+            var y = currentAnimationIndex / COL_COUNT;
+
+            var rect = new Rectangle(x * SIZE, y * SIZE + SIZE, SIZE, SIZE);
+            return rect;
+        }
+
         private void UpdateCombatMarkerAnimation(GameTime gameTime)
         {
             if (_counterCombat <= ANIMATION_RATE)
@@ -101,7 +125,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
             else
             {
                 _counterEvent = 0;
-                _currentEventAnimationIndex+= _eventAnimationDirection;
+                _currentEventAnimationIndex += _eventAnimationDirection;
                 if (_currentEventAnimationIndex >= 4)
                 {
                     _currentEventAnimationIndex = 3;
@@ -113,30 +137,6 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     _eventAnimationDirection = 1;
                 }
             }
-        }
-
-        private static Rectangle GetCombatMarkerSourceRect(int currentAnimationIndex)
-        {
-            const int SIZE = 64;
-            const int COL_COUNT = 4;
-
-            var x = currentAnimationIndex % COL_COUNT;
-            var y = currentAnimationIndex / COL_COUNT;
-
-            var rect = new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
-            return rect;
-        }
-
-        private static Rectangle GetEventMarkerSourceRect(int currentAnimationIndex)
-        {
-            const int SIZE = 64;
-            const int COL_COUNT = 4;
-
-            var x = currentAnimationIndex % COL_COUNT;
-            var y = currentAnimationIndex / COL_COUNT;
-
-            var rect = new Rectangle(x * SIZE, y * SIZE + SIZE, SIZE, SIZE);
-            return rect;
         }
     }
 }
