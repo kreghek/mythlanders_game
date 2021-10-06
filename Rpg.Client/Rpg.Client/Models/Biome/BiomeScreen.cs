@@ -33,6 +33,7 @@ namespace Rpg.Client.Models.Biome
         private readonly ButtonBase[] _menuButtons;
 
         private readonly IList<GlobeNodeGameObject> _nodeModels;
+        private readonly IList<LocationGameObject> _locationObjectList;
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
@@ -57,6 +58,7 @@ namespace Rpg.Client.Models.Biome
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _nodeModels = new List<GlobeNodeGameObject>();
+            _locationObjectList = new List<LocationGameObject>();
 
             var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
@@ -130,12 +132,19 @@ namespace Rpg.Client.Models.Biome
                 {
                     foreach (var node in _biome.Nodes)
                     {
-                        if (node.CombatSequence is not null)
+                        if (node.IsAvailable)
                         {
-                            var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
-                            var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
+                            var centerNodePosition = Game.GraphicsDevice.Viewport.Bounds.Center.ToVector2();
+                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3, centerNodePosition, node.Sid, _gameObjectContentStorage);
+                            _locationObjectList.Add(locationObject);
 
-                            _nodeModels.Add(nodeModel);
+                            if (node.CombatSequence is not null)
+                            {
+                                var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
+                                var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
+
+                                _nodeModels.Add(nodeModel);
+                            }
                         }
                     }
 
@@ -339,10 +348,10 @@ namespace Rpg.Client.Models.Biome
         {
             spriteBatch.Begin();
 
-            var backgroundTexture = _uiContentStorage.GetBiomeBackground(_biome.Type);
-
-            spriteBatch.Draw(backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, GetBiomeMapRectange(_biome.Type),
-                Color.White);
+            foreach (var locationObject in _locationObjectList)
+            {
+                locationObject.Draw(spriteBatch);
+            }
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
@@ -529,6 +538,11 @@ namespace Rpg.Client.Models.Biome
 
         private void UpdateNodeGameObjects(GameTime gameTime)
         {
+            foreach (var locationObject in _locationObjectList)
+            {
+                locationObject.Update(gameTime);
+            }
+
             foreach (var nodeGameObject in _nodeModels)
             {
                 nodeGameObject.Update(gameTime);
