@@ -101,7 +101,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
             else
             {
                 _counterEvent = 0;
-                _currentEventAnimationIndex+= _eventAnimationDirection;
+                _currentEventAnimationIndex += _eventAnimationDirection;
                 if (_currentEventAnimationIndex >= 4)
                 {
                     _currentEventAnimationIndex = 3;
