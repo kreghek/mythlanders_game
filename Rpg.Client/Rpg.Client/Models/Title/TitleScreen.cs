@@ -39,7 +39,6 @@ namespace Rpg.Client.Models.Title
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
 
-
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
             var buttonTexture = uiContentService.GetButtonTexture();
@@ -126,15 +125,15 @@ namespace Rpg.Client.Models.Title
             return loadGameButton;
         }
 
+        private void SettingsButton_OnClick(object? sender, EventArgs e)
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
+        }
+
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
             ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-        }
-
-        private void SettingsButton_OnClick(object? sender, EventArgs e)
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
         }
     }
 }
