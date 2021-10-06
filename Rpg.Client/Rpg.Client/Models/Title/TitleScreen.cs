@@ -25,17 +25,20 @@ namespace Rpg.Client.Models.Title
         public TitleScreen(EwarGame game)
             : base(game)
         {
+            _globeProvider = Game.Services.GetService<GlobeProvider>();
 #if DEBUG
-            var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
-            graphicsManager.IsFullScreen = false;
-            graphicsManager.PreferredBackBufferWidth = 800;
-            graphicsManager.PreferredBackBufferHeight = 480;
-            graphicsManager.ApplyChanges();
+            if (_globeProvider.ChoisedUserMonitorResolution == null)
+            {
+                var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
+                graphicsManager.IsFullScreen = false;
+                graphicsManager.PreferredBackBufferWidth = 800;
+                graphicsManager.PreferredBackBufferHeight = 480;
+                graphicsManager.ApplyChanges();   
+            }
 #endif
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
-
-            _globeProvider = Game.Services.GetService<GlobeProvider>();
+            
 
             var uiContentService = game.Services.GetService<IUiContentStorage>();
 
@@ -44,30 +47,22 @@ namespace Rpg.Client.Models.Title
 
             _buttons = new List<ButtonBase>();
 
+            var emptyRect = new Rectangle();
             var startButton = new TextButton(
                 UiResource.StartGameButtonTitle,
                 buttonTexture,
                 font,
-                new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 150, 100, 20));
+                emptyRect);
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
-
-            var switchLanguageButton = new TextButton(
-                UiResource.SwitchLanguageButtonTitle,
+            
+            var settingsButton = new TextButton(
+                UiResource.SettingsButtonTitle,
                 buttonTexture,
                 font,
-                new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 200, 100, 20));
-
-            switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
-            _buttons.Add(switchLanguageButton);
-
-            var switchResolutionButton = new TextButton(
-                UiResource.SwitchResolutionButtonTitle,
-                buttonTexture,
-                font,
-                new Rectangle(Game.GraphicsDevice.Viewport.Bounds.Center.X, 250, 100, 20));
-            switchResolutionButton.OnClick += SwitchResolutionButton_OnClick;
-            _buttons.Add(switchResolutionButton);
+                emptyRect);
+            settingsButton.OnClick += SettingsButton_OnClick;
+            _buttons.Add(settingsButton);
 
             var loadGameButton = GetLoadButton(buttonTexture, font);
             if (loadGameButton != null)
@@ -112,7 +107,7 @@ namespace Rpg.Client.Models.Title
             }
 
             var loadGameButton = new TextButton(
-                "Load last save",
+                UiResource.LoadLastSaveButtonTitle,
                 buttonTexture,
                 font,
                 new Rectangle(0, 0, 100, 25));
@@ -136,51 +131,10 @@ namespace Rpg.Client.Models.Title
             _globeProvider.GenerateNew();
             ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
         }
-
-        private void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
+        
+        private void SettingsButton_OnClick(object? sender, EventArgs e)
         {
-            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-            if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                var newCulture = CultureInfo.GetCultureInfo("ru-RU");
-                Thread.CurrentThread.CurrentCulture = newCulture;
-                Thread.CurrentThread.CurrentUICulture = newCulture;
-            }
-            else
-            {
-                var newCulture = CultureInfo.GetCultureInfo("en-US");
-                Thread.CurrentThread.CurrentCulture = newCulture;
-                Thread.CurrentThread.CurrentUICulture = newCulture;
-            }
-        }
-
-        private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)
-        {
-            var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
-            if (graphicsManager.PreferredBackBufferWidth == 800)
-            {
-                graphicsManager.IsFullScreen = true;
-                graphicsManager.PreferredBackBufferWidth = 1920;
-                graphicsManager.PreferredBackBufferHeight = 1080;
-                graphicsManager.ApplyChanges();
-            }
-            else if (graphicsManager.PreferredBackBufferWidth == 1920)
-            {
-                graphicsManager.IsFullScreen = true;
-                graphicsManager.PreferredBackBufferWidth = 1280;
-                graphicsManager.PreferredBackBufferHeight = 720;
-                graphicsManager.ApplyChanges();
-            }
-            else if (graphicsManager.PreferredBackBufferWidth == 1280)
-            {
-                graphicsManager.IsFullScreen = false;
-                graphicsManager.PreferredBackBufferWidth = 800;
-                graphicsManager.PreferredBackBufferHeight = 480;
-                graphicsManager.ApplyChanges();
-            }
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
         }
     }
 }
