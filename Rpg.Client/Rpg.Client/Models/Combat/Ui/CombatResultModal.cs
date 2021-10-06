@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -153,7 +154,9 @@ namespace Rpg.Client.Models.Combat.Ui
 
             public XpItem(XpAward item)
             {
-                UnitName = item.Unit.UnitScheme.Name;
+                var rm = new ResourceManager(typeof(UiResource));
+                var name = rm.GetString($"UnitName{item.Unit.UnitScheme.Name}") ?? item.Unit.UnitScheme.Name.ToString();
+                UnitName = name;
                 XpAmount = item.XpAmount;
                 StartXp = item.StartXp;
                 XpToLevelup = item.XpToLevelup;

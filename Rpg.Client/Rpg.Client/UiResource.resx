@@ -157,13 +157,13 @@
   <data name="EventTutorualText" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventSpeakerHq" xml:space="preserve">
+  <data name="UnitNameHq" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventSpeakerBerimir" xml:space="preserve">
+  <data name="UnitNameBerimir" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventSpeakerHawk" xml:space="preserve">
+  <data name="UnitNameHawk" xml:space="preserve">
     <value></value>
   </data>
   <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
@@ -226,10 +226,10 @@
   <data name="EventPlotSlavicPlot_3_a_4" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventSpeakerOldman" xml:space="preserve">
+  <data name="UnitNameOldman" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventSpeakerGuardianWoman" xml:space="preserve">
+  <data name="UnitNameGuardianWoman" xml:space="preserve">
     <value></value>
   </data>
   <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
@@ -247,16 +247,19 @@
   <data name="SlavicPitNodeName" xml:space="preserve">
     <value></value>
   </data>
-  <data name="SettingsButtonTitle" xml:space="preserve">
-    <value>Settings</value>
+  <data name="UnitNameRada" xml:space="preserve">
+    <value></value>
   </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
     <value>Switch fullscreen</value>
   </data>
   <data name="BackToMainMenuButtonTitle" xml:space="preserve">
-    <value>Back to main menu</value>
+    <value>Back to the main menu</value>
   </data>
   <data name="LoadLastSaveButtonTitle" xml:space="preserve">
     <value>Load last save</value>
+  </data>
+  <data name="SettingsButtonTitle" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

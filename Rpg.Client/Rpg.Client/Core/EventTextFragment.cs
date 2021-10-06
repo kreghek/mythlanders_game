@@ -2,7 +2,7 @@
 {
     internal sealed class EventTextFragment
     {
-        public EventSpeaker Speaker { get; init; }
+        public UnitName Speaker { get; init; }
         public string TextSid { get; init; }
     }
 }

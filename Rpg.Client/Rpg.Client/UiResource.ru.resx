@@ -167,13 +167,13 @@
 1. Некоторые события продвигают партию по сюжету.
 2. Другие - могут повлиять на партию и конкретных персонажей.</value>
   </data>
-  <data name="EventSpeakerHq" xml:space="preserve">
+  <data name="UnitNameHq" xml:space="preserve">
     <value>Штаб</value>
   </data>
-  <data name="EventSpeakerBerimir" xml:space="preserve">
+  <data name="UnitNameBerimir" xml:space="preserve">
     <value>Беримир</value>
   </data>
-  <data name="EventSpeakerHawk" xml:space="preserve">
+  <data name="UnitNameHawk" xml:space="preserve">
     <value>Сокол</value>
   </data>
   <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
@@ -256,10 +256,10 @@
 подобру-поздорову. В нём куда ни глянь - тьма и мрак, а без яблочка больше
 не разглядеть.</value>
   </data>
-  <data name="EventSpeakerOldman" xml:space="preserve">
+  <data name="UnitNameOldman" xml:space="preserve">
     <value>Старик</value>
   </data>
-  <data name="EventSpeakerGuardianWoman" xml:space="preserve">
+  <data name="UnitNameGuardianWoman" xml:space="preserve">
     <value>Стражница</value>
   </data>
   <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
@@ -276,5 +276,32 @@
   </data>
   <data name="SlavicPitNodeName" xml:space="preserve">
     <value>Яма</value>
+  </data>
+  <data name="UnitNameRada" xml:space="preserve">
+    <value>Рада</value>
+  </data>
+  <data name="WarriorEquipmentItemDisplayName" xml:space="preserve">
+    <value>Осколок меча</value>
+  </data>
+  <data name="StartGameButtonTitle" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="SwitchLanguageButtonTitle" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
+    <value>Полный экран</value>
+  </data>
+  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
+    <value>Главное меню</value>
+  </data>
+  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="SettingsButtonTitle" xml:space="preserve">
+    <value>Настройки</value>
   </data>
 </root>

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+using Rpg.Client.Core;
 
 namespace Rpg.Client.Models
 {
@@ -25,11 +26,11 @@ namespace Rpg.Client.Models
         private SpriteFont _font;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
-        private IDictionary<string, Texture2D> _playerUnitTextureDict;
+        private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
 
-        public Texture2D GetUnitGraphics(string unitName)
+        public Texture2D GetUnitGraphics(UnitName unitName)
         {
             if (_playerUnitTextureDict.TryGetValue(unitName, out var playerUnitTexture))
             {
@@ -48,11 +49,11 @@ namespace Rpg.Client.Models
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
-            _playerUnitTextureDict = new Dictionary<string, Texture2D>
+            _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { "Беримир", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
-                { "Рада", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
-                { "Сокол", contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") }
+                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
+                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
+                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>

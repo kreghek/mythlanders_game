@@ -11,7 +11,8 @@ namespace Rpg.Client.Core
         public bool IsBoss { get; init; }
 
         public bool IsUnique { get; init; }
-        public string Name { get; init; }
+
+        public UnitName Name { get; init; }
 
         public IEnumerable<int> NodeIndexes { get; init; }
 
@@ -22,5 +23,47 @@ namespace Rpg.Client.Core
         public UnitSchemeAutoTransition SchemeAudoTransiton { get; set; }
 
         public IReadOnlyList<SkillSet> SkillSets { get; init; }
+    }
+
+    internal enum UnitName
+    { 
+        Undefined,
+
+        /// <summary>
+        /// Used only in the events to describe situations.
+        /// </summary>
+        Environment,
+
+        Berimir,
+        Hawk,
+        Rada,
+        Maosin,
+        Taochan,
+        Kakhotep,
+        Hq,
+        Oldman,
+        GuardianWoman,
+
+        Aspid,
+        Liho,  // лихо
+        Kikimore, // кикимора
+        SwampWomanFish,  // болотная русалка
+        Drekava, // Дрекавак
+        GreyWolf,
+        Bear,
+        Volkolak,
+        Dead, // Умертивие
+        Wisp,
+        Korgorush,
+        Stryga,
+        Vampire, // Вурдалак
+        HornedFrog, // Рогатая жаба
+        Basilisk,
+        Taote,
+        Sphynx,
+        Hydra,
+        KosheyTheImmortal,
+        KosheyTheImmortal2,
+        KosheyTheImmortal3,
     }
 }
