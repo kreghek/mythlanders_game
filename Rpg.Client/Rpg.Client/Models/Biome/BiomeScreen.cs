@@ -346,16 +346,36 @@ namespace Rpg.Client.Models.Biome
 
         private void DrawObjects(SpriteBatch spriteBatch)
         {
+            var spriteList = new List<Sprite>();
+            foreach (var location in _locationObjectList)
+            {
+                var sprites = location.GetSprites();
+                foreach (var sprite in sprites)
+                {
+                    spriteList.Add(sprite);
+                }
+            }
+
+            var orderedSprites = spriteList.OrderByDescending(x => x.Position.Y).ToArray();
+
             spriteBatch.Begin();
 
-            foreach (var locationObject in _locationObjectList)
+            foreach (var location in _locationObjectList)
             {
-                locationObject.Draw(spriteBatch);
+                location.Draw(spriteBatch);
             }
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
-                _clouds[cloudIndex].DrawShadows(spriteBatch);
+                if (!_clouds[cloudIndex].IsDestroyed)
+                {
+                    _clouds[cloudIndex].GetShadow().Draw(spriteBatch);
+                }
+            }
+
+            foreach (var sprite in orderedSprites)
+            {
+                sprite.Draw(spriteBatch);
             }
 
             foreach (var node in _nodeModels)
@@ -365,7 +385,10 @@ namespace Rpg.Client.Models.Biome
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
-                _clouds[cloudIndex].Draw(spriteBatch);
+                if (!_clouds[cloudIndex].IsDestroyed)
+                {
+                    _clouds[cloudIndex].GetSprite().Draw(spriteBatch);
+                }
             }
 
             spriteBatch.End();
