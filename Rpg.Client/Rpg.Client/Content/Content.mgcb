@@ -55,6 +55,12 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Battle7.mp3
 
+#begin Audio/Background/Defeat.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Defeat.mp3
+
 #begin Audio/Background/Map.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -78,6 +84,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Audio/Background/Title.mp3
+
+#begin Audio/Background/Victory.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Victory.mp3
 
 #begin Audio/GameObjects/BowStrikeEffect.mp3
 /importer:Mp3Importer

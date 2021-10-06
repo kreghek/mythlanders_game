@@ -12,6 +12,8 @@ namespace Rpg.Client.Engine
     internal sealed class UiContentStorage : IUiContentStorage
     {
         private Song[] _battleTracks;
+        private Song _victoryTrack;
+        private Song _defeatTrack;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D? _buttonTexture;
         private Texture2D _combatPowerIconTextres;
@@ -82,6 +84,9 @@ namespace Rpg.Client.Engine
                 contentManager.Load<Song>("Audio/Background/Battle6"),
                 contentManager.Load<Song>("Audio/Background/Battle7")
             };
+
+            _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
+            _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)
@@ -102,6 +107,16 @@ namespace Rpg.Client.Engine
         public IEnumerable<Song> GetBattleSongs()
         {
             return _battleTracks;
+        }
+
+        public Song GetVictorySong()
+        {
+            return _victoryTrack;
+        }
+
+        public Song GetDefeatSong()
+        {
+            return _defeatTrack;
         }
 
         public Texture2D GetCombatPowerIconsTexture()

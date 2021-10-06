@@ -222,12 +222,18 @@ namespace Rpg.Client.Models.Combat
                     GainEquipmentItems(_globeNodeGameObject.GlobeNode, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
+                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                    soundtrackManager.PlayVictoryTrack();
+
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.Victory,
                         xpItems);
                 }
                 else
                 {
+                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                    soundtrackManager.PlayDefeatTrack();
+
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>());

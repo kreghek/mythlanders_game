@@ -40,6 +40,16 @@ namespace Rpg.Client.Engine
             ChangeState("map");
         }
 
+        public void PlayVictoryTrack()
+        {
+            ChangeState("victory");
+        }
+
+        public void PlayDefeatTrack()
+        {
+            ChangeState("defeat");
+        }
+
         public void PlaySilence()
         {
             _state = null; // means silence.
@@ -115,6 +125,43 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Play(song, TimeSpan.Zero);
+                        }
+                    }
+                    break;
+
+                case "victory":
+                    if (_changeTrack)
+                    {
+                        _changeTrack = false;
+
+                        if (_uiContentStorage is not null)
+                        {
+                            var song = _uiContentStorage.GetVictorySong();
+
+                            _currentSong = song;
+
+                            MediaPlayer.IsRepeating = false;
+                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Play(song, TimeSpan.Zero);
+                        }
+                    }
+
+                    break;
+
+                case "defeat":
+                    if (_changeTrack)
+                    {
+                        _changeTrack = false;
+
+                        if (_uiContentStorage is not null)
+                        {
+                            var song = _uiContentStorage.GetDefeatSong();
+
+                            _currentSong = song;
+
+                            MediaPlayer.IsRepeating = false;
                             MediaPlayer.Volume = 0.75f;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
