@@ -231,9 +231,6 @@ namespace Rpg.Client.Models.Combat
                 }
                 else
                 {
-                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-                    soundtrackManager.PlayDefeatTrack();
-
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>());
@@ -241,6 +238,9 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
+                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                soundtrackManager.PlayDefeatTrack();
+
                 HandleGlobe(CombatResult.Defeat);
 
                 _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
