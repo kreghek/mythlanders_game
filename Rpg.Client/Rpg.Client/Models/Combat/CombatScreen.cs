@@ -414,8 +414,6 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var allWhite = Game.Content.Load<Effect>("Effects/AllWhite");
-
             spriteBatch.Begin();
 
             var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
@@ -428,9 +426,7 @@ namespace Rpg.Client.Models.Combat
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             DrawBullets(spriteBatch);
-            spriteBatch.End();
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: allWhite);
             DrawUnits(spriteBatch);
 
             foreach (var bullet in _bulletObjects)

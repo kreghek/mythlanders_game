@@ -57,7 +57,26 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _graphics.ShowActiveMarker = IsActive;
 
+            if (_graphics.IsDamaged)
+            {
+                var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
+                spriteBatch.End();
+
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: allWhite);
+            }
+            else
+            {
+                spriteBatch.End();
+
+                spriteBatch.Begin();
+            }
+
             _graphics.Draw(spriteBatch);
+
+                spriteBatch.End();
+
+                spriteBatch.Begin();
+
 
             var color = CombatUnit.Unit.IsDead ? Color.Gray : Color.White;
 

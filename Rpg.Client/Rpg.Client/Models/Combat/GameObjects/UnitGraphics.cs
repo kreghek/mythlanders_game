@@ -22,6 +22,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private double _frameCounter;
         private int _frameIndex;
 
+        public bool IsDamaged { get; set; }
+
         public UnitGraphics(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             Root = new SpriteContainer

@@ -24,6 +24,7 @@ namespace Rpg.Client.Models
         private Dictionary<string, SoundEffect> _combatPowerDict;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
+        private Effect _allWhiteEffect;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
@@ -40,6 +41,11 @@ namespace Rpg.Client.Models
             return _monsterUnit;
         }
 
+        public Effect GetAllWhiteEffect()
+        {
+            return _allWhiteEffect;
+        }
+
         public void LoadContent(ContentManager contentManager)
         {
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
@@ -49,6 +55,7 @@ namespace Rpg.Client.Models
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
+            _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
