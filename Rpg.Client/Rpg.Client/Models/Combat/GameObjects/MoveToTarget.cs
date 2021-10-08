@@ -8,18 +8,20 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class MoveToTarget : IUnitStateEngine
     {
-        private const double DURATION = 1;
+        private const double DURATION = 0.25;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
+        private readonly int _skillIndex;
         private double _counter;
 
-        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition)
+        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, int skillIndex)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;
+            _skillIndex = skillIndex;
             _graphics = graphics;
             _graphicsRoot = graphicsRoot;
         }
@@ -43,14 +45,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("MoveForward");
+                _graphics.PlayAnimation($"Skill{_skillIndex}");
             }
 
             if (_counter <= DURATION)
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)_counter);
+                var t = _counter / DURATION;
+
+                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)t);
 
                 //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
 

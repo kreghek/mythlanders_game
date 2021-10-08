@@ -6,7 +6,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class MoveBack : IUnitStateEngine
     {
-        private const double DURATION = 1;
+        private const double DURATION = 0.25;
         private readonly AnimationBlocker _blocker;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
@@ -53,7 +53,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)(1 - _counter));
+                var t = _counter / DURATION;
+
+                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)(1 - t));
             }
             else
             {
