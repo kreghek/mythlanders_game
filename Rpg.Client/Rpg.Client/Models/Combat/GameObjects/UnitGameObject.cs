@@ -73,9 +73,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             _graphics.Draw(spriteBatch);
 
-                spriteBatch.End();
+            spriteBatch.End();
 
-                spriteBatch.Begin();
+            spriteBatch.Begin();
 
 
             var color = CombatUnit.Unit.IsDead ? Color.Gray : Color.White;
