@@ -348,11 +348,26 @@ namespace Rpg.Client.Models.Biome
 
             var orderedSprites = spriteList.OrderByDescending(x => x.Position.Y).ToArray();
 
+            var landscapeSpriteList = new List<Sprite>();
+            foreach (var location in _locationObjectList)
+            {
+                var sprites = location.GetLandscapeSprites();
+                foreach (var sprite in sprites)
+                {
+                    landscapeSpriteList.Add(sprite);
+                }
+            }
+
             spriteBatch.Begin();
 
             foreach (var location in _locationObjectList)
             {
                 location.Draw(spriteBatch);
+            }
+
+            foreach (var sprite in landscapeSpriteList)
+            {
+                sprite.Draw(spriteBatch);
             }
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)

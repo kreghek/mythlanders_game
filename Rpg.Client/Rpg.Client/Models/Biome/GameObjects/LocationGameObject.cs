@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -11,32 +12,72 @@ namespace Rpg.Client.Models.Biome.GameObjects
 {
     internal sealed class LocationGameObject
     {
-        private int _frameIndex;
-        private double _frameCounter;
-
-        private const double FRAMERATE = 1f / 4;
-        private const int FRAME_COUNT = 2;
-
         private Vector2 _position;
         private readonly Texture2D _texture;
         private readonly GlobeNodeGameObject? _nodeModel;
-        private IList<SingleGameObject> _objects = new List<SingleGameObject>();
+        private readonly IList<SingleGameObject> _objects = new List<SingleGameObject>();
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         internal GlobeNodeGameObject? NodeModel => _nodeModel;
 
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid, GameObjectContentStorage gameObjectContentStorage, GlobeNode node)
         {
-            var cellPosition = new Vector2(cellX * 256, cellY * 128);
+            var cellPosition = new Vector2(cellX * 256 * 0.5f - 126, cellY * 128 + cellX * 128 * 0.5f - 64);
             _position = cellPosition + centerNodePosition;
             _texture = gameObjectContentStorage.GetLocationTextures(nodeSid);
+            _gameObjectContentStorage = gameObjectContentStorage;
 
             var graphicObjectPosition = new Vector2(128, 64) + _position;
-            _objects.Add(new SingleGameObject(graphicObjectPosition, rowIndex: 0, gameObjectContentStorage));
+
+            Configure(nodeSid, graphicObjectPosition);
 
             if (node.CombatSequence is not null)
             {
                 _nodeModel = new GlobeNodeGameObject(node, graphicObjectPosition - new Vector2(64, 0), gameObjectContentStorage);
             }
+        }
+
+        private void Configure(GlobeNodeSid nodeSid, Vector2 graphicObjectPosition)
+        {
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition,
+                rowIndex: 0,
+                origin: new Vector2(0.5f, 0.5f),
+                _gameObjectContentStorage));
+
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition + new Vector2(-16, -16),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage));
+
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition + new Vector2(-8, -2),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            { AnimationSpeedFactor = 1.1f });
+
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition + new Vector2(6, 4),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            { AnimationSpeedFactor = 0.90f });
+
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition + new Vector2(-12, 14),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            { AnimationSpeedFactor = 1.3f });
+
+            _objects.Add(new SingleGameObject(
+                graphicObjectPosition + new Vector2(-20, 24),
+                rowIndex: 2,
+                origin: new Vector2(0.5f, 0.5f),
+                _gameObjectContentStorage,
+                isLandscape: true));
         }
 
         public void Update(GameTime gameTime)
@@ -59,7 +100,12 @@ namespace Rpg.Client.Models.Biome.GameObjects
 
         public IReadOnlyList<Sprite> GetSprites()
         {
-            return _objects.Select(x => x.GetSprite()).ToList();
+            return _objects.Where(x => !x.IsLandscape).Select(x => x.GetSprite()).ToList();
+        }
+
+        public IReadOnlyList<Sprite> GetLandscapeSprites()
+        {
+            return _objects.Where(x => x.IsLandscape).Select(x => x.GetSprite()).ToList();
         }
     }
 }

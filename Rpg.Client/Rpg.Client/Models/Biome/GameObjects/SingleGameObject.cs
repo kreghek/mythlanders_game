@@ -13,20 +13,25 @@ namespace Rpg.Client.Models.Biome.GameObjects
         private const double FRAMERATE = 1f / 4;
         private const int FRAME_COUNT = 4;
 
-        private Vector2 _position;
         private readonly int _rowIndex;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly bool _isLandscape;
         private readonly Sprite _sprite;
 
-        public SingleGameObject(Vector2 position, int rowIndex, GameObjectContentStorage gameObjectContentStorage)
+        public bool IsLandscape => _isLandscape;
+
+        public double AnimationSpeedFactor { get; init; } = 1;
+
+        public SingleGameObject(Vector2 position, int rowIndex, Vector2 origin, GameObjectContentStorage gameObjectContentStorage, bool isLandscape = false)
         {
-            _position = position;
             _rowIndex = rowIndex;
             _gameObjectContentStorage = gameObjectContentStorage;
+            _isLandscape = isLandscape;
             _sprite = new Sprite(_gameObjectContentStorage.GetLocationObjectTextures())
             { 
                 Position = position,
-                SourceRectangle = new Rectangle(_frameIndex * 128, _rowIndex * 128, 128, 128)
+                SourceRectangle = new Rectangle(_frameIndex * 128, _rowIndex * 128, 128, 128),
+                Origin = origin
             };
         }
 
@@ -34,7 +39,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
         {
             if (_frameCounter < FRAMERATE)
             {
-                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds * AnimationSpeedFactor;
             }
             else
             {
