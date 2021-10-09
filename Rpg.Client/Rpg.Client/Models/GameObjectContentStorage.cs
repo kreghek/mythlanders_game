@@ -19,6 +19,8 @@ namespace Rpg.Client.Models
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
+        private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
+        private Texture2D _locationObjectTextures;
         private Texture2D _biomClouds;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
@@ -111,6 +113,13 @@ namespace Rpg.Client.Models
             _unitPortrains = contentManager.Load<Texture2D>("Sprites/GameObjects/UnitPortrains");
 
             _arrowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Arrow");
+
+            _locationTextureDict = new Dictionary<GlobeNodeSid, Texture2D>
+            {
+                { GlobeNodeSid.SlavicThicket, contentManager.Load<Texture2D>("Sprites/GameObjects/Map/DeepThicket") }
+            };
+
+            _locationObjectTextures = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/MapObjects");
         }
 
         internal Texture2D GetBiomeClouds()
@@ -121,6 +130,16 @@ namespace Rpg.Client.Models
         internal Texture2D GetBulletGraphics()
         {
             return _arrowTexture;
+        }
+
+        internal Texture2D GetLocationTextures(GlobeNodeSid globeNodeSid)
+        {
+            return _locationTextureDict[GlobeNodeSid.SlavicThicket];
+        }
+
+        internal Texture2D GetLocationObjectTextures()
+        {
+            return _locationObjectTextures;
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
