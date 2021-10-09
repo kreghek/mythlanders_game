@@ -32,7 +32,6 @@ namespace Rpg.Client.Models.Biome
 
         private readonly ButtonBase[] _menuButtons;
 
-        private readonly IList<GlobeNodeGameObject> _nodeModels;
         private readonly IList<LocationGameObject> _locationObjectList;
 
         private readonly Random _random;
@@ -57,7 +56,6 @@ namespace Rpg.Client.Models.Biome
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _nodeModels = new List<GlobeNodeGameObject>();
             _locationObjectList = new List<LocationGameObject>();
 
             var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
@@ -135,16 +133,8 @@ namespace Rpg.Client.Models.Biome
                         if (node.IsAvailable)
                         {
                             var centerNodePosition = Game.GraphicsDevice.Viewport.Bounds.Center.ToVector2();
-                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3, centerNodePosition, node.Sid, _gameObjectContentStorage);
+                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3, centerNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
-
-                            if (node.CombatSequence is not null)
-                            {
-                                var position = GetBiomeNodeGraphicPositions(_biome.Type)[node.Index];
-                                var nodeModel = new GlobeNodeGameObject(node, position, _gameObjectContentStorage);
-
-                                _nodeModels.Add(nodeModel);
-                            }
                         }
                     }
 
@@ -162,19 +152,19 @@ namespace Rpg.Client.Models.Biome
 
                         var index = 0;
                         _hoverNodeGameObject = null;
-                        foreach (var node in _nodeModels)
+                        foreach (var location in _locationObjectList)
                         {
-                            if (node.Combat is null)
+                            if (location.NodeModel?.Combat is null)
                             {
                                 index++;
                                 continue;
                             }
 
-                            var detectNode = IsNodeOnHover(node, mouseRect);
+                            var detectNode = IsNodeOnHover(location.NodeModel, mouseRect);
 
                             if (detectNode)
                             {
-                                _hoverNodeGameObject = node;
+                                _hoverNodeGameObject = location.NodeModel;
                             }
 
                             index++;
@@ -378,9 +368,9 @@ namespace Rpg.Client.Models.Biome
                 sprite.Draw(spriteBatch);
             }
 
-            foreach (var node in _nodeModels)
+            foreach (var location in _locationObjectList)
             {
-                node.Draw(spriteBatch);
+                location.NodeModel?.Draw(spriteBatch);
             }
 
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
@@ -420,58 +410,6 @@ namespace Rpg.Client.Models.Biome
                 BiomeType.Egyptian => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
                 BiomeType.Greek => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
                 _ => throw new InvalidOperationException("Unknown biome type")
-            };
-        }
-
-        private static Vector2[] GetBiomeNodeGraphicPositions(BiomeType type)
-        {
-            return type switch
-            {
-                BiomeType.Slavic => new[]
-                {
-                    new Vector2(92, 82), // 1
-                    new Vector2(320, 115), // 2
-                    new Vector2(210, 165), // 3
-                    new Vector2(340, 255), // 4
-                    new Vector2(450, 200), // 5
-                    new Vector2(680, 95), // 6
-                    new Vector2(740, 200), // 7
-                    new Vector2(545, 240) // 8
-                },
-                BiomeType.Chinese => new[]
-                {
-                    new Vector2(92, 82), // 1
-                    new Vector2(320, 115), // 2
-                    new Vector2(210, 165), // 3
-                    new Vector2(340, 255), // 4
-                    new Vector2(450, 200), // 5
-                    new Vector2(680, 95), // 6
-                    new Vector2(740, 200), // 7
-                    new Vector2(545, 240) // 8
-                },
-                BiomeType.Egyptian => new[]
-                {
-                    new Vector2(92, 82), // 1
-                    new Vector2(320, 115), // 2
-                    new Vector2(210, 165), // 3
-                    new Vector2(340, 255), // 4
-                    new Vector2(450, 200), // 5
-                    new Vector2(680, 95), // 6
-                    new Vector2(740, 200), // 7
-                    new Vector2(545, 240) // 8
-                },
-                BiomeType.Greek => new[]
-                {
-                    new Vector2(92, 82), // 1
-                    new Vector2(320, 115), // 2
-                    new Vector2(210, 165), // 3
-                    new Vector2(340, 255), // 4
-                    new Vector2(450, 200), // 5
-                    new Vector2(680, 95), // 6
-                    new Vector2(740, 200), // 7
-                    new Vector2(545, 240) // 8
-                },
-                _ => throw new InvalidOperationException($"Unknown biome type {type}.")
             };
         }
 
@@ -537,7 +475,7 @@ namespace Rpg.Client.Models.Biome
         private void Globe_Updated(object? sender, EventArgs e)
         {
             // This happens when cheat is used.
-            _nodeModels.Clear();
+            _locationObjectList.Clear();
             _isNodeModelsCreated = false;
         }
 
@@ -564,11 +502,6 @@ namespace Rpg.Client.Models.Biome
             foreach (var locationObject in _locationObjectList)
             {
                 locationObject.Update(gameTime);
-            }
-
-            foreach (var nodeGameObject in _nodeModels)
-            {
-                nodeGameObject.Update(gameTime);
             }
         }
     }
