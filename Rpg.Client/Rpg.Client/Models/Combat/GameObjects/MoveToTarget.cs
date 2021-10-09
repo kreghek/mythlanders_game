@@ -11,10 +11,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 0.25;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
+        private readonly int _skillIndex;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
-        private readonly int _skillIndex;
         private double _counter;
 
         public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, int skillIndex)

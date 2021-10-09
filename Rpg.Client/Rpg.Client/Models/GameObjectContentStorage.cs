@@ -17,6 +17,7 @@ namespace Rpg.Client.Models
 
     internal class GameObjectContentStorage
     {
+        private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
@@ -24,12 +25,16 @@ namespace Rpg.Client.Models
         private Dictionary<string, SoundEffect> _combatPowerDict;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
-        private Effect _allWhiteEffect;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
+
+        public Effect GetAllWhiteEffect()
+        {
+            return _allWhiteEffect;
+        }
 
         public Texture2D GetUnitGraphics(UnitName unitName)
         {
@@ -39,11 +44,6 @@ namespace Rpg.Client.Models
             }
 
             return _monsterUnit;
-        }
-
-        public Effect GetAllWhiteEffect()
-        {
-            return _allWhiteEffect;
         }
 
         public void LoadContent(ContentManager contentManager)
