@@ -22,6 +22,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private double _frameCounter;
         private int _frameIndex;
 
+        public bool IsDamaged { get; set; }
+
         public UnitGraphics(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             Root = new SpriteContainer
@@ -54,8 +56,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             switch (unit.Unit.UnitScheme.Name)
             {
-                case "Беримир":
-                case "Тао Чан":
+                case UnitName.Berimir:
+                case UnitName.Maosin:
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
@@ -74,9 +76,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     };
                     break;
 
-                case "Сокол":
-                case "Рада":
-                case "Кахотеп":
+                case UnitName.Hawk:
+                case UnitName.Rada:
+                case UnitName.Kakhotep:
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },

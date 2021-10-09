@@ -159,7 +159,7 @@ namespace Rpg.Client.Core
             var unitDtos = units.Select(
                 unit => new PlayerUnitDto
                 {
-                    SchemeSid = unit.UnitScheme.Name,
+                    SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.Hp,
                     Xp = unit.Xp,
                     Level = unit.Level,
@@ -245,7 +245,8 @@ namespace Rpg.Client.Core
             var units = new List<Unit>();
             foreach (var unitDto in groupDto.Units)
             {
-                var unitScheme = UnitSchemeCatalog.PlayerUnits[unitDto.SchemeSid];
+                var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
+                var unitScheme = UnitSchemeCatalog.PlayerUnits[unitName];
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 

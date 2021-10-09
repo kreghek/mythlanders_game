@@ -37,22 +37,22 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = UnitName.Hq,
                                 TextSid = "SlavicPlot_1_b_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = UnitName.Berimir,
                                 TextSid = "SlavicPlot_1_b_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = UnitName.Hq,
                                 TextSid = "SlavicPlot_1_b_3"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_1_b_4"
                             }
                         }
@@ -75,17 +75,17 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_1_a_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = UnitName.Berimir,
                                 TextSid = "SlavicPlot_1_a_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = UnitName.Hq,
                                 TextSid = "SlavicPlot_1_a_3"
                             }
                         }
@@ -121,22 +121,22 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = UnitName.Berimir,
                                 TextSid = "SlavicPlot_2_b_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_2_b_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = UnitName.Berimir,
                                 TextSid = "SlavicPlot_2_b_3"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_2_b_4"
                             }
                         }
@@ -159,22 +159,22 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_2_a_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Oldman,
+                                Speaker = UnitName.Oldman,
                                 TextSid = "SlavicPlot_2_a_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Oldman,
+                                Speaker = UnitName.Oldman,
                                 TextSid = "SlavicPlot_2_a_3"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_2_a_4"
                             }
                         }
@@ -210,27 +210,27 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = UnitName.Hq,
                                 TextSid = "SlavicPlot_3_b_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_3_b_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hawk,
+                                Speaker = UnitName.Hawk,
                                 TextSid = "SlavicPlot_3_b_3"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Berimir,
+                                Speaker = UnitName.Berimir,
                                 TextSid = "SlavicPlot_3_b_4"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hawk,
+                                Speaker = UnitName.Hawk,
                                 TextSid = "SlavicPlot_3_b_5"
                             }
                         }
@@ -254,22 +254,22 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_3_a_1"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_3_a_2"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_3_a_3"
                             },
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.GuardianWoman,
+                                Speaker = UnitName.GuardianWoman,
                                 TextSid = "SlavicPlot_3_a_4"
                             }
                         }
@@ -305,7 +305,7 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Hq,
+                                Speaker = UnitName.Hq,
                                 TextSid = "SlavicPlot_5_b_1"
                             }
                         }
@@ -329,7 +329,7 @@ namespace Rpg.Client.Core
                         {
                             new EventTextFragment
                             {
-                                Speaker = EventSpeaker.Environment,
+                                Speaker = UnitName.Environment,
                                 TextSid = "SlavicPlot_5_a_1"
                             }
                         }

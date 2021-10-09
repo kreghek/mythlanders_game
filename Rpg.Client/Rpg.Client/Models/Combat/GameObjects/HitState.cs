@@ -9,7 +9,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class HitState : IUnitStateEngine
     {
-        private const double DURATION = 1;
+        private const double DURATION = 0.75;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance _hitSound;
@@ -74,6 +74,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _graphics.PlayAnimation($"Skill{_index}");
             }
 
+            if (!_interactionExecuted)
+            {
+                HandleStateExecution();
+            }
+
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
             if (_counter > DURATION)
@@ -81,13 +86,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 IsComplete = true;
 
                 HandleStateEnding();
-            }
-            else if (_counter > DURATION / 2)
-            {
-                if (!_interactionExecuted)
-                {
-                    HandleStateExecution();
-                }
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,9 +43,12 @@ namespace Rpg.Client.Models.Party
 
             if (_selectedCharacter is not null)
             {
+                var rm = new ResourceManager(typeof(UiResource));
+                var name = rm.GetString($"UnitName{_selectedCharacter.UnitScheme.Name}") ?? _selectedCharacter.UnitScheme.Name.ToString();
+
                 var sb = new List<string>
                 {
-                    _selectedCharacter.UnitScheme.Name,
+                    name,
                     $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
                     $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
                     $"Level: {_selectedCharacter.Level}",
@@ -89,9 +93,12 @@ namespace Rpg.Client.Models.Party
                 var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
 
                 _buttonList.Clear();
+                var rm = new ResourceManager(typeof(UiResource));
                 foreach (var character in playerCharacters)
                 {
-                    var button = new TextButton(character.UnitScheme.Name, _uiContentStorage.GetButtonTexture(),
+                    var name = rm.GetString($"UnitName{character.UnitScheme.Name}") ?? character.UnitScheme.Name.ToString();
+
+                    var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), new Rectangle());
                     button.OnClick += (s, e) =>
                     {

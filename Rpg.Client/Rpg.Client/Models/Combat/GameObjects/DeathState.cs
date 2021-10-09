@@ -26,10 +26,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
+                _graphics.IsDamaged = true;
                 _graphics.PlayAnimation("Death");
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_counter > 0.05)
+            {
+                _graphics.IsDamaged = false;
+            }
 
             // Infinite
         }

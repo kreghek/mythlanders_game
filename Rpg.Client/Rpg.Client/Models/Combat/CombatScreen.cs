@@ -222,6 +222,9 @@ namespace Rpg.Client.Models.Combat
                     GainEquipmentItems(_globeNodeGameObject.GlobeNode, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
+                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                    soundtrackManager.PlayVictoryTrack();
+
                     _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.Victory,
                         xpItems);
@@ -235,6 +238,9 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
+                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                soundtrackManager.PlayDefeatTrack();
+
                 HandleGlobe(CombatResult.Defeat);
 
                 _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
@@ -420,6 +426,7 @@ namespace Rpg.Client.Models.Combat
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             DrawBullets(spriteBatch);
+
             DrawUnits(spriteBatch);
 
             foreach (var bullet in _bulletObjects)

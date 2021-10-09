@@ -188,21 +188,21 @@ namespace Rpg.Client.Models.Event
             return text ?? textSid;
         }
 
-        private static string? GetSpeaker(EventSpeaker speaker)
+        private static string? GetSpeaker(UnitName speaker)
         {
-            if (speaker == EventSpeaker.Environment)
+            if (speaker == UnitName.Environment)
             {
                 return null;
             }
 
-            if (speaker == EventSpeaker.Undefined)
+            if (speaker == UnitName.Undefined)
             {
                 Debug.Fail("Speaker is undefined.");
                 return null;
             }
 
             var rm = new ResourceManager(typeof(UiResource));
-            var text = rm.GetString($"EventSpeaker{speaker}");
+            var text = rm.GetString($"UnitName{speaker}");
 
             Debug.Assert(text is not null, "Speaker localiztion must be defined.");
             if (text is not null)
@@ -213,23 +213,23 @@ namespace Rpg.Client.Models.Event
             return speaker.ToString();
         }
 
-        private static Rectangle GetUnitPortrainRect(EventSpeaker speaker)
+        private static Rectangle GetUnitPortrainRect(UnitName speaker)
         {
             switch (speaker)
             {
-                case EventSpeaker.Hq:
+                case UnitName.Hq:
                     return new Rectangle(0, 0, 32, 32);
 
-                case EventSpeaker.Berimir:
+                case UnitName.Berimir:
                     return new Rectangle(32, 0, 32, 32);
 
-                case EventSpeaker.Hawk:
+                case UnitName.Hawk:
                     return new Rectangle(0, 32, 32, 32);
 
-                case EventSpeaker.Oldman:
+                case UnitName.Oldman:
                     return new Rectangle(32, 32, 32, 32);
 
-                case EventSpeaker.GuardianWoman:
+                case UnitName.GuardianWoman:
                     return new Rectangle(32, 64, 32, 32);
 
                 default:

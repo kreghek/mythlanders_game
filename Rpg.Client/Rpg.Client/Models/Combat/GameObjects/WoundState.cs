@@ -27,12 +27,19 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation("Wound");
+                _graphics.IsDamaged = true;
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
+            if (_counter > 0.05)
+            {
+                _graphics.IsDamaged = false;
+            }
+
             if (_counter > 1)
             {
+                _graphics.IsDamaged = false;
                 IsComplete = true;
             }
         }

@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
             Power = 11,
             PowerPerLevel = 2,
 
-            Name = "Беримир",
+            Name = UnitName.Berimir,
             SkillSets = new List<SkillSet>
             {
                 new SkillSet
@@ -48,7 +48,7 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 6,
-            Name = "Рада",
+            Name = UnitName.Rada,
             Power = 6,
             PowerPerLevel = 1,
 
@@ -85,7 +85,7 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 7,
-            Name = "Сокол", // Hawkeye
+            Name = UnitName.Hawk,
             Power = 13,
             PowerPerLevel = 2,
 
@@ -125,7 +125,7 @@ namespace Rpg.Client.Core
             Power = 11,
             PowerPerLevel = 2,
 
-            Name = "Кахотеп",
+            Name = UnitName.Kakhotep,
 
             SkillSets = new List<SkillSet>
             {
@@ -163,7 +163,7 @@ namespace Rpg.Client.Core
             Power = 11,
             PowerPerLevel = 2,
 
-            Name = "Тао Чан",
+            Name = UnitName.Taochan,
 
             SkillSets = new List<SkillSet>
             {
@@ -194,7 +194,7 @@ namespace Rpg.Client.Core
             }
         };
 
-        public static IDictionary<string, UnitScheme> PlayerUnits = new[]
+        public static IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
         {
             ArcherHero,
             HerbalistHero,
@@ -222,7 +222,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Grey Wolf",
+                    Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
                     Power = 2,
@@ -234,9 +234,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(), // Bite
-                                new PowerUpSkill(), // Wolf howl
-                                new HealSkill() // lick wounds
+                                new MonsterAttackSkill()
                             }
                         }
                     }
@@ -273,7 +271,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 8,
-                    Name = "Bear",
+                    Name = UnitName.Bear,
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
@@ -297,7 +295,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 2,
-                    Name = "Wisp",
+                    Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     Power = 4,
@@ -320,7 +318,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 9,
-                    Name = "Volkolak",
+                    Name = UnitName.Volkolak,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
@@ -344,7 +342,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 3,
-                    Name = "Korgorush",
+                    Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 4,
@@ -367,7 +365,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 5,
-                    Name = "Stryga",
+                    Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 3,
@@ -390,7 +388,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 10,
-                    Name = "Vampire",
+                    Name = UnitName.Vampire,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
@@ -414,7 +412,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Gaint frog",
+                    Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     Power = 3,
@@ -436,7 +434,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 30,
                     HpPerLevel = 5,
-                    Name = "Basilisk",
+                    Name = UnitName.Basilisk,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
@@ -460,7 +458,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 8,
                     HpPerLevel = 60,
-                    Name = "Taote",
+                    Name = UnitName.Taote,
                     Biom = biomeType,
 
                     IsBoss = true,
@@ -492,7 +490,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Grey Wolf",
+                    Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
                     Power = 2,
@@ -543,7 +541,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 8,
-                    Name = "Bear",
+                    Name = UnitName.Bear,
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
@@ -567,7 +565,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 2,
-                    Name = "Wisp",
+                    Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     Power = 4,
@@ -590,7 +588,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 9,
-                    Name = "Volkolak",
+                    Name = UnitName.Volkolak,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
@@ -614,7 +612,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 3,
-                    Name = "Korgorush",
+                    Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 4,
@@ -637,7 +635,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 5,
-                    Name = "Stryga",
+                    Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 3,
@@ -660,7 +658,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 10,
-                    Name = "Vampire",
+                    Name = UnitName.Vampire,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
@@ -684,7 +682,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Gaint frog",
+                    Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     Power = 3,
@@ -706,7 +704,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 30,
                     HpPerLevel = 5,
-                    Name = "Basilisk",
+                    Name = UnitName.Basilisk,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
@@ -730,7 +728,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 8,
                     HpPerLevel = 60,
-                    Name = "Sphynx",
+                    Name = UnitName.Sphynx,
                     Biom = biomeType,
 
                     IsBoss = true,
@@ -762,7 +760,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Grey Wolf",
+                    Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
                     Power = 2,
@@ -813,7 +811,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 8,
-                    Name = "Bear",
+                    Name = UnitName.Bear,
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
@@ -837,7 +835,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 2,
-                    Name = "Wisp",
+                    Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     Power = 4,
@@ -860,7 +858,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 9,
-                    Name = "Volkolak",
+                    Name = UnitName.Volkolak,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
@@ -884,7 +882,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 3,
-                    Name = "Korgorush",
+                    Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 4,
@@ -907,7 +905,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 5,
-                    Name = "Stryga",
+                    Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 3,
@@ -930,7 +928,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 10,
-                    Name = "Vampire",
+                    Name = UnitName.Vampire,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
@@ -954,7 +952,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Gaint frog",
+                    Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     Power = 3,
@@ -976,7 +974,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 30,
                     HpPerLevel = 5,
-                    Name = "Basilisk",
+                    Name = UnitName.Basilisk,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
@@ -1000,7 +998,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 8,
                     HpPerLevel = 60,
-                    Name = "Hydra",
+                    Name = UnitName.Hydra,
                     Biom = biomeType,
 
                     IsBoss = true,
@@ -1032,7 +1030,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Grey Wolf",
+                    Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
                     Power = 2,
@@ -1053,7 +1051,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 8,
-                    Name = "Bear",
+                    Name = UnitName.Bear,
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
@@ -1075,7 +1073,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 2,
-                    Name = "Wisp",
+                    Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     Power = 4,
@@ -1096,7 +1094,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 25,
                     HpPerLevel = 9,
-                    Name = "Volkolak",
+                    Name = UnitName.Volkolak,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
@@ -1118,7 +1116,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 15,
                     HpPerLevel = 3,
-                    Name = "Korgorush",
+                    Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 4,
@@ -1139,7 +1137,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 5,
-                    Name = "Stryga",
+                    Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     Power = 3,
@@ -1160,7 +1158,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 10,
-                    Name = "Vampire",
+                    Name = UnitName.Vampire,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
@@ -1182,7 +1180,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
-                    Name = "Gaint frog",
+                    Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     Power = 3,
@@ -1203,7 +1201,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 30,
                     HpPerLevel = 5,
-                    Name = "Basilisk",
+                    Name = UnitName.Basilisk,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
@@ -1225,7 +1223,7 @@ namespace Rpg.Client.Core
                 {
                     Hp = 8,
                     HpPerLevel = 55,
-                    Name = "Koshey The Immortal",
+                    Name = UnitName.KosheyTheImmortal,
                     Biom = biomeType,
 
                     IsBoss = true,
@@ -1252,7 +1250,7 @@ namespace Rpg.Client.Core
                         {
                             Hp = 8,
                             HpPerLevel = 55,
-                            Name = "Koshey's Undead form",
+                            Name = UnitName.KosheyTheImmortal2,
                             Biom = BiomeType.Slavic,
                             NodeIndexes = new[] { 0, 1, 2 },
                             Power = 14,
@@ -1278,7 +1276,7 @@ namespace Rpg.Client.Core
                                 {
                                     Hp = 8,
                                     HpPerLevel = 55,
-                                    Name = "Koshey's Ultimate Form",
+                                    Name = UnitName.KosheyTheImmortal3,
                                     Biom = BiomeType.Slavic,
                                     NodeIndexes = new[] { 0, 1, 2 },
                                     Power = 15,

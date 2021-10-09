@@ -11,7 +11,8 @@ namespace Rpg.Client.Core
         public bool IsBoss { get; init; }
 
         public bool IsUnique { get; init; }
-        public string Name { get; init; }
+
+        public UnitName Name { get; init; }
 
         public IEnumerable<int> NodeIndexes { get; init; }
 
