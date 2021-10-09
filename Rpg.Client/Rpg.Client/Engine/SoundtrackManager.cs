@@ -35,19 +35,14 @@ namespace Rpg.Client.Engine
             ChangeState("battle");
         }
 
-        public void PlayMapTrack()
-        {
-            ChangeState("map");
-        }
-
-        public void PlayVictoryTrack()
-        {
-            ChangeState("victory");
-        }
-
         public void PlayDefeatTrack()
         {
             ChangeState("defeat");
+        }
+
+        public void PlayMapTrack()
+        {
+            ChangeState("map");
         }
 
         public void PlaySilence()
@@ -58,6 +53,11 @@ namespace Rpg.Client.Engine
         public void PlayTitleTrack()
         {
             ChangeState("title");
+        }
+
+        public void PlayVictoryTrack()
+        {
+            ChangeState("victory");
         }
 
         public void Update()
@@ -129,6 +129,7 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
+
                     break;
 
                 case "victory":

@@ -17,6 +17,7 @@ namespace Rpg.Client.Models
 
     internal class GameObjectContentStorage
     {
+        private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
         private Texture2D _locationObjectTextures;
@@ -31,6 +32,11 @@ namespace Rpg.Client.Models
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
+
+        public Effect GetAllWhiteEffect()
+        {
+            return _allWhiteEffect;
+        }
 
         public Texture2D GetUnitGraphics(UnitName unitName)
         {
@@ -51,6 +57,7 @@ namespace Rpg.Client.Models
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
+            _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },

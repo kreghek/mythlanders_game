@@ -106,6 +106,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _animationSid = DEFAULT_ANIMATION_SID;
         }
 
+        public bool IsDamaged { get; set; }
+
         public SpriteContainer Root { get; }
 
         public bool ShowActiveMarker { get; set; }

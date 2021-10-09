@@ -1,7 +1,7 @@
 ﻿namespace Rpg.Client.Core
 {
     internal enum UnitName
-    { 
+    {
         Undefined,
 
         /// <summary>
@@ -20,9 +20,9 @@
         GuardianWoman,
 
         Aspid,
-        Liho,  // лихо
+        Liho, // лихо
         Kikimore, // кикимора
-        SwampWomanFish,  // болотная русалка
+        SwampWomanFish, // болотная русалка
         Drekava, // Дрекавак
         GreyWolf,
         Bear,
@@ -39,6 +39,6 @@
         Hydra,
         KosheyTheImmortal,
         KosheyTheImmortal2,
-        KosheyTheImmortal3,
+        KosheyTheImmortal3
     }
 }

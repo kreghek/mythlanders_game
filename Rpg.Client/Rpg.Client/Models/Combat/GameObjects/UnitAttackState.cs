@@ -23,7 +23,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(graphics, graphicsRoot, targetPosition),
+                new MoveToTarget(graphics, graphicsRoot, targetPosition, index),
                 new HitState(graphics, interaction, hitSound, index),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };

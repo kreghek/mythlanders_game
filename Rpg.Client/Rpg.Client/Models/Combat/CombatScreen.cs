@@ -426,6 +426,7 @@ namespace Rpg.Client.Models.Combat
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
 
             DrawBullets(spriteBatch);
+
             DrawUnits(spriteBatch);
 
             foreach (var bullet in _bulletObjects)
