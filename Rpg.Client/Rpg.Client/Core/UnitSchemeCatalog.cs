@@ -316,7 +316,7 @@ namespace Rpg.Client.Core
             MissionaryHero,
 
             ScorpionHero,
-            PriestHero,
+            PriestHero
         }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
         static UnitSchemeCatalog()

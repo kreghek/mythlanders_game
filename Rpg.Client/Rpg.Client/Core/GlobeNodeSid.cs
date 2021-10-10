@@ -24,6 +24,6 @@
 
         EgyptianSacredPlace = 301,
         EgyptianTemple = 302,
-        EgyptianScreamValey = 303,
+        EgyptianScreamValey = 303
     }
 }

@@ -19,14 +19,14 @@ namespace Rpg.Client.Models
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
-        private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
-        private Texture2D _locationObjectTextures;
         private Texture2D _biomClouds;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
         private Dictionary<string, SoundEffect> _combatPowerDict;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
+        private Texture2D _locationObjectTextures;
+        private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
@@ -132,16 +132,6 @@ namespace Rpg.Client.Models
             return _arrowTexture;
         }
 
-        internal Texture2D GetLocationTextures(GlobeNodeSid globeNodeSid)
-        {
-            return _locationTextureDict[GlobeNodeSid.SlavicThicket];
-        }
-
-        internal Texture2D GetLocationObjectTextures()
-        {
-            return _locationObjectTextures;
-        }
-
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
         {
             return _combatBackgroundDict[backgroundType];
@@ -165,6 +155,16 @@ namespace Rpg.Client.Models
             }
 
             return _combatPowerDict["Wolf Bite"];
+        }
+
+        internal Texture2D GetLocationObjectTextures()
+        {
+            return _locationObjectTextures;
+        }
+
+        internal Texture2D GetLocationTextures(GlobeNodeSid globeNodeSid)
+        {
+            return _locationTextureDict[GlobeNodeSid.SlavicThicket];
         }
 
         internal Texture2D GetNodeMarker()

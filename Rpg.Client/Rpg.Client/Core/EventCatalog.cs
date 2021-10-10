@@ -25,44 +25,8 @@ namespace Rpg.Client.Core
 
         public static IEnumerable<Event> Events => _events;
 
-        private static IEnumerable<Event> CreatePlotEvents(string? serializedPlotString)
-        {
-            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
-
-            foreach (var eventStorageModel in eventStorageModelList)
-            {
-                var locationInfo = GetLocationInfo(eventStorageModel.Location);
-
-                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat, eventStorageModel.Aftermath);
-                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat, aftermath: null);
-
-                // System marker used to load saved game. Read it as identifier.
-                SystemEventMarker? systemMarker = null;
-                if (eventStorageModel.Aftermath is not null)
-                {
-                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
-                    {
-                        systemMarker = systemEventMarkerTemp;
-                    }
-                }
-
-                var plotEvent = new Event
-                {
-                    Biome = locationInfo.Biome,
-                    ApplicableOnlyFor = new[] { locationInfo.LocationSid },
-                    IsUnique = true,
-                    IsHighPriority = true,
-                    Sid = eventStorageModel.Name,
-                    BeforeCombatStartNode = beforeEventNode,
-                    AfterCombatStartNode = afterEventNode,
-                    SystemMarker = systemMarker
-                };
-
-                yield return plotEvent;
-            }
-        }
-
-        private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position, string aftermath)
+        private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
+            string aftermath)
         {
             var fragments = new List<EventTextFragment>();
 
@@ -129,21 +93,68 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
+        private static IEnumerable<Event> CreatePlotEvents(string? serializedPlotString)
         {
-            if (fragmentStrageModel.Speaker is null)
-            {
-                return UnitName.Environment;
-            }
+            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
-            var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
-            return unitName;
+            foreach (var eventStorageModel in eventStorageModelList)
+            {
+                var locationInfo = GetLocationInfo(eventStorageModel.Location);
+
+                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat,
+                    eventStorageModel.Aftermath);
+                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat,
+                    aftermath: null);
+
+                // System marker used to load saved game. Read it as identifier.
+                SystemEventMarker? systemMarker = null;
+                if (eventStorageModel.Aftermath is not null)
+                {
+                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
+                    {
+                        systemMarker = systemEventMarkerTemp;
+                    }
+                }
+
+                var plotEvent = new Event
+                {
+                    Biome = locationInfo.Biome,
+                    ApplicableOnlyFor = new[] { locationInfo.LocationSid },
+                    IsUnique = true,
+                    IsHighPriority = true,
+                    Sid = eventStorageModel.Name,
+                    BeforeCombatStartNode = beforeEventNode,
+                    AfterCombatStartNode = afterEventNode,
+                    SystemMarker = systemMarker
+                };
+
+                yield return plotEvent;
+            }
         }
 
-        private sealed record LocationInfo
+        private static Event[] CreateTestEvents()
         {
-            public BiomeType Biome { get; init; }
-            public GlobeNodeSid LocationSid { get; init; }
+            return Array.Empty<Event>();
+            //return new[]
+            //            {
+            //    CreateTestDialog(1, BiomeType.Slavic),
+            //    CreateTestDialog(2, BiomeType.Slavic),
+            //    CreateTestDialog(3, BiomeType.Slavic),
+            //    CreateTestDialog(4, BiomeType.Slavic),
+            //    CreateTestDialog(5, BiomeType.Slavic),
+            //    CreateTestDialog(6, BiomeType.Slavic),
+            //    CreateTestDialog(7, BiomeType.Slavic),
+            //    CreateTestDialog(8, BiomeType.Slavic),
+            //    CreateTestDialog(9, BiomeType.Slavic),
+            //    CreateTestDialog(10, BiomeType.Slavic),
+
+            //    CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
+
+            //    CreateMeetHerbalistDialog(),
+            //    CreateMeetArcherDialog(),
+            //    CreateMeetPriestDialog(),
+            //    CreateMeetMissionaryDialog()
+            //};
         }
 
         private static LocationInfo GetLocationInfo(string name)
@@ -172,10 +183,12 @@ namespace Rpg.Client.Core
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseMonastery };
 
                 case "GaintBamboo":
-                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
+                    return new LocationInfo
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
 
                 case "EmperorTomb":
-                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
+                    return new LocationInfo
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
 
                 case "RiseFields":
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseRiseFields };
@@ -184,42 +197,36 @@ namespace Rpg.Client.Core
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseSkyTower };
 
                 case "SacredPlace":
-                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
+                    return new LocationInfo
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
 
                 case "Temple":
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianTemple };
 
                 case "ScreamValey":
-                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
+                    return new LocationInfo
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
 
                 default:
                     throw new InvalidOperationException();
             }
         }
 
-        private static Event[] CreateTestEvents()
+        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
         {
-            return Array.Empty<Event>();
-            //return new[]
-            //            {
-            //    CreateTestDialog(1, BiomeType.Slavic),
-            //    CreateTestDialog(2, BiomeType.Slavic),
-            //    CreateTestDialog(3, BiomeType.Slavic),
-            //    CreateTestDialog(4, BiomeType.Slavic),
-            //    CreateTestDialog(5, BiomeType.Slavic),
-            //    CreateTestDialog(6, BiomeType.Slavic),
-            //    CreateTestDialog(7, BiomeType.Slavic),
-            //    CreateTestDialog(8, BiomeType.Slavic),
-            //    CreateTestDialog(9, BiomeType.Slavic),
-            //    CreateTestDialog(10, BiomeType.Slavic),
+            if (fragmentStrageModel.Speaker is null)
+            {
+                return UnitName.Environment;
+            }
 
-            //    CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
+            var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
+            return unitName;
+        }
 
-            //    CreateMeetHerbalistDialog(),
-            //    CreateMeetArcherDialog(),
-            //    CreateMeetPriestDialog(),
-            //    CreateMeetMissionaryDialog()
-            //};
+        private sealed record LocationInfo
+        {
+            public BiomeType Biome { get; init; }
+            public GlobeNodeSid LocationSid { get; init; }
         }
 
         //private static Event CreateDependentTestEvent(int id, string requiredEventName, BiomeType biomeType)
