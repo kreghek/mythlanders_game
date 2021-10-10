@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+
+using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Core
 {
@@ -10,342 +13,188 @@ namespace Rpg.Client.Core
 
         static EventCatalog()
         {
+            var rm = PlotResources.ResourceManager;
+            var serializedPlotString = rm.GetString("MainPlot");
+
             var testEvents = CreateTestEvents();
 
-            var plotEvents = CreatePlotEvents();
+            var plotEvents = CreatePlotEvents(serializedPlotString);
 
             _events = testEvents.Concat(plotEvents).ToArray();
         }
 
         public static IEnumerable<Event> Events => _events;
 
-        private static IEnumerable<Event> CreatePlotEvents()
+        private static IEnumerable<Event> CreatePlotEvents(string? serializedPlotString)
         {
-            var slavicPlotEvent1 = new Event
+            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
+
+            foreach (var eventStorageModel in eventStorageModelList)
             {
-                Biome = BiomeType.Slavic,
-                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicThicket },
-                IsUnique = true,
-                IsHighPriority = true,
-                Sid = "SlavicPlot_1",
-                BeforeCombatStartNode = new EventNode
+                var locationInfo = GetLocationInfo(eventStorageModel.Location);
+
+                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat, eventStorageModel.Aftermath);
+                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat, aftermath: null);
+
+                // System marker used to load saved game. Read it as identifier.
+                SystemEventMarker? systemMarker = null;
+                if (eventStorageModel.Aftermath is not null)
                 {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
+                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
                     {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hq,
-                                TextSid = "SlavicPlot_1_b_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Berimir,
-                                TextSid = "SlavicPlot_1_b_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hq,
-                                TextSid = "SlavicPlot_1_b_3"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_1_b_4"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Combat",
-                            IsEnd = true
-                        }
-                    }
-                },
-                AfterCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_1_a_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Berimir,
-                                TextSid = "SlavicPlot_1_a_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hq,
-                                TextSid = "SlavicPlot_1_a_3"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Continue",
-                            IsEnd = true
-                        }
+                        systemMarker = systemEventMarkerTemp;
                     }
                 }
-            };
 
-            yield return slavicPlotEvent1;
-
-            var slavicPlotEvent2 = new Event
-            {
-                Biome = BiomeType.Slavic,
-                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicSwamp },
-                IsUnique = true,
-                IsHighPriority = true,
-                Sid = "SlavicPlot_2",
-                RequiredBiomeLevel = 1,
-                RequiredEventsCompleted = new[] { "SlavicPlot_1" },
-                BeforeCombatStartNode = new EventNode
+                var plotEvent = new Event
                 {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
+                    Biome = locationInfo.Biome,
+                    ApplicableOnlyFor = new[] { locationInfo.LocationSid },
+                    IsUnique = true,
+                    IsHighPriority = true,
+                    Sid = eventStorageModel.Name,
+                    BeforeCombatStartNode = beforeEventNode,
+                    AfterCombatStartNode = afterEventNode,
+                    SystemMarker = systemMarker
+                };
+
+                yield return plotEvent;
+            }
+        }
+
+        private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position, string aftermath)
+        {
+            var fragments = new List<EventTextFragment>();
+
+            foreach (var fragmentStrageModel in nodeStorageModel.Fragments)
+            {
+                fragments.Add(new EventTextFragment
+                {
+                    Text = fragmentStrageModel.Text,
+                    Speaker = ParseSpeaker(fragmentStrageModel)
+                });
+            }
+
+            IOptionAftermath optionAftermath = null;
+            if (aftermath is not null)
+            {
+                switch (aftermath)
+                {
+                    case "MeetArcher":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero);
+                        break;
+
+                    case "MeetHerbalist":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero);
+                        break;
+
+                    case "MeetMonk":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MonkHero);
+                        break;
+
+                    case "MeetSpearman":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.SpearmanHero);
+                        break;
+
+                    case "MeetMissionary":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero);
+                        break;
+
+                    case "MeetScorpion":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ScorpionHero);
+                        break;
+
+                    case "MeetPriest":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero);
+                        break;
+                }
+            }
+
+            return new EventNode
+            {
+                CombatPosition = position,
+                Options = new[]
+                {
+                    new EventOption
                     {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Berimir,
-                                TextSid = "SlavicPlot_2_b_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_2_b_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Berimir,
-                                TextSid = "SlavicPlot_2_b_3"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_2_b_4"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Combat",
-                            IsEnd = true
-                        }
+                        TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                        IsEnd = true,
+                        Aftermath = optionAftermath
                     }
                 },
-                AfterCombatStartNode = new EventNode
+                TextBlock = new EventTextBlock
                 {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_2_a_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Oldman,
-                                TextSid = "SlavicPlot_2_a_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Oldman,
-                                TextSid = "SlavicPlot_2_a_3"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_2_a_4"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Continue",
-                            IsEnd = true
-                        }
-                    }
+                    Fragments = fragments
                 }
             };
+        }
 
-            yield return slavicPlotEvent2;
-
-            var slavicPlotEvent3 = new Event
+        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
+        {
+            if (fragmentStrageModel.Speaker is null)
             {
-                Biome = BiomeType.Slavic,
-                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicPit },
-                IsUnique = true,
-                IsHighPriority = true,
-                Sid = "SlavicPlot_3",
-                RequiredBiomeLevel = 1,
-                RequiredEventsCompleted = new[] { "SlavicPlot_2" },
-                BeforeCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hq,
-                                TextSid = "SlavicPlot_3_b_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_3_b_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hawk,
-                                TextSid = "SlavicPlot_3_b_3"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Berimir,
-                                TextSid = "SlavicPlot_3_b_4"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hawk,
-                                TextSid = "SlavicPlot_3_b_5"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Combat",
-                            IsEnd = true,
-                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
-                        }
-                    }
-                },
-                AfterCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_3_a_1"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_3_a_2"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_3_a_3"
-                            },
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.GuardianWoman,
-                                TextSid = "SlavicPlot_3_a_4"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Continue",
-                            IsEnd = true
-                        }
-                    }
-                }
-            };
+                return UnitName.Environment;
+            }
 
-            yield return slavicPlotEvent3;
+            var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
+            return unitName;
+        }
 
-            var slavicPlotEvent5 = new Event
+        private sealed record LocationInfo
+        { 
+            public BiomeType Biome { get; init; }
+            public GlobeNodeSid LocationSid { get; init; }
+        }
+
+        private static LocationInfo GetLocationInfo(string name)
+        {
+            switch (name)
             {
-                Biome = BiomeType.Slavic,
-                ApplicableOnlyFor = new[] { GlobeNodeSid.SlavicMines },
-                IsUnique = true,
-                IsHighPriority = true,
-                Sid = "SlavicPlot_5",
-                RequiredBiomeLevel = 1,
-                RequiredEventsCompleted = new[] { "SlavicPlot_2" },
-                BeforeCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.BeforeCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Hq,
-                                TextSid = "SlavicPlot_5_b_1"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Combat",
-                            IsEnd = true,
-                            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
-                        }
-                    }
-                },
-                AfterCombatStartNode = new EventNode
-                {
-                    CombatPosition = EventPosition.AfterCombat,
-                    TextBlock = new EventTextBlock
-                    {
-                        Fragments = new[]
-                        {
-                            new EventTextFragment
-                            {
-                                Speaker = UnitName.Environment,
-                                TextSid = "SlavicPlot_5_a_1"
-                            }
-                        }
-                    },
-                    Options = new[]
-                    {
-                        new EventOption
-                        {
-                            TextSid = "Continue",
-                            IsEnd = true
-                        }
-                    }
-                }
-            };
+                case "Thicket":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicThicket };
 
-            yield return slavicPlotEvent5;
+                case "Swamp":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicSwamp };
+
+                case "Pit":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicPit };
+
+                case "DeathPath":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicDeathPath };
+
+                case "Mines":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicMines };
+
+                case "Castle":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicCastle };
+
+                case "Monastery":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseMonastery };
+
+                case "GaintBamboo":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
+
+                case "EmperorTomb":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
+
+                case "RiseFields":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseRiseFields };
+
+                case "SkyTower":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseSkyTower };
+
+                case "SacredPlace":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
+
+                case "Temple":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianTemple };
+
+                case "ScreamValey":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         private static Event[] CreateTestEvents()

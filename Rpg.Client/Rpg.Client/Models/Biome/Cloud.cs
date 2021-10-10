@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Engine;
+
 namespace Rpg.Client.Models.Biome
 {
     internal sealed class Cloud
@@ -18,6 +20,9 @@ namespace Rpg.Client.Models.Biome
 
         private Vector2 _currentPosition;
         private double _lifetimeCounter;
+
+        private Sprite _cloudSprite;
+        private Sprite _shadowSprite;
 
         public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed,
             bool screenInitStage)
@@ -35,23 +40,20 @@ namespace Rpg.Client.Models.Biome
             {
                 _lifetimeCounter = DURATION_SECONDS;
             }
+
+            _cloudSprite = new Sprite(_texture)
+            { 
+                Color = Color.Lerp(Color.White, Color.Transparent, 0.25f)
+            };
+            _shadowSprite = new Sprite(_texture) { 
+                Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
+            };
         }
 
         public bool IsDestroyed { get; private set; }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
-                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.White, Color.Transparent, 0.25f));
-        }
-
-        public void DrawShadows(SpriteBatch spriteBatch)
-        {
-            var position = _currentPosition + Vector2.UnitY * 50;
-            spriteBatch.Draw(_texture, new Rectangle(position.ToPoint(), new Point(64, 64)),
-                new Rectangle(_textureIndex * 64, 0, 64, 64), Color.Lerp(Color.Black, Color.Transparent, 0.5f));
-        }
+        public Sprite GetSprite() => _cloudSprite;
+        public Sprite GetShadow() => _shadowSprite;
 
         public void Update(GameTime gameTime)
         {
@@ -66,6 +68,12 @@ namespace Rpg.Client.Models.Biome
                 var invertedT = 1 - t;
                 _currentPosition = Vector2.Lerp(_startPosition, _endPosition, (float)invertedT);
             }
+
+            _cloudSprite.Position = _currentPosition;
+            _cloudSprite.SourceRectangle = new Rectangle(_textureIndex * 64, 0, 64, 64);
+
+            _shadowSprite.Position = _currentPosition + Vector2.UnitY * 50;
+            _shadowSprite.SourceRectangle = new Rectangle(_textureIndex * 64, 0, 64, 64);
         }
     }
 }

@@ -117,71 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="StartGameButtonTitle" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="SwitchLanguageButtonTitle" xml:space="preserve">
-    <value>Switch lang</value>
-  </data>
-  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
-    <value>Switch res</value>
-  </data>
-  <data name="WarriorEquipmentItemDisplayName" xml:space="preserve">
-    <value>Sword pieces</value>
-    <comment>Осколки меча</comment>
-  </data>
-  <data name="CombatTutorualText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="BiomeTutorualText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventTutorualText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameHq" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameBerimir" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameHawk" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventOptionCombatText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventOptionContinueText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameOldman" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameGuardianWoman" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="SlavicThicketNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="SlavicMinesNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="SlavicPitNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameRada" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
-    <value>Switch fullscreen</value>
-  </data>
-  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
-    <value>Back to the main menu</value>
-  </data>
-  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
-    <value>Load last save</value>
-  </data>
-  <data name="SettingsButtonTitle" xml:space="preserve">
-    <value>Settings</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="MainPlot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Plot-ru.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

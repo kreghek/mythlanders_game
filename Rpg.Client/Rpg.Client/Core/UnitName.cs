@@ -13,8 +13,11 @@
         Hawk,
         Rada,
         Maosin,
-        Taochan,
+        Ping,
+        Cheng,
         Kakhotep,
+        Amun,
+
         Hq,
         Oldman,
         GuardianWoman,
