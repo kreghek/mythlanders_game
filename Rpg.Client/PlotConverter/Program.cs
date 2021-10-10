@@ -17,6 +17,8 @@ namespace PlotConverter
             var eventDtoList = ConventExcelRowsToObjectGraph(excelRows);
 
             var serialized = JsonSerializer.Serialize(eventDtoList);
+
+            File.WriteAllLines("plot-ru.json", new[] { serialized });
         }
 
         private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelRow> excelRows)

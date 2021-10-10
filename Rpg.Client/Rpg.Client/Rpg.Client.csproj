@@ -37,6 +37,11 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="PlotResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PlotResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="UiResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -44,6 +49,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="PlotResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PlotResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="UiResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UiResource.Designer.cs</LastGenOutput>

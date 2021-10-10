@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
+using System.Text.Json;
+
+using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Core
 {
@@ -10,17 +14,111 @@ namespace Rpg.Client.Core
 
         static EventCatalog()
         {
+            var rm = new ResourceManager(typeof(PlotResources));
+            var serializedPlotString = rm.GetString("MainPlot");
+
+
             var testEvents = CreateTestEvents();
 
-            var plotEvents = CreatePlotEvents();
+            var plotEvents = CreatePlotEvents(serializedPlotString);
 
             _events = testEvents.Concat(plotEvents).ToArray();
         }
 
         public static IEnumerable<Event> Events => _events;
 
-        private static IEnumerable<Event> CreatePlotEvents()
+        private static IEnumerable<Event> CreatePlotEvents(string? serializedPlotString)
         {
+            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
+
+            foreach (var eventStorageModel in eventStorageModelList)
+            {
+                var locationInfo = GetLocationInfo(eventStorageModel.Name);
+
+                var e = new Event
+                {
+                    Biome = locationInfo.Biome,
+                    ApplicableOnlyFor = new[] { locationInfo.LocationSid },
+                    IsUnique = true,
+                    IsHighPriority = true,
+                    Sid = eventStorageModel.Name,
+                    BeforeCombatStartNode = new EventNode
+                    {
+                        CombatPosition = EventPosition.BeforeCombat,
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Hq,
+                                TextSid = "SlavicPlot_1_b_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Berimir,
+                                TextSid = "SlavicPlot_1_b_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Hq,
+                                TextSid = "SlavicPlot_1_b_3"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Environment,
+                                TextSid = "SlavicPlot_1_b_4"
+                            }
+                        }
+                        },
+                        Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Combat",
+                            IsEnd = true
+                        }
+                    }
+                    },
+                    AfterCombatStartNode = new EventNode
+                    {
+                        CombatPosition = EventPosition.AfterCombat,
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = new[]
+                        {
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Environment,
+                                TextSid = "SlavicPlot_1_a_1"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Berimir,
+                                TextSid = "SlavicPlot_1_a_2"
+                            },
+                            new EventTextFragment
+                            {
+                                Speaker = UnitName.Hq,
+                                TextSid = "SlavicPlot_1_a_3"
+                            }
+                        }
+                        },
+                        Options = new[]
+                    {
+                        new EventOption
+                        {
+                            TextSid = "Continue",
+                            IsEnd = true
+                        }
+                    }
+                    }
+                };
+
+                yield return slavicPlotEvent1;
+            }
+
+
             var slavicPlotEvent1 = new Event
             {
                 Biome = BiomeType.Slavic,
@@ -346,6 +444,24 @@ namespace Rpg.Client.Core
             };
 
             yield return slavicPlotEvent5;
+        }
+
+        private sealed record LocationInfo
+        { 
+            public BiomeType Biome { get; init; }
+            public GlobeNodeSid LocationSid { get; init; }
+        }
+
+        private static LocationInfo GetLocationInfo(string name)
+        {
+            switch (name)
+            {
+                case "Thicket":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicThicket };
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         private static Event[] CreateTestEvents()
