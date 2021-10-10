@@ -81,6 +81,80 @@ namespace Rpg.Client.Core
             }
         };
 
+        public static UnitScheme SpearmanHero = new()
+        {
+            Hp = 100,
+            HpPerLevel = 10,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = UnitName.Ping,
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true)
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true),
+                        new WideSlashSkill(true)
+                    }
+                }
+            }
+        };
+
+        public static UnitScheme ScorpionHero = new()
+        {
+            Hp = 100,
+            HpPerLevel = 10,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = UnitName.Ping,
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true)
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true),
+                        new WideSlashSkill(true)
+                    }
+                }
+            }
+        };
+
         public static UnitScheme HerbalistHero = new()
         {
             Hp = 50,
@@ -200,7 +274,7 @@ namespace Rpg.Client.Core
             Power = 11,
             PowerPerLevel = 2,
 
-            Name = UnitName.Taochan,
+            Name = UnitName.Cheng,
 
             SkillSets = new List<SkillSet>
             {

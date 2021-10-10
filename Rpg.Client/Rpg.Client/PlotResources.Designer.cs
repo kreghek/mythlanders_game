@@ -64,19 +64,21 @@ namespace Rpg.Client {
         ///   Looks up a localized string similar to [
         ///  {
         ///    &quot;Location&quot;: &quot;Thicket&quot;,
-        ///    &quot;Name&quot;: &quot;Р“Р»СѓС…Р°СЏ С‡Р°С‰Р°&quot;,
+        ///    &quot;Name&quot;: &quot;Начальная зачистка&quot;,
+        ///    &quot;Aftermath&quot;: null,
         ///    &quot;BeforeCombatNode&quot;: {
         ///      &quot;Fragments&quot;: [
         ///        {
         ///          &quot;Speaker&quot;: &quot;Hq&quot;,
-        ///          &quot;Text&quot;: &quot;Р“РЅРµР·РґРѕ Р°СЃРїРёРґРѕРІ РїСЂСЏРјРѕ РїСЂРµРґ С‚РѕР±РѕР№. РќР°РґРѕР±РЅРѕ СѓРЅРёС‡С‚РѕР¶РёС‚СЊ РіР°РґРѕРІ&quot;
+        ///          &quot;Text&quot;: &quot;Гнездо аспидов прямо пред тобой. Надобно уничтожить гадов&quot;
         ///        },
         ///        {
         ///          &quot;Speaker&quot;: &quot;Berimir&quot;,
-        ///          &quot;Text&quot;: &quot;РќРµР±С‹Р»СЊ РєР°РєР°СЏ. Р•С‰С‘ Р¶Рµ РґРµРґ СЃРєР°Р·С‹РІР°Р», РєР°Рє РїРµСЂРµРІРµР»Рё РѕРЅРё Р°СЃРїРёРґРѕРІ&quot;
+        ///          &quot;Text&quot;: &quot;Небыль какая. Ещё же дед сказывал, как перевели они аспидов&quot;
         ///        },
         ///        {
-        ///          &quot;Spe [rest of string was truncated]&quot;;.
+        ///          &quot;Speaker&quot;: &quot;Hq&quot;,
+        ///          &quot;Text&quot;: &quot;Темны времена, земли полнятся порождениями, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MainPlot {
             get {

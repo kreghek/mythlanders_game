@@ -3,9 +3,16 @@
     internal enum SystemEventMarker
     {
         Undefined,
+
         MeetArcher,
         MeetHerbalist,
+
+        MeetMonk,
+        MeetSpearman,
+        MeetMissionary,
+
         MeetPriest,
-        MeetMissionary
+        MeetScorpion,
+        MeetRebelian
     }
 }

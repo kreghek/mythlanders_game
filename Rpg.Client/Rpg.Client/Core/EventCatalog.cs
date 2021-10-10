@@ -91,6 +91,22 @@ namespace Rpg.Client.Core
                     case "MeetMonk":
                         optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MonkHero);
                         break;
+
+                    case "MeetSpearman":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.SpearmanHero);
+                        break;
+
+                    case "MeetMissionary":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero);
+                        break;
+
+                    case "MeetScorpion":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ScorpionHero);
+                        break;
+
+                    case "MeetPriest":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero);
+                        break;
                 }
             }
 
@@ -151,6 +167,30 @@ namespace Rpg.Client.Core
 
                 case "Castle":
                     return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicCastle };
+
+                case "Monastery":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseMonastery };
+
+                case "GaintBamboo":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
+
+                case "EmperorTomb":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
+
+                case "RiseFields":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseRiseFields };
+
+                case "SkyTower":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseSkyTower };
+
+                case "SacredPlace":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
+
+                case "Temple":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianTemple };
+
+                case "ScreamValey":
+                    return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
 
                 default:
                     throw new InvalidOperationException();
