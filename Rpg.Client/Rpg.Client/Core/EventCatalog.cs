@@ -184,11 +184,11 @@ namespace Rpg.Client.Core
 
                 case "GaintBamboo":
                     return new LocationInfo
-                    { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseGaintBamboo };
 
                 case "EmperorTomb":
                     return new LocationInfo
-                    { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseEmperorTomb };
 
                 case "RiseFields":
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.ChineseRiseFields };
@@ -198,14 +198,14 @@ namespace Rpg.Client.Core
 
                 case "SacredPlace":
                     return new LocationInfo
-                    { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianSacredPlace };
 
                 case "Temple":
                     return new LocationInfo { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianTemple };
 
                 case "ScreamValey":
                     return new LocationInfo
-                    { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
+                        { Biome = BiomeType.Chinese, LocationSid = GlobeNodeSid.EgyptianScreamValey };
 
                 default:
                     throw new InvalidOperationException();

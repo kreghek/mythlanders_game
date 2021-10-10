@@ -14,8 +14,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<SingleGameObject> _objects = new List<SingleGameObject>();
-        private readonly Texture2D _texture;
         private readonly Vector2 _position;
+        private readonly Texture2D _texture;
 
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)
@@ -85,21 +85,21 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-            { AnimationSpeedFactor = 1.1f });
+                { AnimationSpeedFactor = 1.1f });
 
             _objects.Add(new SingleGameObject(
                     graphicObjectPosition + new Vector2(6, 4),
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-            { AnimationSpeedFactor = 0.90f });
+                { AnimationSpeedFactor = 0.90f });
 
             _objects.Add(new SingleGameObject(
                     graphicObjectPosition + new Vector2(-12, 14),
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-            { AnimationSpeedFactor = 1.3f });
+                { AnimationSpeedFactor = 1.3f });
 
             _objects.Add(new SingleGameObject(
                 graphicObjectPosition + new Vector2(-20, 24),
