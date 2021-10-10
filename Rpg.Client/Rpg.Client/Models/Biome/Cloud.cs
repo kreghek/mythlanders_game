@@ -12,17 +12,17 @@ namespace Rpg.Client.Models.Biome
         private const double DURATION_SECONDS = 30;
 
         private static readonly Random _random = new Random();
+
+        private readonly Sprite _cloudSprite;
         private readonly Vector2 _endPosition;
+        private readonly Sprite _shadowSprite;
         private readonly double _speed;
         private readonly Vector2 _startPosition;
         private readonly Texture2D _texture;
         private readonly int _textureIndex;
 
-        private readonly Sprite _cloudSprite;
-
         private Vector2 _currentPosition;
         private double _lifetimeCounter;
-        private readonly Sprite _shadowSprite;
 
         public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed,
             bool screenInitStage)

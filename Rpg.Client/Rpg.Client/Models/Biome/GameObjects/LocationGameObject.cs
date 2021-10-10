@@ -14,8 +14,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<SingleGameObject> _objects = new List<SingleGameObject>();
-        private readonly Texture2D _texture;
         private readonly Vector2 _position;
+        private readonly Texture2D _texture;
 
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)

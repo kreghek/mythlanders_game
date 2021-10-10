@@ -9,17 +9,18 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class BulletGameObject
     {
-        private int _frameIndex;
-        private double _frameCounter;
-
         private const double DURATION_SECONDS = 1.0;
-        private const double FRAMERATE = 1f/8f;
+        private const double FRAMERATE = 1f / 8f;
+
+        private const int FRAME_COUNT = 4;
 
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Vector2 _startPosition;
         private double _counter;
+        private double _frameCounter;
+        private int _frameIndex;
 
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker, Action? attackInteraction)
@@ -31,8 +32,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public bool IsDestroyed { get; private set; }
-
-        private const int FRAME_COUNT = 4;
 
         public void Draw(SpriteBatch spriteBatch)
         {
