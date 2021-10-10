@@ -28,7 +28,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
             _gameObjectContentStorage = gameObjectContentStorage;
             _isLandscape = isLandscape;
             _sprite = new Sprite(_gameObjectContentStorage.GetLocationObjectTextures())
-            { 
+            {
                 Position = position,
                 SourceRectangle = new Rectangle(_frameIndex * 128, _rowIndex * 128, 128, 128),
                 Origin = origin

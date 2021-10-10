@@ -141,7 +141,7 @@ namespace Rpg.Client.Core
         }
 
         private sealed record LocationInfo
-        { 
+        {
             public BiomeType Biome { get; init; }
             public GlobeNodeSid LocationSid { get; init; }
         }

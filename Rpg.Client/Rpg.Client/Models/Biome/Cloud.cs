@@ -42,10 +42,11 @@ namespace Rpg.Client.Models.Biome
             }
 
             _cloudSprite = new Sprite(_texture)
-            { 
+            {
                 Color = Color.Lerp(Color.White, Color.Transparent, 0.25f)
             };
-            _shadowSprite = new Sprite(_texture) { 
+            _shadowSprite = new Sprite(_texture)
+            {
                 Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
         }

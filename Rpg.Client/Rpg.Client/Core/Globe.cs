@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
              * "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
              */
 
-            
+
             var biomes = GenerateBiomes();
 
             Biomes = biomes;

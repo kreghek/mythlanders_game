@@ -310,7 +310,7 @@ namespace Rpg.Client.Core
             SwordmanHero,
             ArcherHero,
             HerbalistHero,
-            
+
             MonkHero,
             SpearmanHero,
             MissionaryHero,

@@ -19,7 +19,8 @@ namespace PlotConverter
 
             var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
-            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions {
+            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions
+            {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true
             });
