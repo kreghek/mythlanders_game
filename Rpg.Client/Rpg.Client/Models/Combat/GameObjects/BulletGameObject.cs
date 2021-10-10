@@ -9,8 +9,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class BulletGameObject
     {
+        private int _frameIndex;
+        private double _frameCounter;
+
         private const double DURATION_SECONDS = 1.0;
-        private readonly Action? _attackInteraction;
+        private const double FRAMERATE = 1f/8f;
+
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
@@ -24,10 +28,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;
-            _attackInteraction = attackInteraction;
         }
 
         public bool IsDestroyed { get; private set; }
+
+        private const int FRAME_COUNT = 4;
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -49,8 +54,22 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter < DURATION_SECONDS)
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
+                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_frameCounter >= FRAMERATE)
+                {
+                    _frameCounter = 0;
+                    _frameIndex++;
+
+                    if (_frameIndex > FRAME_COUNT - 1)
+                    {
+                        _frameIndex = 0;
+                    }
+                }
+
                 var t = _counter / DURATION_SECONDS;
                 _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
+                _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
             }
             else
             {
