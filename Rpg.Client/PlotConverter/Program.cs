@@ -39,7 +39,8 @@ namespace PlotConverter
                 var eventDto = new EventDto
                 {
                     Name = excelEvent.Name,
-                    Location = excelEvent.Location
+                    Location = excelEvent.Location,
+                    Aftermath = excelEvent.Aftermath
                 };
                 eventDtoList.Add(eventDto);
 

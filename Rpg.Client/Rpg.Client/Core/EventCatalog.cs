@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Resources;
-using System.Text;
 using System.Text.Json;
 
 using Rpg.Client.Core.EventSerialization;
@@ -35,8 +33,18 @@ namespace Rpg.Client.Core
             {
                 var locationInfo = GetLocationInfo(eventStorageModel.Location);
 
-                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat);
-                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat);
+                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat, eventStorageModel.Aftermath);
+                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat, aftermath: null);
+
+                // System marker used to load saved game. Read it as identifier.
+                SystemEventMarker? systemMarker = null;
+                if (eventStorageModel.Aftermath is not null)
+                {
+                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
+                    {
+                        systemMarker = systemEventMarkerTemp;
+                    }
+                }
 
                 var plotEvent = new Event
                 {
@@ -46,14 +54,15 @@ namespace Rpg.Client.Core
                     IsHighPriority = true,
                     Sid = eventStorageModel.Name,
                     BeforeCombatStartNode = beforeEventNode,
-                    AfterCombatStartNode = afterEventNode
+                    AfterCombatStartNode = afterEventNode,
+                    SystemMarker = systemMarker
                 };
 
                 yield return plotEvent;
             }
         }
 
-        private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position)
+        private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position, string aftermath)
         {
             var fragments = new List<EventTextFragment>();
 
@@ -66,6 +75,25 @@ namespace Rpg.Client.Core
                 });
             }
 
+            IOptionAftermath optionAftermath = null;
+            if (aftermath is not null)
+            {
+                switch (aftermath)
+                {
+                    case "MeetArcher":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero);
+                        break;
+
+                    case "MeetHerbalist":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero);
+                        break;
+
+                    case "MeetMonk":
+                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MonkHero);
+                        break;
+                }
+            }
+
             return new EventNode
             {
                 CombatPosition = position,
@@ -75,7 +103,7 @@ namespace Rpg.Client.Core
                     {
                         TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
                         IsEnd = true,
-                        Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
+                        Aftermath = optionAftermath
                     }
                 },
                 TextBlock = new EventTextBlock
@@ -108,6 +136,21 @@ namespace Rpg.Client.Core
             {
                 case "Thicket":
                     return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicThicket };
+
+                case "Swamp":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicSwamp };
+
+                case "Pit":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicPit };
+
+                case "DeathPath":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicDeathPath };
+
+                case "Mines":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicMines };
+
+                case "Castle":
+                    return new LocationInfo { Biome = BiomeType.Slavic, LocationSid = GlobeNodeSid.SlavicCastle };
 
                 default:
                     throw new InvalidOperationException();

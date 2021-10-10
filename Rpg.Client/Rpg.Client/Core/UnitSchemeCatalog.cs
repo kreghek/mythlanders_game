@@ -44,6 +44,43 @@ namespace Rpg.Client.Core
             }
         };
 
+        public static UnitScheme MonkHero = new()
+        {
+            Hp = 100,
+            HpPerLevel = 10,
+            Power = 11,
+            PowerPerLevel = 2,
+
+            Name = UnitName.Maosin,
+            SkillSets = new List<SkillSet>
+            {
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true)
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SlashSkill(),
+                        new DefenseSkill(true),
+                        new WideSlashSkill(true)
+                    }
+                }
+            }
+        };
+
         public static UnitScheme HerbalistHero = new()
         {
             Hp = 50,
