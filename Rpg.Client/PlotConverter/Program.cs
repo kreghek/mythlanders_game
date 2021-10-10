@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -10,24 +11,32 @@ using ExcelDataReader;
 
 namespace PlotConverter
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static EventNodeDto BuildEventNodes(List<ExcelTextFragmentRow> excelTextFragments)
         {
-            var excelEventRows = ReadEventsFromExcel("Ewar - Plot.xlsx");
-            var excelTextFragmentsRows = ReadTextFragmentsFromExcel("Ewar - Plot.xlsx");
+            var fragments = new List<EventNodeTextFragment>();
 
-            var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
+            foreach (var excelTextFragment in excelTextFragments)
+            {
+                var fragment = new EventNodeTextFragment
+                {
+                    Speaker = excelTextFragment.Speaker,
+                    Text = excelTextFragment.Text
+                };
+                fragments.Add(fragment);
+            }
 
-            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            });
+            var node = new EventNodeDto
+            {
+                Fragments = fragments.ToArray()
+            };
 
-            File.WriteAllLines("plot-ru.json", new[] { serialized });
+            return node;
         }
 
-        private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelEventRow> excelEventRows, List<ExcelTextFragmentRow> excelRows)
+        private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelEventRow> excelEventRows,
+            List<ExcelTextFragmentRow> excelRows)
         {
             var eventGrouped = excelRows.GroupBy(x => x.EventSid);
 
@@ -56,32 +65,69 @@ namespace PlotConverter
             return eventDtoList;
         }
 
-        private static EventNodeDto BuildEventNodes(List<ExcelTextFragmentRow> excelTextFragments)
+        private static void Main(string[] args)
         {
-            var fragments = new List<EventNodeTextFragment>();
+            var excelEventRows = ReadEventsFromExcel("Ewar - Plot.xlsx");
+            var excelTextFragmentsRows = ReadTextFragmentsFromExcel("Ewar - Plot.xlsx");
 
-            foreach (var excelTextFragment in excelTextFragments)
+            var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
+
+            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions
             {
-                var fragment = new EventNodeTextFragment
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+
+            File.WriteAllLines("plot-ru.json", new[] { serialized });
+        }
+
+        private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var excelRows = new List<ExcelEventRow>();
+            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // Auto-detect format, supports:
+                //  - Binary Excel files (2.0-2003 format; *.xls)
+                //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    Speaker = excelTextFragment.Speaker,
-                    Text = excelTextFragment.Text
-                };
-                fragments.Add(fragment);
+                    var result = reader.AsDataSet();
+
+                    var plotTable = result.Tables["Events"];
+
+                    var rows = plotTable.Rows;
+
+                    var isFirst = false;
+
+                    foreach (DataRow row in rows)
+                    {
+                        if (!isFirst)
+                        {
+                            isFirst = true;
+                            continue;
+                        }
+
+                        var excelRow = new ExcelEventRow
+                        {
+                            Sid = row[0] as string,
+                            Name = row[1] as string,
+                            Location = row[2] as string,
+                            Aftermath = row[3] as string
+                        };
+
+                        excelRows.Add(excelRow);
+                    }
+                }
             }
 
-
-            var node = new EventNodeDto
-            {
-                Fragments = fragments.ToArray()
-            };
-
-            return node;
+            return excelRows;
         }
 
         private static List<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath)
         {
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             var excelRows = new List<ExcelTextFragmentRow>();
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
@@ -114,50 +160,6 @@ namespace PlotConverter
                             Text = row[2] as string,
                             Index = (int)((double?)row[3]).GetValueOrDefault(),
                             CombatPosition = (int)((double?)row[4]).GetValueOrDefault()
-                        };
-
-                        excelRows.Add(excelRow);
-                    }
-                }
-            }
-
-            return excelRows;
-        }
-
-        private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)
-        {
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-            var excelRows = new List<ExcelEventRow>();
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
-            {
-                // Auto-detect format, supports:
-                //  - Binary Excel files (2.0-2003 format; *.xls)
-                //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    var result = reader.AsDataSet();
-
-                    var plotTable = result.Tables["Events"];
-
-                    var rows = plotTable.Rows;
-
-                    var isFirst = false;
-
-                    foreach (DataRow row in rows)
-                    {
-                        if (!isFirst)
-                        {
-                            isFirst = true;
-                            continue;
-                        }
-
-                        var excelRow = new ExcelEventRow
-                        {
-                            Sid = row[0] as string,
-                            Name = row[1] as string,
-                            Location = row[2] as string,
-                            Aftermath = row[3] as string,
                         };
 
                         excelRows.Add(excelRow);

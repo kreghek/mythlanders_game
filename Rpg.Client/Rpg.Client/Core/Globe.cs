@@ -15,7 +15,6 @@ namespace Rpg.Client.Core
              * "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
              */
 
-            
             var biomes = GenerateBiomes();
 
             Biomes = biomes;
@@ -298,7 +297,7 @@ namespace Rpg.Client.Core
                 {
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode()
+                        new GlobeNode
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
@@ -312,7 +311,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.Chinese)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode()
+                        new GlobeNode
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Chinese),
@@ -325,7 +324,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egyptian)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode()
+                        new GlobeNode
                         {
                             Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian),
                             Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)
@@ -336,7 +335,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode()
+                        new GlobeNode
                         {
                             Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek),
                             Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)

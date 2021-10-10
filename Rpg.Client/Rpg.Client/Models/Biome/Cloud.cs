@@ -18,11 +18,11 @@ namespace Rpg.Client.Models.Biome
         private readonly Texture2D _texture;
         private readonly int _textureIndex;
 
+        private readonly Sprite _cloudSprite;
+
         private Vector2 _currentPosition;
         private double _lifetimeCounter;
-
-        private Sprite _cloudSprite;
-        private Sprite _shadowSprite;
+        private readonly Sprite _shadowSprite;
 
         public Cloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed,
             bool screenInitStage)
@@ -42,18 +42,26 @@ namespace Rpg.Client.Models.Biome
             }
 
             _cloudSprite = new Sprite(_texture)
-            { 
+            {
                 Color = Color.Lerp(Color.White, Color.Transparent, 0.25f)
             };
-            _shadowSprite = new Sprite(_texture) { 
+            _shadowSprite = new Sprite(_texture)
+            {
                 Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
         }
 
         public bool IsDestroyed { get; private set; }
 
-        public Sprite GetSprite() => _cloudSprite;
-        public Sprite GetShadow() => _shadowSprite;
+        public Sprite GetShadow()
+        {
+            return _shadowSprite;
+        }
+
+        public Sprite GetSprite()
+        {
+            return _cloudSprite;
+        }
 
         public void Update(GameTime gameTime)
         {

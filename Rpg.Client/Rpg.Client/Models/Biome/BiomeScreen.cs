@@ -30,9 +30,9 @@ namespace Rpg.Client.Models.Biome
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
 
-        private readonly ButtonBase[] _menuButtons;
-
         private readonly IList<LocationGameObject> _locationObjectList;
+
+        private readonly ButtonBase[] _menuButtons;
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
@@ -133,7 +133,8 @@ namespace Rpg.Client.Models.Biome
                         if (node.IsAvailable)
                         {
                             var centerNodePosition = Game.GraphicsDevice.Viewport.Bounds.Center.ToVector2();
-                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3, centerNodePosition, node.Sid, _gameObjectContentStorage, node);
+                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3,
+                                centerNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
                         }
                     }

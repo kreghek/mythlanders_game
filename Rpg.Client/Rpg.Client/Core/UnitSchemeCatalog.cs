@@ -310,13 +310,13 @@ namespace Rpg.Client.Core
             SwordmanHero,
             ArcherHero,
             HerbalistHero,
-            
+
             MonkHero,
             SpearmanHero,
             MissionaryHero,
 
             ScorpionHero,
-            PriestHero,
+            PriestHero
         }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
         static UnitSchemeCatalog()
