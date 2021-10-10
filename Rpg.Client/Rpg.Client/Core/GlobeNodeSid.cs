@@ -5,8 +5,10 @@
         Undefined,
         SlavicThicket,
         SlavicPit,
+        SlavicDeathPath,
         SlavicBattleground,
         SlavicSwamp,
-        SlavicMines
+        SlavicMines,
+        SlavicCastle
     }
 }

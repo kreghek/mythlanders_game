@@ -2,7 +2,9 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 using ExcelDataReader;
 
@@ -12,23 +14,33 @@ namespace PlotConverter
     {
         static void Main(string[] args)
         {
-            var excelRows = ReadFromExcel("Ewar - Plot.xlsx");
+            var excelEventRows = ReadEventsFromExcel("Ewar - Plot.xlsx");
+            var excelTextFragmentsRows = ReadTextFragmentsFromExcel("Ewar - Plot.xlsx");
 
-            var eventDtoList = ConventExcelRowsToObjectGraph(excelRows);
+            var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
-            var serialized = JsonSerializer.Serialize(eventDtoList);
+            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
+
+            File.WriteAllLines("plot-ru.json", new[] { serialized });
         }
 
-        private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelRow> excelRows)
+        private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelEventRow> excelEventRows, List<ExcelTextFragmentRow> excelRows)
         {
-            var eventGrouped = excelRows.GroupBy(x => x.Event);
+            var eventGrouped = excelRows.GroupBy(x => x.EventSid);
 
             var eventDtoList = new List<EventDto>();
             foreach (var excelEventGroup in eventGrouped)
             {
+                var excelEvent = excelEventRows.Single(x => x.Sid == excelEventGroup.Key);
+
                 var eventDto = new EventDto
                 {
-                    Name = excelEventGroup.Key
+                    Name = excelEvent.Name,
+                    Location = excelEvent.Location,
+                    Aftermath = excelEvent.Aftermath
                 };
                 eventDtoList.Add(eventDto);
 
@@ -44,49 +56,34 @@ namespace PlotConverter
             return eventDtoList;
         }
 
-        private static EventNodeDto BuildEventNodes(List<ExcelRow> excelEventNodes)
+        private static EventNodeDto BuildEventNodes(List<ExcelTextFragmentRow> excelTextFragments)
         {
-            var openList = new List<ExcelRow>(excelEventNodes);
+            var fragments = new List<EventNodeTextFragment>();
 
-            EventNodeDto startNode = null;
-            EventNodeDto currentNode = null;
-            while (openList.Any())
+            foreach (var excelTextFragment in excelTextFragments)
             {
-                var excelRowMinIndex = openList.Min(x => x.Index);
-                var targetExcelRow = openList.Single(x=>x.Index == excelRowMinIndex);
-
-                openList.Remove(targetExcelRow);
-
-                var node = new EventNodeDto
+                var fragment = new EventNodeTextFragment
                 {
-                    Speaker = targetExcelRow.Speaker,
-                    Text = targetExcelRow.Text
+                    Speaker = excelTextFragment.Speaker,
+                    Text = excelTextFragment.Text
                 };
-
-                if (startNode is null)
-                {
-                    startNode = node;
-                }
-
-                if (currentNode is null)
-                {
-                    currentNode = node;
-                }
-                else
-                {
-                    currentNode.NextNode = node;
-                    currentNode = node;
-                }
+                fragments.Add(fragment);
             }
 
-            return startNode;
+
+            var node = new EventNodeDto
+            {
+                Fragments = fragments.ToArray()
+            };
+
+            return node;
         }
 
-        private static List<ExcelRow> ReadFromExcel(string filePath)
+        private static List<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-            var excelRows = new List<ExcelRow>();
+            var excelRows = new List<ExcelTextFragmentRow>();
             using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 // Auto-detect format, supports:
@@ -110,13 +107,57 @@ namespace PlotConverter
                             continue;
                         }
 
-                        var excelRow = new ExcelRow
+                        var excelRow = new ExcelTextFragmentRow
                         {
-                            Event = row[0] as string,
+                            EventSid = row[0] as string,
                             Speaker = row[1] as string,
                             Text = row[2] as string,
                             Index = (int)((double?)row[3]).GetValueOrDefault(),
-                            CombatPosition = (string)row[4] == "до" ? -1 : 1
+                            CombatPosition = (int)((double?)row[4]).GetValueOrDefault()
+                        };
+
+                        excelRows.Add(excelRow);
+                    }
+                }
+            }
+
+            return excelRows;
+        }
+
+        private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)
+        {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+            var excelRows = new List<ExcelEventRow>();
+            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            {
+                // Auto-detect format, supports:
+                //  - Binary Excel files (2.0-2003 format; *.xls)
+                //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var result = reader.AsDataSet();
+
+                    var plotTable = result.Tables["Events"];
+
+                    var rows = plotTable.Rows;
+
+                    var isFirst = false;
+
+                    foreach (DataRow row in rows)
+                    {
+                        if (!isFirst)
+                        {
+                            isFirst = true;
+                            continue;
+                        }
+
+                        var excelRow = new ExcelEventRow
+                        {
+                            Sid = row[0] as string,
+                            Name = row[1] as string,
+                            Location = row[2] as string,
+                            Aftermath = row[3] as string,
                         };
 
                         excelRows.Add(excelRow);
