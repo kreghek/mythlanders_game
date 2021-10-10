@@ -2,11 +2,6 @@
 {
     internal sealed class GlobeNode
     {
-        public GlobeNode(string name)
-        {
-            Name = name;
-        }
-
         public Event? AssignedEvent { get; set; }
 
         public CombatSequence? CombatSequence { get; set; }
@@ -16,8 +11,6 @@
         public int Index { get; internal set; }
 
         public bool IsAvailable { get; set; }
-
-        public string Name { get; }
 
         public GlobeNodeSid Sid { get; set; }
     }

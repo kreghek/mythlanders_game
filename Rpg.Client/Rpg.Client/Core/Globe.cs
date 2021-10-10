@@ -9,38 +9,14 @@ namespace Rpg.Client.Core
     {
         public Globe()
         {
-            var biomNames = new Dictionary<BiomeType, string[]>
-            {
-                {
-                    BiomeType.Slavic, new[]
-                    {
-                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
-                    }
-                },
-                {
-                    BiomeType.Chinese, new[]
-                    {
-                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
-                    }
-                },
-                {
-                    BiomeType.Egyptian, new[]
-                    {
-                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
-                    }
-                },
-                {
-                    BiomeType.Greek, new[]
-                    {
-                        "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
-                        "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
-                    }
-                }
-            };
-            var biomes = GenerateBiomes(biomNames);
+            // First variant of the names.
+            /*
+             * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
+             * "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
+             */
+
+            
+            var biomes = GenerateBiomes();
 
             Biomes = biomes;
             CurrentBiome = biomes.Single(x => x.IsStart);
@@ -311,7 +287,7 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static Biome[] GenerateBiomes(Dictionary<BiomeType, string[]> biomNames)
+        private static Biome[] GenerateBiomes()
         {
             const int BIOME_MIN_LEVEL_STEP = 12;
             const int BIOME_NODE_COUNT = 8;
@@ -322,7 +298,7 @@ namespace Rpg.Client.Core
                 {
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(name: biomNames[BiomeType.Slavic][x])
+                        new GlobeNode()
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
@@ -336,7 +312,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.Chinese)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(biomNames[BiomeType.Chinese][x])
+                        new GlobeNode()
                         {
                             Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Chinese),
@@ -349,7 +325,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egyptian)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(biomNames[BiomeType.Egyptian][x])
+                        new GlobeNode()
                         {
                             Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian),
                             Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)
@@ -360,7 +336,7 @@ namespace Rpg.Client.Core
                 new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode(biomNames[BiomeType.Greek][x])
+                        new GlobeNode()
                         {
                             Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek),
                             Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)
@@ -422,23 +398,9 @@ namespace Rpg.Client.Core
 
         private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
         {
-            switch (biomType)
-            {
-                case BiomeType.Slavic:
-                    {
-                        return nodeIndex switch
-                        {
-                            0 => GlobeNodeSid.SlavicThicket,
-                            1 => GlobeNodeSid.SlavicSwamp,
-                            2 => GlobeNodeSid.SlavicPit,
-                            3 => GlobeNodeSid.SlavicMines,
-                            7 => GlobeNodeSid.SlavicBattleground,
-                            _ => GlobeNodeSid.Undefined
-                        };
-                    }
-
-                default: return GlobeNodeSid.Undefined;
-            }
+            var sidIndex = (int)biomType + nodeIndex + 1;
+            var sid = (GlobeNodeSid)sidIndex;
+            return sid;
         }
 
         private static bool GetStartAvailability(int nodeIndex)

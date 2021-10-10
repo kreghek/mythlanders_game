@@ -130,24 +130,6 @@
     <value>Sword pieces</value>
     <comment>Осколки меча</comment>
   </data>
-  <data name="EventPlotSlavicPlot_1_b_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_a_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_a_2" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_b_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_a_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_a_2" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="CombatTutorualText" xml:space="preserve">
     <value></value>
   </data>
@@ -166,76 +148,16 @@
   <data name="UnitNameHawk" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventPlotSlavicPlot_1_b_2" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_b_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_b_4" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_1_a_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_b_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_b_2" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_b_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_b_4" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_a_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_a_2" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_a_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_2_a_4" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="EventOptionCombatText" xml:space="preserve">
     <value></value>
   </data>
   <data name="EventOptionContinueText" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventPlotSlavicPlot_3_b_2" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_b_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_b_4" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_b_5" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_a_3" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_3_a_4" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="UnitNameOldman" xml:space="preserve">
     <value></value>
   </data>
   <data name="UnitNameGuardianWoman" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_5_b_1" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="EventPlotSlavicPlot_5_a_1" xml:space="preserve">
     <value></value>
   </data>
   <data name="SlavicThicketNodeName" xml:space="preserve">

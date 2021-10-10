@@ -298,7 +298,7 @@ namespace Rpg.Client.Models.Biome
             var rm = new ResourceManager(typeof(UiResource));
 
             var localizedName = rm.GetString($"{node.GlobeNode.Sid}NodeName");
-            var normalizedName = localizedName ?? node.Name.Replace('\n', ' ');
+            var normalizedName = localizedName ?? node.GlobeNode.Sid.ToString();
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName,
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);

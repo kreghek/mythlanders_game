@@ -125,7 +125,7 @@ namespace Rpg.Client.Core
             Power = 11,
             PowerPerLevel = 2,
 
-            Name = UnitName.Ping,
+            Name = UnitName.Amun,
             SkillSets = new List<SkillSet>
             {
                 new SkillSet
@@ -307,9 +307,16 @@ namespace Rpg.Client.Core
 
         public static IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
         {
+            SwordmanHero,
             ArcherHero,
             HerbalistHero,
-            SwordmanHero
+            
+            MonkHero,
+            SpearmanHero,
+            MissionaryHero,
+
+            ScorpionHero,
+            PriestHero,
         }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
         static UnitSchemeCatalog()
