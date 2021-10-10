@@ -61,20 +61,26 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to en[{&quot;Name&quot;:&quot;Slavic1&quot;,&quot;BeforeCombatNode&quot;:{&quot;Speaker&quot;:&quot;\u042D\u043A\u0438\u043F\u0430\u0436 \u0431\u043E\u0435\u0432\u043E\u0439 \u0434\u0440\u0443\u0436\u0438\u043D\u044B \u201C\u041B\u044E\u0442\u0438\u043A\u201D&quot;,&quot;Text&quot;:&quot;\u0413\u043D\u0435\u0437\u0434\u043E \u0430\u0441\u043F\u0438\u0434\u043E\u0432 \u043F\u0440\u044F\u043C\u043E \u043F\u0440\u0435\u0434 \u0442\u043E\u0431\u043E\u0439. \u041D\u0430\u0434\u043E\u0431\u043D\u043E \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C \u0433\u0430\u0434\ [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to [
+        ///  {
+        ///    &quot;Location&quot;: &quot;Thicket&quot;,
+        ///    &quot;Name&quot;: &quot;Р“Р»СѓС…Р°СЏ С‡Р°С‰Р°&quot;,
+        ///    &quot;BeforeCombatNode&quot;: {
+        ///      &quot;Fragments&quot;: [
+        ///        {
+        ///          &quot;Speaker&quot;: &quot;Hq&quot;,
+        ///          &quot;Text&quot;: &quot;Р“РЅРµР·РґРѕ Р°СЃРїРёРґРѕРІ РїСЂСЏРјРѕ РїСЂРµРґ С‚РѕР±РѕР№. РќР°РґРѕР±РЅРѕ СѓРЅРёС‡С‚РѕР¶РёС‚СЊ РіР°РґРѕРІ&quot;
+        ///        },
+        ///        {
+        ///          &quot;Speaker&quot;: &quot;Berimir&quot;,
+        ///          &quot;Text&quot;: &quot;РќРµР±С‹Р»СЊ РєР°РєР°СЏ. Р•С‰С‘ Р¶Рµ РґРµРґ СЃРєР°Р·С‹РІР°Р», РєР°Рє РїРµСЂРµРІРµР»Рё РѕРЅРё Р°СЃРїРёРґРѕРІ&quot;
+        ///        },
+        ///        {
+        ///          &quot;Spe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MainPlot {
             get {
                 return ResourceManager.GetString("MainPlot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [{&quot;Name&quot;:&quot;Slavic1&quot;,&quot;BeforeCombatNode&quot;:{&quot;Speaker&quot;:&quot;\u042D\u043A\u0438\u043F\u0430\u0436 \u0431\u043E\u0435\u0432\u043E\u0439 \u0434\u0440\u0443\u0436\u0438\u043D\u044B \u201C\u041B\u044E\u0442\u0438\u043A\u201D&quot;,&quot;Text&quot;:&quot;\u0413\u043D\u0435\u0437\u0434\u043E \u0430\u0441\u043F\u0438\u0434\u043E\u0432 \u043F\u0440\u044F\u043C\u043E \u043F\u0440\u0435\u0434 \u0442\u043E\u0431\u043E\u0439. \u041D\u0430\u0434\u043E\u0431\u043D\u043E \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0438\u0442\u044C \u0433\u0430\u0434\u0 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string Plot {
-            get {
-                return ResourceManager.GetString("Plot", resourceCulture);
             }
         }
     }

@@ -2,7 +2,9 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 using ExcelDataReader;
 
@@ -17,7 +19,10 @@ namespace PlotConverter
 
             var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
-            var serialized = JsonSerializer.Serialize(eventDtoList);
+            var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
 
             File.WriteAllLines("plot-ru.json", new[] { serialized });
         }
@@ -29,7 +34,7 @@ namespace PlotConverter
             var eventDtoList = new List<EventDto>();
             foreach (var excelEventGroup in eventGrouped)
             {
-                var excelEvent = excelEventRows.Single(x=>x.Sid == excelEventGroup.Key);
+                var excelEvent = excelEventRows.Single(x => x.Sid == excelEventGroup.Key);
 
                 var eventDto = new EventDto
                 {
@@ -148,9 +153,10 @@ namespace PlotConverter
 
                         var excelRow = new ExcelEventRow
                         {
-                            Name = row[0] as string,
-                            Location = row[1] as string,
-                            Aftermaths = row[2] as string
+                            Sid = row[0] as string,
+                            Name = row[1] as string,
+                            Location = row[2] as string,
+                            Aftermath = row[3] as string,
                         };
 
                         excelRows.Add(excelRow);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
+using System.Text;
 using System.Text.Json;
 
 using Rpg.Client.Core.EventSerialization;
@@ -14,9 +15,8 @@ namespace Rpg.Client.Core
 
         static EventCatalog()
         {
-            var rm = new ResourceManager(typeof(PlotResources));
+            var rm = PlotResources.ResourceManager;
             var serializedPlotString = rm.GetString("MainPlot");
-
 
             var testEvents = CreateTestEvents();
 
@@ -33,7 +33,7 @@ namespace Rpg.Client.Core
 
             foreach (var eventStorageModel in eventStorageModelList)
             {
-                var locationInfo = GetLocationInfo(eventStorageModel.Name);
+                var locationInfo = GetLocationInfo(eventStorageModel.Location);
 
                 var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat);
                 var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat);
@@ -61,7 +61,7 @@ namespace Rpg.Client.Core
             {
                 fragments.Add(new EventTextFragment
                 {
-                    TextSid = fragmentStrageModel.Text,
+                    Text = fragmentStrageModel.Text,
                     Speaker = ParseSpeaker(fragmentStrageModel)
                 });
             }
@@ -87,6 +87,11 @@ namespace Rpg.Client.Core
 
         private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
         {
+            if (fragmentStrageModel.Speaker is null)
+            {
+                return UnitName.Environment;
+            }
+
             var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
             return unitName;
         }

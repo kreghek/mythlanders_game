@@ -73,7 +73,7 @@ namespace Rpg.Client.Models.Event
             {
                 var fragment = _currentDialogNode.TextBlock.Fragments[fragmentIndex];
                 var localizedSpeakerName = GetSpeaker(fragment.Speaker);
-                var localizedSpeakerText = GetLocalizedText(fragment.TextSid);
+                var localizedSpeakerText = GetLocalizedText(fragment.Text);
                 var speakerTextSize = font.MeasureString(localizedSpeakerText);
 
                 var rowPosition = bottomPosition;
@@ -178,14 +178,10 @@ namespace Rpg.Client.Models.Event
             }
         }
 
-        private static string GetLocalizedText(string textSid)
+        private static string GetLocalizedText(string text)
         {
-            var rm = new ResourceManager(typeof(UiResource));
-            var text = rm.GetString($"EventPlot{textSid}");
-
-            Debug.Assert(text is not null, "Localize every text in events.");
-
-            return text ?? textSid;
+            // The text in the event is localized from resources yet.
+            return text;
         }
 
         private static string? GetSpeaker(UnitName speaker)
@@ -201,10 +197,10 @@ namespace Rpg.Client.Models.Event
                 return null;
             }
 
-            var rm = new ResourceManager(typeof(UiResource));
+            var rm = UiResource.ResourceManager;
             var text = rm.GetString($"UnitName{speaker}");
 
-            Debug.Assert(text is not null, "Speaker localiztion must be defined.");
+            Debug.Assert(text is not null, "Speaker localization must be defined.");
             if (text is not null)
             {
                 return text;
