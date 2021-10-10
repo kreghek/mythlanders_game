@@ -13,7 +13,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private double _frameCounter;
 
         private const double DURATION_SECONDS = 1.0;
-        private const double FRAMERATE = 1f/8f;
+        private const double FRAMERATE = 1f / 8f;
 
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
