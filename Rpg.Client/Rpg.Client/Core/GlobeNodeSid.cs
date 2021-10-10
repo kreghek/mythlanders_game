@@ -4,26 +4,26 @@
     {
         Undefined = 0,
 
-        SlavicThicket = 101,
-        SlavicSwamp = 102,
-        SlavicPit = 103,
-        SlavicBattleground = 104,
-        SlavicDeathPath = 105,
-        SlavicMines = 106,
-        SlavicHermitage = 107,
-        SlavicCastle = 108,
+        Thicket = 101,
+        Swamp = 102,
+        Pit = 103,
+        Battleground = 104,
+        DeathPath = 105,
+        Mines = 106,
+        Hermitage = 107,
+        Castle = 108,
 
-        ChineseMonastery = 201,
-        ChineseGaintBamboo = 202,
-        ChineseEmperorTomb = 203,
-        ChineseSecretTown = 204,
-        ChineseGreatWall = 205,
-        ChineseRiseFields = 206,
-        ChineseDragonOolong = 207,
-        ChineseSkyTower = 208,
+        Monastery = 201,
+        GaintBamboo = 202,
+        EmperorTomb = 203,
+        SecretTown = 204,
+        GreatWall = 205,
+        RiseFields = 206,
+        DragonOolong = 207,
+        SkyTower = 208,
 
-        EgyptianSacredPlace = 301,
-        EgyptianTemple = 302,
-        EgyptianScreamValey = 303
+        SacredPlace = 301,
+        Temple = 302,
+        ScreamValey = 303
     }
 }

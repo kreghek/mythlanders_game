@@ -116,7 +116,7 @@ namespace Rpg.Client.Models
 
             _locationTextureDict = new Dictionary<GlobeNodeSid, Texture2D>
             {
-                { GlobeNodeSid.SlavicThicket, contentManager.Load<Texture2D>("Sprites/GameObjects/Map/DeepThicket") }
+                { GlobeNodeSid.Thicket, contentManager.Load<Texture2D>("Sprites/GameObjects/Map/DeepThicket") }
             };
 
             _locationObjectTextures = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/MapObjects");
@@ -164,7 +164,7 @@ namespace Rpg.Client.Models
 
         internal Texture2D GetLocationTextures(GlobeNodeSid globeNodeSid)
         {
-            return _locationTextureDict[GlobeNodeSid.SlavicThicket];
+            return _locationTextureDict[GlobeNodeSid.Thicket];
         }
 
         internal Texture2D GetNodeMarker()

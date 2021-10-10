@@ -504,8 +504,8 @@ namespace Rpg.Client.Models.Combat
         {
             return regularTheme switch
             {
-                GlobeNodeSid.SlavicBattleground => BackgroundType.SlavicBattleground,
-                GlobeNodeSid.SlavicSwamp => BackgroundType.SlavicSwamp,
+                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
+                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
                 _ => BackgroundType.SlavicBattleground
             };
         }
