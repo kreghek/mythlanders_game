@@ -29,6 +29,7 @@ jobs:
       run: |
         sudo apt install wine64 p7zip-full
         wget -qO- https://raw.githubusercontent.com/MonoGame/MonoGame/develop/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | bash
+        export MGFXC_WINE_PATH=/home/runner/.winemonogame
 
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
