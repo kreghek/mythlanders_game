@@ -28,6 +28,7 @@ jobs:
     - name: Setup Wine for effect compilation
       run: |
         #!/bin/bash
+        sudo apt install wine64 p7zip-full
         # This script is used to setup the needed Wine environment
         # so that mgfxc can be run on Linux / macOS systems.
         
