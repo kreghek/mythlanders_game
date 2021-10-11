@@ -62,7 +62,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 //var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend/*, effect: allWhite*/);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend /*, effect: allWhite*/);
             }
             else
             {
