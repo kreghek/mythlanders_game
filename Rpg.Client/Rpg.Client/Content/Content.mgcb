@@ -139,12 +139,6 @@
 /processorParam:Quality=Best
 /build:Audio/Ui/ButtonHover.mp3
 
-#begin Effects/AllWhite.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/AllWhite.fx
-
 #begin Fonts/Main.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
