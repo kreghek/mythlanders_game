@@ -85,8 +85,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-            { 
-                AnimationSpeedFactor = 1.1f 
+            {
+                AnimationSpeedFactor = 1.1f
             });
 
             _objects.Add(new SingleGameObject(
@@ -94,8 +94,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-                { 
-                AnimationSpeedFactor = 0.90f 
+            {
+                AnimationSpeedFactor = 0.90f
             });
 
             _objects.Add(new SingleGameObject(
@@ -103,8 +103,8 @@ namespace Rpg.Client.Models.Biome.GameObjects
                     rowIndex: 1,
                     origin: new Vector2(0.5f, 1f),
                     _gameObjectContentStorage)
-                {
-                AnimationSpeedFactor = 1.3f 
+            {
+                AnimationSpeedFactor = 1.3f
             });
 
             _objects.Add(new SingleGameObject(
