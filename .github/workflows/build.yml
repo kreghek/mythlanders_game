@@ -25,7 +25,7 @@ jobs:
       with:
         dotnet-version: '3.1.x'
     
-    - name: Set up Wine for effect compilation
+    - name: Setup Wine for effect compilation
       run: |
         sudo apt install wine64 p7zip-full
         wget -qO- https://raw.githubusercontent.com/MonoGame/MonoGame/develop/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | bash
