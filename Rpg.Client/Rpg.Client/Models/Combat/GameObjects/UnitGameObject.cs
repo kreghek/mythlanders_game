@@ -59,10 +59,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (_graphics.IsDamaged)
             {
-                //var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
+                var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend /*, effect: allWhite*/);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: allWhite);
             }
             else
             {

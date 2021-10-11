@@ -19,6 +19,7 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Content\Effects\AllWhite.fx" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -59,12 +60,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\Effects\AllWhite.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="version.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Audio\Ui\" />
-    <Folder Include="Content\Sprites\GameObjects\CombatBackgrounds\Slavic\Swamp\" />
   </ItemGroup>
 </Project>

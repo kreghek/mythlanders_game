@@ -26,10 +26,10 @@ namespace Rpg.Client.Models
         private Texture2D _shadowTexture;
         private Texture2D _unitPortrains;
 
-        //public Effect GetAllWhiteEffect()
-        //{
-        //    return _allWhiteEffect;
-        //}
+        public Effect GetAllWhiteEffect()
+        {
+            return _allWhiteEffect;
+        }
 
         public Texture2D GetUnitGraphics(UnitName unitName)
         {
