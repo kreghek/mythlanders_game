@@ -25,10 +25,12 @@ jobs:
       with:
         dotnet-version: '3.1.x'
     
+    - name: Setup wine64 and 7z
+      run: sudo apt install wine64 p7zip-full
+    
     - name: Setup Wine for effect compilation
       run: |
         #!/bin/bash
-        sudo apt install wine64 p7zip-full
         # This script is used to setup the needed Wine environment
         # so that mgfxc can be run on Linux / macOS systems.
         
