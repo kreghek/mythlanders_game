@@ -111,7 +111,7 @@ namespace Rpg.Client.GameComponents
                 "missionary" => SystemEventMarker.MeetMissionary,
 
                 "priest" => SystemEventMarker.MeetPriest,
-                
+
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
         }
@@ -124,7 +124,7 @@ namespace Rpg.Client.GameComponents
                 "archer" => UnitSchemeCatalog.ArcherHero,
                 "herbalist" => UnitSchemeCatalog.HerbalistHero,
 
-                "monk"=> UnitSchemeCatalog.MonkHero,
+                "monk" => UnitSchemeCatalog.MonkHero,
                 "missionary" => UnitSchemeCatalog.MissionaryHero,
 
                 "priest" => UnitSchemeCatalog.PriestHero,
