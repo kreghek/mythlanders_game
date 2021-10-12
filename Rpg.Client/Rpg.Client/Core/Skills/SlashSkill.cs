@@ -14,7 +14,7 @@ namespace Rpg.Client.Core.Skills
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new EffectRule[]
+        public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
