@@ -81,30 +81,30 @@ namespace Rpg.Client.Models.Biome.GameObjects
                 _gameObjectContentStorage));
 
             _objects.Add(new SingleGameObject(
-                    graphicObjectPosition + new Vector2(-8, -2),
-                    rowIndex: 1,
-                    origin: new Vector2(0.5f, 1f),
-                    _gameObjectContentStorage)
-            { 
-                AnimationSpeedFactor = 1.1f 
+                graphicObjectPosition + new Vector2(-8, -2),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            {
+                AnimationSpeedFactor = 1.1f
             });
 
             _objects.Add(new SingleGameObject(
-                    graphicObjectPosition + new Vector2(6, 4),
-                    rowIndex: 1,
-                    origin: new Vector2(0.5f, 1f),
-                    _gameObjectContentStorage)
-                { 
-                AnimationSpeedFactor = 0.90f 
+                graphicObjectPosition + new Vector2(6, 4),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            {
+                AnimationSpeedFactor = 0.90f
             });
 
             _objects.Add(new SingleGameObject(
-                    graphicObjectPosition + new Vector2(-12, 14),
-                    rowIndex: 1,
-                    origin: new Vector2(0.5f, 1f),
-                    _gameObjectContentStorage)
-                {
-                AnimationSpeedFactor = 1.3f 
+                graphicObjectPosition + new Vector2(-12, 14),
+                rowIndex: 1,
+                origin: new Vector2(0.5f, 1f),
+                _gameObjectContentStorage)
+            {
+                AnimationSpeedFactor = 1.3f
             });
 
             _objects.Add(new SingleGameObject(
