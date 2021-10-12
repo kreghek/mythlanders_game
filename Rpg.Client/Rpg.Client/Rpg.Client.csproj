@@ -19,7 +19,6 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Content\Effects\AllWhite.fx" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
