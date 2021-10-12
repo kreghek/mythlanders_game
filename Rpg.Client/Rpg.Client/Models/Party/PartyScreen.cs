@@ -61,9 +61,9 @@ namespace Rpg.Client.Models.Party
                 foreach (var skill in _selectedCharacter.Skills)
                 {
                     sb.Add($"{skill.Sid}");
-                    if (skill.Cost is not null)
+                    if (skill.ManaCost is not null)
                     {
-                        sb.Add($"Cost: {skill.Cost}");
+                        sb.Add($"Cost: {skill.ManaCost}");
                     }
 
                     // TODO Display skill efficient - damages, durations, etc.

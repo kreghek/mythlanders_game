@@ -164,10 +164,10 @@ namespace Rpg.Client.Models.Combat.Ui
                 Color.Black);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.Skill.Cost is not null)
+            if (combatPower.Skill.ManaCost is not null)
             {
                 var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}",
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.ManaCost}",
                     manaCostPosition, manaCostColor);
             }
 
