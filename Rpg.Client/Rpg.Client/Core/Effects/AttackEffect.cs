@@ -13,11 +13,7 @@ namespace Rpg.Client.Core.Effects
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
 
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
-        //public int MaxDamage => (int)(Power * PowerMultiplier + ValueRange);
 
-        //public int MinDamage => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-
-        //public int Power { get; set; }
         public float PowerMultiplier { get; set; }
 
         public int ValueRange { get; set; }
@@ -35,7 +31,7 @@ namespace Rpg.Client.Core.Effects
             min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
             max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);
 
-            if (Target != null)
+            if (Target is not null)
             {
                 min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
                 max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);

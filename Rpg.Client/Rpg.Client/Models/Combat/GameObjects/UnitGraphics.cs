@@ -55,7 +55,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             switch (unit.Unit.UnitScheme.Name)
             {
                 case UnitName.Berimir:
-                case UnitName.Maosin:
                     _animationInfos = new Dictionary<string, AnimationInfo>
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
@@ -81,10 +80,29 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
                         { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                        { "Skill2", new AnimationInfo(startFrame: 16, frames: 1, speed: 8) { IsFinal = true } },
+                        { "Skill2", new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
                         { "Skill3", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
                         { "Wound", new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
                         { "Death", new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } }
+                    };
+                    break;
+
+                case UnitName.Maosin:
+                    _animationInfos = new Dictionary<string, AnimationInfo>
+                    {
+                        { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
+                        {
+                            "MoveForward", new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
+                        },
+                        {
+                            "MoveBackward",
+                            new AnimationInfo(startFrame: 32 + 3, frames: 1, speed: 8) { IsFinal = true }
+                        },
+                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Skill2", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Skill3", new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Wound", new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
+                        { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
                     };
                     break;
 
