@@ -6,11 +6,11 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DefenseSkill : SkillBase
     {
-        public DefenseSkill()
+        public DefenseSkill(): base (new SkillVisualization() { Type = SkillVisualizationStateType.Support })
         {
         }
 
-        public DefenseSkill(bool costRequired) : base(costRequired)
+        public DefenseSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support }, costRequired)
         {
         }
 

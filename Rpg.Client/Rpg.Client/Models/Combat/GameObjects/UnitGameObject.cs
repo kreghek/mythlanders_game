@@ -132,119 +132,82 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _actorStateEngineList.Add(actorStateEngine);
         }
 
-        private IUnitStateEngine CreateSkillStateEngine(SkillBase skill, UnitGameObject target,
+        private IUnitStateEngine CreateSkillStateEngine(ISkill skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
             AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList, int skillIndex)
         {
             IUnitStateEngine state;
 
-            switch (skill.Sid)
+            var hitSound = GetHitSound(skill);
+
+            switch (skill.Visualization.Type)
             {
-                case "Slash":
-                case "Monster Attack":
-                case "Vampiric Bite":
+                case SkillVisualizationStateType.Melee:
+                    bulletBlocker?.Release();
+
+                    animationBlocker.Released += (s, e) =>
                     {
-                        bulletBlocker?.Release();
+                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                    };
 
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            interaction, hitSound, skillIndex);
-                    }
-
+                    state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                        animationBlocker,
+                        interaction, hitSound, skillIndex);
                     break;
 
-                case "Wide Slash":
+                case SkillVisualizationStateType.Range:
+                    if (bulletBlocker is null)
                     {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            interaction, hitSound, skillIndex);
+                        throw new InvalidOperationException();
                     }
 
+                    var singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                        bulletBlocker, null);
+
+                    bulletBlocker.Released += (s, e) =>
+                    {
+                        interaction.Invoke();
+                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                    };
+
+                    state = new UnitDistantAttackState(
+                        graphics: _graphics,
+                        graphicsRoot: _graphics.Root,
+                        targetGraphicsRoot: target._graphics.Root,
+                        blocker: animationBlocker,
+                        attackInteraction: interaction,
+                        bullet: singleBullet,
+                        bulletList: bulletList,
+                        hitSound: hitSound,
+                        skillIndex);
                     break;
 
-                case "Defense Stance":
+                case SkillVisualizationStateType.MassMelee:
+                    bulletBlocker?.Release();
+
+                    animationBlocker.Released += (s, e) =>
                     {
-                        bulletBlocker?.Release();
+                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                    };
 
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
+                    state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                        animationBlocker,
+                        interaction, hitSound, skillIndex);
+                    break;
 
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
+                case SkillVisualizationStateType.MassRange:
+                    if (bulletBlocker is null)
+                    {
+                        throw new InvalidOperationException();
                     }
 
-                    break;
-
-                case "Strike":
+                    bulletBlocker.Released += (s, e) =>
                     {
-                        if (bulletBlocker is null)
-                        {
-                            throw new InvalidOperationException();
-                        }
+                        interaction?.Invoke();
+                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                    };
 
-                        var bullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
-                            bulletBlocker, null);
-
-                        bulletBlocker.Released += (s, e) =>
-                        {
-                            interaction.Invoke();
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitDistantAttackState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            attackInteraction: interaction,
-                            bullet: bullet,
-                            bulletList: bulletList,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Arrow Rain":
-                    {
-                        if (bulletBlocker is null)
-                        {
-                            throw new InvalidOperationException();
-                        }
-
-                        bulletBlocker.Released += (s, e) =>
-                        {
-                            interaction?.Invoke();
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var bullets = new List<BulletGameObject>
+                    var bullets = new List<BulletGameObject>
                         {
                             new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
                                 interaction),
@@ -254,207 +217,47 @@ namespace Rpg.Client.Models.Combat.GameObjects
                                 interaction)
                         };
 
-                        foreach (var bullet in bullets)
-                        {
-                            bulletList.Add(bullet);
-                        }
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitDistantAttackState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            attackInteraction: interaction,
-                            bullet: null,
-                            bulletList: bulletList,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Heal":
+                    foreach (var bullet in bullets)
                     {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
+                        bulletList.Add(bullet);
                     }
 
-                    break;
-
-                case "Mass Heal":
-                    {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Power Up":
-                    {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Dope Herb":
-                    {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Periodic Heal":
-                    {
-                        bulletBlocker?.Release();
-
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitSupportState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            healInteraction: interaction,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
-                    break;
-
-                case "Mass Stun":
-                    {
-                        if (bulletBlocker is null)
-                        {
-                            throw new InvalidOperationException();
-                        }
-
-                        bulletBlocker.Released += (s, e) =>
-                        {
-                            interaction?.Invoke();
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
-
-                        var bullets = new List<BulletGameObject>
-                        {
-                            new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
-                                interaction),
-                            new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
-                                interaction),
-                            new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
-                                interaction)
-                        };
-
-                        foreach (var bullet in bullets)
-                        {
-                            bulletList.Add(bullet);
-                        }
-
-                        var hitSound = GetHitSound(skill);
-
-                        state = new UnitDistantAttackState(
-                            graphics: _graphics,
-                            graphicsRoot: _graphics.Root,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            attackInteraction: interaction,
-                            bullet: null,
-                            bulletList: bulletList,
-                            hitSound: hitSound,
-                            skillIndex);
-                    }
-
+                    state = new UnitDistantAttackState(
+                        graphics: _graphics,
+                        graphicsRoot: _graphics.Root,
+                        targetGraphicsRoot: target._graphics.Root,
+                        blocker: animationBlocker,
+                        attackInteraction: interaction,
+                        bullet: null,
+                        bulletList: bulletList,
+                        hitSound: hitSound,
+                        skillIndex);
                     break;
 
                 default:
+                case SkillVisualizationStateType.Support:
+                    bulletBlocker?.Release();
+
+                    animationBlocker.Released += (s, e) =>
                     {
-                        animationBlocker.Released += (s, e) =>
-                        {
-                            SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                        };
+                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
+                    };
 
-                        Debug.Fail("Skill does not set");
-                        var hitSound = GetHitSound(skill);
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            interaction, hitSound, skillIndex);
-                    }
-
+                    state = new UnitSupportState(
+                        graphics: _graphics,
+                        graphicsRoot: _graphics.Root,
+                        targetGraphicsRoot: target._graphics.Root,
+                        blocker: animationBlocker,
+                        healInteraction: interaction,
+                        hitSound: hitSound,
+                        skillIndex);
                     break;
             }
 
             return state;
         }
 
-        private SoundEffectInstance GetHitSound(SkillBase skill)
+        private SoundEffectInstance GetHitSound(ISkill skill)
         {
             return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
         }

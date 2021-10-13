@@ -6,11 +6,11 @@ namespace Rpg.Client.Core.Skills
 {
     internal sealed class PowerUpSkill : SkillBase
     {
-        public PowerUpSkill()
+        public PowerUpSkill(): base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
         {
         }
 
-        public PowerUpSkill(bool costRequired) : base(costRequired)
+        public PowerUpSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support }, costRequired)
         {
         }
 

@@ -2,16 +2,17 @@
 
 namespace Rpg.Client.Core.Skills
 {
-    internal abstract class SkillBase
+    internal abstract class SkillBase : ISkill
     {
         public const int BASE_MANA_COST = 3;
 
-        protected SkillBase()
+        protected SkillBase(SkillVisualization visualization)
         {
             UsageCount = 1;
+            Visualization = visualization;
         }
 
-        protected SkillBase(bool costRequired): this()
+        protected SkillBase(SkillVisualization visualization, bool costRequired) : this(visualization)
         {
             if (costRequired)
             {
@@ -30,5 +31,7 @@ namespace Rpg.Client.Core.Skills
         public abstract SkillType Type { get; }
 
         public virtual int UsageCount { get; }
+
+        public SkillVisualization Visualization { get; }
     }
 }

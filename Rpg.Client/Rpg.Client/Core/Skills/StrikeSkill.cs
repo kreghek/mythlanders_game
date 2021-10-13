@@ -6,11 +6,11 @@ namespace Rpg.Client.Core.Skills
 {
     internal class StrikeSkill : SkillBase
     {
-        public StrikeSkill()
+        public StrikeSkill(): base (new SkillVisualization() { Type = SkillVisualizationStateType.Range })
         {
         }
 
-        public StrikeSkill(bool costRequired) : base(costRequired)
+        public StrikeSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Range }, costRequired)
         {
         }
 
