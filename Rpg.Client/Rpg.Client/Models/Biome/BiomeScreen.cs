@@ -84,7 +84,8 @@ namespace Rpg.Client.Models.Biome
 
             var autoplayButton = new TextButton("Switch Autoplay", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            autoplayButton.OnClick += (s, e) => {
+            autoplayButton.OnClick += (s, e) =>
+            {
                 _isAutoplay = !_isAutoplay;
             };
 
