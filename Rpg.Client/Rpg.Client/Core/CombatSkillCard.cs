@@ -18,10 +18,10 @@ namespace Rpg.Client.Core
         {
             get
             {
-                if (Skill.Cost is not null)
+                if (Skill.ManaCost is not null)
                 {
                     var currentMana = _combatSkillContext.GetMana();
-                    return currentMana >= Skill.Cost;
+                    return currentMana >= Skill.ManaCost;
                 }
 
                 return true;

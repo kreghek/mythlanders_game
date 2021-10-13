@@ -6,6 +6,14 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MonsterAttackSkill : SkillBase
     {
+        public MonsterAttackSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee })
+        {
+        }
+
+        public MonsterAttackSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee }, costRequired)
+        {
+        }
+
         public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule

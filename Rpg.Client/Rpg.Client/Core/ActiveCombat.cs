@@ -119,24 +119,27 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (skill.Cost is not null)
+            if (skill.ManaCost is not null)
             {
-                CurrentUnit.Unit.ManaPool -= skill.Cost.Value;
+                CurrentUnit.Unit.ManaPool -= skill.ManaCost.Value;
             }
 
-            Action action = () =>
+            //for (var usageIndex = 0; usageIndex < skill.UsageCount; usageIndex++)
             {
-                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
-                CompleteStep();
-            };
+                Action action = () =>
+                {
+                    EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                    CompleteStep();
+                };
 
-            ActionGenerated?.Invoke(this, new ActionEventArgs
-            {
-                Action = action,
-                Actor = CurrentUnit,
-                Skill = skill,
-                Target = target
-            });
+                ActionGenerated?.Invoke(this, new ActionEventArgs
+                {
+                    Action = action,
+                    Actor = CurrentUnit,
+                    Skill = skill,
+                    Target = target
+                });
+            }
         }
 
         internal void Initialize()

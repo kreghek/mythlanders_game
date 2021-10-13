@@ -164,10 +164,10 @@ namespace Rpg.Client.Models.Combat.Ui
                 Color.Black);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.Skill.Cost is not null)
+            if (combatPower.Skill.ManaCost is not null)
             {
                 var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.Cost}",
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Cost: {combatPower.Skill.ManaCost}",
                     manaCostPosition, manaCostColor);
             }
 
@@ -238,6 +238,11 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Dope Herb" => 7,
                 "Mass Stun" => 7,
                 "Mass Heal" => 8,
+
+                "Dark Light" => 9,
+                "Paralitic chor" => 10,
+                "Finger of Anubis" => 11,
+
                 "Power Up" => 1,
                 _ => null
             };

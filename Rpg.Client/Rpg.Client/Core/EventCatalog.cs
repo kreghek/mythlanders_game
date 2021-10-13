@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 
@@ -16,9 +17,11 @@ namespace Rpg.Client.Core
             var rm = PlotResources.ResourceManager;
             var serializedPlotString = rm.GetString("MainPlot");
 
+            Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
+
             var testEvents = CreateTestEvents();
 
-            var plotEvents = CreatePlotEvents(serializedPlotString);
+            var plotEvents = CreatePlotEvents(serializedPlotString ?? string.Empty);
 
             _events = testEvents.Concat(plotEvents).ToArray();
         }
@@ -26,7 +29,7 @@ namespace Rpg.Client.Core
         public static IEnumerable<Event> Events => _events;
 
         private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
-            string aftermath)
+            string? aftermath)
         {
             var fragments = new List<EventTextFragment>();
 
@@ -39,7 +42,7 @@ namespace Rpg.Client.Core
                 });
             }
 
-            IOptionAftermath optionAftermath = null;
+            IOptionAftermath? optionAftermath = null;
             if (aftermath is not null)
             {
                 switch (aftermath)
@@ -93,9 +96,15 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static IEnumerable<Event> CreatePlotEvents(string? serializedPlotString)
+        private static IEnumerable<Event> CreatePlotEvents(string serializedPlotString)
         {
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
+
+            Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
+            if (eventStorageModelList is null)
+            {
+                yield break;
+            }
 
             foreach (var eventStorageModel in eventStorageModelList)
             {

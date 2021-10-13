@@ -6,11 +6,11 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SlashSkill : SkillBase
     {
-        public SlashSkill()
+        public SlashSkill(): base (new SkillVisualization() { Type = SkillVisualizationStateType.Melee })
         {
         }
 
-        public SlashSkill(bool costRequired) : base(costRequired)
+        public SlashSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee }, costRequired)
         {
         }
 
@@ -36,5 +36,7 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Slash";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        public override int UsageCount => 3;
     }
 }

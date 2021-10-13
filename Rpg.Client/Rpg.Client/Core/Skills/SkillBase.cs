@@ -2,30 +2,36 @@
 
 namespace Rpg.Client.Core.Skills
 {
-    internal abstract class SkillBase
+    internal abstract class SkillBase : ISkill
     {
-        public int BASE_COST = 3;
+        public const int BASE_MANA_COST = 3;
 
-        protected SkillBase()
+        protected SkillBase(SkillVisualization visualization)
         {
-            Cost = null;
+            UsageCount = 1;
+            Visualization = visualization;
         }
 
-        protected SkillBase(bool costRequired)
+        protected SkillBase(SkillVisualization visualization, bool costRequired) : this(visualization)
         {
             if (costRequired)
             {
-                Cost = BASE_COST;
+                ManaCost = BASE_MANA_COST;
             }
         }
 
-        public int? Cost { get; }
+        public int? ManaCost { get; }
 
         public abstract IEnumerable<EffectRule> Rules { get; }
+
         public abstract string Sid { get; }
 
         public abstract SkillTargetType TargetType { get; }
 
         public abstract SkillType Type { get; }
+
+        public virtual int UsageCount { get; }
+
+        public SkillVisualization Visualization { get; }
     }
 }

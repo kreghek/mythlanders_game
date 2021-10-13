@@ -17,6 +17,10 @@
         Cheng,
         Kakhotep,
         Amun,
+        Nubiti,
+        Leonidas,
+        Diana,
+        Geron,
 
         Hq,
         Oldman,
