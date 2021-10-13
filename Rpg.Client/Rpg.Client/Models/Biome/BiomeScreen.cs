@@ -42,6 +42,8 @@ namespace Rpg.Client.Models.Biome
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
+        private bool _isAutoplay;
+
         public BiomeScreen(EwarGame game) : base(game)
         {
             _random = new Random();
@@ -80,11 +82,18 @@ namespace Rpg.Client.Models.Biome
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
             };
 
+            var autoplayButton = new TextButton("Switch Autoplay", _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+            autoplayButton.OnClick += (s, e) => {
+                _isAutoplay = !_isAutoplay;
+            };
+
             _menuButtons = new ButtonBase[]
             {
                 mapButton,
                 saveGameButton,
-                partyModalButton
+                partyModalButton,
+                autoplayButton
             };
 
             _clouds = new Cloud[CLOUD_COUNT];
@@ -175,13 +184,11 @@ namespace Rpg.Client.Models.Biome
                         {
                             _screenTransition = true;
 
-                            var isautoplay = Keyboard.GetState().IsKeyDown(Keys.LeftShift);
-
                             _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                                 _hoverNodeGameObject,
                                 _hoverNodeGameObject.Combat, _biome,
                                 Game.Services.GetService<IDice>(),
-                                isautoplay);
+                                _isAutoplay);
 
                             if (_hoverNodeGameObject.AvailableDialog is not null)
                             {
@@ -304,7 +311,10 @@ namespace Rpg.Client.Models.Biome
 
             var localizedName = rm.GetString($"{node.GlobeNode.Sid}NodeName");
             var normalizedName = localizedName ?? node.GlobeNode.Sid.ToString();
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName,
+
+            var autoplayText = _isAutoplay ? " AUTOPLAY!" : string.Empty;
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName + autoplayText,
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
