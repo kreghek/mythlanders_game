@@ -308,7 +308,8 @@ namespace Rpg.Client.Models.Combat
                         _globeNodeGameObject,
                         nextCombat,
                         _combat.Biom,
-                        _dice);
+                        _dice,
+                        _combat.IsAutoplay);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                 }
