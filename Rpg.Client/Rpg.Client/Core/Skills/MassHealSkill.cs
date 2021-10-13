@@ -6,11 +6,13 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassHealSkill : SkillBase
     {
-        public MassHealSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
+        public MassHealSkill() : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.Support })
         {
         }
 
-        public MassHealSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support }, costRequired)
+        public MassHealSkill(bool costRequired) : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.Support }, costRequired)
         {
         }
 

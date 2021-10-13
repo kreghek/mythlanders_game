@@ -7,8 +7,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class DeathState : IUnitStateEngine
     {
-        private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance _deathSoundEffect;
+        private readonly UnitGraphics _graphics;
         private double _counter;
 
         public DeathState(UnitGraphics graphics, SoundEffectInstance deathSoundEffect)

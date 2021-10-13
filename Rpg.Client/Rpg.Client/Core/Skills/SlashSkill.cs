@@ -6,11 +6,13 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SlashSkill : SkillBase
     {
-        public SlashSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee })
+        public SlashSkill() : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.Melee })
         {
         }
 
-        public SlashSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee }, costRequired)
+        public SlashSkill(bool costRequired) : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.Melee }, costRequired)
         {
         }
 

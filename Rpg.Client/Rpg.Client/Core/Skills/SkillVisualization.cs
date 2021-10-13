@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace Rpg.Client.Core.Skills
 {

@@ -14,10 +14,8 @@ namespace Rpg.Client.Models
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
-
-        private Dictionary<string, SoundEffect> _skillSoundDict;
-        private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private Texture2D _combatUnitMarkers;
+        private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
@@ -25,6 +23,8 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
+
+        private Dictionary<string, SoundEffect> _skillSoundDict;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -158,21 +158,6 @@ namespace Rpg.Client.Models
             return _combatUnitMarkers;
         }
 
-        internal SpriteFont GetFont()
-        {
-            return _font;
-        }
-
-        internal SoundEffect GetSkillUsageSound(string sid)
-        {
-            if (_skillSoundDict.TryGetValue(sid, out var soundEffect))
-            {
-                return soundEffect;
-            }
-
-            return _skillSoundDict["Wolf Bite"];
-        }
-
         internal SoundEffect GetDeathSound(UnitName unitName)
         {
             if (_deathSoundDict.TryGetValue(unitName, out var soundEffect))
@@ -181,6 +166,11 @@ namespace Rpg.Client.Models
             }
 
             return _deathSoundDict[UnitName.Berimir];
+        }
+
+        internal SpriteFont GetFont()
+        {
+            return _font;
         }
 
         internal Texture2D GetLocationObjectTextures()
@@ -196,6 +186,16 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
+        }
+
+        internal SoundEffect GetSkillUsageSound(string sid)
+        {
+            if (_skillSoundDict.TryGetValue(sid, out var soundEffect))
+            {
+                return soundEffect;
+            }
+
+            return _skillSoundDict["Wolf Bite"];
         }
 
         internal Texture2D GetUnitPortrains()
