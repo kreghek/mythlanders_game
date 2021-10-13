@@ -238,6 +238,11 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Dope Herb" => 7,
                 "Mass Stun" => 7,
                 "Mass Heal" => 8,
+
+                "Dark Light" => 9,
+                "Paralitic chor" => 10,
+                "Finger of Anubis" => 11,
+
                 "Power Up" => 1,
                 _ => null
             };
