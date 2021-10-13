@@ -236,7 +236,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skills = CurrentUnit.Unit.Skills.ToArray();
+            var skills = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToArray();
             var skill = dice.RollFromList(skills, 1).Single();
 
             IList<CombatUnit> possibleTargetList;
