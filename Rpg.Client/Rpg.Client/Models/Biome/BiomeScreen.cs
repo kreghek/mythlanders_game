@@ -174,10 +174,14 @@ namespace Rpg.Client.Models.Biome
                         if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
                         {
                             _screenTransition = true;
+
+                            var isautoplay = Keyboard.GetState().IsKeyDown(Keys.LeftShift);
+
                             _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                                 _hoverNodeGameObject,
                                 _hoverNodeGameObject.Combat, _biome,
-                                Game.Services.GetService<IDice>());
+                                Game.Services.GetService<IDice>(),
+                                isautoplay);
 
                             if (_hoverNodeGameObject.AvailableDialog is not null)
                             {

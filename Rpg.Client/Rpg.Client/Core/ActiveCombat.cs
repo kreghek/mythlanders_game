@@ -19,13 +19,14 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice)
+        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice, bool isAutoplay)
         {
             _playerGroup = playerGroup;
             Node = node;
             Combat = combat;
             Biom = biom;
             Dice = dice;
+            IsAutoplay = isAutoplay;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
             EffectProcessor = new EffectProcessor(this);
@@ -35,6 +36,8 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
+
+        public bool IsAutoplay { get; }
 
         public CombatUnit? CurrentUnit
         {
@@ -217,7 +220,7 @@ namespace Rpg.Client.Core
 
         private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
         {
-            if (!e.Unit.IsPlayerControlled)
+            if (!e.Unit.IsPlayerControlled || IsAutoplay)
             {
                 AI();
             }
@@ -240,13 +243,13 @@ namespace Rpg.Client.Core
             {
                 case SkillTargetType.Enemy:
                     {
-                        possibleTargetList = Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        possibleTargetList = Units.Where(x => CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
                         break;
                     }
 
                 case SkillTargetType.Friendly:
                     {
-                        possibleTargetList = Units.Where(x => !x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        possibleTargetList = Units.Where(x => CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
                         break;
                     }
 
