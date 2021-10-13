@@ -1,17 +1,20 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class DeathState : IUnitStateEngine
     {
         private readonly UnitGraphics _graphics;
+        private readonly SoundEffectInstance _deathSoundEffect;
         private double _counter;
 
-        public DeathState(UnitGraphics graphics)
+        public DeathState(UnitGraphics graphics, SoundEffectInstance deathSoundEffect)
         {
             _graphics = graphics;
+            _deathSoundEffect = deathSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -26,6 +29,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
+                _deathSoundEffect.Play();
                 _graphics.IsDamaged = true;
                 _graphics.PlayAnimation("Death");
             }

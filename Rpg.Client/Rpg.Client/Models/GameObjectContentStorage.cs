@@ -15,7 +15,8 @@ namespace Rpg.Client.Models
         private Texture2D _biomClouds;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
 
-        private Dictionary<string, SoundEffect> _combatPowerDict;
+        private Dictionary<string, SoundEffect> _skillSoundDict;
+        private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private Texture2D _combatUnitMarkers;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
@@ -88,18 +89,39 @@ namespace Rpg.Client.Models
                 }
             };
 
-            _combatPowerDict = new Dictionary<string, SoundEffect>
+            _skillSoundDict = new Dictionary<string, SoundEffect>
             {
-                { "Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
-                { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/SwordHit") },
-                { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/HealEffect") },
-                { "Dope Herb", contentManager.Load<SoundEffect>("Audio/GameObjects/DustEffect") },
-                { "Mass Stun", contentManager.Load<SoundEffect>("Audio/GameObjects/EgyptMassStunEffect") },
-                { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
-                { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/BowStrikeEffect") },
-                { "Power Up", contentManager.Load<SoundEffect>("Audio/GameObjects/HealEffect") },
+                { "Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
+                { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
+                { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
+                { "Dope Herb", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
+                { "Mass Stun", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect") },
+                { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
+                { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
+                { "Power Up", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
 
                 { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
+            };
+
+            _deathSoundDict = new Dictionary<UnitName, SoundEffect>
+            {
+                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+
+                { UnitName.Maosin, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Ping, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Cheng, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+
+                { UnitName.Amun, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Kakhotep, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Nubiti, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+
+                { UnitName.Leonidas, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Diana, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+
+                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");
@@ -141,14 +163,24 @@ namespace Rpg.Client.Models
             return _font;
         }
 
-        internal SoundEffect GetHitSound(string sid)
+        internal SoundEffect GetSkillUsageSound(string sid)
         {
-            if (_combatPowerDict.TryGetValue(sid, out var soundEffect))
+            if (_skillSoundDict.TryGetValue(sid, out var soundEffect))
             {
                 return soundEffect;
             }
 
-            return _combatPowerDict["Wolf Bite"];
+            return _skillSoundDict["Wolf Bite"];
+        }
+
+        internal SoundEffect GetDeathSound(UnitName unitName)
+        {
+            if ( _deathSoundDict.TryGetValue(unitName, out var soundEffect))
+            {
+                return soundEffect;
+            }
+
+            return _deathSoundDict[UnitName.Berimir];
         }
 
         internal Texture2D GetLocationObjectTextures()

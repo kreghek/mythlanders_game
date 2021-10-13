@@ -91,41 +91,53 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Victory.mp3
 
-#begin Audio/GameObjects/BowStrikeEffect.mp3
-/importer:Mp3Importer
+#begin Audio/GameObjects/Deaths/DogDeath.wav
+/importer:WavImporter
 /processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Audio/GameObjects/BowStrikeEffect.mp3
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Deaths/DogDeath.wav
 
-#begin Audio/GameObjects/DustEffect.mp3
+#begin Audio/GameObjects/Deaths/HumanDeath.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/GameObjects/DustEffect.mp3
+/build:Audio/GameObjects/Deaths/HumanDeath.mp3
 
-#begin Audio/GameObjects/EgyptMassStunEffect.mp3
+#begin Audio/GameObjects/Skills/BowStrikeEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/GameObjects/EgyptMassStunEffect.mp3
+/build:Audio/GameObjects/Skills/BowStrikeEffect.mp3
 
-#begin Audio/GameObjects/HealEffect.mp3
+#begin Audio/GameObjects/Skills/DustEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/GameObjects/HealEffect.mp3
+/build:Audio/GameObjects/Skills/DustEffect.mp3
 
-#begin Audio/GameObjects/SwordHit.mp3
+#begin Audio/GameObjects/Skills/EgyptMassStunEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Audio/GameObjects/SwordHit.mp3
+/build:Audio/GameObjects/Skills/EgyptMassStunEffect.mp3
 
-#begin Audio/GameObjects/WolfHitEffect.mp3
+#begin Audio/GameObjects/Skills/HealEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
-/processorParam:Quality=Low
-/build:Audio/GameObjects/WolfHitEffect.mp3
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/HealEffect.mp3
+
+#begin Audio/GameObjects/Skills/SwordHitEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/SwordHitEffect.mp3
+
+#begin Audio/GameObjects/Skills/WolfHitEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/WolfHitEffect.mp3
 
 #begin Audio/Ui/ButtonClick.mp3
 /importer:Mp3Importer

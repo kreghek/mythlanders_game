@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Resources;
-using System.Runtime.CompilerServices;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -45,7 +42,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void AnimateDeath()
         {
-            AddStateEngine(new DeathState(_graphics));
+            var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name).CreateInstance();
+            var actorStateEngine = new DeathState(_graphics, deathSoundEffect);
+            AddStateEngine(actorStateEngine);
         }
 
         public void AnimateWound()
@@ -259,7 +258,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private SoundEffectInstance GetHitSound(ISkill skill)
         {
-            return _gameObjectContentStorage.GetHitSound(skill.Sid).CreateInstance();
+            return _gameObjectContentStorage.GetSkillUsageSound(skill.Sid).CreateInstance();
         }
 
         private void HandleEngineStates(GameTime gameTime)
