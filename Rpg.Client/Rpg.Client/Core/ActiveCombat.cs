@@ -19,7 +19,8 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice, bool isAutoplay)
+        public ActiveCombat(Group playerGroup, GlobeNodeGameObject node, Combat combat, Biome biom, IDice dice,
+            bool isAutoplay)
         {
             _playerGroup = playerGroup;
             Node = node;
@@ -36,8 +37,6 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biom { get; }
-
-        public bool IsAutoplay { get; }
 
         public CombatUnit? CurrentUnit
         {
@@ -73,6 +72,8 @@ namespace Rpg.Client.Core
         public IDice Dice { get; }
 
         public EffectProcessor EffectProcessor { get; }
+
+        public bool IsAutoplay { get; }
 
         public bool IsCurrentStepCompleted { get; set; }
 
@@ -243,13 +244,17 @@ namespace Rpg.Client.Core
             {
                 case SkillTargetType.Enemy:
                     {
-                        possibleTargetList = Units.Where(x => CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        possibleTargetList = Units.Where(x =>
+                                CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                            .ToList();
                         break;
                     }
 
                 case SkillTargetType.Friendly:
                     {
-                        possibleTargetList = Units.Where(x => CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToList();
+                        possibleTargetList = Units.Where(x =>
+                                CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                            .ToList();
                         break;
                     }
 

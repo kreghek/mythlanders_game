@@ -39,10 +39,10 @@ namespace Rpg.Client.Models.Biome
 
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
+        private bool _isAutoplay;
+
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
-
-        private bool _isAutoplay;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
