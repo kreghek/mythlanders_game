@@ -7,7 +7,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassStunSkill : SkillBase
     {
-        public MassStunSkill(): base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
+        public MassStunSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
         {
         }
 

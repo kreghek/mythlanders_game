@@ -175,7 +175,7 @@ namespace Rpg.Client.Models
 
         internal SoundEffect GetDeathSound(UnitName unitName)
         {
-            if ( _deathSoundDict.TryGetValue(unitName, out var soundEffect))
+            if (_deathSoundDict.TryGetValue(unitName, out var soundEffect))
             {
                 return soundEffect;
             }

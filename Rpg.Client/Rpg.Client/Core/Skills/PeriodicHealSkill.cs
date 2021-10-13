@@ -6,7 +6,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class PeriodicHealSkill : SkillBase
     {
-        public PeriodicHealSkill(): base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
+        public PeriodicHealSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
         {
         }
 

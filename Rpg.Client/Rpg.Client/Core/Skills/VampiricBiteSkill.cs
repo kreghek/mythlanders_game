@@ -6,7 +6,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class VampiricBiteSkill : SkillBase
     {
-        public VampiricBiteSkill(): base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee })
+        public VampiricBiteSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Melee })
         {
         }
 

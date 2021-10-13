@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 namespace Rpg.Client.Core.Skills
 {
     internal struct SkillVisualization
-    { 
+    {
         public SkillVisualizationStateType Type { get; set; }
     }
 

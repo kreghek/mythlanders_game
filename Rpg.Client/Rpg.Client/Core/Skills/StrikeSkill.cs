@@ -6,7 +6,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class StrikeSkill : SkillBase
     {
-        public StrikeSkill(): base (new SkillVisualization() { Type = SkillVisualizationStateType.Range })
+        public StrikeSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Range })
         {
         }
 

@@ -7,7 +7,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DopeHerbSkill : SkillBase
     {
-        public DopeHerbSkill(): base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
+        public DopeHerbSkill() : base(new SkillVisualization() { Type = SkillVisualizationStateType.Support })
         {
         }
 
