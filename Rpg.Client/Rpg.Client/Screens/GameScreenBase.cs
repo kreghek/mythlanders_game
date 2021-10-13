@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -81,7 +82,10 @@ namespace Rpg.Client.Screens
         {
             base.Update(gameTime);
 
-            UpdateContent(gameTime);
+            if (!_modals.Any(x => x.IsVisible))
+            {
+                UpdateContent(gameTime);
+            }
 
             UpdateModals(gameTime);
         }
