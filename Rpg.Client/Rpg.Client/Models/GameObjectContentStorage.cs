@@ -99,8 +99,8 @@ namespace Rpg.Client.Models
                 { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
                 { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
                 { "Power Up", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
-
-                { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/WolfHitEffect") }
+                
+                { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect") }
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
