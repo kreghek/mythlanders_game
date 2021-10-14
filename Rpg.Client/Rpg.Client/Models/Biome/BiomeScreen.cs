@@ -36,6 +36,7 @@ namespace Rpg.Client.Models.Biome
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IDice _dice;
 
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
@@ -58,6 +59,8 @@ namespace Rpg.Client.Models.Biome
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _dice = Game.Services.GetService<IDice>();
+
             _locationObjectList = new List<LocationGameObject>();
 
             var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
@@ -131,7 +134,7 @@ namespace Rpg.Client.Models.Biome
 
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                _globe.UpdateNodes(_dice);
                 _globe.IsNodeInitialied = true;
             }
             else
@@ -188,7 +191,7 @@ namespace Rpg.Client.Models.Biome
                             _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                                 _hoverNodeGameObject,
                                 _hoverNodeGameObject.Combat, _biome,
-                                Game.Services.GetService<IDice>(),
+                                _dice,
                                 _isAutoplay);
 
                             if (_hoverNodeGameObject.AvailableDialog is not null)
@@ -428,20 +431,6 @@ namespace Rpg.Client.Models.Biome
                 $"Xp Reward: {summaryXp}",
                 summaryXpLabelPosition,
                 Color.Black);
-        }
-
-        private static Rectangle GetBiomeMapRectange(BiomeType type)
-        {
-            const int WIDTH = 800;
-            const int HEIGHT = 400;
-            return type switch
-            {
-                BiomeType.Slavic => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
-                BiomeType.Chinese => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
-                BiomeType.Egyptian => new Rectangle(WIDTH * 0, HEIGHT * 0, WIDTH, HEIGHT),
-                BiomeType.Greek => new Rectangle(WIDTH * 0, HEIGHT * 1, WIDTH, HEIGHT),
-                _ => throw new InvalidOperationException("Unknown biome type")
-            };
         }
 
         private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
