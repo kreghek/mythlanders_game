@@ -12,6 +12,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Biome.Tutorial;
+using Rpg.Client.Models.Biome.Ui;
 using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
@@ -39,8 +40,6 @@ namespace Rpg.Client.Models.Biome
         private readonly IDice _dice;
 
         private GlobeNodeGameObject? _hoverNodeGameObject;
-
-        private bool _isAutoplay;
 
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
@@ -85,19 +84,11 @@ namespace Rpg.Client.Models.Biome
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
             };
 
-            var autoplayButton = new TextButton("Switch Autoplay", _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            autoplayButton.OnClick += (s, e) =>
-            {
-                _isAutoplay = !_isAutoplay;
-            };
-
             _menuButtons = new ButtonBase[]
             {
                 mapButton,
                 saveGameButton,
-                partyModalButton,
-                autoplayButton
+                partyModalButton
             };
 
             _clouds = new Cloud[CLOUD_COUNT];
@@ -186,31 +177,69 @@ namespace Rpg.Client.Models.Biome
 
                         if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
                         {
-                            _screenTransition = true;
+                            var context = new CombatModalContext
+                            { 
+                                Globe = _globe,
+                                SelectedNodeGameObject = _hoverNodeGameObject,
+                                CombatDelegate = (ngo) => {
+                                    _screenTransition = true;
 
-                            _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                                _hoverNodeGameObject,
-                                _hoverNodeGameObject.Combat, _biome,
-                                _dice,
-                                _isAutoplay);
+                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.Combat, _biome,
+                                        _dice,
+                                        isAutoplay: false);
 
-                            if (_hoverNodeGameObject.AvailableDialog is not null)
-                            {
-                                _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
-                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    {
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
-                                _globe.CurrentEvent.Counter++;
+                                        _globe.CurrentEvent.Counter++;
 
-                                ClearEventHandlerToGlobeObjects();
+                                        ClearEventHandlerToGlobeObjects();
 
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                            }
-                            else
-                            {
-                                ClearEventHandlerToGlobeObjects();
+                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                                    }
+                                    else
+                                    {
+                                        ClearEventHandlerToGlobeObjects();
 
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                            }
+                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                                    }
+                                },
+
+                                AutoCombatDelegate = (ngo) => {
+                                    _screenTransition = true;
+
+                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.Combat, _biome,
+                                        _dice,
+                                        isAutoplay: true);
+
+                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    {
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+
+                                        _globe.CurrentEvent.Counter++;
+
+                                        ClearEventHandlerToGlobeObjects();
+
+                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                                    }
+                                    else
+                                    {
+                                        ClearEventHandlerToGlobeObjects();
+
+                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                                    }
+                                }
+                            };
+
+                            var combatModal = new CombatModal(context, _uiContentStorage, Game.GraphicsDevice);
+                            AddModal(combatModal, isLate: false);
                         }
                     }
                 }
@@ -316,9 +345,7 @@ namespace Rpg.Client.Models.Biome
             var localizedName = rm.GetString($"{node.GlobeNode.Sid}NodeName");
             var normalizedName = localizedName ?? node.GlobeNode.Sid.ToString();
 
-            var autoplayText = _isAutoplay ? " AUTOPLAY!" : string.Empty;
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName + autoplayText,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName,
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 

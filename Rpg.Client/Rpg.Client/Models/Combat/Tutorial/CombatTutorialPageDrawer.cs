@@ -14,7 +14,7 @@ namespace Rpg.Client.Models.Combat.Tutorial
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.CombatTutorualText,
+            spriteBatch.DrawString(UiContentStorage.GetMainFont(), UiResource.CombatTutorialText,
                 contentRect.Location.ToVector2() + new Vector2(0, 5), Color.White);
         }
     }

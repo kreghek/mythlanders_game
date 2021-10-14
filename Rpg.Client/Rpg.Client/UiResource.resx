@@ -130,13 +130,13 @@
     <value>Sword pieces</value>
     <comment>Осколки меча</comment>
   </data>
-  <data name="CombatTutorualText" xml:space="preserve">
+  <data name="CombatTutorialText" xml:space="preserve">
     <value></value>
   </data>
-  <data name="BiomeTutorualText" xml:space="preserve">
+  <data name="BiomeTutorialText" xml:space="preserve">
     <value></value>
   </data>
-  <data name="EventTutorualText" xml:space="preserve">
+  <data name="EventTutorialText" xml:space="preserve">
     <value></value>
   </data>
   <data name="UnitNameHq" xml:space="preserve">
@@ -160,13 +160,13 @@
   <data name="UnitNameGuardianWoman" xml:space="preserve">
     <value></value>
   </data>
-  <data name="SlavicThicketNodeName" xml:space="preserve">
+  <data name="ThicketNodeName" xml:space="preserve">
     <value></value>
   </data>
-  <data name="SlavicMinesNodeName" xml:space="preserve">
+  <data name="MinesNodeName" xml:space="preserve">
     <value></value>
   </data>
-  <data name="SlavicPitNodeName" xml:space="preserve">
+  <data name="PitNodeName" xml:space="preserve">
     <value></value>
   </data>
   <data name="UnitNameRada" xml:space="preserve">
@@ -183,5 +183,11 @@
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="ToTheCombatButtonTitle" xml:space="preserve">
+    <value>To The Combat!</value>
+  </data>
+  <data name="AutocombatButtonTitle" xml:space="preserve">
+    <value>Auto-combat</value>
   </data>
 </root>
