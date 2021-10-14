@@ -6,11 +6,13 @@ namespace Rpg.Client.Core.Skills
 {
     internal class ArrowRainSkill : SkillBase
     {
-        public ArrowRainSkill(): base (new SkillVisualization() { Type = SkillVisualizationStateType.MassRange })
+        public ArrowRainSkill() : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.MassRange })
         {
         }
 
-        public ArrowRainSkill(bool costRequired) : base(new SkillVisualization() { Type = SkillVisualizationStateType.MassRange }, costRequired)
+        public ArrowRainSkill(bool costRequired) : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.MassRange }, costRequired)
         {
         }
 

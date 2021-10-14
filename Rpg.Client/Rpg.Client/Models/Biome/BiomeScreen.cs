@@ -39,10 +39,10 @@ namespace Rpg.Client.Models.Biome
 
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
+        private bool _isAutoplay;
+
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
-
-        private bool _isAutoplay;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -84,7 +84,8 @@ namespace Rpg.Client.Models.Biome
 
             var autoplayButton = new TextButton("Switch Autoplay", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            autoplayButton.OnClick += (s, e) => {
+            autoplayButton.OnClick += (s, e) =>
+            {
                 _isAutoplay = !_isAutoplay;
             };
 

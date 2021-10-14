@@ -42,7 +42,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public void AnimateDeath()
         {
-            var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name).CreateInstance();
+            var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name)
+                .CreateInstance();
             var actorStateEngine = new DeathState(_graphics, deathSoundEffect);
             AddStateEngine(actorStateEngine);
         }
@@ -207,14 +208,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     };
 
                     var bullets = new List<BulletGameObject>
-                        {
-                            new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
-                                interaction),
-                            new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
-                                interaction),
-                            new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
-                                interaction)
-                        };
+                    {
+                        new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
+                            interaction),
+                        new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
+                            interaction),
+                        new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
+                            interaction)
+                    };
 
                     foreach (var bullet in bullets)
                     {
