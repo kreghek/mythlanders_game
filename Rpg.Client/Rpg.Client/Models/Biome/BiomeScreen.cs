@@ -335,7 +335,7 @@ namespace Rpg.Client.Models.Biome
             var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
 
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 200)),
+                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 100)),
                 Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
             var node = nodeGameObject;
@@ -349,35 +349,11 @@ namespace Rpg.Client.Models.Biome
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
-            var dialogMarkerText = node.AvailableDialog is not null ? $"(!) {node.AvailableDialog.Sid}" : string.Empty;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
-                toolTipPosition + new Vector2(5, 25), Color.Black);
-
             var combatSequenceSizeText = GetCombatSequenceSizeText(node);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 toolTipPosition + new Vector2(5, 35), Color.Black);
 
             DisplayCombatRewards(spriteBatch, nodeGameObject, toolTipPosition, node);
-
-            if (node.GlobeNode.CombatSequence is not null)
-            {
-                var monsterIndex = 0;
-                var roundIndex = 1;
-
-                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
-                {
-                    foreach (var monster in node.Combat.EnemyGroup.Units)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
-                            toolTipPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Black);
-
-                        monsterIndex++;
-                    }
-
-                    roundIndex++;
-                }
-            }
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)

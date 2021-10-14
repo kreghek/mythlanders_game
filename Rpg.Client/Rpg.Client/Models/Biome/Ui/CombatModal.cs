@@ -66,7 +66,7 @@ namespace Rpg.Client.Models.Biome.Ui
                 textPosition + new Vector2(5, 15),
                 Color.Wheat);
 
-            var dialogMarkerText = node.AvailableDialog is not null ? $"(!) {node.AvailableDialog.Sid}" : string.Empty;
+            var dialogMarkerText = node.AvailableDialog is not null ? $"{node.AvailableDialog.Title}" : string.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
@@ -76,28 +76,42 @@ namespace Rpg.Client.Models.Biome.Ui
 
             DisplayCombatRewards(spriteBatch, node, textPosition, node);
 
-            if (node.GlobeNode.CombatSequence is not null)
+            if (node.GlobeNode.CombatSequence is null)
             {
-                var monsterIndex = 0;
-                var roundIndex = 1;
+                Debug.Fail("Combat sequence is requered to be assigned.");
+                Close();
+                return;
+            }
 
-                foreach (var combat in node.GlobeNode.CombatSequence.Combats)
+            var monsterIndex = 0;
+            var roundIndex = 1;
+
+            foreach (var combat in node.GlobeNode.CombatSequence.Combats)
+            {
+                foreach (var monster in node.Combat.EnemyGroup.Units)
                 {
-                    foreach (var monster in node.Combat.EnemyGroup.Units)
-                    {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                            $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
-                            textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        $"(rnd {roundIndex}) {monster.UnitScheme.Name} (lvl{monster.Level})",
+                        textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
 
-                        monsterIndex++;
-                    }
-
-                    roundIndex++;
+                    monsterIndex++;
                 }
+
+                roundIndex++;
             }
 
             var sumButtonWidth = _buttons.Count * (100 + 5);
             var startXPosition = ContentRect.Center.X - sumButtonWidth / 2;
+
+            var playerPartyUnits = _globe.Player.Group.Units.ToArray();
+            for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
+            {
+                var unit = playerPartyUnits[unitIndex];
+                var name = rm.GetString($"UnitName{unit.UnitScheme.Name}");
+                var position = new Vector2(startXPosition + unitIndex * (100 + 5), ContentRect.Bottom - (40 + 5));
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
+            }
+            
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
