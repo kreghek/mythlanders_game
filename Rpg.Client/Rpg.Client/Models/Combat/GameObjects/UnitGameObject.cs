@@ -225,14 +225,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     state = new UnitDistantAttackState(
                         graphics: _graphics,
-                        graphicsRoot: _graphics.Root,
                         targetGraphicsRoot: target._graphics.Root,
                         blocker: animationBlocker,
                         attackInteraction: interaction,
-                        bullet: singleBullet,
+                        interactionDelivery: singleBullet,
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
-                        skillIndex);
+                        index: skillIndex);
                     break;
 
                 case SkillVisualizationStateType.MassMelee:
@@ -287,14 +286,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     state = new UnitDistantAttackState(
                         graphics: _graphics,
-                        graphicsRoot: _graphics.Root,
                         targetGraphicsRoot: target._graphics.Root,
                         blocker: animationBlocker,
                         attackInteraction: interaction,
-                        bullet: null,
+                        interactionDelivery: null,
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
-                        skillIndex);
+                        index: skillIndex);
                     break;
 
                 default:

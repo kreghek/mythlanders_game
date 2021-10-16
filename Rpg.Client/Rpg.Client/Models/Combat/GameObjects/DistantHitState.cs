@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -12,7 +11,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly BulletGameObject _bulletGameObject;
+        private readonly IInteractionDelivery _interactionDelivery;
         private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
@@ -21,17 +20,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, BulletGameObject? bulletGameObject,
+        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
             _graphics = graphics;
-            _bulletGameObject = bulletGameObject;
+            _interactionDelivery = interactionDelivery;
             _bulletList = interactionDeliveryList;
         }
 
-        public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject? bulletGameObject, IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
-            SoundEffectInstance? hitSound, int index) :
+        public DistantHitState(UnitGraphics graphics, BulletGameObject? bulletGameObject,
+            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker, SoundEffectInstance? hitSound,
+            int index) :
             this(graphics, bulletGameObject, interactionDeliveryList)
         {
             _animationBlocker = animationBlocker;
@@ -72,9 +71,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    if (_bulletGameObject != null)
+                    if (_interactionDelivery != null)
                     {
-                        _bulletList.Add(_bulletGameObject);
+                        _bulletList.Add(_interactionDelivery);
                     }
 
                     _interactionExecuted = true;
