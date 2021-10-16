@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
@@ -13,9 +12,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly Action _attackInteraction;
         private readonly BulletGameObject _bulletGameObject;
-        private readonly IList<BulletGameObject> _bulletList;
+        private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
@@ -23,19 +21,18 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList)
+        public DistantHitState(UnitGraphics graphics, BulletGameObject? bulletGameObject,
+            IList<IInteractionDelivery> interactionDeliveryList)
         {
             _graphics = graphics;
-            _attackInteraction = attackInteraction;
             _bulletGameObject = bulletGameObject;
-            _bulletList = bulletList;
+            _bulletList = interactionDeliveryList;
         }
 
         public DistantHitState(UnitGraphics graphics, Action attackInteraction,
-            BulletGameObject? bulletGameObject, IList<BulletGameObject> bulletList, AnimationBlocker animationBlocker,
+            BulletGameObject? bulletGameObject, IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound, int index) :
-            this(graphics, attackInteraction, bulletGameObject, bulletList)
+            this(graphics, bulletGameObject, interactionDeliveryList)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;

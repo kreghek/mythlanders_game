@@ -1,13 +1,11 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal sealed class BulletGameObject
+    internal sealed class BulletGameObject : IInteractionDelivery
     {
         private const double DURATION_SECONDS = 1.0;
         private const double FRAMERATE = 1f / 8f;
@@ -23,7 +21,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private int _frameIndex;
 
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
-            AnimationBlocker? blocker, Action? attackInteraction)
+            AnimationBlocker? blocker)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics());
             _startPosition = startPosition;
@@ -76,7 +74,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 {
                     IsDestroyed = true;
                     _blocker?.Release();
-                    //_attackInteraction?.Invoke();
                 }
             }
         }

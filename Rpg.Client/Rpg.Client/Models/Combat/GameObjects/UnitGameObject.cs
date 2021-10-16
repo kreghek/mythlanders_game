@@ -112,11 +112,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<BulletGameObject> bulletList, SkillBase skill, Action action)
+            IList<IInteractionDelivery> interactionDeliveryList, SkillBase skill, Action action)
         {
             var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
-            AddStateEngine(CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, bulletList,
-                skillIndex));
+            var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, interactionDeliveryList,
+                            skillIndex);
+            AddStateEngine(actorStateEngine);
         }
 
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)
@@ -134,7 +135,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateSkillStateEngine(ISkill skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, Action interaction, IList<BulletGameObject> bulletList, int skillIndex)
+            AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList, int skillIndex)
         {
             IUnitStateEngine state;
 
@@ -154,29 +155,30 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         var skillAnimationInfo = new SkillAnimationInfo
                         {
-                            Items = new[] {
-                            new SkillAnimationInfoItem
+                            Items = new[]
                             {
-                                Duration = 1.75f/3,
-                                HitSound = hitSound,
-                                Interaction = interaction,
-                                InteractTime = 0
-                            },
-                            new SkillAnimationInfoItem
-                            {
-                                Duration = 1.75f/3,
-                                HitSound = hitSound,
-                                Interaction = interaction,
-                                InteractTime = 0
-                            },
-                            new SkillAnimationInfoItem
-                            {
-                                Duration = 1.75f/3,
-                                HitSound = hitSound,
-                                Interaction = interaction,
-                                InteractTime = 0
+                                new SkillAnimationInfoItem
+                                {
+                                    Duration = 1.75f/3,
+                                    HitSound = hitSound,
+                                    Interaction = interaction,
+                                    InteractTime = 0
+                                },
+                                new SkillAnimationInfoItem
+                                {
+                                    Duration = 1.75f/3,
+                                    HitSound = hitSound,
+                                    Interaction = interaction,
+                                    InteractTime = 0
+                                },
+                                new SkillAnimationInfoItem
+                                {
+                                    Duration = 1.75f/3,
+                                    HitSound = hitSound,
+                                    Interaction = interaction,
+                                    InteractTime = 0
+                                }
                             }
-                        }
                         };
 
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
@@ -187,15 +189,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         var skillAnimationInfo = new SkillAnimationInfo
                         {
-                            Items = new[] {
-                            new SkillAnimationInfoItem
+                            Items = new[]
                             {
-                                Duration = 0.75f,
-                                HitSound = hitSound,
-                                Interaction = interaction,
-                                InteractTime = 0
+                                new SkillAnimationInfoItem
+                                {
+                                    Duration = 0.75f,
+                                    HitSound = hitSound,
+                                    Interaction = interaction,
+                                    InteractTime = 0
+                                }
                             }
-                        }
                         };
 
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
@@ -212,7 +215,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     }
 
                     var singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
-                        bulletBlocker, null);
+                        bulletBlocker);
 
                     bulletBlocker.Released += (s, e) =>
                     {
@@ -227,7 +230,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         blocker: animationBlocker,
                         attackInteraction: interaction,
                         bullet: singleBullet,
-                        bulletList: bulletList,
+                        interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         skillIndex);
                     break;
@@ -272,17 +275,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     var bullets = new List<BulletGameObject>
                     {
-                        new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker,
-                            interaction),
-                        new(Position, new Vector2(200, 200), _gameObjectContentStorage, null,
-                            interaction),
-                        new(Position, new Vector2(300, 300), _gameObjectContentStorage, null,
-                            interaction)
+                        new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
+                        new(Position, new Vector2(200, 200), _gameObjectContentStorage, null),
+                        new(Position, new Vector2(300, 300), _gameObjectContentStorage, null)
                     };
 
                     foreach (var bullet in bullets)
                     {
-                        bulletList.Add(bullet);
+                        interactionDeliveryList.Add(bullet);
                     }
 
                     state = new UnitDistantAttackState(
@@ -292,7 +292,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         blocker: animationBlocker,
                         attackInteraction: interaction,
                         bullet: null,
-                        bulletList: bulletList,
+                        interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         skillIndex);
                     break;

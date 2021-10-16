@@ -36,7 +36,7 @@ namespace Rpg.Client.Models.Combat
         private static bool _tutorial;
 
         private readonly AnimationManager _animationManager;
-        private readonly IList<BulletGameObject> _bulletObjects;
+        private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -71,7 +71,7 @@ namespace Rpg.Client.Models.Combat
             _globeNodeGameObject = _combat.Node;
 
             _gameObjects = new List<UnitGameObject>();
-            _bulletObjects = new List<BulletGameObject>();
+            _bulletObjects = new List<IInteractionDelivery>();
             _hudButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
@@ -186,7 +186,6 @@ namespace Rpg.Client.Models.Combat
                 item.Unit.GainXp(item.XpAmount);
             }
         }
-
 
         private void Combat_ActionGenerated(object? sender, ActionEventArgs e)
         {
