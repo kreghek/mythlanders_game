@@ -150,9 +150,22 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                     };
 
+                    var skillAnimationInfo = new SkillAnimationInfo
+                    {
+                        Items = new[] {
+                            new SkillAnimationInfoItem
+                            { 
+                                Duration = 0.75f,
+                                HitSound = hitSound,
+                                Interaction = interaction,
+                                InteractTime = 0
+                            }
+                        }
+                    };
+
                     state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                         animationBlocker,
-                        interaction, hitSound, skillIndex);
+                        skillAnimationInfo, skillIndex);
                     break;
 
                 case SkillVisualizationStateType.Range:
@@ -190,9 +203,22 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                     };
 
+                    var skillAnimationInfoMass = new SkillAnimationInfo
+                    {
+                        Items = new[] {
+                            new SkillAnimationInfoItem
+                            {
+                                Duration = 0.75f,
+                                HitSound = hitSound,
+                                Interaction = interaction,
+                                InteractTime = 0
+                            }
+                        }
+                    };
+
                     state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                         animationBlocker,
-                        interaction, hitSound, skillIndex);
+                        skillAnimationInfoMass, skillIndex);
                     break;
 
                 case SkillVisualizationStateType.MassRange:
@@ -290,6 +316,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics.Root.Position = Position;
         }
 
-        public event EventHandler SkillAnimationCompleted;
+        public event EventHandler? SkillAnimationCompleted;
     }
 }

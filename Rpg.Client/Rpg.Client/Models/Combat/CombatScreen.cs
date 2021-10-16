@@ -188,10 +188,10 @@ namespace Rpg.Client.Models.Combat
         }
 
 
-        private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
+        private void Combat_ActionGenerated(object? sender, ActionEventArgs e)
         {
-            var actor = GetUnitGameObject(action.Actor);
-            var target = GetUnitGameObject(action.Target);
+            var actor = GetUnitGameObject(e.Actor);
+            var target = GetUnitGameObject(e.Target);
 
             var blocker = _animationManager.CreateAndUseBlocker();
 
@@ -199,7 +199,7 @@ namespace Rpg.Client.Models.Combat
 
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, action.Skill, action.Action);
+            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, e.Skill, e.Action);
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
