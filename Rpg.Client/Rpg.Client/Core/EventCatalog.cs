@@ -131,7 +131,7 @@ namespace Rpg.Client.Core
                     ApplicableOnlyFor = new[] { locationInfo.LocationSid },
                     IsUnique = true,
                     IsHighPriority = true,
-                    Sid = eventStorageModel.Name,
+                    Title = eventStorageModel.Name,
                     BeforeCombatStartNode = beforeEventNode,
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker

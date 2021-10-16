@@ -61,6 +61,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto-combat.
+        /// </summary>
+        internal static string AutocombatButtonTitle {
+            get {
+                return ResourceManager.GetString("AutocombatButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to the main menu.
         /// </summary>
         internal static string BackToMainMenuButtonTitle {
@@ -72,18 +81,18 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string BiomeTutorualText {
+        internal static string BiomeTutorialText {
             get {
-                return ResourceManager.GetString("BiomeTutorualText", resourceCulture);
+                return ResourceManager.GetString("BiomeTutorialText", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string CombatTutorualText {
+        internal static string CombatTutorialText {
             get {
-                return ResourceManager.GetString("CombatTutorualText", resourceCulture);
+                return ResourceManager.GetString("CombatTutorialText", resourceCulture);
             }
         }
         
@@ -108,9 +117,9 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string EventTutorualText {
+        internal static string EventTutorialText {
             get {
-                return ResourceManager.GetString("EventTutorualText", resourceCulture);
+                return ResourceManager.GetString("EventTutorialText", resourceCulture);
             }
         }
         
@@ -124,38 +133,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MinesNodeName {
+            get {
+                return ResourceManager.GetString("MinesNodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string PitNodeName {
+            get {
+                return ResourceManager.GetString("PitNodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsButtonTitle {
             get {
                 return ResourceManager.GetString("SettingsButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string SlavicMinesNodeName {
-            get {
-                return ResourceManager.GetString("SlavicMinesNodeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string SlavicPitNodeName {
-            get {
-                return ResourceManager.GetString("SlavicPitNodeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string SlavicThicketNodeName {
-            get {
-                return ResourceManager.GetString("SlavicThicketNodeName", resourceCulture);
             }
         }
         
@@ -192,6 +192,24 @@ namespace Rpg.Client {
         internal static string SwitchResolutionButtonTitle {
             get {
                 return ResourceManager.GetString("SwitchResolutionButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ThicketNodeName {
+            get {
+                return ResourceManager.GetString("ThicketNodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To The Combat!.
+        /// </summary>
+        internal static string ToTheCombatButtonTitle {
+            get {
+                return ResourceManager.GetString("ToTheCombatButtonTitle", resourceCulture);
             }
         }
         

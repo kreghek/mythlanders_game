@@ -429,7 +429,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var foundCompletedEvent = completedEvents.Any(x => x.Sid == eventSid);
+                var foundCompletedEvent = completedEvents.Any(x => x.Title == eventSid);
                 if (!foundCompletedEvent)
                 {
                     return false;

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CombatTutorualText" xml:space="preserve">
+  <data name="CombatTutorialText" xml:space="preserve">
     <value>Вы попали в бой с монстрами!
 1. Все персонажи ходят по очереди. Сначала ходят все персонажи игрока.
 Затем - все монстры.
@@ -135,7 +135,7 @@
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
   </data>
-  <data name="BiomeTutorualText" xml:space="preserve">
+  <data name="BiomeTutorialText" xml:space="preserve">
     <value>Это карта локаций.
 1. Каждая последующая локация становится доступной после победы в предыдущей.
 2. В нескольких локациях буйствуют монстры. Эти локации отмечены
@@ -144,7 +144,7 @@
 могут повлиять на
 текущий бой, отдельных персонажей или партию.</value>
   </data>
-  <data name="EventTutorualText" xml:space="preserve">
+  <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
 
 1. Некоторые события продвигают партию по сюжету.
@@ -171,13 +171,13 @@
   <data name="UnitNameGuardianWoman" xml:space="preserve">
     <value>Стражница</value>
   </data>
-  <data name="SlavicThicketNodeName" xml:space="preserve">
+  <data name="ThicketNodeName" xml:space="preserve">
     <value>Чаща</value>
   </data>
-  <data name="SlavicMinesNodeName" xml:space="preserve">
+  <data name="MinesNodeName" xml:space="preserve">
     <value>Рудники</value>
   </data>
-  <data name="SlavicPitNodeName" xml:space="preserve">
+  <data name="PitNodeName" xml:space="preserve">
     <value>Яма</value>
   </data>
   <data name="UnitNameRada" xml:space="preserve">
@@ -206,5 +206,11 @@
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
+  </data>
+  <data name="ToTheCombatButtonTitle" xml:space="preserve">
+    <value>В Бой!</value>
+  </data>
+  <data name="AutocombatButtonTitle" xml:space="preserve">
+    <value>Автобой</value>
   </data>
 </root>
