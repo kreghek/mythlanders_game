@@ -28,6 +28,7 @@ namespace Rpg.Client.Models.Biome
         private readonly Core.Biome _biome;
 
         private readonly Cloud[] _clouds;
+        private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
 
@@ -37,7 +38,6 @@ namespace Rpg.Client.Models.Biome
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly IDice _dice;
 
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
@@ -181,7 +181,7 @@ namespace Rpg.Client.Models.Biome
                             {
                                 Globe = _globe,
                                 SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = (ngo) =>
+                                CombatDelegate = ngo =>
                                 {
                                     _screenTransition = true;
 
@@ -210,7 +210,7 @@ namespace Rpg.Client.Models.Biome
                                     }
                                 },
 
-                                AutoCombatDelegate = (ngo) =>
+                                AutoCombatDelegate = ngo =>
                                 {
                                     _screenTransition = true;
 

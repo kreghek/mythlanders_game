@@ -14,21 +14,21 @@ namespace Rpg.Client.Models.Biome.Ui
 {
     internal sealed class CombatModalContext
     {
+        public Action<GlobeNode> AutoCombatDelegate { get; set; }
+        public Action<GlobeNode> CombatDelegate { get; set; }
         public Globe Globe { get; set; }
         public GlobeNodeGameObject SelectedNodeGameObject { get; set; }
-        public Action<GlobeNode> CombatDelegate { get; set; }
-        public Action<GlobeNode> AutoCombatDelegate { get; set; }
     }
 
     internal sealed class CombatModal : ModalDialogBase
     {
+        private readonly IList<ButtonBase> _buttons;
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _nodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
 
-        private readonly IList<ButtonBase> _buttons;
-
-        public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice) : base(uiContentStorage, graphicsDevice)
+        public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage,
+            GraphicsDevice graphicsDevice) : base(uiContentStorage, graphicsDevice)
         {
             _globe = context.Globe;
             _nodeGameObject = context.SelectedNodeGameObject;
@@ -36,14 +36,16 @@ namespace Rpg.Client.Models.Biome.Ui
 
             _buttons = new List<ButtonBase>();
 
-            var combatButton = new TextButton(UiResource.ToTheCombatButtonTitle, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            var combatButton = new TextButton(UiResource.ToTheCombatButtonTitle, _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), Rectangle.Empty);
             combatButton.OnClick += (s, e) =>
             {
                 context.CombatDelegate(context.SelectedNodeGameObject.GlobeNode);
             };
             _buttons.Add(combatButton);
 
-            var autocombatButton = new TextButton(UiResource.AutocombatButtonTitle, _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            var autocombatButton = new TextButton(UiResource.AutocombatButtonTitle,
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
             autocombatButton.OnClick += (s, e) =>
             {
                 context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode);
@@ -115,7 +117,8 @@ namespace Rpg.Client.Models.Biome.Ui
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = new Rectangle(startXPosition + buttonIndex * (100 + 5), ContentRect.Bottom - (20 + 5), 100, 20);
+                button.Rect = new Rectangle(startXPosition + buttonIndex * (100 + 5), ContentRect.Bottom - (20 + 5),
+                    100, 20);
                 button.Draw(spriteBatch);
             }
         }
@@ -128,45 +131,6 @@ namespace Rpg.Client.Models.Biome.Ui
             {
                 button.Update();
             }
-        }
-
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return "Short";
-
-                case 3:
-                    return "Medium (+25% XP)";
-
-                case 5:
-                    return "Long (+50% XP)";
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return string.Empty;
-            }
-        }
-
-        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
-
-            var rm = UiResource.ResourceManager;
-
-            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
-
-            if (equipmentDisplayName is null)
-            {
-                return $"{equipmentType} equipment items";
-            }
-
-            return equipmentDisplayName;
         }
 
         private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
@@ -232,6 +196,45 @@ namespace Rpg.Client.Models.Biome.Ui
                     Debug.Fail("Unknown size");
                     return 1;
             }
+        }
+
+        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
+        {
+            var count = node.GlobeNode.CombatSequence.Combats.Count;
+            switch (count)
+            {
+                case 1:
+                    return "Short";
+
+                case 3:
+                    return "Medium (+25% XP)";
+
+                case 5:
+                    return "Long (+50% XP)";
+
+                default:
+                    Debug.Fail("Unknown size");
+                    return string.Empty;
+            }
+        }
+
+        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
+        {
+            if (equipmentType is null)
+            {
+                return null;
+            }
+
+            var rm = UiResource.ResourceManager;
+
+            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
+
+            if (equipmentDisplayName is null)
+            {
+                return $"{equipmentType} equipment items";
+            }
+
+            return equipmentDisplayName;
         }
     }
 }
