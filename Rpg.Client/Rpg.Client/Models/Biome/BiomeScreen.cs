@@ -178,10 +178,11 @@ namespace Rpg.Client.Models.Biome
                         if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
                         {
                             var context = new CombatModalContext
-                            { 
+                            {
                                 Globe = _globe,
                                 SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = (ngo) => {
+                                CombatDelegate = (ngo) =>
+                                {
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
@@ -209,7 +210,8 @@ namespace Rpg.Client.Models.Biome
                                     }
                                 },
 
-                                AutoCombatDelegate = (ngo) => {
+                                AutoCombatDelegate = (ngo) =>
+                                {
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,

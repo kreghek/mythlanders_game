@@ -13,7 +13,7 @@ using Rpg.Client.Models.Biome.GameObjects;
 namespace Rpg.Client.Models.Biome.Ui
 {
     internal sealed class CombatModalContext
-    { 
+    {
         public Globe Globe { get; set; }
         public GlobeNodeGameObject SelectedNodeGameObject { get; set; }
         public Action<GlobeNode> CombatDelegate { get; set; }
@@ -111,7 +111,7 @@ namespace Rpg.Client.Models.Biome.Ui
                 var position = new Vector2(startXPosition + unitIndex * (100 + 5), ContentRect.Bottom - (40 + 5));
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
             }
-            
+
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
