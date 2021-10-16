@@ -214,8 +214,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         throw new InvalidOperationException();
                     }
 
-                    var singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
-                        bulletBlocker);
+                    IInteractionDelivery singleBullet;
+
+                    if (skill.Sid == "Periodic Heal")
+                    {
+                        singleBullet = new HealLightObject(target.Position, _gameObjectContentStorage, bulletBlocker);
+                    }
+                    else
+                    {
+                        singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                    }
 
                     bulletBlocker.Released += (s, e) =>
                     {

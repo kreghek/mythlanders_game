@@ -13,9 +13,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const int FRAME_COUNT = 4;
 
         private readonly AnimationBlocker? _blocker;
-        private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
-        private readonly Vector2 _targetPosition;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
@@ -23,8 +21,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public HealLightObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
         {
-            _graphics = new Sprite(contentStorage.GetBulletGraphics());
-            _targetPosition = targetPosition;
+            _graphics = new Sprite(contentStorage.GetBulletGraphics())
+            {
+                Position = targetPosition - Vector2.UnitY * 64
+            };
             _blocker = blocker;
         }
 
@@ -63,8 +63,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     }
                 }
 
-                var t = _counter / DURATION_SECONDS;
-                _graphics.Position = Vector2.Lerp(_targetPosition, _endPosition, (float)t);
                 _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
             }
             else
