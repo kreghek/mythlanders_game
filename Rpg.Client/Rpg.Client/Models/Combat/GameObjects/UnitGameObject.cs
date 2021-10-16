@@ -150,22 +150,59 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                     };
 
-                    var skillAnimationInfo = new SkillAnimationInfo
+                    if (CombatUnit.Unit.UnitScheme.Name == UnitName.Maosin)
                     {
-                        Items = new[] {
+                        var skillAnimationInfo = new SkillAnimationInfo
+                        {
+                            Items = new[] {
                             new SkillAnimationInfoItem
-                            { 
+                            {
+                                Duration = 1.75f/3,
+                                HitSound = hitSound,
+                                Interaction = interaction,
+                                InteractTime = 0
+                            },
+                            new SkillAnimationInfoItem
+                            {
+                                Duration = 1.75f/3,
+                                HitSound = hitSound,
+                                Interaction = interaction,
+                                InteractTime = 0
+                            },
+                            new SkillAnimationInfoItem
+                            {
+                                Duration = 1.75f/3,
+                                HitSound = hitSound,
+                                Interaction = interaction,
+                                InteractTime = 0
+                            }
+                        }
+                        };
+
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
+                            skillAnimationInfo, skillIndex);
+                    }
+                    else
+                    {
+                        var skillAnimationInfo = new SkillAnimationInfo
+                        {
+                            Items = new[] {
+                            new SkillAnimationInfoItem
+                            {
                                 Duration = 0.75f,
                                 HitSound = hitSound,
                                 Interaction = interaction,
                                 InteractTime = 0
                             }
                         }
-                    };
+                        };
 
-                    state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                        animationBlocker,
-                        skillAnimationInfo, skillIndex);
+                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                            animationBlocker,
+                            skillAnimationInfo, skillIndex);
+                    }
+                    
                     break;
 
                 case SkillVisualizationStateType.Range:

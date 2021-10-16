@@ -82,12 +82,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         private int _animationItemIndex;
+        private bool _animationStarted;
 
         public void Update(GameTime gameTime)
         {
-            if (_counter == 0)
+            if (!_animationStarted)
             {
                 _graphics.PlayAnimation($"Skill{_index}");
+                _animationStarted = true;
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

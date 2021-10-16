@@ -107,7 +107,7 @@ namespace Rpg.Client.Models.Biome.Ui
             for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
             {
                 var unit = playerPartyUnits[unitIndex];
-                var name = rm.GetString($"UnitName{unit.UnitScheme.Name}");
+                var name = rm.GetString($"UnitName{unit.UnitScheme.Name}") ?? unit.UnitScheme.Name.ToString();
                 var position = new Vector2(startXPosition + unitIndex * (100 + 5), ContentRect.Bottom - (40 + 5));
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
             }
