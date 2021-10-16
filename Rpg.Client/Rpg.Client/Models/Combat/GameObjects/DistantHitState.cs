@@ -28,7 +28,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _bulletList = interactionDeliveryList;
         }
 
-        public DistantHitState(UnitGraphics graphics, BulletGameObject? bulletGameObject,
+        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker, SoundEffectInstance? hitSound,
             int index) :
             this(graphics, bulletGameObject, interactionDeliveryList)
