@@ -11,10 +11,12 @@ namespace Rpg.Client.Models.Combat.Ui
         private readonly Vector2 _speed;
         private int _lifetime;
         private Vector2 _position;
+        private readonly SpriteFont _font;
 
-        public DisapearingTextComponent(Vector2 startPosition)
+        public DisapearingTextComponent(Vector2 startPosition, SpriteFont font)
         {
             _position = startPosition;
+            _font = font;
             _lifetime = 2000;
             _speed = new(0, 10f / 1000f);
         }
@@ -42,11 +44,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
-            spriteBatch.Begin();
-            var ui = Game.Services.GetService<IUiContentStorage>();
-
-            spriteBatch.DrawString(ui.GetMainFont(), GetText(), _position, GetColor());
-            spriteBatch.End();
+            spriteBatch.DrawString(_font, GetText(), _position, GetColor());
         }
 
         protected abstract Color GetColor();

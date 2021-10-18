@@ -24,6 +24,7 @@ namespace Rpg.Client.Screens
             _modals = new List<IModalWindow>();
         }
 
+        public EwarGame Game { get; }
         public IScreenManager ScreenManager { get; }
 
         protected void AddModal(IModalWindow modal, bool isLate)

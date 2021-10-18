@@ -279,7 +279,7 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_UnitPassed(object? sender, CombatUnit e)
         {
-            AddChild(new MovePassedComponent(GetUnitGameObject(e).Position));
+            AddChild(new MovePassedComponent(GetUnitGameObject(e).Position, _uiContentStorage.GetMainFont()));
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -372,14 +372,17 @@ namespace Rpg.Client.Models.Combat
 
         private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
-            var unitView = GetUnitGameObject(e.CombatUnit);
-            AddChild(new HpChangedComponent(-e.Amount, unitView.Position));
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var damageIndicator = new HpChangedComponent(-e.Amount, unitGameObject.Position, _uiContentStorage.GetMainFont());
+
+            unitGameObject.AddChild(damageIndicator);
         }
 
         private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unitView = GetUnitGameObject(e.CombatUnit);
-            AddChild(new HpChangedComponent(e.Amount, unitView.Position));
+            AddChild(new HpChangedComponent(e.Amount, unitView.Position, _uiContentStorage.GetMainFont()));
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -476,7 +479,7 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawUnits(SpriteBatch spriteBatch)
         {
-            var list = _gameObjects.OrderBy(x => GetDrawIndex(x.CombatUnit.Index)).ToArray();
+            var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
@@ -508,21 +511,6 @@ namespace Rpg.Client.Models.Combat
                 GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
                 _ => BackgroundType.SlavicBattleground
             };
-        }
-
-        private static int GetDrawIndex(int unitIndex)
-        {
-            switch (unitIndex)
-            {
-                case 0:
-                    return 2;
-                case 1:
-                    return 1;
-                case 2:
-                    return 3;
-            }
-
-            return 0;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)

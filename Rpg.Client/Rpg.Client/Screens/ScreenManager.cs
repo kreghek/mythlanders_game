@@ -3,7 +3,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Models;
 using Rpg.Client.Models.Biome;
 using Rpg.Client.Models.Combat;
 using Rpg.Client.Models.EndGame;
@@ -17,10 +16,17 @@ namespace Rpg.Client.Screens
     internal class ScreenManager : IScreenManager
     {
         private readonly EwarGame _game;
+        private readonly Texture2D _transitionTexture;
+        private double? _trasitionCounter;
+        private const double TRANSITION_DURATION = 1;
+        private bool _screenChanged;
 
         public ScreenManager(EwarGame game)
         {
             _game = game;
+            var colors = new Color[] { Color.Black };
+            _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            _transitionTexture.SetData(colors);
         }
 
         public IScreen? ActiveScreen { get; set; }
@@ -31,7 +37,39 @@ namespace Rpg.Client.Screens
             {
                 ActiveScreen.Draw(spriteBatch);
             }
+
+            spriteBatch.Begin();
+            if (_trasitionCounter is not null)
+            {
+                var t = _trasitionCounter.Value / TRANSITION_DURATION;
+
+                if (t < 0.5)
+                {
+                    var t2 = t * 2;
+                    spriteBatch.Draw(_transitionTexture,
+                        new Rectangle(
+                            0, 
+                            0, 
+                            (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                            _game.GraphicsDevice.Viewport.Height),
+                        Color.White);
+                }
+                else
+                {
+                    var t2 = (t - 0.5) * 2;
+                    spriteBatch.Draw(_transitionTexture,
+                        new Rectangle(
+                            (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                            0,
+                            _game.GraphicsDevice.Viewport.Width,
+                            _game.GraphicsDevice.Viewport.Height),
+                        Color.White);
+                }
+            }
+            spriteBatch.End();
         }
+
+        private bool _transitionBegins;
 
         public void Update(GameTime gameTime)
         {
@@ -42,8 +80,30 @@ namespace Rpg.Client.Screens
 
             if (ActiveScreen.TargetScreen is not null)
             {
-                ActiveScreen = ActiveScreen.TargetScreen;
-                ActiveScreen.TargetScreen = null;
+                if (_trasitionCounter is null)
+                {
+                    _trasitionCounter = 0;
+                }
+            }
+
+            if (_trasitionCounter is not null)
+            {
+                if (_trasitionCounter.Value < TRANSITION_DURATION)
+                {
+                    _trasitionCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (_trasitionCounter.Value > TRANSITION_DURATION / 2 && !_screenChanged)
+                    {
+                        _screenChanged = true;
+
+                        ActiveScreen = ActiveScreen.TargetScreen;
+                    }
+                }
+                else
+                {
+                    _trasitionCounter = null;
+                    _screenChanged = false;
+                }
             }
 
             ActiveScreen.Update(gameTime);

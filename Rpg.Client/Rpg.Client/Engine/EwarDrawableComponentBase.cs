@@ -6,11 +6,8 @@ namespace Rpg.Client.Engine
 {
     internal abstract class EwarDrawableComponentBase : Renderable
     {
-        public EwarGame Game { get; protected set; }
-
-        public void Initialize(EwarGame game)
+        public void Initialize()
         {
-            Game = game;
             DoInitialize();
         }
 
@@ -34,7 +31,7 @@ namespace Rpg.Client.Engine
                 return;
             }
 
-            ewarComponen.Initialize(Game);
+            ewarComponen.Initialize();
         }
 
         protected virtual void DoInitialize() { }

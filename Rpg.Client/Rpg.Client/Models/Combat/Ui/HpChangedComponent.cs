@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Models.Combat.Ui
 {
@@ -6,7 +7,7 @@ namespace Rpg.Client.Models.Combat.Ui
     {
         private readonly int _amount;
 
-        public HpChangedComponent(int amount, Vector2 startPosition) : base(startPosition)
+        public HpChangedComponent(int amount, Vector2 startPosition, SpriteFont font) : base(startPosition, font)
         {
             _amount = amount;
         }
