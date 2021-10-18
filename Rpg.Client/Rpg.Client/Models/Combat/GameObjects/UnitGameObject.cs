@@ -51,6 +51,28 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            HandleEngineStates(gameTime);
+
+            _graphics.Update(gameTime);
+
+            var keyboard = Keyboard.GetState();
+            ShowStats = keyboard.IsKeyDown(Keys.LeftAlt);
+        }
+
+        public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
+            IList<IInteractionDelivery> interactionDeliveryList, SkillBase skill, Action action)
+        {
+            var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
+            var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,
+                interactionDeliveryList,
+                skillIndex);
+            AddStateEngine(actorStateEngine);
+        }
+
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
             base.DoDraw(spriteBatch, zindex);
@@ -101,28 +123,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            HandleEngineStates(gameTime);
-
-            _graphics.Update(gameTime);
-
-            var keyboard = Keyboard.GetState();
-            ShowStats = keyboard.IsKeyDown(Keys.LeftAlt);
-        }
-
-        public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<IInteractionDelivery> interactionDeliveryList, SkillBase skill, Action action)
-        {
-            var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
-            var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,
-                interactionDeliveryList,
-                skillIndex);
-            AddStateEngine(actorStateEngine);
-        }
-
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
@@ -134,6 +134,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             _actorStateEngineList.Add(actorStateEngine);
+        }
+
+        internal float GetZIndex()
+        {
+            return _graphics.Root.Position.Y;
         }
 
         private IUnitStateEngine CreateSkillStateEngine(ISkill skill, UnitGameObject target,
@@ -366,10 +371,5 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public event EventHandler? SkillAnimationCompleted;
-
-        internal float GetZIndex()
-        {
-            return _graphics.Root.Position.Y;
-        }
     }
 }

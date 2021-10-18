@@ -8,10 +8,10 @@ namespace Rpg.Client.Models.Combat.Ui
     internal abstract class DisapearingTextComponent : EwarDrawableComponentBase
 
     {
+        private readonly SpriteFont _font;
         private readonly Vector2 _speed;
         private int _lifetime;
         private Vector2 _position;
-        private readonly SpriteFont _font;
 
         public DisapearingTextComponent(Vector2 startPosition, SpriteFont font)
         {
