@@ -36,7 +36,7 @@ namespace Rpg.Client.Models.Combat
         private static bool _tutorial;
 
         private readonly AnimationManager _animationManager;
-        private readonly IList<BulletGameObject> _bulletObjects;
+        private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -71,7 +71,7 @@ namespace Rpg.Client.Models.Combat
             _globeNodeGameObject = _combat.Node;
 
             _gameObjects = new List<UnitGameObject>();
-            _bulletObjects = new List<BulletGameObject>();
+            _bulletObjects = new List<IInteractionDelivery>();
             _hudButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
@@ -187,11 +187,10 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-
-        private void Combat_ActionGenerated(object? sender, ActionEventArgs action)
+        private void Combat_ActionGenerated(object? sender, ActionEventArgs e)
         {
-            var actor = GetUnitGameObject(action.Actor);
-            var target = GetUnitGameObject(action.Target);
+            var actor = GetUnitGameObject(e.Actor);
+            var target = GetUnitGameObject(e.Target);
 
             var blocker = _animationManager.CreateAndUseBlocker();
 
@@ -199,7 +198,7 @@ namespace Rpg.Client.Models.Combat
 
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, action.Skill, action.Action);
+            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, e.Skill, e.Action);
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)

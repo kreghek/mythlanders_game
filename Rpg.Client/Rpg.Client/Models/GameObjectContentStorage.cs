@@ -18,6 +18,7 @@ namespace Rpg.Client.Models
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
+        private Texture2D _particlesTexture;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
@@ -136,6 +137,8 @@ namespace Rpg.Client.Models
             };
 
             _locationObjectTextures = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/MapObjects");
+
+            _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
         }
 
         internal Texture2D GetBiomeClouds()
@@ -146,6 +149,11 @@ namespace Rpg.Client.Models
         internal Texture2D GetBulletGraphics()
         {
             return _arrowTexture;
+        }
+
+        internal Texture2D GetParticlesTexture()
+        {
+            return _particlesTexture;
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
