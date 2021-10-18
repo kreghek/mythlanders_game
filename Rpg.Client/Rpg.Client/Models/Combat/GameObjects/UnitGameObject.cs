@@ -366,5 +366,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public event EventHandler? SkillAnimationCompleted;
+
+        internal float GetZIndex()
+        {
+            return _graphics.Root.Position.Y;
+        }
     }
 }

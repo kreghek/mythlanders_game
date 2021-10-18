@@ -479,7 +479,7 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawUnits(SpriteBatch spriteBatch)
         {
-            var list = _gameObjects.OrderBy(x => GetDrawIndex(x.CombatUnit.Index)).ToArray();
+            var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
             foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
@@ -511,21 +511,6 @@ namespace Rpg.Client.Models.Combat
                 GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
                 _ => BackgroundType.SlavicBattleground
             };
-        }
-
-        private static int GetDrawIndex(int unitIndex)
-        {
-            switch (unitIndex)
-            {
-                case 0:
-                    return 2;
-                case 1:
-                    return 1;
-                case 2:
-                    return 3;
-            }
-
-            return 0;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
