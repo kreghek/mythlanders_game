@@ -15,11 +15,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
         /// </summary>
         public float Duration { get; set; }
 
-        public float InteractTime { get; set; }
-
         public SoundEffectInstance HitSound { get; set; }
 
         public Action Interaction { get; set; }
+
+        public float InteractTime { get; set; }
     }
 
     internal sealed class SkillAnimationInfo
@@ -33,6 +33,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly SkillAnimationInfo _animationInfo;
         private readonly UnitGraphics _graphics;
         private readonly int _index;
+
+        private int _animationItemIndex;
+        private bool _animationStarted;
         private double _counter;
 
         private bool _interactionExecuted;
@@ -80,9 +83,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 _animationBlocker.Release();
             }
         }
-
-        private int _animationItemIndex;
-        private bool _animationStarted;
 
         public void Update(GameTime gameTime)
         {

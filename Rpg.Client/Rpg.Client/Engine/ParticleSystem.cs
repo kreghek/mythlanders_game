@@ -8,10 +8,9 @@ namespace Rpg.Client.Engine
 {
     internal class ParticleSystem
     {
-        private Random random;
-        public Vector2 EmitterLocation { get; set; }
-        private IList<Particle> particles;
-        private IList<Texture2D> textures;
+        private readonly IList<Particle> particles;
+        private readonly Random random;
+        private readonly IList<Texture2D> textures;
 
         public ParticleSystem(IList<Texture2D> textures, Vector2 location)
         {
@@ -19,6 +18,18 @@ namespace Rpg.Client.Engine
             this.textures = textures;
             particles = new List<Particle>();
             random = new Random();
+        }
+
+        public Vector2 EmitterLocation { get; set; }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            //spriteBatch.Begin();
+            for (var index = 0; index < particles.Count; index++)
+            {
+                particles[index].Draw(spriteBatch);
+            }
+            //spriteBatch.End();
         }
 
         public void Update()
@@ -46,28 +57,18 @@ namespace Rpg.Client.Engine
             var texture = textures[random.Next(textures.Count)];
             var position = EmitterLocation;
             var velocity = new Vector2(
-                                    1f * (float)(random.NextDouble() * 2 - 1),
-                                    1f * (float)(random.NextDouble() * 2 - 1));
+                1f * (float)(random.NextDouble() * 2 - 1),
+                1f * (float)(random.NextDouble() * 2 - 1));
             float angle = 0;
             var angularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
             var color = new Color(
-                        (float)random.NextDouble(),
-                        (float)random.NextDouble(),
-                        (float)random.NextDouble());
+                (float)random.NextDouble(),
+                (float)random.NextDouble(),
+                (float)random.NextDouble());
             var size = (float)random.NextDouble();
             var ttl = 20 + random.Next(40);
 
             return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Begin();
-            for (var index = 0; index < particles.Count; index++)
-            {
-                particles[index].Draw(spriteBatch);
-            }
-            //spriteBatch.End();
         }
     }
 }

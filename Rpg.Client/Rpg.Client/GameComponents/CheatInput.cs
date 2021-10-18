@@ -18,10 +18,10 @@ namespace Rpg.Client.GameComponents
         private readonly StringBuilder _currentText;
         private readonly SpriteBatch _spriteBatch;
         private readonly SpriteFont _spriteFont;
+        private Texture2D _backgroundTexture;
         private double? _errorCounter;
         private string? _errorText;
         private KeyboardState _lastState;
-        private Texture2D _backgroundTexture;
 
         public CheatInput(Game game, SpriteBatch spriteBatch, SpriteFont spriteFont) : base(game)
         {
@@ -43,7 +43,8 @@ namespace Rpg.Client.GameComponents
             if (IsCheating)
             {
                 _spriteBatch.Begin();
-                _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, 20), Color.White);
+                _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, 20),
+                    Color.White);
                 _spriteBatch.DrawString(_spriteFont, _currentText, new Vector2(0, 0), Color.White);
                 _spriteBatch.End();
             }

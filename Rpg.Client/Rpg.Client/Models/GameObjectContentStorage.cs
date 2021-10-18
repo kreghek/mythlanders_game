@@ -18,10 +18,10 @@ namespace Rpg.Client.Models
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
-        private Texture2D _particlesTexture;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
+        private Texture2D _particlesTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
 
@@ -151,11 +151,6 @@ namespace Rpg.Client.Models
             return _arrowTexture;
         }
 
-        internal Texture2D GetParticlesTexture()
-        {
-            return _particlesTexture;
-        }
-
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
         {
             return _combatBackgroundDict[backgroundType];
@@ -194,6 +189,11 @@ namespace Rpg.Client.Models
         internal Texture2D GetNodeMarker()
         {
             return _mapNodes;
+        }
+
+        internal Texture2D GetParticlesTexture()
+        {
+            return _particlesTexture;
         }
 
         internal SoundEffect GetSkillUsageSound(string sid)

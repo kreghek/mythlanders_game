@@ -115,8 +115,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
             IList<IInteractionDelivery> interactionDeliveryList, SkillBase skill, Action action)
         {
             var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
-            var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action, interactionDeliveryList,
-                            skillIndex);
+            var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,
+                interactionDeliveryList,
+                skillIndex);
             AddStateEngine(actorStateEngine);
         }
 
@@ -135,7 +136,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private IUnitStateEngine CreateSkillStateEngine(ISkill skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList, int skillIndex)
+            AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList,
+            int skillIndex)
         {
             IUnitStateEngine state;
 
@@ -159,21 +161,21 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             {
                                 new SkillAnimationInfoItem
                                 {
-                                    Duration = 1.75f/3,
+                                    Duration = 1.75f / 3,
                                     HitSound = hitSound,
                                     Interaction = interaction,
                                     InteractTime = 0
                                 },
                                 new SkillAnimationInfoItem
                                 {
-                                    Duration = 1.75f/3,
+                                    Duration = 1.75f / 3,
                                     HitSound = hitSound,
                                     Interaction = interaction,
                                     InteractTime = 0
                                 },
                                 new SkillAnimationInfoItem
                                 {
-                                    Duration = 1.75f/3,
+                                    Duration = 1.75f / 3,
                                     HitSound = hitSound,
                                     Interaction = interaction,
                                     InteractTime = 0
@@ -222,7 +224,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     }
                     else
                     {
-                        singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage, bulletBlocker);
+                        singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                            bulletBlocker);
                     }
 
                     bulletBlocker.Released += (s, e) =>
@@ -252,7 +255,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     var skillAnimationInfoMass = new SkillAnimationInfo
                     {
-                        Items = new[] {
+                        Items = new[]
+                        {
                             new SkillAnimationInfoItem
                             {
                                 Duration = 0.75f,
