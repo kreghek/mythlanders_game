@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class SkillAnimationInfoItem
-    { 
+    {
         /// <summary>
         /// Duration of the item in seconds.
         /// </summary>
@@ -23,7 +23,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
     }
 
     internal sealed class SkillAnimationInfo
-    { 
+    {
         public IReadOnlyList<SkillAnimationInfoItem> Items { get; set; }
     }
 

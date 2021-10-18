@@ -19,7 +19,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)
         {
-            var cellPosition = new Vector2(cellX * 256 * 0.5f - 128 - (cellY * (256/2)), cellY * 128 + cellX * 128 * 0.5f - 64 - (cellY * (128 / 2)));
+            var cellPosition = new Vector2(cellX * 256 * 0.5f - 128 - (cellY * (256 / 2)), cellY * 128 + cellX * 128 * 0.5f - 64 - (cellY * (128 / 2)));
             _position = cellPosition + centerNodePosition;
             _texture = gameObjectContentStorage.GetLocationTextures(nodeSid);
             _gameObjectContentStorage = gameObjectContentStorage;

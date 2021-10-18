@@ -205,7 +205,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             animationBlocker,
                             skillAnimationInfo, skillIndex);
                     }
-                    
+
                     break;
 
                 case SkillVisualizationStateType.Range:
