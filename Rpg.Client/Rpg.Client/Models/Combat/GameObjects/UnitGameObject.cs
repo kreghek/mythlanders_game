@@ -14,7 +14,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class UnitGameObject: EwarDrawableComponentBase
+    internal class UnitGameObject : EwarDrawableComponentBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;

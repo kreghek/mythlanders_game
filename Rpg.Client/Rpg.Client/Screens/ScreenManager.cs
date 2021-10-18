@@ -48,8 +48,8 @@ namespace Rpg.Client.Screens
                     var t2 = t * 2;
                     spriteBatch.Draw(_transitionTexture,
                         new Rectangle(
-                            0, 
-                            0, 
+                            0,
+                            0,
                             (int)(_game.GraphicsDevice.Viewport.Width * t2),
                             _game.GraphicsDevice.Viewport.Height),
                         Color.White);
