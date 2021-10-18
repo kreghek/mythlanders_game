@@ -14,7 +14,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class UnitGameObject
+    internal class UnitGameObject: EwarDrawableComponentBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -36,8 +36,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public bool IsActive { get; set; }
 
-        public Vector2 Position { get; }
-
         public bool ShowStats { get; private set; }
 
         public void AnimateDeath()
@@ -53,8 +51,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AddStateEngine(new WoundState(_graphics));
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
+            base.DoDraw(spriteBatch, zindex);
+
             _graphics.ShowActiveMarker = IsActive;
 
             if (_graphics.IsDamaged)
@@ -101,8 +101,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             HandleEngineStates(gameTime);
 
             _graphics.Update(gameTime);
