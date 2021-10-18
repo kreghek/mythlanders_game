@@ -11,11 +11,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly IInteractionDelivery _interactionDelivery;
         private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
+        private readonly IInteractionDelivery _interactionDelivery;
         private double _counter;
 
         private bool _interactionExecuted;
@@ -29,7 +29,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public DistantHitState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
-            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker, SoundEffectInstance? hitSound,
+            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
+            SoundEffectInstance? hitSound,
             int index) :
             this(graphics, bulletGameObject, interactionDeliveryList)
         {
