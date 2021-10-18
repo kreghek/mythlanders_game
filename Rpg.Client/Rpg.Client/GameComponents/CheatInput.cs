@@ -21,12 +21,17 @@ namespace Rpg.Client.GameComponents
         private double? _errorCounter;
         private string? _errorText;
         private KeyboardState _lastState;
+        private Texture2D _backgroundTexture;
 
         public CheatInput(Game game, SpriteBatch spriteBatch, SpriteFont spriteFont) : base(game)
         {
             _currentText = new StringBuilder();
             _spriteFont = spriteFont;
             _spriteBatch = spriteBatch;
+
+            var data = new Color[] { Color.Black };
+            _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            _backgroundTexture.SetData(data);
         }
 
         public static bool IsCheating { get; private set; }
@@ -38,6 +43,7 @@ namespace Rpg.Client.GameComponents
             if (IsCheating)
             {
                 _spriteBatch.Begin();
+                _spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, 20), Color.White);
                 _spriteBatch.DrawString(_spriteFont, _currentText, new Vector2(0, 0), Color.White);
                 _spriteBatch.End();
             }
