@@ -15,11 +15,13 @@ namespace Rpg.Client.Screens
 {
     internal class ScreenManager : IScreenManager
     {
+        private const double TRANSITION_DURATION = 1;
         private readonly EwarGame _game;
         private readonly Texture2D _transitionTexture;
-        private double? _trasitionCounter;
-        private const double TRANSITION_DURATION = 1;
         private bool _screenChanged;
+
+        private bool _transitionBegins;
+        private double? _trasitionCounter;
 
         public ScreenManager(EwarGame game)
         {
@@ -48,8 +50,8 @@ namespace Rpg.Client.Screens
                     var t2 = t * 2;
                     spriteBatch.Draw(_transitionTexture,
                         new Rectangle(
-                            0, 
-                            0, 
+                            0,
+                            0,
                             (int)(_game.GraphicsDevice.Viewport.Width * t2),
                             _game.GraphicsDevice.Viewport.Height),
                         Color.White);
@@ -66,10 +68,9 @@ namespace Rpg.Client.Screens
                         Color.White);
                 }
             }
+
             spriteBatch.End();
         }
-
-        private bool _transitionBegins;
 
         public void Update(GameTime gameTime)
         {

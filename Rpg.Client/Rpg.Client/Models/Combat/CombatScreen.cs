@@ -374,7 +374,8 @@ namespace Rpg.Client.Models.Combat
         {
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var damageIndicator = new HpChangedComponent(-e.Amount, unitGameObject.Position, _uiContentStorage.GetMainFont());
+            var damageIndicator =
+                new HpChangedComponent(-e.Amount, unitGameObject.Position, _uiContentStorage.GetMainFont());
 
             unitGameObject.AddChild(damageIndicator);
         }
