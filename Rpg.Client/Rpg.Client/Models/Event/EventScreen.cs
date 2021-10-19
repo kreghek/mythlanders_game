@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -143,7 +142,7 @@ namespace Rpg.Client.Models.Event
                 {
                     var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                    button.OnClick += (s, e) =>
+                    button.OnClick += (_, _) =>
                     {
                         if (option.Aftermath is not null)
                         {

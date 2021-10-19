@@ -24,6 +24,18 @@
 
         SacredPlace = 301,
         Temple = 302,
-        ScreamValey = 303
+        Oasis = 303,
+        Obelisk = 304,
+        ScreamValey = 305,
+
+        ShipGraveyard = 401,
+        Vines = 402,
+        Garden = 403,
+        Palace = 404,
+        Labirinth = 405,
+        
+        ChangingLabirinth = 501,
+        Nothing = 502,
+        Epicenter = 503
     }
 }

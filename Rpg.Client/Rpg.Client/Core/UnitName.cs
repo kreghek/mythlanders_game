@@ -12,12 +12,15 @@
         Berimir,
         Hawk,
         Rada,
+
         Maosin,
         Ping,
         Cheng,
+
         Kakhotep,
         Amun,
         Nubiti,
+
         Leonidas,
         Diana,
         Geron,
@@ -25,6 +28,7 @@
         Hq,
         Oldman,
         GuardianWoman,
+        StrangerWoman,
 
         Aspid,
         Liho, // лихо

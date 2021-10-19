@@ -64,7 +64,7 @@ namespace Rpg.Client.Models.Biome
 
             var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            mapButton.OnClick += (s, e) =>
+            mapButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
@@ -72,14 +72,14 @@ namespace Rpg.Client.Models.Biome
             var saveGameButton = new TextButton("Save", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
 
-            saveGameButton.OnClick += (s, e) =>
+            saveGameButton.OnClick += (_, _) =>
             {
                 globeProvider.StoreGlobe();
             };
 
             var partyModalButton = new TextButton("Party", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            partyModalButton.OnClick += (s, e) =>
+            partyModalButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
             };
@@ -155,13 +155,11 @@ namespace Rpg.Client.Models.Biome
                         var mouseState = Mouse.GetState();
                         var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
 
-                        var index = 0;
                         _hoverNodeGameObject = null;
                         foreach (var location in _locationObjectList)
                         {
                             if (location.NodeModel?.Combat is null)
                             {
-                                index++;
                                 continue;
                             }
 
@@ -171,8 +169,6 @@ namespace Rpg.Client.Models.Biome
                             {
                                 _hoverNodeGameObject = location.NodeModel;
                             }
-
-                            index++;
                         }
 
                         if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
@@ -181,7 +177,7 @@ namespace Rpg.Client.Models.Biome
                             {
                                 Globe = _globe,
                                 SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = ngo =>
+                                CombatDelegate = _ =>
                                 {
                                     _screenTransition = true;
 
@@ -210,7 +206,7 @@ namespace Rpg.Client.Models.Biome
                                     }
                                 },
 
-                                AutoCombatDelegate = ngo =>
+                                AutoCombatDelegate = _ =>
                                 {
                                     _screenTransition = true;
 
@@ -298,7 +294,7 @@ namespace Rpg.Client.Models.Biome
             {
                 var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-                var playerUnit = _globe.Player.GetAll.Where(x => x != null)
+                var playerUnit = _globe.Player.GetAll
                     .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
                 if (playerUnit is not null)
@@ -485,7 +481,7 @@ namespace Rpg.Client.Models.Biome
                 return null;
             }
 
-            var rm = new ResourceManager(typeof(UiResource).FullName, typeof(UiResource).Assembly);
+            var rm = UiResource.ResourceManager;
 
             var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
 

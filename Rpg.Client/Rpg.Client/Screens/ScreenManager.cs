@@ -9,6 +9,7 @@ using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
 using Rpg.Client.Models.Party;
+using Rpg.Client.Models.SettingsScreen;
 using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
@@ -20,13 +21,12 @@ namespace Rpg.Client.Screens
         private readonly Texture2D _transitionTexture;
         private bool _screenChanged;
 
-        private bool _transitionBegins;
-        private double? _trasitionCounter;
+        private double? _transitionCounter;
 
         public ScreenManager(EwarGame game)
         {
             _game = game;
-            var colors = new Color[] { Color.Black };
+            var colors = new [] { Color.Black };
             _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _transitionTexture.SetData(colors);
         }
@@ -41,9 +41,9 @@ namespace Rpg.Client.Screens
             }
 
             spriteBatch.Begin();
-            if (_trasitionCounter is not null)
+            if (_transitionCounter is not null)
             {
-                var t = _trasitionCounter.Value / TRANSITION_DURATION;
+                var t = _transitionCounter.Value / TRANSITION_DURATION;
 
                 if (t < 0.5)
                 {
@@ -78,22 +78,24 @@ namespace Rpg.Client.Screens
             {
                 return;
             }
+            
+            ActiveScreen.Update(gameTime);
 
             if (ActiveScreen.TargetScreen is not null)
             {
-                if (_trasitionCounter is null)
+                if (_transitionCounter is null)
                 {
-                    _trasitionCounter = 0;
+                    _transitionCounter = 0;
                 }
             }
 
-            if (_trasitionCounter is not null)
+            if (_transitionCounter is not null)
             {
-                if (_trasitionCounter.Value < TRANSITION_DURATION)
+                if (_transitionCounter.Value < TRANSITION_DURATION)
                 {
-                    _trasitionCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                    _transitionCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                    if (_trasitionCounter.Value > TRANSITION_DURATION / 2 && !_screenChanged)
+                    if (_transitionCounter.Value > TRANSITION_DURATION / 2 && !_screenChanged)
                     {
                         _screenChanged = true;
 
@@ -102,12 +104,10 @@ namespace Rpg.Client.Screens
                 }
                 else
                 {
-                    _trasitionCounter = null;
+                    _transitionCounter = null;
                     _screenChanged = false;
                 }
             }
-
-            ActiveScreen.Update(gameTime);
         }
 
         private IScreen CreateScreenToTransit(ScreenTransition targetTransition)
