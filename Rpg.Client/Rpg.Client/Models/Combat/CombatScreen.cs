@@ -49,11 +49,11 @@ namespace Rpg.Client.Models.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
+
+        private bool _combatInitialized;
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
-
-        private bool _combatInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -78,23 +78,6 @@ namespace Rpg.Client.Models.Combat
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<AnimationManager>();
             _dice = Game.Services.GetService<IDice>();
-        }
-
-        private void CombatInitialize()
-        {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
-            _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
-            _combat.UnitChanged += Combat_UnitChanged;
-            _combat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
-            _combat.CombatUnitEntered += ActiveCombat_UnitEntered;
-            _combat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
-            _combat.UnitDied += Combat_UnitDied;
-            _combat.ActionGenerated += Combat_ActionGenerated;
-            _combat.Finish += Combat_Finish;
-            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
-            _combat.UnitPassed += Combat_UnitPassed;
-            _combat.Initialize();
-            _combat.Update();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -282,6 +265,23 @@ namespace Rpg.Client.Models.Combat
             AddChild(new MovePassedComponent(GetUnitGameObject(e).Position, _uiContentStorage.GetMainFont()));
         }
 
+        private void CombatInitialize()
+        {
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
+            _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
+            _combat.UnitChanged += Combat_UnitChanged;
+            _combat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            _combat.CombatUnitEntered += ActiveCombat_UnitEntered;
+            _combat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
+            _combat.UnitDied += Combat_UnitDied;
+            _combat.ActionGenerated += Combat_ActionGenerated;
+            _combat.Finish += Combat_Finish;
+            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
+            _combat.UnitPassed += Combat_UnitPassed;
+            _combat.Initialize();
+            _combat.Update();
+        }
+
         private void CombatResultModal_Closed(object? sender, EventArgs e)
         {
             _animationManager.DropBlockers();
@@ -407,6 +407,17 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+        private void DrawCombatRemains(SpriteBatch spriteBatch)
+        {
+            if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
+            {
+                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
+                    new Vector2(Game.GraphicsDevice.Viewport.Bounds.Center.X, 5), Color.White);
+            }
+        }
+
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -470,17 +481,6 @@ namespace Rpg.Client.Models.Combat
             }
 
             spriteBatch.End();
-        }
-
-        private void DrawCombatRemains(SpriteBatch spriteBatch)
-        {
-            if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
-            {
-                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
-                    new Vector2(Game.GraphicsDevice.Viewport.Bounds.Center.X, 5), Color.White);
-            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -551,16 +551,6 @@ namespace Rpg.Client.Models.Combat
             var screenCenterX = Game.GraphicsDevice.Viewport.Bounds.Center.X;
             var rawPercentage = ((float)mouse.X - screenCenterX) / screenCenterX;
             _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
-        }
-
-        private static float NormalizePercentage(float value)
-        {
-            return value switch
-            {
-                < -1 => -1,
-                > 1 => 1,
-                _ => value
-            };
         }
 
         private void HandleBullets(GameTime gameTime)
@@ -695,6 +685,16 @@ namespace Rpg.Client.Models.Combat
             };
 
             _hudButtons.Add(interactButton);
+        }
+
+        private static float NormalizePercentage(float value)
+        {
+            return value switch
+            {
+                < -1 => -1,
+                > 1 => 1,
+                _ => value
+            };
         }
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)

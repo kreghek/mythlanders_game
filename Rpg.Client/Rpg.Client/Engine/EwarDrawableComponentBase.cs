@@ -6,11 +6,6 @@ namespace Rpg.Client.Engine
 {
     internal abstract class EwarDrawableComponentBase : Renderable
     {
-        private void Initialize()
-        {
-            DoInitialize();
-        }
-
         public virtual void Update(GameTime gameTime)
         {
             var children = _children.ToList();
@@ -35,5 +30,10 @@ namespace Rpg.Client.Engine
         }
 
         protected virtual void DoInitialize() { }
+
+        private void Initialize()
+        {
+            DoInitialize();
+        }
     }
 }
