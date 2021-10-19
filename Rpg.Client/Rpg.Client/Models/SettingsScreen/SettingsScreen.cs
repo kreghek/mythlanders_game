@@ -143,7 +143,7 @@ namespace Rpg.Client.Models.SettingsScreen
                     })
                 .OrderByDescending(x => x.Resolution.Width)
                 .Take(DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT);
-            
+
             var buttonInfos = supportedResolutions.Select(
                 x =>
                 {

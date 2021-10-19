@@ -714,7 +714,7 @@ namespace Rpg.Client.Models.Combat
 
             foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
             {
-                if (skillCard.Skill.TargetType == SkillTargetType.Enemy 
+                if (skillCard.Skill.TargetType == SkillTargetType.Enemy
                     && target.CombatUnit.Unit.IsPlayerControlled == _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
