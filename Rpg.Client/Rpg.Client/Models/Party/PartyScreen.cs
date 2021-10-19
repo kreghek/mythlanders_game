@@ -102,7 +102,7 @@ namespace Rpg.Client.Models.Party
 
                     var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), new Rectangle());
-                    button.OnClick += (s, e) =>
+                    button.OnClick += (_, _) =>
                     {
                         _selectedCharacter = character;
                     };
@@ -111,7 +111,7 @@ namespace Rpg.Client.Models.Party
 
                 var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                biomeButton.OnClick += (s, e) =>
+                biomeButton.OnClick += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                 };
@@ -119,7 +119,7 @@ namespace Rpg.Client.Models.Party
 
                 var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                switchUnitButton.OnClick += (s, e) =>
+                switchUnitButton.OnClick += (_, _) =>
                 {
                     if (_selectedCharacter is null)
                     {

@@ -12,7 +12,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.Title
+namespace Rpg.Client.Models.SettingsScreen
 {
     internal sealed class SettingsScreen : GameScreenBase
     {
@@ -143,8 +143,9 @@ namespace Rpg.Client.Models.Title
                     })
                 .OrderByDescending(x => x.Resolution.Width)
                 .Take(DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT);
+            
             var buttonInfos = supportedResolutions.Select(
-                (x, i) =>
+                x =>
                 {
                     var button = GetResolutionButton(buttonTexture, font, x.BtnLabel);
 

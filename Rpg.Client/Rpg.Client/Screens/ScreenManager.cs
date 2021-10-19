@@ -9,6 +9,7 @@ using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
 using Rpg.Client.Models.Party;
+using Rpg.Client.Models.SettingsScreen;
 using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
