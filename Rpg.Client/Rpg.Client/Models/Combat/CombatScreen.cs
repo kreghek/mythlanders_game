@@ -53,7 +53,7 @@ namespace Rpg.Client.Models.Combat
 
         private bool _finalBossWasDefeat;
 
-        private bool _unitsInitialized;
+        private bool _combatInitialized;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -80,7 +80,7 @@ namespace Rpg.Client.Models.Combat
             _dice = Game.Services.GetService<IDice>();
         }
 
-        public void Initialize()
+        private void CombatInitialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
@@ -114,10 +114,10 @@ namespace Rpg.Client.Models.Combat
                 AddModal(tutorialModal, isLate: false);
             }
 
-            if (!_unitsInitialized)
+            if (!_combatInitialized)
             {
-                Initialize();
-                _unitsInitialized = true;
+                CombatInitialize();
+                _combatInitialized = true;
             }
             else
             {
@@ -127,7 +127,7 @@ namespace Rpg.Client.Models.Combat
 
                 if (!_combat.Finished)
                 {
-                    HandleCombatHud(gameTime);
+                    HandleCombatHud();
                 }
             }
 
@@ -206,7 +206,7 @@ namespace Rpg.Client.Models.Combat
             _hudButtons.Clear();
             _combatSkillsPanel = null;
 
-            CombatResultModal _combatResultModal;
+            CombatResultModal combatResultModal;
 
             if (e.Victory)
             {
@@ -224,13 +224,13 @@ namespace Rpg.Client.Models.Combat
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                     soundtrackManager.PlayVictoryTrack();
 
-                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.Victory,
                         xpItems);
                 }
                 else
                 {
-                    _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>());
                 }
@@ -242,13 +242,13 @@ namespace Rpg.Client.Models.Combat
 
                 HandleGlobe(CombatResult.Defeat);
 
-                _combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
+                combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
                     Array.Empty<XpAward>());
             }
 
-            AddModal(_combatResultModal, isLate: false);
+            AddModal(combatResultModal, isLate: false);
 
-            _combatResultModal.Closed += CombatResultModal_Closed;
+            combatResultModal.Closed += CombatResultModal_Closed;
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
@@ -425,9 +425,9 @@ namespace Rpg.Client.Models.Combat
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
             const int BG_START_OFFSET = -100;
-            const int BG_MAX_OFSSET = 200;
+            const int BG_MAX_OFFSET = 200;
 
-            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
             DrawBullets(spriteBatch);
 
@@ -438,7 +438,7 @@ namespace Rpg.Client.Models.Combat
                 bullet.Draw(spriteBatch);
             }
 
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFSSET);
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
             spriteBatch.End();
         }
@@ -462,20 +462,25 @@ namespace Rpg.Client.Models.Combat
 
             try
             {
-                if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
-                {
-                    var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
-
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
-                        new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
-                }
+                DrawCombatRemains(spriteBatch);
             }
             catch
             {
-                // TODO Fix NRE in the end of the combat with more prefessional way 
+                // TODO Fix NRE in the end of the combat with more professional way 
             }
 
             spriteBatch.End();
+        }
+
+        private void DrawCombatRemains(SpriteBatch spriteBatch)
+        {
+            if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
+            {
+                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
+                    new Vector2(Game.GraphicsDevice.Viewport.Bounds.Center.X, 5), Color.White);
+            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -543,16 +548,19 @@ namespace Rpg.Client.Models.Combat
         private void HandleBackgrounds()
         {
             var mouse = Mouse.GetState();
-            _bgCenterOffsetPercentage = ((float)mouse.X - Game.GraphicsDevice.Viewport.Width / 2) /
-                                        Game.GraphicsDevice.Viewport.Width / 2;
-            if (_bgCenterOffsetPercentage < -1)
+            var screenCenterX = Game.GraphicsDevice.Viewport.Bounds.Center.X;
+            var rawPercentage = ((float)mouse.X - screenCenterX) / screenCenterX;
+            _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
+        }
+
+        private static float NormalizePercentage(float value)
+        {
+            return value switch
             {
-                _bgCenterOffsetPercentage = -1;
-            }
-            else if (_bgCenterOffsetPercentage > 1)
-            {
-                _bgCenterOffsetPercentage = 1;
-            }
+                < -1 => -1,
+                > 1 => 1,
+                _ => value
+            };
         }
 
         private void HandleBullets(GameTime gameTime)
@@ -570,7 +578,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void HandleCombatHud(GameTime gameTime)
+        private void HandleCombatHud()
         {
             foreach (var hudButton in _hudButtons)
             {
@@ -638,10 +646,7 @@ namespace Rpg.Client.Models.Combat
                     {
                         _globe.CurrentEvent.Completed = true;
 
-                        if (_globe.CurrentEvent.AfterCombatStartNode is not null)
-                        {
-                            _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
-                        }
+                        _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
                     if (_combat.Combat.IsBossLevel)
@@ -707,20 +712,16 @@ namespace Rpg.Client.Models.Combat
                 return;
             }
 
-            var actor = GetUnitGameObject(_combat.CurrentUnit);
-            var skill = skillCard.Skill;
-
             foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
             {
-                if (skillCard.Skill.TargetType == SkillTargetType.Enemy && target.CombatUnit.Unit.IsPlayerControlled ==
-                    _combat.CurrentUnit.Unit.IsPlayerControlled)
+                if (skillCard.Skill.TargetType == SkillTargetType.Enemy 
+                    && target.CombatUnit.Unit.IsPlayerControlled == _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }
 
-                if (skillCard.Skill.TargetType == SkillTargetType.Friendly &&
-                    target.CombatUnit.Unit.IsPlayerControlled !=
-                    _combat.CurrentUnit.Unit.IsPlayerControlled)
+                if (skillCard.Skill.TargetType == SkillTargetType.Friendly
+                    && target.CombatUnit.Unit.IsPlayerControlled != _combat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }

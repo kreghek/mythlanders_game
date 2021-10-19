@@ -6,7 +6,7 @@ namespace Rpg.Client.Engine
 {
     internal abstract class EwarDrawableComponentBase : Renderable
     {
-        public void Initialize()
+        private void Initialize()
         {
             DoInitialize();
         }
