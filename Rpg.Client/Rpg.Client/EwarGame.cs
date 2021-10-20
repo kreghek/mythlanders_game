@@ -5,6 +5,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
 using Rpg.Client.Models;
+using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Title;
 using Rpg.Client.Screens;
 
@@ -68,6 +69,10 @@ namespace Rpg.Client
             var soundtrackManager = Services.GetService<SoundtrackManager>();
             soundtrackManager.Initialize(uiContentStorage);
 
+            var bgofSelector = Services.GetService<BackgroundObjectFactorySelector>();
+
+            bgofSelector.Initialize(gameObjectContentStorage);
+
             AddDevelopmentComponents(_spriteBatch, uiContentStorage);
         }
 
@@ -122,6 +127,9 @@ namespace Rpg.Client
 
             var soundtrackManager = new SoundtrackManager();
             Services.AddService(soundtrackManager);
+
+            var bgoFactorySelector = new BackgroundObjectFactorySelector();
+            Services.AddService(bgoFactorySelector);
         }
     }
 }

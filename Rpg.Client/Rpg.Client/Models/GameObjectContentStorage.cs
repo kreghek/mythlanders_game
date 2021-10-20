@@ -9,6 +9,13 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Models
 {
+    internal enum CombatBackgroundObjectTextureType
+    { 
+        Undefined,
+        Clouds,
+        Banner
+    }
+
     internal class GameObjectContentStorage
     {
         private Effect _allWhiteEffect;
@@ -23,7 +30,7 @@ namespace Rpg.Client.Models
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D _particlesTexture;
-        private Texture2D _combatBackgroundAnimatedObjectsTexture;
+        private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
 
@@ -142,13 +149,17 @@ namespace Rpg.Client.Models
 
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
 
-            _combatBackgroundAnimatedObjectsTexture = contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds");
+            _combatBackgroundAnimatedObjectsTextureDict = new Dictionary<CombatBackgroundObjectTextureType, Texture2D>
+            {
+                { CombatBackgroundObjectTextureType.Clouds, contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds") },
+                { CombatBackgroundObjectTextureType.Banner, contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner") },
+            }
+            ;
         }
 
-        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture()
+        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture(CombatBackgroundObjectTextureType textureType)
         {
-            return _combatBackgroundAnimatedObjectsTexture;
+            return _combatBackgroundAnimatedObjectsTextureDict[textureType];
         }
 
         internal Texture2D GetBiomeClouds()

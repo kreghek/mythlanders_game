@@ -5,17 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.Models.Combat.GameObjects
+namespace Rpg.Client.Models.Combat.GameObjects.Background
 {
-    internal interface IBackgroundObject
-    {
-        void Draw(SpriteBatch spriteBatch);
-        void Update(GameTime gameTime);
-    }
-
     internal sealed class BackgroundCloud : IBackgroundObject
     {
-        private const double DURATION_SECONDS = 60;
+        private const double DURATION_SECONDS = 160;
 
         private static readonly Random _random = new Random();
 
