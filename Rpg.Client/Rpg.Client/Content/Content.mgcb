@@ -170,6 +170,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/Clouds.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
