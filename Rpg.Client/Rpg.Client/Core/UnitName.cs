@@ -29,6 +29,7 @@
         Oldman,
         GuardianWoman,
         StrangerWoman,
+        Moira,
 
         Aspid,
         Liho, // лихо

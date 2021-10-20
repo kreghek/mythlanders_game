@@ -15,7 +15,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
     internal sealed class BackgroundCloud : IBackgroundObject
     {
-        private const double DURATION_SECONDS = 30;
+        private const double DURATION_SECONDS = 60;
 
         private static readonly Random _random = new Random();
 

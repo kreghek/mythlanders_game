@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -22,6 +23,7 @@ namespace Rpg.Client.Models
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D _particlesTexture;
+        private Texture2D _combatBackgroundAnimatedObjectsTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
 
@@ -139,6 +141,14 @@ namespace Rpg.Client.Models
             _locationObjectTextures = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/MapObjects");
 
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
+
+            _combatBackgroundAnimatedObjectsTexture = contentManager.Load<Texture2D>(
+                            "Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds");
+        }
+
+        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture()
+        {
+            return _combatBackgroundAnimatedObjectsTexture;
         }
 
         internal Texture2D GetBiomeClouds()
