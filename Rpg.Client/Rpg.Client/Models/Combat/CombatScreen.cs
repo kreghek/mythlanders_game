@@ -12,6 +12,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects;
+using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Combat.Tutorial;
 using Rpg.Client.Models.Combat.Ui;
 using Rpg.Client.Models.Common;
@@ -39,6 +40,8 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
+        private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
+        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -78,6 +81,13 @@ namespace Rpg.Client.Models.Combat
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<AnimationManager>();
             _dice = Game.Services.GetService<IDice>();
+
+            var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
+
+            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNodeGameObject.GlobeNode.Sid);
+
+            _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
+            _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -104,6 +114,16 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
+                foreach (var obj in _foregroundLayerObjects)
+                {
+                    obj.Update(gameTime);
+                }
+
+                foreach (var obj in _cloudLayerObjects)
+                {
+                    obj.Update(gameTime);
+                }
+
                 HandleBullets(gameTime);
 
                 HandleUnits(gameTime);
@@ -395,7 +415,22 @@ namespace Rpg.Client.Models.Combat
                     BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
                 var roundedX = (int)Math.Round(xFloat);
                 var position = new Vector2(roundedX, 0);
-                spriteBatch.Draw(backgrounds[i], position, Color.White);
+
+                var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
+
+                spriteBatch.Begin(transformMatrix: matrix);
+
+                spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+
+                if (i == 0 /*Cloud layer*/)
+                {
+                    foreach (var obj in _cloudLayerObjects)
+                    {
+                        obj.Draw(spriteBatch);
+                    }
+                }
+
+                spriteBatch.End();
             }
         }
 
@@ -424,13 +459,24 @@ namespace Rpg.Client.Models.Combat
             var xFloat = backgroundStartOffset +
                          -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
             var roundedX = (int)Math.Round(xFloat);
-            spriteBatch.Draw(backgrounds[3], new Vector2(roundedX, 0), Color.White);
+
+            var position = new Vector2(roundedX, 0);
+            var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
+
+            spriteBatch.Begin(transformMatrix: matrix);
+
+            spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
         }
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-
             var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
@@ -439,6 +485,8 @@ namespace Rpg.Client.Models.Combat
             const int BG_MAX_OFFSET = 200;
 
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            spriteBatch.Begin();
 
             DrawBullets(spriteBatch);
 
@@ -449,9 +497,9 @@ namespace Rpg.Client.Models.Combat
                 bullet.Draw(spriteBatch);
             }
 
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
             spriteBatch.End();
+
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
