@@ -5,17 +5,9 @@ namespace Rpg.Client.Models.Combat.GameObjects.Background
 {
     internal sealed class BackgroundObjectFactorySelector
     {
-        private GameObjectContentStorage _gameObjectContentStorage;
         private IBackgroundObjectFactory _backgroundObjectFactory;
         private EmptyBackgroundObjectFactory _empty;
-
-        public void Initialize(GameObjectContentStorage gameObjectContentStorage)
-        {
-            _gameObjectContentStorage = gameObjectContentStorage;
-
-            _backgroundObjectFactory = new ThicketBackgroundObjectFactory(_gameObjectContentStorage);
-            _empty = new EmptyBackgroundObjectFactory();
-        }
+        private GameObjectContentStorage _gameObjectContentStorage;
 
         public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
         {
@@ -23,10 +15,16 @@ namespace Rpg.Client.Models.Combat.GameObjects.Background
             {
                 return _backgroundObjectFactory;
             }
-            else
-            {
-                return _empty;
-            }
+
+            return _empty;
+        }
+
+        public void Initialize(GameObjectContentStorage gameObjectContentStorage)
+        {
+            _gameObjectContentStorage = gameObjectContentStorage;
+
+            _backgroundObjectFactory = new ThicketBackgroundObjectFactory(_gameObjectContentStorage);
+            _empty = new EmptyBackgroundObjectFactory();
         }
     }
 }

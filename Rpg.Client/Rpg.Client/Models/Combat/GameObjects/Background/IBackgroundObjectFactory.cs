@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Models.Combat.GameObjects.Background
 {
-    interface IBackgroundObjectFactory
+    internal interface IBackgroundObjectFactory
     {
         IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects();
         IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();

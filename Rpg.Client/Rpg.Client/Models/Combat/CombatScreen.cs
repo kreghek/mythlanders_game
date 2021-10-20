@@ -38,9 +38,9 @@ namespace Rpg.Client.Models.Combat
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
+        private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly ActiveCombat _combat;
         private readonly IDice _dice;
-        private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;

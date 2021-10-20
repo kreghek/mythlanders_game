@@ -21,6 +21,7 @@ namespace Rpg.Client.Models
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
+        private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
@@ -30,7 +31,6 @@ namespace Rpg.Client.Models
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private Texture2D _particlesTexture;
-        private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
 
@@ -150,16 +150,17 @@ namespace Rpg.Client.Models
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
 
             _combatBackgroundAnimatedObjectsTextureDict = new Dictionary<CombatBackgroundObjectTextureType, Texture2D>
-            {
-                { CombatBackgroundObjectTextureType.Clouds, contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds") },
-                { CombatBackgroundObjectTextureType.Banner, contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner") },
-            }
-            ;
-        }
-
-        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture(CombatBackgroundObjectTextureType textureType)
-        {
-            return _combatBackgroundAnimatedObjectsTextureDict[textureType];
+                {
+                    {
+                        CombatBackgroundObjectTextureType.Clouds,
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds")
+                    },
+                    {
+                        CombatBackgroundObjectTextureType.Banner,
+                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner")
+                    }
+                }
+                ;
         }
 
         internal Texture2D GetBiomeClouds()
@@ -170,6 +171,11 @@ namespace Rpg.Client.Models
         internal Texture2D GetBulletGraphics()
         {
             return _arrowTexture;
+        }
+
+        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture(CombatBackgroundObjectTextureType textureType)
+        {
+            return _combatBackgroundAnimatedObjectsTextureDict[textureType];
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
