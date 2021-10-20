@@ -10,7 +10,7 @@ using Rpg.Client.Core;
 namespace Rpg.Client.Models
 {
     internal enum CombatBackgroundObjectTextureType
-    { 
+    {
         Undefined,
         Clouds,
         Banner
