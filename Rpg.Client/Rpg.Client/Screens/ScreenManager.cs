@@ -26,7 +26,7 @@ namespace Rpg.Client.Screens
         public ScreenManager(EwarGame game)
         {
             _game = game;
-            var colors = new [] { Color.Black };
+            var colors = new[] { Color.Black };
             _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _transitionTexture.SetData(colors);
         }
@@ -78,7 +78,7 @@ namespace Rpg.Client.Screens
             {
                 return;
             }
-            
+
             ActiveScreen.Update(gameTime);
 
             if (ActiveScreen.TargetScreen is not null)

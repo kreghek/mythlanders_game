@@ -33,7 +33,7 @@
         Garden = 403,
         Palace = 404,
         Labirinth = 405,
-        
+
         ChangingLabirinth = 501,
         Nothing = 502,
         Epicenter = 503
