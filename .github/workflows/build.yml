@@ -48,7 +48,7 @@ jobs:
       with:
         path: bin/version.txt
         contents: |
-          ver 0.1-dev#${{ github.run_number }}
+          ver 0.1-tempdev#${{ github.run_number }}
           ${{ github.sha }}
         write-mode: overwrite
 
