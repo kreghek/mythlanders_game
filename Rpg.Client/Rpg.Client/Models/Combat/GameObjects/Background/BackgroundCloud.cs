@@ -12,18 +12,19 @@ namespace Rpg.Client.Models.Combat.GameObjects.Background
         private const double DURATION_SECONDS = 160;
 
         private static readonly Random _random = new Random();
+        private readonly Sprite _cloudSprite;
+        private readonly Vector2 _endPosition;
+        private readonly double _speed;
+        private readonly Vector2 _startPosition;
 
         private readonly Texture2D _texture;
         private readonly int _textureIndex;
-        private readonly Vector2 _startPosition;
-        private readonly Vector2 _endPosition;
-        private readonly double _speed;
-        private readonly Sprite _cloudSprite;
-
-        private double _lifetimeCounter;
         private Vector2 _currentPosition;
 
-        public BackgroundCloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition, double speed)
+        private double _lifetimeCounter;
+
+        public BackgroundCloud(Texture2D texture, int textureIndex, Vector2 startPosition, Vector2 endPosition,
+            double speed)
         {
             _texture = texture;
             _textureIndex = textureIndex;

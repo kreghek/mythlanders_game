@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects.Background
 {
-    internal sealed class PositionalAnimatedObject: IBackgroundObject
+    internal sealed class PositionalAnimatedObject : IBackgroundObject
     {
         private const int FPS = 2;
         private readonly Sprite _sprite;
