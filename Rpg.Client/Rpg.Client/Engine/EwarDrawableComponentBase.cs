@@ -8,7 +8,7 @@ namespace Rpg.Client.Engine
     {
         public virtual void Update(GameTime gameTime)
         {
-            var children = _children.ToList();
+            var children = Children.ToList();
 
             foreach (var ewarDrawableComponent in children.OfType<EwarDrawableComponentBase>())
             {

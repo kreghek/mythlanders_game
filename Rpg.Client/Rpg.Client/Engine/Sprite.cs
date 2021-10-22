@@ -52,19 +52,6 @@ namespace Rpg.Client.Engine
         }
 
         /// <summary>
-        /// Clone an existing Sprite object.
-        /// </summary>
-        /// <param name="copyFrom">Sprite to copy properties from.</param>
-        /// <param name="includeChildren">If true, will also clone children.</param>
-        public Sprite(Sprite copyFrom, bool includeChildren) : base(copyFrom, includeChildren)
-        {
-            SourceRectangle = copyFrom.SourceRectangle;
-            Origin = copyFrom.Origin;
-            Texture = copyFrom.Texture;
-            Size = copyFrom.Size;
-        }
-
-        /// <summary>
         /// Size, in pixels, we want this sprite to be when rendered.
         /// </summary>
         public Point Size { get; set; }
@@ -73,16 +60,6 @@ namespace Rpg.Client.Engine
         /// Texture to draw.
         /// </summary>
         public Texture2D Texture { get; set; }
-
-        /// <summary>
-        /// Clone this sprite object.
-        /// </summary>
-        /// <param name="includeChildren">If true, will include children in clone.</param>
-        /// <returns>Cloned object.</returns>
-        public override Renderable Clone(bool includeChildren)
-        {
-            return new Sprite(this, includeChildren);
-        }
 
         /// <summary>
         /// Set a source rectangle from spritesheet.
