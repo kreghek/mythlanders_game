@@ -114,15 +114,7 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                foreach (var obj in _foregroundLayerObjects)
-                {
-                    obj.Update(gameTime);
-                }
-
-                foreach (var obj in _cloudLayerObjects)
-                {
-                    obj.Update(gameTime);
-                }
+                UpdateBackgroundObjects(gameTime);
 
                 HandleBullets(gameTime);
 
@@ -135,6 +127,19 @@ namespace Rpg.Client.Models.Combat
             }
 
             HandleBackgrounds();
+        }
+
+        private void UpdateBackgroundObjects(GameTime gameTime)
+        {
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _cloudLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
