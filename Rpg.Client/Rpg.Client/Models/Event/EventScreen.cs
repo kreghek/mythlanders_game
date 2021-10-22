@@ -31,6 +31,7 @@ namespace Rpg.Client.Models.Event
 
         private bool _isInitialized;
         private float _bgCenterOffsetPercentage;
+        private Texture2D _backgroundTexture;
 
         public EventScreen(EwarGame game) : base(game)
         {
@@ -63,6 +64,10 @@ namespace Rpg.Client.Models.Event
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
+
+            var data = new Color[] { Color.White };
+            _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            _backgroundTexture.SetData(data);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -92,25 +97,6 @@ namespace Rpg.Client.Models.Event
 
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
-
-
-        private void HandleBackgrounds()
-        {
-            var mouse = Mouse.GetState();
-            var screenCenterX = Game.GraphicsDevice.Viewport.Bounds.Center.X;
-            var rawPercentage = ((float)mouse.X - screenCenterX) / screenCenterX;
-            _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
-        }
-
-        private static float NormalizePercentage(float value)
-        {
-            return value switch
-            {
-                < -1 => -1,
-                > 1 => 1,
-                _ => value
-            };
-        }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
@@ -152,6 +138,10 @@ namespace Rpg.Client.Models.Event
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.Lerp(Color.Transparent, Color.Black, 0.5f));
+            spriteBatch.End();
         }
 
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -263,8 +253,6 @@ namespace Rpg.Client.Models.Event
                 UpdateBackgroundObjects(gameTime);
 
                 UpdateHud();
-
-                HandleBackgrounds();
             }
         }
 
