@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 
 using Rpg.Client.Core.EventSerialization;
@@ -28,31 +29,6 @@ namespace Rpg.Client.Core
 
         public static IEnumerable<Event> Events => _events;
 
-        private static string TempLineBreaking(string localizedSpeakerText)
-        {
-            var items = localizedSpeakerText.Split('\n');
-            var sb = new System.Text.StringBuilder();
-            foreach (var item in items)
-            {
-                if (item.Length > 80)
-                {
-                    var textRemains = item;
-                    do
-                    {
-                        sb.AppendLine(textRemains.Substring(0, 80));
-                        textRemains = textRemains.Remove(0, 80);
-                    } while (textRemains.Length > 80);
-                    sb.AppendLine(textRemains);
-                }
-                else
-                {
-                    sb.AppendLine(item);
-                }
-            }
-
-            return sb.ToString();
-        }
-
         private static EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
             string? aftermath)
         {
@@ -60,7 +36,6 @@ namespace Rpg.Client.Core
 
             foreach (var fragmentStrageModel in nodeStorageModel.Fragments)
             {
-
                 fragments.Add(new EventTextFragment
                 {
                     Text = TempLineBreaking(fragmentStrageModel.Text),
@@ -209,6 +184,32 @@ namespace Rpg.Client.Core
 
             var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
             return unitName;
+        }
+
+        private static string TempLineBreaking(string localizedSpeakerText)
+        {
+            var items = localizedSpeakerText.Split('\n');
+            var sb = new StringBuilder();
+            foreach (var item in items)
+            {
+                if (item.Length > 80)
+                {
+                    var textRemains = item;
+                    do
+                    {
+                        sb.AppendLine(textRemains.Substring(0, 80));
+                        textRemains = textRemains.Remove(0, 80);
+                    } while (textRemains.Length > 80);
+
+                    sb.AppendLine(textRemains);
+                }
+                else
+                {
+                    sb.AppendLine(item);
+                }
+            }
+
+            return sb.ToString();
         }
 
         private sealed record LocationInfo
