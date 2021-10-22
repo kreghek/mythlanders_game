@@ -43,6 +43,7 @@ namespace Rpg.Client.Models.Biome
 
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
+        private readonly Texture2D _backgroundTexture;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -99,10 +100,18 @@ namespace Rpg.Client.Models.Biome
             }
 
             _globe.Updated += Globe_Updated;
+
+            var data = new Color[] { Color.Gray };
+            _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
+            _backgroundTexture.SetData(data);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+            spriteBatch.End();
+
             if (!_isNodeModelsCreated)
             {
                 return;

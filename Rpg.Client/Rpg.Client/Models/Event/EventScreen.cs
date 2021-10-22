@@ -140,7 +140,7 @@ namespace Rpg.Client.Models.Event
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(_backgroundTexture, new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height), Color.Lerp(Color.Transparent, Color.Black, 0.5f));
+            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.Lerp(Color.Transparent, Color.Black, 0.5f));
             spriteBatch.End();
         }
 
