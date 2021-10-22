@@ -114,15 +114,7 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                foreach (var obj in _foregroundLayerObjects)
-                {
-                    obj.Update(gameTime);
-                }
-
-                foreach (var obj in _cloudLayerObjects)
-                {
-                    obj.Update(gameTime);
-                }
+                UpdateBackgroundObjects(gameTime);
 
                 HandleBullets(gameTime);
 
@@ -135,6 +127,19 @@ namespace Rpg.Client.Models.Combat
             }
 
             HandleBackgrounds();
+        }
+
+        private void UpdateBackgroundObjects(GameTime gameTime)
+        {
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _cloudLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
         }
 
         private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
@@ -282,7 +287,13 @@ namespace Rpg.Client.Models.Combat
 
         private void Combat_UnitPassed(object? sender, CombatUnit e)
         {
-            AddChild(new MovePassedComponent(GetUnitGameObject(e).Position, _uiContentStorage.GetMainFont()));
+            var unitGameObject = GetUnitGameObject(e);
+            var textPosition = GetUnitGameObject(e).Position;
+            var font = _uiContentStorage.GetMainFont();
+
+            var passIndicator = new MovePassedComponent(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
         }
 
         private void CombatInitialize()
@@ -394,16 +405,24 @@ namespace Rpg.Client.Models.Combat
         {
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var damageIndicator =
-                new HpChangedComponent(-e.Amount, unitGameObject.Position, _uiContentStorage.GetMainFont());
+            var font = _uiContentStorage.GetMainFont();
+            var position = unitGameObject.Position;
+
+            var damageIndicator = new HpChangedComponent(-e.Amount, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
 
         private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
-            var unitView = GetUnitGameObject(e.CombatUnit);
-            AddChild(new HpChangedComponent(e.Amount, unitView.Position, _uiContentStorage.GetMainFont()));
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var font = _uiContentStorage.GetMainFont();
+            var position = unitGameObject.Position;
+
+            var damageIndicator = new HpChangedComponent(e.Amount, position, font);
+
+            unitGameObject.AddChild(damageIndicator);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,

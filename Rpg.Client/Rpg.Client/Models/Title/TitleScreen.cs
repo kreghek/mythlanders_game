@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
@@ -133,7 +134,14 @@ namespace Rpg.Client.Models.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+
+            var biomes = _globeProvider.Globe.Biomes.Where(x => x.IsAvailable).ToArray();
+
+            var startBiom = biomes.First();
+
+            _globeProvider.Globe.CurrentBiome = startBiom;
+
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
         }
     }
 }

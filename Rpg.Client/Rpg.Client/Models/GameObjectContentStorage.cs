@@ -195,7 +195,7 @@ namespace Rpg.Client.Models
                 return soundEffect;
             }
 
-            return _deathSoundDict[UnitName.Berimir];
+            return _deathSoundDict[UnitName.GreyWolf];
         }
 
         internal SpriteFont GetFont()
