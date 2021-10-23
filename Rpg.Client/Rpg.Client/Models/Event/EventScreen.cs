@@ -20,18 +20,24 @@ namespace Rpg.Client.Models.Event
     {
         private const int TEXT_MARGIN = 10;
         private const int OPTIONS_BLOCK_MARGIN = 10;
+
+        private const int BACKGROUND_LAYERS_COUNT = 3;
+        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
+
+        private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
+        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly GlobeNodeGameObject _globeNodeGameObject;
+        private readonly IUiContentStorage _uiContentStorage;
+        private Texture2D _backgroundTexture;
+        private float _bgCenterOffsetPercentage;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
-        private float _bgCenterOffsetPercentage;
-        private Texture2D _backgroundTexture;
 
         public EventScreen(EwarGame game) : base(game)
         {
@@ -53,8 +59,8 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
 
             var _combat = _globe.ActiveCombat ??
-                      throw new InvalidOperationException(
-                          nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+                          throw new InvalidOperationException(
+                              nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNodeGameObject = _combat.Node;
 
@@ -82,21 +88,30 @@ namespace Rpg.Client.Models.Event
             DrawHud(spriteBatch);
         }
 
-        private static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
+        protected override void UpdateContent(GameTime gameTime)
         {
-            return regularTheme switch
+            if (!_tutorial)
             {
-                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
-                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
-                _ => BackgroundType.SlavicBattleground
-            };
+                _tutorial = true;
+
+                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                    Game.GraphicsDevice);
+                AddModal(tutorialModal, isLate: false);
+            }
+
+            if (!_isInitialized)
+            {
+                InitEventControls();
+
+                _isInitialized = true;
+            }
+            else
+            {
+                UpdateBackgroundObjects(gameTime);
+
+                UpdateHud();
+            }
         }
-
-        private const int BACKGROUND_LAYERS_COUNT = 3;
-        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
-
-        private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
@@ -126,24 +141,6 @@ namespace Rpg.Client.Models.Event
             }
         }
 
-        private void DrawGameObjects(SpriteBatch spriteBatch)
-        {
-            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
-
-            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
-
-            const int BG_START_OFFSET = -100;
-            const int BG_MAX_OFFSET = 200;
-
-            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.Lerp(Color.Transparent, Color.Black, 0.5f));
-            spriteBatch.End();
-        }
-
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -163,6 +160,25 @@ namespace Rpg.Client.Models.Event
                 obj.Draw(spriteBatch);
             }
 
+            spriteBatch.End();
+        }
+
+        private void DrawGameObjects(SpriteBatch spriteBatch)
+        {
+            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
+
+            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+
+            const int BG_START_OFFSET = -100;
+            const int BG_MAX_OFFSET = 200;
+
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds,
+                Color.Lerp(Color.Transparent, Color.Black, 0.5f));
             spriteBatch.End();
         }
 
@@ -231,89 +247,14 @@ namespace Rpg.Client.Models.Event
             spriteBatch.End();
         }
 
-        protected override void UpdateContent(GameTime gameTime)
+        private static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
         {
-            if (!_tutorial)
+            return regularTheme switch
             {
-                _tutorial = true;
-
-                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    Game.GraphicsDevice);
-                AddModal(tutorialModal, isLate: false);
-            }
-
-            if (!_isInitialized)
-            {
-                InitEventControls();
-
-                _isInitialized = true;
-            }
-            else
-            {
-                UpdateBackgroundObjects(gameTime);
-
-                UpdateHud();
-            }
-        }
-
-        private void UpdateBackgroundObjects(GameTime gameTime)
-        {
-            foreach (var obj in _foregroundLayerObjects)
-            {
-                obj.Update(gameTime);
-            }
-
-            foreach (var obj in _cloudLayerObjects)
-            {
-                obj.Update(gameTime);
-            }
-        }
-
-        private void UpdateHud()
-        {
-            foreach (var button in _buttons)
-            {
-                button.Update();
-            }
-        }
-
-        private void InitEventControls()
-        {
-            _buttons.Clear();
-            foreach (var option in _currentDialogNode.Options)
-            {
-                var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                button.OnClick += (_, _) =>
-                {
-                    if (option.Aftermath is not null)
-                    {
-                        option.Aftermath.Apply(_dialogContext);
-                    }
-
-                    if (option.IsEnd)
-                    {
-                        if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
-                        {
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                        }
-                        else
-                        {
-                            _globe.CurrentEvent = null;
-                            _globe.CurrentEventNode = null;
-                            _globe.UpdateNodes(Game.Services.GetService<IDice>());
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                        }
-                    }
-                    else
-                    {
-                        _currentDialogNode = option.Next;
-                        _isInitialized = false;
-                    }
-                };
-
-                _buttons.Add(button);
-            }
+                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
+                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
+                _ => BackgroundType.SlavicBattleground
+            };
         }
 
         private static string GetLocalizedText(string text)
@@ -368,6 +309,66 @@ namespace Rpg.Client.Models.Event
 
                 default:
                     return Rectangle.Empty;
+            }
+        }
+
+        private void InitEventControls()
+        {
+            _buttons.Clear();
+            foreach (var option in _currentDialogNode.Options)
+            {
+                var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                button.OnClick += (_, _) =>
+                {
+                    if (option.Aftermath is not null)
+                    {
+                        option.Aftermath.Apply(_dialogContext);
+                    }
+
+                    if (option.IsEnd)
+                    {
+                        if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
+                        {
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                        }
+                        else
+                        {
+                            _globe.CurrentEvent = null;
+                            _globe.CurrentEventNode = null;
+                            _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                        }
+                    }
+                    else
+                    {
+                        _currentDialogNode = option.Next;
+                        _isInitialized = false;
+                    }
+                };
+
+                _buttons.Add(button);
+            }
+        }
+
+        private void UpdateBackgroundObjects(GameTime gameTime)
+        {
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _cloudLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+        }
+
+        private void UpdateHud()
+        {
+            foreach (var button in _buttons)
+            {
+                button.Update();
             }
         }
     }

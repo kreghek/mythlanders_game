@@ -24,6 +24,7 @@ namespace Rpg.Client.Models.Biome
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
         private static bool _tutorial;
+        private readonly Texture2D _backgroundTexture;
 
         private readonly Core.Biome _biome;
 
@@ -43,7 +44,6 @@ namespace Rpg.Client.Models.Biome
 
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
-        private readonly Texture2D _backgroundTexture;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
