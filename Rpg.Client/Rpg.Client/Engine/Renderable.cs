@@ -43,7 +43,7 @@ namespace Rpg.Client.Engine
         /// <summary>
         /// Create the new renderable entity with default values.
         /// </summary>
-        public Renderable()
+        protected Renderable()
         {
             Children = new List<Renderable>();
             _localTrans = new SpriteTransformation();
