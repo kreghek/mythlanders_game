@@ -7,12 +7,12 @@ namespace Rpg.Client.Core.Skills
     internal class WideSlashSkill : SkillBase
     {
         public WideSlashSkill() : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.MassMelee })
+            { Type = SkillVisualizationStateType.MassMelee })
         {
         }
 
         public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.MassMelee }, costRequired)
+            { Type = SkillVisualizationStateType.MassMelee }, costRequired)
         {
         }
 
