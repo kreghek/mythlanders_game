@@ -277,7 +277,7 @@ namespace Rpg.Client.Models.Event
             }
 
             var unitName = speaker;
-            var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+            var name = GameObjectHelper.GetLocalized(unitName);
 
             var text = name;
 

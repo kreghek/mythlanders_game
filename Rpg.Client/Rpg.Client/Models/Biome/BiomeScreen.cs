@@ -347,12 +347,9 @@ namespace Rpg.Client.Models.Biome
 
             var node = nodeGameObject;
 
-            var rm = new ResourceManager(typeof(UiResource));
+            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);;
 
-            var localizedName = rm.GetString($"{node.GlobeNode.Sid}NodeName");
-            var normalizedName = localizedName ?? node.GlobeNode.Sid.ToString();
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 

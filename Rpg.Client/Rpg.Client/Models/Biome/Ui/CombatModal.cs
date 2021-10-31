@@ -59,12 +59,9 @@ namespace Rpg.Client.Models.Biome.Ui
 
             var node = _nodeGameObject;
 
-            var rm = GameObjectResources.ResourceManager;
+            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
 
-            var localizedName = rm.GetString($"{node.GlobeNode.Sid}NodeName");
-            var normalizedName = localizedName ?? node.GlobeNode.Sid.ToString();
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), normalizedName,
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
                 textPosition + new Vector2(5, 15),
                 Color.Wheat);
 
@@ -94,7 +91,7 @@ namespace Rpg.Client.Models.Biome.Ui
                 {
 
                     var unitName = monster.UnitScheme.Name;
-                    var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+                    var name = GameObjectHelper.GetLocalized(unitName);
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                         $"(rnd {roundIndex}) {name} (lvl{monster.Level})",
@@ -114,7 +111,7 @@ namespace Rpg.Client.Models.Biome.Ui
             {
                 var unit = playerPartyUnits[unitIndex];
                 var unitName = unit.UnitScheme.Name;
-                var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+                var name = GameObjectHelper.GetLocalized(unitName);
                 var position = new Vector2(startXPosition + unitIndex * (100 + 5), ContentRect.Bottom - (40 + 5));
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
             }

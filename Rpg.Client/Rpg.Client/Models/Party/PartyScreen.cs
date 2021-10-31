@@ -44,7 +44,7 @@ namespace Rpg.Client.Models.Party
             if (_selectedCharacter is not null)
             {
                 var unitName = _selectedCharacter.UnitScheme.Name;
-                var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+                var name = GameObjectHelper.GetLocalized(unitName);
 
                 var sb = new List<string>
                 {
@@ -97,7 +97,7 @@ namespace Rpg.Client.Models.Party
                 foreach (var character in playerCharacters)
                 {
                     var unitName = character.UnitScheme.Name;
-                    var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+                    var name = GameObjectHelper.GetLocalized(unitName);
 
                     var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), new Rectangle());

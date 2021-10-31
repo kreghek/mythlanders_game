@@ -4,10 +4,20 @@ namespace Rpg.Client.Models
 {
     internal class GameObjectHelper
     {
-        public static string GetLocalizedUnitName(UnitName unitName)
+        public static string GetLocalized(UnitName unitName)
+        {
+            return GetLocalizedInner(unitName.ToString());
+        }
+
+        public static string GetLocalized(GlobeNodeSid locationSid)
+        {
+            return GetLocalizedInner(locationSid.ToString());
+        }
+
+        private static string GetLocalizedInner(string sid)
         {
             var rm = GameObjectResources.ResourceManager;
-            var name = rm.GetString(unitName.ToString()) ?? unitName.ToString();
+            var name = rm.GetString(sid) ?? sid;
             return name;
         }
     }
