@@ -117,73 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CombatTutorialText" xml:space="preserve">
-    <value>Вы попали в бой с монстрами!
-1. Все персонажи ходят по очереди. Сначала ходят все персонажи игрока.
-Затем - все монстры.
-2. Каждый персонаж может использовать один из доступных боевых навыков.
-Набор навыков персонажей игрока может быть расширен до 3-х.
-У обычных монстров всегда только одна атака. У боссов - до 3-х.
-3. Боевые навыки могут отнимать ХП противников или восстанавливать ХП союзников,
-влиять на разные характеристики персонажей, влиять на порядок ходов.
-Как только персонаж теряет все ХП, он выходит из боя.
-4. Для использования некоторых навыков требуется мана. Мана пополняется
-на 1 ед в конце боя и за каждого побеждённого противника.
-5. В конце боя в случае победы персонажи игроки получат опыт и улучшат
-свою экипировку. Так же победа увеличит уровень биома на 1.
-Всем монстры становятся сильнее. На 10 уровне появится босс.
-6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
-Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
+  <data name="Berimir" xml:space="preserve">
+    <value>Беримир</value>
   </data>
-  <data name="BiomeTutorialText" xml:space="preserve">
-    <value>Это карта локаций.
-1. Каждая последующая локация становится доступной после победы в предыдущей.
-2. В нескольких локациях буйствуют монстры. Эти локации отмечены
-ярким символом мечей.
-3. В некоторых локациях могут происходить различные события, которые
-могут повлиять на
-текущий бой, отдельных персонажей или партию.</value>
+  <data name="Hawk" xml:space="preserve">
+    <value>Сокол</value>
   </data>
-  <data name="EventTutorialText" xml:space="preserve">
-    <value>В игре произошло событие.
-
-1. Некоторые события продвигают партию по сюжету.
-2. Другие - могут повлиять на партию и конкретных персонажей.</value>
+  <data name="Rada" xml:space="preserve">
+    <value>Рада</value>
   </data>
-  <data name="EventOptionCombatText" xml:space="preserve">
-    <value>В бой!</value>
+  <data name="GreyWolf" xml:space="preserve">
+    <value>Серый волк</value>
   </data>
-  <data name="EventOptionContinueText" xml:space="preserve">
-    <value>Продолжить</value>
+  <data name="Hq" xml:space="preserve">
+    <value>Штаб</value>
   </data>
-  <data name="WarriorEquipmentItemDisplayName" xml:space="preserve">
-    <value>Осколок меча</value>
+  <data name="GuardianWoman" xml:space="preserve">
+    <value>Стражница</value>
   </data>
-  <data name="StartGameButtonTitle" xml:space="preserve">
-    <value>Старт</value>
+  <data name="Oldman" xml:space="preserve">
+    <value>Старик</value>
   </data>
-  <data name="SwitchLanguageButtonTitle" xml:space="preserve">
-    <value>Язык</value>
+  <data name="Aspid" xml:space="preserve">
+    <value>Аспид</value>
   </data>
-  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
-    <value>Разрешение</value>
+  <data name="Thicket" xml:space="preserve">
+    <value>Чаща</value>
   </data>
-  <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
-    <value>Полный экран</value>
+  <data name="Pit" xml:space="preserve">
+    <value>Яма</value>
   </data>
-  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
-    <value>Главное меню</value>
-  </data>
-  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
-    <value>Загрузить</value>
-  </data>
-  <data name="SettingsButtonTitle" xml:space="preserve">
-    <value>Настройки</value>
-  </data>
-  <data name="ToTheCombatButtonTitle" xml:space="preserve">
-    <value>В Бой!</value>
-  </data>
-  <data name="AutocombatButtonTitle" xml:space="preserve">
-    <value>Автобой</value>
+  <data name="Mines" xml:space="preserve">
+    <value>Рудники</value>
   </data>
 </root>

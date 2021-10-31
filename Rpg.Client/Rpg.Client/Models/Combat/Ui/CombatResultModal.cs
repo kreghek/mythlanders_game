@@ -155,7 +155,7 @@ namespace Rpg.Client.Models.Combat.Ui
             public XpItem(XpAward item)
             {
                 var rm = new ResourceManager(typeof(UiResource));
-                var name = rm.GetString($"UnitName{item.Unit.UnitScheme.Name}") ?? item.Unit.UnitScheme.Name.ToString();
+                var name = rm.GetString(item.Unit.UnitScheme.Name.ToString()) ?? item.Unit.UnitScheme.Name.ToString();
                 UnitName = name;
                 XpAmount = item.XpAmount;
                 StartXp = item.StartXp;

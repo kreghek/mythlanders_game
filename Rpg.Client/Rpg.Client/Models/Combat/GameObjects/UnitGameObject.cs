@@ -101,9 +101,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             var color = CombatUnit.Unit.IsDead ? Color.Gray : Color.White;
 
-            var rm = new ResourceManager(typeof(UiResource));
-            var name = rm.GetString($"UnitName{CombatUnit.Unit.UnitScheme.Name}") ??
-                       CombatUnit.Unit.UnitScheme.Name.ToString();
+            var unitName = CombatUnit.Unit.UnitScheme.Name;
+            var name = GameObjectHelper.GetLocalizedUnitName(unitName);
 
             spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), name,
                 _graphics.Root.Position - new Vector2(0, 100), color);

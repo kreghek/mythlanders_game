@@ -276,8 +276,10 @@ namespace Rpg.Client.Models.Event
                 return null;
             }
 
-            var rm = UiResource.ResourceManager;
-            var text = rm.GetString($"UnitName{speaker}");
+            var unitName = speaker;
+            var name = GameObjectHelper.GetLocalizedUnitName(unitName);
+
+            var text = name;
 
             Debug.Assert(text is not null, "Speaker localization must be defined.");
             if (text is not null)

@@ -133,24 +133,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string MinesNodeName {
-            get {
-                return ResourceManager.GetString("MinesNodeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string PitNodeName {
-            get {
-                return ResourceManager.GetString("PitNodeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsButtonTitle {
@@ -196,74 +178,11 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string ThicketNodeName {
-            get {
-                return ResourceManager.GetString("ThicketNodeName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to To The Combat!.
         /// </summary>
         internal static string ToTheCombatButtonTitle {
             get {
                 return ResourceManager.GetString("ToTheCombatButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameBerimir {
-            get {
-                return ResourceManager.GetString("UnitNameBerimir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameGuardianWoman {
-            get {
-                return ResourceManager.GetString("UnitNameGuardianWoman", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameHawk {
-            get {
-                return ResourceManager.GetString("UnitNameHawk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameHq {
-            get {
-                return ResourceManager.GetString("UnitNameHq", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameOldman {
-            get {
-                return ResourceManager.GetString("UnitNameOldman", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string UnitNameRada {
-            get {
-                return ResourceManager.GetString("UnitNameRada", resourceCulture);
             }
         }
         
