@@ -15,7 +15,7 @@ namespace UnitConverter
             var excelUnits = ReadUnitsFromExcel("Ewar - Units.xlsx");
             Console.WriteLine("Hello World!");
         }
-        
+
         private static List<ExcelUnitRow> ReadUnitsFromExcel(string filePath)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -66,7 +66,7 @@ namespace UnitConverter
     internal sealed class ExcelUnitRow
     {
         public string NameSid { get; init; }
-        
+
         public float TankRole { get; init; }
         public float DamageRole { get; init; }
         public float SupportRole { get; init; }
@@ -79,7 +79,7 @@ namespace UnitConverter
     internal sealed class UnitScheme
     {
         public string NameSid { get; init; }
-        
+
         public float TankRole { get; init; }
         public float DamageRole { get; init; }
         public float SupportRole { get; init; }
