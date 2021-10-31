@@ -30,9 +30,9 @@ namespace Rpg.Client.Models
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
+        private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
         private Texture2D _particlesTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
-        private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
         private Texture2D _shadowTexture;
 
         private Dictionary<string, SoundEffect> _skillSoundDict;
@@ -78,7 +78,7 @@ namespace Rpg.Client.Models
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Aspid,  contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") }
+                { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
