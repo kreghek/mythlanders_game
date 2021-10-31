@@ -139,37 +139,10 @@
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
   </data>
-  <data name="UnitNameHq" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameBerimir" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameHawk" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="EventOptionCombatText" xml:space="preserve">
     <value></value>
   </data>
   <data name="EventOptionContinueText" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameOldman" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameGuardianWoman" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ThicketNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="MinesNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="PitNodeName" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="UnitNameRada" xml:space="preserve">
     <value></value>
   </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">

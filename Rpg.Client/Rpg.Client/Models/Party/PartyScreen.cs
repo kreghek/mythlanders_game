@@ -43,9 +43,8 @@ namespace Rpg.Client.Models.Party
 
             if (_selectedCharacter is not null)
             {
-                var rm = new ResourceManager(typeof(UiResource));
-                var name = rm.GetString($"UnitName{_selectedCharacter.UnitScheme.Name}") ??
-                           _selectedCharacter.UnitScheme.Name.ToString();
+                var unitName = _selectedCharacter.UnitScheme.Name;
+                var name = GameObjectHelper.GetLocalized(unitName);
 
                 var sb = new List<string>
                 {
@@ -94,11 +93,11 @@ namespace Rpg.Client.Models.Party
                 var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
 
                 _buttonList.Clear();
-                var rm = new ResourceManager(typeof(UiResource));
+
                 foreach (var character in playerCharacters)
                 {
-                    var name = rm.GetString($"UnitName{character.UnitScheme.Name}") ??
-                               character.UnitScheme.Name.ToString();
+                    var unitName = character.UnitScheme.Name;
+                    var name = GameObjectHelper.GetLocalized(unitName);
 
                     var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), new Rectangle());
