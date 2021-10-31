@@ -66,7 +66,7 @@ namespace Rpg.Client.Core
 
         public int PowerIncrease { get; set; }
 
-        public IReadOnlyList<SkillBase> Skills { get; set; }
+        public IReadOnlyList<ISkill> Skills { get; set; }
 
         public int SkillSetIndex
         {

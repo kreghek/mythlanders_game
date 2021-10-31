@@ -8,7 +8,7 @@ namespace Rpg.Client.Core
     {
         private readonly ICombatSkillContext _combatSkillContext;
 
-        public CombatSkillCard(SkillBase skill, ICombatSkillContext combatSkillContext)
+        public CombatSkillCard(ISkill skill, ICombatSkillContext combatSkillContext)
         {
             Skill = skill ?? throw new ArgumentNullException(nameof(skill));
             _combatSkillContext = combatSkillContext;
@@ -28,7 +28,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public SkillBase Skill { get; }
+        public ISkill Skill { get; }
     }
 
     internal interface ICombatSkillContext

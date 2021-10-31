@@ -116,7 +116,7 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
-        public void UseSkill(SkillBase skill, CombatUnit target)
+        public void UseSkill(ISkill skill, CombatUnit target)
         {
             if (IsCurrentStepCompleted)
             {
@@ -128,22 +128,19 @@ namespace Rpg.Client.Core
                 CurrentUnit.Unit.ManaPool -= skill.ManaCost.Value;
             }
 
-            //for (var usageIndex = 0; usageIndex < skill.UsageCount; usageIndex++)
+            Action action = () =>
             {
-                Action action = () =>
-                {
-                    EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
-                    CompleteStep();
-                };
+                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                CompleteStep();
+            };
 
-                ActionGenerated?.Invoke(this, new ActionEventArgs
-                {
-                    Action = action,
-                    Actor = CurrentUnit,
-                    Skill = skill,
-                    Target = target
-                });
-            }
+            ActionGenerated?.Invoke(this, new ActionEventArgs
+            {
+                Action = action,
+                Actor = CurrentUnit,
+                Skill = skill,
+                Target = target
+            });
         }
 
         internal void Initialize()
@@ -411,10 +408,9 @@ namespace Rpg.Client.Core
         {
             public Action Action { get; set; }
             public CombatUnit Actor { get; set; }
-            public SkillBase Skill { get; set; }
+            public ISkill Skill { get; set; }
             public CombatUnit Target { get; set; }
         }
-
 
         internal class UnitChangedEventArgs : EventArgs
         {

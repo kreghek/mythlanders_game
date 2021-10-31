@@ -64,7 +64,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         }
 
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
-            IList<IInteractionDelivery> interactionDeliveryList, SkillBase skill, Action action)
+            IList<IInteractionDelivery> interactionDeliveryList, ISkill skill, Action action)
         {
             var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
             var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,

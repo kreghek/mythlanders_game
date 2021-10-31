@@ -1148,6 +1148,28 @@ namespace Rpg.Client.Core
                 {
                     Hp = 20,
                     HpPerLevel = 3,
+                    Name = UnitName.Aspid,
+                    Biom = biomeType,
+                    NodeIndexes = new[] { 0, 1, 2 },
+                    Power = 2,
+                    PowerPerLevel = 1,
+
+                    SkillSets = new List<SkillSet>
+                    {
+                        new SkillSet
+                        {
+                            Skills = new List<SkillBase>
+                            {
+                                new MonsterAttackSkill() // Bite
+                            }
+                        }
+                    }
+                },
+
+                new UnitScheme
+                {
+                    Hp = 20,
+                    HpPerLevel = 3,
                     Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Rpg.Client.Core
 {
@@ -9,15 +10,9 @@ namespace Rpg.Client.Core
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = index;
-            var cards = new List<CombatSkillCard>();
             var skillContext = new CombatSkillContext(this);
 
-            foreach (var skill in unit.Skills)
-            {
-                var card = new CombatSkillCard(skill, skillContext);
-
-                cards.Add(card);
-            }
+            var cards = unit.Skills.Select(skill => new CombatSkillCard(skill, skillContext)).ToList();
 
             CombatCards = cards;
 
