@@ -32,6 +32,7 @@ namespace Rpg.Client.Models
         private Texture2D? _monsterUnit;
         private Texture2D _particlesTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
+        private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
         private Texture2D _shadowTexture;
 
         private Dictionary<string, SoundEffect> _skillSoundDict;
@@ -47,6 +48,11 @@ namespace Rpg.Client.Models
             if (_playerUnitTextureDict.TryGetValue(unitName, out var playerUnitTexture))
             {
                 return playerUnitTexture;
+            }
+
+            if (_monsterUnitTextureDict.TryGetValue(unitName, out var monsterUnitTexture))
+            {
+                return monsterUnitTexture;
             }
 
             return _monsterUnit;
@@ -68,6 +74,11 @@ namespace Rpg.Client.Models
                 { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
                 { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") },
                 { UnitName.Maosin, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Monk") }
+            };
+
+            _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Aspid,  contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
