@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -55,7 +54,7 @@ namespace Rpg.Client.Models.Biome
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
 
-            _biome = _globe.CurrentBiome ?? throw new InvalidOperationException("");
+            _biome = _globe.CurrentBiome ?? throw new InvalidOperationException("The screen requires current biome is assigned.");
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -63,14 +62,14 @@ namespace Rpg.Client.Models.Biome
 
             _locationObjectList = new List<LocationGameObject>();
 
-            var mapButton = new TextButton("To The Map", _uiContentStorage.GetButtonTexture(),
+            var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle, _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             mapButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
 
-            var saveGameButton = new TextButton("Save", _uiContentStorage.GetButtonTexture(),
+            var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
 
             saveGameButton.OnClick += (_, _) =>
@@ -78,7 +77,7 @@ namespace Rpg.Client.Models.Biome
                 globeProvider.StoreGlobe();
             };
 
-            var partyModalButton = new TextButton("Party", _uiContentStorage.GetButtonTexture(),
+            var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             partyModalButton.OnClick += (_, _) =>
             {
@@ -308,7 +307,7 @@ namespace Rpg.Client.Models.Biome
 
                 if (playerUnit is not null)
                 {
-                    var equipmentTypeText = GetDisplayNameOfEquipment(equipmentType);
+                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
                         toolTipPosition + new Vector2(5, 45), Color.Black);
                 }
@@ -326,7 +325,7 @@ namespace Rpg.Client.Models.Biome
                 buttonIndex++;
             }
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Level: {_biome.Level}",
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{UiResource.BiomeLevelText}: {_biome.Level}",
                 new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
 
             if (_hoverNodeGameObject is not null)
@@ -354,7 +353,8 @@ namespace Rpg.Client.Models.Biome
                 toolTipPosition + new Vector2(5, 15),
                 Color.Black);
 
-            var combatSequenceSizeText = GetCombatSequenceSizeText(node);
+            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 toolTipPosition + new Vector2(5, 35), Color.Black);
 
@@ -433,71 +433,13 @@ namespace Rpg.Client.Models.Biome
             var summaryXpLabelPosition = toolTipPosition;
 
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
-            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
+            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var summaryXp = (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
-                $"Xp Reward: {summaryXp}",
+                $"{UiResource.XpRewardText}: {summaryXp}",
                 summaryXpLabelPosition,
                 Color.Black);
-        }
-
-        private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return 1;
-
-                case 3:
-                    return 1.25f;
-
-                case 5:
-                    return 1.5f;
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return 1;
-            }
-        }
-
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return "Short";
-
-                case 3:
-                    return "Medium (+25% XP)";
-
-                case 5:
-                    return "Long (+50% XP)";
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return string.Empty;
-            }
-        }
-
-        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
-
-            var rm = UiResource.ResourceManager;
-
-            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
-
-            if (equipmentDisplayName is null)
-            {
-                return $"{equipmentType} equipment items";
-            }
-
-            return equipmentDisplayName;
         }
 
         private void Globe_Updated(object? sender, EventArgs e)
