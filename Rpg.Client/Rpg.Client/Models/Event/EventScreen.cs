@@ -165,7 +165,7 @@ namespace Rpg.Client.Models.Event
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -245,16 +245,6 @@ namespace Rpg.Client.Models.Event
             }
 
             spriteBatch.End();
-        }
-
-        private static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
-        {
-            return regularTheme switch
-            {
-                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
-                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
-                _ => BackgroundType.SlavicBattleground
-            };
         }
 
         private static string GetLocalizedText(string text)
