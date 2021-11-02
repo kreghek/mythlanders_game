@@ -89,7 +89,6 @@ namespace Rpg.Client.Models.Biome.Ui
             {
                 foreach (var monster in node.Combat.EnemyGroup.Units)
                 {
-
                     var unitName = monster.UnitScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
 
