@@ -7,12 +7,16 @@ namespace Rpg.Client.Core.Skills
     internal class MonsterAttackSkill : SkillBase
     {
         public MonsterAttackSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee })
+            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
         {
         }
 
         public MonsterAttackSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee }, costRequired)
+            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, costRequired)
+        {
+        }
+
+        protected MonsterAttackSkill(SkillVisualization visualization, bool costRequired) : base(visualization, costRequired)
         {
         }
 
@@ -38,5 +42,21 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Monster Attack";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+    }
+
+    internal class WolfBiteSkill : MonsterAttackSkill
+    {
+        public WolfBiteSkill() : base(new SkillVisualization
+            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
+        { 
+        }
+    }
+
+    internal class SnakeBiteSkill : MonsterAttackSkill
+    {
+        public SnakeBiteSkill() : base(new SkillVisualization
+        { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.SnakeBite }, false)
+        {
+        }
     }
 }

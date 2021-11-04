@@ -11,7 +11,7 @@ namespace Rpg.Client.Models.Combat.GameObjects.Background
 
         public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
         {
-            if (nodeSid == GlobeNodeSid.Thicket)
+            if (nodeSid == GlobeNodeSid.Battleground)
             {
                 return _backgroundObjectFactory;
             }

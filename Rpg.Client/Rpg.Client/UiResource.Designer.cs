@@ -79,11 +79,38 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to the map.
+        /// </summary>
+        internal static string BackToMapMenuButtonTitle {
+            get {
+                return ResourceManager.GetString("BackToMapMenuButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lvl.
+        /// </summary>
+        internal static string BiomeLevelText {
+            get {
+                return ResourceManager.GetString("BiomeLevelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string BiomeTutorialText {
             get {
                 return ResourceManager.GetString("BiomeTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to rnd.
+        /// </summary>
+        internal static string CombatSequenceRoundShortText {
+            get {
+                return ResourceManager.GetString("CombatSequenceRoundShortText", resourceCulture);
             }
         }
         
@@ -133,11 +160,65 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Long.
+        /// </summary>
+        internal static string LongCombatSequenceText {
+            get {
+                return ResourceManager.GetString("LongCombatSequenceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string MediumCombatSequenceText {
+            get {
+                return ResourceManager.GetString("MediumCombatSequenceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lvl.
+        /// </summary>
+        internal static string MonsterLevelShortText {
+            get {
+                return ResourceManager.GetString("MonsterLevelShortText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Party.
+        /// </summary>
+        internal static string PartyButtonTitle {
+            get {
+                return ResourceManager.GetString("PartyButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SaveButtonTitle {
+            get {
+                return ResourceManager.GetString("SaveButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsButtonTitle {
             get {
                 return ResourceManager.GetString("SettingsButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short.
+        /// </summary>
+        internal static string ShortCombatSequenceText {
+            get {
+                return ResourceManager.GetString("ShortCombatSequenceText", resourceCulture);
             }
         }
         
@@ -192,6 +273,15 @@ namespace Rpg.Client {
         internal static string WarriorEquipmentItemDisplayName {
             get {
                 return ResourceManager.GetString("WarriorEquipmentItemDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xp Reward.
+        /// </summary>
+        internal static string XpRewardText {
+            get {
+                return ResourceManager.GetString("XpRewardText", resourceCulture);
             }
         }
     }

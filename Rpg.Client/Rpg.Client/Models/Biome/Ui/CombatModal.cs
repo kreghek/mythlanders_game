@@ -69,7 +69,8 @@ namespace Rpg.Client.Models.Biome.Ui
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
-            var combatSequenceSizeText = GetCombatSequenceSizeText(node);
+            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 textPosition + new Vector2(5, 35), Color.Wheat);
 
@@ -93,7 +94,7 @@ namespace Rpg.Client.Models.Biome.Ui
                     var name = GameObjectHelper.GetLocalized(unitName);
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        $"(rnd {roundIndex}) {name} (lvl{monster.Level})",
+                        $"({UiResource.CombatSequenceRoundShortText} {roundIndex}) {name} ({UiResource.MonsterLevelShortText}{monster.Level})",
                         textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
 
                     monsterIndex++;
@@ -157,7 +158,7 @@ namespace Rpg.Client.Models.Biome.Ui
 
                 if (playerUnit is not null)
                 {
-                    var equipmentTypeText = GetDisplayNameOfEquipment(equipmentType);
+                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
                         toolTipPosition + new Vector2(5, 45), Color.Wheat);
                 }
@@ -171,71 +172,13 @@ namespace Rpg.Client.Models.Biome.Ui
             var summaryXpLabelPosition = toolTipPosition;
 
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
-            var summaryXp = (int)Math.Round(totalXpForMonsters * GetCombatSequenceSizeBonus(node));
+            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var summaryXp = (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
                 $"Xp Reward: {summaryXp}",
                 summaryXpLabelPosition,
                 Color.Wheat);
-        }
-
-        private static float GetCombatSequenceSizeBonus(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return 1;
-
-                case 3:
-                    return 1.25f;
-
-                case 5:
-                    return 1.5f;
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return 1;
-            }
-        }
-
-        private static string GetCombatSequenceSizeText(GlobeNodeGameObject node)
-        {
-            var count = node.GlobeNode.CombatSequence.Combats.Count;
-            switch (count)
-            {
-                case 1:
-                    return "Short";
-
-                case 3:
-                    return "Medium (+25% XP)";
-
-                case 5:
-                    return "Long (+50% XP)";
-
-                default:
-                    Debug.Fail("Unknown size");
-                    return string.Empty;
-            }
-        }
-
-        private static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
-
-            var rm = UiResource.ResourceManager;
-
-            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
-
-            if (equipmentDisplayName is null)
-            {
-                return $"{equipmentType} equipment items";
-            }
-
-            return equipmentDisplayName;
         }
     }
 }

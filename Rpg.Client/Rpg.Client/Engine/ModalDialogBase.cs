@@ -107,7 +107,7 @@ namespace Rpg.Client.Engine
             var state = Keyboard.GetState();
 
             // If they hit esc, exit
-            if (state.IsKeyDown(Keys.Escape))
+            if (state.IsKeyDown(Keys.Escape) || state.IsKeyDown(Keys.Space))
             {
                 Close();
             }

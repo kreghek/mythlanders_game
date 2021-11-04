@@ -149,8 +149,23 @@ namespace Rpg.Client.Core
                     Level = biome.Level,
                     Type = biome.Type,
                     IsComplete = biome.IsComplete,
-                    IsAvailable = biome.IsAvailable
+                    IsAvailable = biome.IsAvailable,
+                    Nodes = GetNodeDtos(biome)
                 };
+            }
+        }
+
+        private static IEnumerable<GlobeNodeDto?> GetNodeDtos(Biome biome)
+        {
+            foreach (var node in biome.Nodes)
+            {
+                var nodeDto = new GlobeNodeDto
+                {
+                    Sid = node.Sid,
+                    IsAvailable = node.IsAvailable
+                };
+
+                yield return nodeDto;
             }
         }
 
@@ -213,6 +228,32 @@ namespace Rpg.Client.Core
                 targetBiome.IsComplete = biomeDto.IsComplete;
                 targetBiome.IsAvailable = biomeDto.IsAvailable;
                 targetBiome.Level = biomeDto.Level;
+
+                LoadNodes(targetBiome, biomeDto);
+            }
+        }
+
+        private static void LoadNodes(Biome targetBiome, BiomeDto biomeDto)
+        {
+            if (biomeDto.Nodes is null)
+            {
+                Debug.Fail("The globe nodes must be defined in saved file.");
+                return;
+            }
+
+            foreach (var nodeDto in biomeDto.Nodes)
+            {
+                if (nodeDto is null)
+                {
+                    Debug.Fail("The node dto cannot be null.");
+                    continue;
+                }
+
+                var targetNode = targetBiome.Nodes.SingleOrDefault(x=>x.Sid == nodeDto.Sid);
+                if (targetNode is not null)
+                {
+                    targetNode.IsAvailable = nodeDto.IsAvailable;
+                }
             }
         }
 
@@ -223,7 +264,7 @@ namespace Rpg.Client.Core
                 eventItem.Counter = 0;
             }
 
-            if (eventDtoList == null)
+            if (eventDtoList is null)
             {
                 return;
             }

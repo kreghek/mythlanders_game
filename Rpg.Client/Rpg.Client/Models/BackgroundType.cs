@@ -3,6 +3,7 @@
     internal enum BackgroundType
     {
         Undefined,
+        SlavicDarkThiket,
         SlavicBattleground,
         SlavicSwamp
     }

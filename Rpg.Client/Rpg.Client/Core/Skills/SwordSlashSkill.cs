@@ -1,22 +1,25 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
+using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class StrikeSkill : SkillBase
+    internal class SwordSlashSkill : SkillBase
     {
-        public StrikeSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range })
+        public SwordSlashSkill() : this(false)
         {
         }
 
-        public StrikeSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range }, costRequired)
+        public SwordSlashSkill(bool costRequired) : base(new SkillVisualization
+            {
+                Type = SkillVisualizationStateType.Melee,
+                SoundEffectType = GameObjectSoundType.SwordSlash
+            }, costRequired)
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
@@ -26,7 +29,7 @@ namespace Rpg.Client.Core.Skills
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        PowerMultiplier = 1.5f,
+                        PowerMultiplier = 1,
                         ValueRange = 1
                     };
 
@@ -35,8 +38,10 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Strike";
+        public override string Sid => "Slash";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Range;
+        public override SkillType Type => SkillType.Melee;
+
+        public override int UsageCount => 3;
     }
 }

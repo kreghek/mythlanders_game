@@ -127,6 +127,12 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/HealEffect.mp3
 
+#begin Audio/GameObjects/Skills/SnakeHitEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/SnakeHitEffect.mp3
+
 #begin Audio/GameObjects/Skills/SwordHitEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -290,6 +296,54 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/ClosestLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/ClosestLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/CloudsLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/CloudsLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/FarLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/FarLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/MainLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/MainLayer.png
+
 #begin Sprites/GameObjects/CombatUnitMarkers.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -338,18 +392,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MapNodes.png
 
-#begin Sprites/GameObjects/MonsterUnits/Wolf.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/MonsterUnits/Wolf.png
-
 #begin Sprites/GameObjects/MonsterUnits/Aspid.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -361,6 +403,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Aspid.png
+
+#begin Sprites/GameObjects/MonsterUnits/Wolf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/Wolf.png
 
 #begin Sprites/GameObjects/PlayerUnits/Archer.png
 /importer:TextureImporter

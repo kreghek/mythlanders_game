@@ -6,13 +6,12 @@ namespace Rpg.Client.Core.Skills
 {
     internal class PeriodicHealSkill : SkillBase
     {
-        public PeriodicHealSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range })
+        public PeriodicHealSkill() : this(false)
         {
         }
 
         public PeriodicHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range }, costRequired)
+            { Type = SkillVisualizationStateType.Range, SoundEffectType = Models.GameObjectSoundType.Heal }, costRequired)
         {
         }
 

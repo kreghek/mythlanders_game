@@ -483,7 +483,7 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -561,16 +561,6 @@ namespace Rpg.Client.Models.Combat
             {
                 targetUnit.GainEquipmentItem(1);
             }
-        }
-
-        private static BackgroundType GetBackgroundType(GlobeNodeSid regularTheme)
-        {
-            return regularTheme switch
-            {
-                GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
-                GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
-                _ => BackgroundType.SlavicBattleground
-            };
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)

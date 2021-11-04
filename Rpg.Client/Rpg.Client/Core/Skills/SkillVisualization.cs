@@ -1,15 +1,10 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
     internal struct SkillVisualization
     {
-        public SkillVisualizationStateType Type { get; set; }
-    }
-
-    internal struct SkillVisualization2
-    {
-        public SkillVisualization VisualizationScheme { get; set; }
-        public SoundEffectInstance? UsageEffect { get; set; }
+        public SkillVisualizationStateType Type { get; init; }
+        public GameObjectSoundType SoundEffectType { get; init; }
     }
 }
