@@ -130,6 +130,7 @@ namespace Rpg.Client.Models
                 { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
                 { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
                 { "Dope Herb", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
+                { "Periodic Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
                 { "Mass Stun", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect") },
                 { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
                 { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
