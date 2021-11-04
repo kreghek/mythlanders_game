@@ -150,15 +150,24 @@ namespace Rpg.Client.Core
             var index = 0;
             foreach (var unit in _playerGroup.Units)
             {
-                var combatUnit = new CombatUnit(unit, index);
-                _allUnitList.Add(combatUnit);
-                CombatUnitEntered?.Invoke(this, combatUnit);
+                // Some of the player persons can be killed in previos combat in a combat sequence.
+
+                if (!unit.IsDead)
+                {
+                    var combatUnit = new CombatUnit(unit, index);
+                    _allUnitList.Add(combatUnit);
+                    CombatUnitEntered?.Invoke(this, combatUnit);
+                }
+
                 index++;
+
             }
 
             index = 0;
             foreach (var unit in Combat.EnemyGroup.Units)
             {
+                // Monster has no deads on start of the combat.
+
                 var combatUnit = new CombatUnit(unit, index);
                 _allUnitList.Add(combatUnit);
                 CombatUnitEntered?.Invoke(this, combatUnit);
