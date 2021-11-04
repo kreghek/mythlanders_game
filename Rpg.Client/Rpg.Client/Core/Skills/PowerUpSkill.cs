@@ -6,13 +6,12 @@ namespace Rpg.Client.Core.Skills
 {
     internal sealed class PowerUpSkill : SkillBase
     {
-        public PowerUpSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support })
+        public PowerUpSkill() : this(false)
         {
         }
 
         public PowerUpSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support }, costRequired)
+            { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.MagicDust }, costRequired)
         {
         }
 

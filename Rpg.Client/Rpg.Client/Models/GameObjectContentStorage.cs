@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,12 +8,6 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Models
 {
-    internal enum CombatBackgroundObjectTextureType
-    {
-        Undefined,
-        Clouds,
-        Banner
-    }
 
     internal class GameObjectContentStorage
     {
@@ -35,7 +28,7 @@ namespace Rpg.Client.Models
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
 
-        private Dictionary<string, SoundEffect> _skillSoundDict;
+        private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -124,19 +117,16 @@ namespace Rpg.Client.Models
                 }
             };
 
-            _skillSoundDict = new Dictionary<string, SoundEffect>
+            _skillSoundDict = new Dictionary<GameObjectSoundType, SoundEffect>
             {
-                { "Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
-                { "Wide Slash", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
-                { "Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
-                { "Dope Herb", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
-                { "Periodic Heal", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
-                { "Mass Stun", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect") },
-                { "Strike", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
-                { "Arrow Rain", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
-                { "Power Up", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
+                { GameObjectSoundType.SwordSlash, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
+                { GameObjectSoundType.BowShot, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
+                { GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
+                { GameObjectSoundType.MagicDust, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
+                { GameObjectSoundType.EgyptianDarkMagic, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect") },
 
-                { "Wolf Bite", contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect") }
+                { GameObjectSoundType.WolfBite, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect") },
+                { GameObjectSoundType.SnakeBite, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect") }
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
@@ -249,14 +239,14 @@ namespace Rpg.Client.Models
             return _particlesTexture;
         }
 
-        internal SoundEffect GetSkillUsageSound(string sid)
+        internal SoundEffect GetSkillUsageSound(GameObjectSoundType soundType)
         {
-            if (_skillSoundDict.TryGetValue(sid, out var soundEffect))
+            if (_skillSoundDict.TryGetValue(soundType, out var soundEffect))
             {
                 return soundEffect;
             }
 
-            return _skillSoundDict["Wolf Bite"];
+            return _skillSoundDict[GameObjectSoundType.WolfBite];
         }
 
         internal Texture2D GetUnitPortrains()

@@ -7,13 +7,12 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DopeHerbSkill : SkillBase
     {
-        public DopeHerbSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support })
+        public DopeHerbSkill() : this(false)
         {
         }
 
         public DopeHerbSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support }, costRequired)
+            { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.MagicDust }, costRequired)
         {
         }
 

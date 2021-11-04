@@ -338,7 +338,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private SoundEffectInstance GetHitSound(ISkill skill)
         {
-            return _gameObjectContentStorage.GetSkillUsageSound(skill.Sid).CreateInstance();
+            return _gameObjectContentStorage.GetSkillUsageSound(skill.Visualization.SoundEffectType).CreateInstance();
         }
 
         private void HandleEngineStates(GameTime gameTime)

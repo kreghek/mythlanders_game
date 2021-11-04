@@ -21,14 +21,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill()
+                        new SwordSlashSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -36,7 +36,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
@@ -58,14 +58,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill()
+                        new SwordSlashSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -73,7 +73,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
@@ -95,14 +95,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill()
+                        new SwordSlashSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -110,7 +110,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
@@ -132,14 +132,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill()
+                        new SwordSlashSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -147,7 +147,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SlashSkill(),
+                        new SwordSlashSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
@@ -206,14 +206,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill()
+                        new BowShotSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill(),
+                        new BowShotSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -221,7 +221,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill(),
+                        new BowShotSkill(),
                         new DefenseSkill(true),
                         new ArrowRainSkill(true)
                     }
@@ -244,14 +244,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill()
+                        new BowShotSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill(),
+                        new BowShotSkill(),
                         new MassStunSkill(true)
                     }
                 },
@@ -259,9 +259,9 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new StrikeSkill(),
+                        new BowShotSkill(),
                         new MassStunSkill(true),
-                        new SlashSkill(true) // Finger of the Anubis
+                        new SwordSlashSkill(true) // Finger of the Anubis
                     }
                 }
             }
@@ -425,7 +425,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new StrikeSkill(),
+                                new BowShotSkill(),
                                 new ArrowRainSkill(),
                                 new PowerUpSkill()
                             }
@@ -695,7 +695,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new StrikeSkill(),
+                                new BowShotSkill(),
                                 new ArrowRainSkill(),
                                 new PowerUpSkill()
                             }
@@ -965,7 +965,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new StrikeSkill(),
+                                new BowShotSkill(),
                                 new ArrowRainSkill(),
                                 new PowerUpSkill()
                             }
@@ -1160,7 +1160,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill() // Bite
+                                new SnakeBiteSkill()
                             }
                         }
                     }
@@ -1182,7 +1182,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill() // Bite
+                                new WolfBiteSkill()
                             }
                         }
                     }
