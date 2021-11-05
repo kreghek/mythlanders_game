@@ -8,7 +8,6 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Models
 {
-
     internal class GameObjectContentStorage
     {
         private Effect _allWhiteEffect;
@@ -119,14 +118,32 @@ namespace Rpg.Client.Models
 
             _skillSoundDict = new Dictionary<GameObjectSoundType, SoundEffect>
             {
-                { GameObjectSoundType.SwordSlash, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect") },
-                { GameObjectSoundType.BowShot, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect") },
+                {
+                    GameObjectSoundType.SwordSlash,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect")
+                },
+                {
+                    GameObjectSoundType.BowShot,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
+                },
                 { GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
-                { GameObjectSoundType.MagicDust, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect") },
-                { GameObjectSoundType.EgyptianDarkMagic, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect") },
+                {
+                    GameObjectSoundType.MagicDust,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect")
+                },
+                {
+                    GameObjectSoundType.EgyptianDarkMagic,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect")
+                },
 
-                { GameObjectSoundType.WolfBite, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect") },
-                { GameObjectSoundType.SnakeBite, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect") }
+                {
+                    GameObjectSoundType.WolfBite,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect")
+                },
+                {
+                    GameObjectSoundType.SnakeBite,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
+                }
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>

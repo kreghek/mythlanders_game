@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
+using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
@@ -14,7 +15,7 @@ namespace Rpg.Client.Core.Skills
             new SkillVisualization
             {
                 Type = SkillVisualizationStateType.Support,
-                SoundEffectType = Models.GameObjectSoundType.Heal
+                SoundEffectType = GameObjectSoundType.Heal
             }, costRequired)
         {
         }

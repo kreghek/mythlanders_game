@@ -233,30 +233,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadNodes(Biome targetBiome, BiomeDto biomeDto)
-        {
-            if (biomeDto.Nodes is null)
-            {
-                Debug.Fail("The globe nodes must be defined in saved file.");
-                return;
-            }
-
-            foreach (var nodeDto in biomeDto.Nodes)
-            {
-                if (nodeDto is null)
-                {
-                    Debug.Fail("The node dto cannot be null.");
-                    continue;
-                }
-
-                var targetNode = targetBiome.Nodes.SingleOrDefault(x => x.Sid == nodeDto.Sid);
-                if (targetNode is not null)
-                {
-                    targetNode.IsAvailable = nodeDto.IsAvailable;
-                }
-            }
-        }
-
         private static void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
         {
             foreach (var eventItem in EventCatalog.Events)
@@ -278,6 +254,30 @@ namespace Rpg.Client.Core
 
                 var eventItem = EventCatalog.Events.Single(x => x.Title == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
+            }
+        }
+
+        private static void LoadNodes(Biome targetBiome, BiomeDto biomeDto)
+        {
+            if (biomeDto.Nodes is null)
+            {
+                Debug.Fail("The globe nodes must be defined in saved file.");
+                return;
+            }
+
+            foreach (var nodeDto in biomeDto.Nodes)
+            {
+                if (nodeDto is null)
+                {
+                    Debug.Fail("The node dto cannot be null.");
+                    continue;
+                }
+
+                var targetNode = targetBiome.Nodes.SingleOrDefault(x => x.Sid == nodeDto.Sid);
+                if (targetNode is not null)
+                {
+                    targetNode.IsAvailable = nodeDto.IsAvailable;
+                }
             }
         }
 
