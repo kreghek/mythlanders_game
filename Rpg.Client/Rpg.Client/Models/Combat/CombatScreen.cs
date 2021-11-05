@@ -541,10 +541,22 @@ namespace Rpg.Client.Models.Combat
         private void DrawUnitPanels(SpriteBatch spriteBatch)
         {
             var unitList = _activeCombat.Units.ToArray();
-            for (var index = 0; index < unitList.Length; index++)
+
+            var playerIndex = 0;
+            var monsterIndex = 0;
+
+            foreach (var combatUnit in unitList)
             {
-                var unit = unitList[index];
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), new Rectangle(0, index * 48, 128, 48), new Rectangle(0, 0, 128, 48), Color.White);
+                if (combatUnit.Unit.IsPlayerControlled)
+                {
+                    spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), new Rectangle(0, playerIndex * 48, 128, 48), new Rectangle(0, 0, 128, 48), Color.White);
+                    playerIndex++;
+                }
+                else
+                {
+                    spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), new Rectangle(Game.GraphicsDevice.Viewport.Width - 128, monsterIndex * 48, 128, 48), new Rectangle(0, 0, 128, 48), Color.White);
+                    monsterIndex++;
+                }
             }
         }
 
