@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
+using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
@@ -12,9 +13,9 @@ namespace Rpg.Client.Core.Skills
 
         public ArrowRainSkill(bool costRequired) : base(
             new SkillVisualization
-            { 
+            {
                 Type = SkillVisualizationStateType.MassRange,
-                SoundEffectType = Models.GameObjectSoundType.BowShot
+                SoundEffectType = GameObjectSoundType.BowShot
             }, costRequired)
         {
         }

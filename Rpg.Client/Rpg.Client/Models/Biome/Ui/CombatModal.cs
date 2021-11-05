@@ -173,7 +173,8 @@ namespace Rpg.Client.Models.Biome.Ui
 
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
-            var summaryXp = (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
+            var summaryXp =
+                (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
                 $"Xp Reward: {summaryXp}",

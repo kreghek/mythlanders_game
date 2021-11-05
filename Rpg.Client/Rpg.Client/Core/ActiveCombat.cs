@@ -160,7 +160,6 @@ namespace Rpg.Client.Core
                 }
 
                 index++;
-
             }
 
             index = 0;

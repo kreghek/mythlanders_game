@@ -12,10 +12,10 @@ namespace Rpg.Client.Core.Skills
         }
 
         public SwordSlashSkill(bool costRequired) : base(new SkillVisualization
-            {
-                Type = SkillVisualizationStateType.Melee,
-                SoundEffectType = GameObjectSoundType.SwordSlash
-            }, costRequired)
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.SwordSlash
+        }, costRequired)
         {
         }
 

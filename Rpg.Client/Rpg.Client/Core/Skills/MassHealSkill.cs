@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
+using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
@@ -11,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public MassHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.Heal }, costRequired)
+            { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.Heal }, costRequired)
         {
         }
 

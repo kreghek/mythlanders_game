@@ -54,7 +54,8 @@ namespace Rpg.Client.Models.Biome
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
 
-            _biome = _globe.CurrentBiome ?? throw new InvalidOperationException("The screen requires current biome is assigned.");
+            _biome = _globe.CurrentBiome ??
+                     throw new InvalidOperationException("The screen requires current biome is assigned.");
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -434,7 +435,8 @@ namespace Rpg.Client.Models.Biome
 
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
-            var summaryXp = (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
+            var summaryXp =
+                (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
                 $"{UiResource.XpRewardText}: {summaryXp}",
