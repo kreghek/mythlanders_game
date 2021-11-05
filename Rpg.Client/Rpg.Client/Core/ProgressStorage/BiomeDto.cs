@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.ProgressStorage
     }
 
     internal sealed record GlobeNodeDto
-    { 
+    {
         public GlobeNodeSid Sid { get; init; }
         public bool IsAvailable { get; init; }
     }

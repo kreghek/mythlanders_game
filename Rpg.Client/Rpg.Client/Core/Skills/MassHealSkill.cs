@@ -11,7 +11,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public MassHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.Heal }, costRequired)
+        { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.Heal }, costRequired)
         {
         }
 

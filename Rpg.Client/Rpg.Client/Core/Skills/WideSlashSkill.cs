@@ -11,7 +11,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = Models.GameObjectSoundType.SwordSlash }, costRequired)
+        { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = Models.GameObjectSoundType.SwordSlash }, costRequired)
         {
         }
 

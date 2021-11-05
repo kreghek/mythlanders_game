@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public DopeHerbSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.MagicDust }, costRequired)
+        { Type = SkillVisualizationStateType.Support, SoundEffectType = Models.GameObjectSoundType.MagicDust }, costRequired)
         {
         }
 

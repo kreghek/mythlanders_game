@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
 
         public ArrowRainSkill(bool costRequired) : base(
             new SkillVisualization
-            { 
+            {
                 Type = SkillVisualizationStateType.MassRange,
                 SoundEffectType = Models.GameObjectSoundType.BowShot
             }, costRequired)

@@ -249,7 +249,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var targetNode = targetBiome.Nodes.SingleOrDefault(x=>x.Sid == nodeDto.Sid);
+                var targetNode = targetBiome.Nodes.SingleOrDefault(x => x.Sid == nodeDto.Sid);
                 if (targetNode is not null)
                 {
                     targetNode.IsAvailable = nodeDto.IsAvailable;

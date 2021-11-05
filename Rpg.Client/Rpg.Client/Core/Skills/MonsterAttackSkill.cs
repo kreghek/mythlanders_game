@@ -7,12 +7,12 @@ namespace Rpg.Client.Core.Skills
     internal class MonsterAttackSkill : SkillBase
     {
         public MonsterAttackSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
+        { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
         {
         }
 
         public MonsterAttackSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, costRequired)
+        { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, costRequired)
         {
         }
 
@@ -47,8 +47,8 @@ namespace Rpg.Client.Core.Skills
     internal class WolfBiteSkill : MonsterAttackSkill
     {
         public WolfBiteSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
-        { 
+        { Type = SkillVisualizationStateType.Melee, SoundEffectType = Models.GameObjectSoundType.WolfBite }, false)
+        {
         }
     }
 
