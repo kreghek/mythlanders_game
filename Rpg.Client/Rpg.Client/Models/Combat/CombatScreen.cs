@@ -448,7 +448,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void DrawCombatRemains(SpriteBatch spriteBatch)
+        private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
             if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
             {
@@ -528,7 +528,7 @@ namespace Rpg.Client.Models.Combat
             try
             {
                 DrawUnitPanels(spriteBatch);
-                DrawCombatRemains(spriteBatch);
+                DrawCombatSequenceProgress(spriteBatch);
             }
             catch
             {
@@ -547,16 +547,25 @@ namespace Rpg.Client.Models.Combat
 
             foreach (var combatUnit in unitList)
             {
+                Rectangle panelPosition;
+
                 if (combatUnit.Unit.IsPlayerControlled)
                 {
-                    spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), new Rectangle(0, playerIndex * 48, 128, 48), new Rectangle(0, 0, 128, 48), Color.White);
+                    panelPosition = new Rectangle(0, playerIndex * 48, 128, 48);
                     playerIndex++;
                 }
                 else
                 {
-                    spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), new Rectangle(Game.GraphicsDevice.Viewport.Width - 128, monsterIndex * 48, 128, 48), new Rectangle(0, 0, 128, 48), Color.White);
+                    panelPosition = new Rectangle(Game.GraphicsDevice.Viewport.Width - 128, monsterIndex * 48, 128, 48);
                     monsterIndex++;
                 }
+
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48), Color.White);
+
+                var portrainSourceRect = UnsortedHelpers.GetUnitPortrainRect(combatUnit.Unit.UnitScheme.Name);
+                var portraintPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
+                var portraintDestRect = new Rectangle(portraintPosition.ToPoint(), new Point(32, 32));
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraintDestRect, portrainSourceRect, Color.White);
             }
         }
 
