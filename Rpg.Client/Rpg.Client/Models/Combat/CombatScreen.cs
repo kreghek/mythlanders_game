@@ -562,10 +562,18 @@ namespace Rpg.Client.Models.Combat
 
                 spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48), Color.White);
 
-                var portrainSourceRect = UnsortedHelpers.GetUnitPortrainRect(combatUnit.Unit.UnitScheme.Name);
-                var portraintPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
-                var portraintDestRect = new Rectangle(portraintPosition.ToPoint(), new Point(32, 32));
-                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraintDestRect, portrainSourceRect, Color.White);
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(combatUnit.Unit.UnitScheme.Name);
+                var portraitPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
+                var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect, Color.White);
+
+                var hpPosition = panelPosition.Location.ToVector2() + new Vector2(55, 20);
+                var hpDestRect = new Rectangle(hpPosition.ToPoint(), new Point(70, 10));
+                var hpPercentage = (float)combatUnit.Unit.Hp / combatUnit.Unit.MaxHp;
+                var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * 128), 10);
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect, Color.Lerp(Color.Transparent, Color.White, 0.75f));
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{combatUnit.Unit.Hp}/{combatUnit.Unit.MaxHp}", hpPosition, Color.Black);
             }
         }
 

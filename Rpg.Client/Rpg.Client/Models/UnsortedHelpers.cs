@@ -28,7 +28,7 @@ namespace Rpg.Client.Models
             }
         }
 
-        public static Rectangle GetUnitPortrainRect(UnitName speaker)
+        public static Rectangle GetUnitPortraitRect(UnitName speaker)
         {
             return speaker switch
             {

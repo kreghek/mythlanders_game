@@ -209,7 +209,7 @@ namespace Rpg.Client.Models.Event
                 var speakerNamePosition = rowPosition;
                 if (localizedSpeakerName is not null)
                 {
-                    var portrainSourceRect = UnsortedHelpers.GetUnitPortrainRect(fragment.Speaker);
+                    var portrainSourceRect = UnsortedHelpers.GetUnitPortraitRect(fragment.Speaker);
                     spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
                         rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
                     spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32,
