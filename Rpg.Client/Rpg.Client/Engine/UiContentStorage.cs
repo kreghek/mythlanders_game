@@ -77,13 +77,7 @@ namespace Rpg.Client.Engine
             };
             _battleTracks = new[]
             {
-                contentManager.Load<Song>("Audio/Background/Battle"),
-                contentManager.Load<Song>("Audio/Background/Battle2"),
-                contentManager.Load<Song>("Audio/Background/Battle3"),
-                contentManager.Load<Song>("Audio/Background/Battle4"),
-                contentManager.Load<Song>("Audio/Background/Battle5"),
-                contentManager.Load<Song>("Audio/Background/Battle6"),
-                contentManager.Load<Song>("Audio/Background/Battle7")
+                contentManager.Load<Song>("Audio/Background/Battle")
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
