@@ -39,7 +39,7 @@ namespace Rpg.Client.Models.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-        private readonly ActiveCombat _combat;
+        private readonly ActiveCombat _activeCombat;
         private readonly IDice _dice;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -67,11 +67,11 @@ namespace Rpg.Client.Models.Combat
 
             _globe = _globeProvider.Globe;
 
-            _combat = _globe.ActiveCombat ??
+            _activeCombat = _globe.ActiveCombat ??
                       throw new InvalidOperationException(
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
-            _globeNodeGameObject = _combat.Node;
+            _globeNodeGameObject = _activeCombat.Node;
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
@@ -120,7 +120,7 @@ namespace Rpg.Client.Models.Combat
 
                 HandleUnits(gameTime);
 
-                if (!_combat.Finished)
+                if (!_activeCombat.Finished)
                 {
                     HandleCombatHud();
                 }
@@ -171,7 +171,7 @@ namespace Rpg.Client.Models.Combat
                 unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
             }
 
-            _combat.Update();
+            _activeCombat.Update();
         }
 
         private static void ApplyXp(IEnumerable<XpAward> xpItems)
@@ -206,9 +206,9 @@ namespace Rpg.Client.Models.Combat
             if (e.Victory)
             {
                 var completedCombats = _globeNodeGameObject.GlobeNode.CombatSequence.CompletedCombats;
-                completedCombats.Add(_combat.Combat);
+                completedCombats.Add(_activeCombat.Combat);
 
-                var currentCombatList = _combat.Node.GlobeNode.CombatSequence.Combats.ToList();
+                var currentCombatList = _activeCombat.Node.GlobeNode.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleGainXp(completedCombats).ToArray();
@@ -285,19 +285,19 @@ namespace Rpg.Client.Models.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _activeCombat);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
-            _combat.UnitChanged += Combat_UnitChanged;
-            _combat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
-            _combat.CombatUnitEntered += ActiveCombat_UnitEntered;
-            _combat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
-            _combat.UnitDied += Combat_UnitDied;
-            _combat.ActionGenerated += Combat_ActionGenerated;
-            _combat.Finish += Combat_Finish;
-            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
-            _combat.UnitPassed += Combat_UnitPassed;
-            _combat.Initialize();
-            _combat.Update();
+            _activeCombat.UnitChanged += Combat_UnitChanged;
+            _activeCombat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            _activeCombat.CombatUnitEntered += ActiveCombat_UnitEntered;
+            _activeCombat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
+            _activeCombat.UnitDied += Combat_UnitDied;
+            _activeCombat.ActionGenerated += Combat_ActionGenerated;
+            _activeCombat.Finish += Combat_Finish;
+            _activeCombat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
+            _activeCombat.UnitPassed += Combat_UnitPassed;
+            _activeCombat.Initialize();
+            _activeCombat.Update();
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -315,18 +315,18 @@ namespace Rpg.Client.Models.Combat
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
                 var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
-                currentCombatList.Remove(_combat.Combat);
+                currentCombatList.Remove(_activeCombat.Combat);
                 _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;
 
-                if (_combat.Node.GlobeNode.CombatSequence.Combats.Any())
+                if (_activeCombat.Node.GlobeNode.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First();
                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
                         _globeNodeGameObject,
                         nextCombat,
-                        _combat.Biom,
+                        _activeCombat.Biom,
                         _dice,
-                        _combat.IsAutoplay);
+                        _activeCombat.IsAutoplay);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                 }
@@ -448,7 +448,7 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
-        private void DrawCombatRemains(SpriteBatch spriteBatch)
+        private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
             if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
             {
@@ -512,7 +512,7 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin();
 
-            if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (_activeCombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 if (_combatSkillsPanel is not null)
                 {
@@ -527,7 +527,8 @@ namespace Rpg.Client.Models.Combat
 
             try
             {
-                DrawCombatRemains(spriteBatch);
+                DrawUnitPanels(spriteBatch);
+                DrawCombatSequenceProgress(spriteBatch);
             }
             catch
             {
@@ -535,6 +536,37 @@ namespace Rpg.Client.Models.Combat
             }
 
             spriteBatch.End();
+        }
+
+        private void DrawUnitPanels(SpriteBatch spriteBatch)
+        {
+            var unitList = _activeCombat.Units.ToArray();
+
+            var playerIndex = 0;
+            var monsterIndex = 0;
+
+            foreach (var combatUnit in unitList)
+            {
+                Rectangle panelPosition;
+
+                if (combatUnit.Unit.IsPlayerControlled)
+                {
+                    panelPosition = new Rectangle(0, playerIndex * 48, 128, 48);
+                    playerIndex++;
+                }
+                else
+                {
+                    panelPosition = new Rectangle(Game.GraphicsDevice.Viewport.Width - 128, monsterIndex * 48, 128, 48);
+                    monsterIndex++;
+                }
+
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48), Color.White);
+
+                var portrainSourceRect = UnsortedHelpers.GetUnitPortrainRect(combatUnit.Unit.UnitScheme.Name);
+                var portraintPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
+                var portraintDestRect = new Rectangle(portraintPosition.ToPoint(), new Point(32, 32));
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraintDestRect, portrainSourceRect, Color.White);
+            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -626,7 +658,7 @@ namespace Rpg.Client.Models.Combat
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
-            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var aliveUnits = _activeCombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
@@ -664,7 +696,7 @@ namespace Rpg.Client.Models.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    _combat.Biom.Level++;
+                    _activeCombat.Biom.Level++;
 
                     var node = _globeNodeGameObject.GlobeNode;
                     var nodeIndex = node.Index;
@@ -683,12 +715,12 @@ namespace Rpg.Client.Models.Combat
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
-                    if (_combat.Combat.IsBossLevel)
+                    if (_activeCombat.Combat.IsBossLevel)
                     {
-                        _combat.Biom.IsComplete = true;
+                        _activeCombat.Biom.IsComplete = true;
                         _bossWasDefeat = true;
 
-                        if (_combat.Biom.IsFinal)
+                        if (_activeCombat.Biom.IsFinal)
                         {
                             _finalBossWasDefeat = true;
                         }
@@ -697,8 +729,8 @@ namespace Rpg.Client.Models.Combat
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _combat.Biom.Level - _combat.Biom.MinLevel;
-                    _combat.Biom.Level = Math.Max(levelDiff / 2, _combat.Biom.MinLevel);
+                    var levelDiff = _activeCombat.Biom.Level - _activeCombat.Biom.MinLevel;
+                    _activeCombat.Biom.Level = Math.Max(levelDiff / 2, _activeCombat.Biom.MinLevel);
 
                     break;
 
@@ -725,7 +757,7 @@ namespace Rpg.Client.Models.Combat
 
             interactButton.OnClick += (s, e) =>
             {
-                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
+                _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
             _hudButtons.Add(interactButton);
@@ -750,7 +782,7 @@ namespace Rpg.Client.Models.Combat
                 return;
             }
 
-            if (_combat.CurrentUnit is null)
+            if (_activeCombat.CurrentUnit is null)
             {
                 Debug.Fail("WTF!");
                 return;
@@ -759,13 +791,13 @@ namespace Rpg.Client.Models.Combat
             foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                    && target.CombatUnit.Unit.IsPlayerControlled == _combat.CurrentUnit.Unit.IsPlayerControlled)
+                    && target.CombatUnit.Unit.IsPlayerControlled == _activeCombat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }
 
                 if (skillCard.Skill.TargetType == SkillTargetType.Friendly
-                    && target.CombatUnit.Unit.IsPlayerControlled != _combat.CurrentUnit.Unit.IsPlayerControlled)
+                    && target.CombatUnit.Unit.IsPlayerControlled != _activeCombat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }

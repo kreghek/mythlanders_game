@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using Microsoft.Xna.Framework;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Models
@@ -24,6 +26,19 @@ namespace Rpg.Client.Models
                     Debug.Fail($"Unknown resource type {equipmentItemType}.");
                     return null;
             }
+        }
+
+        public static Rectangle GetUnitPortrainRect(UnitName speaker)
+        {
+            return speaker switch
+            {
+                UnitName.Hq => new Rectangle(0, 0, 32, 32),
+                UnitName.Berimir => new Rectangle(32, 0, 32, 32),
+                UnitName.Hawk => new Rectangle(0, 32, 32, 32),
+                UnitName.Oldman => new Rectangle(32, 32, 32, 32),
+                UnitName.GuardianWoman => new Rectangle(32, 64, 32, 32),
+                _ => Rectangle.Empty,
+            };
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Rpg.Client.Engine
 
         Texture2D[] GetModalTopTextures();
         Song GetTitleSong();
+        Texture2D GetUnitPanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
     }
