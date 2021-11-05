@@ -35,11 +35,11 @@ namespace Rpg.Client.Models.Combat
         };
 
         private static bool _tutorial;
+        private readonly ActiveCombat _activeCombat;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-        private readonly ActiveCombat _activeCombat;
         private readonly IDice _dice;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -68,8 +68,8 @@ namespace Rpg.Client.Models.Combat
             _globe = _globeProvider.Globe;
 
             _activeCombat = _globe.ActiveCombat ??
-                      throw new InvalidOperationException(
-                          nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+                            throw new InvalidOperationException(
+                                nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNodeGameObject = _activeCombat.Node;
 
@@ -560,20 +560,24 @@ namespace Rpg.Client.Models.Combat
                     monsterIndex++;
                 }
 
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48), Color.White);
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48),
+                    Color.White);
 
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(combatUnit.Unit.UnitScheme.Name);
                 var portraitPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
                 var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect, Color.White);
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
+                    Color.White);
 
                 var hpPosition = panelPosition.Location.ToVector2() + new Vector2(55, 20);
                 var hpDestRect = new Rectangle(hpPosition.ToPoint(), new Point(70, 10));
                 var hpPercentage = (float)combatUnit.Unit.Hp / combatUnit.Unit.MaxHp;
                 var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * 128), 10);
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect, Color.Lerp(Color.Transparent, Color.White, 0.75f));
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect,
+                    Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{combatUnit.Unit.Hp}/{combatUnit.Unit.MaxHp}", hpPosition, Color.Black);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{combatUnit.Unit.Hp}/{combatUnit.Unit.MaxHp}",
+                    hpPosition, Color.Black);
             }
         }
 

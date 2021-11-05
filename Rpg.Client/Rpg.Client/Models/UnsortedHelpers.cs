@@ -37,7 +37,7 @@ namespace Rpg.Client.Models
                 UnitName.Hawk => new Rectangle(0, 32, 32, 32),
                 UnitName.Oldman => new Rectangle(32, 32, 32, 32),
                 UnitName.GuardianWoman => new Rectangle(32, 64, 32, 32),
-                _ => Rectangle.Empty,
+                _ => Rectangle.Empty
             };
         }
     }

@@ -16,13 +16,13 @@ namespace Rpg.Client.Engine
         private Texture2D? _buttonTexture;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
-        private Texture2D _unitPanelTexture;
         private SpriteFont _font;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
         private Song _titleTrack;
+        private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
 
         public Texture2D GetButtonTexture()

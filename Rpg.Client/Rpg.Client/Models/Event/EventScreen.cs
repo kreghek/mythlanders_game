@@ -59,7 +59,8 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
 
             var _combat = _globe.ActiveCombat ??
-                          throw new InvalidOperationException($"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
+                          throw new InvalidOperationException(
+                              $"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
 
             _globeNodeGameObject = _combat.Node;
 
