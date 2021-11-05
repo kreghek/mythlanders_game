@@ -14,6 +14,8 @@ namespace Rpg.Client.Core
     {
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
+        private readonly IList<CombatUnit> _playerCombatUnits;
+        private readonly IList<CombatUnit> _monsterCombatUnits;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit? _currentUnit;
 

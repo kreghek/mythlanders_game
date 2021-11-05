@@ -16,6 +16,7 @@ namespace Rpg.Client.Engine
         private Texture2D? _buttonTexture;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
+        private Texture2D _unitPanelTexture;
         private SpriteFont _font;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
@@ -76,17 +77,13 @@ namespace Rpg.Client.Engine
             };
             _battleTracks = new[]
             {
-                contentManager.Load<Song>("Audio/Background/Battle"),
-                contentManager.Load<Song>("Audio/Background/Battle2"),
-                contentManager.Load<Song>("Audio/Background/Battle3"),
-                contentManager.Load<Song>("Audio/Background/Battle4"),
-                contentManager.Load<Song>("Audio/Background/Battle5"),
-                contentManager.Load<Song>("Audio/Background/Battle6"),
-                contentManager.Load<Song>("Audio/Background/Battle7")
+                contentManager.Load<Song>("Audio/Background/Battle")
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
             _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
+
+            _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)
@@ -97,6 +94,11 @@ namespace Rpg.Client.Engine
         public Song GetTitleSong()
         {
             return _titleTrack;
+        }
+
+        public Texture2D GetUnitPanelTexture()
+        {
+            return _unitPanelTexture;
         }
 
         public IEnumerable<Song> GetMapSong()

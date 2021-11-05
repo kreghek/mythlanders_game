@@ -59,8 +59,7 @@ namespace Rpg.Client.Models.Event
             _dialogContext = new EventContext(_globe);
 
             var _combat = _globe.ActiveCombat ??
-                          throw new InvalidOperationException(
-                              nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+                          throw new InvalidOperationException($"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
 
             _globeNodeGameObject = _combat.Node;
 
@@ -210,7 +209,7 @@ namespace Rpg.Client.Models.Event
                 var speakerNamePosition = rowPosition;
                 if (localizedSpeakerName is not null)
                 {
-                    var portrainSourceRect = GetUnitPortrainRect(fragment.Speaker);
+                    var portrainSourceRect = UnsortedHelpers.GetUnitPortraitRect(fragment.Speaker);
                     spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
                         rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
                     spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32,
@@ -278,30 +277,6 @@ namespace Rpg.Client.Models.Event
             }
 
             return speaker.ToString();
-        }
-
-        private static Rectangle GetUnitPortrainRect(UnitName speaker)
-        {
-            switch (speaker)
-            {
-                case UnitName.Hq:
-                    return new Rectangle(0, 0, 32, 32);
-
-                case UnitName.Berimir:
-                    return new Rectangle(32, 0, 32, 32);
-
-                case UnitName.Hawk:
-                    return new Rectangle(0, 32, 32, 32);
-
-                case UnitName.Oldman:
-                    return new Rectangle(32, 32, 32, 32);
-
-                case UnitName.GuardianWoman:
-                    return new Rectangle(32, 64, 32, 32);
-
-                default:
-                    return Rectangle.Empty;
-            }
         }
 
         private void InitEventControls()
