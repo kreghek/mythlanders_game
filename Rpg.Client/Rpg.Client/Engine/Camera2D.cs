@@ -75,14 +75,15 @@ namespace Rpg.Client.Engine
             }
         }
 
-        public Matrix GetViewTransformationMatrix()
+        public Matrix GetViewTransformationMatrix(Vector2? additionalPosition = null)
         {
             if (_isViewTransformationDirty)
             {
-                _camTranslationVector.X = -_position.X;
-                _camTranslationVector.Y = -_position.Y;
+                _camTranslationVector.X = -_position.X + additionalPosition.GetValueOrDefault().X;
+                _camTranslationVector.Y = -_position.Y + additionalPosition.GetValueOrDefault().Y;
 
                 Matrix.CreateTranslation(ref _camTranslationVector, out _camTranslationMatrix);
+
                 Matrix.CreateRotationZ(_rotation, out _camRotationMatrix);
 
                 _camScaleVector.X = _zoom;

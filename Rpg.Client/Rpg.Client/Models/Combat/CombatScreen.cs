@@ -42,6 +42,7 @@ namespace Rpg.Client.Models.Combat
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IDice _dice;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -65,6 +66,7 @@ namespace Rpg.Client.Models.Combat
             soundtrackManager.PlayBattleTrack();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
+            _camera = Game.Services.GetService<Camera2D>();
 
             _globe = _globeProvider.Globe;
 
@@ -95,6 +97,8 @@ namespace Rpg.Client.Models.Combat
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
+            _resolutionIndependentRenderer.BeginDraw();
+
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch);
@@ -425,9 +429,12 @@ namespace Rpg.Client.Models.Combat
                 var roundedX = (int)Math.Round(xFloat);
                 var position = new Vector2(roundedX, 0);
 
-                var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
-
-                spriteBatch.Begin(transformMatrix: matrix);
+                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix(position));
 
                 spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -495,7 +502,12 @@ namespace Rpg.Client.Models.Combat
 
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             DrawBullets(spriteBatch);
 
@@ -513,7 +525,12 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawHud(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             if (_activeCombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
@@ -663,10 +680,10 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var hudButton in _hudButtons)
             {
-                hudButton.Update();
+                hudButton.Update(_resolutionIndependentRenderer);
             }
 
-            _combatSkillsPanel?.Update();
+            _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)

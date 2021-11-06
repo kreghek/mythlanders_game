@@ -102,7 +102,7 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        internal void Update()
+        internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             if (!IsEnabled)
             {
@@ -112,12 +112,12 @@ namespace Rpg.Client.Models.Combat.Ui
             KeyboardInputUpdate();
 
             var mouse = Mouse.GetState();
-            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+            var mouseRect = new Rectangle(resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(), new Point(1, 1));
 
             _hoverButton = null;
             foreach (var button in _buttons)
             {
-                button.Update();
+                button.Update(resolutionIndependentRenderer);
 
                 var combatSkill = _buttonCombatPowerDict[button];
                 button.IsEnabled = combatSkill.IsAvailable;
