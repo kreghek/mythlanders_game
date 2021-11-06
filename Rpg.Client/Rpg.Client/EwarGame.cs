@@ -18,11 +18,27 @@ namespace Rpg.Client
 
         private SpriteBatch? _spriteBatch;
 
+        private ResolutionIndependentRenderer _resolutionIndependence;
+        private Camera2D _camera;
+
         public EwarGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependence.VirtualWidth = 800;
+            _resolutionIndependence.VirtualHeight = 480;
+            _resolutionIndependence.ScreenWidth = realScreenWidth;
+            _resolutionIndependence.ScreenHeight = realScreenHeight;
+            _resolutionIndependence.Initialize();
+
+            _camera.Zoom = 1f;
+            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2, _resolutionIndependence.VirtualHeight / 2);
+            _camera.RecalculateTransformationMatrices();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -47,6 +63,19 @@ namespace Rpg.Client
 
             var uiSoundStorage = Services.GetService<IUiSoundStorage>();
             UiThemeManager.SoundStorage = uiSoundStorage;
+
+            _resolutionIndependence = new ResolutionIndependentRenderer(this);
+            Services.AddService(_resolutionIndependence);
+
+            _camera = new Camera2D(_resolutionIndependence);
+            Services.AddService(_camera);
+
+            InitializeResolutionIndependence(1920, 1080);
+
+            _graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }

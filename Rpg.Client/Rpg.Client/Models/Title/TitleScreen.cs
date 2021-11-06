@@ -22,20 +22,26 @@ namespace Rpg.Client.Models.Title
         private readonly IList<ButtonBase> _buttons;
 
         private readonly GlobeProvider _globeProvider;
+        private readonly Camera2D _camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
 
         public TitleScreen(EwarGame game)
             : base(game)
         {
             _globeProvider = Game.Services.GetService<GlobeProvider>();
+
+            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
 #if DEBUG
-            if (_globeProvider.ChoisedUserMonitorResolution == null)
-            {
-                var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
-                graphicsManager.IsFullScreen = false;
-                graphicsManager.PreferredBackBufferWidth = 800;
-                graphicsManager.PreferredBackBufferHeight = 480;
-                graphicsManager.ApplyChanges();
-            }
+            //if (_globeProvider.ChoisedUserMonitorResolution == null)
+            //{
+            //    var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
+            //    graphicsManager.IsFullScreen = false;
+            //    graphicsManager.PreferredBackBufferWidth = 800;
+            //    graphicsManager.PreferredBackBufferHeight = 480;
+            //    graphicsManager.ApplyChanges();
+            //}
 #endif
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
@@ -73,13 +79,15 @@ namespace Rpg.Client.Models.Title
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            _resolutionIndependenceRenderer.BeginDraw();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone,
+    null, _camera.GetViewTransformationMatrix());
 
             var index = 0;
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    Game.GraphicsDevice.Viewport.Bounds.Center.X - BUTTON_WIDTH / 2,
+                    (_resolutionIndependenceRenderer.VirtualWidth - BUTTON_WIDTH) / 2,
                     150 + index * 50,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
