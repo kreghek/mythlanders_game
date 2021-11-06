@@ -103,7 +103,7 @@ namespace Rpg.Client.Models.Title
         {
             foreach (var button in _buttons)
             {
-                button.Update();
+                button.Update(_resolutionIndependenceRenderer);
             }
         }
 

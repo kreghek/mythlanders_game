@@ -60,7 +60,7 @@ namespace Rpg.Client.Engine
             DrawContent(spriteBatch, contentRect, color);
         }
 
-        public void Update()
+        public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer = null)
         {
             if (!IsEnabled)
             {
@@ -68,7 +68,7 @@ namespace Rpg.Client.Engine
             }
 
             var mouseState = Mouse.GetState();
-            if (CheckMouseOver())
+            if (CheckMouseOver(resolutionIndependentRenderer))
             {
                 if (_buttonState == UiButtonState.Hover && mouseState.LeftButton == ButtonState.Pressed)
                 {
@@ -107,14 +107,24 @@ namespace Rpg.Client.Engine
             // Used only by children.
         }
 
-        private bool CheckMouseOver()
+        private bool CheckMouseOver(ResolutionIndependentRenderer? resolutionIndependentRenderer)
         {
             var mouseState = Mouse.GetState();
             var mousePosition = mouseState.Position;
 
-            var mouseRect = new Rectangle(mousePosition.X, mousePosition.Y, 1, 1);
+            if (resolutionIndependentRenderer is null)
+            {
+                var mouseRect = new Rectangle(mousePosition.X, mousePosition.Y, 1, 1);
 
-            return Rect.Intersects(mouseRect);
+                return Rect.Intersects(mouseRect);
+            }
+            else
+            {
+                var rirPosition = resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition.ToVector2());
+                var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
+
+                return Rect.Intersects(mouseRect);
+            }
         }
 
         private static void PlayClickSoundIfExists()
