@@ -38,7 +38,8 @@ namespace Rpg.Client.Models.Biome
 
         private readonly Random _random;
         private readonly IUiContentStorage _uiContentStorage;
-
+        private readonly Camera2D _camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
@@ -46,6 +47,9 @@ namespace Rpg.Client.Models.Biome
 
         public BiomeScreen(EwarGame game) : base(game)
         {
+            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             _random = new Random();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -108,7 +112,15 @@ namespace Rpg.Client.Models.Biome
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            _resolutionIndependenceRenderer.BeginDraw();
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
             spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
             spriteBatch.End();
 
@@ -127,8 +139,10 @@ namespace Rpg.Client.Models.Biome
             if (!_tutorial)
             {
                 _tutorial = true;
-                var tutorialModal = new TutorialModal(new BiomeTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    Game.GraphicsDevice);
+                var tutorialModal = new TutorialModal(
+                    new BiomeTutorialPageDrawer(_uiContentStorage),
+                    _uiContentStorage,
+                    _resolutionIndependenceRenderer);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -145,7 +159,7 @@ namespace Rpg.Client.Models.Biome
                     {
                         if (node.IsAvailable)
                         {
-                            var centerNodePosition = Game.GraphicsDevice.Viewport.Bounds.Center.ToVector2();
+                            var centerNodePosition = _resolutionIndependenceRenderer.VirtualBounds.Center.ToVector2();
                             var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3,
                                 centerNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
@@ -245,7 +259,7 @@ namespace Rpg.Client.Models.Biome
                                 }
                             };
 
-                            var combatModal = new CombatModal(context, _uiContentStorage, Game.GraphicsDevice);
+                            var combatModal = new CombatModal(context, _uiContentStorage, _resolutionIndependenceRenderer);
                             AddModal(combatModal, isLate: false);
                         }
                     }
@@ -317,7 +331,14 @@ namespace Rpg.Client.Models.Biome
 
         private void DrawHud(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
+
             var buttonIndex = 0;
             foreach (var button in _menuButtons)
             {
@@ -348,7 +369,6 @@ namespace Rpg.Client.Models.Biome
             var node = nodeGameObject;
 
             var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
-            ;
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
                 toolTipPosition + new Vector2(5, 15),
@@ -386,7 +406,13 @@ namespace Rpg.Client.Models.Biome
                 }
             }
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             foreach (var location in _locationObjectList)
             {
@@ -451,9 +477,10 @@ namespace Rpg.Client.Models.Biome
             _isNodeModelsCreated = false;
         }
 
-        private static bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
+        private bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
         {
-            return (mouseRect.Location.ToVector2() - node.Position).Length() <= 16;
+            var mouseRectRir = _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseRect.Location.ToVector2());
+            return (mouseRectRir - node.Position).Length() <= 16;
         }
 
         private void UpdateClouds(GameTime gameTime)

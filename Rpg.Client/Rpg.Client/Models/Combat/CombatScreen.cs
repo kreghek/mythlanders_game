@@ -41,6 +41,7 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IDice _dice;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -82,6 +83,8 @@ namespace Rpg.Client.Models.Combat
             _animationManager = game.Services.GetService<AnimationManager>();
             _dice = Game.Services.GetService<IDice>();
 
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNodeGameObject.GlobeNode.Sid);
@@ -103,7 +106,7 @@ namespace Rpg.Client.Models.Combat
             {
                 _tutorial = true;
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
-                    _uiContentStorage, Game.GraphicsDevice);
+                    _uiContentStorage, _resolutionIndependentRenderer);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -219,13 +222,13 @@ namespace Rpg.Client.Models.Combat
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                     soundtrackManager.PlayVictoryTrack();
 
-                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems);
                 }
                 else
                 {
-                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>());
                 }
@@ -237,7 +240,7 @@ namespace Rpg.Client.Models.Combat
 
                 HandleGlobe(CombatResult.Defeat);
 
-                combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
+                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer, CombatResult.Defeat,
                     Array.Empty<XpAward>());
             }
 

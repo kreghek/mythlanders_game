@@ -30,7 +30,7 @@ namespace Rpg.Client
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
         {
-            _resolutionIndependence.VirtualWidth = 800;
+            _resolutionIndependence.VirtualWidth = 848;
             _resolutionIndependence.VirtualHeight = 480;
             _resolutionIndependence.ScreenWidth = realScreenWidth;
             _resolutionIndependence.ScreenHeight = realScreenHeight;
@@ -70,11 +70,16 @@ namespace Rpg.Client
             _camera = new Camera2D(_resolutionIndependence);
             Services.AddService(_camera);
 
-            InitializeResolutionIndependence(1920, 1080);
+            const int WIDTH = 1920;
+            const int HEIGHT = 1080;
+            //const int WIDTH = 1920;
+            //const int HEIGHT = 1080;
+
+            InitializeResolutionIndependence(WIDTH, HEIGHT);
 
             _graphics.IsFullScreen = true;
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = WIDTH;
+            _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
 
             base.Initialize();

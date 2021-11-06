@@ -33,6 +33,7 @@ namespace Rpg.Client.Models.Event
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private Texture2D _backgroundTexture;
         private float _bgCenterOffsetPercentage;
         private EventNode _currentDialogNode;
@@ -49,6 +50,8 @@ namespace Rpg.Client.Models.Event
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+
+            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
             _currentDialogNode = _globe.CurrentEventNode ??
                                  throw new InvalidOperationException(
@@ -95,7 +98,7 @@ namespace Rpg.Client.Models.Event
                 _tutorial = true;
 
                 var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    Game.GraphicsDevice);
+                    _resolutionIndependentRenderer);
                 AddModal(tutorialModal, isLate: false);
             }
 

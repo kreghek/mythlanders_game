@@ -40,6 +40,8 @@ namespace Rpg.Client.Engine
             _dirtyMatrix = true;
         }
 
+        public Rectangle VirtualBounds => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
+
         public void SetupFullViewport()
         {
             var vp = new Viewport();

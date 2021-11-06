@@ -21,9 +21,9 @@ namespace Rpg.Client.Models.Combat.Ui
 
         private IEnumerable<XpItem> _xpItems;
 
-        public CombatResultModal(IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice,
+        public CombatResultModal(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            IEnumerable<XpAward> xpItems) : base(uiContentStorage, graphicsDevice)
+            IEnumerable<XpAward> xpItems) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             CombatResult = combatResult;
@@ -65,9 +65,9 @@ namespace Rpg.Client.Models.Combat.Ui
             _xpItems = _sourceXpItems.Select(x => new XpItem(x)).ToArray();
         }
 
-        protected override void UpdateContent(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
-            base.UpdateContent(gameTime);
+            base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
             if (_xpItems is null)
             {
@@ -86,7 +86,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 _iterationCounter = 0;
             }
 
-            _closeButton.Update();
+            _closeButton.Update(resolutionIndependenceRenderer);
         }
 
         private void CloseButton_OnClick(object? sender, EventArgs e)

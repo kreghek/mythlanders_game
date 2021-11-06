@@ -80,8 +80,13 @@ namespace Rpg.Client.Models.Title
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             _resolutionIndependenceRenderer.BeginDraw();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone,
-    null, _camera.GetViewTransformationMatrix());
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             var index = 0;
             foreach (var button in _buttons)
