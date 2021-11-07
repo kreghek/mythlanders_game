@@ -45,20 +45,4 @@ namespace Rpg.Client.Core.Skills
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
     }
-
-    internal class WolfBiteSkill : MonsterAttackSkill
-    {
-        public WolfBiteSkill() : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, false)
-        {
-        }
-    }
-
-    internal class SnakeBiteSkill : MonsterAttackSkill
-    {
-        public SnakeBiteSkill() : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.SnakeBite }, false)
-        {
-        }
-    }
 }

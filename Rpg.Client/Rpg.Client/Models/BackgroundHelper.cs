@@ -8,7 +8,7 @@ namespace Rpg.Client.Models
         {
             return regularTheme switch
             {
-                GlobeNodeSid.Thicket => BackgroundType.SlavicDarkThiket,
+                GlobeNodeSid.Thicket => BackgroundType.SlavicDarkThicket,
                 GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
                 GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
                 _ => BackgroundType.SlavicBattleground

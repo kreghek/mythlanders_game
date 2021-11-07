@@ -1204,7 +1204,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill() // Bite
+                                new WolfBiteSkill() // Bite
                             }
                         }
                     }
@@ -1247,7 +1247,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new WideSlashSkill()
+                                new VolkolakClawsSkill()
                             }
                         }
                     }
