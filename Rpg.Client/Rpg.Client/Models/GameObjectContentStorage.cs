@@ -76,16 +76,16 @@ namespace Rpg.Client.Models
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
             {
                 {
-                    BackgroundType.SlavicDarkThiket, new Texture2D[]
+                    BackgroundType.SlavicDarkThicket, new Texture2D[]
                     {
                         contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thinket/CloudsLayer"),
+                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/CloudsLayer"),
                         contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thinket/FarLayer"),
+                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/FarLayer"),
                         contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thinket/MainLayer"),
+                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/MainLayer"),
                         contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thinket/ClosestLayer")
+                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/ClosestLayer")
                     }
                 },
 
