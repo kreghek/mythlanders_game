@@ -17,10 +17,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-
+        private readonly Camera2D _camera;
         private readonly UnitGraphics _graphics;
 
-        public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage, Camera2D camera)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
@@ -29,6 +29,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             CombatUnit = unit;
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
+            _camera = camera;
         }
 
         public CombatUnit CombatUnit { get; }
@@ -83,20 +84,36 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, effect: allWhite);
+                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix(),
+                effect: allWhite);
             }
             else
             {
                 spriteBatch.End();
 
-                spriteBatch.Begin();
+                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
             }
 
             _graphics.Draw(spriteBatch);
 
             spriteBatch.End();
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.LinearWrap,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             var color = CombatUnit.Unit.IsDead ? Color.Gray : Color.White;
 
