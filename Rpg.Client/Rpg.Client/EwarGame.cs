@@ -74,8 +74,8 @@ namespace Rpg.Client
             const int WIDTH = 848;
             const int HEIGHT = 480;
 #else
-            const int WIDTH = 1920;
-            const int HEIGHT = 1080;
+            var WIDTH = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            var HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 #endif
 
             InitializeResolutionIndependence(WIDTH, HEIGHT);
