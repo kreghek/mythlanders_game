@@ -16,11 +16,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
     internal class UnitGameObject : EwarDrawableComponentBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Camera2D _camera;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
 
-        public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage, Camera2D camera)
+        public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
+            Camera2D camera)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
@@ -85,23 +86,23 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 spriteBatch.End();
 
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix(),
-                effect: allWhite);
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: _camera.GetViewTransformationMatrix(),
+                    effect: allWhite);
             }
             else
             {
                 spriteBatch.End();
 
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: _camera.GetViewTransformationMatrix());
             }
 
             _graphics.Draw(spriteBatch);

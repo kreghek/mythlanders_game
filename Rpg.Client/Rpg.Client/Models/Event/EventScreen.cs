@@ -32,15 +32,15 @@ namespace Rpg.Client.Models.Event
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _globeNodeGameObject;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
         private Texture2D _backgroundTexture;
         private float _bgCenterOffsetPercentage;
+
+        private readonly Camera2D _camera;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
-
-        private Camera2D _camera;
 
         public EventScreen(EwarGame game) : base(game)
         {
@@ -136,7 +136,7 @@ namespace Rpg.Client.Models.Event
                 worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                    * Matrix.CreateScale(scaleVector);
+                             * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(
                     sortMode: SpriteSortMode.Deferred,
@@ -175,7 +175,7 @@ namespace Rpg.Client.Models.Event
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                * Matrix.CreateScale(scaleVector);
+                         * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,

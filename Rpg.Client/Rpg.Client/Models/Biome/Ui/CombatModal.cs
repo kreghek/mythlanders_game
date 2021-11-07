@@ -27,7 +27,9 @@ namespace Rpg.Client.Models.Biome.Ui
         private readonly GlobeNodeGameObject _nodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage, resolutionIndependentRenderer)
+        public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+            resolutionIndependentRenderer)
         {
             _globe = context.Globe;
             _nodeGameObject = context.SelectedNodeGameObject;
@@ -124,7 +126,8 @@ namespace Rpg.Client.Models.Biome.Ui
             }
         }
 
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

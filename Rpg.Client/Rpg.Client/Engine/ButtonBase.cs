@@ -120,7 +120,8 @@ namespace Rpg.Client.Engine
             }
             else
             {
-                var rirPosition = resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition.ToVector2());
+                var rirPosition =
+                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition.ToVector2());
                 var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
 
                 return Rect.Intersects(mouseRect);

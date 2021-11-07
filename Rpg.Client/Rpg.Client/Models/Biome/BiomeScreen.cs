@@ -26,6 +26,7 @@ namespace Rpg.Client.Models.Biome
         private readonly Texture2D _backgroundTexture;
 
         private readonly Core.Biome _biome;
+        private readonly Camera2D _camera;
 
         private readonly Cloud[] _clouds;
         private readonly IDice _dice;
@@ -37,9 +38,8 @@ namespace Rpg.Client.Models.Biome
         private readonly ButtonBase[] _menuButtons;
 
         private readonly Random _random;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly Camera2D _camera;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
@@ -259,7 +259,8 @@ namespace Rpg.Client.Models.Biome
                                 }
                             };
 
-                            var combatModal = new CombatModal(context, _uiContentStorage, _resolutionIndependenceRenderer);
+                            var combatModal = new CombatModal(context, _uiContentStorage,
+                                _resolutionIndependenceRenderer);
                             AddModal(combatModal, isLate: false);
                         }
                     }
@@ -479,7 +480,8 @@ namespace Rpg.Client.Models.Biome
 
         private bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
         {
-            var mouseRectRir = _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseRect.Location.ToVector2());
+            var mouseRectRir =
+                _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseRect.Location.ToVector2());
             return (mouseRectRir - node.Position).Length() <= 16;
         }
 

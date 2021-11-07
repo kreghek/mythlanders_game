@@ -9,7 +9,8 @@ namespace Rpg.Client.Models.Common
         private readonly TutorialPageDrawerBase _pageDrawer;
 
         public TutorialModal(TutorialPageDrawerBase pageDrawer, IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage, resolutionIndependentRenderer)
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+            resolutionIndependentRenderer)
         {
             _pageDrawer = pageDrawer;
         }

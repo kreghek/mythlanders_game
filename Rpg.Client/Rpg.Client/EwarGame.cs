@@ -14,31 +14,18 @@ namespace Rpg.Client
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+        private Camera2D _camera;
+
+        private ResolutionIndependentRenderer _resolutionIndependence;
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
-
-        private ResolutionIndependentRenderer _resolutionIndependence;
-        private Camera2D _camera;
 
         public EwarGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-        }
-
-        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
-        {
-            _resolutionIndependence.VirtualWidth = 848;
-            _resolutionIndependence.VirtualHeight = 480;
-            _resolutionIndependence.ScreenWidth = realScreenWidth;
-            _resolutionIndependence.ScreenHeight = realScreenHeight;
-            _resolutionIndependence.Initialize();
-
-            _camera.Zoom = 1f;
-            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2, _resolutionIndependence.VirtualHeight / 2);
-            _camera.RecalculateTransformationMatrices();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -144,6 +131,20 @@ namespace Rpg.Client
 
             var trackNameDisplay = new TrackNameDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(trackNameDisplay);
+        }
+
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependence.VirtualWidth = 848;
+            _resolutionIndependence.VirtualHeight = 480;
+            _resolutionIndependence.ScreenWidth = realScreenWidth;
+            _resolutionIndependence.ScreenHeight = realScreenHeight;
+            _resolutionIndependence.Initialize();
+
+            _camera.Zoom = 1f;
+            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2,
+                _resolutionIndependence.VirtualHeight / 2);
+            _camera.RecalculateTransformationMatrices();
         }
 
         private void RegisterServices(ScreenManager screenManager)
