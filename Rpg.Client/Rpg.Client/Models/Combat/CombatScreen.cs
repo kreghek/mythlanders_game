@@ -441,7 +441,7 @@ namespace Rpg.Client.Models.Combat
                 spriteBatch.Begin(
                     sortMode: SpriteSortMode.Deferred,
                     blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.LinearWrap,
+                    samplerState: SamplerState.PointClamp,
                     depthStencilState: DepthStencilState.None,
                     rasterizerState: RasterizerState.CullNone,
                     transformMatrix: matrix);
@@ -498,7 +498,7 @@ namespace Rpg.Client.Models.Combat
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.LinearWrap,
+                samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
@@ -526,7 +526,7 @@ namespace Rpg.Client.Models.Combat
 
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.LinearWrap,
+                samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
@@ -549,7 +549,7 @@ namespace Rpg.Client.Models.Combat
         {
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.LinearWrap,
+                samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
