@@ -268,7 +268,7 @@ namespace Rpg.Client.Models.Biome
 
             foreach (var button in _menuButtons)
             {
-                button.Update();
+                button.Update(_resolutionIndependenceRenderer);
             }
         }
 

@@ -70,14 +70,22 @@ namespace Rpg.Client
             _camera = new Camera2D(_resolutionIndependence);
             Services.AddService(_camera);
 
+#if DEBUG
+            const int WIDTH = 848;
+            const int HEIGHT = 480;
+#else
             const int WIDTH = 1920;
             const int HEIGHT = 1080;
-            //const int WIDTH = 1920;
-            //const int HEIGHT = 1080;
+#endif
 
             InitializeResolutionIndependence(WIDTH, HEIGHT);
 
+#if DEBUG
+            _graphics.IsFullScreen = false;
+#else
             _graphics.IsFullScreen = true;
+#endif
+
             _graphics.PreferredBackBufferWidth = WIDTH;
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
