@@ -33,22 +33,29 @@ namespace Rpg.Client.Models.Event
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private Texture2D _backgroundTexture;
         private float _bgCenterOffsetPercentage;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
 
+        private Camera2D _camera;
+
         public EventScreen(EwarGame game) : base(game)
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayMapTrack();
+
+            _camera = Game.Services.GetService<Camera2D>();
 
             _globe = game.Services.GetService<GlobeProvider>().Globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+
+            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
             _currentDialogNode = _globe.CurrentEventNode ??
                                  throw new InvalidOperationException(
@@ -95,7 +102,7 @@ namespace Rpg.Client.Models.Event
                 _tutorial = true;
 
                 var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    Game.GraphicsDevice);
+                    _resolutionIndependentRenderer);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -123,9 +130,21 @@ namespace Rpg.Client.Models.Event
                 var roundedX = (int)Math.Round(xFloat);
                 var position = new Vector2(roundedX, 0);
 
-                var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
+                var position3d = new Vector3(position, 0);
 
-                spriteBatch.Begin(transformMatrix: matrix);
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                    * Matrix.CreateScale(scaleVector);
+
+                spriteBatch.Begin(
+                    sortMode: SpriteSortMode.Deferred,
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: matrix);
 
                 spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -149,9 +168,22 @@ namespace Rpg.Client.Models.Event
             var roundedX = (int)Math.Round(xFloat);
 
             var position = new Vector2(roundedX, 0);
-            var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
 
-            spriteBatch.Begin(transformMatrix: matrix);
+            var position3d = new Vector3(position, 0);
+
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+            var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                * Matrix.CreateScale(scaleVector);
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: matrix);
 
             spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
 
@@ -176,7 +208,12 @@ namespace Rpg.Client.Models.Event
 
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
             spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds,
                 Color.Lerp(Color.Transparent, Color.Black, 0.5f));
             spriteBatch.End();
@@ -186,12 +223,18 @@ namespace Rpg.Client.Models.Event
         {
             var font = _uiContentStorage.GetMainFont();
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             var textRect = new Rectangle(0, 0, 400, 350);
             var textContentRect = new Rectangle(
-                Game.GraphicsDevice.Viewport.Bounds.Center.X - textRect.Center.X,
-                Game.GraphicsDevice.Viewport.Bounds.Center.Y - textRect.Center.Y,
+                _resolutionIndependentRenderer.VirtualBounds.Center.X - textRect.Center.X,
+                _resolutionIndependentRenderer.VirtualBounds.Center.Y - textRect.Center.Y,
                 textRect.Width,
                 textRect.Height);
 
@@ -336,7 +379,7 @@ namespace Rpg.Client.Models.Event
         {
             foreach (var button in _buttons)
             {
-                button.Update();
+                button.Update(_resolutionIndependentRenderer);
             }
         }
     }

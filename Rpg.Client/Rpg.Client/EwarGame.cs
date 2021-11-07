@@ -18,11 +18,27 @@ namespace Rpg.Client
 
         private SpriteBatch? _spriteBatch;
 
+        private ResolutionIndependentRenderer _resolutionIndependence;
+        private Camera2D _camera;
+
         public EwarGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+        }
+
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependence.VirtualWidth = 848;
+            _resolutionIndependence.VirtualHeight = 480;
+            _resolutionIndependence.ScreenWidth = realScreenWidth;
+            _resolutionIndependence.ScreenHeight = realScreenHeight;
+            _resolutionIndependence.Initialize();
+
+            _camera.Zoom = 1f;
+            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2, _resolutionIndependence.VirtualHeight / 2);
+            _camera.RecalculateTransformationMatrices();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -47,6 +63,32 @@ namespace Rpg.Client
 
             var uiSoundStorage = Services.GetService<IUiSoundStorage>();
             UiThemeManager.SoundStorage = uiSoundStorage;
+
+            _resolutionIndependence = new ResolutionIndependentRenderer(this);
+            Services.AddService(_resolutionIndependence);
+
+            _camera = new Camera2D(_resolutionIndependence);
+            Services.AddService(_camera);
+
+#if DEBUG
+            const int WIDTH = 848;
+            const int HEIGHT = 480;
+#else
+            var WIDTH = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            var HEIGHT = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+#endif
+
+            InitializeResolutionIndependence(WIDTH, HEIGHT);
+
+#if DEBUG
+            _graphics.IsFullScreen = false;
+#else
+            _graphics.IsFullScreen = true;
+#endif
+
+            _graphics.PreferredBackBufferWidth = WIDTH;
+            _graphics.PreferredBackBufferHeight = HEIGHT;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }

@@ -27,12 +27,7 @@ namespace Rpg.Client.Models.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        private static readonly Vector2[] _unitPredefinedPositions =
-        {
-            new Vector2(300, 300),
-            new Vector2(200, 250),
-            new Vector2(200, 350)
-        };
+        private Vector2[] _unitPredefinedPositions;        
 
         private static bool _tutorial;
         private readonly ActiveCombat _activeCombat;
@@ -41,6 +36,8 @@ namespace Rpg.Client.Models.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IDice _dice;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -64,6 +61,7 @@ namespace Rpg.Client.Models.Combat
             soundtrackManager.PlayBattleTrack();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
+            _camera = Game.Services.GetService<Camera2D>();
 
             _globe = _globeProvider.Globe;
 
@@ -82,16 +80,26 @@ namespace Rpg.Client.Models.Combat
             _animationManager = game.Services.GetService<AnimationManager>();
             _dice = Game.Services.GetService<IDice>();
 
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNodeGameObject.GlobeNode.Sid);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
+
+            _unitPredefinedPositions = new[]{
+                new Vector2(300, 300),
+                new Vector2(200, 250),
+                new Vector2(200, 350)
+            };
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
+            _resolutionIndependentRenderer.BeginDraw();
+
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch);
@@ -103,7 +111,7 @@ namespace Rpg.Client.Models.Combat
             {
                 _tutorial = true;
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
-                    _uiContentStorage, Game.GraphicsDevice);
+                    _uiContentStorage, _resolutionIndependentRenderer);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -140,7 +148,7 @@ namespace Rpg.Client.Models.Combat
         private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage);
+            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.Healed += CombatUnit_Healed;
@@ -219,13 +227,13 @@ namespace Rpg.Client.Models.Combat
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                     soundtrackManager.PlayVictoryTrack();
 
-                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems);
                 }
                 else
                 {
-                    combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice,
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>());
                 }
@@ -237,7 +245,7 @@ namespace Rpg.Client.Models.Combat
 
                 HandleGlobe(CombatResult.Defeat);
 
-                combatResultModal = new CombatResultModal(_uiContentStorage, Game.GraphicsDevice, CombatResult.Defeat,
+                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer, CombatResult.Defeat,
                     Array.Empty<XpAward>());
             }
 
@@ -285,7 +293,7 @@ namespace Rpg.Client.Models.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _activeCombat);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _activeCombat, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _activeCombat.UnitChanged += Combat_UnitChanged;
             _activeCombat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
@@ -420,11 +428,23 @@ namespace Rpg.Client.Models.Combat
                 var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
                     BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
                 var roundedX = (int)Math.Round(xFloat);
+                
                 var position = new Vector2(roundedX, 0);
+                var position3d = new Vector3(position, 0);
 
-                var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
-                spriteBatch.Begin(transformMatrix: matrix);
+                var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                    * Matrix.CreateScale(scaleVector);
+
+                spriteBatch.Begin(
+                    sortMode: SpriteSortMode.Deferred,
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: matrix);
 
                 spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
 
@@ -467,9 +487,21 @@ namespace Rpg.Client.Models.Combat
             var roundedX = (int)Math.Round(xFloat);
 
             var position = new Vector2(roundedX, 0);
-            var matrix = Matrix.CreateTranslation(position.X, position.Y, 0);
+            var position3d = new Vector3(position, 0);
 
-            spriteBatch.Begin(transformMatrix: matrix);
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+            var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                *Matrix.CreateScale(scaleVector);
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: matrix);
 
             spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
 
@@ -492,7 +524,12 @@ namespace Rpg.Client.Models.Combat
 
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             DrawBullets(spriteBatch);
 
@@ -510,13 +547,18 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawHud(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             if (_activeCombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 if (_combatSkillsPanel is not null)
                 {
-                    _combatSkillsPanel.Draw(spriteBatch, Game.GraphicsDevice);
+                    _combatSkillsPanel.Draw(spriteBatch);
                 }
 
                 foreach (var button in _hudButtons)
@@ -624,7 +666,7 @@ namespace Rpg.Client.Models.Combat
             }
             else
             {
-                var width = Game.GraphicsDevice.Viewport.Width;
+                var width = _resolutionIndependentRenderer.VirtualWidth;
                 // Move from right edge.
                 var xMirror = width - predefinedPosition.X;
                 calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
@@ -636,8 +678,9 @@ namespace Rpg.Client.Models.Combat
         private void HandleBackgrounds()
         {
             var mouse = Mouse.GetState();
-            var screenCenterX = Game.GraphicsDevice.Viewport.Bounds.Center.X;
-            var rawPercentage = ((float)mouse.X - screenCenterX) / screenCenterX;
+            var mouseRir = _resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
+            var screenCenterX = _resolutionIndependentRenderer.VirtualBounds.Center.X;
+            var rawPercentage = (mouseRir.X - screenCenterX) / screenCenterX;
             _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
         }
 
@@ -660,10 +703,10 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var hudButton in _hudButtons)
             {
-                hudButton.Update();
+                hudButton.Update(_resolutionIndependentRenderer);
             }
 
-            _combatSkillsPanel?.Update();
+            _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
         private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)

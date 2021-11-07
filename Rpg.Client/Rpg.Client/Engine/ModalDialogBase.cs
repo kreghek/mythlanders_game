@@ -20,21 +20,21 @@ namespace Rpg.Client.Engine
         private readonly Texture2D _backgroundTopTexture;
         private readonly TextButton _closeButton;
         private readonly Rectangle _dialogRect;
-        private readonly GraphicsDevice _graphicsDevice;
         private readonly Texture2D _shadowTexture;
-
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         public EventHandler? Closed;
 
-        protected ModalDialogBase(IUiContentStorage uiContentStorage, GraphicsDevice graphicsDevice)
+        protected ModalDialogBase(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
+
             _shadowTexture = uiContentStorage.GetModalShadowTexture();
-            _graphicsDevice = graphicsDevice;
             _backgroundTopTexture = uiContentStorage.GetModalTopTextures()[0];
             _backgroundBottomTexture = uiContentStorage.GetModalBottomTextures()[0];
 
             _dialogRect = new Rectangle(
-                (graphicsDevice.Viewport.Width / 2) - (MODAL_WIDTH / 2),
-                (graphicsDevice.Viewport.Height / 2) - (MODAL_HEIGHT / 2),
+                (_resolutionIndependentRenderer.VirtualWidth / 2) - (MODAL_WIDTH / 2),
+                (_resolutionIndependentRenderer.VirtualHeight / 2) - (MODAL_HEIGHT / 2),
                 MODAL_WIDTH,
                 MODAL_HEIGHT);
 
@@ -59,7 +59,7 @@ namespace Rpg.Client.Engine
             // Empty implementation to avoid empty implementation in every concrete class.
         }
 
-        protected virtual void UpdateContent(GameTime gameTime)
+        protected virtual void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             // Empty implementation to avoid empty implementation in every concrete class.
         }
@@ -80,7 +80,7 @@ namespace Rpg.Client.Engine
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_shadowTexture,
-                new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height),
+                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth, _resolutionIndependentRenderer.VirtualHeight),
                 Color.White * 0.5f);
 
             const int MODAL_HALF_HEIGHT = MODAL_HEIGHT / 2;
@@ -101,7 +101,7 @@ namespace Rpg.Client.Engine
             IsVisible = true;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             // Poll for current keyboard state
             var state = Keyboard.GetState();
@@ -112,9 +112,9 @@ namespace Rpg.Client.Engine
                 Close();
             }
 
-            UpdateContent(gameTime);
+            UpdateContent(gameTime, resolutionIndependenceRenderer);
 
-            _closeButton.Update();
+            _closeButton.Update(resolutionIndependenceRenderer);
         }
     }
 }
