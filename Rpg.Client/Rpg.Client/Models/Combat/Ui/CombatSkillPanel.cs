@@ -20,6 +20,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private KeyboardState _currentKeyboardState;
 
         private ButtonBase? _hoverButton;
@@ -27,9 +28,10 @@ namespace Rpg.Client.Models.Combat.Ui
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat)
+        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat, ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             Combat = combat;
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _buttons = new List<ButtonBase>();
             _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
 
@@ -78,7 +80,7 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        internal void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+        internal void Draw(SpriteBatch spriteBatch)
         {
             if (!IsEnabled)
             {
@@ -89,7 +91,7 @@ namespace Rpg.Client.Models.Combat.Ui
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = GetButtonRectangle(graphicsDevice, panelWidth, buttonIndex);
+                button.Rect = GetButtonRectangle(_resolutionIndependentRenderer, panelWidth, buttonIndex);
                 button.Draw(spriteBatch);
 
                 var hotKey = (buttonIndex + 1).ToString();
@@ -102,7 +104,7 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        internal void Update()
+        internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             if (!IsEnabled)
             {
@@ -112,12 +114,12 @@ namespace Rpg.Client.Models.Combat.Ui
             KeyboardInputUpdate();
 
             var mouse = Mouse.GetState();
-            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+            var mouseRect = new Rectangle(resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(), new Point(1, 1));
 
             _hoverButton = null;
             foreach (var button in _buttons)
             {
-                button.Update();
+                button.Update(resolutionIndependentRenderer);
 
                 var combatSkill = _buttonCombatPowerDict[button];
                 button.IsEnabled = combatSkill.IsAvailable;
@@ -211,14 +213,14 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private static Rectangle GetButtonRectangle(GraphicsDevice graphicsDevice, int panelWidth, int buttonIndex)
+        private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer, int panelWidth, int buttonIndex)
         {
             var panelMiddleX = panelWidth / 2;
             var buttonOffsetX = SKILL_BUTTON_SIZE * buttonIndex;
-            var panelLeftX = graphicsDevice.Viewport.Bounds.Center.X - panelMiddleX;
+            var panelLeftX = resolutionIndependentRenderer.VirtualBounds.Center.X - panelMiddleX;
 
             return new Rectangle(panelLeftX + buttonOffsetX,
-                graphicsDevice.Viewport.Bounds.Bottom - SKILL_BUTTON_SIZE,
+                resolutionIndependentRenderer.VirtualBounds.Bottom - SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE);
         }

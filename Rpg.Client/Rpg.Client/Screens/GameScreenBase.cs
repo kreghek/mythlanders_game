@@ -21,11 +21,17 @@ namespace Rpg.Client.Screens
 
             ScreenManager = game.Services.GetService<IScreenManager>();
 
+            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             _modals = new List<IModalWindow>();
         }
 
         public EwarGame Game { get; }
         public IScreenManager ScreenManager { get; }
+
+        private readonly Camera2D _camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
 
         protected void AddModal(IModalWindow modal, bool isLate)
         {
@@ -55,7 +61,7 @@ namespace Rpg.Client.Screens
             {
                 if (modal.IsVisible)
                 {
-                    modal.Update(gameTime);
+                    modal.Update(gameTime, _resolutionIndependenceRenderer);
                     break;
                 }
             }
@@ -63,7 +69,13 @@ namespace Rpg.Client.Screens
 
         private void DrawModals(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             foreach (var modal in _modals)
             {
