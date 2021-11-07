@@ -27,7 +27,7 @@ namespace Rpg.Client.Models.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        private Vector2[] _unitPredefinedPositions;        
+        private Vector2[] _unitPredefinedPositions;
 
         private static bool _tutorial;
         private readonly ActiveCombat _activeCombat;
@@ -428,7 +428,7 @@ namespace Rpg.Client.Models.Combat
                 var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
                     BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
                 var roundedX = (int)Math.Round(xFloat);
-                
+
                 var position = new Vector2(roundedX, 0);
                 var position3d = new Vector3(position, 0);
 
@@ -493,7 +493,7 @@ namespace Rpg.Client.Models.Combat
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                *Matrix.CreateScale(scaleVector);
+                * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
