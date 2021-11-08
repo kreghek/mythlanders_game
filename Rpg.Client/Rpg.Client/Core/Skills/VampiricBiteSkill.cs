@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public VampiricBiteSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, costRequired)
+        { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, costRequired)
         {
         }
 
