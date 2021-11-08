@@ -97,40 +97,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aspid" xml:space="preserve">
+    <value>Aspid</value>
+  </data>
   <data name="Berimir" xml:space="preserve">
     <value>Berimir</value>
-  </data>
-  <data name="Hawk" xml:space="preserve">
-    <value>Hawk</value>
-  </data>
-  <data name="Rada" xml:space="preserve">
-    <value>Rada</value>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Grey wolf</value>
   </data>
-  <data name="Hq" xml:space="preserve">
-    <value>HQ</value>
-  </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
   </data>
+  <data name="Hawk" xml:space="preserve">
+    <value>Hawk</value>
+  </data>
+  <data name="Hq" xml:space="preserve">
+    <value>HQ</value>
+  </data>
+  <data name="Mines" xml:space="preserve">
+    <value>The Mines</value>
+    <comment>Location</comment>
+  </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
-  </data>
-  <data name="Aspid" xml:space="preserve">
-    <value>Aspid</value>
-  </data>
-  <data name="Thicket" xml:space="preserve">
-    <value>The Thicket</value>
-    <comment>Location</comment>
   </data>
   <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
     <comment>Location</comment>
   </data>
-  <data name="Mines" xml:space="preserve">
-    <value>The Mines</value>
+  <data name="Rada" xml:space="preserve">
+    <value>Rada</value>
+  </data>
+  <data name="Thicket" xml:space="preserve">
+    <value>The Thicket</value>
     <comment>Location</comment>
+  </data>
+  <data name="Wisp" xml:space="preserve">
+    <value>Will-o-Wisp</value>
   </data>
 </root>

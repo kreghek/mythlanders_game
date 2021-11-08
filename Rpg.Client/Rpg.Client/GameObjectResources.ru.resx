@@ -117,37 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aspid" xml:space="preserve">
+    <value>Аспид</value>
+  </data>
   <data name="Berimir" xml:space="preserve">
     <value>Беримир</value>
-  </data>
-  <data name="Hawk" xml:space="preserve">
-    <value>Сокол</value>
-  </data>
-  <data name="Rada" xml:space="preserve">
-    <value>Рада</value>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
   </data>
+  <data name="GuardianWoman" xml:space="preserve">
+    <value>Стражница</value>
+  </data>
+  <data name="Hawk" xml:space="preserve">
+    <value>Сокол</value>
+  </data>
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
   </data>
-  <data name="GuardianWoman" xml:space="preserve">
-    <value>Стражница</value>
+  <data name="Mines" xml:space="preserve">
+    <value>Рудники</value>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Старик</value>
   </data>
-  <data name="Aspid" xml:space="preserve">
-    <value>Аспид</value>
+  <data name="Pit" xml:space="preserve">
+    <value>Яма</value>
+  </data>
+  <data name="Rada" xml:space="preserve">
+    <value>Рада</value>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>
   </data>
-  <data name="Pit" xml:space="preserve">
-    <value>Яма</value>
-  </data>
-  <data name="Mines" xml:space="preserve">
-    <value>Рудники</value>
+  <data name="Wisp" xml:space="preserve">
+    <value>Блуждающий огонёк</value>
   </data>
 </root>
