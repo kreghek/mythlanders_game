@@ -703,6 +703,7 @@ namespace Rpg.Client.Models.Combat
 
         private void HandleCombatHud()
         {
+            _interactButtonClicked = false;
             foreach (var hudButton in _hudButtons)
             {
                 hudButton.Update(_resolutionIndependentRenderer);
@@ -804,6 +805,8 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+
+        private bool _interactButtonClicked = false;
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
             var interactButton = new UnitButton(
@@ -814,7 +817,11 @@ namespace Rpg.Client.Models.Combat
 
             interactButton.OnClick += (s, e) =>
             {
-                _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                if (!_interactButtonClicked)
+                {
+                    _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                    _interactButtonClicked = true;
+                }
             };
 
             _hudButtons.Add(interactButton);
@@ -832,6 +839,7 @@ namespace Rpg.Client.Models.Combat
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)
         {
+            _interactButtonClicked = false;
             _hudButtons.Clear();
 
             if (skillCard is null)
