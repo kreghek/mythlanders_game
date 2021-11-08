@@ -26,6 +26,8 @@ namespace Rpg.Client.Models.Event
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
 
+        private readonly Camera2D _camera;
+
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -36,8 +38,6 @@ namespace Rpg.Client.Models.Event
         private readonly IUiContentStorage _uiContentStorage;
         private Texture2D _backgroundTexture;
         private float _bgCenterOffsetPercentage;
-
-        private readonly Camera2D _camera;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
