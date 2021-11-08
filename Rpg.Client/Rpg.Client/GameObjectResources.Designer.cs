@@ -158,5 +158,14 @@ namespace Rpg.Client {
                 return ResourceManager.GetString("Thicket", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Will-o-Wisp.
+        /// </summary>
+        internal static string Wisp {
+            get {
+                return ResourceManager.GetString("Wisp", resourceCulture);
+            }
+        }
     }
 }

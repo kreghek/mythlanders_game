@@ -308,6 +308,8 @@ namespace Rpg.Client.Models.Combat
             _activeCombat.UnitPassed += Combat_UnitPassed;
             _activeCombat.Initialize();
             _activeCombat.Update();
+
+            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _activeCombat, _uiContentStorage, _gameObjectContentStorage);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -571,7 +573,11 @@ namespace Rpg.Client.Models.Combat
 
             try
             {
-                DrawUnitPanels(spriteBatch);
+                if (_unitPanelController is not null)
+                {
+                    _unitPanelController.Draw(spriteBatch);
+                }
+
                 DrawCombatSequenceProgress(spriteBatch);
             }
             catch
@@ -580,49 +586,6 @@ namespace Rpg.Client.Models.Combat
             }
 
             spriteBatch.End();
-        }
-
-        private void DrawUnitPanels(SpriteBatch spriteBatch)
-        {
-            var unitList = _activeCombat.Units.ToArray();
-
-            var playerIndex = 0;
-            var monsterIndex = 0;
-
-            foreach (var combatUnit in unitList)
-            {
-                Rectangle panelPosition;
-
-                if (combatUnit.Unit.IsPlayerControlled)
-                {
-                    panelPosition = new Rectangle(0, playerIndex * 48, 128, 48);
-                    playerIndex++;
-                }
-                else
-                {
-                    panelPosition = new Rectangle(Game.GraphicsDevice.Viewport.Width - 128, monsterIndex * 48, 128, 48);
-                    monsterIndex++;
-                }
-
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48),
-                    Color.White);
-
-                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(combatUnit.Unit.UnitScheme.Name);
-                var portraitPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
-                var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
-                    Color.White);
-
-                var hpPosition = panelPosition.Location.ToVector2() + new Vector2(55, 20);
-                var hpDestRect = new Rectangle(hpPosition.ToPoint(), new Point(70, 10));
-                var hpPercentage = (float)combatUnit.Unit.Hp / combatUnit.Unit.MaxHp;
-                var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * 128), 10);
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect,
-                    Color.Lerp(Color.Transparent, Color.White, 0.75f));
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{combatUnit.Unit.Hp}/{combatUnit.Unit.MaxHp}",
-                    hpPosition, Color.Black);
-            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -703,6 +666,7 @@ namespace Rpg.Client.Models.Combat
 
         private void HandleCombatHud()
         {
+            _interactButtonClicked = false;
             foreach (var hudButton in _hudButtons)
             {
                 hudButton.Update(_resolutionIndependentRenderer);
@@ -804,6 +768,10 @@ namespace Rpg.Client.Models.Combat
             }
         }
 
+
+        private bool _interactButtonClicked = false;
+        private UnitPanelController? _unitPanelController;
+
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {
             var interactButton = new UnitButton(
@@ -814,7 +782,11 @@ namespace Rpg.Client.Models.Combat
 
             interactButton.OnClick += (s, e) =>
             {
-                _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                if (!_interactButtonClicked)
+                {
+                    _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                    _interactButtonClicked = true;
+                }
             };
 
             _hudButtons.Add(interactButton);
@@ -832,6 +804,7 @@ namespace Rpg.Client.Models.Combat
 
         private void RefreshHudButtons(CombatSkillCard? skillCard)
         {
+            _interactButtonClicked = false;
             _hudButtons.Clear();
 
             if (skillCard is null)
