@@ -14,6 +14,9 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal sealed class UnitPanelController
     {
+        private const int PANEL_WIDTH = 128;
+        private const int PANEL_HEIGHT = 48;
+        private const int BAR_WIDTH = 70;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ActiveCombat _activeCombat;
         private readonly IUiContentStorage _uiContentStorage;
@@ -42,35 +45,52 @@ namespace Rpg.Client.Models.Combat.Ui
             {
                 Rectangle panelPosition;
 
-                if (combatUnit.Unit.IsPlayerControlled)
+                var unit = combatUnit.Unit;
+
+                if (unit.IsPlayerControlled)
                 {
-                    panelPosition = new Rectangle(0, playerIndex * 48, 128, 48);
+                    panelPosition = new Rectangle(0, playerIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
                     playerIndex++;
                 }
                 else
                 {
-                    panelPosition = new Rectangle(_resolutionIndependentRenderer.VirtualWidth - 128, monsterIndex * 48, 128, 48);
+                    panelPosition = new Rectangle(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH, monsterIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
                     monsterIndex++;
                 }
 
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, 128, 48),
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
                     Color.White);
 
-                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(combatUnit.Unit.UnitScheme.Name);
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
                 var portraitPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
                 var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
                     Color.White);
 
+                var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
+                var unitNamePosition = panelPosition.Location.ToVector2() + new Vector2(55, 0);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+
                 var hpPosition = panelPosition.Location.ToVector2() + new Vector2(55, 20);
-                var hpDestRect = new Rectangle(hpPosition.ToPoint(), new Point(70, 10));
-                var hpPercentage = (float)combatUnit.Unit.Hp / combatUnit.Unit.MaxHp;
-                var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * 128), 10);
+                var hpPercentage = (float)unit.Hp / unit.MaxHp;
+                var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * BAR_WIDTH), 11);
                 spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect,
                     Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{combatUnit.Unit.Hp}/{combatUnit.Unit.MaxHp}",
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.Hp}/{unit.MaxHp}",
                     hpPosition, Color.Black);
+
+                if (unit.IsPlayerControlled && unit.HasSkillsWithCost)
+                {
+                    var manaPosition = panelPosition.Location.ToVector2() + new Vector2(55, 40);
+                    var manaPercentage = (float)unit.ManaPool / unit.ManaPoolSize;
+                    var manaSourceRect = new Rectangle(0, 62, (int)(manaPercentage * BAR_WIDTH), 11);
+                    spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), manaPosition, manaSourceRect,
+                        Color.Lerp(Color.Transparent, Color.White, 0.75f));
+
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ManaPool}/{unit.ManaPoolSize}",
+                        manaPosition, Color.Black);
+                }
             }
         }
     }

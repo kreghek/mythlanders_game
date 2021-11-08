@@ -37,8 +37,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         public bool IsActive { get; set; }
 
-        public bool ShowStats { get; private set; }
-
         public void AnimateDeath()
         {
             var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name)
@@ -59,9 +57,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             HandleEngineStates(gameTime);
 
             _graphics.Update(gameTime);
-
-            var keyboard = Keyboard.GetState();
-            ShowStats = keyboard.IsKeyDown(Keys.LeftAlt);
         }
 
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
@@ -115,28 +110,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-
-            var color = CombatUnit.Unit.IsDead ? Color.Gray : Color.White;
-
-            var unitName = CombatUnit.Unit.UnitScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            spriteBatch.DrawString(_gameObjectContentStorage.GetFont(), name,
-                _graphics.Root.Position - new Vector2(0, 100), color);
-
-            if (ShowStats)
-            {
-                spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
-                    $"{CombatUnit.Unit.Hp}/{CombatUnit.Unit.MaxHp} HP",
-                    _graphics.Root.Position - new Vector2(0, 80), color);
-
-                if (CombatUnit.Unit.IsPlayerControlled && CombatUnit.Unit.HasSkillsWithCost)
-                {
-                    spriteBatch.DrawString(_gameObjectContentStorage.GetFont(),
-                        $"{CombatUnit.Unit.ManaPool}/{CombatUnit.Unit.ManaPoolSize} Mana",
-                        _graphics.Root.Position - new Vector2(0, 70), color);
-                }
-            }
         }
 
         internal void AddStateEngine(IUnitStateEngine actorStateEngine)
