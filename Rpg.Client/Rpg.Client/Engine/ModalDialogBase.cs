@@ -20,11 +20,12 @@ namespace Rpg.Client.Engine
         private readonly Texture2D _backgroundTopTexture;
         private readonly TextButton _closeButton;
         private readonly Rectangle _dialogRect;
-        private readonly Texture2D _shadowTexture;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Texture2D _shadowTexture;
         public EventHandler? Closed;
 
-        protected ModalDialogBase(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer)
+        protected ModalDialogBase(IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
 
@@ -59,7 +60,8 @@ namespace Rpg.Client.Engine
             // Empty implementation to avoid empty implementation in every concrete class.
         }
 
-        protected virtual void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected virtual void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             // Empty implementation to avoid empty implementation in every concrete class.
         }
@@ -80,7 +82,8 @@ namespace Rpg.Client.Engine
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_shadowTexture,
-                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth, _resolutionIndependentRenderer.VirtualHeight),
+                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth,
+                    _resolutionIndependentRenderer.VirtualHeight),
                 Color.White * 0.5f);
 
             const int MODAL_HALF_HEIGHT = MODAL_HEIGHT / 2;

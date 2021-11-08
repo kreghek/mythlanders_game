@@ -27,17 +27,14 @@ namespace Rpg.Client.Models.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        private Vector2[] _unitPredefinedPositions;
-
         private static bool _tutorial;
         private readonly ActiveCombat _activeCombat;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
+        private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IDice _dice;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-        private readonly Camera2D _camera;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -45,6 +42,7 @@ namespace Rpg.Client.Models.Combat
         private readonly GlobeNodeGameObject _globeNodeGameObject;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
         private float _bgCenterOffsetPercentage;
@@ -54,6 +52,8 @@ namespace Rpg.Client.Models.Combat
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
+
+        private readonly Vector2[] _unitPredefinedPositions;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -89,7 +89,8 @@ namespace Rpg.Client.Models.Combat
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
 
-            _unitPredefinedPositions = new[]{
+            _unitPredefinedPositions = new[]
+            {
                 new Vector2(300, 300),
                 new Vector2(200, 250),
                 new Vector2(200, 350)
@@ -245,7 +246,8 @@ namespace Rpg.Client.Models.Combat
 
                 HandleGlobe(CombatResult.Defeat);
 
-                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer, CombatResult.Defeat,
+                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                    CombatResult.Defeat,
                     Array.Empty<XpAward>());
             }
 
@@ -436,7 +438,7 @@ namespace Rpg.Client.Models.Combat
                 worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                    * Matrix.CreateScale(scaleVector);
+                             * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(
                     sortMode: SpriteSortMode.Deferred,
@@ -493,7 +495,7 @@ namespace Rpg.Client.Models.Combat
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                * Matrix.CreateScale(scaleVector);
+                         * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,

@@ -19,8 +19,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
         private KeyboardState _currentKeyboardState;
 
         private ButtonBase? _hoverButton;
@@ -28,7 +28,8 @@ namespace Rpg.Client.Models.Combat.Ui
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat, ResolutionIndependentRenderer resolutionIndependentRenderer)
+        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat,
+            ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             Combat = combat;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -114,7 +115,10 @@ namespace Rpg.Client.Models.Combat.Ui
             KeyboardInputUpdate();
 
             var mouse = Mouse.GetState();
-            var mouseRect = new Rectangle(resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(), new Point(1, 1));
+            var mouseRect =
+                new Rectangle(
+                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
+                    new Point(1, 1));
 
             _hoverButton = null;
             foreach (var button in _buttons)
@@ -213,7 +217,8 @@ namespace Rpg.Client.Models.Combat.Ui
             }
         }
 
-        private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer, int panelWidth, int buttonIndex)
+        private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer,
+            int panelWidth, int buttonIndex)
         {
             var panelMiddleX = panelWidth / 2;
             var buttonOffsetX = SKILL_BUTTON_SIZE * buttonIndex;

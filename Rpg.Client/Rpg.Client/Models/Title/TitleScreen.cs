@@ -18,9 +18,9 @@ namespace Rpg.Client.Models.Title
         private const int BUTTON_WIDTH = 100;
 
         private readonly IList<ButtonBase> _buttons;
+        private readonly Camera2D _camera;
 
         private readonly GlobeProvider _globeProvider;
-        private readonly Camera2D _camera;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
 
         public TitleScreen(EwarGame game)

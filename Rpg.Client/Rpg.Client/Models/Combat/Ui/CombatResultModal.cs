@@ -21,7 +21,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
         private IEnumerable<XpItem> _xpItems;
 
-        public CombatResultModal(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer,
+        public CombatResultModal(IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
             IEnumerable<XpAward> xpItems) : base(uiContentStorage, resolutionIndependentRenderer)
         {
@@ -65,7 +66,8 @@ namespace Rpg.Client.Models.Combat.Ui
             _xpItems = _sourceXpItems.Select(x => new XpItem(x)).ToArray();
         }
 
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

@@ -5,13 +5,24 @@ namespace Rpg.Client.Engine
 {
     internal class ResolutionIndependentRenderer
     {
+        private static Matrix _scaleMatrix;
         private readonly Game _game;
-        private Viewport _viewport;
+        private bool _dirtyMatrix = true;
         private float _ratioX;
         private float _ratioY;
+        private Viewport _viewport;
         private Vector2 _virtualMousePosition = new Vector2();
 
         public Color BackgroundColor = Color.Black;
+
+        public bool RenderingToScreenIsFinished;
+        public int ScreenHeight;
+
+        public int ScreenWidth;
+
+        public int VirtualHeight;
+
+        public int VirtualWidth;
 
         public ResolutionIndependentRenderer(Game game)
         {
@@ -23,34 +34,7 @@ namespace Rpg.Client.Engine
             ScreenHeight = 768;
         }
 
-        public int VirtualHeight;
-
-        public int VirtualWidth;
-
-        public int ScreenWidth;
-        public int ScreenHeight;
-
-        public void Initialize()
-        {
-            SetupVirtualScreenViewport();
-
-            _ratioX = (float)_viewport.Width / VirtualWidth;
-            _ratioY = (float)_viewport.Height / VirtualHeight;
-
-            _dirtyMatrix = true;
-        }
-
         public Rectangle VirtualBounds => new Rectangle(0, 0, VirtualWidth, VirtualHeight);
-
-        public void SetupFullViewport()
-        {
-            var vp = new Viewport();
-            vp.X = vp.Y = 0;
-            vp.Width = ScreenWidth;
-            vp.Height = ScreenHeight;
-            _game.GraphicsDevice.Viewport = vp;
-            _dirtyMatrix = true;
-        }
 
         public void BeginDraw()
         {
@@ -65,22 +49,24 @@ namespace Rpg.Client.Engine
             // the clear color on the rest
         }
 
-        public bool RenderingToScreenIsFinished;
-        private static Matrix _scaleMatrix;
-        private bool _dirtyMatrix = true;
-
         public Matrix GetTransformationMatrix()
         {
             if (_dirtyMatrix)
+            {
                 RecreateScaleMatrix();
+            }
 
             return _scaleMatrix;
         }
 
-        private void RecreateScaleMatrix()
+        public void Initialize()
         {
-            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f, out _scaleMatrix);
-            _dirtyMatrix = false;
+            SetupVirtualScreenViewport();
+
+            _ratioX = (float)_viewport.Width / VirtualWidth;
+            _ratioY = (float)_viewport.Height / VirtualHeight;
+
+            _dirtyMatrix = true;
         }
 
         public Vector2 ScaleMouseToScreenCoordinates(Vector2 screenPosition)
@@ -92,6 +78,16 @@ namespace Rpg.Client.Engine
             _virtualMousePosition.Y = realY / _ratioY;
 
             return _virtualMousePosition;
+        }
+
+        public void SetupFullViewport()
+        {
+            var vp = new Viewport();
+            vp.X = vp.Y = 0;
+            vp.Width = ScreenWidth;
+            vp.Height = ScreenHeight;
+            _game.GraphicsDevice.Viewport = vp;
+            _dirtyMatrix = true;
         }
 
         public void SetupVirtualScreenViewport()
@@ -118,6 +114,13 @@ namespace Rpg.Client.Engine
             };
 
             _game.GraphicsDevice.Viewport = _viewport;
+        }
+
+        private void RecreateScaleMatrix()
+        {
+            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f,
+                out _scaleMatrix);
+            _dirtyMatrix = false;
         }
     }
 }

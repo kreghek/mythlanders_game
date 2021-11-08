@@ -4,20 +4,20 @@ namespace Rpg.Client.Engine
 {
     internal class Camera2D
     {
-        private float _zoom;
-        private float _rotation;
-        private Vector2 _position;
-        private Matrix _transform = Matrix.Identity;
-        private bool _isViewTransformationDirty = true;
-        private Matrix _camTranslationMatrix = Matrix.Identity;
         private Matrix _camRotationMatrix = Matrix.Identity;
         private Matrix _camScaleMatrix = Matrix.Identity;
+        private Vector3 _camScaleVector = Vector3.Zero;
+        private Matrix _camTranslationMatrix = Matrix.Identity;
+        private Vector3 _camTranslationVector = Vector3.Zero;
+        private bool _isViewTransformationDirty = true;
+        private Vector2 _position;
         private Matrix _resTranslationMatrix = Matrix.Identity;
+        private Vector3 _resTranslationVector = Vector3.Zero;
+        private float _rotation;
+        private Matrix _transform = Matrix.Identity;
+        private float _zoom;
 
         protected ResolutionIndependentRenderer ResolutionIndependentRenderer;
-        private Vector3 _camTranslationVector = Vector3.Zero;
-        private Vector3 _camScaleVector = Vector3.Zero;
-        private Vector3 _resTranslationVector = Vector3.Zero;
 
         public Camera2D(ResolutionIndependentRenderer resolutionIndependence)
         {
@@ -30,7 +30,7 @@ namespace Rpg.Client.Engine
 
         public Vector2 Position
         {
-            get { return _position; }
+            get => _position;
             set
             {
                 _position = value;
@@ -38,19 +38,19 @@ namespace Rpg.Client.Engine
             }
         }
 
-        public void Move(Vector2 amount)
+        public float Rotation
         {
-            Position += amount;
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Position = position;
+            get => _rotation;
+            set
+            {
+                _rotation = value;
+                _isViewTransformationDirty = true;
+            }
         }
 
         public float Zoom
         {
-            get { return _zoom; }
+            get => _zoom;
             set
             {
                 _zoom = value;
@@ -58,19 +58,7 @@ namespace Rpg.Client.Engine
                 {
                     _zoom = 0.1f;
                 }
-                _isViewTransformationDirty = true;
-            }
-        }
 
-        public float Rotation
-        {
-            get
-            {
-                return _rotation;
-            }
-            set
-            {
-                _rotation = value;
                 _isViewTransformationDirty = true;
             }
         }
@@ -110,9 +98,19 @@ namespace Rpg.Client.Engine
             return _transform;
         }
 
+        public void Move(Vector2 amount)
+        {
+            Position += amount;
+        }
+
         public void RecalculateTransformationMatrices()
         {
             _isViewTransformationDirty = true;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            Position = position;
         }
     }
 }
