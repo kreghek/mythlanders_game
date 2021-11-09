@@ -9,7 +9,6 @@
         Party,
         Event,
         Combat,
-        EndGame,
-        Settings
+        EndGame
     }
 }

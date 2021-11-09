@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -10,37 +10,36 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.Settings
+namespace Rpg.Client.Models.Common
 {
-    internal sealed class SettingsScreen : GameScreenBase
+    internal sealed class SettingsModal : ModalDialogBase
     {
         private const int BUTTON_HEIGHT = 20;
 
         private const int BUTTON_WIDTH = 100;
 
-        private readonly List<ButtonBase> _buttons;
+        private readonly IList<ButtonBase> _buttons;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
+        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Camera2D _camera;
+        private readonly Game _game;
         private ButtonBase? _selectedMonitorResolutionButton;
 
-        public SettingsScreen(EwarGame game)
-            : base(game)
+        public SettingsModal(IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer, Game game) : base(uiContentStorage,
+            resolutionIndependentRenderer)
         {
-            var uiContentService = game.Services.GetService<IUiContentStorage>();
+            _camera = game.Services.GetService<Camera2D>();
 
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            _camera = Game.Services.GetService<Camera2D>();
-
-            var buttonTexture = uiContentService.GetButtonTexture();
-            var font = uiContentService.GetMainFont();
+            var buttonTexture = uiContentStorage.GetButtonTexture();
+            var font = uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>
             {
-                GetBackToMainMenuButton(buttonTexture, font),
+                //GetBackToMainMenuButton(buttonTexture, font),
                 GetSwitchLanguageButton(buttonTexture, font),
                 GetSwitchFullScreenButton(buttonTexture, font)
             };
@@ -48,7 +47,7 @@ namespace Rpg.Client.Models.Settings
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
                 buttonTexture,
                 font,
-                Game.GraphicsDevice.Adapter.SupportedDisplayModes);
+                game.GraphicsDevice.Adapter.SupportedDisplayModes);
 
             _resolutionsButtonsInfos =
                 resolutionsButtonsInfos.ToDictionary(key => key.Button, value => value.Resolution);
@@ -58,20 +57,14 @@ namespace Rpg.Client.Models.Settings
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
             InitSelectedMonitorResolution(globeProvider);
+            _uiContentStorage = uiContentStorage;
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
+            _game = game;
         }
+
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            _resolutionIndependentRenderer.BeginDraw();
-
-            spriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
-
             var index = 0;
             foreach (var button in _buttons)
             {
@@ -84,12 +77,12 @@ namespace Rpg.Client.Models.Settings
 
                 index++;
             }
-
-            spriteBatch.End();
         }
 
-        protected override void UpdateContent(GameTime gameTime)
+        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
+            base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+
             foreach (var button in _buttons)
             {
                 button.Update(_resolutionIndependentRenderer);
@@ -114,7 +107,7 @@ namespace Rpg.Client.Models.Settings
                 buttonTexture,
                 font,
                 new Rectangle());
-            switchLanguageButton.OnClick += (_, _) => ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+            switchLanguageButton.OnClick += (_, _) => Close();
 
             return switchLanguageButton;
         }
@@ -252,7 +245,7 @@ namespace Rpg.Client.Models.Settings
             ChangeSelectedButton(sender);
 
             var (width, height) = _resolutionsButtonsInfos[_selectedMonitorResolutionButton];
-            var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
+            var graphicsManager = _game.Services.GetService<GraphicsDeviceManager>();
             graphicsManager.PreferredBackBufferWidth = width;
             graphicsManager.PreferredBackBufferHeight = height;
             graphicsManager.ApplyChanges();
@@ -260,7 +253,7 @@ namespace Rpg.Client.Models.Settings
 
         private void SwitchToFullScreenButton_OnClick(object? sender, EventArgs e)
         {
-            var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
+            var graphicsManager = _game.Services.GetService<GraphicsDeviceManager>();
             graphicsManager.IsFullScreen = !graphicsManager.IsFullScreen;
             if (!graphicsManager.IsFullScreen)
             {
@@ -274,12 +267,12 @@ namespace Rpg.Client.Models.Settings
             }
             else
             {
-                var width = Game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-                var height = Game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+                var width = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                var height = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
 
                 InitializeResolutionIndependence(width, height);
 
-                
+
                 graphicsManager.PreferredBackBufferWidth = width;
                 graphicsManager.PreferredBackBufferHeight = height;
             }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Title
@@ -22,6 +23,8 @@ namespace Rpg.Client.Models.Title
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
+        private readonly IUiContentStorage _uiContentService;
+        private readonly SettingsModal _settingsModal;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -44,10 +47,10 @@ namespace Rpg.Client.Models.Title
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
 
-            var uiContentService = game.Services.GetService<IUiContentStorage>();
+            _uiContentService = game.Services.GetService<IUiContentStorage>();
 
-            var buttonTexture = uiContentService.GetButtonTexture();
-            var font = uiContentService.GetMainFont();
+            var buttonTexture = _uiContentService.GetButtonTexture();
+            var font = _uiContentService.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
@@ -73,6 +76,9 @@ namespace Rpg.Client.Models.Title
             {
                 _buttons.Add(loadGameButton);
             }
+
+            _settingsModal = new SettingsModal(_uiContentService, _resolutionIndependenceRenderer, Game);
+            AddModal(_settingsModal, isLate: true);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -139,7 +145,7 @@ namespace Rpg.Client.Models.Title
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Settings);
+            _settingsModal.Show();
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)
