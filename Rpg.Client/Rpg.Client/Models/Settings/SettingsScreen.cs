@@ -76,7 +76,7 @@ namespace Rpg.Client.Models.Settings
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    Game.GraphicsDevice.Viewport.Bounds.Center.X - BUTTON_WIDTH / 2,
+                    _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
                     150 + index * 30,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
@@ -92,7 +92,7 @@ namespace Rpg.Client.Models.Settings
         {
             foreach (var button in _buttons)
             {
-                button.Update();
+                button.Update(_resolutionIndependentRenderer);
             }
         }
 
@@ -200,9 +200,9 @@ namespace Rpg.Client.Models.Settings
 
         private void InitSelectedMonitorResolution(GlobeProvider globeProvider)
         {
-            if (globeProvider.ChoisedUserMonitorResolution == null)
+            if (globeProvider.ChoisedUserMonitorResolution is null)
             {
-                globeProvider.ChoisedUserMonitorResolution = _selectedMonitorResolutionButton != null
+                globeProvider.ChoisedUserMonitorResolution = _selectedMonitorResolutionButton is not null
                     ? _resolutionsButtonsInfos[_selectedMonitorResolutionButton]
                     : null;
             }
@@ -262,8 +262,43 @@ namespace Rpg.Client.Models.Settings
         {
             var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
             graphicsManager.IsFullScreen = !graphicsManager.IsFullScreen;
+            if (!graphicsManager.IsFullScreen)
+            {
+                var width = 848;
+                var height = 480;
+
+                InitializeResolutionIndependence(width, height);
+
+                graphicsManager.PreferredBackBufferWidth = width;
+                graphicsManager.PreferredBackBufferHeight = height;
+            }
+            else
+            {
+                var width = Game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                var height = Game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+
+                InitializeResolutionIndependence(width, height);
+
+                
+                graphicsManager.PreferredBackBufferWidth = width;
+                graphicsManager.PreferredBackBufferHeight = height;
+            }
+
             graphicsManager.ApplyChanges();
+        }
+
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependentRenderer.VirtualWidth = 848;
+            _resolutionIndependentRenderer.VirtualHeight = 480;
+            _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
+            _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
             _resolutionIndependentRenderer.Initialize();
+
+            _camera.Zoom = 1f;
+            _camera.Position = new Vector2(_resolutionIndependentRenderer.VirtualWidth / 2,
+                _resolutionIndependentRenderer.VirtualHeight / 2);
+            _camera.RecalculateTransformationMatrices();
         }
     }
 }
