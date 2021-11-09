@@ -22,7 +22,6 @@ namespace Rpg.Client.Models.Common
         private readonly IList<ButtonBase> _buttons;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Camera2D _camera;
         private readonly Game _game;
@@ -32,6 +31,9 @@ namespace Rpg.Client.Models.Common
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
+            _game = game;
+
             _camera = game.Services.GetService<Camera2D>();
 
             var buttonTexture = uiContentStorage.GetButtonTexture();
@@ -57,9 +59,6 @@ namespace Rpg.Client.Models.Common
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
             InitSelectedMonitorResolution(globeProvider);
-            _uiContentStorage = uiContentStorage;
-            _resolutionIndependentRenderer = resolutionIndependentRenderer;
-            _game = game;
         }
 
 
@@ -98,18 +97,6 @@ namespace Rpg.Client.Models.Common
 
             _selectedMonitorResolutionButton = (ButtonBase)sender;
             _selectedMonitorResolutionButton.IsEnabled = false;
-        }
-
-        private ButtonBase GetBackToMainMenuButton(Texture2D buttonTexture, SpriteFont font)
-        {
-            var switchLanguageButton = new TextButton(
-                UiResource.BackToMainMenuButtonTitle,
-                buttonTexture,
-                font,
-                new Rectangle());
-            switchLanguageButton.OnClick += (_, _) => Close();
-
-            return switchLanguageButton;
         }
 
         private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(
