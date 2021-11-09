@@ -63,7 +63,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         },
                         {
                             "MoveBackward",
-                            new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true }
+                            new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
                         },
                         { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
                         { "Skill2", new AnimationInfo(startFrame: 16, frames: 1, speed: 8) { IsFinal = true } },
@@ -111,8 +111,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
                         { "MoveForward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                        { "MoveBackward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 16, speed: 16) },
+                        { "MoveBackward", new AnimationInfo(startFrame: 16, frames: 8, speed: 6){ IsFinal = true } },
+                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8){ IsFinal = true } },
                         { "Skill2", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Skill3", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Wound", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) },
@@ -125,8 +125,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
                         { "MoveForward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                        { "MoveBackward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 16, speed: 16) },
+                        { "MoveBackward", new AnimationInfo(startFrame: 16, frames: 8, speed: 6){ IsFinal = true } },
+                        { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8){ IsFinal = true } },
                         { "Skill2", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Skill3", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                         { "Wound", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) },
