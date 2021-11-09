@@ -45,6 +45,8 @@ namespace Rpg.Client.Models.Combat
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
+        private readonly Vector2[] _unitPredefinedPositions;
+
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
 
@@ -53,7 +55,9 @@ namespace Rpg.Client.Models.Combat
 
         private bool _finalBossWasDefeat;
 
-        private readonly Vector2[] _unitPredefinedPositions;
+
+        private bool _interactButtonClicked;
+        private UnitPanelController? _unitPanelController;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -309,7 +313,8 @@ namespace Rpg.Client.Models.Combat
             _activeCombat.Initialize();
             _activeCombat.Update();
 
-            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _activeCombat, _uiContentStorage, _gameObjectContentStorage);
+            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _activeCombat,
+                _uiContentStorage, _gameObjectContentStorage);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -767,10 +772,6 @@ namespace Rpg.Client.Models.Combat
                 unitModel.Update(gameTime);
             }
         }
-
-
-        private bool _interactButtonClicked = false;
-        private UnitPanelController? _unitPanelController;
 
         private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
         {

@@ -17,10 +17,10 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 48;
         private const int BAR_WIDTH = 70;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ActiveCombat _activeCombat;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
 
         public UnitPanelController(
             ResolutionIndependentRenderer resolutionIndependentRenderer,
@@ -54,11 +54,13 @@ namespace Rpg.Client.Models.Combat.Ui
                 }
                 else
                 {
-                    panelPosition = new Rectangle(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH, monsterIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+                    panelPosition = new Rectangle(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH,
+                        monsterIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
                     monsterIndex++;
                 }
 
-                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition, new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
+                spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), panelPosition,
+                    new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
                     Color.White);
 
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
