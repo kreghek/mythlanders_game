@@ -9,7 +9,7 @@ using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
 using Rpg.Client.Models.Party;
-using Rpg.Client.Models.SettingsScreen;
+using Rpg.Client.Models.Settings;
 using Rpg.Client.Models.Title;
 
 namespace Rpg.Client.Screens
@@ -121,7 +121,6 @@ namespace Rpg.Client.Screens
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
-                ScreenTransition.Settings => new SettingsScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }

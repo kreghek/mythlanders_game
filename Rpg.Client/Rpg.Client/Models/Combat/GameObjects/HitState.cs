@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -8,25 +7,6 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal sealed class SkillAnimationInfoItem
-    {
-        /// <summary>
-        /// Duration of the item in seconds.
-        /// </summary>
-        public float Duration { get; set; }
-
-        public SoundEffectInstance HitSound { get; set; }
-
-        public Action Interaction { get; set; }
-
-        public float InteractTime { get; set; }
-    }
-
-    internal sealed class SkillAnimationInfo
-    {
-        public IReadOnlyList<SkillAnimationInfoItem> Items { get; set; }
-    }
-
     internal sealed class HitState : IUnitStateEngine
     {
         private readonly AnimationBlocker? _animationBlocker;

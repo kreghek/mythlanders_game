@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -191,6 +191,17 @@ namespace Rpg.Client.Models.Biome
                             if (detectNode)
                             {
                                 _hoverNodeGameObject = location.NodeModel;
+
+                                if (_hoverNodeGameObject != _locationInHint)
+                                {
+                                    _locationInHint = _hoverNodeGameObject;
+                                    _locationInfoHint = CreateLocationInfoHint(_locationInHint);
+                                }
+                            }
+                            else
+                            {
+                                _locationInHint = null;
+                                _locationInfoHint = null;
                             }
                         }
 
@@ -300,18 +311,17 @@ namespace Rpg.Client.Models.Biome
             return cloud;
         }
 
-        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
-            Vector2 toolTipPosition, GlobeNodeGameObject node)
+        private string GetCombatRewards(GlobeNodeGameObject nodeGameObject, GlobeNodeGameObject node)
         {
             if (node.GlobeNode.CombatSequence is null)
             {
                 // No combat - no rewards
-                return;
+                return string.Empty;
             }
 
             // TODO Display icons
 
-            DrawSummaryXpAwardLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+            var summaryReward = GetSummaryXpAwardLabel(node);
 
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)
@@ -324,10 +334,11 @@ namespace Rpg.Client.Models.Biome
                 if (playerUnit is not null)
                 {
                     var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
-                        toolTipPosition + new Vector2(5, 45), Color.Black);
+                    summaryReward += Environment.NewLine + equipmentTypeText;
                 }
             }
+
+            return summaryReward;
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
@@ -351,36 +362,38 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{UiResource.BiomeLevelText}: {_biome.Level}",
                 new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
 
-            if (_hoverNodeGameObject is not null)
+            if (_locationInfoHint is not null)
             {
-                DrawNodeInfo(spriteBatch, _hoverNodeGameObject);
+                var toolTipPosition = _locationInHint.Position + new Vector2(0, 16);
+                _locationInfoHint.Rect = new Rectangle(toolTipPosition.ToPoint(), new Point(200, 100));
+
+                _locationInfoHint.Draw(spriteBatch);
             }
 
             spriteBatch.End();
         }
 
-        private void DrawNodeInfo(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject)
+        private TextHint? _locationInfoHint;
+        private GlobeNodeGameObject? _locationInHint;
+
+        private TextHint CreateLocationInfoHint(GlobeNodeGameObject locationInHint)
         {
-            var toolTipPosition = nodeGameObject.Position + new Vector2(0, 16);
-
-            spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                new Rectangle(toolTipPosition.ToPoint(), new Point(200, 100)),
-                Color.Lerp(Color.Transparent, Color.White, 0.75f));
-
-            var node = nodeGameObject;
+            var node = locationInHint;
 
             var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
-                toolTipPosition + new Vector2(5, 15),
-                Color.Black);
-
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
-                toolTipPosition + new Vector2(5, 35), Color.Black);
 
-            DisplayCombatRewards(spriteBatch, nodeGameObject, toolTipPosition, node);
+            var rewards = GetCombatRewards(locationInHint, node);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(localizedName);
+            sb.AppendLine(combatSequenceSizeText);
+            sb.AppendLine(rewards);
+
+            var hint = new TextHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), sb.ToString());
+            return hint;
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
@@ -454,21 +467,17 @@ namespace Rpg.Client.Models.Biome
             spriteBatch.End();
         }
 
-        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
         {
             var monstersAmount = node.Combat.EnemyGroup.Units.Count();
             var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
-            var summaryXpLabelPosition = toolTipPosition;
 
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
-            spriteBatch.DrawString(
-                _uiContentStorage.GetMainFont(),
-                $"{UiResource.XpRewardText}: {summaryXp}",
-                summaryXpLabelPosition,
-                Color.Black);
+
+            return $"{UiResource.XpRewardText}: {summaryXp}";
         }
 
         private void Globe_Updated(object? sender, EventArgs e)

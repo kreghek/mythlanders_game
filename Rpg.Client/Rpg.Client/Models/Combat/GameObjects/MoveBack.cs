@@ -46,7 +46,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("MoveForward");
+                _graphics.PlayAnimation("MoveBackward");
             }
 
             if (_counter <= DURATION)
