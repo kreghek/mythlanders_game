@@ -12,7 +12,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Screens;
 
-namespace Rpg.Client.Models.SettingsScreen
+namespace Rpg.Client.Models.Settings
 {
     internal sealed class SettingsScreen : GameScreenBase
     {
@@ -23,13 +23,17 @@ namespace Rpg.Client.Models.SettingsScreen
         private readonly List<ButtonBase> _buttons;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
-
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
         private ButtonBase? _selectedMonitorResolutionButton;
 
         public SettingsScreen(EwarGame game)
             : base(game)
         {
             var uiContentService = game.Services.GetService<IUiContentStorage>();
+
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            _camera = Game.Services.GetService<Camera2D>();
 
             var buttonTexture = uiContentService.GetButtonTexture();
             var font = uiContentService.GetMainFont();
@@ -45,6 +49,7 @@ namespace Rpg.Client.Models.SettingsScreen
                 buttonTexture,
                 font,
                 Game.GraphicsDevice.Adapter.SupportedDisplayModes);
+
             _resolutionsButtonsInfos =
                 resolutionsButtonsInfos.ToDictionary(key => key.Button, value => value.Resolution);
 
@@ -57,14 +62,22 @@ namespace Rpg.Client.Models.SettingsScreen
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            _resolutionIndependentRenderer.BeginDraw();
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             var index = 0;
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    Game.GraphicsDevice.Viewport.Bounds.Center.X - (BUTTON_WIDTH / 2),
-                    150 + (index * 30),
+                    Game.GraphicsDevice.Viewport.Bounds.Center.X - BUTTON_WIDTH / 2,
+                    150 + index * 30,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);
@@ -250,6 +263,7 @@ namespace Rpg.Client.Models.SettingsScreen
             var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
             graphicsManager.IsFullScreen = !graphicsManager.IsFullScreen;
             graphicsManager.ApplyChanges();
+            _resolutionIndependentRenderer.Initialize();
         }
     }
 }
