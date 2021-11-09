@@ -279,7 +279,7 @@ namespace Rpg.Client.Models.Settings
 
                 InitializeResolutionIndependence(width, height);
 
-                
+
                 graphicsManager.PreferredBackBufferWidth = width;
                 graphicsManager.PreferredBackBufferHeight = height;
             }
