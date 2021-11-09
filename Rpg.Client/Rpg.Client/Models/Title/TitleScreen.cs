@@ -23,8 +23,8 @@ namespace Rpg.Client.Models.Title
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
-        private readonly IUiContentStorage _uiContentService;
         private readonly SettingsModal _settingsModal;
+        private readonly IUiContentStorage _uiContentService;
 
         public TitleScreen(EwarGame game)
             : base(game)

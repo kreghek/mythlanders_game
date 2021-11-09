@@ -20,11 +20,11 @@ namespace Rpg.Client.Models.Common
         private const int BUTTON_WIDTH = 100;
 
         private readonly IList<ButtonBase> _buttons;
-
-        private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Camera2D _camera;
         private readonly Game _game;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+
+        private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
@@ -78,7 +78,8 @@ namespace Rpg.Client.Models.Common
             }
         }
 
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
@@ -178,6 +179,20 @@ namespace Rpg.Client.Models.Common
             return switchLanguageButton;
         }
 
+        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
+        {
+            _resolutionIndependentRenderer.VirtualWidth = 848;
+            _resolutionIndependentRenderer.VirtualHeight = 480;
+            _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
+            _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
+            _resolutionIndependentRenderer.Initialize();
+
+            _camera.Zoom = 1f;
+            _camera.Position = new Vector2(_resolutionIndependentRenderer.VirtualWidth / 2,
+                _resolutionIndependentRenderer.VirtualHeight / 2);
+            _camera.RecalculateTransformationMatrices();
+        }
+
         private void InitSelectedMonitorResolution(GlobeProvider globeProvider)
         {
             if (globeProvider.ChoisedUserMonitorResolution is null)
@@ -259,26 +274,11 @@ namespace Rpg.Client.Models.Common
 
                 InitializeResolutionIndependence(width, height);
 
-
                 graphicsManager.PreferredBackBufferWidth = width;
                 graphicsManager.PreferredBackBufferHeight = height;
             }
 
             graphicsManager.ApplyChanges();
-        }
-
-        private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
-        {
-            _resolutionIndependentRenderer.VirtualWidth = 848;
-            _resolutionIndependentRenderer.VirtualHeight = 480;
-            _resolutionIndependentRenderer.ScreenWidth = realScreenWidth;
-            _resolutionIndependentRenderer.ScreenHeight = realScreenHeight;
-            _resolutionIndependentRenderer.Initialize();
-
-            _camera.Zoom = 1f;
-            _camera.Position = new Vector2(_resolutionIndependentRenderer.VirtualWidth / 2,
-                _resolutionIndependentRenderer.VirtualHeight / 2);
-            _camera.RecalculateTransformationMatrices();
         }
     }
 }
