@@ -23,5 +23,7 @@ namespace Rpg.Client.Core
         public UnitSchemeAutoTransition SchemeAudoTransiton { get; set; }
 
         public IReadOnlyList<SkillSet> SkillSets { get; init; }
+
+        public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
     }
 }

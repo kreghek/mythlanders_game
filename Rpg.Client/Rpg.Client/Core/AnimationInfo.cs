@@ -1,4 +1,4 @@
-﻿namespace Rpg.Client.Models.Combat.GameObjects
+﻿namespace Rpg.Client.Core
 {
     internal record AnimationInfo
     {
