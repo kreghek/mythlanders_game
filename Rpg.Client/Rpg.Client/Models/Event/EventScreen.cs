@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +11,7 @@ using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Biome.Tutorial;
 using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Common;
+using Rpg.Client.Models.Event.Ui;
 using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Event
@@ -25,6 +25,7 @@ namespace Rpg.Client.Models.Event
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
+        private readonly IList<TextFragment> _textFragments;
 
         private readonly Camera2D _camera;
 
@@ -62,6 +63,7 @@ namespace Rpg.Client.Models.Event
                                      "The screen was started before CurrentEventNode was assigned.");
 
             _buttons = new List<ButtonBase>();
+            _textFragments = new List<TextFragment>();
 
             _dialogContext = new EventContext(_globe);
 
@@ -78,7 +80,7 @@ namespace Rpg.Client.Models.Event
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
 
-            var data = new Color[] { Color.White };
+            var data = new [] { Color.White };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
         }
@@ -221,8 +223,6 @@ namespace Rpg.Client.Models.Event
 
         private void DrawHud(SpriteBatch spriteBatch)
         {
-            var font = _uiContentStorage.GetMainFont();
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -241,39 +241,15 @@ namespace Rpg.Client.Models.Event
             var startPosition = textContentRect.Location.ToVector2();
             var bottomPosition = startPosition;
 
-            for (var fragmentIndex = 0; fragmentIndex < _currentDialogNode.TextBlock.Fragments.Count; fragmentIndex++)
+            for (var fragmentIndex = 0; fragmentIndex < _textFragments.Count; fragmentIndex++)
             {
-                var fragment = _currentDialogNode.TextBlock.Fragments[fragmentIndex];
-                var localizedSpeakerName = GetSpeaker(fragment.Speaker);
-                var localizedSpeakerText = GetLocalizedText(fragment.Text);
-                var speakerTextSize = font.MeasureString(localizedSpeakerText);
+                var textFragmentControl = _textFragments[fragmentIndex];
+                var textFragmentLocation =
+                    textContentRect.Location.ToVector2() + Vector2.UnitY * (60 + TEXT_MARGIN) * fragmentIndex;
+                textFragmentControl.Rect = new Rectangle(textFragmentLocation.ToPoint(), new Point(textContentRect.Width, 60));
+                textFragmentControl.Draw(spriteBatch);
 
-                var rowPosition = bottomPosition;
-
-                var speakerNamePosition = rowPosition;
-                if (localizedSpeakerName is not null)
-                {
-                    var portrainSourceRect = UnsortedHelpers.GetUnitPortraitRect(fragment.Speaker);
-                    spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
-                        rowPosition + (Vector2.UnitX * (100 - 32) / 2), portrainSourceRect, Color.White);
-                    spriteBatch.DrawString(font, localizedSpeakerName, speakerNamePosition + Vector2.UnitY * 32,
-                        Color.White);
-                }
-
-                var speakerTextPosition =
-                    localizedSpeakerName is not null ? rowPosition + (Vector2.UnitX * 100) : rowPosition;
-                var maxTextBlockWidth = Math.Max(textContentRect.Width - (localizedSpeakerName is not null ? 100 : 0),
-                    (int)speakerTextSize.X + TEXT_MARGIN * 2);
-                var normalizedSpeakerTextSize = new Point(maxTextBlockWidth, (int)speakerTextSize.Y + TEXT_MARGIN * 2);
-                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(),
-                    new Rectangle(speakerTextPosition.ToPoint(), normalizedSpeakerTextSize), Color.White);
-                spriteBatch.DrawString(font, localizedSpeakerText,
-                    speakerTextPosition + new Vector2(TEXT_MARGIN, TEXT_MARGIN), Color.White);
-
-                var textSize = font.MeasureString(localizedSpeakerText);
-
-                bottomPosition = new Vector2(startPosition.X,
-                    Math.Max((speakerTextPosition + textSize).Y + TEXT_MARGIN * 2, 32 + 10));
+                bottomPosition = new Vector2(textFragmentControl.Rect.X, textFragmentControl.Rect.Bottom);
             }
 
             var optionsStartPosition = new Vector2(textContentRect.X, bottomPosition.Y + OPTIONS_BLOCK_MARGIN);
@@ -290,41 +266,17 @@ namespace Rpg.Client.Models.Event
             spriteBatch.End();
         }
 
-        private static string GetLocalizedText(string text)
-        {
-            // The text in the event is localized from resources yet.
-            return text;
-        }
-
-        private static string? GetSpeaker(UnitName speaker)
-        {
-            if (speaker == UnitName.Environment)
-            {
-                return null;
-            }
-
-            if (speaker == UnitName.Undefined)
-            {
-                Debug.Fail("Speaker is undefined.");
-                return null;
-            }
-
-            var unitName = speaker;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            var text = name;
-
-            Debug.Assert(text is not null, "Speaker localization must be defined.");
-            if (text is not null)
-            {
-                return text;
-            }
-
-            return speaker.ToString();
-        }
-
         private void InitEventControls()
         {
+            _textFragments.Clear();
+            foreach (var textFragment in _currentDialogNode.TextBlock.Fragments)
+            {
+                var textFragmentControl = new TextFragment(_uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(),
+                    textFragment, _gameObjectContentStorage.GetUnitPortrains());
+                _textFragments.Add(textFragmentControl);
+            }
+            
             _buttons.Clear();
             foreach (var option in _currentDialogNode.Options)
             {
@@ -333,10 +285,7 @@ namespace Rpg.Client.Models.Event
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 button.OnClick += (_, _) =>
                 {
-                    if (option.Aftermath is not null)
-                    {
-                        option.Aftermath.Apply(_dialogContext);
-                    }
+                    option.Aftermath?.Apply(_dialogContext);
 
                     if (option.IsEnd)
                     {

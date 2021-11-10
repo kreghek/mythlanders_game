@@ -5,7 +5,7 @@ namespace Rpg.Client.Engine
 {
     internal abstract class ControlBase
     {
-        private const int CONTENT_MARGIN = 0;
+        private const int CONTENT_MARGIN = 4;
         private const int CORNER_SIZE = 8;
         private const int CENTER_SIZE = 16;
         
