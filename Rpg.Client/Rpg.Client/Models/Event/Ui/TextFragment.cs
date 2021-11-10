@@ -83,7 +83,7 @@ namespace Rpg.Client.Models.Event.Ui
             var messageSize = _message.CalculateSize();
             var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
             // TODO use margin
-            return messageSize + portraitSize + Vector2.One * (2 * 4);
+            return Vector2.Max(messageSize, portraitSize) + Vector2.One * (2 * 4);
         }
     }
 }
