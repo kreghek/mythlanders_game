@@ -17,7 +17,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biome
 {
-    internal class BiomeScreen : GameScreenBase
+    internal class BiomeScreen : GameScreenWithMenuBase
     {
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
@@ -139,6 +139,8 @@ namespace Rpg.Client.Models.Biome
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+
             if (!_tutorial)
             {
                 _tutorial = true;
@@ -163,8 +165,9 @@ namespace Rpg.Client.Models.Biome
                         if (node.IsAvailable)
                         {
                             var centerNodePosition = _resolutionIndependenceRenderer.VirtualBounds.Center.ToVector2();
+                            var firstNodePosition = centerNodePosition - Vector2.UnitY * 128;
                             var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3,
-                                centerNodePosition, node.Sid, _gameObjectContentStorage, node);
+                                firstNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
                         }
                     }
@@ -179,7 +182,7 @@ namespace Rpg.Client.Models.Biome
                     if (!_screenTransition)
                     {
                         var mouseState = Mouse.GetState();
-                        var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
+                        var mousePositionRir = _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseState.Position.ToVector2());
 
                         _hoverNodeGameObject = null;
                         foreach (var location in _locationObjectList)
@@ -189,7 +192,7 @@ namespace Rpg.Client.Models.Biome
                                 continue;
                             }
 
-                            var detectNode = IsNodeOnHover(location.NodeModel, mouseRect);
+                            var detectNode = IsNodeOnHover(location.NodeModel, mousePositionRir);
 
                             if (detectNode)
                             {
@@ -200,11 +203,16 @@ namespace Rpg.Client.Models.Biome
                                     _locationInHint = _hoverNodeGameObject;
                                     _locationInfoHint = CreateLocationInfoHint(_locationInHint);
                                 }
+
+                                break;
                             }
                             else
                             {
-                                _locationInHint = null;
-                                _locationInfoHint = null;
+                                if (_locationInHint is not null)
+                                {
+                                    _locationInHint = null;
+                                    _locationInfoHint = null;
+                                }
                             }
                         }
 
@@ -219,14 +227,14 @@ namespace Rpg.Client.Models.Biome
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.Combat, _biome,
                                         _dice,
                                         isAutoplay: false);
 
-                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    if (_hoverNodeGameObject.AvailableEvent is not null)
                                     {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
                                         _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                                         _globe.CurrentEvent.Counter++;
@@ -248,14 +256,14 @@ namespace Rpg.Client.Models.Biome
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.Combat, _biome,
                                         _dice,
                                         isAutoplay: true);
 
-                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    if (_hoverNodeGameObject.AvailableEvent is not null)
                                     {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
                                         _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                                         _globe.CurrentEvent.Counter++;
@@ -470,9 +478,6 @@ namespace Rpg.Client.Models.Biome
 
         private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
         {
-            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
-            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
-
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
@@ -488,11 +493,9 @@ namespace Rpg.Client.Models.Biome
             _isNodeModelsCreated = false;
         }
 
-        private bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
+        private static bool IsNodeOnHover(GlobeNodeGameObject node, Vector2 mousePositionRir)
         {
-            var mouseRectRir =
-                _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseRect.Location.ToVector2());
-            return (mouseRectRir - node.Position).Length() <= 16;
+            return (mousePositionRir - node.Position).Length() <= 16;
         }
 
         private void UpdateClouds(GameTime gameTime)

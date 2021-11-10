@@ -54,16 +54,11 @@ namespace Rpg.Client.Models.Biome
                 return null;
             }
 
-            var rm = UiResource.ResourceManager;
+            var rm = GameObjectResources.ResourceManager;
 
-            var equipmentDisplayName = rm.GetString($"{equipmentType}EquipmentItemDisplayName");
+            var equipmentDisplayName = rm.GetString($"{equipmentType}Equipment");
 
-            if (equipmentDisplayName is null)
-            {
-                return $"{equipmentType} equipment items";
-            }
-
-            return equipmentDisplayName;
+            return equipmentDisplayName ?? $"{equipmentType} equipment items";
         }
     }
 }

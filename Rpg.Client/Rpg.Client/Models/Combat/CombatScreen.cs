@@ -22,7 +22,7 @@ using static Rpg.Client.Core.ActiveCombat;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal class CombatScreen : GameScreenBase
+    internal class CombatScreen : GameScreenWithMenuBase
     {
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
@@ -39,7 +39,7 @@ namespace Rpg.Client.Models.Combat
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
-        private readonly GlobeNodeGameObject _globeNodeGameObject;
+        private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
@@ -73,7 +73,7 @@ namespace Rpg.Client.Models.Combat
                             throw new InvalidOperationException(
                                 nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
-            _globeNodeGameObject = _activeCombat.Node;
+            _globeNode = _activeCombat.Node;
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
@@ -88,7 +88,7 @@ namespace Rpg.Client.Models.Combat
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -112,6 +112,8 @@ namespace Rpg.Client.Models.Combat
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+
             if (!_tutorial)
             {
                 _tutorial = true;
@@ -218,15 +220,15 @@ namespace Rpg.Client.Models.Combat
 
             if (e.Victory)
             {
-                var completedCombats = _globeNodeGameObject.GlobeNode.CombatSequence.CompletedCombats;
+                var completedCombats = _globeNode.CombatSequence.CompletedCombats;
                 completedCombats.Add(_activeCombat.Combat);
 
-                var currentCombatList = _activeCombat.Node.GlobeNode.CombatSequence.Combats.ToList();
+                var currentCombatList = _activeCombat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleGainXp(completedCombats).ToArray();
                     ApplyXp(xpItems);
-                    GainEquipmentItems(_globeNodeGameObject.GlobeNode, _globeProvider.Globe.Player);
+                    GainEquipmentItems(_globeNode, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -331,15 +333,15 @@ namespace Rpg.Client.Models.Combat
             if (combatResultModal.CombatResult == CombatResult.Victory ||
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
-                var currentCombatList = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.ToList();
+                var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
                 currentCombatList.Remove(_activeCombat.Combat);
-                _globeNodeGameObject.GlobeNode.CombatSequence.Combats = currentCombatList;
+                _globeNode.CombatSequence.Combats = currentCombatList;
 
-                if (_activeCombat.Node.GlobeNode.CombatSequence.Combats.Any())
+                if (_activeCombat.Node.CombatSequence.Combats.Any())
                 {
-                    var nextCombat = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.First();
+                    var nextCombat = _globeNode.CombatSequence.Combats.First();
                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                        _globeNodeGameObject,
+                        _globeNode,
                         nextCombat,
                         _activeCombat.Biom,
                         _dice,
@@ -441,7 +443,7 @@ namespace Rpg.Client.Models.Combat
                 var position = new Vector2(roundedX, 0);
                 var position3d = new Vector3(position, 0);
 
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
                 worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
@@ -479,12 +481,12 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
-            if (_globeNodeGameObject.GlobeNode.CombatSequence is not null)
+            if (_globeNode.CombatSequence is not null)
             {
-                var combatCountRemains = _globeNodeGameObject.GlobeNode.CombatSequence.Combats.Count;
+                var combatCountRemains = _globeNode.CombatSequence.Combats.Count;
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
-                    new Vector2(Game.GraphicsDevice.Viewport.Bounds.Center.X, 5), Color.White);
+                    new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5), Color.White);
             }
         }
 
@@ -498,7 +500,7 @@ namespace Rpg.Client.Models.Combat
             var position = new Vector2(roundedX, 0);
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)
@@ -524,7 +526,7 @@ namespace Rpg.Client.Models.Combat
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -724,7 +726,7 @@ namespace Rpg.Client.Models.Combat
                 case CombatResult.Victory:
                     _activeCombat.Biom.Level++;
 
-                    var node = _globeNodeGameObject.GlobeNode;
+                    var node = _globeNode;
                     var nodeIndex = node.Index;
                     var unlockedBiomeIndex = nodeIndex + 1;
 

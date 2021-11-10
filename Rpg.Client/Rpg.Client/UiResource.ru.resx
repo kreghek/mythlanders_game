@@ -120,9 +120,6 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
   </data>
-  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
-    <value>Главное меню</value>
-  </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
   </data>
@@ -158,12 +155,6 @@
 Всем монстры становятся сильнее. На 10 уровне появится босс.
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
-  </data>
-  <data name="EventOptionCombatText" xml:space="preserve">
-    <value>В бой!</value>
-  </data>
-  <data name="EventOptionContinueText" xml:space="preserve">
-    <value>Продолжить</value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
@@ -204,14 +195,8 @@
   <data name="SwitchLanguageButtonTitle" xml:space="preserve">
     <value>Язык</value>
   </data>
-  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
-    <value>Разрешение</value>
-  </data>
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>В Бой!</value>
-  </data>
-  <data name="WarriorEquipmentItemDisplayName" xml:space="preserve">
-    <value>Осколок меча</value>
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>

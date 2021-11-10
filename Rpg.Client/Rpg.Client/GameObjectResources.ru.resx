@@ -150,6 +150,9 @@
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>
   </data>
+  <data name="WarriorEquipment" xml:space="preserve">
+    <value>Осколки меча</value>
+  </data>
   <data name="Wisp" xml:space="preserve">
     <value>Блуждающий огонёк</value>
   </data>

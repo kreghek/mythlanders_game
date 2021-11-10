@@ -133,6 +133,10 @@
     <value>The Thicket</value>
     <comment>Location</comment>
   </data>
+  <data name="WarriorEquipment" xml:space="preserve">
+    <value>Sword pieces</value>
+    <comment>Осколки меча</comment>
+  </data>
   <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
   </data>

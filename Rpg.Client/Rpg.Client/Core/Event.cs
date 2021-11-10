@@ -14,5 +14,6 @@
         public string?[]? RequiredEventsCompleted { get; internal set; }
         public SystemEventMarker? SystemMarker { get; set; }
         public string Title { get; set; }
+        public bool IsGameStart { get; set; }
     }
 }

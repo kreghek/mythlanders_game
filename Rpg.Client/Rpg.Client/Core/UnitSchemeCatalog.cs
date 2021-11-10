@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Core.GraphicConfigs;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -41,7 +42,8 @@ namespace Rpg.Client.Core
                         new WideSlashSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new BerimirGraphicsConfig()
         };
 
         public static UnitScheme MonkHero = new()
@@ -78,7 +80,8 @@ namespace Rpg.Client.Core
                         new WideSlashSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new MaosinGraphicsConfig()
         };
 
         public static UnitScheme SpearmanHero = new()
@@ -115,7 +118,8 @@ namespace Rpg.Client.Core
                         new WideSlashSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static UnitScheme ScorpionHero = new()
@@ -152,7 +156,8 @@ namespace Rpg.Client.Core
                         new WideSlashSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static UnitScheme HerbalistHero = new()
@@ -189,7 +194,8 @@ namespace Rpg.Client.Core
                         new MassHealSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static UnitScheme ArcherHero = new()
@@ -214,7 +220,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
-                        new DefenseSkill(true)
+                        new ArrowRainSkill(true)
                     }
                 },
                 new SkillSet
@@ -222,11 +228,12 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
+                        new ArrowRainSkill(true),
                         new DefenseSkill(true),
-                        new ArrowRainSkill(true)
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static UnitScheme PriestHero = new()
@@ -264,7 +271,8 @@ namespace Rpg.Client.Core
                         new SwordSlashSkill(true) // Finger of the Anubis
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static UnitScheme MissionaryHero = new()
@@ -302,7 +310,8 @@ namespace Rpg.Client.Core
                         new HealSkill(true) // God Mercifull Touch
                     }
                 }
-            }
+            },
+            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
         public static IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
@@ -355,35 +364,8 @@ namespace Rpg.Client.Core
                                 new MonsterAttackSkill()
                             }
                         }
-                    }
-
-                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                    //{
-                    //    HpShare = 0.5f,
-                    //    NextScheme = new UnitScheme
-                    //    {
-                    //        Hp = 20,
-                    //        HpPerLevel = 3,
-                    //        Name = "Grey Wolf 2",
-                    //        Biom = BiomeType.Slavic,
-                    //        NodeIndexes = new[] { 0, 1, 2 },
-                    //        Power = 2,
-                    //        PowerPerLevel = 1,
-
-                    //        SkillSets = new List<SkillSet>
-                    //        {
-                    //            new SkillSet
-                    //            {
-                    //                Skills = new List<SkillBase>
-                    //                {
-                    //                    new MonsterAttackSkill(), // Bite
-                    //                    new PowerUpSkill(), // Wolf howl
-                    //                    new HealSkill() // lick wounds
-                    //                }
-                    //            }
-                    //        }
-                    //    },
-                    //}
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -407,7 +389,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -430,7 +413,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -454,7 +438,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -477,7 +462,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -500,7 +486,8 @@ namespace Rpg.Client.Core
                                 new HealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -524,7 +511,8 @@ namespace Rpg.Client.Core
                                 new MassHealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -546,7 +534,8 @@ namespace Rpg.Client.Core
                                 new DefenseSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -570,7 +559,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -594,7 +584,8 @@ namespace Rpg.Client.Core
                                 new ArrowRainSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
         }
@@ -625,35 +616,8 @@ namespace Rpg.Client.Core
                                 new HealSkill() // lick wounds
                             }
                         }
-                    }
-
-                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                    //{
-                    //    HpShare = 0.5f,
-                    //    NextScheme = new UnitScheme
-                    //    {
-                    //        Hp = 20,
-                    //        HpPerLevel = 3,
-                    //        Name = "Grey Wolf 2",
-                    //        Biom = BiomeType.Slavic,
-                    //        NodeIndexes = new[] { 0, 1, 2 },
-                    //        Power = 2,
-                    //        PowerPerLevel = 1,
-
-                    //        SkillSets = new List<SkillSet>
-                    //        {
-                    //            new SkillSet
-                    //            {
-                    //                Skills = new List<SkillBase>
-                    //                {
-                    //                    new MonsterAttackSkill(), // Bite
-                    //                    new PowerUpSkill(), // Wolf howl
-                    //                    new HealSkill() // lick wounds
-                    //                }
-                    //            }
-                    //        }
-                    //    },
-                    //}
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -677,7 +641,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -700,7 +665,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -724,7 +690,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -747,7 +714,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -770,7 +738,8 @@ namespace Rpg.Client.Core
                                 new HealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -794,7 +763,8 @@ namespace Rpg.Client.Core
                                 new MassHealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -816,7 +786,8 @@ namespace Rpg.Client.Core
                                 new DefenseSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -840,7 +811,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -864,7 +836,8 @@ namespace Rpg.Client.Core
                                 new ArrowRainSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
         }
@@ -895,35 +868,8 @@ namespace Rpg.Client.Core
                                 new HealSkill() // lick wounds
                             }
                         }
-                    }
-
-                    //SchemeAudoTransiton= new UnitSchemeAutoTransition
-                    //{
-                    //    HpShare = 0.5f,
-                    //    NextScheme = new UnitScheme
-                    //    {
-                    //        Hp = 20,
-                    //        HpPerLevel = 3,
-                    //        Name = "Grey Wolf 2",
-                    //        Biom = BiomeType.Slavic,
-                    //        NodeIndexes = new[] { 0, 1, 2 },
-                    //        Power = 2,
-                    //        PowerPerLevel = 1,
-
-                    //        SkillSets = new List<SkillSet>
-                    //        {
-                    //            new SkillSet
-                    //            {
-                    //                Skills = new List<SkillBase>
-                    //                {
-                    //                    new MonsterAttackSkill(), // Bite
-                    //                    new PowerUpSkill(), // Wolf howl
-                    //                    new HealSkill() // lick wounds
-                    //                }
-                    //            }
-                    //        }
-                    //    },
-                    //}
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -947,7 +893,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -970,7 +917,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -994,7 +942,8 @@ namespace Rpg.Client.Core
                                 new PowerUpSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1017,7 +966,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1040,7 +990,8 @@ namespace Rpg.Client.Core
                                 new HealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1064,7 +1015,8 @@ namespace Rpg.Client.Core
                                 new MassHealSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1086,7 +1038,8 @@ namespace Rpg.Client.Core
                                 new DefenseSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1110,7 +1063,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1134,7 +1088,8 @@ namespace Rpg.Client.Core
                                 new ArrowRainSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
         }
@@ -1163,7 +1118,8 @@ namespace Rpg.Client.Core
                                 new SnakeBiteSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
                 new UnitScheme
@@ -1185,7 +1141,8 @@ namespace Rpg.Client.Core
                                 new WolfBiteSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1207,7 +1164,8 @@ namespace Rpg.Client.Core
                                 new WolfBiteSkill() // Bite
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1228,7 +1186,8 @@ namespace Rpg.Client.Core
                                 new ArrowRainSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1250,7 +1209,8 @@ namespace Rpg.Client.Core
                                 new VolkolakClawsSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1271,7 +1231,9 @@ namespace Rpg.Client.Core
                                 new HealSkill()
                             }
                         }
-                    }
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1292,7 +1254,8 @@ namespace Rpg.Client.Core
                                 new MonsterAttackSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1314,7 +1277,8 @@ namespace Rpg.Client.Core
                                 new VampiricBiteSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1335,7 +1299,8 @@ namespace Rpg.Client.Core
                                 new DefenseSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1357,7 +1322,8 @@ namespace Rpg.Client.Core
                                 new WideSlashSkill()
                             }
                         }
-                    }
+                    },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -1382,6 +1348,7 @@ namespace Rpg.Client.Core
                             }
                         }
                     },
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
 
                     SchemeAudoTransiton = new UnitSchemeAutoTransition
                     {
@@ -1408,6 +1375,7 @@ namespace Rpg.Client.Core
                                     }
                                 }
                             },
+                            UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
 
                             SchemeAudoTransiton = new UnitSchemeAutoTransition
                             {
@@ -1433,7 +1401,8 @@ namespace Rpg.Client.Core
                                                 new PowerUpSkill() // 1000-years hate
                                             }
                                         }
-                                    }
+                                    },
+                                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                                 }
                             }
                         }
