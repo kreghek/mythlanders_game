@@ -129,13 +129,14 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
-                    /*
-                    _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (_counter >= DURATION_MS * 4 * (1 + 2 + 2 + 2 + 2))
-                    {
-                        _counter = 0;
-                        MediaPlayer.Play(_currentSong, TimeSpan.Zero);
-                    }*/
+                    
+                    //_counter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                    //if (_counter >= DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
+                    //{
+                    //    _counter = 0;
+
+                    //    PlayVictoryTrack();
+                    //}
 
                     break;
 
@@ -179,8 +180,9 @@ namespace Rpg.Client.Engine
             }
         }
 
-       /* private double _counter;
-        private const double DURATION_MS = 2051;*/
+        //private double _counter;
+        //private const double DURATION_MS = 2051;  // 117 bmp https://vk.com/away.php?to=https%3A%2F%2Ftoolstud.io%2Fmusic%2Fbpm.php%3Fbpm%3D117%26bpm_unit%3D4%252F4&cc_key=
+        // this is 2051 * 4 * (1 + 2 + 2 + 2) full length
 
         private void ChangeState(string targetState)
         {
