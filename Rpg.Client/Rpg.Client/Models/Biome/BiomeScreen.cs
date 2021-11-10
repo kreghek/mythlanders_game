@@ -219,7 +219,7 @@ namespace Rpg.Client.Models.Biome
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.Combat, _biome,
                                         _dice,
                                         isAutoplay: false);
@@ -248,7 +248,7 @@ namespace Rpg.Client.Models.Biome
                                     _screenTransition = true;
 
                                     _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
-                                        _hoverNodeGameObject,
+                                        _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.Combat, _biome,
                                         _dice,
                                         isAutoplay: true);

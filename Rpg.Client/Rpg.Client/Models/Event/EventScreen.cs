@@ -32,7 +32,7 @@ namespace Rpg.Client.Models.Event
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly GlobeNodeGameObject _globeNodeGameObject;
+        private readonly GlobeNode _globeNode;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private Texture2D _backgroundTexture;
@@ -69,11 +69,11 @@ namespace Rpg.Client.Models.Event
                           throw new InvalidOperationException(
                               $"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
 
-            _globeNodeGameObject = _combat.Node;
+            _globeNode = _combat.Node;
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -197,7 +197,7 @@ namespace Rpg.Client.Models.Event
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNodeGameObject.GlobeNode.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
