@@ -77,7 +77,7 @@ namespace Rpg.Client.Models.Event
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
 
-            var data = new [] { Color.White };
+            var data = new[] { Color.White };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
         }
@@ -274,7 +274,7 @@ namespace Rpg.Client.Models.Event
                     textFragment, _gameObjectContentStorage.GetUnitPortrains());
                 _textFragments.Add(textFragmentControl);
             }
-            
+
             _buttons.Clear();
             foreach (var option in _currentDialogNode.Options)
             {

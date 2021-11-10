@@ -8,12 +8,12 @@ namespace Rpg.Client.Engine
         private const int CONTENT_MARGIN = 4;
         private const int CORNER_SIZE = 15;
         private const int CENTER_SIZE = (16 - CORNER_SIZE) * 2;
-        
+
         protected ControlBase(Texture2D texture)
         {
             _texture = texture;
         }
-        
+
         private static readonly Rectangle[,] _sourceRects =
         {
             {
@@ -43,9 +43,9 @@ namespace Rpg.Client.Engine
         public void Draw(SpriteBatch spriteBatch)
         {
             var color = CalculateColor();
-            
+
             DrawBackground(spriteBatch: spriteBatch, color: color);
-            
+
             var contentRect = new Rectangle(
                 CONTENT_MARGIN + Rect.Left,
                 CONTENT_MARGIN + Rect.Top,

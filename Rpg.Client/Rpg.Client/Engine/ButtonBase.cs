@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class ButtonBase: ControlBase
+    internal abstract class ButtonBase : ControlBase
     {
         private UiButtonState _buttonState;
 
-        protected ButtonBase(Texture2D texture, Rectangle rect): base(texture)
+        protected ButtonBase(Texture2D texture, Rectangle rect) : base(texture)
         {
             Rect = rect;
             _buttonState = UiButtonState.OutOfButton;

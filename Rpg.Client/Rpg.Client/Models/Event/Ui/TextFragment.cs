@@ -8,10 +8,10 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Event.Ui
 {
-    internal sealed class TextFragment: ControlBase
+    internal sealed class TextFragment : ControlBase
     {
         const int PORTRAIT_SIZE = 32;
-        
+
         private readonly SpriteFont _font;
         private readonly Texture2D _portraitsTexture;
         private readonly TextFragmentMessage _message;
@@ -58,7 +58,7 @@ namespace Rpg.Client.Models.Event.Ui
             spriteBatch.DrawString(_font, _localizedSpeakerName, position + Vector2.UnitY * PORTRAIT_SIZE,
                 Color.White);
         }
-        
+
         private static string? GetSpeaker(UnitName speaker)
         {
             if (speaker == UnitName.Environment)

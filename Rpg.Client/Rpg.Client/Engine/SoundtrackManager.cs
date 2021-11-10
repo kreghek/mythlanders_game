@@ -129,7 +129,7 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
-                    
+
                     //_counter += gameTime.ElapsedGameTime.TotalMilliseconds;
                     //if (_counter >= DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
                     //{

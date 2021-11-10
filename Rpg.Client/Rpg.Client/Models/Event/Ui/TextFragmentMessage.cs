@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Event.Ui
 {
-    internal sealed class TextFragmentMessage: ControlBase
+    internal sealed class TextFragmentMessage : ControlBase
     {
         private readonly SpriteFont _font;
         private readonly EventTextFragment _eventTextFragment;
@@ -30,15 +30,15 @@ namespace Rpg.Client.Models.Event.Ui
             // The text in the event is localized from resources yet.
             return text;
         }
-        
+
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
             var fragment = _eventTextFragment;
             var localizedText = GetLocalizedText(fragment.Text);
-            
+
             spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2(), contentColor);
         }
-        
+
         public Vector2 CalculateSize()
         {
             var fragment = _eventTextFragment;
