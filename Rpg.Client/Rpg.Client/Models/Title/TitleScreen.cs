@@ -22,9 +22,9 @@ namespace Rpg.Client.Models.Title
         private readonly Camera2D _camera;
 
         private readonly GlobeProvider _globeProvider;
-        private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
-        private readonly IUiContentStorage _uiContentService;
+        private readonly IUiContentStorage _uiContentStorage;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -32,15 +32,15 @@ namespace Rpg.Client.Models.Title
             _globeProvider = Game.Services.GetService<GlobeProvider>();
 
             _camera = Game.Services.GetService<Camera2D>();
-            _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
 
-            _uiContentService = game.Services.GetService<IUiContentStorage>();
+            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
-            var buttonTexture = _uiContentService.GetButtonTexture();
-            var font = _uiContentService.GetMainFont();
+            var buttonTexture = _uiContentStorage.GetButtonTexture();
+            var font = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
@@ -67,13 +67,13 @@ namespace Rpg.Client.Models.Title
                 _buttons.Add(loadGameButton);
             }
 
-            _settingsModal = new SettingsModal(_uiContentService, _resolutionIndependenceRenderer, Game);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game);
             AddModal(_settingsModal, isLate: true);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            _resolutionIndependenceRenderer.BeginDraw();
+            _resolutionIndependentRenderer.BeginDraw();
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -86,7 +86,7 @@ namespace Rpg.Client.Models.Title
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    (_resolutionIndependenceRenderer.VirtualWidth - BUTTON_WIDTH) / 2,
+                    (_resolutionIndependentRenderer.VirtualWidth - BUTTON_WIDTH) / 2,
                     150 + index * 50,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
@@ -102,7 +102,7 @@ namespace Rpg.Client.Models.Title
         {
             foreach (var button in _buttons)
             {
-                button.Update(_resolutionIndependenceRenderer);
+                button.Update(_resolutionIndependentRenderer);
             }
         }
 

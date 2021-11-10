@@ -17,7 +17,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Biome
 {
-    internal class BiomeScreen : GameScreenBase
+    internal class BiomeScreen : GameScreenWithMenuBase
     {
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
@@ -139,6 +139,8 @@ namespace Rpg.Client.Models.Biome
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+
             if (!_tutorial)
             {
                 _tutorial = true;

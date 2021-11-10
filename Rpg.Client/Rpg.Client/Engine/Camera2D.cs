@@ -63,12 +63,16 @@ namespace Rpg.Client.Engine
             }
         }
 
-        public Matrix GetViewTransformationMatrix(Vector2? additionalPosition = null)
+        /// <summary>
+        /// // WARNING. This method changes inner state.
+        /// </summary>
+        /// <returns></returns>
+        public Matrix GetViewTransformationMatrix()
         {
             if (_isViewTransformationDirty)
             {
-                _camTranslationVector.X = -_position.X + additionalPosition.GetValueOrDefault().X;
-                _camTranslationVector.Y = -_position.Y + additionalPosition.GetValueOrDefault().Y;
+                _camTranslationVector.X = -_position.X;
+                _camTranslationVector.Y = -_position.Y;
 
                 Matrix.CreateTranslation(ref _camTranslationVector, out _camTranslationMatrix);
 

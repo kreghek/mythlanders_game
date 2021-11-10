@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Biome.Tutorial;
 using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Common;
@@ -15,7 +14,7 @@ using Rpg.Client.Screens;
 
 namespace Rpg.Client.Models.Event
 {
-    internal sealed class EventScreen : GameScreenBase
+    internal sealed class EventScreen : GameScreenWithMenuBase
     {
         private const int TEXT_MARGIN = 10;
 
@@ -97,6 +96,7 @@ namespace Rpg.Client.Models.Event
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
             if (!_tutorial && !_globe.CurrentEvent?.IsGameStart == true)
             {
                 _tutorial = true;
@@ -132,7 +132,7 @@ namespace Rpg.Client.Models.Event
 
                 var position3d = new Vector3(position, 0);
 
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
                 worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
@@ -171,7 +171,7 @@ namespace Rpg.Client.Models.Event
 
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)

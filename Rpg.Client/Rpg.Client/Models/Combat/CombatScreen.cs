@@ -22,7 +22,7 @@ using static Rpg.Client.Core.ActiveCombat;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal class CombatScreen : GameScreenBase
+    internal class CombatScreen : GameScreenWithMenuBase
     {
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
@@ -112,6 +112,8 @@ namespace Rpg.Client.Models.Combat
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+
             if (!_tutorial)
             {
                 _tutorial = true;
@@ -441,7 +443,7 @@ namespace Rpg.Client.Models.Combat
                 var position = new Vector2(roundedX, 0);
                 var position3d = new Vector3(position, 0);
 
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
                 worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
@@ -498,7 +500,7 @@ namespace Rpg.Client.Models.Combat
             var position = new Vector2(roundedX, 0);
             var position3d = new Vector3(position, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix(position);
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
             var matrix = Matrix.CreateTranslation(translationVector + position3d)
