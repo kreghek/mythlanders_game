@@ -60,7 +60,7 @@ namespace Rpg.Client.Engine
             ChangeState("victory");
         }
 
-        public void Update()
+        public void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             if (!IsInitialized)
             {
@@ -129,6 +129,13 @@ namespace Rpg.Client.Engine
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
+                    /*
+                    _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                    if (_counter >= DURATION_MS * 4 * (1 + 2 + 2 + 2 + 2))
+                    {
+                        _counter = 0;
+                        MediaPlayer.Play(_currentSong, TimeSpan.Zero);
+                    }*/
 
                     break;
 
@@ -171,6 +178,9 @@ namespace Rpg.Client.Engine
                     break;
             }
         }
+
+       /* private double _counter;
+        private const double DURATION_MS = 2051;*/
 
         private void ChangeState(string targetState)
         {

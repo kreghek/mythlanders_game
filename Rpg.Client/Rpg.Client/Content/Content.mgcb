@@ -13,53 +13,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Audio/Background/Battle.mp3
-/importer:Mp3Importer
+#begin Audio/Background/Battle.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/Battle.mp3
+/build:Audio/Background/Battle.ogg
 
-#begin Audio/Background/Battle2.mp3
-/importer:Mp3Importer
+#begin Audio/Background/Defeat.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/Battle2.mp3
-
-#begin Audio/Background/Battle3.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Battle3.mp3
-
-#begin Audio/Background/Battle4.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Battle4.mp3
-
-#begin Audio/Background/Battle5.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Battle5.mp3
-
-#begin Audio/Background/Battle6.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Battle6.mp3
-
-#begin Audio/Background/Battle7.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Battle7.mp3
-
-#begin Audio/Background/Defeat.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Audio/Background/Defeat.mp3
+/build:Audio/Background/Defeat.ogg
 
 #begin Audio/Background/Map.mp3
 /importer:Mp3Importer
@@ -85,11 +49,11 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Title.mp3
 
-#begin Audio/Background/Victory.mp3
-/importer:Mp3Importer
+#begin Audio/Background/Victory.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/Victory.mp3
+/build:Audio/Background/Victory.ogg
 
 #begin Audio/GameObjects/Deaths/DogDeath.wav
 /importer:WavImporter
