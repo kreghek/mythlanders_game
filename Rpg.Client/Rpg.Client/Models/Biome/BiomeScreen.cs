@@ -180,7 +180,6 @@ namespace Rpg.Client.Models.Biome
                     {
                         var mouseState = Mouse.GetState();
                         var mousePositionRir = _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseState.Position.ToVector2());
-                        var mouseRect = new Rectangle(mousePositionRir.ToPoint(), new Point(1, 1));
 
                         _hoverNodeGameObject = null;
                         foreach (var location in _locationObjectList)
@@ -190,7 +189,7 @@ namespace Rpg.Client.Models.Biome
                                 continue;
                             }
 
-                            var detectNode = IsNodeOnHover(location.NodeModel, mouseRect);
+                            var detectNode = IsNodeOnHover(location.NodeModel, mousePositionRir);
 
                             if (detectNode)
                             {
@@ -491,11 +490,9 @@ namespace Rpg.Client.Models.Biome
             _isNodeModelsCreated = false;
         }
 
-        private bool IsNodeOnHover(GlobeNodeGameObject node, Rectangle mouseRect)
+        private static bool IsNodeOnHover(GlobeNodeGameObject node, Vector2 mousePositionRir)
         {
-            var mouseRectRir =
-                _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseRect.Location.ToVector2());
-            return (mouseRectRir - node.Position).Length() <= 16;
+            return (mousePositionRir - node.Position).Length() <= 16;
         }
 
         private void UpdateClouds(GameTime gameTime)

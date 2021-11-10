@@ -120,6 +120,9 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Auto-combat</value>
   </data>
+  <data name="BackToMainMenuButtonTitle" xml:space="preserve">
+    <value>Back to the main menu</value>
+  </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>Back to the map</value>
   </data>
@@ -127,13 +130,19 @@
     <value>Lvl</value>
   </data>
   <data name="BiomeTutorialText" xml:space="preserve">
-    <value />
+    <value></value>
   </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
     <value>rnd</value>
   </data>
   <data name="CombatTutorialText" xml:space="preserve">
-    <value />
+    <value></value>
+  </data>
+  <data name="EventOptionCombatText" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EventOptionContinueText" xml:space="preserve">
+    <value></value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
@@ -170,6 +179,9 @@
   </data>
   <data name="SwitchLanguageButtonTitle" xml:space="preserve">
     <value>Switch lang</value>
+  </data>
+  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
+    <value>Switch res</value>
   </data>
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>To The Combat!</value>
