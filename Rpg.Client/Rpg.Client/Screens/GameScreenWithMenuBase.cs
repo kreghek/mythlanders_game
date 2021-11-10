@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
@@ -10,6 +9,8 @@ namespace Rpg.Client.Screens
     internal abstract class GameScreenWithMenuBase : GameScreenBase
     {
         private readonly SettingsModal _settingsModal;
+
+        private KeyboardState _lastKeyboardState;
 
         protected GameScreenWithMenuBase(EwarGame game) : base(game)
         {
@@ -31,7 +32,5 @@ namespace Rpg.Client.Screens
 
             _lastKeyboardState = keyboardState;
         }
-
-        private KeyboardState _lastKeyboardState;
     }
 }

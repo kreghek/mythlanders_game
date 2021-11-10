@@ -29,11 +29,6 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
-        protected override Color CalculateColor()
-        {
-            return SelectColorByState();
-        }
-
         public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer = null)
         {
             if (!IsEnabled)
@@ -67,6 +62,11 @@ namespace Rpg.Client.Engine
             {
                 _buttonState = UiButtonState.OutOfButton;
             }
+        }
+
+        protected override Color CalculateColor()
+        {
+            return SelectColorByState();
         }
 
         private bool CheckMouseOver(ResolutionIndependentRenderer? resolutionIndependentRenderer)
