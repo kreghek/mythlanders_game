@@ -43,6 +43,9 @@ namespace Rpg.Client.Models.Biome
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
+
+        private TextHint? _locationInfoHint;
+        private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
 
         public BiomeScreen(EwarGame game) : base(game)
@@ -311,34 +314,25 @@ namespace Rpg.Client.Models.Biome
             return cloud;
         }
 
-        private string GetCombatRewards(GlobeNodeGameObject nodeGameObject, GlobeNodeGameObject node)
+        private TextHint CreateLocationInfoHint(GlobeNodeGameObject locationInHint)
         {
-            if (node.GlobeNode.CombatSequence is null)
-            {
-                // No combat - no rewards
-                return string.Empty;
-            }
+            var node = locationInHint;
 
-            // TODO Display icons
+            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
 
-            var summaryReward = GetSummaryXpAwardLabel(node);
+            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
 
-            var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
-            if (equipmentType is not null)
-            {
-                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+            var rewards = GetCombatRewards(locationInHint, node);
 
-                var playerUnit = _globe.Player.GetAll
-                    .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            var sb = new StringBuilder();
+            sb.AppendLine(localizedName);
+            sb.AppendLine(combatSequenceSizeText);
+            sb.AppendLine(rewards);
 
-                if (playerUnit is not null)
-                {
-                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
-                    summaryReward += Environment.NewLine + equipmentTypeText;
-                }
-            }
-
-            return summaryReward;
+            var hint = new TextHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+                sb.ToString());
+            return hint;
         }
 
         private void DrawHud(SpriteBatch spriteBatch)
@@ -371,29 +365,6 @@ namespace Rpg.Client.Models.Biome
             }
 
             spriteBatch.End();
-        }
-
-        private TextHint? _locationInfoHint;
-        private GlobeNodeGameObject? _locationInHint;
-
-        private TextHint CreateLocationInfoHint(GlobeNodeGameObject locationInHint)
-        {
-            var node = locationInHint;
-
-            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
-
-            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
-            var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
-
-            var rewards = GetCombatRewards(locationInHint, node);
-
-            var sb = new StringBuilder();
-            sb.AppendLine(localizedName);
-            sb.AppendLine(combatSequenceSizeText);
-            sb.AppendLine(rewards);
-
-            var hint = new TextHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), sb.ToString());
-            return hint;
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
@@ -465,6 +436,36 @@ namespace Rpg.Client.Models.Biome
             }
 
             spriteBatch.End();
+        }
+
+        private string GetCombatRewards(GlobeNodeGameObject nodeGameObject, GlobeNodeGameObject node)
+        {
+            if (node.GlobeNode.CombatSequence is null)
+            {
+                // No combat - no rewards
+                return string.Empty;
+            }
+
+            // TODO Display icons
+
+            var summaryReward = GetSummaryXpAwardLabel(node);
+
+            var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
+            if (equipmentType is not null)
+            {
+                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+
+                var playerUnit = _globe.Player.GetAll
+                    .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+
+                if (playerUnit is not null)
+                {
+                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
+                    summaryReward += Environment.NewLine + equipmentTypeText;
+                }
+            }
+
+            return summaryReward;
         }
 
         private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
