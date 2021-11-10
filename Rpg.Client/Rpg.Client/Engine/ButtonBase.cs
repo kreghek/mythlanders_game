@@ -6,32 +6,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class ButtonBase
+    internal abstract class ButtonBase: ControlBase
     {
-        private const int CONTENT_MARGIN = 0;
         private UiButtonState _buttonState;
-        private Rectangle _rect;
 
-        protected ButtonBase(Texture2D texture, Rectangle rect)
+        protected ButtonBase(Texture2D texture, Rectangle rect): base(texture)
         {
-            Texture = texture;
             Rect = rect;
             _buttonState = UiButtonState.OutOfButton;
         }
 
         public bool IsEnabled { get; set; } = true;
-
-        public Rectangle Rect
-        {
-            get => _rect;
-            set
-            {
-                _rect = value;
-                HandleRectChanges();
-            }
-        }
-
-        public Texture2D Texture { get; }
 
         public void Click()
         {
@@ -44,19 +29,9 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        protected override Color CalculateColor()
         {
-            var color = SelectColorByState();
-
-            DrawBackground(spriteBatch, color);
-
-            var contentRect = new Rectangle(
-                CONTENT_MARGIN + Rect.Left,
-                CONTENT_MARGIN + Rect.Top,
-                Rect.Width - (CONTENT_MARGIN * 2),
-                Rect.Height - (CONTENT_MARGIN * 2));
-
-            DrawContent(spriteBatch, contentRect, color);
+            return SelectColorByState();
         }
 
         public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer = null)
@@ -92,18 +67,6 @@ namespace Rpg.Client.Engine
             {
                 _buttonState = UiButtonState.OutOfButton;
             }
-        }
-
-        protected virtual void DrawBackground(SpriteBatch spriteBatch, Color color)
-        {
-            spriteBatch.Draw(Texture, Rect, color);
-        }
-
-        protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color);
-
-        protected virtual void HandleRectChanges()
-        {
-            // Used only by children.
         }
 
         private bool CheckMouseOver(ResolutionIndependentRenderer? resolutionIndependentRenderer)

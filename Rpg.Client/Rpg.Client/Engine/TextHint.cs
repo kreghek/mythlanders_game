@@ -14,7 +14,7 @@ namespace Rpg.Client.Engine
             _text = text;
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect)
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             spriteBatch.DrawString(_spriteFont, _text,
                 contentRect.Location.ToVector2() + new Vector2(5, 15),
