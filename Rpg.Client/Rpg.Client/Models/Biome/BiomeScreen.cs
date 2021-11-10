@@ -179,7 +179,8 @@ namespace Rpg.Client.Models.Biome
                     if (!_screenTransition)
                     {
                         var mouseState = Mouse.GetState();
-                        var mouseRect = new Rectangle(mouseState.Position, new Point(1, 1));
+                        var mousePositionRir = _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(mouseState.Position.ToVector2());
+                        var mouseRect = new Rectangle(mousePositionRir.ToPoint(), new Point(1, 1));
 
                         _hoverNodeGameObject = null;
                         foreach (var location in _locationObjectList)
@@ -200,11 +201,16 @@ namespace Rpg.Client.Models.Biome
                                     _locationInHint = _hoverNodeGameObject;
                                     _locationInfoHint = CreateLocationInfoHint(_locationInHint);
                                 }
+
+                                break;
                             }
                             else
                             {
-                                _locationInHint = null;
-                                _locationInfoHint = null;
+                                if (_locationInHint is not null)
+                                {
+                                    _locationInHint = null;
+                                    _locationInfoHint = null;
+                                }
                             }
                         }
 

@@ -6,8 +6,8 @@ namespace Rpg.Client.Engine
     internal abstract class ControlBase
     {
         private const int CONTENT_MARGIN = 4;
-        private const int CORNER_SIZE = 8;
-        private const int CENTER_SIZE = 16;
+        private const int CORNER_SIZE = 15;
+        private const int CENTER_SIZE = (16 - CORNER_SIZE) * 2;
         
         protected ControlBase(Texture2D texture)
         {
