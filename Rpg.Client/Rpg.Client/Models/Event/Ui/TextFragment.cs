@@ -77,5 +77,13 @@ namespace Rpg.Client.Models.Event.Ui
 
             return name;
         }
+
+        public Vector2 CalculateSize()
+        {
+            var messageSize = _message.CalculateSize();
+            var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+            // TODO use margin
+            return messageSize + portraitSize + Vector2.One * (2 * 4);
+        }
     }
 }

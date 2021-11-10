@@ -244,9 +244,11 @@ namespace Rpg.Client.Models.Event
             for (var fragmentIndex = 0; fragmentIndex < _textFragments.Count; fragmentIndex++)
             {
                 var textFragmentControl = _textFragments[fragmentIndex];
+                var textFragmentSize = textFragmentControl.CalculateSize();
                 var textFragmentLocation =
-                    textContentRect.Location.ToVector2() + Vector2.UnitY * (60 + TEXT_MARGIN) * fragmentIndex;
-                textFragmentControl.Rect = new Rectangle(textFragmentLocation.ToPoint(), new Point(textContentRect.Width, 60));
+                    textContentRect.Location.ToVector2() + Vector2.UnitY * ((int)textFragmentSize.Y + TEXT_MARGIN) * fragmentIndex;
+                textFragmentControl.Rect = new Rectangle(textFragmentLocation.ToPoint(),
+                    new Point(textContentRect.Width, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
 
                 bottomPosition = new Vector2(textFragmentControl.Rect.X, textFragmentControl.Rect.Bottom);

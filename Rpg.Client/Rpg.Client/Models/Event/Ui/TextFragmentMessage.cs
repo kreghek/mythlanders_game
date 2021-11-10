@@ -34,9 +34,18 @@ namespace Rpg.Client.Models.Event.Ui
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
             var fragment = _eventTextFragment;
-            var localizedSpeakerText = GetLocalizedText(fragment.Text);
+            var localizedText = GetLocalizedText(fragment.Text);
             
-            spriteBatch.DrawString(_font, localizedSpeakerText, clientRect.Location.ToVector2(), contentColor);
+            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2(), contentColor);
+        }
+        
+        public Vector2 CalculateSize()
+        {
+            var fragment = _eventTextFragment;
+            var localizedText = GetLocalizedText(fragment.Text);
+            var size = _font.MeasureString(localizedText);
+            // TODO use margin
+            return size + Vector2.One * (2 * 4);
         }
     }
 }
