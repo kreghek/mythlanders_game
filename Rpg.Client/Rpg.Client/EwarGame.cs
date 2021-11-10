@@ -30,7 +30,7 @@ namespace Rpg.Client
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _screenManager.Draw(_spriteBatch);
 

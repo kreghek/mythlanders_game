@@ -97,7 +97,7 @@ namespace Rpg.Client.Models.Event
 
         protected override void UpdateContent(GameTime gameTime)
         {
-            if (!_tutorial)
+            if (!_tutorial && !_globe.CurrentEvent?.IsGameStart == true)
             {
                 _tutorial = true;
 
@@ -214,7 +214,7 @@ namespace Rpg.Client.Models.Event
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds,
+            spriteBatch.Draw(_backgroundTexture, _resolutionIndependentRenderer.VirtualBounds,
                 Color.Lerp(Color.Transparent, Color.Black, 0.5f));
             spriteBatch.End();
         }
