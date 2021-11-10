@@ -224,9 +224,9 @@ namespace Rpg.Client.Models.Biome
                                         _dice,
                                         isAutoplay: false);
 
-                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    if (_hoverNodeGameObject.AvailableEvent is not null)
                                     {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
                                         _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                                         _globe.CurrentEvent.Counter++;
@@ -253,9 +253,9 @@ namespace Rpg.Client.Models.Biome
                                         _dice,
                                         isAutoplay: true);
 
-                                    if (_hoverNodeGameObject.AvailableDialog is not null)
+                                    if (_hoverNodeGameObject.AvailableEvent is not null)
                                     {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableDialog;
+                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
                                         _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                                         _globe.CurrentEvent.Counter++;
@@ -470,9 +470,6 @@ namespace Rpg.Client.Models.Biome
 
         private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
         {
-            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
-            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
-
             var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =

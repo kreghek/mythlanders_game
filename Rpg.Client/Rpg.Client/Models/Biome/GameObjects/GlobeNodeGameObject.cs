@@ -48,10 +48,10 @@ namespace Rpg.Client.Models.Biome.GameObjects
             GlobeNode = globeNode;
             Position = position;
             Index = globeNode.Index;
-            AvailableDialog = globeNode.AssignedEvent;
+            AvailableEvent = globeNode.AssignedEvent;
         }
 
-        public Core.Event? AvailableDialog { get; }
+        public Core.Event? AvailableEvent { get; }
 
         public Core.Combat? Combat { get; }
         public GlobeNode GlobeNode { get; }

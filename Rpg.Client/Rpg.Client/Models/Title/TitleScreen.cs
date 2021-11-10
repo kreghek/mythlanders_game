@@ -34,16 +34,6 @@ namespace Rpg.Client.Models.Title
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-#if DEBUG
-            //if (_globeProvider.ChoisedUserMonitorResolution == null)
-            //{
-            //    var graphicsManager = Game.Services.GetService<GraphicsDeviceManager>();
-            //    graphicsManager.IsFullScreen = false;
-            //    graphicsManager.PreferredBackBufferWidth = 800;
-            //    graphicsManager.PreferredBackBufferHeight = 480;
-            //    graphicsManager.ApplyChanges();
-            //}
-#endif
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
 
@@ -151,14 +141,34 @@ namespace Rpg.Client.Models.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
+            var dice = Game.Services.GetService<IDice>();
+            _globeProvider.Globe.UpdateNodes(dice);
+            _globeProvider.Globe.IsNodeInitialied = true;
 
             var biomes = _globeProvider.Globe.Biomes.Where(x => x.IsAvailable).ToArray();
 
-            var startBiom = biomes.First();
+            var startBiome = biomes.First();
 
-            _globeProvider.Globe.CurrentBiome = startBiom;
+            _globeProvider.Globe.CurrentBiome = startBiome;
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            var firstAvailableNodeInBiome = startBiome.Nodes.SingleOrDefault(x => x.IsAvailable);
+
+            if (firstAvailableNodeInBiome?.AssignedEvent is not null)
+            {
+                // Make same operations as on click on the first node on the biome screen. 
+                _globeProvider.Globe.CurrentEvent = firstAvailableNodeInBiome.AssignedEvent;
+                _globeProvider.Globe.CurrentEventNode = _globeProvider.Globe.CurrentEvent.BeforeCombatStartNode;
+
+                _globeProvider.Globe.CurrentEvent.Counter++;
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+            }
+            else
+            {
+                // Defensive case
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            }
         }
     }
 }

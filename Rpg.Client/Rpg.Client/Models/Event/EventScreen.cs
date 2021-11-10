@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -19,7 +18,6 @@ namespace Rpg.Client.Models.Event
     internal sealed class EventScreen : GameScreenBase
     {
         private const int TEXT_MARGIN = 10;
-        private const int OPTIONS_BLOCK_MARGIN = 10;
 
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
@@ -252,7 +250,7 @@ namespace Rpg.Client.Models.Event
                 lastBottomPosition = new Vector2(textContentRect.X, textFragmentControl.Rect.Bottom + TEXT_MARGIN);
             }
 
-            var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y + OPTIONS_BLOCK_MARGIN);
+            var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y);
 
             var index = 0;
             foreach (var button in _buttons)
