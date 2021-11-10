@@ -110,7 +110,7 @@ namespace Rpg.Client.Models.Settings
         private ButtonBase GetBackToMainMenuButton(Texture2D buttonTexture, SpriteFont font)
         {
             var switchLanguageButton = new TextButton(
-                UiResource.BackToMainMenuButtonTitle,
+                /*UiResource.BackToMainMenuButtonTitle*/ string.Empty,
                 buttonTexture,
                 font,
                 new Rectangle());

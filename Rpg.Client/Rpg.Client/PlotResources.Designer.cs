@@ -61,24 +61,40 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fight!.
+        /// </summary>
+        internal static string EventOptionCombatText {
+            get {
+                return ResourceManager.GetString("EventOptionCombatText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string EventOptionContinueText {
+            get {
+                return ResourceManager.GetString("EventOptionContinueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [
         ///  {
-        ///    &quot;Location&quot;: &quot;Thicket&quot;,
-        ///    &quot;Name&quot;: &quot;Начальная зачистка&quot;,
-        ///    &quot;Aftermath&quot;: null,
-        ///    &quot;BeforeCombatNode&quot;: {
+        ///    &quot;AfterCombatNode&quot;: {
         ///      &quot;Fragments&quot;: [
         ///        {
-        ///          &quot;Speaker&quot;: &quot;Hq&quot;,
-        ///          &quot;Text&quot;: &quot;Гнездо аспидов прямо пред тобой. Надобно уничтожить гадов&quot;
+        ///          &quot;Speaker&quot;: null,
+        ///          &quot;Text&quot;: &quot;На месте убитых гадов появился чёрный ромб, похожий на камень.&quot;
         ///        },
         ///        {
         ///          &quot;Speaker&quot;: &quot;Berimir&quot;,
-        ///          &quot;Text&quot;: &quot;Небыль какая. Ещё же дед сказывал, как перевели они аспидов&quot;
+        ///          &quot;Text&quot;: &quot;Лютик! Аспиды отправились в тартарары. Дивну невидаль оставили&quot;
         ///        },
         ///        {
         ///          &quot;Speaker&quot;: &quot;Hq&quot;,
-        ///          &quot;Text&quot;: &quot;Темны времена, земли полнятся порождениями, [rest of string was truncated]&quot;;.
+        ///          &quot;Text&quot;: &quot;Славна битва твоя. Недалече мужи учёные, растолкуют. Да перестали слово молвить.\nПоищи, аль не случилось ли чего&quot;
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MainPlot {
             get {

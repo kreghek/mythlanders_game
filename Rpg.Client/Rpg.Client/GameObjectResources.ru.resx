@@ -153,4 +153,7 @@
   <data name="Wisp" xml:space="preserve">
     <value>Блуждающий огонёк</value>
   </data>
+  <data name="WarriorEquipmentItem" xml:space="preserve">
+    <value>Осколок меча</value>
+  </data>
 </root>

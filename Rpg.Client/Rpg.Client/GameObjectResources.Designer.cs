@@ -160,6 +160,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sword pieces.
+        /// </summary>
+        internal static string WarriorEquipmentItem {
+            get {
+                return ResourceManager.GetString("WarriorEquipmentItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Will-o-Wisp.
         /// </summary>
         internal static string Wisp {

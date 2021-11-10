@@ -328,7 +328,8 @@ namespace Rpg.Client.Models.Event
             _buttons.Clear();
             foreach (var option in _currentDialogNode.Options)
             {
-                var button = new TextButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
+                var optionLocalizedText = GetOptionLocalizedText(option);
+                var button = new TextButton(optionLocalizedText, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 button.OnClick += (_, _) =>
                 {
@@ -360,6 +361,11 @@ namespace Rpg.Client.Models.Event
 
                 _buttons.Add(button);
             }
+        }
+
+        private static string GetOptionLocalizedText(EventOption option)
+        {
+            return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
         }
 
         private void UpdateBackgroundObjects(GameTime gameTime)

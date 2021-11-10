@@ -136,4 +136,7 @@
   <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
   </data>
+  <data name="WarriorEquipmentItem" xml:space="preserve">
+      <value>Sword pieces</value>
+  </data>
 </root>

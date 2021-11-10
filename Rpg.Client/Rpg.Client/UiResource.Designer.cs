@@ -70,15 +70,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Back to the main menu.
-        /// </summary>
-        internal static string BackToMainMenuButtonTitle {
-            get {
-                return ResourceManager.GetString("BackToMainMenuButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Back to the map.
         /// </summary>
         internal static string BackToMapMenuButtonTitle {
@@ -120,24 +111,6 @@ namespace Rpg.Client {
         internal static string CombatTutorialText {
             get {
                 return ResourceManager.GetString("CombatTutorialText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string EventOptionCombatText {
-            get {
-                return ResourceManager.GetString("EventOptionCombatText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string EventOptionContinueText {
-            get {
-                return ResourceManager.GetString("EventOptionContinueText", resourceCulture);
             }
         }
         
@@ -250,29 +223,11 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switch res.
-        /// </summary>
-        internal static string SwitchResolutionButtonTitle {
-            get {
-                return ResourceManager.GetString("SwitchResolutionButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to To The Combat!.
         /// </summary>
         internal static string ToTheCombatButtonTitle {
             get {
                 return ResourceManager.GetString("ToTheCombatButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sword pieces.
-        /// </summary>
-        internal static string WarriorEquipmentItemDisplayName {
-            get {
-                return ResourceManager.GetString("WarriorEquipmentItemDisplayName", resourceCulture);
             }
         }
         
