@@ -239,22 +239,20 @@ namespace Rpg.Client.Models.Event
                 textRect.Height);
 
             var startPosition = textContentRect.Location.ToVector2();
-            var bottomPosition = startPosition;
+            var lastBottomPosition = startPosition;
 
             for (var fragmentIndex = 0; fragmentIndex < _textFragments.Count; fragmentIndex++)
             {
                 var textFragmentControl = _textFragments[fragmentIndex];
                 var textFragmentSize = textFragmentControl.CalculateSize();
-                var textFragmentLocation =
-                    textContentRect.Location.ToVector2() + Vector2.UnitY * ((int)textFragmentSize.Y + TEXT_MARGIN) * fragmentIndex;
-                textFragmentControl.Rect = new Rectangle(textFragmentLocation.ToPoint(),
+                textFragmentControl.Rect = new Rectangle(lastBottomPosition.ToPoint(),
                     new Point(textContentRect.Width, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
 
-                bottomPosition = new Vector2(textFragmentControl.Rect.X, textFragmentControl.Rect.Bottom);
+                lastBottomPosition = new Vector2(textContentRect.X, textFragmentControl.Rect.Bottom + TEXT_MARGIN);
             }
 
-            var optionsStartPosition = new Vector2(textContentRect.X, bottomPosition.Y + OPTIONS_BLOCK_MARGIN);
+            var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y + OPTIONS_BLOCK_MARGIN);
 
             var index = 0;
             foreach (var button in _buttons)
