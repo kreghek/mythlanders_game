@@ -389,12 +389,15 @@ namespace Rpg.Client.Models.Combat
             }
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
+                RestoreGroupAfterCombat();
                 _globeProvider.Globe.UpdateNodes(_dice);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
             else
             {
                 Debug.Fail("Unknown combat result.");
+
+                RestoreGroupAfterCombat();
 
                 // Fallback is just show biome.
                 _globeProvider.Globe.UpdateNodes(_dice);
@@ -843,7 +846,7 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var unit in _globe.Player.GetAll)
             {
-                unit.RestoreHPAfterCombat();
+                unit.RestoreHitpointsAfterCombat();
                 unit.RestoreManaPoint();
             }
         }
