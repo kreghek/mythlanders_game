@@ -229,7 +229,7 @@ namespace Rpg.Client.Core
                     {
                         new BowShotSkill(),
                         new ArrowRainSkill(true),
-                        new DefenseSkill(true),
+                        new DefenseSkill(true)
                     }
                 }
             },

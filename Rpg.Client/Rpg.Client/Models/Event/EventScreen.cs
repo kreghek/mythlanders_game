@@ -22,7 +22,6 @@ namespace Rpg.Client.Models.Event
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
-        private readonly IList<TextFragment> _textFragments;
 
         private readonly Camera2D _camera;
 
@@ -33,6 +32,7 @@ namespace Rpg.Client.Models.Event
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
         private Texture2D _backgroundTexture;
         private float _bgCenterOffsetPercentage;
@@ -77,7 +77,7 @@ namespace Rpg.Client.Models.Event
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
 
-            var data = new [] { Color.White };
+            var data = new[] { Color.White };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
         }
@@ -264,6 +264,11 @@ namespace Rpg.Client.Models.Event
             spriteBatch.End();
         }
 
+        private static string GetOptionLocalizedText(EventOption option)
+        {
+            return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
+        }
+
         private void InitEventControls()
         {
             _textFragments.Clear();
@@ -274,7 +279,7 @@ namespace Rpg.Client.Models.Event
                     textFragment, _gameObjectContentStorage.GetUnitPortrains());
                 _textFragments.Add(textFragmentControl);
             }
-            
+
             _buttons.Clear();
             foreach (var option in _currentDialogNode.Options)
             {
@@ -308,11 +313,6 @@ namespace Rpg.Client.Models.Event
 
                 _buttons.Add(button);
             }
-        }
-
-        private static string GetOptionLocalizedText(EventOption option)
-        {
-            return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
         }
 
         private void UpdateBackgroundObjects(GameTime gameTime)

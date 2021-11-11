@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class ButtonBase: ControlBase
+    internal abstract class ButtonBase : ControlBase
     {
         private UiButtonState _buttonState;
 
-        protected ButtonBase(Texture2D texture, Rectangle rect): base(texture)
+        protected ButtonBase(Texture2D texture, Rectangle rect) : base(texture)
         {
             Rect = rect;
             _buttonState = UiButtonState.OutOfButton;
@@ -27,11 +27,6 @@ namespace Rpg.Client.Engine
 
             OnClick?.Invoke(this, EventArgs.Empty);
             PlayClickSoundIfExists();
-        }
-
-        protected override Color CalculateColor()
-        {
-            return SelectColorByState();
         }
 
         public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer = null)
@@ -67,6 +62,11 @@ namespace Rpg.Client.Engine
             {
                 _buttonState = UiButtonState.OutOfButton;
             }
+        }
+
+        protected override Color CalculateColor()
+        {
+            return SelectColorByState();
         }
 
         private bool CheckMouseOver(ResolutionIndependentRenderer? resolutionIndependentRenderer)

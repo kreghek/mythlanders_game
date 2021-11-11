@@ -8,17 +8,18 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Event.Ui
 {
-    internal sealed class TextFragment: ControlBase
+    internal sealed class TextFragment : ControlBase
     {
-        const int PORTRAIT_SIZE = 32;
-        
-        private readonly SpriteFont _font;
-        private readonly Texture2D _portraitsTexture;
-        private readonly TextFragmentMessage _message;
-        private readonly UnitName _speaker;
-        private readonly string? _localizedSpeakerName;
+        private const int PORTRAIT_SIZE = 32;
 
-        public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment, Texture2D portraitsTexture) : base(texture)
+        private readonly SpriteFont _font;
+        private readonly string? _localizedSpeakerName;
+        private readonly TextFragmentMessage _message;
+        private readonly Texture2D _portraitsTexture;
+        private readonly UnitName _speaker;
+
+        public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
+            Texture2D portraitsTexture) : base(texture)
         {
             _font = font;
             _portraitsTexture = portraitsTexture;
@@ -27,9 +28,23 @@ namespace Rpg.Client.Models.Event.Ui
             _message = new TextFragmentMessage(texture, font, eventTextFragment);
         }
 
+        public Vector2 CalculateSize()
+        {
+            var messageSize = _message.CalculateSize();
+            var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+            // TODO use margin
+            return Vector2.Max(messageSize, portraitSize) + Vector2.One * (2 * 4);
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
+        }
+
+        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            // Do nothing to draw transparent background.
+            //base.DrawBackground(spriteBatch, color);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
@@ -45,12 +60,6 @@ namespace Rpg.Client.Models.Event.Ui
             _message.Draw(spriteBatch);
         }
 
-        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
-        {
-            // Do nothing to draw transparent background.
-            //base.DrawBackground(spriteBatch, color);
-        }
-
         private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
         {
             var portrainSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
@@ -58,7 +67,7 @@ namespace Rpg.Client.Models.Event.Ui
             spriteBatch.DrawString(_font, _localizedSpeakerName, position + Vector2.UnitY * PORTRAIT_SIZE,
                 Color.White);
         }
-        
+
         private static string? GetSpeaker(UnitName speaker)
         {
             if (speaker == UnitName.Environment)
@@ -76,14 +85,6 @@ namespace Rpg.Client.Models.Event.Ui
             var name = GameObjectHelper.GetLocalized(unitName);
 
             return name;
-        }
-
-        public Vector2 CalculateSize()
-        {
-            var messageSize = _message.CalculateSize();
-            var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
-            // TODO use margin
-            return Vector2.Max(messageSize, portraitSize) + Vector2.One * (2 * 4);
         }
     }
 }

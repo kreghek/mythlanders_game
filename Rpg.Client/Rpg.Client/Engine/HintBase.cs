@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class HintBase: ControlBase
+    internal abstract class HintBase : ControlBase
     {
-        protected HintBase(Texture2D texture): base(texture)
+        protected HintBase(Texture2D texture) : base(texture)
         {
         }
 

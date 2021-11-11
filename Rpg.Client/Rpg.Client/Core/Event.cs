@@ -8,12 +8,12 @@
         public BiomeType? Biome { get; internal set; }
         public bool Completed { get; set; }
         public int Counter { get; set; }
+        public bool IsGameStart { get; set; }
         public bool IsHighPriority { get; set; }
         public bool IsUnique { get; set; }
         public int? RequiredBiomeLevel { get; internal set; }
         public string?[]? RequiredEventsCompleted { get; internal set; }
         public SystemEventMarker? SystemMarker { get; set; }
         public string Title { get; set; }
-        public bool IsGameStart { get; set; }
     }
 }
