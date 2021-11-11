@@ -173,8 +173,11 @@ namespace Rpg.Client.Models.Combat
                 return;
             }
 
+            var selectedUnit = e;
+
             _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = e;
+            _combatSkillsPanel.Unit = selectedUnit;
+            _combatSkillsPanel.SelectedCard = selectedUnit.CombatCards.First();
             var unitGameObject = GetUnitGameObject(e);
             unitGameObject.IsActive = true;
         }
