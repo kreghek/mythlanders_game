@@ -24,9 +24,9 @@ namespace Rpg.Client
                 using var game = new EwarGame(logger);
                 game.Run();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                logger.LogError(exception,"Game was crushed!");
+                logger.LogError(exception, "Game was crushed!");
             }
         }
 
@@ -44,7 +44,8 @@ namespace Rpg.Client
                 builder
                     .AddProvider(new FileLoggerProvider("logs/app.log", loggingOptions)
                     {
-                        FormatLogEntry = (msg) => {
+                        FormatLogEntry = (msg) =>
+                        {
                             var sb = new System.Text.StringBuilder();
                             sb.Append($"{DateTime.Now:o}");
                             sb.Append($" [{msg.LogLevel}] ");
