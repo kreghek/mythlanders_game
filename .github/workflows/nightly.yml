@@ -39,17 +39,28 @@ jobs:
     - name: Publish
       run: dotnet publish Rpg.Client/Rpg.Client.sln --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release
     
+    - name: Get current time
+      uses: srfrnk/current-time@master
+      id: current-time
+      with:
+        format: YYYY-MM-DD
+    
     - name: Write version to file
       uses: DamianReeves/write-file-action@v1.0
+      env:
+        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
         path: bin/version.txt
         contents: |
           ver 0.1-dev#${{ github.run_number }}
+          $F_TIME
           ${{ github.sha }}
         write-mode: overwrite
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
+      env:
+        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}
+        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-$F_TIME
         path: bin
