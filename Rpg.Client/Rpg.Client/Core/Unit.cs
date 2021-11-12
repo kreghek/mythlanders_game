@@ -10,6 +10,7 @@ namespace Rpg.Client.Core
     {
         private const int BASE_MANA_POOL_SIZE = 10;
         private const int MANA_PER_LEVEL = 1;
+        private const float COMBAT_RESTORE_SHARE = 1.0f;
 
         public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
         {
@@ -136,9 +137,9 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        public void RestoreHPAfterCombat()
+        public void RestoreHitpointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(MaxHp * 0.1f, MidpointRounding.ToEven);
+            var hpBonus = (int)Math.Round(MaxHp * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
 
             Hp += hpBonus;
 
