@@ -1,11 +1,6 @@
-﻿using System;
-using System.IO;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using NReco.Logging.File;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
