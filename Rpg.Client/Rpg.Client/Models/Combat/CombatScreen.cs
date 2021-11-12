@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Biome.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects;
 using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Combat.Tutorial;
