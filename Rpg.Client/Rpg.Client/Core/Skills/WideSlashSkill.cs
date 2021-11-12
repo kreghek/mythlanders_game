@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.SwordSlash },
+                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.SwordSlash },
             costRequired)
         {
         }
@@ -48,7 +48,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public VolkolakClawsSkill(bool costRequired) : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
+                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
             costRequired)
         {
         }
