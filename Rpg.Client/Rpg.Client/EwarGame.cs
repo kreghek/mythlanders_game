@@ -1,5 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.IO;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using NReco.Logging.File;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -39,6 +45,11 @@ namespace Rpg.Client
 
         protected override void Initialize()
         {
+            AddLogging();
+
+            var logger = Services.GetService<ILogger<EwarGame>>();
+            logger.LogInformation("The game start initialization");
+
             _screenManager = new ScreenManager(this);
 
             RegisterServices(_screenManager);
@@ -77,7 +88,36 @@ namespace Rpg.Client
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
 
+            logger.LogInformation("Initialization complete successfuly");
+
             base.Initialize();
+        }
+
+        private void AddLogging()
+        {
+            using var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddProvider(new FileLoggerProvider("logs/app.log",new FileLoggerOptions { 
+                        Append = true,
+                        FileSizeLimitBytes = 10000,
+                        MaxRollingFiles = 3
+                    })
+                    {
+                        FormatLogEntry = (msg) => {
+                            var sb = new System.Text.StringBuilder();
+                            sb.Append($"{DateTime.Now:o}");
+                            sb.Append($" [{msg.LogLevel}] ");
+                            sb.Append(msg.Message);
+                            sb.Append(msg.Exception?.ToString());
+                            return sb.ToString();
+                        }
+                    })  
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning);
+            });
+            var logger = loggerFactory.CreateLogger<EwarGame>();
+            Services.AddService(logger);
         }
 
         protected override void LoadContent()
