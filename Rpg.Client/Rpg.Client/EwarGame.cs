@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -14,6 +15,7 @@ namespace Rpg.Client
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+        private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
 
         private ResolutionIndependentRenderer _resolutionIndependence;
@@ -21,11 +23,12 @@ namespace Rpg.Client
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame()
+        public EwarGame(ILogger<EwarGame> logger)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _logger = logger;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -39,6 +42,10 @@ namespace Rpg.Client
 
         protected override void Initialize()
         {
+            _logger.LogInformation("Initialization started");
+
+            Services.AddService(_logger);
+
             _screenManager = new ScreenManager(this);
 
             RegisterServices(_screenManager);
@@ -76,6 +83,8 @@ namespace Rpg.Client
             _graphics.PreferredBackBufferWidth = WIDTH;
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
+
+            _logger.LogInformation("Initialization complete successfuly");
 
             base.Initialize();
         }
