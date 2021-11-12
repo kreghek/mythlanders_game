@@ -20,6 +20,7 @@ namespace Rpg.Client
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
+        private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
 
         private ResolutionIndependentRenderer _resolutionIndependence;
@@ -27,11 +28,12 @@ namespace Rpg.Client
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame()
+        public EwarGame(ILogger<EwarGame> logger)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _logger = logger;
         }
 
         protected override void Draw(GameTime gameTime)
@@ -45,10 +47,9 @@ namespace Rpg.Client
 
         protected override void Initialize()
         {
-            AddLogging();
+            _logger.LogInformation("Initialization started");
 
-            var logger = Services.GetService<ILogger<EwarGame>>();
-            logger.LogInformation("The game start initialization");
+            Services.AddService(_logger);
 
             _screenManager = new ScreenManager(this);
 
@@ -88,36 +89,9 @@ namespace Rpg.Client
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
 
-            logger.LogInformation("Initialization complete successfuly");
+            _logger.LogInformation("Initialization complete successfuly");
 
             base.Initialize();
-        }
-
-        private void AddLogging()
-        {
-            using var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder
-                    .AddProvider(new FileLoggerProvider("logs/app.log",new FileLoggerOptions { 
-                        Append = true,
-                        FileSizeLimitBytes = 10000,
-                        MaxRollingFiles = 3
-                    })
-                    {
-                        FormatLogEntry = (msg) => {
-                            var sb = new System.Text.StringBuilder();
-                            sb.Append($"{DateTime.Now:o}");
-                            sb.Append($" [{msg.LogLevel}] ");
-                            sb.Append(msg.Message);
-                            sb.Append(msg.Exception?.ToString());
-                            return sb.ToString();
-                        }
-                    })  
-                    .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning);
-            });
-            var logger = loggerFactory.CreateLogger<EwarGame>();
-            Services.AddService(logger);
         }
 
         protected override void LoadContent()
