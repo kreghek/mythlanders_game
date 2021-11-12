@@ -57,7 +57,7 @@ jobs:
         path: bin/version.txt
         contents: |
           ver 0.1-tempdev#${{ github.run_number }}
-          ${{ F_TIME }}
+          ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
 
@@ -66,5 +66,5 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-${{ github.run_number }}-${{ F_TIME }}
+        name: ewar-${{ matrix.runtime }}-${{ github.run_number }}-${{ env.F_TIME }}
         path: bin
