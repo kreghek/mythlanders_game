@@ -5,7 +5,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -347,7 +346,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                 if (!_actorStateEngineList.Any())
                 {
-                    AddStateEngine(new UnitIdleState(_graphics));
+                    AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
                 }
 
                 ResetActorRootSpritePosition();

@@ -4,7 +4,13 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal class CombatUnit
+    internal enum CombatUnitState
+    { 
+        Idle,
+        Defense
+    }
+
+    internal sealed class CombatUnit
     {
         public CombatUnit(Unit unit, int index)
         {
@@ -25,6 +31,7 @@ namespace Rpg.Client.Core
         public int Index { get; }
 
         public Unit Unit { get; }
+        public CombatUnitState State { get; internal set; }
 
         private void Unit_HasBeenDamaged(object? sender, int e)
         {
@@ -43,6 +50,11 @@ namespace Rpg.Client.Core
         {
             public int Amount { get; set; }
             public CombatUnit CombatUnit { get; set; }
+        }
+
+        internal void ChangeState(CombatUnitState targetState)
+        {
+            State = targetState;
         }
     }
 }

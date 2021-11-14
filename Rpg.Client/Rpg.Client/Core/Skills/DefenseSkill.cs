@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Skills
             new SkillVisualization
             {
                 Type = SkillVisualizationStateType.Support,
-                SoundEffectType = GameObjectSoundType.SwordSlash
+                SoundEffectType = GameObjectSoundType.Defence
             }, costRequired)
         {
         }
@@ -24,7 +24,7 @@ namespace Rpg.Client.Core.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.AllFriendly,
+                Direction = SkillDirection.Self,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effect = new DecreaseDamageEffect(0.5f) { Value = 1 };

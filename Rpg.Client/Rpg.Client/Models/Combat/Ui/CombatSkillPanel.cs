@@ -15,7 +15,10 @@ namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
     {
-        private const int SKILL_BUTTON_SIZE = 32;
+        private const int ICON_SIZE = 32;
+        private const int BUTTON_PADDING = 5;
+        private const int BUTTON_MARGIN = 5;
+        private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
 
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
@@ -221,7 +224,7 @@ namespace Rpg.Client.Models.Combat.Ui
             int panelWidth, int buttonIndex)
         {
             var panelMiddleX = panelWidth / 2;
-            var buttonOffsetX = SKILL_BUTTON_SIZE * buttonIndex;
+            var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
             var panelLeftX = resolutionIndependentRenderer.VirtualBounds.Center.X - panelMiddleX;
 
             return new Rectangle(panelLeftX + buttonOffsetX,
@@ -258,7 +261,6 @@ namespace Rpg.Client.Models.Combat.Ui
         private static Rectangle GetIconRect(string sid)
         {
             const int SPRITESHEET_COLUMN_COUNT = 3;
-            const int ICON_SIZE = 32;
 
             var iconIndexNullable = GetIconIndex(sid);
 
