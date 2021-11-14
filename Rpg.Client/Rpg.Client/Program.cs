@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 
 using Microsoft.Extensions.Logging;
@@ -10,26 +11,6 @@ namespace Rpg.Client
 {
     public static class Program
     {
-        [STAThread]
-        private static void Main()
-        {
-            var defaultCulture = CultureInfo.GetCultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentCulture = defaultCulture;
-            Thread.CurrentThread.CurrentUICulture = defaultCulture;
-
-            var logger = CreateLogging();
-
-            try
-            {
-                using var game = new EwarGame(logger);
-                game.Run();
-            }
-            catch(Exception exception)
-            {
-                logger.LogError(exception,"Game was crushed!");
-            }
-        }
-
         private static ILogger<EwarGame> CreateLogging()
         {
             using var loggerFactory = LoggerFactory.Create(builder =>
@@ -44,8 +25,9 @@ namespace Rpg.Client
                 builder
                     .AddProvider(new FileLoggerProvider("logs/app.log", loggingOptions)
                     {
-                        FormatLogEntry = (msg) => {
-                            var sb = new System.Text.StringBuilder();
+                        FormatLogEntry = msg =>
+                        {
+                            var sb = new StringBuilder();
                             sb.Append($"{DateTime.Now:o}");
                             sb.Append($" [{msg.LogLevel}] ");
                             sb.Append(msg.Message);
@@ -58,6 +40,26 @@ namespace Rpg.Client
             });
             var logger = loggerFactory.CreateLogger<EwarGame>();
             return logger;
+        }
+
+        [STAThread]
+        private static void Main()
+        {
+            var defaultCulture = CultureInfo.GetCultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentCulture = defaultCulture;
+            Thread.CurrentThread.CurrentUICulture = defaultCulture;
+
+            var logger = CreateLogging();
+
+            try
+            {
+                using var game = new EwarGame(logger);
+                game.Run();
+            }
+            catch (Exception exception)
+            {
+                logger.LogError(exception, "Game was crushed!");
+            }
         }
     }
 }
