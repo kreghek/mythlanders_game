@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Skills
             new SkillVisualization
             {
                 Type = SkillVisualizationStateType.Support,
-                SoundEffectType = GameObjectSoundType.SwordSlash
+                SoundEffectType = GameObjectSoundType.Defence
             }, costRequired)
         {
         }

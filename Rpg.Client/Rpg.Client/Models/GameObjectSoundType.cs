@@ -9,6 +9,7 @@
         MagicDust,
         EgyptianDarkMagic,
         WolfBite,
-        SnakeBite
+        SnakeBite,
+        Defence
     }
 }
