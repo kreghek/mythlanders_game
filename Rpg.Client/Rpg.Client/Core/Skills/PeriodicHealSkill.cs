@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public PeriodicHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.Heal }, costRequired)
+        { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.Heal }, costRequired)
         {
         }
 
