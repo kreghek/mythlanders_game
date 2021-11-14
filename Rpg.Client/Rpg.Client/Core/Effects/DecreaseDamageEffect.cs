@@ -21,5 +21,15 @@ namespace Rpg.Client.Core.Effects
         }
 
         public override IEnumerable<ModifierBase> Modifiers { get; }
+
+        protected override void AfterDispel()
+        {
+            Target.ChangeState(CombatUnitState.Idle);
+        }
+
+        protected override void AfterImpose()
+        {
+            Target.ChangeState(CombatUnitState.Defense);
+        }
     }
 }

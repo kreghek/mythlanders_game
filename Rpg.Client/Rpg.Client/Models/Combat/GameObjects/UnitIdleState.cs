@@ -4,9 +4,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class UnitIdleState : IUnitStateEngine
     {
-        public UnitIdleState(UnitGraphics unitGraphics)
+        public UnitIdleState(UnitGraphics unitGraphics, Core.CombatUnitState state)
         {
-            unitGraphics.PlayAnimation("Idle");
+            if (state == Core.CombatUnitState.Defense)
+            {
+                unitGraphics.PlayAnimation("Defense");
+            }
+            else
+            {
+                unitGraphics.PlayAnimation("Idle");
+            }
         }
 
         /// <inheritdoc />
