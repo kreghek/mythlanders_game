@@ -29,9 +29,14 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatSkillCard> CombatCards { get; }
 
         public int Index { get; }
+        public CombatUnitState State { get; internal set; }
 
         public Unit Unit { get; }
-        public CombatUnitState State { get; internal set; }
+
+        internal void ChangeState(CombatUnitState targetState)
+        {
+            State = targetState;
+        }
 
         private void Unit_HasBeenDamaged(object? sender, int e)
         {
@@ -50,11 +55,6 @@ namespace Rpg.Client.Core
         {
             public int Amount { get; set; }
             public CombatUnit CombatUnit { get; set; }
-        }
-
-        internal void ChangeState(CombatUnitState targetState)
-        {
-            State = targetState;
         }
     }
 }
