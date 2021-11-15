@@ -25,6 +25,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 new SvorogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
                     screenShaker),
+                new SvorogSymbolState2(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                    screenShaker),
                 new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
             };
             _blocker = blocker;
