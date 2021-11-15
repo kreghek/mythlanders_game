@@ -4,10 +4,17 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Models.Combat
 {
+    internal enum ShakeDirection
+    { 
+        FadeIn,
+        FadeOut
+    }
+
     internal sealed class ScreenShaker
     {
         private const double ITERATION_DURATION = 0.015;
-        
+        private const int MAX_AMPLITUDE = 20;
+
         private double _counter;
         private bool _isEnabled;
         private double? _targetDuration;
@@ -15,12 +22,15 @@ namespace Rpg.Client.Models.Combat
         private Vector2? _offset;
         private static readonly Random _random = new Random();
         private float _amplitude;
-        
-        public void Start(double? seconds)
+        private ShakeDirection _shakeDirection;
+
+
+        public void Start(double? seconds, ShakeDirection shakeDirection)
         {
             _isEnabled = true;
             _targetDuration = seconds;
-            _amplitude = 20;
+            _amplitude = MAX_AMPLITUDE;
+            _shakeDirection = shakeDirection;
         }
 
         public void Stop()
@@ -51,7 +61,10 @@ namespace Rpg.Client.Models.Combat
 
                 if (_amplitude > 0.00005)
                 {
-                    _amplitude *= 0.9f;
+                    var t = _counter / _targetDuration.GetValueOrDefault(1);
+                    var t2 = t > 1 ? 1 : (float)t;
+                    var t3 = _shakeDirection == ShakeDirection.FadeIn ? 1 - t2 : t2;
+                    _amplitude = MAX_AMPLITUDE * t3;
                 }
             }
             else
