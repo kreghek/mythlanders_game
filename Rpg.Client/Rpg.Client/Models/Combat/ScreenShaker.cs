@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 namespace Rpg.Client.Models.Combat
 {
     internal enum ShakeDirection
-    { 
+    {
         FadeIn,
         FadeOut
     }

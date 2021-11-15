@@ -458,7 +458,7 @@ namespace Rpg.Client.Models.Combat
 
                 var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
                 var shakeVector3d = new Vector3(shakeVector, 0);
-                
+
                 var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                              * Matrix.CreateScale(scaleVector);
 

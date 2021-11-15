@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public SvorogBlastFurnaceSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.SwordSlash },
+        { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.SwordSlash },
             costRequired)
         {
         }
