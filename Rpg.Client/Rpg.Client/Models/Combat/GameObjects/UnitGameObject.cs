@@ -235,11 +235,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     if (skill.Sid == "Periodic Heal")
                     {
-                        singleBullet = new HealLightObject(target.Position, _gameObjectContentStorage, bulletBlocker);
+                        singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64), _gameObjectContentStorage, bulletBlocker);
                     }
                     else
                     {
-                        singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                        singleBullet = new BulletGameObject(Position - Vector2.UnitY * (64), target.Position, _gameObjectContentStorage,
                             bulletBlocker);
                     }
 
@@ -313,9 +313,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     {
                         bullets = new List<IInteractionDelivery>
                         {
-                            new BulletGameObject(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
-                            new BulletGameObject(Position, new Vector2(200, 200), _gameObjectContentStorage, null),
-                            new BulletGameObject(Position, new Vector2(300, 300), _gameObjectContentStorage, null)
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200, 200), _gameObjectContentStorage, null),
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300), _gameObjectContentStorage, null)
                         };
                     }
 

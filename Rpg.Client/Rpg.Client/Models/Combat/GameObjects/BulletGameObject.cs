@@ -25,7 +25,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics())
             {
-                Position = startPosition
+                Position = startPosition,
+                SourceRectangle = new Rectangle(0, 0, 64, 32)
             };
 
             _startPosition = startPosition;
