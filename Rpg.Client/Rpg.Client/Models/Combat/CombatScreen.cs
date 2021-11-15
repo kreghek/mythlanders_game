@@ -56,8 +56,8 @@ namespace Rpg.Client.Models.Combat
 
 
         private bool _interactButtonClicked;
+        private readonly ScreenShaker _screenShaker;
         private UnitPanelController? _unitPanelController;
-        private ScreenShaker _screenShaker;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -159,7 +159,8 @@ namespace Rpg.Client.Models.Combat
         private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
+            var gameObject =
+                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.Healed += CombatUnit_Healed;

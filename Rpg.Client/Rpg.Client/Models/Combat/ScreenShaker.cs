@@ -14,15 +14,25 @@ namespace Rpg.Client.Models.Combat
     {
         private const double ITERATION_DURATION = 0.015;
         private const int MAX_AMPLITUDE = 20;
-
-        private double _counter;
-        private bool _isEnabled;
-        private double? _targetDuration;
-        private double _currentIterationCounter;
-        private Vector2? _offset;
         private static readonly Random _random = new Random();
         private float _amplitude;
+
+        private double _counter;
+        private double _currentIterationCounter;
+        private bool _isEnabled;
+        private Vector2? _offset;
         private ShakeDirection _shakeDirection;
+        private double? _targetDuration;
+
+        public Vector2? GetOffset()
+        {
+            if (_offset is null)
+            {
+                return null;
+            }
+
+            return _offset.Value * _amplitude;
+        }
 
 
         public void Start(double? seconds, ShakeDirection shakeDirection)
@@ -71,16 +81,6 @@ namespace Rpg.Client.Models.Combat
             {
                 _offset = null;
             }
-        }
-
-        public Vector2? GetOffset()
-        {
-            if (_offset is null)
-            {
-                return null;
-            }
-
-            return _offset.Value * _amplitude;
         }
     }
 }

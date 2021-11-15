@@ -11,12 +11,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const int SYMBOL_SIZE = 128;
 
         private const int FRAME_COUNT = 18;
-        private readonly Vector2 _targetPosition;
         private readonly AnimationBlocker? _blocker;
+        private readonly Sprite _graphics;
+        private readonly Vector2 _targetPosition;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
-        private readonly Sprite _graphics;
 
         public SymbolObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
@@ -67,7 +67,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
 
-            _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (_frameIndex % 4), SYMBOL_SIZE * (_frameIndex / 4), SYMBOL_SIZE, SYMBOL_SIZE);
+            _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (_frameIndex % 4), SYMBOL_SIZE * (_frameIndex / 4),
+                SYMBOL_SIZE, SYMBOL_SIZE);
         }
     }
 }
