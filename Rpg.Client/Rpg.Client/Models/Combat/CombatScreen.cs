@@ -427,8 +427,6 @@ namespace Rpg.Client.Models.Combat
             var damageIndicator = new HpChangedComponent(-e.Amount, position, font);
 
             unitGameObject.AddChild(damageIndicator);
-
-            _screenShaker.Start(3, ShakeDirection.FadeOut);
         }
 
         private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
