@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal class UnitIdleState : IUnitStateEngine
     {
-        public UnitIdleState(UnitGraphics unitGraphics, Core.CombatUnitState state)
+        public UnitIdleState(UnitGraphics unitGraphics, CombatUnitState state)
         {
-            if (state == Core.CombatUnitState.Defense)
+            if (state == CombatUnitState.Defense)
             {
                 unitGraphics.PlayAnimation("Defense");
             }

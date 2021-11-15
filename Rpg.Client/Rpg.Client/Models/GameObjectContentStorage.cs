@@ -123,7 +123,7 @@ namespace Rpg.Client.Models
                     GameObjectSoundType.SwordSlash,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect")
                 },
-                { 
+                {
                     GameObjectSoundType.Defence,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/ShieldEffect3")
                 },
