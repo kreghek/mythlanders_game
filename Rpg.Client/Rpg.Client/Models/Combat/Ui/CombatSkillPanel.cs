@@ -240,6 +240,7 @@ namespace Rpg.Client.Models.Combat.Ui
                 "Slash" => 0,
                 "Defense Stance" => 1,
                 "Wide Slash" => 2,
+                "Svorog's Blast Furnace" => 2,
                 "Strike" => 3,
                 "Arrow Rain" => 4,
                 "Zduhach Might" => 5,

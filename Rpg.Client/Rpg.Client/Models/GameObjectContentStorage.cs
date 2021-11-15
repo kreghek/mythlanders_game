@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -14,12 +15,19 @@ namespace Rpg.Client.Models
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
+        private Texture2D _svorogSymbolTexture;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
+
+        public Texture2D GetSymbolSprite()
+        {
+            return _svorogSymbolTexture;
+        }
+
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
@@ -188,17 +196,18 @@ namespace Rpg.Client.Models
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
 
             _combatBackgroundAnimatedObjectsTextureDict = new Dictionary<CombatBackgroundObjectTextureType, Texture2D>
+            {
                 {
-                    {
-                        CombatBackgroundObjectTextureType.Clouds,
-                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds")
-                    },
-                    {
-                        CombatBackgroundObjectTextureType.Banner,
-                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner")
-                    }
+                    CombatBackgroundObjectTextureType.Clouds,
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds")
+                },
+                {
+                    CombatBackgroundObjectTextureType.Banner,
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner")
                 }
-                ;
+            };
+
+            _svorogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
         }
 
         internal Texture2D GetBiomeClouds()

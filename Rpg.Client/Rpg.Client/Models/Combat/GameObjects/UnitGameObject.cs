@@ -300,12 +300,24 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                     };
 
-                    var bullets = new List<BulletGameObject>
+                    List<IInteractionDelivery>? bullets;
+
+                    if (skill.Sid == "Svorog's Blast Furnace")
                     {
-                        new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
-                        new(Position, new Vector2(200, 200), _gameObjectContentStorage, null),
-                        new(Position, new Vector2(300, 300), _gameObjectContentStorage, null)
-                    };
+                        bullets = new List<IInteractionDelivery>
+                        {
+                            new SymbolObject(Position - Vector2.UnitY * (128), _gameObjectContentStorage, bulletBlocker)
+                        };
+                    }
+                    else
+                    {
+                        bullets = new List<IInteractionDelivery>
+                        {
+                            new BulletGameObject(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
+                            new BulletGameObject(Position, new Vector2(200, 200), _gameObjectContentStorage, null),
+                            new BulletGameObject(Position, new Vector2(300, 300), _gameObjectContentStorage, null)
+                        };
+                    }
 
                     foreach (var bullet in bullets)
                     {

@@ -9,7 +9,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 {
     internal sealed class SvorogSymbolState : IUnitStateEngine
     {
-        private const double DURATION = 1;
+        private const double DURATION = 2.5f;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
@@ -59,7 +59,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation($"Skill{_index}");
-                _screenShaker.Start(3, ShakeDirection.FadeOut);
+                _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
