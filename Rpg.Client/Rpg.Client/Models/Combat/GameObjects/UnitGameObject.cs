@@ -16,11 +16,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly Camera2D _camera;
+        private readonly ScreenShaker _screenShaker;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
 
         public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
-            Camera2D camera)
+            Camera2D camera, ScreenShaker screenShaker)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
@@ -30,6 +31,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
+            _screenShaker = screenShaker;
         }
 
         public CombatUnit CombatUnit { get; }
@@ -79,24 +81,42 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                    blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.PointClamp,
-                    depthStencilState: DepthStencilState.None,
-                    rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: _camera.GetViewTransformationMatrix(),
-                    effect: allWhite);
-            }
-            else
-            {
-                spriteBatch.End();
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+                var shakeVector3d = new Vector3(shakeVector, 0);
+
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                             * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                     blendState: BlendState.AlphaBlend,
                     samplerState: SamplerState.PointClamp,
                     depthStencilState: DepthStencilState.None,
                     rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: _camera.GetViewTransformationMatrix());
+                    transformMatrix: matrix,
+                    effect: allWhite);
+            }
+            else
+            {
+                spriteBatch.End();
+
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+                var shakeVector3d = new Vector3(shakeVector, 0);
+
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                             * Matrix.CreateScale(scaleVector);
+
+                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: matrix);
             }
 
             _graphics.Draw(spriteBatch);
