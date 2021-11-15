@@ -57,6 +57,7 @@ namespace Rpg.Client.Models.Combat
 
         private bool _interactButtonClicked;
         private UnitPanelController? _unitPanelController;
+        private ScreenShaker _screenShaker;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -98,6 +99,8 @@ namespace Rpg.Client.Models.Combat
                 new Vector2(200, 250),
                 new Vector2(200, 350)
             };
+
+            _screenShaker = new ScreenShaker();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -138,6 +141,8 @@ namespace Rpg.Client.Models.Combat
                 {
                     HandleCombatHud();
                 }
+
+                _screenShaker.Update(gameTime);
             }
 
             HandleBackgrounds();
@@ -154,7 +159,7 @@ namespace Rpg.Client.Models.Combat
         private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera);
+            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.Healed += CombatUnit_Healed;
@@ -449,9 +454,12 @@ namespace Rpg.Client.Models.Combat
                 var position3d = new Vector3(position, 0);
 
                 var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
-                var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+                var shakeVector3d = new Vector3(shakeVector, 0);
+                
+                var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                              * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(
@@ -505,10 +513,13 @@ namespace Rpg.Client.Models.Combat
             var position = new Vector2(roundedX, 0);
             var position3d = new Vector3(position, 0);
 
+            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            var shakeVector3d = new Vector3(shakeVector, 0);
+
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
-            var matrix = Matrix.CreateTranslation(translationVector + position3d)
+            var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
@@ -540,12 +551,21 @@ namespace Rpg.Client.Models.Combat
 
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
+            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            var shakeVector3d = new Vector3(shakeVector, 0);
+
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                         * Matrix.CreateScale(scaleVector);
+
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
+                transformMatrix: matrix);
 
             DrawBullets(spriteBatch);
 

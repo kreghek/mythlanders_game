@@ -23,7 +23,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
         {
-            _graphics = new Sprite(contentStorage.GetBulletGraphics());
+            _graphics = new Sprite(contentStorage.GetBulletGraphics())
+            {
+                Position = startPosition,
+                SourceRectangle = new Rectangle(0, 0, 64, 32)
+            };
+
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;

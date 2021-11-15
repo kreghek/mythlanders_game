@@ -5,14 +5,14 @@ using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class WideSlashSkill : SkillBase
+    internal class VolkolakClawsSkill : SkillBase
     {
-        public WideSlashSkill() : this(false)
+        public VolkolakClawsSkill() : this(false)
         {
         }
 
-        public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.SwordSlash },
+        public VolkolakClawsSkill(bool costRequired) : base(new SkillVisualization
+                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
             costRequired)
         {
         }
@@ -29,6 +29,21 @@ namespace Rpg.Client.Core.Skills
                         PowerMultiplier = 0.5f,
                         ValueRange = 1,
                         Actor = u
+                    };
+
+                    return res;
+                })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Self,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var res = new HealEffect
+                    {
+                        Actor = u,
+                        PowerMultiplier = 0.5f,
+                        ValueRange = 1
                     };
 
                     return res;

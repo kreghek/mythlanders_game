@@ -16,11 +16,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly Camera2D _camera;
+        private readonly ScreenShaker _screenShaker;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
 
         public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
-            Camera2D camera)
+            Camera2D camera, ScreenShaker screenShaker)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
@@ -30,6 +31,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
+            _screenShaker = screenShaker;
         }
 
         public CombatUnit CombatUnit { get; }
@@ -79,24 +81,42 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
 
-                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                    blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.PointClamp,
-                    depthStencilState: DepthStencilState.None,
-                    rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: _camera.GetViewTransformationMatrix(),
-                    effect: allWhite);
-            }
-            else
-            {
-                spriteBatch.End();
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+                var shakeVector3d = new Vector3(shakeVector, 0);
+
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                             * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                     blendState: BlendState.AlphaBlend,
                     samplerState: SamplerState.PointClamp,
                     depthStencilState: DepthStencilState.None,
                     rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: _camera.GetViewTransformationMatrix());
+                    transformMatrix: matrix,
+                    effect: allWhite);
+            }
+            else
+            {
+                spriteBatch.End();
+
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+                var shakeVector3d = new Vector3(shakeVector, 0);
+
+                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                             * Matrix.CreateScale(scaleVector);
+
+                spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: matrix);
             }
 
             _graphics.Draw(spriteBatch);
@@ -215,11 +235,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     if (skill.Sid == "Periodic Heal")
                     {
-                        singleBullet = new HealLightObject(target.Position, _gameObjectContentStorage, bulletBlocker);
+                        singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64), _gameObjectContentStorage, bulletBlocker);
                     }
                     else
                     {
-                        singleBullet = new BulletGameObject(Position, target.Position, _gameObjectContentStorage,
+                        singleBullet = new BulletGameObject(Position - Vector2.UnitY * (64), target.Position, _gameObjectContentStorage,
                             bulletBlocker);
                     }
 
@@ -238,6 +258,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         index: skillIndex);
+
                     break;
 
                 case SkillVisualizationStateType.MassMelee:
@@ -279,19 +300,46 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
                     };
 
-                    var bullets = new List<BulletGameObject>
+                    List<IInteractionDelivery>? bullets;
+
+                    if (skill.Sid == "Svorog's Blast Furnace")
                     {
-                        new(Position, new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
-                        new(Position, new Vector2(200, 200), _gameObjectContentStorage, null),
-                        new(Position, new Vector2(300, 300), _gameObjectContentStorage, null)
-                    };
+                        bullets = new List<IInteractionDelivery>
+                        {
+                            new SymbolObject(Position - Vector2.UnitY * (128), _gameObjectContentStorage, bulletBlocker)
+                        };
+                    }
+                    else
+                    {
+                        bullets = new List<IInteractionDelivery>
+                        {
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100, 100), _gameObjectContentStorage, bulletBlocker),
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200, 200), _gameObjectContentStorage, null),
+                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300), _gameObjectContentStorage, null)
+                        };
+                    }
 
                     foreach (var bullet in bullets)
                     {
                         interactionDeliveryList.Add(bullet);
                     }
 
-                    state = new UnitDistantAttackState(
+                    if (skill.Sid == "Svorog's Blast Furnace")
+                    {
+                        state = new SvorogDogmaAttackState(
+                            graphics: _graphics,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            attackInteraction: interaction,
+                            interactionDelivery: null,
+                            interactionDeliveryList: interactionDeliveryList,
+                            hitSound: hitSound,
+                            index: skillIndex,
+                            _screenShaker);
+                    }
+                    else
+                    {
+                        state = new UnitDistantAttackState(
                         graphics: _graphics,
                         targetGraphicsRoot: target._graphics.Root,
                         blocker: animationBlocker,
@@ -300,6 +348,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         index: skillIndex);
+                    }
                     break;
 
                 default:

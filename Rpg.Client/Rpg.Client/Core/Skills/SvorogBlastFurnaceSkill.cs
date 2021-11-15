@@ -5,14 +5,14 @@ using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class WideSlashSkill : SkillBase
+    internal class SvorogBlastFurnaceSkill : SkillBase
     {
-        public WideSlashSkill() : this(false)
+        public SvorogBlastFurnaceSkill() : this(false)
         {
         }
 
-        public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.SwordSlash },
+        public SvorogBlastFurnaceSkill(bool costRequired) : base(new SkillVisualization
+                { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.SwordSlash },
             costRequired)
         {
         }
@@ -26,7 +26,7 @@ namespace Rpg.Client.Core.Skills
                 {
                     var res = new AttackEffect
                     {
-                        PowerMultiplier = 0.5f,
+                        PowerMultiplier = 1.5f,
                         ValueRange = 1,
                         Actor = u
                     };
@@ -36,8 +36,8 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Wide Slash";
+        public override string Sid => "Svorog's Blast Furnace";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Melee;
+        public override SkillType Type => SkillType.Range;
     }
 }
