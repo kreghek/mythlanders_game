@@ -15,18 +15,12 @@ namespace Rpg.Client.Models
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
-        private Texture2D _svorogSymbolTexture;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
-
-        public Texture2D GetSymbolSprite()
-        {
-            return _svorogSymbolTexture;
-        }
 
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
@@ -36,11 +30,17 @@ namespace Rpg.Client.Models
         private Texture2D _shadowTexture;
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
+        private Texture2D _svorogSymbolTexture;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
         {
             return _allWhiteEffect;
+        }
+
+        public Texture2D GetSymbolSprite()
+        {
+            return _svorogSymbolTexture;
         }
 
         public Texture2D GetUnitGraphics(UnitName unitName)

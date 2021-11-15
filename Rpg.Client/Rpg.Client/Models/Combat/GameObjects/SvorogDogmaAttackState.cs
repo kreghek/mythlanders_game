@@ -23,7 +23,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _subStates = new IUnitStateEngine[]
             {
-                new SvorogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index, screenShaker),
+                new SvorogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                    screenShaker),
                 new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
             };
             _blocker = blocker;
