@@ -51,6 +51,10 @@ namespace Rpg.Client
 
             var logger = CreateLogging();
 
+#if DEBUG
+            using var game = new EwarGame(logger);
+            game.Run();
+#else
             try
             {
                 using var game = new EwarGame(logger);
@@ -60,6 +64,7 @@ namespace Rpg.Client
             {
                 logger.LogError(exception, "Game was crushed!");
             }
+#endif
         }
     }
 }

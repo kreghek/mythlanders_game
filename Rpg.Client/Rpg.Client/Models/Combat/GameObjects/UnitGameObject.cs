@@ -258,6 +258,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         index: skillIndex);
+
                     break;
 
                 case SkillVisualizationStateType.MassMelee:
@@ -311,7 +312,22 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList.Add(bullet);
                     }
 
-                    state = new UnitDistantAttackState(
+                    if (skill.Sid == "Svorog's Blast Furnace")
+                    {
+                        state = new SvorogDogmaAttackState(
+                            graphics: _graphics,
+                            targetGraphicsRoot: target._graphics.Root,
+                            blocker: animationBlocker,
+                            attackInteraction: interaction,
+                            interactionDelivery: null,
+                            interactionDeliveryList: interactionDeliveryList,
+                            hitSound: hitSound,
+                            index: skillIndex,
+                            _screenShaker);
+                    }
+                    else
+                    {
+                        state = new UnitDistantAttackState(
                         graphics: _graphics,
                         targetGraphicsRoot: target._graphics.Root,
                         blocker: animationBlocker,
@@ -320,6 +336,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
                         index: skillIndex);
+                    }
                     break;
 
                 default:
