@@ -21,60 +21,6 @@ using static Rpg.Client.Core.ActiveCombat;
 
 namespace Rpg.Client.Models.Combat
 {
-    internal sealed class ScreenShaker
-    {
-        private const double ITERATION_DURATION = 0.3;
-        
-        private double _counter;
-        private bool _isEnabled;
-        private double? _targetDuration;
-        private double _currentIterationCounter;
-        private Vector2? _offset;
-        private static Random _random = new Random();
-        
-        public void Start(double? seconds)
-        {
-            _isEnabled = true;
-            _targetDuration = seconds;
-        }
-
-        public void Stop()
-        {
-            _isEnabled = false;
-            _counter = 0;
-            _targetDuration = null;
-            _offset = null;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_isEnabled)
-            {
-                _counter += gameTime.ElapsedGameTime.TotalSeconds;
-                if (_targetDuration is not null && _counter >= _targetDuration)
-                {
-                    Stop();
-                }
-
-                _currentIterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
-                if (_currentIterationCounter >= ITERATION_DURATION)
-                {
-                    _currentIterationCounter = 0;
-                    
-                }
-            }
-            else
-            {
-                _offset = new Vector2((float)_random.NextDouble() - 0.5f, (float)_random.NextDouble() - 0.5f);
-            }
-        }
-
-        public Vector2? GetOffset()
-        {
-            return _offset;
-        }
-    }
-    
     internal class CombatScreen : GameScreenWithMenuBase
     {
         private const int BACKGROUND_LAYERS_COUNT = 3;
@@ -195,6 +141,8 @@ namespace Rpg.Client.Models.Combat
                 {
                     HandleCombatHud();
                 }
+
+                _screenShaker.Update(gameTime);
             }
 
             HandleBackgrounds();
@@ -211,7 +159,7 @@ namespace Rpg.Client.Models.Combat
         private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera);
+            var gameObject = new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.Healed += CombatUnit_Healed;
@@ -480,7 +428,7 @@ namespace Rpg.Client.Models.Combat
 
             unitGameObject.AddChild(damageIndicator);
 
-            _screenShaker.Start(1);
+            _screenShaker.Start(10);
         }
 
         private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
@@ -510,7 +458,7 @@ namespace Rpg.Client.Models.Combat
                 var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
                 worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
-                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero) * 10;
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
                 var shakeVector3d = new Vector3(shakeVector, 0);
                 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
@@ -567,10 +515,13 @@ namespace Rpg.Client.Models.Combat
             var position = new Vector2(roundedX, 0);
             var position3d = new Vector3(position, 0);
 
+            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            var shakeVector3d = new Vector3(shakeVector, 0);
+
             var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
             worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
-            var matrix = Matrix.CreateTranslation(translationVector + position3d)
+            var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                          * Matrix.CreateScale(scaleVector);
 
             spriteBatch.Begin(
@@ -602,12 +553,21 @@ namespace Rpg.Client.Models.Combat
 
             DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
 
+            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            var shakeVector3d = new Vector3(shakeVector, 0);
+
+            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+            var matrix = Matrix.CreateTranslation(translationVector + shakeVector3d)
+                         * Matrix.CreateScale(scaleVector);
+
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
+                transformMatrix: matrix);
 
             DrawBullets(spriteBatch);
 
