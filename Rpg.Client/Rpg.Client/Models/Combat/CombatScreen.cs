@@ -21,6 +21,60 @@ using static Rpg.Client.Core.ActiveCombat;
 
 namespace Rpg.Client.Models.Combat
 {
+    internal sealed class ScreenShaker
+    {
+        private const double ITERATION_DURATION = 0.3;
+        
+        private double _counter;
+        private bool _isEnabled;
+        private double? _targetDuration;
+        private double _currentIterationCounter;
+        private Vector2? _offset;
+        private static Random _random = new Random();
+        
+        public void Start(double? seconds)
+        {
+            _isEnabled = true;
+            _targetDuration = seconds;
+        }
+
+        public void Stop()
+        {
+            _isEnabled = false;
+            _counter = 0;
+            _targetDuration = null;
+            _offset = null;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_isEnabled)
+            {
+                _counter += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_targetDuration is not null && _counter >= _targetDuration)
+                {
+                    Stop();
+                }
+
+                _currentIterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_currentIterationCounter >= ITERATION_DURATION)
+                {
+                    _currentIterationCounter = 0;
+                    
+                }
+            }
+            else
+            {
+                _offset = new Vector2((float)_random.NextDouble() - 0.5f, (float)_random.NextDouble() - 0.5f);
+            }
+        }
+
+        public Vector2? GetOffset()
+        {
+            return _offset;
+        }
+    }
+    
     internal class CombatScreen : GameScreenWithMenuBase
     {
         private const int BACKGROUND_LAYERS_COUNT = 3;
@@ -57,6 +111,7 @@ namespace Rpg.Client.Models.Combat
 
         private bool _interactButtonClicked;
         private UnitPanelController? _unitPanelController;
+        private ScreenShaker _screenShaker;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -98,6 +153,8 @@ namespace Rpg.Client.Models.Combat
                 new Vector2(200, 250),
                 new Vector2(200, 350)
             };
+
+            _screenShaker = new ScreenShaker();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -422,6 +479,8 @@ namespace Rpg.Client.Models.Combat
             var damageIndicator = new HpChangedComponent(-e.Amount, position, font);
 
             unitGameObject.AddChild(damageIndicator);
+
+            _screenShaker.Start(1);
         }
 
         private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
@@ -449,9 +508,12 @@ namespace Rpg.Client.Models.Combat
                 var position3d = new Vector3(position, 0);
 
                 var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
-                var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero) * 10;
+                var shakeVector3d = new Vector3(shakeVector, 0);
+                
+                var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
                              * Matrix.CreateScale(scaleVector);
 
                 spriteBatch.Begin(
