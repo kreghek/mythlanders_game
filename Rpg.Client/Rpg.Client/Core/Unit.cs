@@ -12,7 +12,10 @@ namespace Rpg.Client.Core
         private const int MANA_PER_LEVEL = 1;
         private const float COMBAT_RESTORE_SHARE = 1.0f;
 
-        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 0, 0, 0)
+        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 
+            equipmentLevel: 0, 
+            xp: 0, 
+            equipmentItems: 0)
         {
         }
 
@@ -230,12 +233,12 @@ namespace Rpg.Client.Core
 
         public sealed class UnitDamagedEventArgs : EventArgs
         {
-            public UnitDamagedEventArgs(CombatUnit damager)
+            public UnitDamagedEventArgs(CombatUnit damageDealer)
             {
-                Damager = damager ?? throw new ArgumentNullException(nameof(damager));
+                DamageDealer = damageDealer ?? throw new ArgumentNullException(nameof(damageDealer));
             }
 
-            public CombatUnit Damager { get; }
+            public CombatUnit DamageDealer { get; }
         }
     }
 }
