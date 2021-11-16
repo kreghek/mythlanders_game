@@ -16,7 +16,7 @@ namespace Rpg.Client.Engine
             _textures = textures;
             _random = new Random();
         }
-        
+
         public IParticle GenerateNewParticle(Vector2 emitterPosition)
         {
             var texture = _textures[_random.Next(_textures.Count)];
@@ -48,7 +48,8 @@ namespace Rpg.Client.Engine
             return 0.1f;
         }
 
-        private Vector2 CreateRandomUnitVector2(float angle, float angleMin){
+        private Vector2 CreateRandomUnitVector2(float angle, float angleMin)
+        {
             float random = _random.Next() * angle + angleMin;
             return new Vector2((float)Math.Cos(random), (float)Math.Sin(random));
         }

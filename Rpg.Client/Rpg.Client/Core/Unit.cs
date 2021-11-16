@@ -12,9 +12,9 @@ namespace Rpg.Client.Core
         private const int MANA_PER_LEVEL = 1;
         private const float COMBAT_RESTORE_SHARE = 1.0f;
 
-        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level, 
-            equipmentLevel: 0, 
-            xp: 0, 
+        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level,
+            equipmentLevel: 0,
+            xp: 0,
             equipmentItems: 0)
         {
         }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal sealed class SwarmParticleGenerator: IParticleGenerator
+    internal sealed class SwarmParticleGenerator : IParticleGenerator
     {
         private readonly IList<Texture2D> _textures;
         private readonly Random _random;

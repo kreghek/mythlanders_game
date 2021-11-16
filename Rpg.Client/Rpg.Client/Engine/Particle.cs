@@ -45,7 +45,7 @@ namespace Rpg.Client.Engine
             Angle += AngularVelocity;
         }
     }
-    
+
     internal class MothParticle : IParticle
     {
         private readonly Rectangle _sourceRect;
@@ -66,7 +66,7 @@ namespace Rpg.Client.Engine
             Color = color;
             Size = size;
             TTL = ttl;
-            
+
             _startTTL = ttl;
             _startPosition = position;
         }
@@ -97,7 +97,7 @@ namespace Rpg.Client.Engine
             var length = allDistance.Length();
 
             var step = length / _startTTL;
-                
+
             TTL--;
             Position -= velocityDirection * step;
         }

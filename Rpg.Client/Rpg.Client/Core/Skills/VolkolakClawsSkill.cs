@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public VolkolakClawsSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
+        { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
             costRequired)
         {
         }

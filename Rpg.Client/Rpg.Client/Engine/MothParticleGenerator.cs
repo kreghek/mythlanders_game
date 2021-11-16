@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal sealed class MothParticleGenerator: IParticleGenerator
+    internal sealed class MothParticleGenerator : IParticleGenerator
     {
         private readonly IList<Texture2D> _textures;
         private readonly Random _random;
@@ -16,7 +16,7 @@ namespace Rpg.Client.Engine
             _textures = textures;
             _random = new Random();
         }
-        
+
         public IParticle GenerateNewParticle(Vector2 emitterPosition)
         {
             var texture = _textures[_random.Next(_textures.Count)];
@@ -24,7 +24,7 @@ namespace Rpg.Client.Engine
             var randomUnitVector = CreateRandomUnitVector2((float)(Math.PI * 2), 0);
             var randomVector = new Vector2(randomUnitVector.X, randomUnitVector.Y * 0.3f) * 128;
             var startPosition = emitterPosition + randomVector;
-            
+
             var velocity = new Vector2(
                 1f * (float)(_random.NextDouble() * 2 - 1),
                 1f * (float)(_random.NextDouble() * 2 - 1));
@@ -47,7 +47,8 @@ namespace Rpg.Client.Engine
             return 0.5f;
         }
 
-        private Vector2 CreateRandomUnitVector2(float angle, float angleMin){
+        private Vector2 CreateRandomUnitVector2(float angle, float angleMin)
+        {
             float random = _random.Next() * angle + angleMin;
             return new Vector2((float)Math.Cos(random), (float)Math.Sin(random));
         }
