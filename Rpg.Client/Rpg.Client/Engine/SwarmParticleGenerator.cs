@@ -35,5 +35,15 @@ namespace Rpg.Client.Engine
 
             return new Particle(texture, new Rectangle(0, 0, 32, 32), position, velocity, angle, angularVelocity, color, size, ttl);
         }
+
+        public int GetCount()
+        {
+            return 3;
+        }
+
+        public float GetTimeout()
+        {
+            return 0.2f;
+        }
     }
 }

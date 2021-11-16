@@ -90,7 +90,7 @@ namespace Rpg.Client.Engine
 
         public void Update()
         {
-            var velocityDirection = (Position - _targetPosition);
+            var velocityDirection = Position - _targetPosition;
             velocityDirection.Normalize();
 
             var allDistance = _startPosition - _targetPosition;
@@ -99,7 +99,7 @@ namespace Rpg.Client.Engine
             var step = length / _startTTL;
                 
             TTL--;
-            Position += velocityDirection * step;
+            Position -= velocityDirection * step;
         }
     }
 }

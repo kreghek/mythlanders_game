@@ -14,6 +14,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly AnimationBlocker? _blocker;
         private readonly Sprite _graphics;
         private readonly Vector2 _targetPosition;
+        private readonly GameObjectContentStorage _contentStorage;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
@@ -25,6 +26,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _graphics = new Sprite(contentStorage.GetSymbolSprite());
 
             _targetPosition = targetPosition;
+            _contentStorage = contentStorage;
             _blocker = blocker;
             _graphics.Position = _targetPosition;
             _graphics.SourceRectangle = new Rectangle(0, 0, SYMBOL_SIZE, SYMBOL_SIZE);
@@ -47,6 +49,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _particleSystem.Draw(spriteBatch);
         }
 
+        private int _stageIndex = 0;
+
         public void Update(GameTime gameTime)
         {
             if (IsDestroyed)
@@ -55,34 +59,56 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
-            _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_frameCounter >= FRAMERATE)
+            if (_stageIndex == 0)
             {
-                _frameCounter = 0;
-                _frameIndex++;
+                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (_frameIndex > FRAME_COUNT - 1)
+                if (_frameCounter >= FRAMERATE)
                 {
-                    _frameIndex = FRAME_COUNT - 1;
-                    if (!IsDestroyed)
+                    _frameCounter = 0;
+                    _frameIndex++;
+
+                    if (_frameIndex > FRAME_COUNT - 1)
                     {
-                        IsDestroyed = true;
+                        _frameIndex = FRAME_COUNT - 1;
+                        if (!IsDestroyed)
+                        {
+                            var explosionParticleGenerator = new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() });
+                            _particleSystem = new ParticleSystem(_targetPosition, explosionParticleGenerator);
+                            _stageIndex++;
+                            _counter = 0;
+                        }
+                    }
+                }
+
+                var normalizedFrameIndex = _frameIndex;
+                if (_frameIndex >= 18)
+                {
+                    normalizedFrameIndex = 16 + _frameIndex % 2;
+                }
+
+                _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (normalizedFrameIndex % 4), SYMBOL_SIZE * (normalizedFrameIndex / 4),
+                    SYMBOL_SIZE, SYMBOL_SIZE);
+
+                _particleSystem.Update(gameTime);
+            }
+            else if (_stageIndex == 1)
+            {
+                _particleSystem.Update(gameTime);
+
+                if (_counter >= 1)
+                {
+                    if (!_explosionExecuted)
+                    {
+                        _explosionExecuted = true;
                         _blocker?.Release();
+                        IsDestroyed = true;
                     }
                 }
             }
-
-            var normalizedFrameIndex = _frameIndex;
-            if (_frameIndex >= 18)
-            {
-                normalizedFrameIndex = 16 + _frameIndex % 2;
-            }
-
-            _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (normalizedFrameIndex % 4), SYMBOL_SIZE * (normalizedFrameIndex / 4),
-                SYMBOL_SIZE, SYMBOL_SIZE);
-
-            _particleSystem.Update(gameTime);
         }
+
+        private bool _explosionExecuted;
     }
 }

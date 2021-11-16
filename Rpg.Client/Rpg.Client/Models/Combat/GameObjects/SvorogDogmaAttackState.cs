@@ -19,15 +19,18 @@ namespace Rpg.Client.Models.Combat.GameObjects
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index,
-            ScreenShaker screenShaker)
+            ScreenShaker screenShaker,
+            SoundEffectInstance symbolAppearingSoundEffect,
+            SoundEffectInstance risingPowerSoundEffect,
+            SoundEffectInstance explosionSoundEffect)
         {
             _subStates = new IUnitStateEngine[]
             {
                 new SvarogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
-                    screenShaker),
+                    screenShaker, symbolAppearingSoundEffect),
                 new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
-                    screenShaker),
-                new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
+                    screenShaker, risingPowerSoundEffect),
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index, explosionSoundEffect)
             };
             _blocker = blocker;
         }

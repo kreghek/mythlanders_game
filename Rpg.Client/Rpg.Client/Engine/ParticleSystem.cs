@@ -31,17 +31,16 @@ namespace Rpg.Client.Engine
         public void Update(GameTime gameTime)
         {
             _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            if (_updateCounter > 0.1)
+            if (_updateCounter > _particleGenerator.GetTimeout())
             {
                 _updateCounter = 0;
-                return;
-            }
 
-            var total = 3;
+                var total = _particleGenerator.GetCount();
 
-            for (var i = 0; i < total; i++)
-            {
-                _particles.Add(GenerateNewParticle());
+                for (var i = 0; i < total; i++)
+                {
+                    _particles.Add(GenerateNewParticle());
+                }
             }
 
             for (var particle = 0; particle < _particles.Count; particle++)
