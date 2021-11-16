@@ -15,7 +15,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public HealLightObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
         {
-            _particleSystem = new ParticleSystem(new[] { contentStorage.GetParticlesTexture() }, targetPosition);
+            var swarmParticleGenerator = new SwarmParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
+            _particleSystem = new ParticleSystem(targetPosition, swarmParticleGenerator);
 
             _blocker = blocker;
         }
