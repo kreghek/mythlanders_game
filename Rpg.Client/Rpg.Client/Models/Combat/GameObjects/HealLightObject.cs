@@ -15,7 +15,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         public HealLightObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
         {
-            _particleSystem = new ParticleSystem(new[] { contentStorage.GetParticlesTexture() }, targetPosition);
+            var swarmParticleGenerator = new SwarmParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
+            _particleSystem = new ParticleSystem(targetPosition, swarmParticleGenerator);
 
             _blocker = blocker;
         }
@@ -43,15 +44,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _particleSystem.Update();
+                _particleSystem.Update(gameTime);
             }
             else
             {
-                if (!IsDestroyed)
+                if (IsDestroyed)
                 {
-                    IsDestroyed = true;
-                    _blocker?.Release();
+                    return;
                 }
+
+                IsDestroyed = true;
+                _blocker?.Release();
             }
         }
     }

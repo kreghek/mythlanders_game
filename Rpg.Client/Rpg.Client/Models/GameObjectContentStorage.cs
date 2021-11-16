@@ -156,6 +156,19 @@ namespace Rpg.Client.Models
                 {
                     GameObjectSoundType.SnakeBite,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
+                },
+
+                {
+                    GameObjectSoundType.SvarogSymbolAppearing,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Lasers")
+                },
+                {
+                    GameObjectSoundType.RisingPower,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Shake")
+                },
+                {
+                    GameObjectSoundType.Firestorm,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Explosion")
                 }
             };
 

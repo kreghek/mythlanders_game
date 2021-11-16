@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,67 +7,56 @@ namespace Rpg.Client.Engine
 {
     internal class ParticleSystem
     {
-        private readonly IList<Particle> particles;
-        private readonly Random random;
-        private readonly IList<Texture2D> textures;
+        private readonly IList<IParticle> _particles;
+        private readonly IParticleGenerator _particleGenerator;
 
-        public ParticleSystem(IList<Texture2D> textures, Vector2 location)
+        public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
         {
             EmitterLocation = location;
-            this.textures = textures;
-            particles = new List<Particle>();
-            random = new Random();
+            _particleGenerator = particleGenerator;
+            _particles = new List<IParticle>();
         }
 
-        public Vector2 EmitterLocation { get; set; }
+        private Vector2 EmitterLocation { get; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Begin();
-            for (var index = 0; index < particles.Count; index++)
+            foreach (var particle in _particles)
             {
-                particles[index].Draw(spriteBatch);
+                particle.Draw(spriteBatch);
             }
-            //spriteBatch.End();
         }
 
-        public void Update()
+        private double _updateCounter;
+        public void Update(GameTime gameTime)
         {
-            var total = 3;
-
-            for (var i = 0; i < total; i++)
+            _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            if (_updateCounter > _particleGenerator.GetTimeout())
             {
-                particles.Add(GenerateNewParticle());
+                _updateCounter = 0;
+
+                var total = _particleGenerator.GetCount();
+
+                for (var i = 0; i < total; i++)
+                {
+                    _particles.Add(GenerateNewParticle());
+                }
             }
 
-            for (var particle = 0; particle < particles.Count; particle++)
+            for (var particle = 0; particle < _particles.Count; particle++)
             {
-                particles[particle].Update();
-                if (particles[particle].TTL <= 0)
+                _particles[particle].Update();
+                if (_particles[particle].TTL <= 0)
                 {
-                    particles.RemoveAt(particle);
+                    _particles.RemoveAt(particle);
                     particle--;
                 }
             }
         }
 
-        private Particle GenerateNewParticle()
+        private IParticle GenerateNewParticle()
         {
-            var texture = textures[random.Next(textures.Count)];
-            var position = EmitterLocation;
-            var velocity = new Vector2(
-                1f * (float)(random.NextDouble() * 2 - 1),
-                1f * (float)(random.NextDouble() * 2 - 1));
-            float angle = 0;
-            var angularVelocity = 0.1f * (float)(random.NextDouble() * 2 - 1);
-            var color = new Color(
-                (float)random.NextDouble(),
-                (float)random.NextDouble(),
-                (float)random.NextDouble());
-            var size = (float)random.NextDouble();
-            var ttl = 20 + random.Next(40);
-
-            return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
+            return _particleGenerator.GenerateNewParticle(EmitterLocation);
         }
     }
 }

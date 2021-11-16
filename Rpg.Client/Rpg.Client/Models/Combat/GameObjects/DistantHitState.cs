@@ -7,6 +7,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
+
     internal sealed class DistantHitState : IUnitStateEngine
     {
         private const double DURATION = 1;
@@ -15,6 +16,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
+        private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
         private double _counter;
 

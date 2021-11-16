@@ -85,11 +85,29 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/EgyptMassStunEffect.mp3
 
+#begin Audio/GameObjects/Skills/Explosion.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/Explosion.mp3
+
 #begin Audio/GameObjects/Skills/HealEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/HealEffect.mp3
+
+#begin Audio/GameObjects/Skills/Lasers.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/Lasers.mp3
+
+#begin Audio/GameObjects/Skills/Shake.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/Shake.mp3
 
 #begin Audio/GameObjects/Skills/ShieldEffect.mp3
 /importer:Mp3Importer

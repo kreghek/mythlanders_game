@@ -7,42 +7,38 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal sealed class SvarogSymbolState : IUnitStateEngine
+    internal sealed class ExplosionState : IUnitStateEngine
     {
-        private const double DURATION = 2.5f;
+        private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
-        private readonly SoundEffectInstance _symbolAppearingSoundEffect;
+        private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
-        private readonly ScreenShaker _screenShaker;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList,
-            ScreenShaker screenShaker)
+        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+            IList<IInteractionDelivery> interactionDeliveryList)
         {
             _graphics = graphics;
             _interactionDelivery = interactionDelivery;
             _bulletList = interactionDeliveryList;
-            _screenShaker = screenShaker;
         }
 
-        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
+        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
-            int index,
-            ScreenShaker screenShaker, SoundEffectInstance symbolAppearingSoundEffect) :
-            this(graphics, bulletGameObject, interactionDeliveryList, screenShaker)
+            int index, SoundEffectInstance explosionSoundEffect) :
+            this(graphics, bulletGameObject, interactionDeliveryList)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _index = index;
-            _symbolAppearingSoundEffect = symbolAppearingSoundEffect;
+            _explosionSoundEffect = explosionSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -61,7 +57,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation($"Skill{_index}");
-                _symbolAppearingSoundEffect.Play();
+                _explosionSoundEffect.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -69,6 +65,28 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter > DURATION)
             {
                 IsComplete = true;
+
+                if (_animationBlocker is not null)
+                {
+                    _animationBlocker.Release();
+                }
+            }
+            else if (_counter > DURATION / 2)
+            {
+                if (!_interactionExecuted)
+                {
+                    if (_interactionDelivery != null)
+                    {
+                        _bulletList.Add(_interactionDelivery);
+                    }
+
+                    _interactionExecuted = true;
+
+                    if (_hitSound is not null)
+                    {
+                        _hitSound.Play();
+                    }
+                }
             }
         }
     }

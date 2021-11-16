@@ -10,6 +10,10 @@
         EgyptianDarkMagic,
         WolfBite,
         SnakeBite,
-        Defence
+        Defence,
+
+        SvarogSymbolAppearing,
+        RisingPower,
+        Firestorm
     }
 }

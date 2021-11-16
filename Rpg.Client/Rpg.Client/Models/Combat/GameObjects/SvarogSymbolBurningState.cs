@@ -15,6 +15,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
+        private readonly SoundEffectInstance _risingPowerSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
         private readonly ScreenShaker _screenShaker;
         private double _counter;
@@ -35,12 +36,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
             int index,
-            ScreenShaker screenShaker) :
+            ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect) :
             this(graphics, bulletGameObject, interactionDeliveryList, screenShaker)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _index = index;
+            _risingPowerSoundEffect = risingPowerSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -59,6 +61,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
+                _risingPowerSoundEffect.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
