@@ -7,7 +7,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal sealed class SvorogSymbolState : IUnitStateEngine
+    internal sealed class SvarogSymbolState : IUnitStateEngine
     {
         private const double DURATION = 2.5f;
         private readonly AnimationBlocker? _animationBlocker;
@@ -15,13 +15,14 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
+        private readonly SoundEffectInstance _symbolAppearingSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
         private readonly ScreenShaker _screenShaker;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public SvorogSymbolState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
             ScreenShaker screenShaker)
         {
@@ -31,16 +32,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _screenShaker = screenShaker;
         }
 
-        public SvorogSymbolState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
+        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
             int index,
-            ScreenShaker screenShaker) :
+            ScreenShaker screenShaker, SoundEffectInstance symbolAppearingSoundEffect) :
             this(graphics, bulletGameObject, interactionDeliveryList, screenShaker)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _index = index;
+            _symbolAppearingSoundEffect = symbolAppearingSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -59,7 +61,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation($"Skill{_index}");
-                _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
+                _symbolAppearingSoundEffect.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

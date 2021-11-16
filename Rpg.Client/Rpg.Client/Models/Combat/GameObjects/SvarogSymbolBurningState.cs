@@ -7,38 +7,42 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-
-    internal sealed class DistantHitState : IUnitStateEngine
+    internal sealed class SvarogSymbolBurningState : IUnitStateEngine
     {
-        private const double DURATION = 1;
+        private const double DURATION = 3f;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IList<IInteractionDelivery> _bulletList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
-        private readonly SoundEffectInstance _explosionSoundEffect;
+        private readonly SoundEffectInstance _risingPowerSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
+        private readonly ScreenShaker _screenShaker;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList)
+        public SvarogSymbolBurningState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+            IList<IInteractionDelivery> interactionDeliveryList,
+            ScreenShaker screenShaker)
         {
             _graphics = graphics;
             _interactionDelivery = interactionDelivery;
             _bulletList = interactionDeliveryList;
+            _screenShaker = screenShaker;
         }
 
-        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
+        public SvarogSymbolBurningState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
-            int index) :
-            this(graphics, bulletGameObject, interactionDeliveryList)
+            int index,
+            ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect) :
+            this(graphics, bulletGameObject, interactionDeliveryList, screenShaker)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _index = index;
+            _risingPowerSoundEffect = risingPowerSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -56,7 +60,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation($"Skill{_index}");
+                _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
+                _risingPowerSoundEffect.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -64,28 +69,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter > DURATION)
             {
                 IsComplete = true;
-
-                if (_animationBlocker is not null)
-                {
-                    _animationBlocker.Release();
-                }
-            }
-            else if (_counter > DURATION / 2)
-            {
-                if (!_interactionExecuted)
-                {
-                    if (_interactionDelivery != null)
-                    {
-                        _bulletList.Add(_interactionDelivery);
-                    }
-
-                    _interactionExecuted = true;
-
-                    if (_hitSound is not null)
-                    {
-                        _hitSound.Play();
-                    }
-                }
             }
         }
     }

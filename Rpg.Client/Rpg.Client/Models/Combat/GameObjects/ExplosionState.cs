@@ -7,8 +7,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-
-    internal sealed class DistantHitState : IUnitStateEngine
+    internal sealed class ExplosionState : IUnitStateEngine
     {
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
@@ -22,7 +21,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
             _graphics = graphics;
@@ -30,15 +29,16 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _bulletList = interactionDeliveryList;
         }
 
-        public DistantHitState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
+        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
-            int index) :
+            int index, SoundEffectInstance explosionSoundEffect) :
             this(graphics, bulletGameObject, interactionDeliveryList)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _index = index;
+            _explosionSoundEffect = explosionSoundEffect;
         }
 
         public bool CanBeReplaced { get; }
@@ -57,6 +57,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation($"Skill{_index}");
+                _explosionSoundEffect.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

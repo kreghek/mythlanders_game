@@ -304,7 +304,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     List<IInteractionDelivery>? bullets;
 
-                    if (skill.Sid == "Svorog's Blast Furnace")
+                    if (skill.Sid == "Svarog's Blast Furnace")
                     {
                         bullets = new List<IInteractionDelivery>
                         {
@@ -329,9 +329,13 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList.Add(bullet);
                     }
 
-                    if (skill.Sid == "Svorog's Blast Furnace")
+                    if (skill.Sid == "Svarog's Blast Furnace")
                     {
-                        state = new SvorogDogmaAttackState(
+                        var svarogSymbolAppearingSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SvarogSymbolAppearing);
+                        var risingPowerSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.RisingPower);
+                        var firestormSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Firestorm);
+
+                        state = new SvarogDogmaAttackState(
                             graphics: _graphics,
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
@@ -340,7 +344,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
                             interactionDeliveryList: interactionDeliveryList,
                             hitSound: hitSound,
                             index: skillIndex,
-                            _screenShaker);
+                            _screenShaker,
+                            svarogSymbolAppearingSound.CreateInstance(),
+                            risingPowerSound.CreateInstance(),
+                            firestormSound.CreateInstance());
                     }
                     else
                     {

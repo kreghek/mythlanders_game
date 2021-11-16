@@ -39,7 +39,7 @@ namespace Rpg.Client.Core
                     {
                         new SwordSlashSkill(),
                         new DefenseSkill(true),
-                        new SvorogBlastFurnaceSkill(true)
+                        new SvarogBlastFurnaceSkill(true)
                     }
                 }
             },

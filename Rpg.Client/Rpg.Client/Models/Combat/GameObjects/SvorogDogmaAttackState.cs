@@ -8,24 +8,29 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class SvorogDogmaAttackState : IUnitStateEngine
+    internal class SvarogDogmaAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public SvorogDogmaAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
+        public SvarogDogmaAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index,
-            ScreenShaker screenShaker)
+            ScreenShaker screenShaker,
+            SoundEffectInstance symbolAppearingSoundEffect,
+            SoundEffectInstance risingPowerSoundEffect,
+            SoundEffectInstance explosionSoundEffect)
         {
             _subStates = new IUnitStateEngine[]
             {
-                new SvorogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
-                    screenShaker),
-                new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
+                new SvarogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                    screenShaker, symbolAppearingSoundEffect),
+                new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                    screenShaker, risingPowerSoundEffect),
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index, explosionSoundEffect)
             };
             _blocker = blocker;
         }

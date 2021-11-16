@@ -367,7 +367,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (e.Damager.Unit.IsPlayerControlled)
+            if (e.DamageDealer.Unit.IsPlayerControlled)
             {
                 var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
 
