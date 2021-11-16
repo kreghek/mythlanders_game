@@ -44,15 +44,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _particleSystem.Update();
+                _particleSystem.Update(gameTime);
             }
             else
             {
-                if (!IsDestroyed)
+                if (IsDestroyed)
                 {
-                    IsDestroyed = true;
-                    _blocker?.Release();
+                    return;
                 }
+
+                IsDestroyed = true;
+                _blocker?.Release();
             }
         }
     }

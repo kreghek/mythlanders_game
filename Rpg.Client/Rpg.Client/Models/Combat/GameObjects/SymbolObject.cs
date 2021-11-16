@@ -17,6 +17,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
+        private ParticleSystem _particleSystem;
 
         public SymbolObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
@@ -27,6 +28,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _blocker = blocker;
             _graphics.Position = _targetPosition;
             _graphics.SourceRectangle = new Rectangle(0, 0, SYMBOL_SIZE, SYMBOL_SIZE);
+
+            var particleTextures = new[] { contentStorage.GetParticlesTexture() };
+            var particleGenerator = new MothParticleGenerator(particleTextures);
+            _particleSystem = new ParticleSystem(targetPosition, particleGenerator);
         }
 
         public bool IsDestroyed { get; private set; }
@@ -39,6 +44,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             }
 
             _graphics.Draw(spriteBatch);
+            _particleSystem.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -75,6 +81,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
             _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (normalizedFrameIndex % 4), SYMBOL_SIZE * (normalizedFrameIndex / 4),
                 SYMBOL_SIZE, SYMBOL_SIZE);
+
+            _particleSystem.Update(gameTime);
         }
     }
 }
