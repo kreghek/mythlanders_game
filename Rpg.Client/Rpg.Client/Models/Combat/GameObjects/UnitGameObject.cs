@@ -304,7 +304,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     List<IInteractionDelivery>? bullets;
 
-                    if (skill.Sid == "Svorog's Blast Furnace")
+                    if (skill.Sid == "Svarog's Blast Furnace")
                     {
                         bullets = new List<IInteractionDelivery>
                         {
@@ -329,9 +329,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         interactionDeliveryList.Add(bullet);
                     }
 
-                    if (skill.Sid == "Svorog's Blast Furnace")
+                    if (skill.Sid == "Svarog's Blast Furnace")
                     {
-                        state = new SvorogDogmaAttackState(
+                        state = new SvarogDogmaAttackState(
                             graphics: _graphics,
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,

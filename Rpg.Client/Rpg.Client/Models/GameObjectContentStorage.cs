@@ -30,7 +30,7 @@ namespace Rpg.Client.Models
         private Texture2D _shadowTexture;
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
-        private Texture2D _svorogSymbolTexture;
+        private Texture2D _svarogSymbolTexture;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -40,7 +40,7 @@ namespace Rpg.Client.Models
 
         public Texture2D GetSymbolSprite()
         {
-            return _svorogSymbolTexture;
+            return _svarogSymbolTexture;
         }
 
         public Texture2D GetUnitGraphics(UnitName unitName)
@@ -207,7 +207,7 @@ namespace Rpg.Client.Models
                 }
             };
 
-            _svorogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
+            _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
         }
 
         internal Texture2D GetBiomeClouds()

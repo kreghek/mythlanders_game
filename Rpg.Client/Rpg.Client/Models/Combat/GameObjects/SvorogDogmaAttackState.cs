@@ -8,14 +8,14 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class SvorogDogmaAttackState : IUnitStateEngine
+    internal class SvarogDogmaAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public SvorogDogmaAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
+        public SvarogDogmaAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index,
@@ -23,9 +23,9 @@ namespace Rpg.Client.Models.Combat.GameObjects
         {
             _subStates = new IUnitStateEngine[]
             {
-                new SvorogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                new SvarogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
                     screenShaker),
-                new SvorogSymbolState2(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
                     screenShaker),
                 new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
             };

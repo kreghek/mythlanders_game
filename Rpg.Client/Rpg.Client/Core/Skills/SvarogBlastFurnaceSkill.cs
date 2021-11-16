@@ -5,13 +5,13 @@ using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class SvorogBlastFurnaceSkill : SkillBase
+    internal class SvarogBlastFurnaceSkill : SkillBase
     {
-        public SvorogBlastFurnaceSkill() : this(false)
+        public SvarogBlastFurnaceSkill() : this(false)
         {
         }
 
-        public SvorogBlastFurnaceSkill(bool costRequired) : base(new SkillVisualization
+        public SvarogBlastFurnaceSkill(bool costRequired) : base(new SkillVisualization
                 { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.SwordSlash },
             costRequired)
         {
@@ -36,7 +36,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Svorog's Blast Furnace";
+        public override string Sid => "Svarog's Blast Furnace";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
     }

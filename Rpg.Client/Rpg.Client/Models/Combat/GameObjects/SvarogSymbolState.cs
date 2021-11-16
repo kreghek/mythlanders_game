@@ -7,7 +7,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal sealed class SvorogSymbolState : IUnitStateEngine
+    internal sealed class SvarogSymbolState : IUnitStateEngine
     {
         private const double DURATION = 2.5f;
         private readonly AnimationBlocker? _animationBlocker;
@@ -21,7 +21,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public SvorogSymbolState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
             ScreenShaker screenShaker)
         {
@@ -31,7 +31,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _screenShaker = screenShaker;
         }
 
-        public SvorogSymbolState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
+        public SvarogSymbolState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
             int index,
