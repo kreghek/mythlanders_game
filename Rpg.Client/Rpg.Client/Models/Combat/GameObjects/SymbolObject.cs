@@ -12,13 +12,17 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
         private const int FRAME_COUNT = 18 + 8 * 3;
         private readonly AnimationBlocker? _blocker;
+        private readonly GameObjectContentStorage _contentStorage;
         private readonly Sprite _graphics;
         private readonly Vector2 _targetPosition;
-        private readonly GameObjectContentStorage _contentStorage;
         private double _counter;
+
+        private bool _explosionExecuted;
         private double _frameCounter;
         private int _frameIndex;
         private ParticleSystem _particleSystem;
+
+        private int _stageIndex;
 
         public SymbolObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
@@ -49,8 +53,6 @@ namespace Rpg.Client.Models.Combat.GameObjects
             _particleSystem.Draw(spriteBatch);
         }
 
-        private int _stageIndex = 0;
-
         public void Update(GameTime gameTime)
         {
             if (IsDestroyed)
@@ -74,7 +76,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         _frameIndex = FRAME_COUNT - 1;
                         if (!IsDestroyed)
                         {
-                            var explosionParticleGenerator = new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() });
+                            var explosionParticleGenerator =
+                                new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() });
                             _particleSystem = new ParticleSystem(_targetPosition, explosionParticleGenerator);
                             _stageIndex++;
                             _counter = 0;
@@ -88,7 +91,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
                     normalizedFrameIndex = 16 + _frameIndex % 2;
                 }
 
-                _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (normalizedFrameIndex % 4), SYMBOL_SIZE * (normalizedFrameIndex / 4),
+                _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (normalizedFrameIndex % 4),
+                    SYMBOL_SIZE * (normalizedFrameIndex / 4),
                     SYMBOL_SIZE, SYMBOL_SIZE);
 
                 _particleSystem.Update(gameTime);
@@ -108,7 +112,5 @@ namespace Rpg.Client.Models.Combat.GameObjects
                 }
             }
         }
-
-        private bool _explosionExecuted;
     }
 }

@@ -42,6 +42,7 @@ namespace Rpg.Client.Models.Combat
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _hudButtons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly Vector2[] _unitPredefinedPositions;
@@ -56,7 +57,6 @@ namespace Rpg.Client.Models.Combat
 
 
         private bool _interactButtonClicked;
-        private readonly ScreenShaker _screenShaker;
         private UnitPanelController? _unitPanelController;
 
         public CombatScreen(EwarGame game) : base(game)

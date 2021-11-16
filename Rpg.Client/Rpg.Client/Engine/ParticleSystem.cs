@@ -7,8 +7,10 @@ namespace Rpg.Client.Engine
 {
     internal class ParticleSystem
     {
-        private readonly IList<IParticle> _particles;
         private readonly IParticleGenerator _particleGenerator;
+        private readonly IList<IParticle> _particles;
+
+        private double _updateCounter;
 
         public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
         {
@@ -27,7 +29,6 @@ namespace Rpg.Client.Engine
             }
         }
 
-        private double _updateCounter;
         public void Update(GameTime gameTime)
         {
             _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;

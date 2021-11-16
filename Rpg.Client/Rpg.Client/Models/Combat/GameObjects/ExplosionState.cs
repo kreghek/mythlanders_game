@@ -12,10 +12,10 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private const double DURATION = 1;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly IList<IInteractionDelivery> _bulletList;
+        private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
-        private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
         private double _counter;
 

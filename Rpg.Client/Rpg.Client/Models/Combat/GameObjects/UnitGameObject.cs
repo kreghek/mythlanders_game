@@ -331,9 +331,12 @@ namespace Rpg.Client.Models.Combat.GameObjects
 
                     if (skill.Sid == "Svarog's Blast Furnace")
                     {
-                        var svarogSymbolAppearingSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SvarogSymbolAppearing);
-                        var risingPowerSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.RisingPower);
-                        var firestormSound = _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Firestorm);
+                        var svarogSymbolAppearingSound =
+                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SvarogSymbolAppearing);
+                        var risingPowerSound =
+                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.RisingPower);
+                        var firestormSound =
+                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Firestorm);
 
                         state = new SvarogDogmaAttackState(
                             graphics: _graphics,

@@ -49,11 +49,12 @@ namespace Rpg.Client.Engine
     internal class MothParticle : IParticle
     {
         private readonly Rectangle _sourceRect;
-        private readonly Vector2 _targetPosition;
-        private int _startTTL;
         private readonly Vector2 _startPosition;
+        private readonly Vector2 _targetPosition;
+        private readonly int _startTTL;
 
-        public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition, Vector2 velocity,
+        public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition,
+            Vector2 velocity,
             float angle, float angularVelocity, Color color, float size, int ttl)
         {
             _sourceRect = sourceRect;

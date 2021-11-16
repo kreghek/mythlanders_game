@@ -28,9 +28,11 @@ namespace Rpg.Client.Models.Combat.GameObjects
             {
                 new SvarogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
                     screenShaker, symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
+                    index,
                     screenShaker, risingPowerSoundEffect),
-                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index, explosionSoundEffect)
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                    explosionSoundEffect)
             };
             _blocker = blocker;
         }
