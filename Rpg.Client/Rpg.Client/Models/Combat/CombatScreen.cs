@@ -17,7 +17,7 @@ using Rpg.Client.Models.Combat.Ui;
 using Rpg.Client.Models.Common;
 using Rpg.Client.Screens;
 
-using static Rpg.Client.Core.ActiveCombat;
+using static Rpg.Client.Core.Combat;
 
 namespace Rpg.Client.Models.Combat
 {
@@ -27,7 +27,7 @@ namespace Rpg.Client.Models.Combat
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
         private static bool _tutorial;
-        private readonly ActiveCombat _activeCombat;
+        private readonly Core.Combat _activeCombat;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
@@ -229,7 +229,7 @@ namespace Rpg.Client.Models.Combat
             if (e.Victory)
             {
                 var completedCombats = _globeNode.CombatSequence.CompletedCombats;
-                completedCombats.Add(_activeCombat.Combat);
+                completedCombats.Add(_activeCombat.CombatSource);
 
                 var currentCombatList = _activeCombat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
@@ -244,13 +244,15 @@ namespace Rpg.Client.Models.Combat
 
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.Victory,
-                        xpItems);
+                        xpItems,
+                        _activeCombat.CombatSource);
                 }
                 else
                 {
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        Array.Empty<XpAward>());
+                        Array.Empty<XpAward>(),
+                        _activeCombat.CombatSource);
                 }
             }
             else
@@ -262,7 +264,8 @@ namespace Rpg.Client.Models.Combat
 
                 combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                     CombatResult.Defeat,
-                    Array.Empty<XpAward>());
+                    Array.Empty<XpAward>(),
+                        _activeCombat.CombatSource);
             }
 
             AddModal(combatResultModal, isLate: false);
@@ -342,13 +345,13 @@ namespace Rpg.Client.Models.Combat
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
                 var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
-                currentCombatList.Remove(_activeCombat.Combat);
+                currentCombatList.Remove(_activeCombat.CombatSource);
                 _globeNode.CombatSequence.Combats = currentCombatList;
 
                 if (_activeCombat.Node.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNode.CombatSequence.Combats.First();
-                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
                         _globeNode,
                         nextCombat,
                         _activeCombat.Biom,
@@ -708,7 +711,7 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
-        private IEnumerable<XpAward> HandleGainXp(IList<Core.Combat> completedCombats)
+        private IEnumerable<XpAward> HandleGainXp(IList<Core.CombatSource> completedCombats)
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
@@ -750,7 +753,10 @@ namespace Rpg.Client.Models.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    _activeCombat.Biom.Level++;
+                    if (!_activeCombat.CombatSource.IsTrainingOnly)
+                    {
+                        _activeCombat.Biom.Level++;
+                    }
 
                     var node = _globeNode;
                     var nodeIndex = node.Index;
@@ -769,7 +775,7 @@ namespace Rpg.Client.Models.Combat
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
-                    if (_activeCombat.Combat.IsBossLevel)
+                    if (_activeCombat.CombatSource.IsBossLevel)
                     {
                         _activeCombat.Biom.IsComplete = true;
                         _bossWasDefeat = true;
@@ -869,7 +875,7 @@ namespace Rpg.Client.Models.Combat
         {
             foreach (var unit in _globe.Player.GetAll)
             {
-                unit.RestoreHitpointsAfterCombat();
+                unit.RestoreHitPointsAfterCombat();
                 unit.RestoreManaPoint();
             }
         }

@@ -7,12 +7,12 @@ namespace Rpg.Client.Core
     {
         public CombatSequence()
         {
-            CompletedCombats = new List<Combat>();
-            Combats = Array.Empty<Combat>();
+            CompletedCombats = new List<CombatSource>();
+            Combats = Array.Empty<CombatSource>();
         }
 
-        public IReadOnlyCollection<Combat> Combats { get; set; }
+        public IReadOnlyCollection<CombatSource> Combats { get; set; }
 
-        public IList<Combat> CompletedCombats { get; set; }
+        public IList<CombatSource> CompletedCombats { get; set; }
     }
 }

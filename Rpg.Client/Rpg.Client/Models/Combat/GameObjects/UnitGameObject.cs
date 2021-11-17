@@ -338,7 +338,7 @@ namespace Rpg.Client.Models.Combat.GameObjects
                         var firestormSound =
                             _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Firestorm);
 
-                        state = new SvarogDogmaAttackState(
+                        state = new SvarogBlastFurnaceAttackState(
                             graphics: _graphics,
                             targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,

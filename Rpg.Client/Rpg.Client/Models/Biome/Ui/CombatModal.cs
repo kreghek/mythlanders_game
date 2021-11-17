@@ -89,7 +89,7 @@ namespace Rpg.Client.Models.Biome.Ui
 
             foreach (var combat in node.GlobeNode.CombatSequence.Combats)
             {
-                foreach (var monster in node.Combat.EnemyGroup.Units)
+                foreach (var monster in node.CombatSource.EnemyGroup.Units)
                 {
                     var unitName = monster.UnitScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
@@ -169,11 +169,11 @@ namespace Rpg.Client.Models.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var monstersAmount = node.Combat.EnemyGroup.Units.Count();
+            var monstersAmount = node.CombatSource.EnemyGroup.Units.Count();
             var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXpLabelPosition = toolTipPosition;
 
-            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
+            var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));

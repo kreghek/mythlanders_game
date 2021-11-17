@@ -91,6 +91,12 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/Explosion.mp3
 
+#begin Audio/GameObjects/Skills/FireDamage.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/FireDamage.mp3
+
 #begin Audio/GameObjects/Skills/HealEffect.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

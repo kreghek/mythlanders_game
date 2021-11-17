@@ -7,6 +7,7 @@ using System.Resources;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.Ui
@@ -15,6 +16,7 @@ namespace Rpg.Client.Models.Combat.Ui
     {
         private readonly TextButton _closeButton;
         private readonly IEnumerable<XpAward> _sourceXpItems;
+        private readonly CombatSource _combatSource;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _iterationCounter;
@@ -24,12 +26,13 @@ namespace Rpg.Client.Models.Combat.Ui
         public CombatResultModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            IEnumerable<XpAward> xpItems) : base(uiContentStorage, resolutionIndependentRenderer)
+            IEnumerable<XpAward> xpItems,
+            CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             CombatResult = combatResult;
             _sourceXpItems = xpItems;
-
+            _combatSource = combatSource;
             _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), Rectangle.Empty);
             _closeButton.OnClick += CloseButton_OnClick;
@@ -145,9 +148,12 @@ namespace Rpg.Client.Models.Combat.Ui
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
             }
 
-            var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
-                Color.Wheat);
+            if (!_combatSource.IsTrainingOnly)
+            {
+                var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
+                    Color.Wheat);
+            }
         }
 
         private sealed class XpItem

@@ -17,14 +17,14 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 48;
         private const int BAR_WIDTH = 70;
-        private readonly ActiveCombat _activeCombat;
+        private readonly Core.Combat _activeCombat;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
         public UnitPanelController(
             ResolutionIndependentRenderer resolutionIndependentRenderer,
-            ActiveCombat activeCombat,
+            Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {
@@ -43,19 +43,21 @@ namespace Rpg.Client.Models.Combat.Ui
 
             foreach (var combatUnit in unitList)
             {
-                Rectangle panelPosition;
+                Vector2 panelPosition;
 
                 var unit = combatUnit.Unit;
 
                 if (unit.IsPlayerControlled)
                 {
-                    panelPosition = new Rectangle(0, playerIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+                    var panelY = playerIndex * (PANEL_HEIGHT + 20);
+                    panelPosition = new Vector2(0, panelY);
                     playerIndex++;
                 }
                 else
                 {
-                    panelPosition = new Rectangle(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH,
-                        monsterIndex * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+                    var panelY = monsterIndex * (PANEL_HEIGHT + 20);
+                    panelPosition = new Vector2(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH,
+                        panelY);
                     monsterIndex++;
                 }
 
@@ -64,16 +66,16 @@ namespace Rpg.Client.Models.Combat.Ui
                     Color.White);
 
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
-                var portraitPosition = panelPosition.Location.ToVector2() + new Vector2(7, 0);
+                var portraitPosition = panelPosition + new Vector2(7, 0);
                 var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
                     Color.White);
 
                 var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
-                var unitNamePosition = panelPosition.Location.ToVector2() + new Vector2(55, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+                var unitNamePosition = panelPosition + new Vector2(55, 3);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unitName} {UiResource.MonsterLevelShortText}{unit.Level}", unitNamePosition, Color.White);
 
-                var hpPosition = panelPosition.Location.ToVector2() + new Vector2(55, 20);
+                var hpPosition = panelPosition + new Vector2(55, 20);
                 var hpPercentage = (float)unit.Hp / unit.MaxHp;
                 var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * BAR_WIDTH), 11);
                 spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect,
@@ -84,7 +86,7 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 if (unit.IsPlayerControlled && unit.HasSkillsWithCost)
                 {
-                    var manaPosition = panelPosition.Location.ToVector2() + new Vector2(55, 40);
+                    var manaPosition = panelPosition + new Vector2(55, 40);
                     var manaPercentage = (float)unit.ManaPool / unit.ManaPoolSize;
                     var manaSourceRect = new Rectangle(0, 62, (int)(manaPercentage * BAR_WIDTH), 11);
                     spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), manaPosition, manaSourceRect,
@@ -93,6 +95,9 @@ namespace Rpg.Client.Models.Combat.Ui
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ManaPool}/{unit.ManaPoolSize}",
                         manaPosition, Color.Black);
                 }
+
+                var statText = $"Dmg:{unit.Damage} Ar:{unit.Armor}";
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), statText, panelPosition + new Vector2(55, 50), Color.Gray);
             }
         }
     }

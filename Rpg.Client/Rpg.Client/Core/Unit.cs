@@ -8,7 +8,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Unit
     {
-        private const int BASE_MANA_POOL_SIZE = 10;
+        private const int BASE_MANA_POOL_SIZE = 3;
         private const int MANA_PER_LEVEL = 1;
         private const float COMBAT_RESTORE_SHARE = 1.0f;
 
@@ -29,9 +29,9 @@ namespace Rpg.Client.Core
             EquipmentItems = equipmentItems;
 
             InitStats(unitScheme);
-            RestoreHP();
+            RestoreHp();
 
-            ManaPool = ManaPoolSize;
+            ManaPool = 0;
         }
 
         public int EquipmentItems { get; private set; }
@@ -59,16 +59,91 @@ namespace Rpg.Client.Core
 
         public int Level { get; set; }
 
-        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
+        private const int LEVEL_BASE = 2;
+        private const int LEVEL_MULTIPLICATOR = 100;
+        public int LevelupXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
         public int MaxHp { get; set; }
 
-        public int Power { get; set; }
+        public float Power => CalcPower();
 
-        public int PowerIncrease { get; set; }
+        public int Armor => CalcArmor();
+
+        public int Damage => CalcDamage();
+
+        public int Support => CalcSupport();
+
+        private int CalcSupport()
+        {
+            var power = Power;
+            var powerToSupport = power * UnitScheme.SupportRank;
+            var support = UnitScheme.SupportBase * powerToSupport;
+            var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
+                
+            return normalizedSupport;
+        }
+
+        private int CalcDamage()
+        {
+            var power = Power;
+            var powerToDamage = power * UnitScheme.DamageDealerRank;
+            var damage = UnitScheme.DamageBase * powerToDamage;
+            var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
+                
+            return normalizedDamage;
+        }
+
+        private int CalcArmor()
+        {
+            var power = Power;
+            var powerToArmor = power * UnitScheme.DamageDealerRank;
+            var armor = UnitScheme.ArmorBase * powerToArmor;
+            var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
+                
+            return normalizedArmor;
+        }
+
+        private float CalcPower()
+        {
+            var powerLevel = CalcPowerLevel();
+            var overpower = CalcOverpower();
+
+            return UnitScheme.Power + UnitScheme.PowerPerLevel * powerLevel + overpower;
+        }
+
+        private const float OVERPOWER_BASE = 2;
+        private const int MINIMAL_LEVEL_WITH_MANA = 2;
+
+        private float CalcOverpower()
+        {
+            var startPoolSize = ManaPool - (BASE_MANA_POOL_SIZE + MANA_PER_LEVEL * MINIMAL_LEVEL_WITH_MANA);
+            if (startPoolSize > 0)
+            {
+                return (float)Math.Log(startPoolSize, OVERPOWER_BASE);
+            }
+            
+            // Monsters and low-level heroes has no overpower.
+            return 0;
+        }
+
+        private float CalcPowerLevel()
+        {
+            float powerLevel;
+            if (EquipmentLevel > 0)
+            {
+                powerLevel = (Level * 0.5f + EquipmentLevel * 0.5f);
+            }
+            else
+            {
+                // The monsters do not use equipment level. They has no equipment at all.
+                powerLevel = Level;
+            }
+
+            return powerLevel;
+        }
 
         public IReadOnlyList<ISkill> Skills { get; set; }
 
@@ -96,7 +171,7 @@ namespace Rpg.Client.Core
 
         /// <summary>
         /// Used only by monster units.
-        /// Amount of the expirience gained for killing this unit.
+        /// Amount of the experience gained for killing this unit.
         /// </summary>
         public int XpReward => Level * 20;
 
@@ -124,13 +199,13 @@ namespace Rpg.Client.Core
         /// <returns>Returns true is level up.</returns>
         public bool GainXp(int amount)
         {
-            var Xp = this.Xp;
-            var Level = this.Level;
-            var LevelupXp = this.LevelupXp;
-            var XpRemains = this.XpRemains;
-            var wasLevelUp = GainCounterInner(amount, ref Xp, ref Level, ref LevelupXp, ref XpRemains);
-            this.Xp = Xp;
-            this.Level = Level;
+            var xp = this.Xp;
+            var level = this.Level;
+            var levelupXp = this.LevelupXp;
+            var xpRemains = this.XpRemains;
+            var wasLevelUp = GainCounterInner(amount, ref xp, ref level, ref levelupXp, ref xpRemains);
+            this.Xp = xp;
+            this.Level = level;
 
             if (wasLevelUp)
             {
@@ -140,7 +215,7 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        public void RestoreHitpointsAfterCombat()
+        public void RestoreHitPointsAfterCombat()
         {
             var hpBonus = (int)Math.Round(MaxHp * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
 
@@ -152,17 +227,20 @@ namespace Rpg.Client.Core
             }
         }
 
-        public void TakeDamage(CombatUnit damager, int damage)
+        public int TakeDamage(CombatUnit damageDealer, int damage)
         {
-            Hp -= Math.Min(Hp, damage);
-            HasBeenDamaged?.Invoke(this, damage);
+            var damageAbsorbedByArmor = Math.Max(damage - Armor, 0);
+            Hp -= Math.Min(Hp, damageAbsorbedByArmor);
+            HasBeenDamaged?.Invoke(this, damageAbsorbedByArmor);
             if (Hp <= 0)
             {
-                Dead?.Invoke(this, new UnitDamagedEventArgs(damager));
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
+
+            return damageAbsorbedByArmor;
         }
 
-        public void TakeHeal(int heal)
+        public void RestoreHitPoints(int heal)
         {
             Hp += Math.Min(MaxHp - Hp, heal);
             HealTaken?.Invoke(this, heal);
@@ -176,23 +254,23 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
-            ref int XpRemains)
+        private static bool GainCounterInner(int amount, ref int xp, ref int level, ref int levelupXp,
+            ref int xpRemains)
         {
             var currentXpCounter = amount;
             var wasLevelup = false;
 
             while (currentXpCounter > 0)
             {
-                var xpToNextLevel = Math.Min(currentXpCounter, XpRemains);
+                var xpToNextLevel = Math.Min(currentXpCounter, xpRemains);
                 currentXpCounter -= xpToNextLevel;
 
-                Xp += xpToNextLevel;
+                xp += xpToNextLevel;
 
-                if (Xp >= LevelupXp)
+                if (xp >= levelupXp)
                 {
-                    Level++;
-                    Xp = 0;
+                    level++;
+                    xp = 0;
 
                     wasLevelup = true;
                 }
@@ -203,24 +281,12 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme)
         {
-            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
-
-            PowerIncrease = unitScheme.PowerPerLevel;
-
-            if (EquipmentLevel > 0)
-            {
-                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
-                    MidpointRounding.AwayFromZero);
-            }
-            else
-            {
-                Power = unitScheme.Power + PowerIncrease * Level;
-            }
+            MaxHp = (int)Math.Round(unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level, MidpointRounding.AwayFromZero);
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
-        private void RestoreHP()
+        private void RestoreHp()
         {
             Hp = MaxHp;
         }

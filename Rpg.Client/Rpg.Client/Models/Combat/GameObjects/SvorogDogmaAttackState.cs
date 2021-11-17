@@ -8,14 +8,14 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.Models.Combat.GameObjects
 {
-    internal class SvarogDogmaAttackState : IUnitStateEngine
+    internal class SvarogBlastFurnaceAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public SvarogDogmaAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
+        public SvarogBlastFurnaceAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index,

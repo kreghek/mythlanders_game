@@ -24,26 +24,10 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new AttackEffect
+                    var res = new LifeDrawEffect
                     {
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1,
+                        DamageMultiplier = 0.3f,
                         Actor = u
-                    };
-
-                    return res;
-                })
-            },
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new HealEffect
-                    {
-                        Actor = u,
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1
                     };
 
                     return res;
@@ -51,7 +35,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Wide Slash";
+        public override string Sid => "Volkolak Claws";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
     }

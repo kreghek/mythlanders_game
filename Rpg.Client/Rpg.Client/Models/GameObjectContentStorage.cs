@@ -169,6 +169,10 @@ namespace Rpg.Client.Models
                 {
                     GameObjectSoundType.Firestorm,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Explosion")
+                },
+                {
+                    GameObjectSoundType.FireDamage,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FireDamage")
                 }
             };
 

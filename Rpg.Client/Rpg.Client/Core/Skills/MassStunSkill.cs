@@ -25,9 +25,10 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DopeHerbEffect();
-
-                    effect.Value = (int)Math.Ceiling((double)u.Unit.Level / 5);
+                    var effect = new StunEffect
+                    {
+                        Duration = 1
+                    };
 
                     return effect;
                 })

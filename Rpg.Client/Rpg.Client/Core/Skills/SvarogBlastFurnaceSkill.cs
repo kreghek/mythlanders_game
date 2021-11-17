@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public SvarogBlastFurnaceSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.SwordSlash },
+                { Type = SkillVisualizationStateType.MassRange, SoundEffectType = GameObjectSoundType.FireDamage },
             costRequired)
         {
         }
@@ -26,8 +26,7 @@ namespace Rpg.Client.Core.Skills
                 {
                     var res = new AttackEffect
                     {
-                        PowerMultiplier = 1.5f,
-                        ValueRange = 1,
+                        DamageMultiplier = 1.5f,
                         Actor = u
                     };
 

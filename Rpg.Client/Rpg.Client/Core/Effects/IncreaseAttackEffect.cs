@@ -6,16 +6,13 @@ namespace Rpg.Client.Core.Effects
 {
     internal class IncreaseAttackEffect : ModifiersEffect
     {
-        private readonly float _multiplier;
-
-        public IncreaseAttackEffect(float multiplier)
+        public IncreaseAttackEffect(int bonus)
         {
-            _multiplier = multiplier;
             Modifiers = new List<ModifierBase>
             {
-                new GivenDamageModifier
+                new GivenDamageAbsoluteModifier
                 {
-                    DamageMultiplier = _multiplier
+                    DamageBonus = bonus
                 }
             };
         }

@@ -11,6 +11,8 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Effects;
 using Rpg.Client.Engine;
 
+using CoreCombat = Rpg.Client.Core.Combat;
+
 namespace Rpg.Client.Models.Combat.Ui
 {
     internal class CombatSkillPanel
@@ -31,7 +33,7 @@ namespace Rpg.Client.Models.Combat.Ui
         private CombatSkillCard _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage, ActiveCombat combat,
+        public CombatSkillPanel(IUiContentStorage uiContentStorage, CoreCombat combat,
             ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
             Combat = combat;
@@ -44,7 +46,7 @@ namespace Rpg.Client.Models.Combat.Ui
             IsEnabled = true;
         }
 
-        public ActiveCombat Combat { get; }
+        public CoreCombat Combat { get; }
 
         public bool IsEnabled { get; set; }
 
@@ -209,7 +211,7 @@ namespace Rpg.Client.Models.Combat.Ui
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Heal over time", rulePosition,
                         Color.Black);
                 }
-                else if (effectToDisplay is DopeHerbEffect)
+                else if (effectToDisplay is StunEffect)
                 {
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
                 }

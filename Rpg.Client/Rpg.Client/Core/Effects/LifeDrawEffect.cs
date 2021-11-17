@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Effects
 {
-    internal class AttackEffect : InstantenousEffectBase
+    internal class LifeDrawEffect : InstantenousEffectBase
     {
         public CombatUnit Actor { get; set; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
@@ -47,7 +47,8 @@ namespace Rpg.Client.Core.Effects
         {
             var damage = CalculateDamage();
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            Target.Unit.TakeDamage(Actor, rolledDamage);
+            var resultDamage = Target.Unit.TakeDamage(Actor, rolledDamage);
+            Actor.Unit.RestoreHitPoints(resultDamage);
         }
     }
 }

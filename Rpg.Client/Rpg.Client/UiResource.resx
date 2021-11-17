@@ -138,6 +138,10 @@
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
   </data>
+  <data name="IsTrainingOnly" xml:space="preserve">
+    <value>Is training only</value>
+    <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
+  </data>
   <data name="LoadLastSaveButtonTitle" xml:space="preserve">
     <value>Load last save</value>
   </data>

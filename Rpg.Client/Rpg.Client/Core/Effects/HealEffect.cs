@@ -13,28 +13,15 @@ namespace Rpg.Client.Core.Effects
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
-        //public int MaxHeal => (int)(Power * PowerMultiplier + ValueRange);
+        public float PowerMultiplier { get; init; }
 
-        //public int MinHeal => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-
-        //public int Power { get; set; }
-        //public float PowerMultiplier { get; set; }
-
-        //public int ValueRange { get; set; }
-
-        public float PowerMultiplier { get; set; }
-
-        public int ValueRange { get; set; }
+        public float Scatter { get; init; } = 0.1f;
 
         public MinMax<int> CalculateHeal()
         {
-            if (Actor is null)
-            {
-                return new MinMax<int>();
-            }
-
-            var min = Actor.Unit.Power * PowerMultiplier - ValueRange;
-            var max = Actor.Unit.Power * PowerMultiplier + ValueRange;
+            var absoluteSupport = Actor.Unit.Support * PowerMultiplier;
+            var min = absoluteSupport - Scatter * absoluteSupport;
+            var max = absoluteSupport + Scatter * absoluteSupport;
 
             min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenHeal);
             max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenHeal);
@@ -45,10 +32,13 @@ namespace Rpg.Client.Core.Effects
                 max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
             }
 
+            var absoluteMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);
+            var absoluteMax = (int)Math.Round(max, MidpointRounding.AwayFromZero);
+
             return new MinMax<int>
             {
-                Min = Math.Max((int)min, 1),
-                Max = (int)max
+                Min = Math.Max(absoluteMin, 0),
+                Max = Math.Max(absoluteMin, absoluteMax)
             };
         }
 
@@ -56,7 +46,7 @@ namespace Rpg.Client.Core.Effects
         {
             var heal = CalculateHeal();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.TakeHeal(rolledHeal);
+            Target.Unit.RestoreHitPoints(rolledHeal);
         }
     }
 }

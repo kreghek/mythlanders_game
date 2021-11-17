@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core.Effects
 {
-    internal class DopeHerbEffect : PeriodicEffectBase
+    internal class StunEffect : PeriodicEffectBase
     {
         protected override void InfluenceAction()
         {
