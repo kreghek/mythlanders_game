@@ -44,7 +44,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
             };
             _root.AddChild(_eventMarker);
 
-            Combat = globeNode.CombatSequence?.Combats.FirstOrDefault();
+            CombatSource = globeNode.CombatSequence?.Combats.FirstOrDefault();
             GlobeNode = globeNode;
             Position = position;
             Index = globeNode.Index;
@@ -53,7 +53,7 @@ namespace Rpg.Client.Models.Biome.GameObjects
 
         public Core.Event? AvailableEvent { get; }
 
-        public Core.Combat? Combat { get; }
+        public CombatSource? CombatSource { get; }
         public GlobeNode GlobeNode { get; }
         public int Index { get; }
         public Vector2 Position { get; }

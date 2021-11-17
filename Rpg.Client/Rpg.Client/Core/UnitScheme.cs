@@ -7,35 +7,53 @@ namespace Rpg.Client.Core
     {
         public BiomeType Biome { get; init; }
 
-        public float TankRole { get; init; }
-        public float DamageDealerRole { get; init; }
-        public float SupportRole { get; init; }
+        public float TankRank { get; init; }
+        public float DamageDealerRank { get; init; }
+        public float SupportRank { get; init; }
 
-        public int HitPoints => CalcHitPoints();
+        public float HitPointsBase => CalcHitPointsBase();
 
         private const int HITPOINTS_BASE = 40;
-        private const int HITPOINTS_PER_LEVEL = HITPOINTS_BASE / 10;
+        private const int HITPOINTS_PER_LEVEL_BASE = HITPOINTS_BASE / 10;
             
-        private int CalcHitPoints()
+        private float CalcHitPointsBase()
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(HITPOINTS_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (float)Math.Round(HITPOINTS_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            return HITPOINTS_BASE;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return HITPOINTS_BASE;
+                }
+                else
+                {
+                    return HITPOINTS_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
-        public int HitPointsPerLevel => CalcHitPointsPerLevel();
+        public float HitPointsPerLevelBase => CalcHitPointsPerLevelBase();
 
-        private int CalcHitPointsPerLevel()
+        private float CalcHitPointsPerLevelBase()
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(HITPOINTS_PER_LEVEL * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (float)Math.Round(HITPOINTS_PER_LEVEL_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            return HITPOINTS_PER_LEVEL;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return HITPOINTS_PER_LEVEL_BASE;
+                }
+                else
+                {
+                    return HITPOINTS_PER_LEVEL_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
         public float ArmorBase => CalcArmor();
@@ -50,8 +68,17 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(SUPPORT_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            return SUPPORT_BASE;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return SUPPORT_BASE;
+                }
+                else
+                {
+                    return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
         private float CalcDamage()
@@ -60,8 +87,17 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(DAMAGE_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            return DAMAGE_BASE;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return DAMAGE_BASE;
+                }
+                else
+                {
+                    return DAMAGE_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
         private const float ARMOR_BASE = 0.5f;
@@ -74,11 +110,20 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(ARMOR_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            return ARMOR_BASE;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return ARMOR_BASE;
+                }
+                else
+                {
+                    return ARMOR_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
-        public bool IsBoss { get; init; }
+        public int? BossLevel { get; init; }
 
         public bool IsUnique { get; init; }
 
@@ -91,17 +136,27 @@ namespace Rpg.Client.Core
         public float Power => CalcPower();
 
         private const float HERO_POWER_MULTIPLICATOR = 2.5f;
-        private const float BASE_POWER = 1f;
-        private const float POWER_PER_LEVEL = 0.1f;
+        private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
+        private const float POWER_BASE = 1f;
+        private const float POWER_PER_LEVEL_BASE = 0.1f;
         
         private float CalcPower()
         {
             if (!IsMonster)
             {
-                return BASE_POWER * HERO_POWER_MULTIPLICATOR;
+                return POWER_BASE * HERO_POWER_MULTIPLICATOR;
             }
-
-            return BASE_POWER;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return POWER_BASE;
+                }
+                else
+                {
+                    return POWER_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
         public float PowerPerLevel => CalcPowerPerLevel();
@@ -110,10 +165,19 @@ namespace Rpg.Client.Core
         {
             if (!IsMonster)
             {
-                return POWER_PER_LEVEL * HERO_POWER_MULTIPLICATOR;
+                return POWER_PER_LEVEL_BASE * HERO_POWER_MULTIPLICATOR;
             }
-
-            return POWER_PER_LEVEL;
+            else
+            {
+                if (BossLevel is null)
+                {
+                    return POWER_PER_LEVEL_BASE;
+                }
+                else
+                {
+                    return POWER_PER_LEVEL_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+                }
+            }
         }
 
         public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }

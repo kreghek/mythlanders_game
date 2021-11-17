@@ -79,7 +79,7 @@ namespace Rpg.Client.Core
         private int CalcSupport()
         {
             var power = Power;
-            var powerToSupport = power * UnitScheme.SupportRole;
+            var powerToSupport = power * UnitScheme.SupportRank;
             var support = UnitScheme.SupportBase * powerToSupport;
             var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
                 
@@ -89,7 +89,7 @@ namespace Rpg.Client.Core
         private int CalcDamage()
         {
             var power = Power;
-            var powerToDamage = power * UnitScheme.DamageDealerRole;
+            var powerToDamage = power * UnitScheme.DamageDealerRank;
             var damage = UnitScheme.DamageBase * powerToDamage;
             var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
                 
@@ -99,7 +99,7 @@ namespace Rpg.Client.Core
         private int CalcArmor()
         {
             var power = Power;
-            var powerToArmor = power * UnitScheme.DamageDealerRole;
+            var powerToArmor = power * UnitScheme.DamageDealerRank;
             var armor = UnitScheme.ArmorBase * powerToArmor;
             var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
                 
@@ -281,7 +281,7 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme)
         {
-            MaxHp = unitScheme.HitPoints + unitScheme.HitPointsPerLevel * Level;
+            MaxHp = (int)Math.Round(unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level, MidpointRounding.AwayFromZero);
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }

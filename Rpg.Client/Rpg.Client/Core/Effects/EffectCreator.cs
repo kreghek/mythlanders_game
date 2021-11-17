@@ -11,7 +11,7 @@ namespace Rpg.Client.Core.Effects
             _factory = factory;
         }
 
-        public EffectBase Create(CombatUnit actor, ActiveCombat combat)
+        public EffectBase Create(CombatUnit actor, Combat combat)
         {
             var effect = _factory(actor);
             effect.Combat = combat;

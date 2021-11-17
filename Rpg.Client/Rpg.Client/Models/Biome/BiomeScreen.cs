@@ -189,7 +189,7 @@ namespace Rpg.Client.Models.Biome
                         _hoverNodeGameObject = null;
                         foreach (var location in _locationObjectList)
                         {
-                            if (location.NodeModel?.Combat is null)
+                            if (location.NodeModel?.CombatSource is null)
                             {
                                 continue;
                             }
@@ -226,9 +226,9 @@ namespace Rpg.Client.Models.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
                                         _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.Combat, _biome,
+                                        _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,
                                         isAutoplay: false);
 
@@ -255,9 +255,9 @@ namespace Rpg.Client.Models.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new ActiveCombat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
                                         _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.Combat, _biome,
+                                        _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,
                                         isAutoplay: true);
 
@@ -335,6 +335,12 @@ namespace Rpg.Client.Models.Biome
 
             var sb = new StringBuilder();
             sb.AppendLine(localizedName);
+
+            if (node.CombatSource.IsTrainingOnly)
+            {
+                sb.AppendLine(UiResource.IsTrainingOnly);
+            }
+
             sb.AppendLine(combatSequenceSizeText);
             sb.AppendLine(rewards);
 
@@ -478,7 +484,7 @@ namespace Rpg.Client.Models.Biome
 
         private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
         {
-            var totalXpForMonsters = node.Combat.EnemyGroup.Units.Sum(x => x.XpReward);
+            var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));

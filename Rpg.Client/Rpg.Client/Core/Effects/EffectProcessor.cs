@@ -8,11 +8,11 @@ namespace Rpg.Client.Core.Effects
 {
     internal class EffectProcessor
     {
-        private readonly ActiveCombat _combat;
+        private readonly Combat _combat;
 
         private readonly IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
 
-        public EffectProcessor(ActiveCombat combat)
+        public EffectProcessor(Combat combat)
         {
             _combat = combat;
             _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();

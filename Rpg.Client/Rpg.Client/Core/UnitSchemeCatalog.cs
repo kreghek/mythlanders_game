@@ -10,9 +10,9 @@ namespace Rpg.Client.Core
     {
         public static UnitScheme SwordmanHero = new()
         {
-            TankRole = 0.4f,
-            DamageDealerRole = 0.5f,
-            SupportRole = 0.1f,
+            TankRank = 0.4f,
+            DamageDealerRank = 0.5f,
+            SupportRank = 0.1f,
 
             Name = UnitName.Berimir,
             SkillSets = new List<SkillSet>
@@ -47,9 +47,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme MonkHero = new()
         {
-            TankRole = 0.2f,
-            DamageDealerRole = 0.6f,
-            SupportRole = 0.2f,
+            TankRank = 0.2f,
+            DamageDealerRank = 0.6f,
+            SupportRank = 0.2f,
 
             Name = UnitName.Maosin,
             SkillSets = new List<SkillSet>
@@ -84,9 +84,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme SpearmanHero = new()
         {
-            TankRole = 0.8f,
-            DamageDealerRole = 0.1f,
-            SupportRole = 0.1f,
+            TankRank = 0.8f,
+            DamageDealerRank = 0.1f,
+            SupportRank = 0.1f,
 
             Name = UnitName.Ping,
             SkillSets = new List<SkillSet>
@@ -121,9 +121,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme ScorpionHero = new()
         {
-            TankRole = 0.1f,
-            DamageDealerRole = 0.8f,
-            SupportRole = 0.1f,
+            TankRank = 0.1f,
+            DamageDealerRank = 0.8f,
+            SupportRank = 0.1f,
 
             Name = UnitName.Amun,
             SkillSets = new List<SkillSet>
@@ -158,9 +158,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme HerbalistHero = new()
         {
-            TankRole = 0.0f,
-            DamageDealerRole = 0.0f,
-            SupportRole = 1.0f,
+            TankRank = 0.0f,
+            DamageDealerRank = 0.0f,
+            SupportRank = 1.0f,
             
             Name = UnitName.Rada,
 
@@ -196,9 +196,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme ArcherHero = new()
         {
-            TankRole = 0.0f,
-            DamageDealerRole = 0.75f,
-            SupportRole = 0.25f,
+            TankRank = 0.0f,
+            DamageDealerRank = 0.75f,
+            SupportRank = 0.25f,
             
             Name = UnitName.Hawk,
 
@@ -234,9 +234,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme PriestHero = new()
         {
-            TankRole = 0.1f,
-            DamageDealerRole = 0.9f,
-            SupportRole = 0.0f,
+            TankRank = 0.1f,
+            DamageDealerRank = 0.9f,
+            SupportRank = 0.0f,
 
             Name = UnitName.Kakhotep,
 
@@ -272,9 +272,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme MissionaryHero = new()
         {
-            TankRole = 0.2f,
-            DamageDealerRole = 0.0f,
-            SupportRole = 0.8f,
+            TankRank = 0.2f,
+            DamageDealerRank = 0.0f,
+            SupportRank = 0.8f,
 
             Name = UnitName.Cheng,
 
@@ -341,9 +341,9 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
@@ -364,9 +364,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 0.4f,
-                    SupportRole = 0.6f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 0.4f,
+                    SupportRank = 0.6f,
                     
                     Name = UnitName.Bear,
                     Biome = biomeType,
@@ -390,9 +390,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Wisp,
                     Biome = biomeType,
@@ -415,9 +415,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
@@ -441,9 +441,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
@@ -466,9 +466,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Stryga,
                     Biome = biomeType,
@@ -491,9 +491,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Vampire,
                     Biome = biomeType,
@@ -517,9 +517,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
@@ -541,9 +541,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
@@ -567,14 +567,14 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Taote,
                     Biome = biomeType,
 
-                    IsBoss = true,
+                    BossLevel = 2,
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -601,9 +601,9 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
@@ -626,9 +626,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Bear,
                     Biome = biomeType,
@@ -652,9 +652,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Wisp,
                     Biome = biomeType,
@@ -677,9 +677,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
@@ -703,9 +703,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
@@ -728,9 +728,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Stryga,
                     Biome = biomeType,
@@ -753,9 +753,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Vampire,
                     Biome = biomeType,
@@ -779,9 +779,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
@@ -803,9 +803,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
@@ -829,14 +829,14 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Sphynx,
                     Biome = biomeType,
 
-                    IsBoss = true,
+                    BossLevel = 3,
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -863,9 +863,9 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
@@ -888,9 +888,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Bear,
                     Biome = biomeType,
@@ -914,9 +914,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Wisp,
                     Biome = biomeType,
@@ -939,9 +939,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
@@ -965,9 +965,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
@@ -990,9 +990,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Stryga,
                     Biome = biomeType,
@@ -1015,9 +1015,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Vampire,
                     Biome = biomeType,
@@ -1041,9 +1041,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
@@ -1065,9 +1065,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
@@ -1091,14 +1091,14 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Hydra,
                     Biome = biomeType,
 
-                    IsBoss = true,
+                    BossLevel = 4,
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1125,9 +1125,9 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Aspid,
                     Biome = biomeType,
@@ -1149,9 +1149,9 @@ namespace Rpg.Client.Core
 
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
@@ -1172,9 +1172,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Bear,
                     Biome = biomeType,
@@ -1196,9 +1196,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Wisp,
                     Biome = biomeType,
@@ -1219,9 +1219,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
@@ -1243,9 +1243,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
@@ -1267,9 +1267,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Stryga,
                     Biome = biomeType,
@@ -1290,9 +1290,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Vampire,
                     Biome = biomeType,
@@ -1314,9 +1314,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
@@ -1337,9 +1337,9 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
@@ -1361,14 +1361,14 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRole = 0.0f,
-                    DamageDealerRole = 1.0f,
-                    SupportRole = 0.0f,
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
                     
                     Name = UnitName.KosheyTheImmortal,
                     Biome = biomeType,
 
-                    IsBoss = true,
+                    BossLevel = 1,
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1390,9 +1390,9 @@ namespace Rpg.Client.Core
                         HpShare = 0.6f,
                         NextScheme = new UnitScheme
                         {
-                            TankRole = 0.0f,
-                            DamageDealerRole = 1.0f,
-                            SupportRole = 0.0f,
+                            TankRank = 0.0f,
+                            DamageDealerRank = 1.0f,
+                            SupportRank = 0.0f,
                             
                             Name = UnitName.KosheyTheImmortal2,
                             Biome = BiomeType.Slavic,
@@ -1418,9 +1418,9 @@ namespace Rpg.Client.Core
                                 HpShare = 0.3f,
                                 NextScheme = new UnitScheme
                                 {
-                                    TankRole = 0.0f,
-                                    DamageDealerRole = 1.0f,
-                                    SupportRole = 0.0f,
+                                    TankRank = 0.0f,
+                                    DamageDealerRank = 1.0f,
+                                    SupportRank = 0.0f,
                                     
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biome = BiomeType.Slavic,

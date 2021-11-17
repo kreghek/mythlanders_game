@@ -17,14 +17,14 @@ namespace Rpg.Client.Models.Combat.Ui
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 48;
         private const int BAR_WIDTH = 70;
-        private readonly ActiveCombat _activeCombat;
+        private readonly Core.Combat _activeCombat;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
         public UnitPanelController(
             ResolutionIndependentRenderer resolutionIndependentRenderer,
-            ActiveCombat activeCombat,
+            Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {
