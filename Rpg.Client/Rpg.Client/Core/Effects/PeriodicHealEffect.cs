@@ -29,13 +29,13 @@ namespace Rpg.Client.Core.Effects
                 Max = (int)max
             };
         }
-        
+
         protected override void InfluenceAction()
         {
             var heal = CalculateHeal();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
             Target.Unit.RestoreHitPoints(rolledHeal);
-            
+
             base.InfluenceAction();
         }
     }

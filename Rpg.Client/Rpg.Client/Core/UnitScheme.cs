@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
 
         private const int HITPOINTS_BASE = 40;
         private const int HITPOINTS_PER_LEVEL_BASE = HITPOINTS_BASE / 10;
-            
+
         private float CalcHitPointsBase()
         {
             if (!IsMonster)
@@ -103,7 +103,7 @@ namespace Rpg.Client.Core
         private const float ARMOR_BASE = 0.5f;
         private const float DAMAGE_BASE = 5;
         private const float SUPPORT_BASE = 2;
-        
+
         private float CalcArmor()
         {
             if (!IsMonster)
@@ -139,7 +139,7 @@ namespace Rpg.Client.Core
         private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
         private const float POWER_BASE = 1f;
         private const float POWER_PER_LEVEL_BASE = 0.1f;
-        
+
         private float CalcPower()
         {
             if (!IsMonster)

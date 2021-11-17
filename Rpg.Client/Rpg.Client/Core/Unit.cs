@@ -82,7 +82,7 @@ namespace Rpg.Client.Core
             var powerToSupport = power * UnitScheme.SupportRank;
             var support = UnitScheme.SupportBase * powerToSupport;
             var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
-                
+
             return normalizedSupport;
         }
 
@@ -92,7 +92,7 @@ namespace Rpg.Client.Core
             var powerToDamage = power * UnitScheme.DamageDealerRank;
             var damage = UnitScheme.DamageBase * powerToDamage;
             var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
-                
+
             return normalizedDamage;
         }
 
@@ -102,7 +102,7 @@ namespace Rpg.Client.Core
             var powerToArmor = power * UnitScheme.DamageDealerRank;
             var armor = UnitScheme.ArmorBase * powerToArmor;
             var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
-                
+
             return normalizedArmor;
         }
 
@@ -124,7 +124,7 @@ namespace Rpg.Client.Core
             {
                 return (float)Math.Log(startPoolSize, OVERPOWER_BASE);
             }
-            
+
             // Monsters and low-level heroes has no overpower.
             return 0;
         }
