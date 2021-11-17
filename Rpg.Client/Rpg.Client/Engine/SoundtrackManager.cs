@@ -7,6 +7,8 @@ namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
     {
+        private const float MUSIC_VOLUME = 0.5f;
+
         private readonly Random _random;
 
         private bool _changeTrack;
@@ -82,7 +84,7 @@ namespace Rpg.Client.Engine
                         if (_uiContentStorage is not null)
                         {
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
                             _currentSong = _uiContentStorage.GetTitleSong();
                             MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
@@ -104,7 +106,7 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
@@ -125,7 +127,7 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
@@ -152,7 +154,7 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
@@ -171,7 +173,7 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Volume = 0.75f;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
