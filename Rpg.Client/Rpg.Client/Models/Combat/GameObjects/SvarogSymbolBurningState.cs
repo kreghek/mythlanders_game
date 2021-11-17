@@ -15,8 +15,8 @@ namespace Rpg.Client.Models.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
         private readonly int _index;
-        private readonly SoundEffectInstance _risingPowerSoundEffect;
         private readonly IInteractionDelivery _interactionDelivery;
+        private readonly SoundEffectInstance _risingPowerSoundEffect;
         private readonly ScreenShaker _screenShaker;
         private double _counter;
 

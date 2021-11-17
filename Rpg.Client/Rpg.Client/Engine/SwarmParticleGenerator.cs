@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal sealed class SwarmParticleGenerator: IParticleGenerator
+    internal sealed class SwarmParticleGenerator : IParticleGenerator
     {
-        private readonly IList<Texture2D> _textures;
         private readonly Random _random;
+        private readonly IList<Texture2D> _textures;
 
         public SwarmParticleGenerator(IList<Texture2D> textures)
         {
@@ -33,7 +33,8 @@ namespace Rpg.Client.Engine
             var size = (float)_random.NextDouble();
             var ttl = 20 + _random.Next(40);
 
-            return new Particle(texture, new Rectangle(0, 0, 32, 32), position, velocity, angle, angularVelocity, color, size, ttl);
+            return new Particle(texture, new Rectangle(0, 0, 32, 32), position, velocity, angle, angularVelocity, color,
+                size, ttl);
         }
 
         public int GetCount()

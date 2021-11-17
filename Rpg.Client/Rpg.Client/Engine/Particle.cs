@@ -45,15 +45,16 @@ namespace Rpg.Client.Engine
             Angle += AngularVelocity;
         }
     }
-    
+
     internal class MothParticle : IParticle
     {
         private readonly Rectangle _sourceRect;
-        private readonly Vector2 _targetPosition;
-        private int _startTTL;
         private readonly Vector2 _startPosition;
+        private readonly Vector2 _targetPosition;
+        private readonly int _startTTL;
 
-        public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition, Vector2 velocity,
+        public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition,
+            Vector2 velocity,
             float angle, float angularVelocity, Color color, float size, int ttl)
         {
             _sourceRect = sourceRect;
@@ -66,7 +67,7 @@ namespace Rpg.Client.Engine
             Color = color;
             Size = size;
             TTL = ttl;
-            
+
             _startTTL = ttl;
             _startPosition = position;
         }
@@ -97,7 +98,7 @@ namespace Rpg.Client.Engine
             var length = allDistance.Length();
 
             var step = length / _startTTL;
-                
+
             TTL--;
             Position -= velocityDirection * step;
         }
