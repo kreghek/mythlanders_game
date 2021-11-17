@@ -66,7 +66,7 @@ namespace Rpg.Client.Core
 
         private const float ARMOR_BASE = 0.5f;
         private const float DAMAGE_BASE = 3;
-        private const float SUPPORT_BASE = 10;
+        private const float SUPPORT_BASE = 2;
         
         private float CalcArmor()
         {

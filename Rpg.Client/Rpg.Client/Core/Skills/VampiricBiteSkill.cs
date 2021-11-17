@@ -23,24 +23,10 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new AttackEffect
+                    var res = new LifeDrawEffect
                     {
                         Actor = u,
                         DamageMultiplier = 1.0f
-                    };
-
-                    return res;
-                })
-            },
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new HealEffect
-                    {
-                        Actor = u,
-                        PowerMultiplier = 0.5f
                     };
 
                     return res;

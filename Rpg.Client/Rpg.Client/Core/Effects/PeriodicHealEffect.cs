@@ -34,7 +34,7 @@ namespace Rpg.Client.Core.Effects
         {
             var heal = CalculateHeal();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.TakeHeal(rolledHeal);
+            Target.Unit.RestoreHitPoints(rolledHeal);
             
             base.InfluenceAction();
         }

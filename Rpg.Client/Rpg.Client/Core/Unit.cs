@@ -78,8 +78,8 @@ namespace Rpg.Client.Core
 
         private int CalcSupport()
         {
-            var powerLevel = CalcPowerLevel();
-            var powerToSupport = powerLevel * UnitScheme.SupportRole;
+            var power = Power;
+            var powerToSupport = power * UnitScheme.SupportRole;
             var support = UnitScheme.SupportBase * powerToSupport;
             var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
                 
@@ -88,8 +88,8 @@ namespace Rpg.Client.Core
 
         private int CalcDamage()
         {
-            var powerLevel = CalcPowerLevel();
-            var powerToDamage = powerLevel * UnitScheme.DamageDealerRole;
+            var power = Power;
+            var powerToDamage = power * UnitScheme.DamageDealerRole;
             var damage = UnitScheme.DamageBase * powerToDamage;
             var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
                 
@@ -98,8 +98,8 @@ namespace Rpg.Client.Core
 
         private int CalcArmor()
         {
-            var powerLevel = CalcPowerLevel();
-            var powerToArmor = powerLevel * UnitScheme.DamageDealerRole;
+            var power = Power;
+            var powerToArmor = power * UnitScheme.DamageDealerRole;
             var armor = UnitScheme.ArmorBase * powerToArmor;
             var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
                 
@@ -224,7 +224,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public void TakeDamage(CombatUnit damageDealer, int damage)
+        public int TakeDamage(CombatUnit damageDealer, int damage)
         {
             var damageAbsorbedByArmor = Math.Max(damage - Armor, 0);
             Hp -= Math.Min(Hp, damageAbsorbedByArmor);
@@ -233,9 +233,11 @@ namespace Rpg.Client.Core
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
+
+            return damageAbsorbedByArmor;
         }
 
-        public void TakeHeal(int heal)
+        public void RestoreHitPoints(int heal)
         {
             Hp += Math.Min(MaxHp - Hp, heal);
             HealTaken?.Invoke(this, heal);
