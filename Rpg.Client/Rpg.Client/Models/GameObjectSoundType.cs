@@ -14,6 +14,7 @@
 
         SvarogSymbolAppearing,
         RisingPower,
-        Firestorm
+        Firestorm,
+        FireDamage
     }
 }
