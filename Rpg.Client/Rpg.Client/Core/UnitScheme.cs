@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
     {
-        public BiomeType Biom { get; init; }
+        public BiomeType Biome { get; init; }
         public int Hp { get; init; }
         public int HpPerLevel { get; init; }
 
@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
 
         public UnitName Name { get; init; }
 
-        public IEnumerable<int> NodeIndexes { get; init; }
+        public IEnumerable<int>? NodeIndexes { get; init; }
 
         public bool IsMonster { get; init; }
 
@@ -22,6 +22,7 @@ namespace Rpg.Client.Core
 
         private const float HERO_POWER_MULTIPLICATOR = 3f;
         private const float BASE_POWER = 1f;
+        private const float POWER_PER_LEVEL = 0.1f;
         
         private float CalcPower()
         {
@@ -31,22 +32,21 @@ namespace Rpg.Client.Core
             }
 
             return BASE_POWER;
-            
-            /*if (EquipmentLevel > 0)
-            {
-                return unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
-                    MidpointRounding.AwayFromZero);
-            }
-            else
-            {
-                // The monsters do not use equipment level. They has no equipment at all.
-                Power = unitScheme.Power + PowerIncrease * Level;
-            }*/
         }
 
-        public int PowerPerLevel { get; set; }
+        public float PowerPerLevel => CalcPowerPerLevel();
 
-        public UnitSchemeAutoTransition SchemeAudoTransiton { get; set; }
+        private float CalcPowerPerLevel()
+        {
+            if (!IsMonster)
+            {
+                return POWER_PER_LEVEL * HERO_POWER_MULTIPLICATOR;
+            }
+
+            return POWER_PER_LEVEL;
+        }
+
+        public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }
 
         public IReadOnlyList<SkillSet> SkillSets { get; init; }
 

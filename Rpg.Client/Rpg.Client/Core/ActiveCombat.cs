@@ -277,7 +277,7 @@ namespace Rpg.Client.Core
         private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
         {
             var unit = e.CombatUnit.Unit;
-            var transition = unit.UnitScheme.SchemeAudoTransiton;
+            var transition = unit.UnitScheme.SchemeAutoTransition;
             if (transition is not null)
             {
                 var currentHpShare = (float)unit.Hp / unit.MaxHp;

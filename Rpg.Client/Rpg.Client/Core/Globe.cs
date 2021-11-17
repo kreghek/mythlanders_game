@@ -123,7 +123,7 @@ namespace Rpg.Client.Core
                         if (i == 0)
                         {
                             var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
-                                .Where(x => x.IsBoss && x.Biom == biome.Type).ToList();
+                                .Where(x => x.IsBoss && x.Biome == biome.Type).ToList();
                             var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
 
                             var combatList = new[]
@@ -259,7 +259,7 @@ namespace Rpg.Client.Core
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biome biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => !x.IsBoss && x.Biom == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
+                .Where(x => !x.IsBoss && x.Biome == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
             var rolledUnits = new List<UnitScheme>();
             var monsterCount = dice.Roll(1, Math.Min(3, availableMonsters.Count));
             for (var i = 0; i < monsterCount; i++)

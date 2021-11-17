@@ -70,12 +70,10 @@ namespace Rpg.Client.Core
 
         private float CalcPower()
         {
-            PowerIncrease = UnitScheme.PowerPerLevel;
-
             var powerLevel = CalcPowerLevel();
             var overpower = CalcOverpower();
 
-            return UnitScheme.Power + PowerIncrease * powerLevel + overpower;
+            return UnitScheme.Power + UnitScheme.PowerPerLevel * powerLevel + overpower;
         }
 
         private const float OVERPOWER_BASE = 2;
@@ -105,8 +103,6 @@ namespace Rpg.Client.Core
 
             return powerLevel;
         }
-
-        public int PowerIncrease { get; set; }
 
         public IReadOnlyList<ISkill> Skills { get; set; }
 
