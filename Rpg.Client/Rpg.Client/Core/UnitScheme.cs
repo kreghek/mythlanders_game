@@ -13,7 +13,7 @@ namespace Rpg.Client.Core
 
         public int HitPoints => CalcHitPoints();
 
-        private const int HITPOINTS_BASE = 20;
+        private const int HITPOINTS_BASE = 40;
         private const int HITPOINTS_PER_LEVEL = HITPOINTS_BASE / 10;
             
         private int CalcHitPoints()
@@ -65,7 +65,7 @@ namespace Rpg.Client.Core
         }
 
         private const float ARMOR_BASE = 0.5f;
-        private const float DAMAGE_BASE = 3;
+        private const float DAMAGE_BASE = 5;
         private const float SUPPORT_BASE = 2;
         
         private float CalcArmor()
@@ -90,7 +90,7 @@ namespace Rpg.Client.Core
 
         public float Power => CalcPower();
 
-        private const float HERO_POWER_MULTIPLICATOR = 3f;
+        private const float HERO_POWER_MULTIPLICATOR = 2.5f;
         private const float BASE_POWER = 1f;
         private const float POWER_PER_LEVEL = 0.1f;
         

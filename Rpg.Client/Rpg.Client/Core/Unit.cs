@@ -8,7 +8,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Unit
     {
-        private const int BASE_MANA_POOL_SIZE = 10;
+        private const int BASE_MANA_POOL_SIZE = 3;
         private const int MANA_PER_LEVEL = 1;
         private const float COMBAT_RESTORE_SHARE = 1.0f;
 
@@ -31,7 +31,7 @@ namespace Rpg.Client.Core
             InitStats(unitScheme);
             RestoreHp();
 
-            ManaPool = ManaPoolSize;
+            ManaPool = 0;
         }
 
         public int EquipmentItems { get; private set; }
@@ -115,11 +115,14 @@ namespace Rpg.Client.Core
         }
 
         private const float OVERPOWER_BASE = 2;
+        private const int MINIMAL_LEVEL_WITH_MANA = 2;
+
         private float CalcOverpower()
         {
-            if (ManaPoolSize > 0)
+            var startPoolSize = ManaPool - (BASE_MANA_POOL_SIZE + MANA_PER_LEVEL * MINIMAL_LEVEL_WITH_MANA);
+            if (startPoolSize > 0)
             {
-                return (float)Math.Log(ManaPool, OVERPOWER_BASE);
+                return (float)Math.Log(startPoolSize, OVERPOWER_BASE);
             }
             
             // Monsters and low-level heroes has no overpower.
