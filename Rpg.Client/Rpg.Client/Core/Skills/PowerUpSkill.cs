@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Extensions.Logging;
+
 using Rpg.Client.Core.Effects;
 using Rpg.Client.Models;
 
@@ -24,8 +26,10 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(1.1f);
-                    effect.Value = 3;
+                    var effect = new IncreaseAttackEffect(u.Unit.Support)
+                    {
+                        Duration = 3
+                    };
 
                     return effect;
                 })

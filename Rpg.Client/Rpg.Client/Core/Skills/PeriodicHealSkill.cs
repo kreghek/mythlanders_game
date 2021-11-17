@@ -26,10 +26,9 @@ namespace Rpg.Client.Core.Skills
                 {
                     var effect = new PeriodicHealEffect
                     {
-                        Value = 3,
-                        Power = (int)Math.Round(u.Unit.Power, MidpointRounding.AwayFromZero),
-                        PowerMultiplier = 0.3f,
-                        ValueRange = 1
+                        Duration = 3,
+                        SourceSupport = (int)Math.Round(u.Unit.Power, MidpointRounding.AwayFromZero),
+                        PowerMultiplier = 0.3f
                     };
 
                     return effect;
@@ -44,7 +43,7 @@ namespace Rpg.Client.Core.Skills
                     {
                         Actor = u,
                         PowerMultiplier = 1,
-                        ValueRange = 1
+                        Scatter = 1
                     };
 
                     return effect;

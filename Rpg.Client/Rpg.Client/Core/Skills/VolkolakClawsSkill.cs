@@ -26,8 +26,7 @@ namespace Rpg.Client.Core.Skills
                 {
                     var res = new AttackEffect
                     {
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1,
+                        DamageMultiplier = 1f,
                         Actor = u
                     };
 
@@ -42,8 +41,7 @@ namespace Rpg.Client.Core.Skills
                     var res = new HealEffect
                     {
                         Actor = u,
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1
+                        PowerMultiplier = 0.3f
                     };
 
                     return res;
@@ -51,7 +49,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Wide Slash";
+        public override string Sid => "Volkolak Claws";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
     }

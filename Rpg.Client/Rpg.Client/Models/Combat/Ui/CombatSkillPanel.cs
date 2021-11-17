@@ -209,7 +209,7 @@ namespace Rpg.Client.Models.Combat.Ui
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Heal over time", rulePosition,
                         Color.Black);
                 }
-                else if (effectToDisplay is DopeHerbEffect)
+                else if (effectToDisplay is StunEffect)
                 {
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Stun", rulePosition, Color.Black);
                 }

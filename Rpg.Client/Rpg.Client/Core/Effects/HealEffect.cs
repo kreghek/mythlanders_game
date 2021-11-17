@@ -13,28 +13,15 @@ namespace Rpg.Client.Core.Effects
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
-        //public int MaxHeal => (int)(Power * PowerMultiplier + ValueRange);
+        public float PowerMultiplier { get; init; }
 
-        //public int MinHeal => Math.Max((int)(Power * PowerMultiplier - ValueRange), 1);
-
-        //public int Power { get; set; }
-        //public float PowerMultiplier { get; set; }
-
-        //public int ValueRange { get; set; }
-
-        public float PowerMultiplier { get; set; }
-
-        public int ValueRange { get; set; }
+        public float Scatter { get; init; } = 0.1f;
 
         public MinMax<int> CalculateHeal()
         {
-            if (Actor is null)
-            {
-                return new MinMax<int>();
-            }
-
-            var min = Actor.Unit.Power * PowerMultiplier - ValueRange;
-            var max = Actor.Unit.Power * PowerMultiplier + ValueRange;
+            var absoluteSupport = Actor.Unit.Support * PowerMultiplier;
+            var min = absoluteSupport - Scatter * absoluteSupport;
+            var max = absoluteSupport + Scatter * absoluteSupport;
 
             min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenHeal);
             max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenHeal);

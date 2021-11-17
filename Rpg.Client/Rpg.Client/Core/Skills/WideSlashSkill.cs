@@ -26,8 +26,7 @@ namespace Rpg.Client.Core.Skills
                 {
                     var res = new AttackEffect
                     {
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1,
+                        DamageMultiplier = 0.5f,
                         Actor = u
                     };
 

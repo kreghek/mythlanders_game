@@ -10,8 +10,9 @@ namespace Rpg.Client.Core
     {
         public static UnitScheme SwordmanHero = new()
         {
-            Hp = 100,
-            HpPerLevel = 10,
+            TankRole = 0.4f,
+            DamageDealerRole = 0.5f,
+            SupportRole = 0.1f,
 
             Name = UnitName.Berimir,
             SkillSets = new List<SkillSet>
@@ -46,8 +47,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme MonkHero = new()
         {
-            Hp = 100,
-            HpPerLevel = 10,
+            TankRole = 0.2f,
+            DamageDealerRole = 0.6f,
+            SupportRole = 0.2f,
 
             Name = UnitName.Maosin,
             SkillSets = new List<SkillSet>
@@ -82,8 +84,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme SpearmanHero = new()
         {
-            Hp = 100,
-            HpPerLevel = 10,
+            TankRole = 0.8f,
+            DamageDealerRole = 0.1f,
+            SupportRole = 0.1f,
 
             Name = UnitName.Ping,
             SkillSets = new List<SkillSet>
@@ -118,8 +121,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme ScorpionHero = new()
         {
-            Hp = 100,
-            HpPerLevel = 10,
+            TankRole = 0.1f,
+            DamageDealerRole = 0.8f,
+            SupportRole = 0.1f,
 
             Name = UnitName.Amun,
             SkillSets = new List<SkillSet>
@@ -154,8 +158,10 @@ namespace Rpg.Client.Core
 
         public static UnitScheme HerbalistHero = new()
         {
-            Hp = 50,
-            HpPerLevel = 6,
+            TankRole = 0.0f,
+            DamageDealerRole = 0.0f,
+            SupportRole = 1.0f,
+            
             Name = UnitName.Rada,
 
             SkillSets = new List<SkillSet>
@@ -190,8 +196,10 @@ namespace Rpg.Client.Core
 
         public static UnitScheme ArcherHero = new()
         {
-            Hp = 50,
-            HpPerLevel = 7,
+            TankRole = 0.0f,
+            DamageDealerRole = 0.75f,
+            SupportRole = 0.25f,
+            
             Name = UnitName.Hawk,
 
             SkillSets = new List<SkillSet>
@@ -226,8 +234,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme PriestHero = new()
         {
-            Hp = 50,
-            HpPerLevel = 5,
+            TankRole = 0.1f,
+            DamageDealerRole = 0.9f,
+            SupportRole = 0.0f,
 
             Name = UnitName.Kakhotep,
 
@@ -263,8 +272,9 @@ namespace Rpg.Client.Core
 
         public static UnitScheme MissionaryHero = new()
         {
-            Hp = 50,
-            HpPerLevel = 5,
+            TankRole = 0.2f,
+            DamageDealerRole = 0.0f,
+            SupportRole = 0.8f,
 
             Name = UnitName.Cheng,
 
@@ -331,8 +341,10 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -352,8 +364,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 8,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 0.4f,
+                    SupportRole = 0.6f,
+                    
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -376,8 +390,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 2,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -399,8 +415,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 9,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -423,8 +441,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -446,8 +466,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -469,8 +491,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 10,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -493,8 +517,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -515,8 +541,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 30,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -539,8 +567,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 8,
-                    HpPerLevel = 60,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Taote,
                     Biome = biomeType,
 
@@ -571,8 +601,10 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -594,8 +626,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 8,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -618,8 +652,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 2,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -641,8 +677,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 9,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -665,8 +703,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -688,8 +728,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -711,8 +753,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 10,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -735,8 +779,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -757,8 +803,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 30,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -781,8 +829,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 8,
-                    HpPerLevel = 60,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Sphynx,
                     Biome = biomeType,
 
@@ -813,8 +863,10 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -836,8 +888,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 8,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -860,8 +914,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 2,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -883,8 +939,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 9,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -907,8 +965,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -930,8 +990,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -953,8 +1015,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 10,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -977,8 +1041,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -999,8 +1065,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 30,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1023,8 +1091,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 8,
-                    HpPerLevel = 60,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Hydra,
                     Biome = biomeType,
 
@@ -1055,8 +1125,10 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Aspid,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -1077,8 +1149,10 @@ namespace Rpg.Client.Core
 
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -1098,8 +1172,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 8,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -1120,8 +1196,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 2,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -1141,8 +1219,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 25,
-                    HpPerLevel = 9,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -1163,8 +1243,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 15,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1185,8 +1267,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1206,8 +1290,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 10,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1228,8 +1314,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 20,
-                    HpPerLevel = 3,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1249,8 +1337,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 30,
-                    HpPerLevel = 5,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1271,8 +1361,10 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    Hp = 8,
-                    HpPerLevel = 55,
+                    TankRole = 0.0f,
+                    DamageDealerRole = 1.0f,
+                    SupportRole = 0.0f,
+                    
                     Name = UnitName.KosheyTheImmortal,
                     Biome = biomeType,
 
@@ -1298,8 +1390,10 @@ namespace Rpg.Client.Core
                         HpShare = 0.6f,
                         NextScheme = new UnitScheme
                         {
-                            Hp = 8,
-                            HpPerLevel = 55,
+                            TankRole = 0.0f,
+                            DamageDealerRole = 1.0f,
+                            SupportRole = 0.0f,
+                            
                             Name = UnitName.KosheyTheImmortal2,
                             Biome = BiomeType.Slavic,
                             NodeIndexes = new[] { 0, 1, 2 },
@@ -1324,8 +1418,10 @@ namespace Rpg.Client.Core
                                 HpShare = 0.3f,
                                 NextScheme = new UnitScheme
                                 {
-                                    Hp = 8,
-                                    HpPerLevel = 55,
+                                    TankRole = 0.0f,
+                                    DamageDealerRole = 1.0f,
+                                    SupportRole = 0.0f,
+                                    
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biome = BiomeType.Slavic,
                                     NodeIndexes = new[] { 0, 1, 2 },

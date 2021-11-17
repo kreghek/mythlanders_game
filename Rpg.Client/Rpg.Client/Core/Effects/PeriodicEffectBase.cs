@@ -6,7 +6,10 @@ namespace Rpg.Client.Core.Effects
     {
         private int _value = -1;
 
-        public int Value
+        /// <summary>
+        /// Duration of effect in combat rounds.
+        /// </summary>
+        public int Duration
         {
             get => _value;
             set
@@ -26,12 +29,12 @@ namespace Rpg.Client.Core.Effects
 
         protected override void InfluenceAction()
         {
-            if (Value < 0)
+            if (Duration < 0)
             {
-                Debug.Fail("Value не задано");
+                Debug.Fail($"{nameof(Duration)} is not defined.");
             }
 
-            Value--;
+            Duration--;
         }
     }
 }

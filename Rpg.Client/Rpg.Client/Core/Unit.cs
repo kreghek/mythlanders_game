@@ -59,7 +59,9 @@ namespace Rpg.Client.Core
 
         public int Level { get; set; }
 
-        public int LevelupXp => (int)Math.Pow(2, Level) * 100;
+        private const int LEVEL_BASE = 2;
+        private const int LEVEL_MULTIPLICATOR = 100;
+        public int LevelupXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
@@ -67,6 +69,42 @@ namespace Rpg.Client.Core
         public int MaxHp { get; set; }
 
         public float Power => CalcPower();
+
+        public int Armor => CalcArmor();
+
+        public int Damage => CalcDamage();
+
+        public int Support => CalcSupport();
+
+        private int CalcSupport()
+        {
+            var powerLevel = CalcPowerLevel();
+            var powerToSupport = powerLevel * UnitScheme.SupportRole;
+            var support = UnitScheme.SupportBase * powerToSupport;
+            var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
+                
+            return normalizedSupport;
+        }
+
+        private int CalcDamage()
+        {
+            var powerLevel = CalcPowerLevel();
+            var powerToDamage = powerLevel * UnitScheme.DamageDealerRole;
+            var damage = UnitScheme.DamageBase * powerToDamage;
+            var normalizedDamage = (int)Math.Round(damage, MidpointRounding.AwayFromZero);
+                
+            return normalizedDamage;
+        }
+
+        private int CalcArmor()
+        {
+            var powerLevel = CalcPowerLevel();
+            var powerToArmor = powerLevel * UnitScheme.DamageDealerRole;
+            var armor = UnitScheme.ArmorBase * powerToArmor;
+            var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
+                
+            return normalizedArmor;
+        }
 
         private float CalcPower()
         {
@@ -188,8 +226,9 @@ namespace Rpg.Client.Core
 
         public void TakeDamage(CombatUnit damageDealer, int damage)
         {
-            Hp -= Math.Min(Hp, damage);
-            HasBeenDamaged?.Invoke(this, damage);
+            var damageAbsorbedByArmor = Math.Max(damage - Armor, 0);
+            Hp -= Math.Min(Hp, damageAbsorbedByArmor);
+            HasBeenDamaged?.Invoke(this, damageAbsorbedByArmor);
             if (Hp <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));

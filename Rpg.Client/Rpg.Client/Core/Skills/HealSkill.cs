@@ -31,7 +31,6 @@ namespace Rpg.Client.Core.Skills
                     {
                         Actor = u,
                         PowerMultiplier = 1,
-                        ValueRange = 1
                     };
 
                     return res;

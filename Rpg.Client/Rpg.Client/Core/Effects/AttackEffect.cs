@@ -14,19 +14,15 @@ namespace Rpg.Client.Core.Effects
 
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
-        public float PowerMultiplier { get; set; }
+        public float DamageMultiplier { get; init; }
 
-        public int ValueRange { get; set; }
+        public float Scatter { get; init; } = 0.1f;
 
         public MinMax<int> CalculateDamage()
         {
-            if (Actor is null)
-            {
-                return new MinMax<int>();
-            }
-
-            var min = Actor.Unit.Power * PowerMultiplier - ValueRange;
-            var max = Actor.Unit.Power * PowerMultiplier + ValueRange;
+            var absoluteDamage = Actor.Unit.Damage * DamageMultiplier;
+            var min = absoluteDamage - Scatter * absoluteDamage;
+            var max = absoluteDamage + Scatter * absoluteDamage;
 
             min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
             max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);

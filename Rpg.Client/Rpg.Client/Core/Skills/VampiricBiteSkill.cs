@@ -26,8 +26,7 @@ namespace Rpg.Client.Core.Skills
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1
+                        DamageMultiplier = 1.0f
                     };
 
                     return res;
@@ -41,8 +40,7 @@ namespace Rpg.Client.Core.Skills
                     var res = new HealEffect
                     {
                         Actor = u,
-                        PowerMultiplier = 0.5f,
-                        ValueRange = 1
+                        PowerMultiplier = 0.5f
                     };
 
                     return res;
