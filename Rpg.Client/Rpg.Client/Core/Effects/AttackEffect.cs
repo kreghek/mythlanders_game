@@ -33,10 +33,13 @@ namespace Rpg.Client.Core.Effects
                 max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
             }
 
+            var absoluteMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);
+            var absoluteMax = (int)Math.Round(max, MidpointRounding.AwayFromZero);
+
             return new MinMax<int>
             {
-                Min = Math.Max((int)min, 1),
-                Max = (int)max
+                Min = Math.Max(absoluteMin, 1),
+                Max = Math.Max(absoluteMin, absoluteMax)
             };
         }
 

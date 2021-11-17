@@ -276,7 +276,7 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme)
         {
-            MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
+            MaxHp = unitScheme.HitPoints + unitScheme.HitPointsPerLevel * Level;
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }

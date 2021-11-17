@@ -11,9 +11,9 @@ namespace Rpg.Client.Core
         public float DamageDealerRole { get; init; }
         public float SupportRole { get; init; }
 
-        public int Hp => CalcHitPoints();
+        public int HitPoints => CalcHitPoints();
 
-        private const int HITPOINTS_BASE = 100;
+        private const int HITPOINTS_BASE = 20;
         private const int HITPOINTS_PER_LEVEL = HITPOINTS_BASE / 10;
             
         private int CalcHitPoints()
@@ -26,7 +26,7 @@ namespace Rpg.Client.Core
             return HITPOINTS_BASE;
         }
 
-        public int HpPerLevel => CalcHitPointsPerLevel();
+        public int HitPointsPerLevel => CalcHitPointsPerLevel();
 
         private int CalcHitPointsPerLevel()
         {
@@ -38,13 +38,13 @@ namespace Rpg.Client.Core
             return HITPOINTS_PER_LEVEL;
         }
 
-        public int ArmorBase => CalcArmor();
+        public float ArmorBase => CalcArmor();
 
-        public int DamageBase => CalcDamage();
+        public float DamageBase => CalcDamage();
 
-        public int SupportBase => CalcSupport();
+        public float SupportBase => CalcSupport();
 
-        private int CalcSupport()
+        private float CalcSupport()
         {
             if (!IsMonster)
             {
@@ -54,7 +54,7 @@ namespace Rpg.Client.Core
             return SUPPORT_BASE;
         }
 
-        private int CalcDamage()
+        private float CalcDamage()
         {
             if (!IsMonster)
             {
@@ -64,11 +64,11 @@ namespace Rpg.Client.Core
             return DAMAGE_BASE;
         }
 
-        private const int ARMOR_BASE = 10;
-        private const int DAMAGE_BASE = 10;
-        private const int SUPPORT_BASE = 10;
+        private const float ARMOR_BASE = 0.5f;
+        private const float DAMAGE_BASE = 3;
+        private const float SUPPORT_BASE = 10;
         
-        private int CalcArmor()
+        private float CalcArmor()
         {
             if (!IsMonster)
             {
