@@ -9,12 +9,12 @@ namespace Rpg.Client.Core.Effects
     internal class AttackEffect : InstantenousEffectBase
     {
         public CombatUnit Actor { get; set; }
+
+        public float DamageMultiplier { get; init; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
 
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
-
-        public float DamageMultiplier { get; init; }
 
         public float Scatter { get; init; } = 0.1f;
 

@@ -6,10 +6,10 @@ namespace Rpg.Client.Core.Effects
 {
     internal class PeriodicHealEffect : PeriodicEffectBase
     {
-        public int SourceSupport { get; set; }
         public float PowerMultiplier { get; init; }
 
         public float Scatter { get; init; } = 0.1f;
+        public int SourceSupport { get; set; }
 
         public MinMax<int> CalculateHeal()
         {

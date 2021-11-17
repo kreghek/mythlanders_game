@@ -15,8 +15,8 @@ namespace Rpg.Client.Models.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly TextButton _closeButton;
-        private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly CombatSource _combatSource;
+        private readonly IEnumerable<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _iterationCounter;

@@ -265,7 +265,7 @@ namespace Rpg.Client.Models.Combat
                 combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                     CombatResult.Defeat,
                     Array.Empty<XpAward>(),
-                        _activeCombat.CombatSource);
+                    _activeCombat.CombatSource);
             }
 
             AddModal(combatResultModal, isLate: false);
@@ -711,7 +711,7 @@ namespace Rpg.Client.Models.Combat
             _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
-        private IEnumerable<XpAward> HandleGainXp(IList<Core.CombatSource> completedCombats)
+        private IEnumerable<XpAward> HandleGainXp(IList<CombatSource> completedCombats)
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 

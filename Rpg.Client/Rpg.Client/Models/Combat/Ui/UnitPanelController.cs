@@ -73,7 +73,8 @@ namespace Rpg.Client.Models.Combat.Ui
 
                 var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
                 var unitNamePosition = panelPosition + new Vector2(55, 3);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unitName} {UiResource.MonsterLevelShortText}{unit.Level}", unitNamePosition, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{unitName} {UiResource.MonsterLevelShortText}{unit.Level}", unitNamePosition, Color.White);
 
                 var hpPosition = panelPosition + new Vector2(55, 20);
                 var hpPercentage = (float)unit.Hp / unit.MaxHp;
@@ -97,7 +98,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 }
 
                 var statText = $"Dmg:{unit.Damage} Ar:{unit.Armor}";
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), statText, panelPosition + new Vector2(55, 50), Color.Gray);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), statText, panelPosition + new Vector2(55, 50),
+                    Color.Gray);
             }
         }
     }
