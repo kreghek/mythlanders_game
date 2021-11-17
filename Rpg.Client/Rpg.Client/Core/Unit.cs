@@ -29,7 +29,7 @@ namespace Rpg.Client.Core
             EquipmentItems = equipmentItems;
 
             InitStats(unitScheme);
-            RestoreHP();
+            RestoreHp();
 
             ManaPool = ManaPoolSize;
         }
@@ -96,7 +96,7 @@ namespace Rpg.Client.Core
 
         /// <summary>
         /// Used only by monster units.
-        /// Amount of the expirience gained for killing this unit.
+        /// Amount of the experience gained for killing this unit.
         /// </summary>
         public int XpReward => Level * 20;
 
@@ -124,13 +124,13 @@ namespace Rpg.Client.Core
         /// <returns>Returns true is level up.</returns>
         public bool GainXp(int amount)
         {
-            var Xp = this.Xp;
-            var Level = this.Level;
-            var LevelupXp = this.LevelupXp;
-            var XpRemains = this.XpRemains;
-            var wasLevelUp = GainCounterInner(amount, ref Xp, ref Level, ref LevelupXp, ref XpRemains);
-            this.Xp = Xp;
-            this.Level = Level;
+            var xp = this.Xp;
+            var level = this.Level;
+            var levelupXp = this.LevelupXp;
+            var xpRemains = this.XpRemains;
+            var wasLevelUp = GainCounterInner(amount, ref xp, ref level, ref levelupXp, ref xpRemains);
+            this.Xp = xp;
+            this.Level = level;
 
             if (wasLevelUp)
             {
@@ -140,7 +140,7 @@ namespace Rpg.Client.Core
             return wasLevelUp;
         }
 
-        public void RestoreHitpointsAfterCombat()
+        public void RestoreHitPointsAfterCombat()
         {
             var hpBonus = (int)Math.Round(MaxHp * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
 
@@ -152,13 +152,13 @@ namespace Rpg.Client.Core
             }
         }
 
-        public void TakeDamage(CombatUnit damager, int damage)
+        public void TakeDamage(CombatUnit damageDealer, int damage)
         {
             Hp -= Math.Min(Hp, damage);
             HasBeenDamaged?.Invoke(this, damage);
             if (Hp <= 0)
             {
-                Dead?.Invoke(this, new UnitDamagedEventArgs(damager));
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
         }
 
@@ -176,23 +176,23 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static bool GainCounterInner(int amount, ref int Xp, ref int Level, ref int LevelupXp,
-            ref int XpRemains)
+        private static bool GainCounterInner(int amount, ref int xp, ref int level, ref int levelupXp,
+            ref int xpRemains)
         {
             var currentXpCounter = amount;
             var wasLevelup = false;
 
             while (currentXpCounter > 0)
             {
-                var xpToNextLevel = Math.Min(currentXpCounter, XpRemains);
+                var xpToNextLevel = Math.Min(currentXpCounter, xpRemains);
                 currentXpCounter -= xpToNextLevel;
 
-                Xp += xpToNextLevel;
+                xp += xpToNextLevel;
 
-                if (Xp >= LevelupXp)
+                if (xp >= levelupXp)
                 {
-                    Level++;
-                    Xp = 0;
+                    level++;
+                    xp = 0;
 
                     wasLevelup = true;
                 }
@@ -220,7 +220,7 @@ namespace Rpg.Client.Core
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
-        private void RestoreHP()
+        private void RestoreHp()
         {
             Hp = MaxHp;
         }
