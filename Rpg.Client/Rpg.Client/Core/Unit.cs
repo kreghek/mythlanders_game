@@ -66,7 +66,45 @@ namespace Rpg.Client.Core
 
         public int MaxHp { get; set; }
 
-        public int Power { get; set; }
+        public float Power => CalcPower();
+
+        private float CalcPower()
+        {
+            PowerIncrease = UnitScheme.PowerPerLevel;
+
+            var powerLevel = CalcPowerLevel();
+            var overpower = CalcOverpower();
+
+            return UnitScheme.Power + PowerIncrease * powerLevel + overpower;
+        }
+
+        private const float OVERPOWER_BASE = 2;
+        private float CalcOverpower()
+        {
+            if (ManaPoolSize > 0)
+            {
+                return (float)Math.Log(ManaPool, OVERPOWER_BASE);
+            }
+            
+            // Monsters and low-level heroes has no overpower.
+            return 0;
+        }
+
+        private float CalcPowerLevel()
+        {
+            float powerLevel;
+            if (EquipmentLevel > 0)
+            {
+                powerLevel = (Level * 0.5f + EquipmentLevel * 0.5f);
+            }
+            else
+            {
+                // The monsters do not use equipment level. They has no equipment at all.
+                powerLevel = Level;
+            }
+
+            return powerLevel;
+        }
 
         public int PowerIncrease { get; set; }
 
@@ -204,18 +242,6 @@ namespace Rpg.Client.Core
         private void InitStats(UnitScheme unitScheme)
         {
             MaxHp = unitScheme.Hp + unitScheme.HpPerLevel * Level;
-
-            PowerIncrease = unitScheme.PowerPerLevel;
-
-            if (EquipmentLevel > 0)
-            {
-                Power = unitScheme.Power + (int)Math.Round(PowerIncrease * (Level * 0.5f + EquipmentLevel * 0.5f),
-                    MidpointRounding.AwayFromZero);
-            }
-            else
-            {
-                Power = unitScheme.Power + PowerIncrease * Level;
-            }
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }

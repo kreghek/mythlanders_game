@@ -12,7 +12,6 @@ namespace Rpg.Client.Core
         {
             Hp = 100,
             HpPerLevel = 10,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Berimir,
@@ -50,7 +49,6 @@ namespace Rpg.Client.Core
         {
             Hp = 100,
             HpPerLevel = 10,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Maosin,
@@ -88,7 +86,6 @@ namespace Rpg.Client.Core
         {
             Hp = 100,
             HpPerLevel = 10,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Ping,
@@ -126,7 +123,6 @@ namespace Rpg.Client.Core
         {
             Hp = 100,
             HpPerLevel = 10,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Amun,
@@ -165,7 +161,6 @@ namespace Rpg.Client.Core
             Hp = 50,
             HpPerLevel = 6,
             Name = UnitName.Rada,
-            Power = 6,
             PowerPerLevel = 1,
 
             SkillSets = new List<SkillSet>
@@ -203,7 +198,6 @@ namespace Rpg.Client.Core
             Hp = 50,
             HpPerLevel = 7,
             Name = UnitName.Hawk,
-            Power = 13,
             PowerPerLevel = 2,
 
             SkillSets = new List<SkillSet>
@@ -240,7 +234,6 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 5,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Kakhotep,
@@ -279,7 +272,6 @@ namespace Rpg.Client.Core
         {
             Hp = 50,
             HpPerLevel = 5,
-            Power = 11,
             PowerPerLevel = 2,
 
             Name = UnitName.Cheng,
@@ -352,8 +344,8 @@ namespace Rpg.Client.Core
                     Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
-                    Power = 2,
                     PowerPerLevel = 1,
+                    IsMonster = true,
 
                     SkillSets = new List<SkillSet>
                     {
@@ -375,7 +367,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
-                    Power = 1,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -399,7 +391,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -424,7 +416,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -448,7 +440,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -472,7 +464,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -497,7 +489,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
-                    Power = 5,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -521,7 +513,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -545,7 +537,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -570,7 +562,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
 
                     IsBoss = true,
-                    Power = 13,
+                    IsMonster = true,
                     PowerPerLevel = 2,
 
                     SkillSets = new List<SkillSet>
@@ -602,7 +594,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
-                    Power = 2,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -627,7 +619,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
-                    Power = 1,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -651,7 +643,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -676,7 +668,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -700,7 +692,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -724,7 +716,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -749,7 +741,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
-                    Power = 5,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -773,7 +765,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -797,7 +789,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -822,7 +814,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
 
                     IsBoss = true,
-                    Power = 13,
+                    IsMonster = true,
                     PowerPerLevel = 2,
 
                     SkillSets = new List<SkillSet>
@@ -854,7 +846,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
-                    Power = 2,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -879,7 +871,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
-                    Power = 1,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -903,7 +895,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -928,7 +920,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -952,7 +944,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -976,7 +968,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1001,7 +993,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
-                    Power = 5,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1025,7 +1017,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1049,7 +1041,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1074,7 +1066,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
 
                     IsBoss = true,
-                    Power = 13,
+                    IsMonster = true,
                     PowerPerLevel = 2,
 
                     SkillSets = new List<SkillSet>
@@ -1106,7 +1098,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Aspid,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
-                    Power = 2,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1129,7 +1121,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.GreyWolf,
                     Biom = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
-                    Power = 2,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1152,7 +1144,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
-                    Power = 1,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1174,7 +1166,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Wisp,
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1197,7 +1189,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1219,7 +1211,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Korgorush,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1242,7 +1234,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Stryga,
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1265,7 +1257,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
                     IsUnique = true,
-                    Power = 10,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1287,7 +1279,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.HornedFrog,
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
-                    Power = 3,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1310,7 +1302,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
                     IsUnique = true,
-                    Power = 4,
+                    IsMonster = true,
                     PowerPerLevel = 1,
 
                     SkillSets = new List<SkillSet>
@@ -1333,7 +1325,7 @@ namespace Rpg.Client.Core
                     Biom = biomeType,
 
                     IsBoss = true,
-                    Power = 13,
+                    IsMonster = true,
                     PowerPerLevel = 2,
 
                     SkillSets = new List<SkillSet>
@@ -1360,7 +1352,7 @@ namespace Rpg.Client.Core
                             Name = UnitName.KosheyTheImmortal2,
                             Biom = BiomeType.Slavic,
                             NodeIndexes = new[] { 0, 1, 2 },
-                            Power = 14,
+                            IsMonster = true,
                             PowerPerLevel = 2,
 
                             SkillSets = new List<SkillSet>
@@ -1387,7 +1379,7 @@ namespace Rpg.Client.Core
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biom = BiomeType.Slavic,
                                     NodeIndexes = new[] { 0, 1, 2 },
-                                    Power = 15,
+                                    IsMonster = true,
                                     PowerPerLevel = 2,
 
                                     SkillSets = new List<SkillSet>
