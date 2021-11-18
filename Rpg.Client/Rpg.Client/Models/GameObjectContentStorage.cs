@@ -140,7 +140,12 @@ namespace Rpg.Client.Models
                     GameObjectSoundType.BowShot,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
                 },
-                { GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
+                { 
+                    GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") 
+                },
+                {
+                    GameObjectSoundType.StaffHit, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/StaffHitEffect")
+                },
                 {
                     GameObjectSoundType.MagicDust,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect")

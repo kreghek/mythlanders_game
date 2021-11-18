@@ -58,14 +58,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill()
+                        new StaffSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill(),
+                        new StaffSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -73,7 +73,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill(),
+                        new StaffSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
