@@ -79,7 +79,8 @@ namespace Rpg.Client.Models
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
-                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") }
+                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
+                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
