@@ -10,7 +10,7 @@
             return modifiedValue * DamageMultiplier;
         }
     }
-    
+
     internal class GivenDamageAbsoluteModifier : ModifierBase<float>
     {
         public float DamageBonus { get; set; }

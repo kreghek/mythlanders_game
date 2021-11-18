@@ -50,8 +50,8 @@ namespace Rpg.Client.Engine
     {
         private readonly Rectangle _sourceRect;
         private readonly Vector2 _startPosition;
-        private readonly Vector2 _targetPosition;
         private readonly int _startTTL;
+        private readonly Vector2 _targetPosition;
 
         public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition,
             Vector2 velocity,

@@ -30,7 +30,7 @@ namespace Rpg.Client.Core.Skills
                     var res = new HealEffect
                     {
                         Actor = u,
-                        PowerMultiplier = 1,
+                        PowerMultiplier = 1
                     };
 
                     return res;

@@ -161,7 +161,7 @@ namespace Rpg.Client.Core
             TankRank = 0.0f,
             DamageDealerRank = 0.0f,
             SupportRank = 1.0f,
-            
+
             Name = UnitName.Rada,
 
             SkillSets = new List<SkillSet>
@@ -199,7 +199,7 @@ namespace Rpg.Client.Core
             TankRank = 0.0f,
             DamageDealerRank = 0.75f,
             SupportRank = 0.25f,
-            
+
             Name = UnitName.Hawk,
 
             SkillSets = new List<SkillSet>
@@ -344,7 +344,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -367,7 +367,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 0.4f,
                     SupportRank = 0.6f,
-                    
+
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -393,7 +393,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -418,7 +418,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -444,7 +444,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -469,7 +469,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -494,7 +494,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -520,7 +520,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -544,7 +544,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -570,7 +570,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Taote,
                     Biome = biomeType,
 
@@ -604,7 +604,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -629,7 +629,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -655,7 +655,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -680,7 +680,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -706,7 +706,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -731,7 +731,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -756,7 +756,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -782,7 +782,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -806,7 +806,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -832,7 +832,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Sphynx,
                     Biome = biomeType,
 
@@ -866,7 +866,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -891,7 +891,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -917,7 +917,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -942,7 +942,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -968,7 +968,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -993,7 +993,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1018,7 +1018,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1044,7 +1044,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1068,7 +1068,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1094,7 +1094,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Hydra,
                     Biome = biomeType,
 
@@ -1128,7 +1128,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Aspid,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -1152,7 +1152,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
                     NodeIndexes = new[] { 0, 1, 2 },
@@ -1175,7 +1175,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     NodeIndexes = new[] { 1, 2, 4 },
@@ -1199,7 +1199,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Wisp,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -1222,7 +1222,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
@@ -1246,7 +1246,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1270,7 +1270,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Stryga,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1293,7 +1293,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Vampire,
                     Biome = biomeType,
                     NodeIndexes = new[] { 6, 7, 8 },
@@ -1317,7 +1317,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1340,7 +1340,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
                     NodeIndexes = new[] { 7, 8, 9 },
@@ -1364,7 +1364,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
-                    
+
                     Name = UnitName.KosheyTheImmortal,
                     Biome = biomeType,
 
@@ -1393,7 +1393,7 @@ namespace Rpg.Client.Core
                             TankRank = 0.0f,
                             DamageDealerRank = 1.0f,
                             SupportRank = 0.0f,
-                            
+
                             Name = UnitName.KosheyTheImmortal2,
                             Biome = BiomeType.Slavic,
                             NodeIndexes = new[] { 0, 1, 2 },
@@ -1421,7 +1421,7 @@ namespace Rpg.Client.Core
                                     TankRank = 0.0f,
                                     DamageDealerRank = 1.0f,
                                     SupportRank = 0.0f,
-                                    
+
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biome = BiomeType.Slavic,
                                     NodeIndexes = new[] { 0, 1, 2 },
