@@ -163,6 +163,10 @@ namespace Rpg.Client.Models
                     GameObjectSoundType.SnakeBite,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
                 },
+                {
+                    GameObjectSoundType.BearBludgeon,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BearBludgeon")
+                },
 
                 {
                     GameObjectSoundType.SvarogSymbolAppearing,
@@ -200,7 +204,8 @@ namespace Rpg.Client.Models
                 { UnitName.Diana, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
+                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
+                { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") }
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");

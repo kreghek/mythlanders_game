@@ -1178,7 +1178,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
+                    NodeIndexes = new[] { 0, 1, 2, 4 },
                     IsUnique = true,
                     IsMonster = true,
 

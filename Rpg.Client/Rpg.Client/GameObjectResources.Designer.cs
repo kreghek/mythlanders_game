@@ -70,6 +70,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brown bear.
+        /// </summary>
+        internal static string Bear {
+            get {
+                return ResourceManager.GetString("Bear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Berimir.
         /// </summary>
         internal static string Berimir {
