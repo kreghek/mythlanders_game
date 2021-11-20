@@ -378,18 +378,6 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static int[] GetMonsterCount(int level)
-        {
-            return level switch
-            {
-                0 or 1 => new[] { 1, 2, 3 },
-                2 => new[] { 1, 2, 2, 3 },
-                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
-                > 10 => new[] { 3, 3, 3 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };
-        }
-
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -423,6 +411,18 @@ namespace Rpg.Client.Core
                 default:
                     return null;
             }
+        }
+
+        private static int[] GetMonsterCount(int level)
+        {
+            return level switch
+            {
+                0 or 1 => new[] { 1, 2, 3 },
+                2 => new[] { 1, 2, 2, 3 },
+                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
+                > 10 => new[] { 3, 3, 3 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
+            };
         }
 
         private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)

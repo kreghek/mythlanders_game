@@ -13,7 +13,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public MassStunSkill(bool costRequired) : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.EgyptianDarkMagic },
+                { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.EgyptianDarkMagic },
             costRequired)
         {
         }
