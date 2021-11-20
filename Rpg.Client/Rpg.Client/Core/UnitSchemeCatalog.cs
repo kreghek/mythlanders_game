@@ -58,14 +58,14 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill()
+                        new StaffSkill()
                     }
                 },
                 new SkillSet
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill(),
+                        new StaffSkill(),
                         new DefenseSkill(true)
                     }
                 },
@@ -73,7 +73,7 @@ namespace Rpg.Client.Core
                 {
                     Skills = new List<SkillBase>
                     {
-                        new SwordSlashSkill(),
+                        new StaffSkill(),
                         new DefenseSkill(true),
                         new WideSlashSkill(true)
                     }
@@ -1178,7 +1178,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
+                    NodeIndexes = new[] { 0, 1, 2, 4 },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1188,11 +1188,11 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new WolfBiteSkill() // Bite
+                                new BearBludgeonSkill()
                             }
                         }
                     },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {

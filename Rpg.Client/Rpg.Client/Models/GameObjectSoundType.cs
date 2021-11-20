@@ -15,6 +15,8 @@
         SvarogSymbolAppearing,
         RisingPower,
         Firestorm,
-        FireDamage
+        FireDamage,
+        StaffHit,
+        BearBludgeon
     }
 }

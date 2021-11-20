@@ -268,9 +268,18 @@ namespace Rpg.Client.Core
         private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biome biom, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => x.BossLevel is null && x.Biome == biom.Type && x.NodeIndexes.Contains(node.Index)).ToList();
+                .Where(x => x.BossLevel is null)
+                .Where(x => x.Biome == biom.Type && x.NodeIndexes.Contains(node.Index))
+                .ToList();
+
             var rolledUnits = new List<UnitScheme>();
-            var monsterCount = dice.Roll(1, Math.Min(3, availableMonsters.Count));
+
+            var predefinedMinMonsterCounts = GetMonsterCount(combatLevel);
+            var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
+
+            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
+            var monsterCount = availableMinMonsterCount;
+
             for (var i = 0; i < monsterCount; i++)
             {
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
@@ -366,6 +375,18 @@ namespace Rpg.Client.Core
                 > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
                 > 10 => new[] { 3, 5, 5 },
                 _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
+            };
+        }
+
+        private static int[] GetMonsterCount(int level)
+        {
+            return level switch
+            {
+                0 or 1 => new[] { 1, 2, 3 },
+                2 => new[] { 1, 2, 2, 3 },
+                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
+                > 10 => new[] { 3, 3, 3 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
             };
         }
 

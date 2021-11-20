@@ -55,6 +55,12 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Victory.ogg
 
+#begin Audio/GameObjects/Deaths/BearDeath.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Deaths/BearDeath.mp3
+
 #begin Audio/GameObjects/Deaths/DogDeath.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -66,6 +72,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Deaths/HumanDeath.mp3
+
+#begin Audio/GameObjects/Skills/BearBludgeon.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/BearBludgeon.mp3
 
 #begin Audio/GameObjects/Skills/BowStrikeEffect.mp3
 /importer:Mp3Importer
@@ -109,6 +121,12 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/Lasers.mp3
 
+#begin Audio/GameObjects/Skills/Punch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/Punch.mp3
+
 #begin Audio/GameObjects/Skills/Shake.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -138,6 +156,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/SnakeHitEffect.mp3
+
+#begin Audio/GameObjects/Skills/StaffHitEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/StaffHitEffect.mp3
 
 #begin Audio/GameObjects/Skills/SwordHitEffect.mp3
 /importer:Mp3Importer
@@ -409,6 +433,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Aspid.png
+
+#begin Sprites/GameObjects/MonsterUnits/Bear.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/Bear.png
 
 #begin Sprites/GameObjects/MonsterUnits/Wisp.png
 /importer:TextureImporter

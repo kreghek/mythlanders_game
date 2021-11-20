@@ -79,7 +79,8 @@ namespace Rpg.Client.Models
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
-                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") }
+                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
+                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -139,7 +140,12 @@ namespace Rpg.Client.Models
                     GameObjectSoundType.BowShot,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
                 },
-                { GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") },
+                { 
+                    GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") 
+                },
+                {
+                    GameObjectSoundType.StaffHit, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/StaffHitEffect")
+                },
                 {
                     GameObjectSoundType.MagicDust,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect")
@@ -156,6 +162,10 @@ namespace Rpg.Client.Models
                 {
                     GameObjectSoundType.SnakeBite,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
+                },
+                {
+                    GameObjectSoundType.BearBludgeon,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BearBludgeon")
                 },
 
                 {
@@ -194,7 +204,8 @@ namespace Rpg.Client.Models
                 { UnitName.Diana, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
+                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
+                { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") }
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");

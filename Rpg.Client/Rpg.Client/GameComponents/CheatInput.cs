@@ -202,7 +202,7 @@ namespace Rpg.Client.GameComponents
             targetUnit.GainXp(xpAmount);
         }
 
-        private void HandleUpdateGlobe(string[] vs)
+        private void HandleUpdateGlobe(string[] args)
         {
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;

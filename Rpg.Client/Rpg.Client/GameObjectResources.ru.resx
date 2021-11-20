@@ -120,6 +120,9 @@
   <data name="Aspid" xml:space="preserve">
     <value>Аспид</value>
   </data>
+  <data name="Bear" xml:space="preserve">
+    <value>Бурый медведь</value>
+  </data>
   <data name="Berimir" xml:space="preserve">
     <value>Беримир</value>
   </data>
