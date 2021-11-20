@@ -1188,11 +1188,11 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new WolfBiteSkill() // Bite
+                                new BearBludgeonSkill()
                             }
                         }
                     },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {

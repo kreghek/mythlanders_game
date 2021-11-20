@@ -16,6 +16,7 @@
         RisingPower,
         Firestorm,
         FireDamage,
-        StaffHit
+        StaffHit,
+        BearBludgeon
     }
 }
