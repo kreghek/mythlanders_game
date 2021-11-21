@@ -1384,6 +1384,9 @@ namespace Rpg.Client.Core
                         }
                     },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
+                    NodeIndexes = new[] { 9 },
+                    MinRequiredBiomeLevel = 10,
+                    BossWasDefeat = false,
 
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {
@@ -1396,7 +1399,6 @@ namespace Rpg.Client.Core
 
                             Name = UnitName.KosheyTheImmortal2,
                             Biome = BiomeType.Slavic,
-                            NodeIndexes = new[] { 0, 1, 2 },
                             IsMonster = true,
 
                             SkillSets = new List<SkillSet>
