@@ -51,7 +51,7 @@ namespace Rpg.Client.Core
         public float TankRank { get; init; }
 
         public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
-        
+
         public int? MinRequiredBiomeLevel { get; init; }
 
         private float CalcArmor()
