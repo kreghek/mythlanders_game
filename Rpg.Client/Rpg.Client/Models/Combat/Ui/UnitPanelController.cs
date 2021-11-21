@@ -88,7 +88,8 @@ namespace Rpg.Client.Models.Combat.Ui
                 if (unit.IsPlayerControlled && unit.HasSkillsWithCost)
                 {
                     var manaPosition = panelPosition + new Vector2(55, 40);
-                    var manaPercentage = (float)unit.ManaPool / unit.ManaPoolSize;
+                    var manaPoolValue = Math.Min((float)unit.ManaPool, unit.ManaPoolSize);
+                    var manaPercentage = manaPoolValue / unit.ManaPoolSize;
                     var manaSourceRect = new Rectangle(0, 62, (int)(manaPercentage * BAR_WIDTH), 11);
                     spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), manaPosition, manaSourceRect,
                         Color.Lerp(Color.Transparent, Color.White, 0.75f));

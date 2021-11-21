@@ -27,23 +27,8 @@ namespace Rpg.Client.Core.Skills
                     var effect = new PeriodicHealEffect
                     {
                         Duration = 3,
-                        SourceSupport = (int)Math.Round(u.Unit.Power, MidpointRounding.AwayFromZero),
+                        SourceSupport = u.Unit.Support,
                         PowerMultiplier = 0.3f
-                    };
-
-                    return effect;
-                })
-            },
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new HealEffect
-                    {
-                        Actor = u,
-                        PowerMultiplier = 1,
-                        Scatter = 1
                     };
 
                     return effect;

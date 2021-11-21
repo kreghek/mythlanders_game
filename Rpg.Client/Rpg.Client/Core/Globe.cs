@@ -58,140 +58,49 @@ namespace Rpg.Client.Core
             // Create new combats
             foreach (var biome in biomes)
             {
-                if (biome.Level < 10)
+                var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
+                Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
+                var nodesWithCombats = GetNodesWithCombats(biome, dice, availableNodes);
+
+                var combatCounts = GetCombatCounts(biome.Level);
+                var combatLevelAdditionalList = new[] { 0, -1, 3 };
+                var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
+                var combatLevelAdditional = 0;
+
+                var combatToTrainingIndex = dice.RollArrayIndex(nodesWithCombats);
+
+                for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
                 {
-                    var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
-                    Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-                    var rollCount = Math.Min(availableNodes.Length, 3);
-                    var nodesWithCombats = dice.RollFromList(availableNodes, rollCount).ToArray();
+                    var selectedNode = nodesWithCombats[locationIndex];
+                    var targetCombatCount = selectedNodeCombatCount[locationIndex];
 
-                    var combatCounts = GetCombatCounts(biome.Level);
-                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
-                    var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
-                    var combatLevelAdditional = 0;
-
-                    var combatToTrainingIndex = dice.RollArrayIndex(nodesWithCombats);
-
-                    for (var i = 0; i < nodesWithCombats.Length; i++)
+                    var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
+                    var combatList = new List<CombatSource>();
+                    for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                     {
-                        var selectedNode = nodesWithCombats[i];
-                        var targetCombatCount = selectedNodeCombatCount[i];
+                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel);
 
-                        var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
-                        var combatList = new List<CombatSource>();
-                        for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
+                        var combat = new CombatSource
                         {
-                            var units = CreateReqularMonsters(selectedNode, dice, biome, combatLevel);
-
-                            var combat = new CombatSource
+                            Level = combatLevel,
+                            EnemyGroup = new Group
                             {
-                                Level = combatLevel,
-                                EnemyGroup = new Group
-                                {
-                                    Units = units
-                                },
-                                IsTrainingOnly = combatToTrainingIndex == i
-                            };
-
-                            combatList.Add(combat);
-                        }
-
-                        var combatSequence = new CombatSequence
-                        {
-                            Combats = combatList
+                                Units = units
+                            },
+                            IsTrainingOnly = combatToTrainingIndex == locationIndex
                         };
 
-                        selectedNode.CombatSequence = combatSequence;
-
-                        combatLevelAdditional++;
+                        combatList.Add(combat);
                     }
-                }
-                else
-                {
-                    var combatLevelAdditional = 0;
 
-                    var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
-                    Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-
-                    var rollCount = Math.Min(availableNodes.Length, 3);
-                    var nodesWithCombats = dice.RollFromList(availableNodes, 3).ToArray();
-
-                    var combatCounts = GetCombatCounts(biome.Level);
-                    var combatLevelAdditionalList = new[] { 0, -1, 3 };
-                    var selectedNodeCombatCount = dice.RollFromList(combatCounts, 2).ToArray();
-
-                    var combatToTrainingIndex = dice.RollArrayIndex(nodesWithCombats);
-
-                    for (var i = 0; i < nodesWithCombats.Length; i++)
+                    var combatSequence = new CombatSequence
                     {
-                        var selectedNode = nodesWithCombats[i];
+                        Combats = combatList
+                    };
 
-                        // boss level
-                        if (i == 0)
-                        {
-                            var bossesOfCurrentBiom = UnitSchemeCatalog.AllUnits
-                                .Where(x => x.BossLevel is not null && x.Biome == biome.Type).ToList();
-                            var bossUnitScheme = dice.RollFromList(bossesOfCurrentBiom, 1).Single();
+                    selectedNode.CombatSequence = combatSequence;
 
-                            var combatList = new[]
-                            {
-                                new CombatSource
-                                {
-                                    IsBossLevel = true,
-                                    EnemyGroup = new Group
-                                    {
-                                        Units = new[]
-                                        {
-                                            new Unit(
-                                                bossUnitScheme,
-                                                biome.Level)
-                                        }
-                                    },
-                                    IsTrainingOnly = combatToTrainingIndex == i
-                                }
-                            };
-
-                            var combatSequence = new CombatSequence
-                            {
-                                Combats = combatList
-                            };
-
-                            selectedNode.CombatSequence = combatSequence;
-                        }
-                        else
-                        {
-                            var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
-                            var targetCombatCount = selectedNodeCombatCount[i - 1];
-
-                            var combatList = new List<CombatSource>();
-
-                            for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
-                            {
-                                var units = CreateReqularMonsters(selectedNode, dice, biome, combatLevel);
-
-                                var combat = new CombatSource
-                                {
-                                    Level = combatLevel,
-                                    EnemyGroup = new Group
-                                    {
-                                        Units = units
-                                    },
-                                    IsTrainingOnly = combatToTrainingIndex == i
-                                };
-
-                                combatList.Add(combat);
-                            }
-
-                            var combatSequence = new CombatSequence
-                            {
-                                Combats = combatList
-                            };
-
-                            selectedNode.CombatSequence = combatSequence;
-                        }
-
-                        combatLevelAdditional++;
-                    }
+                    combatLevelAdditional++;
                 }
             }
 
@@ -204,6 +113,30 @@ namespace Rpg.Client.Core
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static GlobeNode[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
+        {
+            const int COMBAT_UNDER_ATTACK_COUNT = 3;
+            const int BOSS_LOCATION_INDEX = 9;
+
+            var nodeList = new List<GlobeNode>(3);
+            var bossLocation = availableNodes.SingleOrDefault(x => x.Index == BOSS_LOCATION_INDEX);
+            int targetCount;
+            if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
+            {
+                nodeList.Add(bossLocation);
+                targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
+            }
+            else
+            {
+                targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT);
+            }
+
+            var regularLocations = dice.RollFromList(availableNodes, targetCount);
+            nodeList.AddRange(regularLocations);
+
+            return nodeList.ToArray();
         }
 
         /// <summary>
@@ -265,20 +198,18 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static IEnumerable<Unit> CreateReqularMonsters(GlobeNode node, IDice dice, Biome biom, int combatLevel)
+        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => x.BossLevel is null)
-                .Where(x => x.Biome == biom.Type && x.NodeIndexes.Contains(node.Index))
+                .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete && x.MinRequiredBiomeLevel is not null && x.MinRequiredBiomeLevel.Value <= biome.Level))
+                .Where(x => x.Biome == biome.Type && x.NodeIndexes.Contains(node.Index))
                 .ToList();
 
             var rolledUnits = new List<UnitScheme>();
 
-            var predefinedMinMonsterCounts = GetMonsterCount(combatLevel);
+            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(combatLevel);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
-
-            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            var monsterCount = availableMinMonsterCount;
+            var monsterCount = GetMonsterCount(node, biome, availableMonsters, predefinedMinMonsterCount);
 
             for (var i = 0; i < monsterCount; i++)
             {
@@ -302,6 +233,18 @@ namespace Rpg.Client.Core
             }
 
             return units;
+        }
+
+        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters, int predefinedMinMonsterCount)
+        {
+            if (node.Index == 9 && !biome.IsComplete)
+            {
+                return 1;
+            }
+
+            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
+            var monsterCount = availableMinMonsterCount;
+            return monsterCount;
         }
 
         private static Biome[] GenerateBiomes()
@@ -378,6 +321,18 @@ namespace Rpg.Client.Core
             };
         }
 
+        private static int[] GetPredefinedMonsterCounts(int level)
+        {
+            return level switch
+            {
+                0 or 1 => new[] { 1, 2, 3 },
+                2 => new[] { 1, 2, 2, 3 },
+                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
+                > 10 => new[] { 3, 3, 3 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
+            };
+        }
+
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -411,18 +366,6 @@ namespace Rpg.Client.Core
                 default:
                     return null;
             }
-        }
-
-        private static int[] GetMonsterCount(int level)
-        {
-            return level switch
-            {
-                0 or 1 => new[] { 1, 2, 3 },
-                2 => new[] { 1, 2, 2, 3 },
-                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
-                > 10 => new[] { 3, 3, 3 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };
         }
 
         private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
