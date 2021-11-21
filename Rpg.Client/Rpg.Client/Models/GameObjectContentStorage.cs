@@ -80,7 +80,7 @@ namespace Rpg.Client.Models
             {
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
                 { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
-                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
+                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -140,11 +140,12 @@ namespace Rpg.Client.Models
                     GameObjectSoundType.BowShot,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
                 },
-                { 
-                    GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect") 
+                {
+                    GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect")
                 },
                 {
-                    GameObjectSoundType.StaffHit, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/StaffHitEffect")
+                    GameObjectSoundType.StaffHit,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/StaffHitEffect")
                 },
                 {
                     GameObjectSoundType.MagicDust,
