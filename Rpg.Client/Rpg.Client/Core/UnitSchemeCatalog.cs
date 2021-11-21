@@ -1386,7 +1386,6 @@ namespace Rpg.Client.Core
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
                     NodeIndexes = new[] { 9 },
                     MinRequiredBiomeLevel = 10,
-                    BossWasDefeat = false,
 
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {

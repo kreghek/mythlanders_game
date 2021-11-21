@@ -201,7 +201,7 @@ namespace Rpg.Client.Core
         private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel)
         {
             var availableMonsters = UnitSchemeCatalog.AllUnits
-                .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && x.BossWasDefeat == false && x.MinRequiredBiomeLevel is not null && x.MinRequiredBiomeLevel.Value <= biome.Level))
+                .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete && x.MinRequiredBiomeLevel is not null && x.MinRequiredBiomeLevel.Value <= biome.Level))
                 .Where(x => x.Biome == biome.Type && x.NodeIndexes.Contains(node.Index))
                 .ToList();
 
