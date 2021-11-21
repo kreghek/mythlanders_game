@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
         }
 
         public BowShotSkill(bool costRequired) : base(new SkillVisualization
-        { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.BowShot }, costRequired)
+            { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.BowShot }, costRequired)
         {
         }
 

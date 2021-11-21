@@ -33,6 +33,8 @@ namespace Rpg.Client.Core
 
         public bool IsUnique { get; init; }
 
+        public int? MinRequiredBiomeLevel { get; init; }
+
         public UnitName Name { get; init; }
 
         public IEnumerable<int>? NodeIndexes { get; init; }
@@ -51,8 +53,6 @@ namespace Rpg.Client.Core
         public float TankRank { get; init; }
 
         public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
-
-        public int? MinRequiredBiomeLevel { get; init; }
 
         private float CalcArmor()
         {
