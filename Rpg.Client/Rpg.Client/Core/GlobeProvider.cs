@@ -299,7 +299,7 @@ namespace Rpg.Client.Core
 
                 if (unitDto.ManaPool is not null)
                 {
-                    unit.ManaPool = unitDto.ManaPool.Value;
+                    unit.ManaPool = Math.Min(unitDto.ManaPool.Value, unit.ManaPoolSize);
                 }
 
                 units.Add(unit);
