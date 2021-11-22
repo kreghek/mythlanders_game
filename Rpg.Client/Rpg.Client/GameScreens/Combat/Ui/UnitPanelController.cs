@@ -73,12 +73,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     $"{unitName} {UiResource.MonsterLevelShortText}{unit.Level}", unitNamePosition, Color.White);
 
                 var hpPosition = panelPosition + new Vector2(55, 20);
-                var hpPercentage = (float)unit.Hp / unit.MaxHp;
+                var hpPercentage = (float)unit.HitPoints / unit.MaxHitPoints;
                 var hpSourceRect = new Rectangle(0, 50, (int)(hpPercentage * BAR_WIDTH), 11);
                 spriteBatch.Draw(_uiContentStorage.GetUnitPanelTexture(), hpPosition, hpSourceRect,
                     Color.Lerp(Color.Transparent, Color.White, 0.75f));
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.Hp}/{unit.MaxHp}",
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.HitPoints}/{unit.MaxHitPoints}",
                     hpPosition, Color.Black);
 
                 if (unit.IsPlayerControlled && unit.HasSkillsWithCost)

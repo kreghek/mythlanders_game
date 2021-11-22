@@ -1,7 +1,7 @@
 namespace Rpg.Client.Core
 {
-    public interface IPerk
+    internal interface IPerk
     {
-        void ApplyToStats(ref int maxHitpoints);
+        void ApplyToStats(ref int maxHitpoints, ref float armorBonus);
     }
 }

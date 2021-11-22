@@ -48,10 +48,10 @@ namespace Rpg.Client.GameScreens.Party
                 var sb = new List<string>
                 {
                     name,
-                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
+                    $"HP: {_selectedCharacter.HitPoints}/{_selectedCharacter.MaxHitPoints}",
                     $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
                     $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
+                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelUpXp}",
                     $"Equipment: {_selectedCharacter.EquipmentLevel}",
                     $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
                 };

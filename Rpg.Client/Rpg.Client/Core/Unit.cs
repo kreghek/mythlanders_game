@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
         {
             UnitScheme = unitScheme;
 
-            Perks = Array.Empty<IPerk>();
+            Perks = unitScheme.Perks;
 
             Level = level;
             Xp = xp;
@@ -64,19 +64,19 @@ namespace Rpg.Client.Core
             }
         }
 
-        public int Hp { get; set; }
+        public int HitPoints { get; set; }
 
-        public bool IsDead => Hp <= 0;
+        public bool IsDead => HitPoints <= 0;
 
-        public bool IsPlayerControlled { get; set; }
+        public bool IsPlayerControlled { get; init; }
 
         public int Level { get; set; }
-        public int LevelupXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
+        public int LevelUpXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
-        public int MaxHp { get; set; }
+        public int MaxHitPoints { get; set; }
 
         public float Power => CalcPower();
 
@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
 
         public int Xp { get; set; }
 
-        public int XpRemains => LevelupXp - Xp;
+        public int XpRemains => LevelUpXp - Xp;
 
         /// <summary>
         /// Used only by monster units.
@@ -138,7 +138,7 @@ namespace Rpg.Client.Core
         {
             var xp = Xp;
             var level = Level;
-            var levelupXp = LevelupXp;
+            var levelupXp = LevelUpXp;
             var xpRemains = XpRemains;
             var wasLevelUp = GainCounterInner(amount, ref xp, ref level, ref levelupXp, ref xpRemains);
             Xp = xp;
@@ -154,28 +154,28 @@ namespace Rpg.Client.Core
 
         public void RestoreHitPoints(int heal)
         {
-            Hp += Math.Min(MaxHp - Hp, heal);
+            HitPoints += Math.Min(MaxHitPoints - HitPoints, heal);
             HealTaken?.Invoke(this, heal);
         }
 
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(MaxHp * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
+            var hpBonus = (int)Math.Round(MaxHitPoints * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
 
-            Hp += hpBonus;
+            HitPoints += hpBonus;
 
-            if (Hp > MaxHp)
+            if (HitPoints > MaxHitPoints)
             {
-                Hp = MaxHp;
+                HitPoints = MaxHitPoints;
             }
         }
 
         public int TakeDamage(CombatUnit damageDealer, int damage)
         {
             var damageAbsorbedByArmor = Math.Max(damage - Armor, 0);
-            Hp -= Math.Min(Hp, damageAbsorbedByArmor);
+            HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
             HasBeenDamaged?.Invoke(this, damageAbsorbedByArmor);
-            if (Hp <= 0)
+            if (HitPoints <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
@@ -194,12 +194,17 @@ namespace Rpg.Client.Core
         private int CalcArmor()
         {
             var power = Power;
-            var powerToArmor = power * UnitScheme.DamageDealerRank;
+            var powerToArmor = power * UnitScheme.TankRank;
             var armor = UnitScheme.ArmorBase * powerToArmor;
-            var normalizedArmor = (int)Math.Round(armor, MidpointRounding.AwayFromZero);
+
+            var armorWithBonus = armor + armor * _armorBonus;
+
+            var normalizedArmor = (int)Math.Round(armorWithBonus, MidpointRounding.AwayFromZero);
 
             return normalizedArmor;
         }
+
+        private float _armorBonus;
 
         private int CalcDamage()
         {
@@ -290,17 +295,17 @@ namespace Rpg.Client.Core
             
             foreach (var perk in Perks)
             {
-                perk.ApplyToStats(ref maxHitPoints);
+                perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
             }
             
-            MaxHp = maxHitPoints;
+            MaxHitPoints = maxHitPoints;
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
         private void RestoreHp()
         {
-            Hp = MaxHp;
+            HitPoints = MaxHitPoints;
         }
 
         public IEnumerable<IPerk> Perks { get; }

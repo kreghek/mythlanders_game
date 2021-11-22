@@ -192,7 +192,7 @@ namespace Rpg.Client.Core
                 unit => new PlayerUnitDto
                 {
                     SchemeSid = unit.UnitScheme.Name.ToString(),
-                    Hp = unit.Hp,
+                    Hp = unit.HitPoints,
                     Xp = unit.Xp,
                     Level = unit.Level,
                     EquipmentItems = unit.EquipmentItems,

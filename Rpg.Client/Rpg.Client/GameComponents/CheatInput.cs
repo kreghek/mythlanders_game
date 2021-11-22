@@ -179,7 +179,7 @@ namespace Rpg.Client.GameComponents
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
 
-            targetUnit.Hp = hpAmount > 0 ? hpAmount : 0;
+            targetUnit.HitPoints = hpAmount > 0 ? hpAmount : 0;
         }
 
         private void HandleGainXp(string[] args)
