@@ -14,7 +14,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.Support,
             SoundEffectType = GameObjectSoundType.MagicDust
         };
-        
+
         public PowerUpSkill() : this(false)
         {
         }

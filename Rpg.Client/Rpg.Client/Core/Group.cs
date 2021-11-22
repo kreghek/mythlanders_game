@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
         {
             Slots = Enumerable
                 .Range(0, 6)
-                .Select(x => new GroupSlot{ Index = x })
+                .Select(x => new GroupSlot { Index = x })
                 .ToArray();
         }
 
@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
             .Where(x => x.Unit is not null)
             .Select(x => x.Unit!)
             .ToArray();
-        
+
         public IEnumerable<GroupSlot> GetFreeSlots() => Slots
             .Where(x => x.Unit is null)
             .ToArray();

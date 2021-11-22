@@ -1195,7 +1195,7 @@ namespace Rpg.Client.Core
                     },
 
                     Perks = new IPerk[]
-                    { 
+                    {
                         new ImprovedHitPoints(),
                         new ImprovedArmor()
                     },

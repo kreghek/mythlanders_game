@@ -91,7 +91,7 @@ namespace Rpg.Client.Core
             {
                 Player = new Player()
             };
-            
+
             if (lastSave.Player is not null)
             {
                 LoadPlayerCharacters(lastSave.Player);

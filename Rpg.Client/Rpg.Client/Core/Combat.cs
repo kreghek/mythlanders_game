@@ -150,7 +150,7 @@ namespace Rpg.Client.Core
                 skill,
                 target
             );
-            
+
             ActionGenerated?.Invoke(this, actionEventArgs);
         }
 
@@ -184,7 +184,7 @@ namespace Rpg.Client.Core
                 }
 
                 var unit = slot.Unit;
-                
+
                 // Monster has no dead ones on start of the combat.
 
                 var combatUnit = new CombatUnit(unit, slot.Index);

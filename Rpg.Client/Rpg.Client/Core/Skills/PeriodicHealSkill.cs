@@ -10,10 +10,10 @@ namespace Rpg.Client.Core.Skills
     {
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Range, 
+            Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.Heal
         };
-        
+
         public PeriodicHealSkill() : this(false)
         {
         }

@@ -10,10 +10,10 @@ namespace Rpg.Client.Core.Skills
     {
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support, 
+            Type = SkillVisualizationStateType.Support,
             SoundEffectType = GameObjectSoundType.MagicDust
         };
-        
+
         public DopeHerbSkill() : this(false)
         {
         }

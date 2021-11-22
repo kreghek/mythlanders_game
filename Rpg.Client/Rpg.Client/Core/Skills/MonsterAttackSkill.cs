@@ -9,10 +9,10 @@ namespace Rpg.Client.Core.Skills
     {
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Melee, 
+            Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.WolfBite
         };
-        
+
         public MonsterAttackSkill() : base(PredefinedVisualization, false)
         {
         }

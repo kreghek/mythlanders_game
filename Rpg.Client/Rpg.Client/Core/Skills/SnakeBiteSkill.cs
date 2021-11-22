@@ -9,7 +9,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SnakeBite
         };
-        
+
         public SnakeBiteSkill() : base(PredefinedVisualization, false)
         {
         }

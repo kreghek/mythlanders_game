@@ -20,12 +20,12 @@ namespace Rpg.Client.GameScreens.Event
 
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
-        
+
         /// <summary>
         /// Event screen has no background paralax.
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
-        
+
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
 

@@ -9,10 +9,10 @@ namespace Rpg.Client.Core.Skills
     {
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.MassRange, 
+            Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.BowShot
         };
-        
+
         public ArrowRainSkill() : this(false)
         {
         }

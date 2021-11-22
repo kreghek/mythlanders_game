@@ -148,7 +148,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             DrawSummaryXpAwardLabel(
                 spriteBatch,
-                node, 
+                node,
                 toolTipPosition + new Vector2(5, 55));
 
             DrawEquipmentRewards(

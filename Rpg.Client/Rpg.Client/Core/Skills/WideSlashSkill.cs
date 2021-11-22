@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.MassMelee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };
-        
+
         public WideSlashSkill() : this(false)
         {
         }

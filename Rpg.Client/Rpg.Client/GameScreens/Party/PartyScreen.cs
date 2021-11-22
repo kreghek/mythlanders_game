@@ -135,7 +135,7 @@ namespace Rpg.Client.GameScreens.Party
                     {
                         var freeSlots = _globeProvider.Globe.Player.Party.GetFreeSlots();
                         var selectedSlot = freeSlots.FirstOrDefault();
-                        
+
                         if (selectedSlot is not null)
                         {
                             _globeProvider.Globe.Player.MoveToParty(_selectedCharacter, selectedSlot.Index);

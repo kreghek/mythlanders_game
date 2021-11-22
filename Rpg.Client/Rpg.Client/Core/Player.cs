@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
             Pool = new PoolGroup();
         }
 
-        public IEnumerable<Unit> GetAll() => Party.Slots.Where(x=>x.Unit is not null).Select(x=>x.Unit).Concat(Pool.Units);
+        public IEnumerable<Unit> GetAll() => Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
 
         public Group Party { get; }
 

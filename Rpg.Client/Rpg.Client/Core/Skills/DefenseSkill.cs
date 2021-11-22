@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.Support,
             SoundEffectType = GameObjectSoundType.Defence
         };
-        
+
         public DefenseSkill() : this(false)
         {
         }

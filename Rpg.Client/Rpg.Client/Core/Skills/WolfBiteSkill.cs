@@ -9,7 +9,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.WolfBite
         };
-        
+
         public WolfBiteSkill() : base(PredefinedVisualization, false)
         {
         }

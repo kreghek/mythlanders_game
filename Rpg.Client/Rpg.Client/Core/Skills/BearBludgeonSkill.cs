@@ -9,7 +9,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.BearBludgeon
         };
-        
+
         public BearBludgeonSkill() : base(PredefinedVisualization, false)
         {
         }

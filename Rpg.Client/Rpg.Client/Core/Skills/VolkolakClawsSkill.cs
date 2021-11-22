@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Skills
             Type = SkillVisualizationStateType.MassMelee,
             SoundEffectType = GameObjectSoundType.WolfBite
         };
-        
+
         public VolkolakClawsSkill() : this(false)
         {
         }
