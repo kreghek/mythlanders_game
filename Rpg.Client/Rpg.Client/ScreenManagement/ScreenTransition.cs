@@ -1,4 +1,4 @@
-﻿namespace Rpg.Client.Screens
+﻿namespace Rpg.Client.ScreenManagement
 {
     internal enum ScreenTransition
     {

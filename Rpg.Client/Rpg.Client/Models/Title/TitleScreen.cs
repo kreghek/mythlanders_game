@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Common;
-using Rpg.Client.Screens;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.Models.Title
 {

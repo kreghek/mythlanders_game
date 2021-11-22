@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Engine;
-
-namespace Rpg.Client.Screens
+namespace Rpg.Client.ScreenManagement
 {
     internal interface IScreen
     {

@@ -9,8 +9,9 @@ using Rpg.Client.Engine;
 using Rpg.Client.Models.Biome.Tutorial;
 using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Common;
+using Rpg.Client.Models.Event.Tutorial;
 using Rpg.Client.Models.Event.Ui;
-using Rpg.Client.Screens;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.Models.Event
 {

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Common;
 
-namespace Rpg.Client.Screens
+namespace Rpg.Client.ScreenManagement
 {
     internal abstract class GameScreenWithMenuBase : GameScreenBase
     {

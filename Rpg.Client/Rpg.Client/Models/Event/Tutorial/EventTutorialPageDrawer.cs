@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Engine;
 using Rpg.Client.Models.Common;
 
-namespace Rpg.Client.Models.Biome.Tutorial
+namespace Rpg.Client.Models.Event.Tutorial
 {
     internal class EventTutorialPageDrawer : TutorialPageDrawerBase
     {

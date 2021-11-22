@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.Screens
+namespace Rpg.Client.ScreenManagement
 {
     /// <summary>
     /// This is the base class for all game scenes.

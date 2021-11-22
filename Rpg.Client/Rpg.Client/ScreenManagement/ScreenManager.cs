@@ -9,10 +9,9 @@ using Rpg.Client.Models.EndGame;
 using Rpg.Client.Models.Event;
 using Rpg.Client.Models.Map;
 using Rpg.Client.Models.Party;
-using Rpg.Client.Models.Settings;
 using Rpg.Client.Models.Title;
 
-namespace Rpg.Client.Screens
+namespace Rpg.Client.ScreenManagement
 {
     internal class ScreenManager : IScreenManager
     {

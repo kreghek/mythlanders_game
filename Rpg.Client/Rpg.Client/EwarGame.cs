@@ -8,7 +8,7 @@ using Rpg.Client.GameComponents;
 using Rpg.Client.Models;
 using Rpg.Client.Models.Combat.GameObjects.Background;
 using Rpg.Client.Models.Title;
-using Rpg.Client.Screens;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
 {

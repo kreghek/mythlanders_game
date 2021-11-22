@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.Screens;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.Models.EndGame
 {
