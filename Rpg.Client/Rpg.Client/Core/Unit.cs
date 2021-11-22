@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +29,8 @@ namespace Rpg.Client.Core
         public Unit(UnitScheme unitScheme, int level, int equipmentLevel, int xp, int equipmentItems)
         {
             UnitScheme = unitScheme;
+
+            Perks = Array.Empty<IPerk>();
 
             Level = level;
             Xp = xp;
@@ -281,8 +284,16 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme)
         {
-            MaxHp = (int)Math.Round(unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
+            var maxHitPoints = (int)Math.Round(
+                unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
                 MidpointRounding.AwayFromZero);
+            
+            foreach (var perk in Perks)
+            {
+                perk.ApplyToStats(ref maxHitPoints);
+            }
+            
+            MaxHp = maxHitPoints;
 
             Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
@@ -291,6 +302,8 @@ namespace Rpg.Client.Core
         {
             Hp = MaxHp;
         }
+
+        public IEnumerable<IPerk> Perks { get; }
 
         public event EventHandler<int>? HasBeenDamaged;
 
