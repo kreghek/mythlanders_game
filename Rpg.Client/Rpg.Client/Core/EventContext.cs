@@ -14,21 +14,20 @@ namespace Rpg.Client.Core
 
         public void AddNewCharacter(Unit unit)
         {
-            var units = new List<Unit>();
-            if (_globe.Player.Party.Units.Count() < 3)
+            var freeSlots = _globe.Player.Party.GetFreeSlots();
+            if (freeSlots.Any())
             {
-                units.AddRange(_globe.Player.Party.Units);
-
-                _globe.Player.Party.Units = units;
+                var selectedFreeSlot = freeSlots.First();
+                _globe.Player.MoveToParty(unit, selectedFreeSlot.Index);
             }
             else
             {
+                var units = new List<Unit>();
                 units.AddRange(_globe.Player.Pool.Units);
+                units.Add(unit);
 
                 _globe.Player.Pool.Units = units;
             }
-
-            units.Add(unit);
         }
     }
 }

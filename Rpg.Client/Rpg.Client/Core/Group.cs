@@ -10,7 +10,7 @@ namespace Rpg.Client.Core
         public Group()
         {
             Slots = Enumerable
-                .Range(1, 6)
+                .Range(0, 6)
                 .Select(x => new GroupSlot{ Index = x })
                 .ToArray();
         }
@@ -22,7 +22,9 @@ namespace Rpg.Client.Core
             .Select(x => x.Unit!)
             .ToArray();
         
-        public IEnumerable<<GroupSlot>
+        public IEnumerable<GroupSlot> GetFreeSlots() => Slots
+            .Where(x => x.Unit is null)
+            .ToArray();
     }
 
     internal sealed class PoolGroup
