@@ -105,7 +105,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             var sumButtonWidth = _buttons.Count * (100 + 5);
             var startXPosition = ContentRect.Center.X - sumButtonWidth / 2;
 
-            var playerPartyUnits = _globe.Player.Group.Units.ToArray();
+            var playerPartyUnits = _globe.Player.Party.Units.ToArray();
             for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
             {
                 var unit = playerPartyUnits[unitIndex];

@@ -61,7 +61,7 @@ namespace Rpg.Client.Core
             {
                 Player = new Player
                 {
-                    Group = new Group
+                    Party = new Group
                     {
                         Units = CreateStartUnits()
                     }
@@ -93,7 +93,7 @@ namespace Rpg.Client.Core
                 Globe.Player = new Player
                 {
                     Pool = LoadPlayerGroup(lastSave.Player.Pool),
-                    Group = LoadPlayerGroup(lastSave.Player.Group)
+                    Party = LoadPlayerGroup(lastSave.Player.Group)
                 };
             }
 
@@ -113,7 +113,7 @@ namespace Rpg.Client.Core
             {
                 player = new PlayerDto
                 {
-                    Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
+                    Group = GetPlayerGroupToSave(Globe.Player.Party.Units),
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
                 };
             }

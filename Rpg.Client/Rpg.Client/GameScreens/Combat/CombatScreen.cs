@@ -351,7 +351,7 @@ namespace Rpg.Client.GameScreens.Combat
                 if (_activeCombat.Node.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNode.CombatSequence.Combats.First();
-                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
                         _activeCombat.Biom,
@@ -638,11 +638,7 @@ namespace Rpg.Client.GameScreens.Combat
             var equipmentItemType = globeNode.EquipmentItem;
 
             var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
-            var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            if (targetUnit is null)
-            {
-                targetUnit = player.Pool.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            }
+            var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
             if (targetUnit is not null)
             {
@@ -716,7 +712,7 @@ namespace Rpg.Client.GameScreens.Combat
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
             var aliveUnits = _activeCombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
+            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
@@ -758,8 +754,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _activeCombat.Biom.Level++;
                     }
 
-                    var node = _globeNode;
-                    var nodeIndex = node.Index;
+                    var nodeIndex = _globeNode.Index;
                     var unlockedBiomeIndex = nodeIndex + 1;
 
                     var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
@@ -873,7 +868,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void RestoreGroupAfterCombat()
         {
-            foreach (var unit in _globe.Player.GetAll)
+            foreach (var unit in _globe.Player.GetAll())
             {
                 unit.RestoreHitPointsAfterCombat();
                 unit.RestoreManaPoint();

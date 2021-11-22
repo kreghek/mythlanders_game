@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                                         _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,
@@ -255,7 +255,7 @@ namespace Rpg.Client.GameScreens.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                                         _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,

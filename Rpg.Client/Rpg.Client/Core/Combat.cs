@@ -146,30 +146,38 @@ namespace Rpg.Client.Core
         {
             _allUnitList.Clear();
 
-            var index = 0;
-            foreach (var unit in _playerGroup.Units)
+            foreach (var slot in _playerGroup.Slots)
             {
-                // Some of the player persons can be killed in previos combat in a combat sequence.
+                if (slot.Unit is null)
+                {
+                    continue;
+                }
+
+                var unit = slot.Unit;
+                // Some of the player persons can be killed in previous combat in a combat sequence.
 
                 if (!unit.IsDead)
                 {
-                    var combatUnit = new CombatUnit(unit, index);
+                    var combatUnit = new CombatUnit(unit, slot.Index);
                     _allUnitList.Add(combatUnit);
                     CombatUnitEntered?.Invoke(this, combatUnit);
                 }
-
-                index++;
             }
 
-            index = 0;
-            foreach (var unit in CombatSource.EnemyGroup.Units)
+            foreach (var slot in CombatSource.EnemyGroup.Slots)
             {
-                // Monster has no deads on start of the combat.
+                if (slot.Unit is null)
+                {
+                    continue;
+                }
 
-                var combatUnit = new CombatUnit(unit, index);
+                var unit = slot.Unit;
+                
+                // Monster has no dead ones on start of the combat.
+
+                var combatUnit = new CombatUnit(unit, slot.Index);
                 _allUnitList.Add(combatUnit);
                 CombatUnitEntered?.Invoke(this, combatUnit);
-                index++;
             }
 
             foreach (var combatUnit in _allUnitList)

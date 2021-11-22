@@ -67,9 +67,9 @@ namespace Rpg.Client.GameScreens.Party
                     // TODO Display skill efficient - damages, durations, etc.
                 }
 
-                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                if (_globeProvider.Globe.Player.Party.Units.Contains(_selectedCharacter))
                 {
-                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
+                    var index = _globeProvider.Globe.Player.Party.Units.ToList().IndexOf(_selectedCharacter);
                     sb.Add($"Is in party. Slot {index + 1}.");
                 }
 
@@ -89,7 +89,7 @@ namespace Rpg.Client.GameScreens.Party
             if (!_isInitialized)
             {
                 var globe = _globeProvider.Globe;
-                var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
+                var playerCharacters = globe.Player.Party.Units.Concat(globe.Player.Pool.Units).ToArray();
 
                 _buttonList.Clear();
 
@@ -124,16 +124,16 @@ namespace Rpg.Client.GameScreens.Party
                         return;
                     }
 
-                    if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                    if (_globeProvider.Globe.Player.Party.Units.Contains(_selectedCharacter))
                     {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
+                        if (_globeProvider.Globe.Player.Party.Units.Count() > 1)
                         {
                             _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
                         }
                     }
                     else
                     {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() < 3)
+                        if (_globeProvider.Globe.Player.Party.Units.Count() < 3)
                         {
                             _globeProvider.Globe.Player.MoveToParty(_selectedCharacter);
                         }

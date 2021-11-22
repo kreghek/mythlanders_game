@@ -15,11 +15,11 @@ namespace Rpg.Client.Core
         public void AddNewCharacter(Unit unit)
         {
             var units = new List<Unit>();
-            if (_globe.Player.Group.Units.Count() < 3)
+            if (_globe.Player.Party.Units.Count() < 3)
             {
-                units.AddRange(_globe.Player.Group.Units);
+                units.AddRange(_globe.Player.Party.Units);
 
-                _globe.Player.Group.Units = units;
+                _globe.Player.Party.Units = units;
             }
             else
             {

@@ -173,13 +173,10 @@ namespace Rpg.Client.GameComponents
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
 
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid);
 
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
 
             targetUnit.Hp = hpAmount > 0 ? hpAmount : 0;
@@ -190,13 +187,10 @@ namespace Rpg.Client.GameComponents
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
 
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid);
 
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var xpAmount = int.Parse(args[1]);
 
             targetUnit.GainXp(xpAmount);
