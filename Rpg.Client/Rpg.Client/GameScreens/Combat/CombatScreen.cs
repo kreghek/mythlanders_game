@@ -354,7 +354,7 @@ namespace Rpg.Client.GameScreens.Combat
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _activeCombat.Biom,
+                        _activeCombat.Biome,
                         _dice,
                         _activeCombat.IsAutoplay);
 
@@ -751,7 +751,7 @@ namespace Rpg.Client.GameScreens.Combat
                 case CombatResult.Victory:
                     if (!_activeCombat.CombatSource.IsTrainingOnly)
                     {
-                        _activeCombat.Biom.Level++;
+                        _activeCombat.Biome.Level++;
                     }
 
                     var nodeIndex = _globeNode.Index;
@@ -772,10 +772,10 @@ namespace Rpg.Client.GameScreens.Combat
 
                     if (_activeCombat.CombatSource.IsBossLevel)
                     {
-                        _activeCombat.Biom.IsComplete = true;
+                        _activeCombat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
 
-                        if (_activeCombat.Biom.IsFinal)
+                        if (_activeCombat.Biome.IsFinal)
                         {
                             _finalBossWasDefeat = true;
                         }
@@ -784,8 +784,8 @@ namespace Rpg.Client.GameScreens.Combat
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _activeCombat.Biom.Level - _activeCombat.Biom.MinLevel;
-                    _activeCombat.Biom.Level = Math.Max(levelDiff / 2, _activeCombat.Biom.MinLevel);
+                    var levelDiff = _activeCombat.Biome.Level - _activeCombat.Biome.MinLevel;
+                    _activeCombat.Biome.Level = Math.Max(levelDiff / 2, _activeCombat.Biome.MinLevel);
 
                     break;
 
