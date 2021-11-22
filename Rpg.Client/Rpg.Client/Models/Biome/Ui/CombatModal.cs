@@ -182,8 +182,6 @@ namespace Rpg.Client.Models.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var summaryXpLabelPosition = toolTipPosition;
-
             var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
@@ -191,7 +189,7 @@ namespace Rpg.Client.Models.Biome.Ui
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
                 $"Xp Reward: {summaryXp}",
-                summaryXpLabelPosition,
+                toolTipPosition,
                 Color.Wheat);
         }
     }
