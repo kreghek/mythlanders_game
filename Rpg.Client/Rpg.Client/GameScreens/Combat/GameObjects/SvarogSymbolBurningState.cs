@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Engine;
@@ -11,37 +9,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private const double DURATION = 3f;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly IList<IInteractionDelivery> _bulletList;
-        private readonly UnitGraphics _graphics;
-        private readonly SoundEffectInstance? _hitSound;
-        private readonly int _index;
-        private readonly IInteractionDelivery _interactionDelivery;
         private readonly SoundEffectInstance _risingPowerSoundEffect;
         private readonly ScreenShaker _screenShaker;
         private double _counter;
 
-        private bool _interactionExecuted;
-
-        public SvarogSymbolBurningState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList,
-            ScreenShaker screenShaker)
+        public SvarogSymbolBurningState(ScreenShaker screenShaker)
         {
-            _graphics = graphics;
-            _interactionDelivery = interactionDelivery;
-            _bulletList = interactionDeliveryList;
             _screenShaker = screenShaker;
         }
 
-        public SvarogSymbolBurningState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
-            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
-            SoundEffectInstance? hitSound,
-            int index,
+        public SvarogSymbolBurningState(AnimationBlocker animationBlocker,
             ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect) :
-            this(graphics, bulletGameObject, interactionDeliveryList, screenShaker)
+            this(screenShaker)
         {
             _animationBlocker = animationBlocker;
-            _hitSound = hitSound;
-            _index = index;
             _risingPowerSoundEffect = risingPowerSoundEffect;
         }
 

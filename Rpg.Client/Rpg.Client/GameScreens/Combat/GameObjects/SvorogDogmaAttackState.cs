@@ -26,10 +26,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
-                    screenShaker, symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
-                    index,
+                new SvarogSymbolState(graphics, blocker, index, symbolAppearingSoundEffect),
+                new SvarogSymbolBurningState(blocker,
                     screenShaker, risingPowerSoundEffect),
                 new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
                     explosionSoundEffect)

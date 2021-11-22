@@ -20,6 +20,12 @@ namespace Rpg.Client.GameScreens.Event
 
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
+        
+        /// <summary>
+        /// Event screen has no background paralax.
+        /// </summary>
+        private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
+        
         private static bool _tutorial;
         private readonly IList<ButtonBase> _buttons;
 
@@ -34,8 +40,7 @@ namespace Rpg.Client.GameScreens.Event
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
-        private Texture2D _backgroundTexture;
-        private float _bgCenterOffsetPercentage;
+        private readonly Texture2D _backgroundTexture;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
@@ -125,7 +130,7 @@ namespace Rpg.Client.GameScreens.Event
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
             {
-                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                var xFloat = backgroundStartOffset + BG_CENTER_OFFSET_PERCENTAGE * (BACKGROUND_LAYERS_COUNT - i - 1) *
                     BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
                 var roundedX = (int)Math.Round(xFloat);
                 var position = new Vector2(roundedX, 0);
@@ -164,7 +169,7 @@ namespace Rpg.Client.GameScreens.Event
             int backgroundMaxOffset)
         {
             var xFloat = backgroundStartOffset +
-                         -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+                         -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
             var roundedX = (int)Math.Round(xFloat);
 
             var position = new Vector2(roundedX, 0);

@@ -360,10 +360,11 @@ namespace Rpg.Client.Core
             if (combatUnit is not null)
             {
                 UnitDied?.Invoke(this, combatUnit);
+                CombatUnitRemoved?.Invoke(this, combatUnit);
             }
         }
 
-        public event EventHandler<CombatUnit> CombatUnitRemoved;
+        internal event EventHandler<CombatUnit> CombatUnitRemoved;
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
 
