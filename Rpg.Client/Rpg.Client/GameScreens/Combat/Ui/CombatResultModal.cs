@@ -133,7 +133,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var item = xpItems[itemIndex];
                 var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
-                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelup} XP";
+                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelupSelector()} XP";
 
                 if (item.IsShowLevelUpIndicator is not null)
                 {
@@ -167,15 +167,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 UnitName = name;
                 XpAmount = item.XpAmount;
                 StartXp = item.StartXp;
-                XpToLevelup = item.XpToLevelup;
+                XpToLevelupSelector = item.XpToLevelupSelector;
                 CurrentXp = StartXp;
             }
 
             public int CountedXp { get; private set; }
 
             public int CurrentXp { get; private set; }
-
-            public bool IsLevelUp => StartXp + XpAmount >= XpToLevelup;
 
             public int? IsShowLevelUpIndicator { get; private set; }
             public int StartXp { get; }
@@ -184,7 +182,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             public int XpAmount { get; }
 
             public bool XpCountingComplete { get; private set; }
-            public int XpToLevelup { get; }
+            public Func<int> XpToLevelupSelector { get; }
 
             public void Update()
             {
@@ -202,9 +200,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 CurrentXp += XP_COUNTER_SPEED;
                 CountedXp += XP_COUNTER_SPEED;
 
-                if (CurrentXp >= XpToLevelup)
+                if (CurrentXp >= XpToLevelupSelector())
                 {
-                    CurrentXp -= XpToLevelup;
+                    CurrentXp -= XpToLevelupSelector();
 
                     if (IsShowLevelUpIndicator is null)
                     {

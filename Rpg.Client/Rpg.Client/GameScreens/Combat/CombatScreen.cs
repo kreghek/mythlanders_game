@@ -740,7 +740,7 @@ namespace Rpg.Client.GameScreens.Combat
                     StartXp = unit.Unit.Xp,
                     Unit = unit.Unit,
                     XpAmount = gainedXp,
-                    XpToLevelup = unit.Unit.LevelupXp
+                    XpToLevelupSelector = () => unit.Unit.LevelupXp
                 };
             }
         }
