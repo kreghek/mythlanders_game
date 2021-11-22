@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
-using Rpg.Client.Models;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal class MassStunSkill : SkillBase
     {
-        public MassStunSkill() : this(false)
+        private static SkillVisualization PredefinedVisualization => new()
         {
-        }
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.EgyptianDarkMagic
+        };
 
-        public MassStunSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.EgyptianDarkMagic },
-            costRequired)
+        public MassStunSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
-using Rpg.Client.Models;
-using Rpg.Client.Models.Combat.GameObjects.Background;
-using Rpg.Client.Models.Title;
-using Rpg.Client.Screens;
+using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat.GameObjects.Background;
+using Rpg.Client.GameScreens.Title;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
 {

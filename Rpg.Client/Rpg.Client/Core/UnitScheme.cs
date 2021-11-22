@@ -54,6 +54,8 @@ namespace Rpg.Client.Core
 
         public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
 
+        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
+
         private float CalcArmor()
         {
             if (!IsMonster)

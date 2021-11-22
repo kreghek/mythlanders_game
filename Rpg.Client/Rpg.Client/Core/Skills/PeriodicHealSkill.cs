@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
-using Rpg.Client.Models;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal class PeriodicHealSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Range, 
+            SoundEffectType = GameObjectSoundType.Heal
+        };
+        
         public PeriodicHealSkill() : this(false)
         {
         }
 
-        public PeriodicHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.Heal }, costRequired)
+        public PeriodicHealSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {

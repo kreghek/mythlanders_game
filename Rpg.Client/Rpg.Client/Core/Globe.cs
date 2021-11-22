@@ -78,17 +78,20 @@ namespace Rpg.Client.Core
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                     {
-                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel);
+                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel).ToArray();
 
                         var combat = new CombatSource
                         {
                             Level = combatLevel,
-                            EnemyGroup = new Group
-                            {
-                                Units = units
-                            },
+                            EnemyGroup = new Group(),
                             IsTrainingOnly = combatToTrainingIndex == locationIndex
                         };
+
+                        for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
+                        {
+                            var unit = units[slotIndex];
+                            combat.EnemyGroup.Slots[slotIndex].Unit = unit;
+                        }
 
                         combatList.Add(combat);
                     }

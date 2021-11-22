@@ -1,22 +1,23 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
-using Rpg.Client.Models;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal class ArrowRainSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassRange, 
+            SoundEffectType = GameObjectSoundType.BowShot
+        };
+        
         public ArrowRainSkill() : this(false)
         {
         }
 
-        public ArrowRainSkill(bool costRequired) : base(
-            new SkillVisualization
-            {
-                Type = SkillVisualizationStateType.MassRange,
-                SoundEffectType = GameObjectSoundType.BowShot
-            }, costRequired)
+        public ArrowRainSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

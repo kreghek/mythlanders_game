@@ -18,13 +18,13 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public Combat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biom, IDice dice,
+        public Combat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biome, IDice dice,
             bool isAutoplay)
         {
             _playerGroup = playerGroup;
             Node = node;
             CombatSource = combat;
-            Biom = biom;
+            Biome = biome;
             Dice = dice;
             IsAutoplay = isAutoplay;
             _unitQueue = new List<CombatUnit>();
@@ -35,12 +35,12 @@ namespace Rpg.Client.Core
 
         public IEnumerable<CombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
-        public Biome Biom { get; }
+        public Biome Biome { get; }
 
         public CombatUnit? CurrentUnit
         {
             get => _currentUnit;
-            set
+            private set
             {
                 if (value is null)
                 {
@@ -74,7 +74,7 @@ namespace Rpg.Client.Core
 
         public bool IsAutoplay { get; }
 
-        public bool IsCurrentStepCompleted { get; set; }
+        private bool IsCurrentStepCompleted { get; set; }
 
         public ModifiersProcessor ModifiersProcessor { get; }
 
@@ -111,6 +111,11 @@ namespace Rpg.Client.Core
 
         public void Pass()
         {
+            if (CurrentUnit is null)
+            {
+                Debug.Fail("Current unit must be assigned");
+            }
+
             UnitPassed?.Invoke(this, CurrentUnit);
             CompleteStep();
         }
@@ -120,6 +125,11 @@ namespace Rpg.Client.Core
             if (IsCurrentStepCompleted)
             {
                 return;
+            }
+
+            if (CurrentUnit is null)
+            {
+                Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
             if (skill.ManaCost is not null)
@@ -133,43 +143,53 @@ namespace Rpg.Client.Core
                 CompleteStep();
             };
 
-            ActionGenerated?.Invoke(this, new ActionEventArgs
-            {
-                Action = action,
-                Actor = CurrentUnit,
-                Skill = skill,
-                Target = target
-            });
+            var actionEventArgs = new ActionEventArgs
+            (
+                action,
+                CurrentUnit,
+                skill,
+                target
+            );
+            
+            ActionGenerated?.Invoke(this, actionEventArgs);
         }
 
         internal void Initialize()
         {
             _allUnitList.Clear();
 
-            var index = 0;
-            foreach (var unit in _playerGroup.Units)
+            foreach (var slot in _playerGroup.Slots)
             {
-                // Some of the player persons can be killed in previos combat in a combat sequence.
+                if (slot.Unit is null)
+                {
+                    continue;
+                }
+
+                var unit = slot.Unit;
+                // Some of the player persons can be killed in previous combat in a combat sequence.
 
                 if (!unit.IsDead)
                 {
-                    var combatUnit = new CombatUnit(unit, index);
+                    var combatUnit = new CombatUnit(unit, slot.Index);
                     _allUnitList.Add(combatUnit);
                     CombatUnitEntered?.Invoke(this, combatUnit);
                 }
-
-                index++;
             }
 
-            index = 0;
-            foreach (var unit in CombatSource.EnemyGroup.Units)
+            foreach (var slot in CombatSource.EnemyGroup.Slots)
             {
-                // Monster has no deads on start of the combat.
+                if (slot.Unit is null)
+                {
+                    continue;
+                }
 
-                var combatUnit = new CombatUnit(unit, index);
+                var unit = slot.Unit;
+                
+                // Monster has no dead ones on start of the combat.
+
+                var combatUnit = new CombatUnit(unit, slot.Index);
                 _allUnitList.Add(combatUnit);
                 CombatUnitEntered?.Invoke(this, combatUnit);
-                index++;
             }
 
             foreach (var combatUnit in _allUnitList)
@@ -197,7 +217,7 @@ namespace Rpg.Client.Core
                 var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
 
                 var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
-                var allMonstersAreDead = !monsterUnits.Any(x => !x.Unit.IsDead);
+                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
                 var eventArgs = new CombatFinishEventArgs { Victory = anyPlayerUnitsAlive && allMonstersAreDead };
                 Finish?.Invoke(this, eventArgs);
                 return;
@@ -227,11 +247,11 @@ namespace Rpg.Client.Core
         {
             if (!e.Unit.IsPlayerControlled || IsAutoplay)
             {
-                AI();
+                Ai();
             }
         }
 
-        private void AI()
+        private void Ai()
         {
             var dice = GetDice();
 
@@ -352,10 +372,11 @@ namespace Rpg.Client.Core
             if (combatUnit is not null)
             {
                 UnitDied?.Invoke(this, combatUnit);
+                CombatUnitRemoved?.Invoke(this, combatUnit);
             }
         }
 
-        public event EventHandler<CombatUnit> CombatUnitRemoved;
+        internal event EventHandler<CombatUnit>? CombatUnitRemoved;
 
         internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
 
@@ -375,24 +396,5 @@ namespace Rpg.Client.Core
         /// Event bus for combat object interactions.
         /// </summary>
         internal event EventHandler<ActionEventArgs>? ActionGenerated;
-
-        internal class ActionEventArgs : EventArgs
-        {
-            public Action Action { get; set; }
-            public CombatUnit Actor { get; set; }
-            public ISkill Skill { get; set; }
-            public CombatUnit Target { get; set; }
-        }
-
-        internal class UnitChangedEventArgs : EventArgs
-        {
-            public CombatUnit? NewUnit { get; set; }
-            public CombatUnit? OldUnit { get; set; }
-        }
-
-        internal class CombatFinishEventArgs : EventArgs
-        {
-            public bool Victory { get; set; }
-        }
     }
 }

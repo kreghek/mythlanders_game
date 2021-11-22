@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Rpg.Client.Core.GraphicConfigs;
+using Rpg.Client.Core.Perks;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -1172,13 +1173,13 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
                     SupportRank = 0.0f,
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2, 4 },
+                    NodeIndexes = new[] { 1, 2, 4 },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1192,6 +1193,13 @@ namespace Rpg.Client.Core
                             }
                         }
                     },
+
+                    Perks = new IPerk[]
+                    { 
+                        new ImprovedHitPoints(),
+                        new ImprovedArmor()
+                    },
+
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -1306,7 +1314,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new VampiricBiteSkill()
+                                new VampireBiteSkill()
                             }
                         }
                     },

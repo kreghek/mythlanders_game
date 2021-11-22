@@ -1,19 +1,16 @@
-﻿using Rpg.Client.Models;
+﻿using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal class WolfBiteSkill : MonsterAttackSkill
     {
-        public WolfBiteSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, false)
+        private static SkillVisualization PredefinedVisualization => new()
         {
-        }
-    }
-
-    internal class BearBludgeonSkill : MonsterAttackSkill
-    {
-        public BearBludgeonSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.BearBludgeon }, false)
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
+        
+        public WolfBiteSkill() : base(PredefinedVisualization, false)
         {
         }
     }

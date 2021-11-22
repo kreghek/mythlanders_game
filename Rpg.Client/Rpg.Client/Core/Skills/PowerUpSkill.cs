@@ -3,19 +3,23 @@
 using Microsoft.Extensions.Logging;
 
 using Rpg.Client.Core.Effects;
-using Rpg.Client.Models;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal sealed class PowerUpSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.MagicDust
+        };
+        
         public PowerUpSkill() : this(false)
         {
         }
 
-        public PowerUpSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.MagicDust },
-            costRequired)
+        public PowerUpSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Effects;
-using Rpg.Client.Models;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
     internal class VolkolakClawsSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassMelee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
+        
         public VolkolakClawsSkill() : this(false)
         {
         }
 
-        public VolkolakClawsSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.WolfBite },
+        public VolkolakClawsSkill(bool costRequired) : base(PredefinedVisualization,
             costRequired)
         {
         }
