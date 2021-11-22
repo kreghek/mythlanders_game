@@ -150,21 +150,30 @@ namespace Rpg.Client.Models.Biome.Ui
 
             DrawSummaryXpAwardLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
 
+            DrawEquipmentRewards(spriteBatch: spriteBatch, nodeGameObject: nodeGameObject, toolTipPosition: toolTipPosition);
+        }
+
+        private void DrawEquipmentRewards(SpriteBatch spriteBatch,
+            GlobeNodeGameObject nodeGameObject, Vector2 toolTipPosition)
+        {
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
-            if (equipmentType is not null)
+            if (equipmentType is null)
             {
-                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
-
-                var playerUnit = _globe.Player.GetAll.Where(x => x != null)
-                    .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-
-                if (playerUnit is not null)
-                {
-                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
-                        toolTipPosition + new Vector2(5, 45), Color.Wheat);
-                }
+                return;
             }
+
+            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+
+            var playerUnit = _globe.Player.GetAll.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+
+            if (playerUnit is null)
+            {
+                return;
+            }
+
+            var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
+                toolTipPosition + new Vector2(5, 45), Color.Wheat);
         }
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
