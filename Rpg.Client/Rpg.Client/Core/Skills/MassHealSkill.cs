@@ -7,12 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassHealSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.Heal
+        };
+        
         public MassHealSkill() : this(false)
         {
         }
 
-        public MassHealSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Support, SoundEffectType = GameObjectSoundType.Heal }, costRequired)
+        public MassHealSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

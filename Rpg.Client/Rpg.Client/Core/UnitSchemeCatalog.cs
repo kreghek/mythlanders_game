@@ -1306,7 +1306,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new VampiricBiteSkill()
+                                new VampireBiteSkill()
                             }
                         }
                     },

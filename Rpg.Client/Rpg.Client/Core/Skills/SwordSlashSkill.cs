@@ -7,15 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SwordSlashSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.SwordSlash
+        };
+        
         public SwordSlashSkill() : this(false)
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(new SkillVisualization
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
-        }, costRequired)
+        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

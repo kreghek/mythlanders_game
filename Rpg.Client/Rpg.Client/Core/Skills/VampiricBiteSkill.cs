@@ -5,14 +5,19 @@ using Rpg.Client.Models;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class VampiricBiteSkill : SkillBase
+    internal class VampireBiteSkill : SkillBase
     {
-        public VampiricBiteSkill() : this(false)
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
+        
+        public VampireBiteSkill() : this(false)
         {
         }
 
-        public VampiricBiteSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, costRequired)
+        public VampireBiteSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

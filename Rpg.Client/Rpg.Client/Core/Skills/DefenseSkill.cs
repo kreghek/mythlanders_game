@@ -7,16 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DefenseSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.Defence
+        };
+        
         public DefenseSkill() : this(false)
         {
         }
 
-        public DefenseSkill(bool costRequired) : base(
-            new SkillVisualization
-            {
-                Type = SkillVisualizationStateType.Support,
-                SoundEffectType = GameObjectSoundType.Defence
-            }, costRequired)
+        public DefenseSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

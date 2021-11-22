@@ -7,12 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class BowShotSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Range, 
+            SoundEffectType = GameObjectSoundType.BowShot
+        };
+        
         public BowShotSkill() : this(false)
         {
         }
 
-        public BowShotSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Range, SoundEffectType = GameObjectSoundType.BowShot }, costRequired)
+        public BowShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

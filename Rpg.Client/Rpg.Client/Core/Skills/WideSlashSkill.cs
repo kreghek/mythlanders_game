@@ -7,13 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class WideSlashSkill : SkillBase
     {
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassMelee,
+            SoundEffectType = GameObjectSoundType.SwordSlash
+        };
+        
         public WideSlashSkill() : this(false)
         {
         }
 
-        public WideSlashSkill(bool costRequired) : base(new SkillVisualization
-                { Type = SkillVisualizationStateType.MassMelee, SoundEffectType = GameObjectSoundType.SwordSlash },
-            costRequired)
+        public WideSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

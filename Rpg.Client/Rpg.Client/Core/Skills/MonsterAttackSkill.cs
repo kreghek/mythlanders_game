@@ -7,13 +7,17 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MonsterAttackSkill : SkillBase
     {
-        public MonsterAttackSkill() : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, false)
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee, 
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
+        
+        public MonsterAttackSkill() : base(PredefinedVisualization, false)
         {
         }
 
-        public MonsterAttackSkill(bool costRequired) : base(new SkillVisualization
-            { Type = SkillVisualizationStateType.Melee, SoundEffectType = GameObjectSoundType.WolfBite }, costRequired)
+        public MonsterAttackSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
