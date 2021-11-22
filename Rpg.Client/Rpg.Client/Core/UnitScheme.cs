@@ -39,6 +39,8 @@ namespace Rpg.Client.Core
 
         public IEnumerable<int>? NodeIndexes { get; init; }
 
+        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
+
         public float Power => CalcPower();
 
         public float PowerPerLevel => CalcPowerPerLevel();
@@ -53,8 +55,6 @@ namespace Rpg.Client.Core
         public float TankRank { get; init; }
 
         public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
-
-        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
 
         private float CalcArmor()
         {

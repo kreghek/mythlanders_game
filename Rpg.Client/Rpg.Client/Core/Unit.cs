@@ -19,6 +19,8 @@ namespace Rpg.Client.Core
         private const float OVERPOWER_BASE = 2;
         private const int MINIMAL_LEVEL_WITH_MANA = 2;
 
+        private float _armorBonus;
+
         public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level,
             equipmentLevel: 0,
             xp: 0,
@@ -77,6 +79,8 @@ namespace Rpg.Client.Core
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; set; }
+
+        public IEnumerable<IPerk> Perks { get; }
 
         public float Power => CalcPower();
 
@@ -204,8 +208,6 @@ namespace Rpg.Client.Core
             return normalizedArmor;
         }
 
-        private float _armorBonus;
-
         private int CalcDamage()
         {
             var power = Power;
@@ -307,8 +309,6 @@ namespace Rpg.Client.Core
         {
             HitPoints = MaxHitPoints;
         }
-
-        public IEnumerable<IPerk> Perks { get; }
 
         public event EventHandler<int>? HasBeenDamaged;
 

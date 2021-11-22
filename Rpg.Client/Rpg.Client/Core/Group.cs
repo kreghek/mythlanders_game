@@ -17,14 +17,20 @@ namespace Rpg.Client.Core
 
         public IReadOnlyList<GroupSlot> Slots { get; }
 
-        public IEnumerable<Unit> GetUnits() => Slots
-            .Where(x => x.Unit is not null)
-            .Select(x => x.Unit!)
-            .ToArray();
+        public IEnumerable<GroupSlot> GetFreeSlots()
+        {
+            return Slots
+                .Where(x => x.Unit is null)
+                .ToArray();
+        }
 
-        public IEnumerable<GroupSlot> GetFreeSlots() => Slots
-            .Where(x => x.Unit is null)
-            .ToArray();
+        public IEnumerable<Unit> GetUnits()
+        {
+            return Slots
+                .Where(x => x.Unit is not null)
+                .Select(x => x.Unit!)
+                .ToArray();
+        }
     }
 
     internal sealed class PoolGroup
@@ -39,7 +45,7 @@ namespace Rpg.Client.Core
 
     internal sealed class GroupSlot
     {
-        public Unit? Unit { get; set; }
         public int Index { get; init; }
+        public Unit? Unit { get; set; }
     }
 }

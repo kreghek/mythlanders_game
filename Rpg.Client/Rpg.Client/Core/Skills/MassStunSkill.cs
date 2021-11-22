@@ -8,12 +8,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MassStunSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.EgyptianDarkMagic
-        };
-
         public MassStunSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
@@ -38,5 +32,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Mass Stun";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.EgyptianDarkMagic
+        };
     }
 }

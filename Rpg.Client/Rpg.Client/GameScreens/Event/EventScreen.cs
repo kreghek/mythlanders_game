@@ -27,6 +27,7 @@ namespace Rpg.Client.GameScreens.Event
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
         private static bool _tutorial;
+        private readonly Texture2D _backgroundTexture;
         private readonly IList<ButtonBase> _buttons;
 
         private readonly Camera2D _camera;
@@ -40,7 +41,6 @@ namespace Rpg.Client.GameScreens.Event
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly Texture2D _backgroundTexture;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;

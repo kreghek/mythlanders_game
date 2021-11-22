@@ -13,10 +13,10 @@ namespace Rpg.Client.GameComponents
 {
     internal sealed class CheatInput : DrawableGameComponent
     {
+        private readonly Texture2D _backgroundTexture;
         private readonly StringBuilder _currentText;
         private readonly SpriteBatch _spriteBatch;
         private readonly SpriteFont _spriteFont;
-        private readonly Texture2D _backgroundTexture;
         private double? _errorCounter;
         private string? _errorText;
         private KeyboardState _lastState;

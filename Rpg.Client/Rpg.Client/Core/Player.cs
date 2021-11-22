@@ -12,11 +12,14 @@ namespace Rpg.Client.Core
             Pool = new PoolGroup();
         }
 
-        public IEnumerable<Unit> GetAll() => Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
-
         public Group Party { get; }
 
         public PoolGroup Pool { get; }
+
+        public IEnumerable<Unit> GetAll()
+        {
+            return Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
+        }
 
         public void MoveToParty(Unit unit, int slotIndex)
         {

@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class HealSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.Heal
-        };
-
         public HealSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Heal";
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Telekinetic;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.Heal
+        };
     }
 }

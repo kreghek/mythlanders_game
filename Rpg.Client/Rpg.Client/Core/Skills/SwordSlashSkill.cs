@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SwordSlashSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
-        };
-
         public SwordSlashSkill() : this(false)
         {
         }
@@ -44,6 +38,12 @@ namespace Rpg.Client.Core.Skills
         public override SkillType Type => SkillType.Melee;
 
         public override int UsageCount => 3;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.SwordSlash
+        };
     }
 
     internal class StaffSkill : SkillBase

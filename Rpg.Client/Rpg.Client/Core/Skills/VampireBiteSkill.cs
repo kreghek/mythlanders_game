@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class VampireBiteSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.WolfBite
-        };
-
         public VampireBiteSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Vampiric Bite";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
     }
 }

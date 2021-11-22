@@ -6,14 +6,14 @@ namespace Rpg.Client.Engine
     internal class ResolutionIndependentRenderer
     {
         private static Matrix _scaleMatrix;
+
+        private readonly Color _backgroundColor = Color.Black;
         private readonly Game _game;
         private bool _dirtyMatrix = true;
         private float _ratioX;
         private float _ratioY;
         private Viewport _viewport;
         private Vector2 _virtualMousePosition;
-
-        private readonly Color _backgroundColor = Color.Black;
 
         public int ScreenHeight;
 
@@ -79,6 +79,13 @@ namespace Rpg.Client.Engine
             return _virtualMousePosition;
         }
 
+        private void RecreateScaleMatrix()
+        {
+            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f,
+                out _scaleMatrix);
+            _dirtyMatrix = false;
+        }
+
         private void SetupFullViewport()
         {
             var vp = new Viewport();
@@ -113,13 +120,6 @@ namespace Rpg.Client.Engine
             };
 
             _game.GraphicsDevice.Viewport = _viewport;
-        }
-
-        private void RecreateScaleMatrix()
-        {
-            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f,
-                out _scaleMatrix);
-            _dirtyMatrix = false;
         }
     }
 }

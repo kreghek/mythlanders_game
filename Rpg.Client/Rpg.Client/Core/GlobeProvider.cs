@@ -63,7 +63,7 @@ namespace Rpg.Client.Core
             };
 
             var startUnits = CreateStartUnits();
-            for (int slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
+            for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
             {
                 globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
             }
@@ -104,23 +104,6 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice);
 
             return true;
-        }
-
-        private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
-        {
-            var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
-            foreach (var slot in Globe.Player.Party.Slots)
-            {
-                slot.Unit = null;
-            }
-            for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
-            {
-                var unit = loadedParty[slotIndex];
-                Globe.Player.Party.Slots[slotIndex].Unit = unit;
-            }
-
-            var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
-            Globe.Player.Pool.Units = loadedPool;
         }
 
         public void StoreGlobe()
@@ -296,6 +279,24 @@ namespace Rpg.Client.Core
                     targetNode.IsAvailable = nodeDto.IsAvailable;
                 }
             }
+        }
+
+        private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
+        {
+            var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
+            foreach (var slot in Globe.Player.Party.Slots)
+            {
+                slot.Unit = null;
+            }
+
+            for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
+            {
+                var unit = loadedParty[slotIndex];
+                Globe.Player.Party.Slots[slotIndex].Unit = unit;
+            }
+
+            var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
+            Globe.Player.Pool.Units = loadedPool;
         }
 
         private static List<Unit> LoadPlayerGroup(GroupDto groupDto)

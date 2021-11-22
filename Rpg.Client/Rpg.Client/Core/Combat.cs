@@ -74,8 +74,6 @@ namespace Rpg.Client.Core
 
         public bool IsAutoplay { get; }
 
-        private bool IsCurrentStepCompleted { get; set; }
-
         public ModifiersProcessor ModifiersProcessor { get; }
 
         public GlobeNode Node { get; }
@@ -108,6 +106,8 @@ namespace Rpg.Client.Core
                 return false;
             }
         }
+
+        private bool IsCurrentStepCompleted { get; set; }
 
         public void Pass()
         {
