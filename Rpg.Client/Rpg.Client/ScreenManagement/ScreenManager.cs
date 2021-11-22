@@ -3,13 +3,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Models.Biome;
-using Rpg.Client.Models.Combat;
-using Rpg.Client.Models.EndGame;
-using Rpg.Client.Models.Event;
-using Rpg.Client.Models.Map;
-using Rpg.Client.Models.Party;
-using Rpg.Client.Models.Title;
+using Rpg.Client.GameScreens.Biome;
+using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.EndGame;
+using Rpg.Client.GameScreens.Event;
+using Rpg.Client.GameScreens.Map;
+using Rpg.Client.GameScreens.Party;
+using Rpg.Client.GameScreens.Title;
 
 namespace Rpg.Client.ScreenManagement
 {

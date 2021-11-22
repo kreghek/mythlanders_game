@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
-using Rpg.Client.Models.Common;
+using Rpg.Client.GameScreens.Common;
 
 namespace Rpg.Client.ScreenManagement
 {

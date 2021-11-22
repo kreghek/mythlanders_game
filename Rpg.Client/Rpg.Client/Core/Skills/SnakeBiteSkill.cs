@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Models;
+﻿using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
