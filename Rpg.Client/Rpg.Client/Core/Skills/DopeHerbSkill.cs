@@ -8,12 +8,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DopeHerbSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Support, 
-            SoundEffectType = GameObjectSoundType.MagicDust
-        };
-        
         public DopeHerbSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Dope Herb";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.MagicDust
+        };
     }
 }

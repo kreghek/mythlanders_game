@@ -39,6 +39,8 @@ namespace Rpg.Client.Core
 
         public IEnumerable<int>? NodeIndexes { get; init; }
 
+        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
+
         public float Power => CalcPower();
 
         public float PowerPerLevel => CalcPowerPerLevel();

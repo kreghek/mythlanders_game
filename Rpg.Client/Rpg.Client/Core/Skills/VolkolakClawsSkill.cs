@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class VolkolakClawsSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.MassMelee,
-            SoundEffectType = GameObjectSoundType.WolfBite
-        };
-        
         public VolkolakClawsSkill() : this(false)
         {
         }
@@ -43,5 +37,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Volkolak Claws";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassMelee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
     }
 }

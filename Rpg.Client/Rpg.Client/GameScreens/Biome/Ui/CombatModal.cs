@@ -64,7 +64,9 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 textPosition + new Vector2(5, 15),
                 Color.Wheat);
 
-            var dialogMarkerText = _nodeGameObject.AvailableEvent is not null ? $"{_nodeGameObject.AvailableEvent.Title}" : string.Empty;
+            var dialogMarkerText = _nodeGameObject.AvailableEvent is not null
+                ? $"{_nodeGameObject.AvailableEvent.Title}"
+                : string.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
@@ -87,7 +89,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             foreach (var combat in _nodeGameObject.GlobeNode.CombatSequence.Combats)
             {
-                foreach (var monster in combat.EnemyGroup.Units)
+                foreach (var monster in combat.EnemyGroup.GetUnits())
                 {
                     var unitName = monster.UnitScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
@@ -105,7 +107,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             var sumButtonWidth = _buttons.Count * (100 + 5);
             var startXPosition = ContentRect.Center.X - sumButtonWidth / 2;
 
-            var playerPartyUnits = _globe.Player.Group.Units.ToArray();
+            var playerPartyUnits = _globe.Player.Party.GetUnits().ToArray();
             for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
             {
                 var unit = playerPartyUnits[unitIndex];
@@ -148,7 +150,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             DrawSummaryXpAwardLabel(
                 spriteBatch,
-                node, 
+                node,
                 toolTipPosition + new Vector2(5, 55));
 
             DrawEquipmentRewards(
@@ -168,7 +170,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-            var playerUnit = _globe.Player.GetAll.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
+            var playerUnit = _globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
             if (playerUnit is null)
             {
@@ -182,7 +184,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
+            var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));

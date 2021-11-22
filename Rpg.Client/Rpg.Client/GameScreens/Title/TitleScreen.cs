@@ -153,7 +153,7 @@ namespace Rpg.Client.GameScreens.Title
 
             var firstAvailableNodeInBiome = startBiome.Nodes.SingleOrDefault(x => x.IsAvailable);
 
-            _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Group,
+            _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
                 firstAvailableNodeInBiome.CombatSequence.Combats.First(), startBiome,
                 dice,

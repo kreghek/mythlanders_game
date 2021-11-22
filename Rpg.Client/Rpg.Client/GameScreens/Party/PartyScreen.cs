@@ -48,10 +48,10 @@ namespace Rpg.Client.GameScreens.Party
                 var sb = new List<string>
                 {
                     name,
-                    $"HP: {_selectedCharacter.Hp}/{_selectedCharacter.MaxHp}",
+                    $"HP: {_selectedCharacter.HitPoints}/{_selectedCharacter.MaxHitPoints}",
                     $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
                     $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelupXp}",
+                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelUpXp}",
                     $"Equipment: {_selectedCharacter.EquipmentLevel}",
                     $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
                 };
@@ -67,9 +67,9 @@ namespace Rpg.Client.GameScreens.Party
                     // TODO Display skill efficient - damages, durations, etc.
                 }
 
-                if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                if (_globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter))
                 {
-                    var index = _globeProvider.Globe.Player.Group.Units.ToList().IndexOf(_selectedCharacter);
+                    var index = _globeProvider.Globe.Player.Party.GetUnits().ToList().IndexOf(_selectedCharacter);
                     sb.Add($"Is in party. Slot {index + 1}.");
                 }
 
@@ -89,7 +89,7 @@ namespace Rpg.Client.GameScreens.Party
             if (!_isInitialized)
             {
                 var globe = _globeProvider.Globe;
-                var playerCharacters = globe.Player.Group.Units.Concat(globe.Player.Pool.Units).ToArray();
+                var playerCharacters = globe.Player.Party.GetUnits().Concat(globe.Player.Pool.Units).ToArray();
 
                 _buttonList.Clear();
 
@@ -124,18 +124,21 @@ namespace Rpg.Client.GameScreens.Party
                         return;
                     }
 
-                    if (_globeProvider.Globe.Player.Group.Units.Contains(_selectedCharacter))
+                    if (_globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter))
                     {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() > 1)
+                        if (_globeProvider.Globe.Player.Party.GetUnits().Count() > 1)
                         {
                             _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
                         }
                     }
                     else
                     {
-                        if (_globeProvider.Globe.Player.Group.Units.Count() < 3)
+                        var freeSlots = _globeProvider.Globe.Player.Party.GetFreeSlots();
+                        var selectedSlot = freeSlots.FirstOrDefault();
+
+                        if (selectedSlot is not null)
                         {
-                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter);
+                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter, selectedSlot.Index);
                         }
                     }
                 };

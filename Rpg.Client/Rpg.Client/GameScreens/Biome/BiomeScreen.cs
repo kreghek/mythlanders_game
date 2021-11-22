@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                                         _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,
@@ -255,7 +255,7 @@ namespace Rpg.Client.GameScreens.Biome
                                 {
                                     _screenTransition = true;
 
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                                         _hoverNodeGameObject.GlobeNode,
                                         _hoverNodeGameObject.CombatSource, _biome,
                                         _dice,
@@ -469,7 +469,7 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
 
-                var playerUnit = _globe.Player.GetAll
+                var playerUnit = _globe.Player.GetAll()
                     .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
                 if (playerUnit is not null)
@@ -484,7 +484,7 @@ namespace Rpg.Client.GameScreens.Biome
 
         private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
         {
-            var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
+            var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));

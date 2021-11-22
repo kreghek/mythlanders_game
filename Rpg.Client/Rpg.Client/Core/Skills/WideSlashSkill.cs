@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class WideSlashSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.MassMelee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
-        };
-        
         public WideSlashSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Wide Slash";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassMelee,
+            SoundEffectType = GameObjectSoundType.SwordSlash
+        };
     }
 }

@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class DefenseSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.Defence
-        };
-        
         public DefenseSkill() : this(false)
         {
         }
@@ -38,5 +32,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Defense Stance";
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.None;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.Defence
+        };
     }
 }

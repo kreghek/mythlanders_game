@@ -351,10 +351,10 @@ namespace Rpg.Client.GameScreens.Combat
                 if (_activeCombat.Node.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNode.CombatSequence.Combats.First();
-                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Group,
+                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _activeCombat.Biom,
+                        _activeCombat.Biome,
                         _dice,
                         _activeCombat.IsAutoplay);
 
@@ -638,11 +638,7 @@ namespace Rpg.Client.GameScreens.Combat
             var equipmentItemType = globeNode.EquipmentItem;
 
             var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
-            var targetUnit = player.Group.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            if (targetUnit is null)
-            {
-                targetUnit = player.Pool.Units.SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            }
+            var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 
             if (targetUnit is not null)
             {
@@ -716,7 +712,7 @@ namespace Rpg.Client.GameScreens.Combat
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
             var aliveUnits = _activeCombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.Units).ToArray();
+            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
@@ -740,7 +736,7 @@ namespace Rpg.Client.GameScreens.Combat
                     StartXp = unit.Unit.Xp,
                     Unit = unit.Unit,
                     XpAmount = gainedXp,
-                    XpToLevelupSelector = () => unit.Unit.LevelupXp
+                    XpToLevelupSelector = () => unit.Unit.LevelUpXp
                 };
             }
         }
@@ -755,11 +751,10 @@ namespace Rpg.Client.GameScreens.Combat
                 case CombatResult.Victory:
                     if (!_activeCombat.CombatSource.IsTrainingOnly)
                     {
-                        _activeCombat.Biom.Level++;
+                        _activeCombat.Biome.Level++;
                     }
 
-                    var node = _globeNode;
-                    var nodeIndex = node.Index;
+                    var nodeIndex = _globeNode.Index;
                     var unlockedBiomeIndex = nodeIndex + 1;
 
                     var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
@@ -777,10 +772,10 @@ namespace Rpg.Client.GameScreens.Combat
 
                     if (_activeCombat.CombatSource.IsBossLevel)
                     {
-                        _activeCombat.Biom.IsComplete = true;
+                        _activeCombat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
 
-                        if (_activeCombat.Biom.IsFinal)
+                        if (_activeCombat.Biome.IsFinal)
                         {
                             _finalBossWasDefeat = true;
                         }
@@ -789,8 +784,8 @@ namespace Rpg.Client.GameScreens.Combat
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _activeCombat.Biom.Level - _activeCombat.Biom.MinLevel;
-                    _activeCombat.Biom.Level = Math.Max(levelDiff / 2, _activeCombat.Biom.MinLevel);
+                    var levelDiff = _activeCombat.Biome.Level - _activeCombat.Biome.MinLevel;
+                    _activeCombat.Biome.Level = Math.Max(levelDiff / 2, _activeCombat.Biome.MinLevel);
 
                     break;
 
@@ -873,7 +868,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void RestoreGroupAfterCombat()
         {
-            foreach (var unit in _globe.Player.GetAll)
+            foreach (var unit in _globe.Player.GetAll())
             {
                 unit.RestoreHitPointsAfterCombat();
                 unit.RestoreManaPoint();

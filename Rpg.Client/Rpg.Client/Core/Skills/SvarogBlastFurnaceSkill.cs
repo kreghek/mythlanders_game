@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SvarogBlastFurnaceSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.FireDamage
-        };
-
         public SvarogBlastFurnaceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
@@ -38,5 +32,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Svarog's Blast Furnace";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassRange,
+            SoundEffectType = GameObjectSoundType.FireDamage
+        };
     }
 }

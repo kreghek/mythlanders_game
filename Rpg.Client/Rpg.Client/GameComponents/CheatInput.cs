@@ -13,10 +13,10 @@ namespace Rpg.Client.GameComponents
 {
     internal sealed class CheatInput : DrawableGameComponent
     {
+        private readonly Texture2D _backgroundTexture;
         private readonly StringBuilder _currentText;
         private readonly SpriteBatch _spriteBatch;
         private readonly SpriteFont _spriteFont;
-        private readonly Texture2D _backgroundTexture;
         private double? _errorCounter;
         private string? _errorText;
         private KeyboardState _lastState;
@@ -173,16 +173,13 @@ namespace Rpg.Client.GameComponents
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
 
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid);
 
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
 
-            targetUnit.Hp = hpAmount > 0 ? hpAmount : 0;
+            targetUnit.HitPoints = hpAmount > 0 ? hpAmount : 0;
         }
 
         private void HandleGainXp(string[] args)
@@ -190,13 +187,10 @@ namespace Rpg.Client.GameComponents
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
 
-            var playerUnitList = new List<Unit>(globe.Player.Pool.Units);
-            playerUnitList.AddRange(globe.Player.Group.Units);
-
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid);
 
-            var targetUnit = playerUnitList.SingleOrDefault(x => x.UnitScheme == unitScheme);
+            var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var xpAmount = int.Parse(args[1]);
 
             targetUnit.GainXp(xpAmount);

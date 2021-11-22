@@ -59,14 +59,14 @@ namespace Rpg.Client.Core
         {
             var globe = new Globe
             {
-                Player = new Player
-                {
-                    Group = new Group
-                    {
-                        Units = CreateStartUnits()
-                    }
-                }
+                Player = new Player()
             };
+
+            var startUnits = CreateStartUnits();
+            for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
+            {
+                globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
+            }
 
             Globe = globe;
         }
@@ -87,14 +87,14 @@ namespace Rpg.Client.Core
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            Globe = new Globe();
-            if (lastSave.Player != null)
+            Globe = new Globe
             {
-                Globe.Player = new Player
-                {
-                    Pool = LoadPlayerGroup(lastSave.Player.Pool),
-                    Group = LoadPlayerGroup(lastSave.Player.Group)
-                };
+                Player = new Player()
+            };
+
+            if (lastSave.Player is not null)
+            {
+                LoadPlayerCharacters(lastSave.Player);
             }
 
             LoadEvents(lastSave.Events);
@@ -113,7 +113,7 @@ namespace Rpg.Client.Core
             {
                 player = new PlayerDto
                 {
-                    Group = GetPlayerGroupToSave(Globe.Player.Group.Units),
+                    Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
                 };
             }
@@ -175,7 +175,7 @@ namespace Rpg.Client.Core
                 unit => new PlayerUnitDto
                 {
                     SchemeSid = unit.UnitScheme.Name.ToString(),
-                    Hp = unit.Hp,
+                    Hp = unit.HitPoints,
                     Xp = unit.Xp,
                     Level = unit.Level,
                     EquipmentItems = unit.EquipmentItems,
@@ -281,7 +281,25 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static Group LoadPlayerGroup(GroupDto groupDto)
+        private void LoadPlayerCharacters(PlayerDto lastSavePlayer)
+        {
+            var loadedParty = LoadPlayerGroup(lastSavePlayer.Group);
+            foreach (var slot in Globe.Player.Party.Slots)
+            {
+                slot.Unit = null;
+            }
+
+            for (var slotIndex = 0; slotIndex < loadedParty.Count; slotIndex++)
+            {
+                var unit = loadedParty[slotIndex];
+                Globe.Player.Party.Slots[slotIndex].Unit = unit;
+            }
+
+            var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
+            Globe.Player.Pool.Units = loadedPool;
+        }
+
+        private static List<Unit> LoadPlayerGroup(GroupDto groupDto)
         {
             var units = new List<Unit>();
             foreach (var unitDto in groupDto.Units)
@@ -305,12 +323,7 @@ namespace Rpg.Client.Core
                 units.Add(unit);
             }
 
-            var restoredGroup = new Group
-            {
-                Units = units
-            };
-
-            return restoredGroup;
+            return units;
         }
     }
 }

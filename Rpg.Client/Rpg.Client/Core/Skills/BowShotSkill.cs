@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class BowShotSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Range, 
-            SoundEffectType = GameObjectSoundType.BowShot
-        };
-        
         public BowShotSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Strike";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Range,
+            SoundEffectType = GameObjectSoundType.BowShot
+        };
     }
 }

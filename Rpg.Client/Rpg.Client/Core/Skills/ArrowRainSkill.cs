@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class ArrowRainSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.MassRange, 
-            SoundEffectType = GameObjectSoundType.BowShot
-        };
-        
         public ArrowRainSkill() : this(false)
         {
         }
@@ -42,5 +36,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Arrow Rain";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.MassRange,
+            SoundEffectType = GameObjectSoundType.BowShot
+        };
     }
 }

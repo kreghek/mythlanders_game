@@ -6,16 +6,15 @@ namespace Rpg.Client.Engine
     internal class ResolutionIndependentRenderer
     {
         private static Matrix _scaleMatrix;
+
+        private readonly Color _backgroundColor = Color.Black;
         private readonly Game _game;
         private bool _dirtyMatrix = true;
         private float _ratioX;
         private float _ratioY;
         private Viewport _viewport;
-        private Vector2 _virtualMousePosition = new Vector2();
+        private Vector2 _virtualMousePosition;
 
-        public Color BackgroundColor = Color.Black;
-
-        public bool RenderingToScreenIsFinished;
         public int ScreenHeight;
 
         public int ScreenWidth;
@@ -41,7 +40,7 @@ namespace Rpg.Client.Engine
             // Start by reseting viewport to (0,0,1,1)
             SetupFullViewport();
             // Clear to Black
-            _game.GraphicsDevice.Clear(BackgroundColor);
+            _game.GraphicsDevice.Clear(_backgroundColor);
             // Calculate Proper Viewport according to Aspect Ratio
             SetupVirtualScreenViewport();
             // and clear that
@@ -80,7 +79,14 @@ namespace Rpg.Client.Engine
             return _virtualMousePosition;
         }
 
-        public void SetupFullViewport()
+        private void RecreateScaleMatrix()
+        {
+            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f,
+                out _scaleMatrix);
+            _dirtyMatrix = false;
+        }
+
+        private void SetupFullViewport()
         {
             var vp = new Viewport();
             vp.X = vp.Y = 0;
@@ -90,7 +96,7 @@ namespace Rpg.Client.Engine
             _dirtyMatrix = true;
         }
 
-        public void SetupVirtualScreenViewport()
+        private void SetupVirtualScreenViewport()
         {
             var targetAspectRatio = VirtualWidth / (float)VirtualHeight;
             // figure out the largest area that fits in this resolution at the desired aspect ratio
@@ -104,7 +110,7 @@ namespace Rpg.Client.Engine
                 width = (int)(height * targetAspectRatio + .5f);
             }
 
-            // set up the new viewport centered in the backbuffer
+            // set up the new viewport centered in the back-buffer
             _viewport = new Viewport
             {
                 X = (ScreenWidth / 2) - (width / 2),
@@ -114,13 +120,6 @@ namespace Rpg.Client.Engine
             };
 
             _game.GraphicsDevice.Viewport = _viewport;
-        }
-
-        private void RecreateScaleMatrix()
-        {
-            Matrix.CreateScale((float)ScreenWidth / VirtualWidth, (float)ScreenWidth / VirtualWidth, 1f,
-                out _scaleMatrix);
-            _dirtyMatrix = false;
         }
     }
 }

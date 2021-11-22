@@ -9,12 +9,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal sealed class PowerUpSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.MagicDust
-        };
-        
         public PowerUpSkill() : this(false)
         {
         }
@@ -43,5 +37,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Power Up";
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.MagicDust
+        };
     }
 }

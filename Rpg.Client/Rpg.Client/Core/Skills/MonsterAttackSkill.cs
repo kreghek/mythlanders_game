@@ -7,12 +7,6 @@ namespace Rpg.Client.Core.Skills
 {
     internal class MonsterAttackSkill : SkillBase
     {
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee, 
-            SoundEffectType = GameObjectSoundType.WolfBite
-        };
-        
         public MonsterAttackSkill() : base(PredefinedVisualization, false)
         {
         }
@@ -47,5 +41,11 @@ namespace Rpg.Client.Core.Skills
         public override string Sid => "Monster Attack";
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.WolfBite
+        };
     }
 }
