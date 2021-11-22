@@ -58,28 +58,26 @@ namespace Rpg.Client.Models.Biome.Ui
         {
             var textPosition = ContentRect.Location.ToVector2() + new Vector2(0, 16);
 
-            var node = _nodeGameObject;
-
-            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
+            var localizedName = GameObjectHelper.GetLocalized(_nodeGameObject.GlobeNode.Sid);
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
                 textPosition + new Vector2(5, 15),
                 Color.Wheat);
 
-            var dialogMarkerText = node.AvailableEvent is not null ? $"{node.AvailableEvent.Title}" : string.Empty;
+            var dialogMarkerText = _nodeGameObject.AvailableEvent is not null ? $"{_nodeGameObject.AvailableEvent.Title}" : string.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
-            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = _nodeGameObject.GlobeNode.CombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
                 textPosition + new Vector2(5, 35), Color.Wheat);
 
-            DisplayCombatRewards(spriteBatch, node, textPosition, node);
+            DisplayCombatRewards(spriteBatch, _nodeGameObject, textPosition, _nodeGameObject);
 
-            if (node.GlobeNode.CombatSequence is null)
+            if (_nodeGameObject.GlobeNode.CombatSequence is null)
             {
-                Debug.Fail("Combat sequence is requered to be assigned.");
+                Debug.Fail("Combat sequence is required to be assigned.");
                 Close();
                 return;
             }
@@ -87,9 +85,9 @@ namespace Rpg.Client.Models.Biome.Ui
             var monsterIndex = 0;
             var roundIndex = 1;
 
-            foreach (var combat in node.GlobeNode.CombatSequence.Combats)
+            foreach (var combat in _nodeGameObject.GlobeNode.CombatSequence.Combats)
             {
-                foreach (var monster in node.CombatSource.EnemyGroup.Units)
+                foreach (var monster in combat.EnemyGroup.Units)
                 {
                     var unitName = monster.UnitScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
@@ -148,9 +146,15 @@ namespace Rpg.Client.Models.Biome.Ui
 
             // TODO Display icons
 
-            DrawSummaryXpAwardLabel(spriteBatch, node, toolTipPosition + new Vector2(5, 55));
+            DrawSummaryXpAwardLabel(
+                spriteBatch,
+                node, 
+                toolTipPosition + new Vector2(5, 55));
 
-            DrawEquipmentRewards(spriteBatch: spriteBatch, nodeGameObject: nodeGameObject, toolTipPosition: toolTipPosition);
+            DrawEquipmentRewards(
+                spriteBatch: spriteBatch,
+                nodeGameObject: nodeGameObject,
+                toolTipPosition: toolTipPosition);
         }
 
         private void DrawEquipmentRewards(SpriteBatch spriteBatch,
@@ -178,8 +182,6 @@ namespace Rpg.Client.Models.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var monstersAmount = node.CombatSource.EnemyGroup.Units.Count();
-            var roundsAmount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXpLabelPosition = toolTipPosition;
 
             var totalXpForMonsters = node.CombatSource.EnemyGroup.Units.Sum(x => x.XpReward);
