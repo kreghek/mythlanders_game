@@ -723,7 +723,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
-        private IEnumerable<XpAward> HandleGainXp(IList<CombatSource> completedCombats)
+        private IEnumerable<XpAward> HandleGainXp(ICollection<CombatSource> completedCombats)
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 

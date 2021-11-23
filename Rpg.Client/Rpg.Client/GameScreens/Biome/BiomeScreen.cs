@@ -108,7 +108,7 @@ namespace Rpg.Client.GameScreens.Biome
 
             _globe.Updated += Globe_Updated;
 
-            var data = new Color[] { Color.Gray };
+            var data = new[] { Color.Gray };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
         }

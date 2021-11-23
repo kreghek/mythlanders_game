@@ -45,13 +45,23 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             };
             _buttons.Add(combatButton);
 
-            var autocombatButton = new TextButton(UiResource.AutocombatButtonTitle,
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
-            autocombatButton.OnClick += (s, e) =>
+            AddAutoCombatButtonIfAvailable(context);
+        }
+
+        private void AddAutoCombatButtonIfAvailable(CombatModalContext context)
+        {
+            var availableSlavicNodes = _globe.Biomes.First(x => x.Type == BiomeType.Slavic).Nodes
+                .Where(x => x.IsAvailable);
+            if (availableSlavicNodes.Count() >= 10)
             {
-                context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode);
-            };
-            _buttons.Add(autocombatButton);
+                var autocombatButton = new TextButton(UiResource.AutocombatButtonTitle,
+                    _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                autocombatButton.OnClick += (s, e) =>
+                {
+                    context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode);
+                };
+                _buttons.Add(autocombatButton);
+            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
