@@ -1,18 +1,23 @@
-﻿using System;
+using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal class Particle : IParticle
+    internal class MothParticle : IParticle
     {
         private readonly Rectangle _sourceRect;
+        private readonly Vector2 _startPosition;
+        private readonly int _startTTL;
+        private readonly Vector2 _targetPosition;
 
-        public Particle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 velocity,
+        public MothParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition,
+            Vector2 velocity,
             float angle, float angularVelocity, Color color, float size, int ttl)
         {
             _sourceRect = sourceRect;
+            _targetPosition = targetPosition;
             Texture = texture;
             Position = position;
             Velocity = velocity;
@@ -21,6 +26,9 @@ namespace Rpg.Client.Engine
             Color = color;
             Size = size;
             TTL = ttl;
+
+            _startTTL = ttl;
+            _startPosition = position;
         }
 
         public float Angle { get; set; } // The current angle of rotation of the particle
@@ -34,7 +42,7 @@ namespace Rpg.Client.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            var origin = new Vector2(Texture.Width * 0.5f, Texture.Height  * 0.5f);
 
             spriteBatch.Draw(Texture, Position, _sourceRect, Color,
                 Angle, origin, Size, SpriteEffects.None, 0f);
@@ -43,8 +51,13 @@ namespace Rpg.Client.Engine
         public void Update()
         {
             TTL--;
-            Position += Velocity;
-            Angle += AngularVelocity;
+
+            var t = 1 - (float)TTL / _startTTL;
+
+            Size = MathHelper.Lerp(Size, 0.1f, t);
+
+            var upVector = Vector2.UnitY * (float)Math.Sin(t * Math.PI) * 20;
+            Position = Vector2.Lerp(_startPosition, _targetPosition, t) + upVector;
         }
     }
 }
