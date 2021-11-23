@@ -289,6 +289,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
+            
             unitGameObject.AnimateDeath();
         }
 
@@ -421,26 +422,28 @@ namespace Rpg.Client.GameScreens.Combat
             RefreshHudButtons(skillCard);
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
+            Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HpChangedComponent(-e.Amount, position, font);
+            var damageIndicator = new HitpointsChangedComponent(-e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_Healed(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
         {
+            Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HpChangedComponent(e.Amount, position, font);
+            var damageIndicator = new HitpointsChangedComponent(e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }

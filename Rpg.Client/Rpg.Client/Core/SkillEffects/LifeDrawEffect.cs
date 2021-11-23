@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal class LifeDrawEffect : InstantenousEffectBase
     {
@@ -47,8 +48,12 @@ namespace Rpg.Client.Core.Effects
         {
             var damage = CalculateDamage();
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            var resultDamage = Target.Unit.TakeDamage(Actor, rolledDamage);
-            Actor.Unit.RestoreHitPoints(resultDamage);
+            
+            Debug.Assert(Target is not null);
+            var result = Target.Unit.TakeDamage(Actor, rolledDamage);
+
+            Debug.Assert(result.ValueFinal is not null);
+            Actor.Unit.RestoreHitPoints(result.ValueFinal.Value);
         }
     }
 }

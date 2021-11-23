@@ -1,4 +1,4 @@
-﻿namespace Rpg.Client.Core.Effects
+﻿namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class InstantenousEffectBase : EffectBase
     {

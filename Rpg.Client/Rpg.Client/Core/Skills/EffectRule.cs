@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Core.Effects;
+﻿using Rpg.Client.Core.SkillEffects;
 
 namespace Rpg.Client.Core.Skills
 {

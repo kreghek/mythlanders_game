@@ -174,17 +174,25 @@ namespace Rpg.Client.Core
             }
         }
 
-        public int TakeDamage(CombatUnit damageDealer, int damage)
+        public DamageResult TakeDamage(CombatUnit damageDealer, int damageSource)
         {
-            var damageAbsorbedByArmor = Math.Max(damage - Armor, 0);
+            var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
             HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
-            HasBeenDamaged?.Invoke(this, damageAbsorbedByArmor);
+            
+            var result = new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageAbsorbedByArmor
+            };
+
+            var args = new UnitHasBeenDamagedEventArgs { Result = result };
+            HasBeenDamaged?.Invoke(this, args);
             if (HitPoints <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
 
-            return damageAbsorbedByArmor;
+            return result;
         }
 
         internal void RestoreManaPoint()
@@ -310,7 +318,9 @@ namespace Rpg.Client.Core
             HitPoints = MaxHitPoints;
         }
 
-        public event EventHandler<int>? HasBeenDamaged;
+        public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenDamaged;
+        
+        public event EventHandler? HasAvoidDamage;
 
         public event EventHandler<int>? HealTaken;
 
@@ -324,6 +334,11 @@ namespace Rpg.Client.Core
             }
 
             public CombatUnit DamageDealer { get; }
+        }
+
+        public void AvoidDamage()
+        {
+            HasAvoidDamage?.Invoke(this, EventArgs.Empty);
         }
     }
 }

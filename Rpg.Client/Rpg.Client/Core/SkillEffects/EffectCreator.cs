@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal class EffectCreator
     {

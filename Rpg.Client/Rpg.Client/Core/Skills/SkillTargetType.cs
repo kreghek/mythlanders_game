@@ -3,7 +3,6 @@
     internal enum SkillTargetType
     {
         Enemy,
-        Friendly,
-        All
+        Friendly
     }
 }

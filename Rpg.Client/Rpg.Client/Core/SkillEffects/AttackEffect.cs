@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal class AttackEffect : InstantenousEffectBase
     {
@@ -45,7 +45,17 @@ namespace Rpg.Client.Core.Effects
 
         protected override void InfluenceAction()
         {
+            foreach (var perk in Target.Unit.Perks)
+            {
+                if (perk.HandleEvasion())
+                {
+                    Target.Unit.AvoidDamage();
+                    return;
+                }
+            }
+            
             var damage = CalculateDamage();
+
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
             Target.Unit.TakeDamage(Actor, rolledDamage);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Rpg.Client.Core
@@ -38,23 +39,41 @@ namespace Rpg.Client.Core
             State = targetState;
         }
 
-        private void Unit_HasBeenDamaged(object? sender, int e)
+        private void Unit_HasBeenDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
         {
-            HasTakenDamage?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
+            Debug.Assert(e.Result is not null);
+            Debug.Assert(e.Result?.ValueFinal is not null);
+            var args = new UnitHitPointsChangedEventArgs
+            {
+                CombatUnit = this,
+                Amount = e.Result.ValueFinal.Value,
+                SourceAmount = e.Result.ValueSource,
+                Direction = HitPointsChangeDirection.Negative
+            };
+            HasTakenDamage?.Invoke(this, args);
         }
 
         private void Unit_HealTaken(object? sender, int e)
         {
-            Healed?.Invoke(this, new UnitHpChangedEventArgs { CombatUnit = this, Amount = e });
+            Healed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
-        internal event EventHandler<UnitHpChangedEventArgs>? HasTakenDamage;
-        internal event EventHandler<UnitHpChangedEventArgs>? Healed;
+        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        internal event EventHandler<UnitHitPointsChangedEventArgs>? Healed;
+    }
+    
+    internal class UnitHitPointsChangedEventArgs : EventArgs
+    {
+        public int Amount { get; init; }
+        public int SourceAmount { get; init; }
+        public CombatUnit? CombatUnit { get; init; }
 
-        internal class UnitHpChangedEventArgs : EventArgs
-        {
-            public int Amount { get; set; }
-            public CombatUnit CombatUnit { get; set; }
-        }
+        public HitPointsChangeDirection Direction { get; init; }
+    }
+
+    internal enum HitPointsChangeDirection
+    {
+        Positive,
+        Negative
     }
 }
