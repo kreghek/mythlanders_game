@@ -37,7 +37,7 @@ namespace Rpg.Client.Engine
             const float ANGLE = 0;
             const int ANGULAR_VELOCITY = 0;
             var color = Color.Lerp(Color.Yellow, Color.Transparent, 0.5f);
-            var size = (float)_random.NextDouble();
+            var size = (float)(0.5f + _random.NextDouble());
             var ttl = 20 + _random.Next(40);
 
             return new MothParticle(texture, new Rectangle(0, 32, 32, 32), startPosition, emitterPosition, velocity,

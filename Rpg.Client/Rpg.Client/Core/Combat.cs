@@ -277,6 +277,8 @@ namespace Rpg.Client.Core
                 var targetPlayerObject = dice.RollFromList(possibleTargetList);
 
                 UseSkill(skill, targetPlayerObject);
+
+                return;
             }
             
             // No skill was used.

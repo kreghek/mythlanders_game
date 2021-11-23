@@ -47,7 +47,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             foreach (var perk in Target.Unit.Perks)
             {
-                if (perk.HandleEvasion())
+                if (perk.HandleEvasion(Combat.Dice))
                 {
                     Target.Unit.AvoidDamage();
                     return;
