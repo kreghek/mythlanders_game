@@ -159,7 +159,7 @@ namespace Rpg.Client.Core
         public void RestoreHitPoints(int heal)
         {
             HitPoints += Math.Min(MaxHitPoints - HitPoints, heal);
-            HealTaken?.Invoke(this, heal);
+            HasBeenHealed?.Invoke(this, heal);
         }
 
         public void RestoreHitPointsAfterCombat()
@@ -320,9 +320,9 @@ namespace Rpg.Client.Core
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenDamaged;
         
-        public event EventHandler? HasAvoidDamage;
+        public event EventHandler? HasAvoidedDamage;
 
-        public event EventHandler<int>? HealTaken;
+        public event EventHandler<int>? HasBeenHealed;
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
@@ -338,7 +338,7 @@ namespace Rpg.Client.Core
 
         public void AvoidDamage()
         {
-            HasAvoidDamage?.Invoke(this, EventArgs.Empty);
+            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
     }
 }

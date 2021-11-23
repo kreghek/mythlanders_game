@@ -24,7 +24,13 @@ namespace Rpg.Client.Core
             CombatCards = cards;
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
-            unit.HealTaken += Unit_HealTaken;
+            unit.HasBeenHealed += Unit_BeenHealed;
+            unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
+        }
+
+        private void Unit_HasAvoidedDamage(object? sender, EventArgs e)
+        {
+            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
         public IEnumerable<CombatSkillCard> CombatCards { get; }
@@ -53,27 +59,15 @@ namespace Rpg.Client.Core
             HasTakenDamage?.Invoke(this, args);
         }
 
-        private void Unit_HealTaken(object? sender, int e)
+        private void Unit_BeenHealed(object? sender, int e)
         {
-            Healed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+            HasBeenHealed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? Healed;
-    }
-    
-    internal class UnitHitPointsChangedEventArgs : EventArgs
-    {
-        public int Amount { get; init; }
-        public int SourceAmount { get; init; }
-        public CombatUnit? CombatUnit { get; init; }
-
-        public HitPointsChangeDirection Direction { get; init; }
-    }
-
-    internal enum HitPointsChangeDirection
-    {
-        Positive,
-        Negative
+        
+        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
+        
+        internal event EventHandler? HasAvoidedDamage;
     }
 }

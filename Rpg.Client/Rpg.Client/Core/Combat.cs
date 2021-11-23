@@ -116,7 +116,7 @@ namespace Rpg.Client.Core
                 Debug.Fail("Current unit must be assigned");
             }
 
-            UnitPassed?.Invoke(this, CurrentUnit);
+            UnitPassedTurn?.Invoke(this, CurrentUnit);
             CompleteStep();
         }
 
@@ -404,7 +404,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitHasBeenDamaged;
 
-        internal event EventHandler<CombatUnit>? UnitPassed;
+        internal event EventHandler<CombatUnit>? UnitPassedTurn;
 
         internal event EventHandler<CombatUnit>? CombatUnitReadyToControl;
 

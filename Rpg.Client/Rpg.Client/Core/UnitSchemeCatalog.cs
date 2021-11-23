@@ -1145,6 +1145,11 @@ namespace Rpg.Client.Core
                             }
                         }
                     },
+                    
+                    Perks = new[]
+                    {
+                        new Evasion()
+                    },
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 

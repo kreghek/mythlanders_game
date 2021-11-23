@@ -17,8 +17,6 @@ using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
-using static Rpg.Client.Core.Combat;
-
 namespace Rpg.Client.GameScreens.Combat
 {
     internal class CombatScreen : GameScreenWithMenuBase
@@ -27,7 +25,7 @@ namespace Rpg.Client.GameScreens.Combat
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
         private static bool _tutorial;
-        private readonly Core.Combat _activeCombat;
+        private readonly Core.Combat _сombat;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
@@ -69,11 +67,11 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globe = _globeProvider.Globe;
 
-            _activeCombat = _globe.ActiveCombat ??
+            _сombat = _globe.ActiveCombat ??
                             throw new InvalidOperationException(
                                 nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
-            _globeNode = _activeCombat.Node;
+            _globeNode = _сombat.Node;
 
             _gameObjects = new List<UnitGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
@@ -137,7 +135,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 HandleUnits(gameTime);
 
-                if (!_activeCombat.Finished)
+                if (!_сombat.Finished)
                 {
                     HandleCombatHud();
                 }
@@ -148,22 +146,37 @@ namespace Rpg.Client.GameScreens.Combat
             HandleBackgrounds();
         }
 
-        private void ActiveCombat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
+        private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
         {
             var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
             combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
-            combatUnit.Healed -= CombatUnit_Healed;
+            combatUnit.HasBeenHealed -= CombatUnit_Healed;
+            combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 
-        private void ActiveCombat_UnitEntered(object? sender, CombatUnit combatUnit)
+        private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
-            combatUnit.Healed += CombatUnit_Healed;
+            combatUnit.HasBeenHealed += CombatUnit_Healed;
+            combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+        }
+
+        private void CombatUnit_HasAvoidedDamage(object? sender, EventArgs e)
+        {
+            Debug.Assert(sender is not null);
+            var combatUnit = (CombatUnit)sender;
+            var unitGameObject = GetUnitGameObject(combatUnit);
+            var textPosition = GetUnitGameObject(combatUnit).Position;
+            var font = _uiContentStorage.GetMainFont();
+
+            var passIndicator = new EvasionComponent(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
         }
 
         private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
@@ -194,7 +207,7 @@ namespace Rpg.Client.GameScreens.Combat
                 unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
             }
 
-            _activeCombat.Update();
+            _сombat.Update();
         }
 
         private static void ApplyXp(IEnumerable<XpAward> xpItems)
@@ -229,9 +242,9 @@ namespace Rpg.Client.GameScreens.Combat
             if (e.Victory)
             {
                 var completedCombats = _globeNode.CombatSequence.CompletedCombats;
-                completedCombats.Add(_activeCombat.CombatSource);
+                completedCombats.Add(_сombat.CombatSource);
 
-                var currentCombatList = _activeCombat.Node.CombatSequence.Combats.ToList();
+                var currentCombatList = _сombat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleGainXp(completedCombats).ToArray();
@@ -245,14 +258,14 @@ namespace Rpg.Client.GameScreens.Combat
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems,
-                        _activeCombat.CombatSource);
+                        _сombat.CombatSource);
                 }
                 else
                 {
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>(),
-                        _activeCombat.CombatSource);
+                        _сombat.CombatSource);
                 }
             }
             else
@@ -265,7 +278,7 @@ namespace Rpg.Client.GameScreens.Combat
                 combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                     CombatResult.Defeat,
                     Array.Empty<XpAward>(),
-                    _activeCombat.CombatSource);
+                    _сombat.CombatSource);
             }
 
             AddModal(combatResultModal, isLate: false);
@@ -313,21 +326,21 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _activeCombat, _resolutionIndependentRenderer);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _сombat, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
-            _activeCombat.UnitChanged += Combat_UnitChanged;
-            _activeCombat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
-            _activeCombat.CombatUnitEntered += ActiveCombat_UnitEntered;
-            _activeCombat.CombatUnitRemoved += ActiveCombat_CombatUnitRemoved;
-            _activeCombat.UnitDied += Combat_UnitDied;
-            _activeCombat.ActionGenerated += Combat_ActionGenerated;
-            _activeCombat.Finish += Combat_Finish;
-            _activeCombat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
-            _activeCombat.UnitPassed += Combat_UnitPassed;
-            _activeCombat.Initialize();
-            _activeCombat.Update();
+            _сombat.UnitChanged += Combat_UnitChanged;
+            _сombat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            _сombat.CombatUnitEntered += Combat_UnitEntered;
+            _сombat.CombatUnitRemoved += Combat_CombatUnitRemoved;
+            _сombat.UnitDied += Combat_UnitDied;
+            _сombat.ActionGenerated += Combat_ActionGenerated;
+            _сombat.Finish += Combat_Finish;
+            _сombat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
+            _сombat.UnitPassedTurn += Combat_UnitPassed;
+            _сombat.Initialize();
+            _сombat.Update();
 
-            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _activeCombat,
+            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _сombat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 
@@ -346,18 +359,18 @@ namespace Rpg.Client.GameScreens.Combat
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
                 var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
-                currentCombatList.Remove(_activeCombat.CombatSource);
+                currentCombatList.Remove(_сombat.CombatSource);
                 _globeNode.CombatSequence.Combats = currentCombatList;
 
-                if (_activeCombat.Node.CombatSequence.Combats.Any())
+                if (_сombat.Node.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNode.CombatSequence.Combats.First();
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _activeCombat.Biome,
+                        _сombat.Biome,
                         _dice,
-                        _activeCombat.IsAutoplay);
+                        _сombat.IsAutoplay);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                 }
@@ -430,7 +443,7 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitpointsChangedComponent(-e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedComponent(-e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -443,12 +456,12 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitpointsChangedComponent(e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedComponent(e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+        private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
@@ -597,7 +610,7 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_activeCombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (_сombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 if (_combatSkillsPanel is not null)
                 {
@@ -714,7 +727,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
-            var aliveUnits = _activeCombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var aliveUnits = _сombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
@@ -752,9 +765,9 @@ namespace Rpg.Client.GameScreens.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    if (!_activeCombat.CombatSource.IsTrainingOnly)
+                    if (!_сombat.CombatSource.IsTrainingOnly)
                     {
-                        _activeCombat.Biome.Level++;
+                        _сombat.Biome.Level++;
                     }
 
                     var nodeIndex = _globeNode.Index;
@@ -773,12 +786,12 @@ namespace Rpg.Client.GameScreens.Combat
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
-                    if (_activeCombat.CombatSource.IsBossLevel)
+                    if (_сombat.CombatSource.IsBossLevel)
                     {
-                        _activeCombat.Biome.IsComplete = true;
+                        _сombat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
 
-                        if (_activeCombat.Biome.IsFinal)
+                        if (_сombat.Biome.IsFinal)
                         {
                             _finalBossWasDefeat = true;
                         }
@@ -787,8 +800,8 @@ namespace Rpg.Client.GameScreens.Combat
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _activeCombat.Biome.Level - _activeCombat.Biome.MinLevel;
-                    _activeCombat.Biome.Level = Math.Max(levelDiff / 2, _activeCombat.Biome.MinLevel);
+                    var levelDiff = _сombat.Biome.Level - _сombat.Biome.MinLevel;
+                    _сombat.Biome.Level = Math.Max(levelDiff / 2, _сombat.Biome.MinLevel);
 
                     break;
 
@@ -817,7 +830,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 if (!_interactButtonClicked)
                 {
-                    _activeCombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                    _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
                     _interactButtonClicked = true;
                 }
             };
@@ -845,7 +858,7 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            if (_activeCombat.CurrentUnit is null)
+            if (_сombat.CurrentUnit is null)
             {
                 Debug.Fail("WTF!");
                 return;
@@ -854,13 +867,13 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                    && target.CombatUnit.Unit.IsPlayerControlled == _activeCombat.CurrentUnit.Unit.IsPlayerControlled)
+                    && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }
 
                 if (skillCard.Skill.TargetType == SkillTargetType.Friendly
-                    && target.CombatUnit.Unit.IsPlayerControlled != _activeCombat.CurrentUnit.Unit.IsPlayerControlled)
+                    && target.CombatUnit.Unit.IsPlayerControlled != _сombat.CurrentUnit.Unit.IsPlayerControlled)
                 {
                     continue;
                 }
