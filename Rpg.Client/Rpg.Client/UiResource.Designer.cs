@@ -97,6 +97,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Combat level: {0} ({1}/{2} exp).
+        /// </summary>
+        internal static string CombatLevelLavelTemplate {
+            get {
+                return ResourceManager.GetString("CombatLevelLavelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to rnd.
         /// </summary>
         internal static string CombatSequenceRoundShortText {
@@ -115,11 +124,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equipment level: {0} ({1}/{2} items).
+        /// </summary>
+        internal static string EquipmentLevelLavelTemplate {
+            get {
+                return ResourceManager.GetString("EquipmentLevelLavelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventTutorialText {
             get {
                 return ResourceManager.GetString("EventTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HitPoints: {0}.
+        /// </summary>
+        internal static string HitPointsLabelTemplate {
+            get {
+                return ResourceManager.GetString("HitPointsLabelTemplate", resourceCulture);
             }
         }
         
@@ -169,6 +196,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mana cost: {0}.
+        /// </summary>
+        internal static string ManaCostLabelTemplate {
+            get {
+                return ResourceManager.GetString("ManaCostLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mana: {0}/{1}.
+        /// </summary>
+        internal static string ManaLabelTemplate {
+            get {
+                return ResourceManager.GetString("ManaLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
         internal static string MediumCombatSequenceText {
@@ -192,6 +237,15 @@ namespace Rpg.Client {
         internal static string PartyButtonTitle {
             get {
                 return ResourceManager.GetString("PartyButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is in party. Slot {0}..
+        /// </summary>
+        internal static string PartyMarkerLabelTemplate {
+            get {
+                return ResourceManager.GetString("PartyMarkerLabelTemplate", resourceCulture);
             }
         }
         
