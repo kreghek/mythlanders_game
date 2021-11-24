@@ -885,7 +885,7 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     if (skillCard.Skill.Type == SkillType.Melee)
                     {
-                        var isTargetInTankPosition = target.CombatUnit.Index >= 0 && target.CombatUnit.Index <= 2;
+                        var isTargetInTankPosition = target.CombatUnit.Index == 0;
                         if (isTargetInTankPosition)
                         {
                             if (skillCard.Skill.TargetType == SkillTargetType.Enemy
@@ -899,7 +899,7 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
-                                !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled)
+                                !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled && x.CombatUnit.Index == 0)
                                 .Any();
 
                             if (!isAnyUnitsInTaskPosition)
