@@ -65,9 +65,9 @@ namespace Rpg.Client.Core
         }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
-        
+
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
-        
+
         internal event EventHandler? HasAvoidedDamage;
     }
 }

@@ -53,7 +53,7 @@ namespace Rpg.Client.Core.SkillEffects
                     return;
                 }
             }
-            
+
             var damage = CalculateDamage();
 
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);

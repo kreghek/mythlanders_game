@@ -48,7 +48,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             var damage = CalculateDamage();
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            
+
             Debug.Assert(Target is not null);
             var result = Target.Unit.TakeDamage(Actor, rolledDamage);
 

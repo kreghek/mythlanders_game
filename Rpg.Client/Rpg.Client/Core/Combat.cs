@@ -280,7 +280,7 @@ namespace Rpg.Client.Core
 
                 return;
             }
-            
+
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
         }

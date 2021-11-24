@@ -302,7 +302,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
-            
+
             unitGameObject.AnimateDeath();
         }
 

@@ -178,7 +178,7 @@ namespace Rpg.Client.Core
         {
             var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
             HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
-            
+
             var result = new DamageResult
             {
                 ValueSource = damageSource,
@@ -319,7 +319,7 @@ namespace Rpg.Client.Core
         }
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenDamaged;
-        
+
         public event EventHandler? HasAvoidedDamage;
 
         public event EventHandler<int>? HasBeenHealed;

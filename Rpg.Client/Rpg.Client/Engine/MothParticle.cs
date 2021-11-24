@@ -42,7 +42,7 @@ namespace Rpg.Client.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var origin = new Vector2(Texture.Width * 0.5f, Texture.Height  * 0.5f);
+            var origin = new Vector2(Texture.Width * 0.5f, Texture.Height * 0.5f);
 
             spriteBatch.Draw(Texture, Position, _sourceRect, Color,
                 Angle, origin, Size, SpriteEffects.None, 0f);
