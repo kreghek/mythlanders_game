@@ -826,7 +826,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 gameObject.Update(gameTime);
             }
-            
+
             foreach (var gameObject in _corpseObjects.ToArray())
             {
                 gameObject.Update(gameTime);

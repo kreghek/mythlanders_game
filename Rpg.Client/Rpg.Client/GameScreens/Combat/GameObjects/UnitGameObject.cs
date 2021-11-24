@@ -42,9 +42,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name)
                 .CreateInstance();
-            
+
             deathSoundEffect.Play();
-            
+
             var corpse = new CorpseGameObject(_graphics, _camera, _screenShaker, _gameObjectContentStorage);
             return corpse;
         }

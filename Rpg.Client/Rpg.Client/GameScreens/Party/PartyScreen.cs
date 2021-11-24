@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Party
         private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
-        
+
         private readonly Camera2D _camera;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Party
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _globeProvider = game.Services.GetService<GlobeProvider>();
-            
+
             _camera = game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 

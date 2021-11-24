@@ -27,7 +27,7 @@ namespace Rpg.Client.Engine
             Color = color;
             Size = size;
             TTL = ttl;
-            
+
             _startTTL = ttl;
             _startPosition = position;
 

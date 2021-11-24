@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal sealed class CorpseGameObject: EwarDrawableComponentBase
+    internal sealed class CorpseGameObject : EwarDrawableComponentBase
     {
         private bool _startToDeath;
         private readonly UnitGraphics _graphics;
@@ -25,11 +25,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             return _graphics.Root.Position.Y;
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            
+
             _graphics.Update(gameTime);
 
             if (!_startToDeath)
@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
             base.DoDraw(spriteBatch, zindex);
-            
+
             _graphics.ShowActiveMarker = false;
 
             if (_graphics.IsDamaged)
