@@ -28,11 +28,6 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
-        private void Unit_HasAvoidedDamage(object? sender, EventArgs e)
-        {
-            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
-        }
-
         public IEnumerable<CombatSkillCard> CombatCards { get; }
 
         public int Index { get; }
@@ -43,6 +38,16 @@ namespace Rpg.Client.Core
         internal void ChangeState(CombatUnitState targetState)
         {
             State = targetState;
+        }
+
+        private void Unit_BeenHealed(object? sender, int e)
+        {
+            HasBeenHealed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+        }
+
+        private void Unit_HasAvoidedDamage(object? sender, EventArgs e)
+        {
+            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
         private void Unit_HasBeenDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
@@ -57,11 +62,6 @@ namespace Rpg.Client.Core
                 Direction = HitPointsChangeDirection.Negative
             };
             HasTakenDamage?.Invoke(this, args);
-        }
-
-        private void Unit_BeenHealed(object? sender, int e)
-        {
-            HasBeenHealed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;

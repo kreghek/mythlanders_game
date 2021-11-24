@@ -285,6 +285,25 @@ namespace Rpg.Client.Core
             Debug.Fail("Required at least one skill was used.");
         }
 
+        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            var unit = e.CombatUnit.Unit;
+
+            if (unit.IsDead)
+            {
+                UnitDied?.Invoke(this, e.CombatUnit);
+            }
+            else
+            {
+                UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
+            }
+        }
+
+        private void CompleteStep()
+        {
+            IsCurrentStepCompleted = true;
+        }
+
         private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
         {
             switch (skill.TargetType)
@@ -309,25 +328,6 @@ namespace Rpg.Client.Core
 
                     return Array.Empty<CombatUnit>();
             }
-        }
-
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
-        {
-            var unit = e.CombatUnit.Unit;
-
-            if (unit.IsDead)
-            {
-                UnitDied?.Invoke(this, e.CombatUnit);
-            }
-            else
-            {
-                UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
-            }
-        }
-
-        private void CompleteStep()
-        {
-            IsCurrentStepCompleted = true;
         }
 
         private IDice GetDice()

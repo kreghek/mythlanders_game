@@ -25,7 +25,6 @@ namespace Rpg.Client.GameScreens.Combat
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
         private static bool _tutorial;
-        private readonly Core.Combat _сombat;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
@@ -44,6 +43,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly Vector2[] _unitPredefinedPositions;
+        private readonly Core.Combat _сombat;
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
@@ -68,8 +68,8 @@ namespace Rpg.Client.GameScreens.Combat
             _globe = _globeProvider.Globe;
 
             _сombat = _globe.ActiveCombat ??
-                            throw new InvalidOperationException(
-                                nameof(_globe.ActiveCombat) + " can't be null in this screen.");
+                      throw new InvalidOperationException(
+                          nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _сombat.Node;
 
@@ -146,39 +146,6 @@ namespace Rpg.Client.GameScreens.Combat
             HandleBackgrounds();
         }
 
-        private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
-        {
-            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
-            _gameObjects.Remove(gameObject);
-            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed -= CombatUnit_Healed;
-            combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
-        }
-
-        private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
-        {
-            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
-            _gameObjects.Add(gameObject);
-            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed += CombatUnit_Healed;
-            combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
-        }
-
-        private void CombatUnit_HasAvoidedDamage(object? sender, EventArgs e)
-        {
-            Debug.Assert(sender is not null);
-            var combatUnit = (CombatUnit)sender;
-            var unitGameObject = GetUnitGameObject(combatUnit);
-            var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetMainFont();
-
-            var passIndicator = new EvasionComponent(textPosition, font);
-
-            unitGameObject.AddChild(passIndicator);
-        }
-
         private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled)
@@ -230,6 +197,15 @@ namespace Rpg.Client.GameScreens.Combat
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
             actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, e.Skill, e.Action);
+        }
+
+        private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)
+        {
+            var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
+            _gameObjects.Remove(gameObject);
+            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
+            combatUnit.HasBeenHealed -= CombatUnit_Healed;
+            combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -304,6 +280,17 @@ namespace Rpg.Client.GameScreens.Combat
             var unitGameObject = GetUnitGameObject(e);
 
             unitGameObject.AnimateDeath();
+        }
+
+        private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
+        {
+            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
+            var gameObject =
+                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
+            _gameObjects.Add(gameObject);
+            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+            combatUnit.HasBeenHealed += CombatUnit_Healed;
+            combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
         }
 
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
@@ -435,6 +422,19 @@ namespace Rpg.Client.GameScreens.Combat
             RefreshHudButtons(skillCard);
         }
 
+        private void CombatUnit_HasAvoidedDamage(object? sender, EventArgs e)
+        {
+            Debug.Assert(sender is not null);
+            var combatUnit = (CombatUnit)sender;
+            var unitGameObject = GetUnitGameObject(combatUnit);
+            var textPosition = GetUnitGameObject(combatUnit).Position;
+            var font = _uiContentStorage.GetMainFont();
+
+            var passIndicator = new EvasionComponent(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
+        }
+
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
@@ -461,7 +461,8 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds, int backgroundStartOffset,
+        private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
+            int backgroundStartOffset,
             int backgroundMaxOffset)
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)

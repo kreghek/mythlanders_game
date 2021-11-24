@@ -116,6 +116,11 @@ namespace Rpg.Client.Core
         /// </summary>
         public int XpReward => Level * 20;
 
+        public void AvoidDamage()
+        {
+            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
+        }
+
         public bool GainEquipmentItem(int amount)
         {
             var items = EquipmentItems;
@@ -334,11 +339,6 @@ namespace Rpg.Client.Core
             }
 
             public CombatUnit DamageDealer { get; }
-        }
-
-        public void AvoidDamage()
-        {
-            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
     }
 }

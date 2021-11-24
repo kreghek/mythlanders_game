@@ -10,7 +10,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly int _amount;
         private readonly HitPointsChangeDirection _direction;
 
-        public HitPointsChangedComponent(int amount, HitPointsChangeDirection direction, Vector2 startPosition, SpriteFont font) : base(startPosition, font)
+        public HitPointsChangedComponent(int amount, HitPointsChangeDirection direction, Vector2 startPosition,
+            SpriteFont font) : base(startPosition, font)
         {
             _amount = amount;
             _direction = direction;
