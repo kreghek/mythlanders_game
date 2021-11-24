@@ -881,19 +881,54 @@ namespace Rpg.Client.GameScreens.Combat
             var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead);
             foreach (var target in availableTargetGameObjects)
             {
-                if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                    && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                if (skillCard.Skill.TargetType == SkillTargetType.Enemy)
                 {
-                    continue;
-                }
+                    if (skillCard.Skill.Type == SkillType.Melee)
+                    {
+                        var isTargetInTankPosition = target.CombatUnit.Index == 0;
+                        if (isTargetInTankPosition)
+                        {
+                            if (skillCard.Skill.TargetType == SkillTargetType.Enemy
+                                && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                            {
+                                continue;
+                            }
 
-                if (skillCard.Skill.TargetType == SkillTargetType.Friendly
-                    && target.CombatUnit.Unit.IsPlayerControlled != _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                            InitHudButton(target, skillCard);
+                        }
+                        else
+                        {
+                            var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
+                                !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled && x.CombatUnit.Index == 0)
+                                .Any();
+
+                            if (!isAnyUnitsInTaskPosition)
+                            {
+                                InitHudButton(target, skillCard);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (skillCard.Skill.TargetType == SkillTargetType.Enemy
+                            && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                        {
+                            continue;
+                        }
+
+                        InitHudButton(target, skillCard);
+                    }
+                }
+                else
                 {
-                    continue;
-                }
+                    if (skillCard.Skill.TargetType == SkillTargetType.Friendly
+                        && target.CombatUnit.Unit.IsPlayerControlled != _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                    {
+                        continue;
+                    }
 
-                InitHudButton(target, skillCard);
+                    InitHudButton(target, skillCard);
+                }
             }
         }
 

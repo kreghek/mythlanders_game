@@ -2,7 +2,7 @@ namespace Rpg.Client.Core.Perks
 {
     internal sealed class Evasion: IPerk
     {
-        private int SUCCESS_CHANGE = 50;
+        private int SUCCESS_CHANGE = 25;
 
         public void ApplyToStats(ref int maxHitpoints, ref float armorBonus)
         {
@@ -10,7 +10,7 @@ namespace Rpg.Client.Core.Perks
 
         public bool HandleEvasion(IDice dice) {
             var roll = dice.Roll(100);
-            return roll >= SUCCESS_CHANGE;
+            return roll >= 100 - SUCCESS_CHANGE;
         }
     }
 }

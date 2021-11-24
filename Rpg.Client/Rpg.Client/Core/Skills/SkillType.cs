@@ -4,7 +4,6 @@
     {
         None,
         Melee,
-        Range,
-        Telekinetic
+        Range
     }
 }
