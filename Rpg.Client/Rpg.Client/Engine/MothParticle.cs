@@ -56,7 +56,7 @@ namespace Rpg.Client.Engine
 
             Size = MathHelper.Lerp(Size, 0.5f, t);
 
-            var upVector = Vector2.UnitY * (float)Math.Sin(t * Math.PI) * 32;
+            var upVector = Vector2.UnitY * (float)Math.Sin(t * Math.PI * 2) * 32;
             Position = Vector2.Lerp(_startPosition, _targetPosition, t) + upVector;
         }
     }
