@@ -9,7 +9,7 @@ namespace Rpg.Client.Core
 {
     internal static class UnitSchemeCatalog
     {
-        public static UnitScheme SwordmanHero = new()
+        public static readonly UnitScheme SwordsmanHero = new()
         {
             TankRank = 0.4f,
             DamageDealerRank = 0.5f,
@@ -46,7 +46,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new BerimirGraphicsConfig()
         };
 
-        public static UnitScheme MonkHero = new()
+        public static readonly UnitScheme MonkHero = new()
         {
             TankRank = 0.2f,
             DamageDealerRank = 0.6f,
@@ -83,7 +83,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new MaosinGraphicsConfig()
         };
 
-        public static UnitScheme SpearmanHero = new()
+        public static readonly UnitScheme SpearmanHero = new()
         {
             TankRank = 0.8f,
             DamageDealerRank = 0.1f,
@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static UnitScheme ScorpionHero = new()
+        public static readonly UnitScheme ScorpionHero = new()
         {
             TankRank = 0.1f,
             DamageDealerRank = 0.8f,
@@ -157,7 +157,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static UnitScheme HerbalistHero = new()
+        public static readonly UnitScheme HerbalistHero = new()
         {
             TankRank = 0.0f,
             DamageDealerRank = 0.0f,
@@ -195,7 +195,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static UnitScheme ArcherHero = new()
+        public static readonly UnitScheme ArcherHero = new()
         {
             TankRank = 0.0f,
             DamageDealerRank = 0.75f,
@@ -233,7 +233,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static UnitScheme PriestHero = new()
+        public static readonly UnitScheme PriestHero = new()
         {
             TankRank = 0.1f,
             DamageDealerRank = 0.9f,
@@ -271,7 +271,7 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static UnitScheme MissionaryHero = new()
+        public static readonly UnitScheme MissionaryHero = new()
         {
             TankRank = 0.2f,
             DamageDealerRank = 0.0f,
@@ -302,16 +302,16 @@ namespace Rpg.Client.Core
                     {
                         new DopeHerbSkill(), // No violence, please
                         new PowerUpSkill(true), // Trust
-                        new HealSkill(true) // God Mercifull Touch
+                        new HealSkill(true) // God Merciful Touch
                     }
                 }
             },
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
+        public static readonly IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
         {
-            SwordmanHero,
+            SwordsmanHero,
             ArcherHero,
             HerbalistHero,
 
@@ -1144,6 +1144,11 @@ namespace Rpg.Client.Core
                                 new SnakeBiteSkill()
                             }
                         }
+                    },
+                    
+                    Perks = new[]
+                    {
+                        new Evasion()
                     },
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },

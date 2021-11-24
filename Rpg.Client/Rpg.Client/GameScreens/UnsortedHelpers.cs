@@ -17,7 +17,7 @@ namespace Rpg.Client.GameScreens
 
             switch (equipmentItemType)
             {
-                case EquipmentItemType.Warrior: return UnitSchemeCatalog.SwordmanHero;
+                case EquipmentItemType.Warrior: return UnitSchemeCatalog.SwordsmanHero;
                 case EquipmentItemType.Archer: return UnitSchemeCatalog.ArcherHero;
                 case EquipmentItemType.Herbalist: return UnitSchemeCatalog.HerbalistHero;
                 case EquipmentItemType.Priest: return UnitSchemeCatalog.PriestHero;

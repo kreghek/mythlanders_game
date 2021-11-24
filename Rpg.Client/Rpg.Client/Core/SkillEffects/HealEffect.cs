@@ -1,21 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
+using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
-    internal class PeriodicHealEffect : PeriodicEffectBase
+    internal class HealEffect : InstantenousEffectBase
     {
+        public CombatUnit Actor { get; set; }
+        public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
+        public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
+        public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
+
         public float PowerMultiplier { get; init; }
 
         public float Scatter { get; init; } = 0.1f;
-        public int SourceSupport { get; set; }
 
         public MinMax<int> CalculateHeal()
         {
-            var absoluteSupport = SourceSupport * PowerMultiplier;
+            var absoluteSupport = Actor.Unit.Support * PowerMultiplier;
             var min = absoluteSupport - Scatter * absoluteSupport;
             var max = absoluteSupport + Scatter * absoluteSupport;
+
+            min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenHeal);
+            max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenHeal);
 
             if (Target != null)
             {
@@ -38,8 +47,6 @@ namespace Rpg.Client.Core.Effects
             var heal = CalculateHeal();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
             Target.Unit.RestoreHitPoints(rolledHeal);
-
-            base.InfluenceAction();
         }
     }
 }

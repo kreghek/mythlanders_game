@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using Rpg.Client.Core.Effects;
 using Rpg.Client.Core.Modifiers;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -116,7 +116,7 @@ namespace Rpg.Client.Core
                 Debug.Fail("Current unit must be assigned");
             }
 
-            UnitPassed?.Invoke(this, CurrentUnit);
+            UnitPassedTurn?.Invoke(this, CurrentUnit);
             CompleteStep();
         }
 
@@ -260,40 +260,58 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skills = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToArray();
-            var skill = dice.RollFromList(skills, 1).Single();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToList();
+            while (skillsOpenList.Any())
+            {
+                var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                skillsOpenList.Remove(skill);
 
-            IList<CombatUnit> possibleTargetList;
+                var possibleTargetList = GetAvailableTargets(skill);
+
+                if (!possibleTargetList.Any())
+                {
+                    continue;
+                    // There are no targets. Try another skill.
+                }
+
+                var targetPlayerObject = dice.RollFromList(possibleTargetList);
+
+                UseSkill(skill, targetPlayerObject);
+
+                return;
+            }
+            
+            // No skill was used.
+            Debug.Fail("Required at least one skill was used.");
+        }
+
+        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
+        {
             switch (skill.TargetType)
             {
                 case SkillTargetType.Enemy:
                     {
-                        possibleTargetList = Units.Where(x =>
+                        return Units.Where(x =>
                                 CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
-                        break;
                     }
 
                 case SkillTargetType.Friendly:
                     {
-                        possibleTargetList = Units.Where(x =>
+                        return Units.Where(x =>
                                 CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
-                        break;
                     }
 
                 default:
                     // There is a skill with unknown target. So we can't form the target list.
                     Debug.Fail("Unknown case.");
-                    return;
+
+                    return Array.Empty<CombatUnit>();
             }
-
-            var targetPlayerObject = dice.RollFromList(possibleTargetList);
-
-            UseSkill(skill, targetPlayerObject);
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, CombatUnit.UnitHpChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             var unit = e.CombatUnit.Unit;
 
@@ -388,7 +406,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitHasBeenDamaged;
 
-        internal event EventHandler<CombatUnit>? UnitPassed;
+        internal event EventHandler<CombatUnit>? UnitPassedTurn;
 
         internal event EventHandler<CombatUnit>? CombatUnitReadyToControl;
 

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Effects;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 
 using CoreCombat = Rpg.Client.Core.Combat;

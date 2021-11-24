@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed class MovePassedComponent : DisapearingTextComponent
+    internal sealed class EvasionComponent : DisapearingTextComponent
     {
-        public MovePassedComponent(Vector2 startPosition, SpriteFont font) : base(startPosition, font)
+        public EvasionComponent(Vector2 startPosition, SpriteFont font) : base(startPosition, font)
         {
         }
 
@@ -16,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override string GetText()
         {
-            return UiResource.IndicatorPassedTurn;
+            return UiResource.IndicatorEvasion;
         }
     }
 }

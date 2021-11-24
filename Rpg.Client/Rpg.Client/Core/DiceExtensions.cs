@@ -99,7 +99,7 @@ namespace Rpg.Client.Core
         /// <param name="dice"> Кость, на основе которой делать случайный выбор. </param>
         /// <param name="list"> Список элементов, из которого выбирать элемент. </param>
         /// <returns> Случайный элемент из списка. </returns>
-        public static T RollFromList<T>(this IDice dice, IList<T> list)
+        public static T RollFromList<T>(this IDice dice, IReadOnlyList<T> list)
         {
             if (dice is null)
             {

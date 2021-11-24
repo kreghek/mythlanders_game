@@ -125,7 +125,7 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
-                "warrior" => UnitSchemeCatalog.SwordmanHero,
+                "warrior" => UnitSchemeCatalog.SwordsmanHero,
                 "archer" => UnitSchemeCatalog.ArcherHero,
                 "herbalist" => UnitSchemeCatalog.HerbalistHero,
 

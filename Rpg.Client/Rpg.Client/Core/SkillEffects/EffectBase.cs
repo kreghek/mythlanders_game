@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class EffectBase
     {

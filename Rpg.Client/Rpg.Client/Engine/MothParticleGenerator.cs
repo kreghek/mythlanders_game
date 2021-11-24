@@ -34,14 +34,14 @@ namespace Rpg.Client.Engine
             var velocity = new Vector2(
                 1f * (float)(_random.NextDouble() * 2 - 1),
                 1f * (float)(_random.NextDouble() * 2 - 1));
-            float angle = 0;
-            var angularVelocity = 0;
+            const float ANGLE = 0;
+            const int ANGULAR_VELOCITY = 0;
             var color = Color.Lerp(Color.Yellow, Color.Transparent, 0.5f);
-            var size = (float)_random.NextDouble();
+            var size = (float)(0.5f + _random.NextDouble());
             var ttl = 20 + _random.Next(40);
 
             return new MothParticle(texture, new Rectangle(0, 32, 32, 32), startPosition, emitterPosition, velocity,
-                angle, angularVelocity, color, size, ttl);
+                ANGLE, ANGULAR_VELOCITY, color, size, ttl);
         }
 
         public int GetCount()

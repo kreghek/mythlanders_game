@@ -181,4 +181,12 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
+  <data name="IndicatorPassedTurn" xml:space="preserve">
+    <value>Passed</value>
+    <comment>Когда юнит пропускает ход</comment>
+  </data>
+  <data name="IndicatorEvasion" xml:space="preserve">
+    <value>Evasion</value>
+    <comment>Когда юнит уклоняется от урона</comment>
+  </data>
 </root>

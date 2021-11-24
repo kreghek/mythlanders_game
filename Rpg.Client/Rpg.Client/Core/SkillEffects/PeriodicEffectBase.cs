@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {

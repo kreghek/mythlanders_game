@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
-    internal class LifeDrawEffect : InstantenousEffectBase
+    internal class AttackEffect : InstantenousEffectBase
     {
         public CombatUnit Actor { get; set; }
 
@@ -45,10 +45,19 @@ namespace Rpg.Client.Core.Effects
 
         protected override void InfluenceAction()
         {
+            foreach (var perk in Target.Unit.Perks)
+            {
+                if (perk.HandleEvasion(Combat.Dice))
+                {
+                    Target.Unit.AvoidDamage();
+                    return;
+                }
+            }
+            
             var damage = CalculateDamage();
+
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            var resultDamage = Target.Unit.TakeDamage(Actor, rolledDamage);
-            Actor.Unit.RestoreHitPoints(resultDamage);
+            Target.Unit.TakeDamage(Actor, rolledDamage);
         }
     }
 }

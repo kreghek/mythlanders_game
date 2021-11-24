@@ -132,7 +132,7 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(UnitSchemeCatalog.SwordmanHero, 1)
+                new Unit(UnitSchemeCatalog.SwordsmanHero, 1)
                 {
                     IsPlayerControlled = true,
                     EquipmentLevel = 1

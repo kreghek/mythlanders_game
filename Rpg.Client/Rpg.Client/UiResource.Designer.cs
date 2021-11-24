@@ -124,6 +124,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evasion.
+        /// </summary>
+        internal static string IndicatorEvasion {
+            get {
+                return ResourceManager.GetString("IndicatorEvasion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passed.
+        /// </summary>
+        internal static string IndicatorPassedTurn {
+            get {
+                return ResourceManager.GetString("IndicatorPassedTurn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is training only.
         /// </summary>
         internal static string IsTrainingOnly {

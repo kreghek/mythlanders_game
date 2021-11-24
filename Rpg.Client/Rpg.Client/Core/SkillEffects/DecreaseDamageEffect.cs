@@ -2,7 +2,7 @@
 
 using Rpg.Client.Core.Modifiers;
 
-namespace Rpg.Client.Core.Effects
+namespace Rpg.Client.Core.SkillEffects
 {
     internal class DecreaseDamageEffect : ModifiersEffect
     {
