@@ -35,7 +35,7 @@ namespace Rpg.Client.Core.Skills
 
         public override string Sid => "Mass Heal";
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
-        public override SkillType Type => SkillType.Telekinetic;
+        public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {

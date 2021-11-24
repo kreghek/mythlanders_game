@@ -33,7 +33,7 @@ namespace Rpg.Client.Engine
             var size = (float)_random.NextDouble();
             var ttl = 20 + _random.Next(40);
 
-            return new Particle(texture, new Rectangle(0, 0, 32, 32), position, velocity, angle, angularVelocity, color,
+            return new SwarmParticle(texture, new Rectangle(0, 0, 32, 32), position, velocity, angle, angularVelocity, color,
                 size, ttl);
         }
 

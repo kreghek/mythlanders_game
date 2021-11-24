@@ -151,7 +151,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rada.
+        ///   Looks up a localized string similar to Rada The Old.
         /// </summary>
         internal static string Rada {
             get {
