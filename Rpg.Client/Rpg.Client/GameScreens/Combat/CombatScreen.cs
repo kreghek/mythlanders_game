@@ -30,11 +30,11 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
+        private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
-        private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
@@ -146,27 +146,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             HandleBackgrounds();
-        }
-
-        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled)
-            {
-                return;
-            }
-
-            if (_combatSkillsPanel is null)
-            {
-                return;
-            }
-
-            var selectedUnit = e;
-
-            _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = selectedUnit;
-            _combatSkillsPanel.SelectedCard = selectedUnit.CombatCards.First();
-            var unitGameObject = GetUnitGameObject(e);
-            unitGameObject.IsActive = true;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -312,6 +291,27 @@ namespace Rpg.Client.GameScreens.Combat
             var passIndicator = new MovePassedComponent(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
+        }
+
+        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled)
+            {
+                return;
+            }
+
+            if (_combatSkillsPanel is null)
+            {
+                return;
+            }
+
+            var selectedUnit = e;
+
+            _combatSkillsPanel.IsEnabled = true;
+            _combatSkillsPanel.Unit = selectedUnit;
+            _combatSkillsPanel.SelectedCard = selectedUnit.CombatCards.First();
+            var unitGameObject = GetUnitGameObject(e);
+            unitGameObject.IsActive = true;
         }
 
         private void CombatInitialize()
@@ -890,7 +890,8 @@ namespace Rpg.Client.GameScreens.Combat
                         if (isTargetInTankPosition)
                         {
                             if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                                && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                                && target.CombatUnit.Unit.IsPlayerControlled ==
+                                _сombat.CurrentUnit.Unit.IsPlayerControlled)
                             {
                                 continue;
                             }
@@ -900,7 +901,8 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
-                                !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled && x.CombatUnit.Index == 0)
+                                    !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
+                                    x.CombatUnit.Index == 0)
                                 .Any();
 
                             if (!isAnyUnitsInTaskPosition)

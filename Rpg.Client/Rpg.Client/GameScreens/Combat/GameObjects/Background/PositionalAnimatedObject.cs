@@ -46,7 +46,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 
     internal sealed class WeatherAnimatedObject : IBackgroundObject
     {
-        private ParticleSystem _particleSystem;
+        private readonly ParticleSystem _particleSystem;
 
         public WeatherAnimatedObject(Texture2D texture, Rectangle sourceRect)
         {

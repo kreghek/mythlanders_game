@@ -313,26 +313,23 @@ namespace Rpg.Client.Core
                         if (skill.Type == SkillType.Melee)
                         {
                             var unitsInTankPosition = Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead && x.Index == 0)
+                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
+                                    !x.Unit.IsDead && x.Index == 0)
                                 .ToList();
 
                             if (unitsInTankPosition.Any())
                             {
                                 return unitsInTankPosition;
                             }
-                            else
-                            {
-                                return Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                                .ToList();
-                            }
-                        }
-                        else
-                        {
+
                             return Units.Where(x =>
                                     CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                                 .ToList();
                         }
+
+                        return Units.Where(x =>
+                                CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                            .ToList();
                     }
 
                 case SkillTargetType.Friendly:

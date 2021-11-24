@@ -6,9 +6,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
     internal sealed class BackgroundObjectFactorySelector
     {
         private IBackgroundObjectFactory _backgroundObjectFactory;
-        private ThicketBackgroundObjectFactory _thicketOjectFactory;
         private EmptyBackgroundObjectFactory _empty;
         private GameObjectContentStorage _gameObjectContentStorage;
+        private ThicketBackgroundObjectFactory _thicketOjectFactory;
 
         public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
         {
