@@ -35,6 +35,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
+        private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
@@ -74,6 +75,7 @@ namespace Rpg.Client.GameScreens.Combat
             _globeNode = _сombat.Node;
 
             _gameObjects = new List<UnitGameObject>();
+            _corpseObjects = new List<CorpseGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
             _hudButtons = new List<ButtonBase>();
 
@@ -179,7 +181,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(passIndicator);
         }
 
-        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
+        private void Combat_UnitReadyToControl(object? sender, CombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled)
             {
@@ -303,7 +305,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var unitGameObject = GetUnitGameObject(e);
             
-            unitGameObject.AnimateDeath();
+            var corpse = unitGameObject.CreateCorpse();
+            _corpseObjects.Add(corpse);
         }
 
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
@@ -329,7 +332,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _сombat, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _сombat.UnitChanged += Combat_UnitChanged;
-            _сombat.CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            _сombat.CombatUnitReadyToControl += Combat_UnitReadyToControl;
             _сombat.CombatUnitEntered += Combat_UnitEntered;
             _сombat.CombatUnitRemoved += Combat_CombatUnitRemoved;
             _сombat.UnitDied += Combat_UnitDied;
@@ -647,6 +650,12 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 gameObject.Draw(spriteBatch);
             }
+
+            var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
+            foreach (var gameObject in corpseList)
+            {
+                gameObject.Draw(spriteBatch);
+            }
         }
 
         private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
@@ -812,9 +821,14 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void HandleUnits(GameTime gameTime)
         {
-            foreach (var unitModel in _gameObjects.ToArray())
+            foreach (var gameObject in _gameObjects.ToArray())
             {
-                unitModel.Update(gameTime);
+                gameObject.Update(gameTime);
+            }
+            
+            foreach (var gameObject in _corpseObjects.ToArray())
+            {
+                gameObject.Update(gameTime);
             }
         }
 
@@ -864,7 +878,8 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            foreach (var target in _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead))
+            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead);
+            foreach (var target in availableTargetGameObjects)
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy
                     && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
