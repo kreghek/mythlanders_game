@@ -207,4 +207,25 @@
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Уклонение</value>
   </data>
+  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
+    <value>Экипировка: {0} ({1}/{2} частей)</value>
+  </data>
+  <data name="CombatLevelLavelTemplate" xml:space="preserve">
+    <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
+  </data>
+  <data name="ManaLabelTemplate" xml:space="preserve">
+    <value>Мана: {0}/{1}</value>
+  </data>
+  <data name="HitPointsLabelTemplate" xml:space="preserve">
+    <value>Хитопонты: {0}</value>
+  </data>
+  <data name="IsTrainingOnly" xml:space="preserve">
+    <value>Для тренировки</value>
+  </data>
+  <data name="ManaCostLabelTemplate" xml:space="preserve">
+    <value>Цена: {0}</value>
+  </data>
+  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
+    <value>Состоит в группе. Слот {0}.</value>
+  </data>
 </root>

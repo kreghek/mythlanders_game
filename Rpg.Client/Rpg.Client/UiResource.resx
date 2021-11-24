@@ -130,7 +130,7 @@
     <value />
   </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
-    <value>rnd</value>
+    <value>rnd</value><comment>Раунд сражения из цепочки боёв.</comment>
   </data>
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
@@ -188,5 +188,24 @@
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Evasion</value>
     <comment>Когда юнит уклоняется от урона</comment>
+  </data>
+  <data name="HitPointsLabelTemplate" xml:space="preserve">
+    <value>HitPoints: {0}</value>
+  </data>
+  <data name="ManaLabelTemplate" xml:space="preserve">
+    <value>Mana: {0}/{1}</value>
+  </data>
+  <data name="CombatLevelLavelTemplate" xml:space="preserve">
+    <value>Combat level: {0} ({1}/{2} exp)</value>
+  </data>
+  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
+    <value>Equipment level: {0} ({1}/{2} items)</value>
+  </data>
+  <data name="ManaCostLabelTemplate" xml:space="preserve">
+    <value>Mana cost: {0}</value>
+  </data>
+  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
+    <value>Is in party. Slot {0}.</value>
+    <comment>Указывает, что персонаж в партии и номер слота.</comment>
   </data>
 </root>

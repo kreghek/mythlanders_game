@@ -15,6 +15,9 @@ namespace Rpg.Client.GameScreens.Party
         private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
+        
+        private readonly Camera2D _camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private bool _isInitialized;
         private Unit? _selectedCharacter;
@@ -23,15 +26,25 @@ namespace Rpg.Client.GameScreens.Party
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _globeProvider = game.Services.GetService<GlobeProvider>();
+            
+            _camera = game.Services.GetService<Camera2D>();
+            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
             _buttonList = new List<ButtonBase>();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            _resolutionIndependentRenderer.BeginDraw();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
-            var contentRect = Game.GraphicsDevice.Viewport.Bounds;
+            var contentRect = _resolutionIndependentRenderer.VirtualBounds;
 
             for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
             {
@@ -48,20 +61,19 @@ namespace Rpg.Client.GameScreens.Party
                 var sb = new List<string>
                 {
                     name,
-                    $"HP: {_selectedCharacter.HitPoints}/{_selectedCharacter.MaxHitPoints}",
-                    $"Mana: {_selectedCharacter.ManaPool}/{_selectedCharacter.ManaPoolSize}",
-                    $"Level: {_selectedCharacter.Level}",
-                    $"Exp: {_selectedCharacter.Xp}/{_selectedCharacter.LevelUpXp}",
-                    $"Equipment: {_selectedCharacter.EquipmentLevel}",
-                    $"Equipment items: {_selectedCharacter.EquipmentItems}/{_selectedCharacter.EquipmentLevelup}"
+                    string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
+                    string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool, _selectedCharacter.ManaPoolSize),
+                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, _selectedCharacter.Xp, _selectedCharacter.LevelUpXp),
+                    string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel, _selectedCharacter.EquipmentItems,
+                        _selectedCharacter.EquipmentLevelup)
                 };
 
                 foreach (var skill in _selectedCharacter.Skills)
                 {
-                    sb.Add($"{skill.Sid}");
+                    sb.Add(skill.Sid);
                     if (skill.ManaCost is not null)
                     {
-                        sb.Add($"Cost: {skill.ManaCost}");
+                        sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));
                     }
 
                     // TODO Display skill efficient - damages, durations, etc.
@@ -70,7 +82,7 @@ namespace Rpg.Client.GameScreens.Party
                 if (_globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter))
                 {
                     var index = _globeProvider.Globe.Player.Party.GetUnits().ToList().IndexOf(_selectedCharacter);
-                    sb.Add($"Is in party. Slot {index + 1}.");
+                    sb.Add(string.Format(UiResource.PartyMarkerLabelTemplate, index + 1));
                 }
 
                 for (var statIndex = 0; statIndex < sb.Count; statIndex++)
@@ -150,7 +162,7 @@ namespace Rpg.Client.GameScreens.Party
             {
                 foreach (var button in _buttonList)
                 {
-                    button.Update();
+                    button.Update(_resolutionIndependentRenderer);
                 }
             }
         }

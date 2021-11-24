@@ -1,15 +1,13 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal class Particle : IParticle
+    internal class SwarmParticle : IParticle
     {
         private readonly Rectangle _sourceRect;
 
-        public Particle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 velocity,
+        public SwarmParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 velocity,
             float angle, float angularVelocity, Color color, float size, int ttl)
         {
             _sourceRect = sourceRect;
@@ -34,7 +32,7 @@ namespace Rpg.Client.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+            var origin = new Vector2(Texture.Width * 0.5f, Texture.Height  * 0.5f);
 
             spriteBatch.Draw(Texture, Position, _sourceRect, Color,
                 Angle, origin, Size, SpriteEffects.None, 0f);
