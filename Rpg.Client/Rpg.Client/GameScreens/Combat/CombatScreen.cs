@@ -158,7 +158,7 @@ namespace Rpg.Client.GameScreens.Combat
             _сombat.Update();
         }
 
-        private static void ApplyXp(IEnumerable<XpAward> xpItems)
+        private static void ApplyXp(IReadOnlyCollection<XpAward> xpItems)
         {
             foreach (var item in xpItems)
             {
@@ -739,7 +739,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
-        private IEnumerable<XpAward> HandleGainXp(ICollection<CombatSource> completedCombats)
+        private IReadOnlyCollection<XpAward> HandleGainXp(ICollection<CombatSource> completedCombats)
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
@@ -753,6 +753,7 @@ namespace Rpg.Client.GameScreens.Combat
             var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
 
             var remainsUsed = false;
+            var list = new List<XpAward>();
             foreach (var unit in aliveUnits)
             {
                 var gainedXp = xpPerPlayerUnit;
@@ -763,14 +764,17 @@ namespace Rpg.Client.GameScreens.Combat
                     remainsUsed = true;
                 }
 
-                yield return new XpAward
+                var item = new XpAward
                 {
                     StartXp = unit.Unit.Xp,
                     Unit = unit.Unit,
                     XpAmount = gainedXp,
                     XpToLevelupSelector = () => unit.Unit.LevelUpXp
                 };
+                list.Add(item);
             }
+
+            return list;
         }
 
         private void HandleGlobe(CombatResult result)
