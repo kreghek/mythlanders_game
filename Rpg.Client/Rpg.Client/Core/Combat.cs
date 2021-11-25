@@ -280,55 +280,9 @@ namespace Rpg.Client.Core
 
                 return;
             }
-            
+
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
-        }
-
-        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
-        {
-            switch (skill.TargetType)
-            {
-                case SkillTargetType.Enemy:
-                    {
-                        if (skill.Type == SkillType.Melee)
-                        {
-                            var unitsInTankPosition = Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead && x.Index == 0)
-                                .ToList();
-
-                            if (unitsInTankPosition.Any())
-                            {
-                                return unitsInTankPosition;
-                            }
-                            else
-                            {
-                                return Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                                .ToList();
-                            }
-                        }
-                        else
-                        {
-                            return Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                                .ToList();
-                        }
-                    }
-
-                case SkillTargetType.Friendly:
-                    {
-                        return Units.Where(x =>
-                                CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
-                            .ToList();
-                    }
-
-                default:
-                    // There is a skill with unknown target. So we can't form the target list.
-                    Debug.Fail("Unknown case.");
-
-                    return Array.Empty<CombatUnit>();
-            }
         }
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
@@ -348,6 +302,49 @@ namespace Rpg.Client.Core
         private void CompleteStep()
         {
             IsCurrentStepCompleted = true;
+        }
+
+        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
+        {
+            switch (skill.TargetType)
+            {
+                case SkillTargetType.Enemy:
+                    {
+                        if (skill.Type == SkillType.Melee)
+                        {
+                            var unitsInTankPosition = Units.Where(x =>
+                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
+                                    !x.Unit.IsDead && x.Index == 0)
+                                .ToList();
+
+                            if (unitsInTankPosition.Any())
+                            {
+                                return unitsInTankPosition;
+                            }
+
+                            return Units.Where(x =>
+                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                .ToList();
+                        }
+
+                        return Units.Where(x =>
+                                CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                            .ToList();
+                    }
+
+                case SkillTargetType.Friendly:
+                    {
+                        return Units.Where(x =>
+                                CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                            .ToList();
+                    }
+
+                default:
+                    // There is a skill with unknown target. So we can't form the target list.
+                    Debug.Fail("Unknown case.");
+
+                    return Array.Empty<CombatUnit>();
+            }
         }
 
         private IDice GetDice()

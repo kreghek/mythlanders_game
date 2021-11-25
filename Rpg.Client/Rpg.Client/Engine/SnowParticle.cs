@@ -9,9 +9,9 @@ namespace Rpg.Client.Engine
     {
         private readonly Rectangle _sourceRect;
         private readonly Vector2 _startPosition;
-        private readonly float _xAmpl;
         private readonly int _startTTL;
         private readonly Vector2 _targetPosition;
+        private readonly float _xAmpl;
 
         public SnowParticle(Texture2D texture, Rectangle sourceRect, Vector2 position, Vector2 targetPosition,
             Vector2 velocity,
@@ -27,7 +27,7 @@ namespace Rpg.Client.Engine
             Color = color;
             Size = size;
             TTL = ttl;
-            
+
             _startTTL = ttl;
             _startPosition = position;
 

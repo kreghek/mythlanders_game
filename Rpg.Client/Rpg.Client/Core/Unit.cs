@@ -116,6 +116,11 @@ namespace Rpg.Client.Core
         /// </summary>
         public int XpReward => Level * 20;
 
+        public void AvoidDamage()
+        {
+            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
+        }
+
         public bool GainEquipmentItem(int amount)
         {
             var items = EquipmentItems;
@@ -178,7 +183,7 @@ namespace Rpg.Client.Core
         {
             var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
             HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
-            
+
             var result = new DamageResult
             {
                 ValueSource = damageSource,
@@ -319,7 +324,7 @@ namespace Rpg.Client.Core
         }
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenDamaged;
-        
+
         public event EventHandler? HasAvoidedDamage;
 
         public event EventHandler<int>? HasBeenHealed;
@@ -334,11 +339,6 @@ namespace Rpg.Client.Core
             }
 
             public CombatUnit DamageDealer { get; }
-        }
-
-        public void AvoidDamage()
-        {
-            HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
     }
 }

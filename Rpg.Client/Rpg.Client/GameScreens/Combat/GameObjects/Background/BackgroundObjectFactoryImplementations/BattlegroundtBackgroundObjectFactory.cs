@@ -67,7 +67,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         {
             var list = new List<IBackgroundObject>();
 
-            var weatherObject = new WeatherAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(), new Rectangle(0, 32, 32, 32));
+            var weatherObject = new WeatherAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
+                new Rectangle(0, 32, 32, 32));
             list.Add(weatherObject);
 
             return list;

@@ -13,11 +13,11 @@ namespace Rpg.Client.GameScreens.Party
     internal sealed class PartyScreen : GameScreenBase
     {
         private readonly IList<ButtonBase> _buttonList;
-        private readonly GlobeProvider _globeProvider;
-        private readonly IUiContentStorage _uiContentStorage;
-        
+
         private readonly Camera2D _camera;
+        private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
 
         private bool _isInitialized;
         private Unit? _selectedCharacter;
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Party
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _globeProvider = game.Services.GetService<GlobeProvider>();
-            
+
             _camera = game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
@@ -62,9 +62,12 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     name,
                     string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
-                    string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool, _selectedCharacter.ManaPoolSize),
-                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, _selectedCharacter.Xp, _selectedCharacter.LevelUpXp),
-                    string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel, _selectedCharacter.EquipmentItems,
+                    string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
+                        _selectedCharacter.ManaPoolSize),
+                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, _selectedCharacter.Xp,
+                        _selectedCharacter.LevelUpXp),
+                    string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel,
+                        _selectedCharacter.EquipmentItems,
                         _selectedCharacter.EquipmentLevelup)
                 };
 

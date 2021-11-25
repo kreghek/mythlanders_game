@@ -5,15 +5,16 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal sealed class CorpseGameObject: EwarDrawableComponentBase
+    internal sealed class CorpseGameObject : EwarDrawableComponentBase
     {
-        private bool _startToDeath;
-        private readonly UnitGraphics _graphics;
         private readonly Camera2D _camera;
-        private readonly ScreenShaker _screenShaker;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly UnitGraphics _graphics;
+        private readonly ScreenShaker _screenShaker;
+        private bool _startToDeath;
 
-        public CorpseGameObject(UnitGraphics graphics, Camera2D camera, ScreenShaker screenShaker, GameObjectContentStorage gameObjectContentStorage)
+        public CorpseGameObject(UnitGraphics graphics, Camera2D camera, ScreenShaker screenShaker,
+            GameObjectContentStorage gameObjectContentStorage)
         {
             _graphics = graphics;
             _camera = camera;
@@ -21,15 +22,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
-        internal float GetZIndex()
-        {
-            return _graphics.Root.Position.Y;
-        }
-        
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            
+
             _graphics.Update(gameTime);
 
             if (!_startToDeath)
@@ -42,7 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
             base.DoDraw(spriteBatch, zindex);
-            
+
             _graphics.ShowActiveMarker = false;
 
             if (_graphics.IsDamaged)
@@ -98,6 +94,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
+        }
+
+        internal float GetZIndex()
+        {
+            return _graphics.Root.Position.Y;
         }
     }
 }

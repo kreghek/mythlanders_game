@@ -38,20 +38,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public bool IsActive { get; set; }
 
+        public void AnimateWound()
+        {
+            AddStateEngine(new WoundState(_graphics));
+        }
+
         public CorpseGameObject CreateCorpse()
         {
             var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name)
                 .CreateInstance();
-            
+
             deathSoundEffect.Play();
-            
+
             var corpse = new CorpseGameObject(_graphics, _camera, _screenShaker, _gameObjectContentStorage);
             return corpse;
-        }
-
-        public void AnimateWound()
-        {
-            AddStateEngine(new WoundState(_graphics));
         }
 
         public override void Update(GameTime gameTime)
