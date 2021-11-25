@@ -11,7 +11,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
-        private bool _startToDeath;
+        private bool _startToWound;
+        private double _counter;
 
         public CorpseGameObject(UnitGraphics graphics, Camera2D camera, ScreenShaker screenShaker,
             GameObjectContentStorage gameObjectContentStorage)
@@ -28,12 +29,28 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             _graphics.Update(gameTime);
 
-            if (!_startToDeath)
+            _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_counter > 0.05)
             {
-                _graphics.PlayAnimation("Death");
+                _graphics.IsDamaged = false;
+            }
+
+            if (_counter > 1 && !_startToDeath)
+            {
                 _startToDeath = true;
+                _graphics.IsDamaged = false;
+                _graphics.PlayAnimation("Death");
+            }
+
+            if (!_startToWound)
+            {
+                _graphics.PlayAnimation("Wound");
+                _startToWound = true;
             }
         }
+
+        private bool _startToDeath;
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {

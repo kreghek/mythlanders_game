@@ -16,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly TextButton _closeButton;
         private readonly CombatSource _combatSource;
-        private readonly IEnumerable<XpAward> _sourceXpItems;
+        private readonly IReadOnlyCollection<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _iterationCounter;
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         public CombatResultModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            IEnumerable<XpAward> xpItems,
+            IReadOnlyCollection<XpAward> xpItems,
             CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
