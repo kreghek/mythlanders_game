@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _graphics = graphics;
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()

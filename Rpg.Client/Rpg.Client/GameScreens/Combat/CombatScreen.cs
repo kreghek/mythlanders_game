@@ -441,6 +441,12 @@ namespace Rpg.Client.GameScreens.Combat
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
+
+            if (e.CombatUnit.Unit.IsDead)
+            {
+                return;
+            }
+
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
             var font = _uiContentStorage.GetMainFont();
@@ -646,14 +652,14 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawUnits(SpriteBatch spriteBatch)
         {
-            var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
-            foreach (var gameObject in list)
+            var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
+            foreach (var gameObject in corpseList)
             {
                 gameObject.Draw(spriteBatch);
             }
 
-            var corpseList = _corpseObjects.OrderBy(x => x.GetZIndex()).ToArray();
-            foreach (var gameObject in corpseList)
+            var list = _gameObjects.OrderBy(x => x.GetZIndex()).ToArray();
+            foreach (var gameObject in list)
             {
                 gameObject.Draw(spriteBatch);
             }
