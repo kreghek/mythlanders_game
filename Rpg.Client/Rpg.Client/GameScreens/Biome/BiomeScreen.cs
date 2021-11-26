@@ -324,19 +324,17 @@ namespace Rpg.Client.GameScreens.Biome
 
         private TextHint CreateLocationInfoHint(GlobeNodeGameObject locationInHint)
         {
-            var node = locationInHint;
+            var localizedName = GameObjectHelper.GetLocalized(locationInHint.GlobeNode.Sid);
 
-            var localizedName = GameObjectHelper.GetLocalized(node.GlobeNode.Sid);
-
-            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = locationInHint.GlobeNode.CombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
 
-            var rewards = GetCombatRewards(locationInHint, node);
+            var rewards = GetCombatRewards(locationInHint, locationInHint);
 
             var sb = new StringBuilder();
             sb.AppendLine(localizedName);
 
-            if (node.CombatSource.IsTrainingOnly)
+            if (locationInHint.CombatSource.IsTrainingOnly)
             {
                 sb.AppendLine(UiResource.IsTrainingOnly);
             }
@@ -344,7 +342,9 @@ namespace Rpg.Client.GameScreens.Biome
             sb.AppendLine(combatSequenceSizeText);
             sb.AppendLine(rewards);
 
-            var hint = new TextHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+            var hint = new TextHint(
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(),
                 sb.ToString());
             return hint;
         }
@@ -366,19 +366,36 @@ namespace Rpg.Client.GameScreens.Biome
                 button.Draw(spriteBatch);
                 buttonIndex++;
             }
+            
+            DrawBiomeLevel(spriteBatch);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{UiResource.BiomeLevelText}: {_biome.Level}",
-                new Vector2(Game.GraphicsDevice.Viewport.Width / 2, 5), Color.White);
+            DrawLocationHintIfHover(spriteBatch);
 
-            if (_locationInfoHint is not null)
+            spriteBatch.End();
+        }
+
+        private void DrawLocationHintIfHover(SpriteBatch spriteBatch)
+        {
+            if (_locationInfoHint is not null && _locationInHint is not null)
             {
                 var toolTipPosition = _locationInHint.Position + new Vector2(0, 16);
                 _locationInfoHint.Rect = new Rectangle(toolTipPosition.ToPoint(), new Point(200, 100));
 
                 _locationInfoHint.Draw(spriteBatch);
             }
+        }
 
-            spriteBatch.End();
+        private void DrawBiomeLevel(SpriteBatch spriteBatch)
+        {
+            var biomeLevelText = $"{UiResource.BiomeLevelText}: {_biome.Level}";
+            var textSize = _uiContentStorage.GetMainFont().MeasureString(biomeLevelText);
+            const int BIOME_LEVEL_TOP_MARGIN = 5;
+            var biomeLevelTextPosition = new Vector2(
+                _resolutionIndependenceRenderer.VirtualWidth * 0.5f - textSize.X * 0.5f,
+                BIOME_LEVEL_TOP_MARGIN);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeLevelText,
+                biomeLevelTextPosition, Color.White);
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
