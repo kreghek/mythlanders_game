@@ -366,7 +366,7 @@ namespace Rpg.Client.GameScreens.Biome
                 button.Draw(spriteBatch);
                 buttonIndex++;
             }
-            
+
             DrawBiomeLevel(spriteBatch);
 
             DrawLocationHintIfHover(spriteBatch);

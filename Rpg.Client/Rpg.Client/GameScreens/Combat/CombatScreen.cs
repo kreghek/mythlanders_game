@@ -923,7 +923,7 @@ namespace Rpg.Client.GameScreens.Combat
                                 {
                                     continue;
                                 }
-                                
+
                                 InitHudButton(target, skillCard);
                             }
                         }
