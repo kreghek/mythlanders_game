@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Dope Herb";
+        public override SkillSid Sid => SkillSid.DopeHerb;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

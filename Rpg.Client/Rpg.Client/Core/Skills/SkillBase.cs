@@ -24,7 +24,7 @@ namespace Rpg.Client.Core.Skills
 
         public abstract IEnumerable<EffectRule> Rules { get; }
 
-        public abstract string Sid { get; }
+        public abstract SkillSid Sid { get; }
 
         public abstract SkillTargetType TargetType { get; }
 

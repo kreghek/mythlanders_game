@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Arrow Rain";
+        public override SkillSid Sid => SkillSid.ArrowRain;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Mass Stun";
+        public override SkillSid Sid => SkillSid.ParaliticChor;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

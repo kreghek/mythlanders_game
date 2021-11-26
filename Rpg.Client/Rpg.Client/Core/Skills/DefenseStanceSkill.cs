@@ -5,13 +5,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class DefenseSkill : SkillBase
+    internal class DefenseStanceSkill : SkillBase
     {
-        public DefenseSkill() : this(false)
+        public DefenseStanceSkill() : this(false)
         {
         }
 
-        public DefenseSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Defense Stance";
+        public override SkillSid Sid => SkillSid.DefenseStance;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.None;
 

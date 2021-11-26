@@ -236,7 +236,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                     IInteractionDelivery singleBullet;
 
-                    if (skill.Sid == "Periodic Heal")
+                    if (skill.Sid == SkillSid.HealingSalve)
                     {
                         singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64),
                             _gameObjectContentStorage, bulletBlocker);
@@ -307,7 +307,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                     List<IInteractionDelivery>? bullets;
 
-                    if (skill.Sid == "Svarog's Blast Furnace")
+                    if (skill.Sid == SkillSid.SvarogBlastFurnace)
                     {
                         bullets = new List<IInteractionDelivery>
                         {
@@ -332,7 +332,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         interactionDeliveryList.Add(bullet);
                     }
 
-                    if (skill.Sid == "Svarog's Blast Furnace")
+                    if (skill.Sid == SkillSid.SvarogBlastFurnace)
                     {
                         var svarogSymbolAppearingSound =
                             _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SvarogSymbolAppearing);

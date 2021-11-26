@@ -6,7 +6,7 @@ namespace Rpg.Client.Core.Skills
     {
         int? ManaCost { get; }
         IEnumerable<EffectRule> Rules { get; }
-        string Sid { get; }
+        SkillSid Sid { get; }
         SkillTargetType TargetType { get; }
         SkillType Type { get; }
         int UsageCount { get; }

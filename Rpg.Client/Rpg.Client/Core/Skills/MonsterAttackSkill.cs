@@ -11,10 +11,6 @@ namespace Rpg.Client.Core.Skills
         {
         }
 
-        public MonsterAttackSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
-        {
-        }
-
         protected MonsterAttackSkill(SkillVisualization visualization, bool costRequired) : base(visualization,
             costRequired)
         {
@@ -38,7 +34,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Monster Attack";
+        public override SkillSid Sid => SkillSid.AbstractMonsterAttack;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 

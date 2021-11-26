@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Strike";
+        public override SkillSid Sid => SkillSid.EnergyShot;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

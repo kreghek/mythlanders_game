@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Svarog's Blast Furnace";
+        public override SkillSid Sid =>  SkillSid.SvarogBlastFurnace;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

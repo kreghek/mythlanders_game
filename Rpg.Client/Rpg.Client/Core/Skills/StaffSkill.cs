@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class VampireBiteSkill : SkillBase
+    internal class StaffSkill : SkillBase
     {
-        public VampireBiteSkill() : this(false)
+        public StaffSkill() : this(false)
         {
         }
 
-        public VampireBiteSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public StaffSkill(bool costRequired) : base(new SkillVisualization
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.StaffHit
+        }, costRequired)
         {
         }
 
@@ -22,10 +26,10 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new LifeDrawEffect
+                    var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1.0f
+                        DamageMultiplier = 0.25f
                     };
 
                     return res;
@@ -33,14 +37,10 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.VampireBite;
+        public override SkillSid Sid => SkillSid.StaffHit;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.WolfBite
-        };
+        public override int UsageCount => 3;
     }
 }
