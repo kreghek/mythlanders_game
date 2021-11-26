@@ -35,7 +35,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Periodic Heal";
+        public override SkillSid Sid => SkillSid.HealingSalve;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 

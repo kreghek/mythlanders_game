@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 
 using CoreCombat = Rpg.Client.Core.Combat;
@@ -171,7 +172,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), hintRectangle, Color.White);
 
             var skillTitlePosition = hintRectangle.Location.ToVector2() + new Vector2(0, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatPower.Skill.Sid, skillTitlePosition,
+            var skillNameText = GameObjectResources.ResourceManager.GetString(combatPower.Skill.Sid.ToString()) ??
+                                $"#Resource-{combatPower.Skill.Sid}";
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), skillNameText, skillTitlePosition,
                 Color.Black);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
@@ -235,33 +238,32 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SKILL_BUTTON_SIZE);
         }
 
-        private static int? GetIconIndex(string sid)
+        private static int? GetIconIndex(SkillSid sid)
         {
             return sid switch
             {
-                "Slash" => 0,
-                "Defense Stance" => 1,
-                "Wide Slash" => 2,
-                "Svarog's Blast Furnace" => 2,
-                "Strike" => 3,
-                "Arrow Rain" => 4,
-                "Zduhach Might" => 5,
-                "Heal" => 6,
-                "Periodic Heal" => 6,
-                "Dope Herb" => 7,
-                "Mass Stun" => 7,
-                "Mass Heal" => 8,
+                SkillSid.SwordSlash => 0,
+                SkillSid.DefenseStance => 1,
+                SkillSid.WideSwordSlash => 2,
+                SkillSid.SvarogBlastFurnace => 2,
+                SkillSid.EnergyShot => 3,
+                SkillSid.ArrowRain => 4,
+                SkillSid.ZduhachMight => 5,
+                SkillSid.Heal => 6,
+                SkillSid.HealingSalve => 6,
+                SkillSid.DopeHerb => 7,
+                SkillSid.MassHeal => 8,
 
-                "Dark Light" => 9,
-                "Paralitic chor" => 10,
-                "Finger of Anubis" => 11,
+                SkillSid.DarkLight => 9,
+                SkillSid.ParaliticChor => 10,
+                SkillSid.FingerOfAnubis => 11,
 
-                "Power Up" => 1,
+                SkillSid.PowerUp => 1,
                 _ => null
             };
         }
 
-        private static Rectangle GetIconRect(string sid)
+        private static Rectangle GetIconRect(SkillSid sid)
         {
             const int SPRITESHEET_COLUMN_COUNT = 3;
 

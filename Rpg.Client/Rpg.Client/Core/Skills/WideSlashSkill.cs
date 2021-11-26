@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Wide Slash";
+        public override SkillSid Sid => SkillSid.WideSwordSlash;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 

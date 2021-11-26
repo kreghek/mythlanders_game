@@ -159,4 +159,61 @@
   <data name="Wisp" xml:space="preserve">
     <value>Блуждающий огонёк</value>
   </data>
+  <data name="Heal" xml:space="preserve">
+    <value>Лечение</value>
+  </data>
+  <data name="ArrowRain" xml:space="preserve">
+    <value>Дождь стрел</value>
+  </data>
+  <data name="EnergyShot" xml:space="preserve">
+    <value>Энерго-выстрел</value>
+  </data>
+  <data name="DefenseStance" xml:space="preserve">
+    <value>Защитная стойка</value>
+  </data>
+  <data name="DopeHerb" xml:space="preserve">
+    <value>Дурман-трава</value>
+  </data>
+  <data name="MassHeal" xml:space="preserve">
+    <value>Массовое исцеление</value>
+  </data>
+  <data name="AbstractMonsterAttack" xml:space="preserve">
+    <value>Абстрактная атака монстра</value>
+  </data>
+  <data name="HealingSalve" xml:space="preserve">
+    <value>Целебная мазь</value>
+  </data>
+  <data name="PowerUp" xml:space="preserve">
+    <value>Усиление</value>
+  </data>
+  <data name="SvarogBlastFurnace" xml:space="preserve">
+    <value>Взрыв печи Сварога</value>
+  </data>
+  <data name="SwordSlash" xml:space="preserve">
+    <value>Рубящий удар мечом</value>
+  </data>
+  <data name="StaffHit" xml:space="preserve">
+    <value>Удары посохом</value>
+  </data>
+  <data name="VampireBite" xml:space="preserve">
+    <value>Вампирический удар</value>
+  </data>
+  <data name="VolkolakClaws" xml:space="preserve">
+    <value>Когти волколака</value>
+  </data>
+  <data name="WideSwordSlash" xml:space="preserve">
+    <value>Широкий удар мечом</value>
+  </data>
+  <data name="ZduhachMight" xml:space="preserve">
+    <value>Мощь великого Здухача</value>
+  </data>
+  <data name="DarkLight" xml:space="preserve">
+    <value>Темная молная</value>
+  </data>
+  <data name="ParaliticChor" xml:space="preserve">
+    <value>Паралитический хор</value>
+  </data>
+  <data name="FingerOfAnubis" xml:space="preserve">
+    <value>Перст Анубиса</value>
+  </data>
 </root>

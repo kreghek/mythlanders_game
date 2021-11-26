@@ -61,6 +61,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abstract monster attack.
+        /// </summary>
+        internal static string AbstractMonsterAttack {
+            get {
+                return ResourceManager.GetString("AbstractMonsterAttack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Arrow rain.
+        /// </summary>
+        internal static string ArrowRain {
+            get {
+                return ResourceManager.GetString("ArrowRain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aspid.
         /// </summary>
         internal static string Aspid {
@@ -84,6 +102,51 @@ namespace Rpg.Client {
         internal static string Berimir {
             get {
                 return ResourceManager.GetString("Berimir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark light.
+        /// </summary>
+        internal static string DarkLight {
+            get {
+                return ResourceManager.GetString("DarkLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defense stance.
+        /// </summary>
+        internal static string DefenseStance {
+            get {
+                return ResourceManager.GetString("DefenseStance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dope herb.
+        /// </summary>
+        internal static string DopeHerb {
+            get {
+                return ResourceManager.GetString("DopeHerb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Energy shot.
+        /// </summary>
+        internal static string EnergyShot {
+            get {
+                return ResourceManager.GetString("EnergyShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Finger of Anubis.
+        /// </summary>
+        internal static string FingerOfAnubis {
+            get {
+                return ResourceManager.GetString("FingerOfAnubis", resourceCulture);
             }
         }
         
@@ -115,11 +178,38 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Heal.
+        /// </summary>
+        internal static string Heal {
+            get {
+                return ResourceManager.GetString("Heal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Healing salve.
+        /// </summary>
+        internal static string HealingSalve {
+            get {
+                return ResourceManager.GetString("HealingSalve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HQ.
         /// </summary>
         internal static string Hq {
             get {
                 return ResourceManager.GetString("Hq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mass heal.
+        /// </summary>
+        internal static string MassHeal {
+            get {
+                return ResourceManager.GetString("MassHeal", resourceCulture);
             }
         }
         
@@ -142,11 +232,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paralitic Chor.
+        /// </summary>
+        internal static string ParaliticChor {
+            get {
+                return ResourceManager.GetString("ParaliticChor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Pit.
         /// </summary>
         internal static string Pit {
             get {
                 return ResourceManager.GetString("Pit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power up.
+        /// </summary>
+        internal static string PowerUp {
+            get {
+                return ResourceManager.GetString("PowerUp", resourceCulture);
             }
         }
         
@@ -160,11 +268,56 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Staff hits.
+        /// </summary>
+        internal static string StaffHit {
+            get {
+                return ResourceManager.GetString("StaffHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Svarog&apos;s Blast Furnace.
+        /// </summary>
+        internal static string SvarogBlastFurnace {
+            get {
+                return ResourceManager.GetString("SvarogBlastFurnace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sword slash.
+        /// </summary>
+        internal static string SwordSlash {
+            get {
+                return ResourceManager.GetString("SwordSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Thicket.
         /// </summary>
         internal static string Thicket {
             get {
                 return ResourceManager.GetString("Thicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vampire bite.
+        /// </summary>
+        internal static string VampireBite {
+            get {
+                return ResourceManager.GetString("VampireBite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volkolak claws.
+        /// </summary>
+        internal static string VolkolakClaws {
+            get {
+                return ResourceManager.GetString("VolkolakClaws", resourceCulture);
             }
         }
         
@@ -178,11 +331,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wide sword slash.
+        /// </summary>
+        internal static string WideSwordSlash {
+            get {
+                return ResourceManager.GetString("WideSwordSlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Will-o-Wisp.
         /// </summary>
         internal static string Wisp {
             get {
                 return ResourceManager.GetString("Wisp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zduhach Might.
+        /// </summary>
+        internal static string ZduhachMight {
+            get {
+                return ResourceManager.GetString("ZduhachMight", resourceCulture);
             }
         }
     }

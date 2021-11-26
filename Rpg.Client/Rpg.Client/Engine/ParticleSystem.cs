@@ -14,12 +14,17 @@ namespace Rpg.Client.Engine
 
         public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
         {
-            EmitterLocation = location;
+            _emitterLocation = location;
             _particleGenerator = particleGenerator;
             _particles = new List<IParticle>();
         }
 
-        private Vector2 EmitterLocation { get; }
+        private Vector2 _emitterLocation;
+
+        public void MoveEmitter(Vector2 newEmitterPosition)
+        {
+            _emitterLocation = newEmitterPosition;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -57,7 +62,7 @@ namespace Rpg.Client.Engine
 
         private IParticle GenerateNewParticle()
         {
-            return _particleGenerator.GenerateNewParticle(EmitterLocation);
+            return _particleGenerator.GenerateNewParticle(_emitterLocation);
         }
     }
 }

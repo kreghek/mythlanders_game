@@ -73,7 +73,10 @@ namespace Rpg.Client.GameScreens.Party
 
                 foreach (var skill in _selectedCharacter.Skills)
                 {
-                    sb.Add(skill.Sid);
+                    var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
+                                        $"#Resource-{skill.Sid}";
+                    
+                    sb.Add(skillNameText);
                     if (skill.ManaCost is not null)
                     {
                         sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));

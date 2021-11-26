@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Mass Heal";
+        public override SkillSid Sid => SkillSid.MassHeal;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 

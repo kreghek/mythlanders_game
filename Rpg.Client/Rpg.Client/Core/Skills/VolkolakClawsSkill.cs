@@ -34,7 +34,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override string Sid => "Volkolak Claws";
+        public override SkillSid Sid => SkillSid.VolkolakClaws;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 

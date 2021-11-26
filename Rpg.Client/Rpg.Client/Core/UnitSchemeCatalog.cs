@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true)
+                        new DefenseStanceSkill(true)
                     }
                 },
                 new SkillSet
@@ -38,7 +38,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true),
+                        new DefenseStanceSkill(true),
                         new SvarogBlastFurnaceSkill(true)
                     }
                 }
@@ -67,7 +67,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new StaffSkill(),
-                        new DefenseSkill(true)
+                        new DefenseStanceSkill(true)
                     }
                 },
                 new SkillSet
@@ -75,7 +75,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new StaffSkill(),
-                        new DefenseSkill(true),
+                        new DefenseStanceSkill(true),
                         new WideSlashSkill(true)
                     }
                 }
@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true)
+                        new DefenseStanceSkill(true)
                     }
                 },
                 new SkillSet
@@ -112,7 +112,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true),
+                        new DefenseStanceSkill(true),
                         new WideSlashSkill(true)
                     }
                 }
@@ -141,7 +141,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true)
+                        new DefenseStanceSkill(true)
                     }
                 },
                 new SkillSet
@@ -149,7 +149,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
-                        new DefenseSkill(true),
+                        new DefenseStanceSkill(true),
                         new WideSlashSkill(true)
                     }
                 }
@@ -226,7 +226,7 @@ namespace Rpg.Client.Core
                     {
                         new BowShotSkill(),
                         new ArrowRainSkill(true),
-                        new DefenseSkill(true)
+                        new DefenseStanceSkill(true)
                     }
                 }
             },
@@ -382,7 +382,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(), // Bite
-                                new DefenseSkill(),
+                                new DefenseStanceSkill(),
                                 new WideSlashSkill()
                             }
                         }
@@ -534,7 +534,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(),
-                                new DefenseSkill()
+                                new DefenseStanceSkill()
                             }
                         }
                     },
@@ -644,7 +644,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(), // Bite
-                                new DefenseSkill(),
+                                new DefenseStanceSkill(),
                                 new WideSlashSkill()
                             }
                         }
@@ -796,7 +796,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(),
-                                new DefenseSkill()
+                                new DefenseStanceSkill()
                             }
                         }
                     },
@@ -906,7 +906,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(), // Bite
-                                new DefenseSkill(),
+                                new DefenseStanceSkill(),
                                 new WideSlashSkill()
                             }
                         }
@@ -1058,7 +1058,7 @@ namespace Rpg.Client.Core
                             Skills = new List<SkillBase>
                             {
                                 new MonsterAttackSkill(),
-                                new DefenseSkill()
+                                new DefenseStanceSkill()
                             }
                         }
                     },
@@ -1342,7 +1342,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new DefenseSkill()
+                                new DefenseStanceSkill()
                             }
                         }
                     },
@@ -1420,7 +1420,7 @@ namespace Rpg.Client.Core
                                     Skills = new List<SkillBase>
                                     {
                                         new MonsterAttackSkill(), // Bite
-                                        new DefenseSkill(), // Dead one hard to die
+                                        new DefenseStanceSkill(), // Dead one hard to die
                                         new HealSkill() // Eat a flash
                                     }
                                 }
