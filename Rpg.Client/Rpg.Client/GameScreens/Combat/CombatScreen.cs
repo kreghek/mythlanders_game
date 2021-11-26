@@ -730,13 +730,16 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void HandleCombatHud()
         {
-            _interactButtonClicked = false;
-            foreach (var hudButton in _hudButtons)
+            if (!_interactButtonClicked)
             {
-                hudButton.Update(_resolutionIndependentRenderer);
+                var skillButtonFixedList = _hudButtons.ToArray();
+                foreach (var button in skillButtonFixedList)
+                {
+                    button.Update(_resolutionIndependentRenderer);
+                }
+                
+                _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
             }
-
-            _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
         }
 
         private IReadOnlyCollection<XpAward> HandleGainXp(ICollection<CombatSource> completedCombats)
@@ -855,6 +858,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 if (!_interactButtonClicked)
                 {
+                    _hudButtons.Clear();
                     _interactButtonClicked = true;
                     _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
                 }
