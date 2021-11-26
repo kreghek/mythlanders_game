@@ -349,6 +349,19 @@ namespace Rpg.Client.GameScreens.Biome
             return hint;
         }
 
+        private void DrawBiomeLevel(SpriteBatch spriteBatch)
+        {
+            var biomeLevelText = $"{UiResource.BiomeLevelText}: {_biome.Level}";
+            var textSize = _uiContentStorage.GetMainFont().MeasureString(biomeLevelText);
+            const int BIOME_LEVEL_TOP_MARGIN = 5;
+            var biomeLevelTextPosition = new Vector2(
+                _resolutionIndependenceRenderer.VirtualWidth * 0.5f - textSize.X * 0.5f,
+                BIOME_LEVEL_TOP_MARGIN);
+
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeLevelText,
+                biomeLevelTextPosition, Color.White);
+        }
+
         private void DrawHud(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(
@@ -383,19 +396,6 @@ namespace Rpg.Client.GameScreens.Biome
 
                 _locationInfoHint.Draw(spriteBatch);
             }
-        }
-
-        private void DrawBiomeLevel(SpriteBatch spriteBatch)
-        {
-            var biomeLevelText = $"{UiResource.BiomeLevelText}: {_biome.Level}";
-            var textSize = _uiContentStorage.GetMainFont().MeasureString(biomeLevelText);
-            const int BIOME_LEVEL_TOP_MARGIN = 5;
-            var biomeLevelTextPosition = new Vector2(
-                _resolutionIndependenceRenderer.VirtualWidth * 0.5f - textSize.X * 0.5f,
-                BIOME_LEVEL_TOP_MARGIN);
-
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeLevelText,
-                biomeLevelTextPosition, Color.White);
         }
 
         private void DrawObjects(SpriteBatch spriteBatch)
