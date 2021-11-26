@@ -737,7 +737,7 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     button.Update(_resolutionIndependentRenderer);
                 }
-                
+
                 _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
             }
         }
