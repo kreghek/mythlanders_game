@@ -855,8 +855,8 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 if (!_interactButtonClicked)
                 {
-                    _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
                     _interactButtonClicked = true;
+                    _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
                 }
             };
 
@@ -917,6 +917,13 @@ namespace Rpg.Client.GameScreens.Combat
 
                             if (!isAnyUnitsInTaskPosition)
                             {
+                                if (skillCard.Skill.TargetType == SkillTargetType.Enemy
+                                    && target.CombatUnit.Unit.IsPlayerControlled ==
+                                    _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                                {
+                                    continue;
+                                }
+                                
                                 InitHudButton(target, skillCard);
                             }
                         }
