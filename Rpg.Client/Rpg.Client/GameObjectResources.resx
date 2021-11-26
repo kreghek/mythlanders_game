@@ -143,4 +143,61 @@
   <data name="Wisp" xml:space="preserve">
     <value>Will-o-Wisp</value>
   </data>
+  <data name="Heal" xml:space="preserve">
+      <value>Heal</value>
+  </data>
+  <data name="ArrowRain" xml:space="preserve">
+      <value>Arrow rain</value>
+  </data>
+  <data name="EnergyShot" xml:space="preserve">
+      <value>Energy shot</value>
+  </data>
+  <data name="DefenseStance" xml:space="preserve">
+      <value>Defense stance</value>
+  </data>
+  <data name="DopeHerb" xml:space="preserve">
+      <value>Dope herb</value>
+  </data>
+  <data name="MassHeal" xml:space="preserve">
+      <value>Mass heal</value>
+  </data>
+  <data name="AbstractMonsterAttack" xml:space="preserve">
+      <value>Abstract monster attack</value>
+  </data>
+  <data name="HealingSalve" xml:space="preserve">
+      <value>Healing salve</value>
+  </data>
+  <data name="PowerUp" xml:space="preserve">
+      <value>Power up</value>
+  </data>
+  <data name="SvarogBlastFurnace" xml:space="preserve">
+      <value>Svarog's Blast Furnace</value>
+  </data>
+  <data name="SwordSlash" xml:space="preserve">
+      <value>Sword slash</value>
+  </data>
+  <data name="StaffHit" xml:space="preserve">
+      <value>Staff hits</value>
+  </data>
+  <data name="VampireBite" xml:space="preserve">
+      <value>Vampire bite</value>
+  </data>
+  <data name="VolkolakClaws" xml:space="preserve">
+      <value>Volkolak claws</value>
+  </data>
+  <data name="WideSwordSlash" xml:space="preserve">
+      <value>Wide sword slash</value>
+  </data>
+  <data name="ZduhachMight" xml:space="preserve">
+      <value>Zduhach Might</value>
+  </data>
+  <data name="DarkLight" xml:space="preserve">
+      <value>Dark light</value>
+  </data>
+  <data name="ParaliticChor" xml:space="preserve">
+      <value>Paralitic Chor</value>
+  </data>
+  <data name="FingerOfAnubis" xml:space="preserve">
+      <value>The Finger of Anubis</value>
+  </data>
 </root>
