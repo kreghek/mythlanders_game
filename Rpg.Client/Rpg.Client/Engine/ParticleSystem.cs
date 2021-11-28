@@ -10,6 +10,8 @@ namespace Rpg.Client.Engine
         private readonly IParticleGenerator _particleGenerator;
         private readonly IList<IParticle> _particles;
 
+        private Vector2 _emitterLocation;
+
         private double _updateCounter;
 
         public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
@@ -19,19 +21,17 @@ namespace Rpg.Client.Engine
             _particles = new List<IParticle>();
         }
 
-        private Vector2 _emitterLocation;
-
-        public void MoveEmitter(Vector2 newEmitterPosition)
-        {
-            _emitterLocation = newEmitterPosition;
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var particle in _particles)
             {
                 particle.Draw(spriteBatch);
             }
+        }
+
+        public void MoveEmitter(Vector2 newEmitterPosition)
+        {
+            _emitterLocation = newEmitterPosition;
         }
 
         public void Update(GameTime gameTime)

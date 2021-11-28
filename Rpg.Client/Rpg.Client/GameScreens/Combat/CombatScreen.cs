@@ -669,13 +669,16 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var equipmentItemType = globeNode.EquipmentItem;
 
+            var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
+
+            targetUnit?.GainEquipmentItem(1);
+        }
+
+        private static Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
+        {
             var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
             var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-
-            if (targetUnit is not null)
-            {
-                targetUnit.GainEquipmentItem(1);
-            }
+            return targetUnit;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
@@ -737,7 +740,7 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     button.Update(_resolutionIndependentRenderer);
                 }
-                
+
                 _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
             }
         }
@@ -927,7 +930,7 @@ namespace Rpg.Client.GameScreens.Combat
                                 {
                                     continue;
                                 }
-                                
+
                                 InitHudButton(target, skillCard);
                             }
                         }

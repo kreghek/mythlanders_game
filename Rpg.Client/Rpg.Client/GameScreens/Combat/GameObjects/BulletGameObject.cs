@@ -15,11 +15,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
+        private readonly ParticleSystem _particleSystem;
         private readonly Vector2 _startPosition;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
-        private readonly ParticleSystem _particleSystem;
 
         public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)

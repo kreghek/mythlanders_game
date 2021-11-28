@@ -11,8 +11,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
-        private bool _startToWound;
         private double _counter;
+
+        private bool _startToDeath;
+        private bool _startToWound;
 
         public CorpseGameObject(UnitGraphics graphics, Camera2D camera, ScreenShaker screenShaker,
             GameObjectContentStorage gameObjectContentStorage)
@@ -49,8 +51,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 _startToWound = true;
             }
         }
-
-        private bool _startToDeath;
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)
         {
