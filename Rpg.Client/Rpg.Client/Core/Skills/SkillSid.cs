@@ -21,6 +21,7 @@ namespace Rpg.Client.Core.Skills
         ZduhachMight,
         DarkLight,
         ParaliticChor,
-        FingerOfAnubis
+        FingerOfAnubis,
+        WispEnergy
     }
 }

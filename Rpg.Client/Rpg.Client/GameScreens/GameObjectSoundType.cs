@@ -8,7 +8,9 @@
         MagicDust,
         EgyptianDarkMagic,
         WolfBite,
-        SnakeBite,
+        AspidBite,
+        VampireBite,
+        WispEnergy,
         Defence,
 
         SvarogSymbolAppearing,
