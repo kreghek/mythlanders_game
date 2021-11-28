@@ -16,7 +16,7 @@ using CoreCombat = Rpg.Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatSkillPanel: ISkillPanelState
+    internal class CombatSkillPanel : ISkillPanelState
     {
         private const int ICON_SIZE = 32;
         private const int BUTTON_PADDING = 5;

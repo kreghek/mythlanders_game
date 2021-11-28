@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.Skills
     internal sealed class WispEnergySkill : SkillBase
     {
         public WispEnergySkill() : base(PredefinedVisualization)
-        { 
+        {
         }
 
         public override IEnumerable<EffectRule> Rules { get; } = new[]
