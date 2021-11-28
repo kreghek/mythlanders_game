@@ -21,7 +21,8 @@ namespace Rpg.Client.Core.GraphicConfigs
                 { "Skill2", new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
                 { "Skill3", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
                 { "Wound", new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
-                { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
+                { "Death", new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } },
+                { "Ult", new AnimationInfo(startFrame: 59, frames: 2, speed: 8) }
             };
         }
     }

@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation($"Skill{_index}");
+                _graphics.PlayAnimation($"Ult");
                 _symbolAppearingSoundEffect?.Play();
             }
 
