@@ -2,6 +2,8 @@
 
 using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class WoundState : IUnitStateEngine
@@ -26,7 +28,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation(Core.AnimationSid.Wound);
+                _graphics.PlayAnimation(AnimationSid.Wound);
                 _graphics.IsDamaged = true;
             }
 

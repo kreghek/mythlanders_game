@@ -8,29 +8,22 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal sealed class CombatSkillButton : ButtonBase
     {
+        private readonly CombatSkillCard _card;
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
-        private readonly Texture2D _texture;
-        private readonly CombatSkillCard _card;
         private readonly ISkillPanelState _skillPanelState;
+        private readonly Texture2D _texture;
 
-        public CombatSkillButton(Texture2D texture, IconData iconData, Rectangle rect, CombatSkillCard card, ISkillPanelState skillPanelState) : base(texture, rect)
+        private float _counter;
+
+        public CombatSkillButton(Texture2D texture, IconData iconData, Rectangle rect, CombatSkillCard card,
+            ISkillPanelState skillPanelState) : base(texture, rect)
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
             _texture = texture;
             _card = card;
             _skillPanelState = skillPanelState;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
-        {
-            spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-
-            if (!IsEnabled)
-            {
-                spriteBatch.Draw(_texture, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
-            }
         }
 
         protected override Color CalculateColor()
@@ -43,6 +36,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return base.CalculateColor();
         }
 
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
+        {
+            spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+
+            if (!IsEnabled)
+            {
+                spriteBatch.Draw(_texture, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
+            }
+        }
+
         protected override void UpdateContent()
         {
             base.UpdateContent();
@@ -53,7 +56,5 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 _counter = 0.0f;
             }
         }
-
-        private float _counter;
     }
 }

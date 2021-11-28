@@ -66,13 +66,18 @@ namespace Rpg.Client.Engine
             }
         }
 
-        protected virtual void UpdateContent()
-        {
-        }
-
         protected override Color CalculateColor()
         {
             return SelectColorByState();
+        }
+
+        protected virtual Color GetStartColor()
+        {
+            return Color.White;
+        }
+
+        protected virtual void UpdateContent()
+        {
         }
 
         private bool CheckMouseOver(ResolutionIndependentRenderer? resolutionIndependentRenderer)
@@ -139,7 +144,5 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
-
-        protected virtual Color GetStartColor() => Color.White;
     }
 }
