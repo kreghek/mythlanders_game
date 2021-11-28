@@ -290,11 +290,6 @@ namespace Rpg.Client.Core
             var unit = e.CombatUnit.Unit;
 
             UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
-
-            if (unit.IsDead)
-            {
-                UnitDied?.Invoke(this, e.CombatUnit);
-            }
         }
 
         private void CompleteStep()
