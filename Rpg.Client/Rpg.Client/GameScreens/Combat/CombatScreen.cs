@@ -899,7 +899,16 @@ namespace Rpg.Client.GameScreens.Combat
             var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead);
             foreach (var target in availableTargetGameObjects)
             {
-                if (skillCard.Skill.TargetType == SkillTargetType.Enemy)
+                if (skillCard.Skill.TargetType == SkillTargetType.Self)
+                {
+                    if (target.CombatUnit.Unit != _сombat.CurrentUnit.Unit)
+                    {
+                        continue;
+                    }
+
+                    InitHudButton(target, skillCard);
+                }
+                else if (skillCard.Skill.TargetType == SkillTargetType.Enemy)
                 {
                     if (skillCard.Skill.Type == SkillType.Melee)
                     {
