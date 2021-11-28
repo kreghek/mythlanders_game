@@ -6,16 +6,16 @@ namespace Rpg.Client.Core.GraphicConfigs
     {
         public WispMonsterGraphicsConfig()
         {
-            Animations = new Dictionary<string, AnimationInfo>
+            Animations = new Dictionary<AnimationSid, AnimationInfo>
             {
-                { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { "MoveForward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { "MoveBackward", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { "Skill1", new AnimationInfo(startFrame: 8, frames: 4, speed: 4) },
-                { "Skill2", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { "Skill3", new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { "Wound", new AnimationInfo(startFrame: 0, frames: 2, speed: 8) },
-                { "Death", new AnimationInfo(startFrame: 0, frames: 8, speed: 8) { IsFinal = true } }
+                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
+                { AnimationSid.MoveForward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { AnimationSid.MoveBackward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 4, speed: 4) },
+                { AnimationSid.Skill2, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { AnimationSid.Wound, new AnimationInfo(startFrame: 0, frames: 2, speed: 8) },
+                { AnimationSid.Death, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) { IsFinal = true } }
             };
         }
     }

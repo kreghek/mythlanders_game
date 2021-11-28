@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class HealState : IUnitStateEngine
@@ -36,7 +38,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation($"Skill{_index}");
+                var skillText = $"Skill{_index}";
+                var sid = Enum.Parse<AnimationSid>(skillText);
+                _graphics.PlayAnimation(sid);
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

@@ -46,7 +46,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("MoveBackward");
+                _graphics.PlayAnimation(Core.AnimationSid.MoveBackward);
             }
 
             if (_counter <= DURATION)

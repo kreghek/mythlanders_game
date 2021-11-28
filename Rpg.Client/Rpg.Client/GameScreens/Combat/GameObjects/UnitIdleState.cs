@@ -10,11 +10,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (state == CombatUnitState.Defense)
             {
-                unitGraphics.PlayAnimation("Defense");
+                unitGraphics.PlayAnimation(AnimationSid.Defense);
             }
             else
             {
-                unitGraphics.PlayAnimation("Idle");
+                unitGraphics.PlayAnimation(AnimationSid.Idle);
             }
         }
 

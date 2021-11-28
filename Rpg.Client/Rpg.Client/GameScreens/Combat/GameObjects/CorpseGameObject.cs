@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -42,12 +43,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 _startToDeath = true;
                 _graphics.IsDamaged = false;
-                _graphics.PlayAnimation("Death");
+                _graphics.PlayAnimation(AnimationSid.Death);
             }
 
             if (!_startToWound)
             {
-                _graphics.PlayAnimation("Wound");
+                _graphics.PlayAnimation(AnimationSid.Wound);
                 _startToWound = true;
             }
         }

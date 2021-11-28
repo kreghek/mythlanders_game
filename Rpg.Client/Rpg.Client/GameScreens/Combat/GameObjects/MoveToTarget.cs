@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -43,7 +46,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation($"Skill{_skillIndex}");
+                var skillText = $"Skill{_skillIndex}";
+                var sid = Enum.Parse<AnimationSid>(skillText);
+                _graphics.PlayAnimation(sid);
             }
 
             if (_counter <= DURATION)

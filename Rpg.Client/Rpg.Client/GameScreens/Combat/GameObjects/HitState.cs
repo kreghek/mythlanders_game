@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -68,7 +69,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (!_animationStarted)
             {
-                _graphics.PlayAnimation($"Skill{_index}");
+                var skillText = $"Skill{_index}";
+                var sid = Enum.Parse<AnimationSid>(skillText);
+                _graphics.PlayAnimation(sid);
+
                 _animationStarted = true;
             }
 

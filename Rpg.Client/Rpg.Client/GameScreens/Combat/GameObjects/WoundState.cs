@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation("Wound");
+                _graphics.PlayAnimation(Core.AnimationSid.Wound);
                 _graphics.IsDamaged = true;
             }
 
