@@ -17,9 +17,15 @@ namespace Rpg.Client.GameScreens.Map
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
 
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
+
         public MapScreen(EwarGame game) : base(game)
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             soundtrackManager.PlayMapTrack();
 
             var globe = game.Services.GetService<GlobeProvider>().Globe;
@@ -32,7 +38,13 @@ namespace Rpg.Client.GameScreens.Map
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
             if (_isNodeModelsCreated)
             {
@@ -78,7 +90,7 @@ namespace Rpg.Client.GameScreens.Map
                 {
                     foreach (var button in _biomButtons)
                     {
-                        button.Update();
+                        button.Update(_resolutionIndependentRenderer);
                     }
                 }
             }
