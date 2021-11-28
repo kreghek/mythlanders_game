@@ -5,27 +5,23 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class VampireBiteSkill : SkillBase
+    internal sealed class WispEnergySkill : SkillBase
     {
-        public VampireBiteSkill() : this(false)
-        {
-        }
-
-        public VampireBiteSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
-        {
+        public WispEnergySkill() : base(PredefinedVisualization)
+        { 
         }
 
         public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new LifeDrawEffect
+                    var res = new AttackEffect
                     {
-                        Actor = u,
-                        DamageMultiplier = 1.0f
+                        DamageMultiplier = 0.5f,
+                        Actor = u
                     };
 
                     return res;
@@ -33,14 +29,14 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.VampireBite;
+        public override SkillSid Sid => SkillSid.WispEnergy;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Melee;
+        public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.VampireBite
+            Type = SkillVisualizationStateType.MassRange,
+            SoundEffectType = GameObjectSoundType.WispEnergy
         };
     }
 }

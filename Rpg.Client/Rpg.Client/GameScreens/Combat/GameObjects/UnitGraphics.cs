@@ -13,11 +13,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
 
-        private readonly IDictionary<string, AnimationInfo> _animationInfos;
+        private readonly IDictionary<AnimationSid, AnimationInfo> _animationInfos;
         private readonly Sprite _graphics;
         private readonly Sprite _selectedMarker;
 
-        private string _animationSid;
+        private AnimationSid _animationSid;
         private double _frameCounter;
         private int _frameIndex;
 
@@ -53,7 +53,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             _animationInfos = unit.Unit.UnitScheme.UnitGraphicsConfig.Animations;
 
-            _animationSid = UnitGraphicsConfigBase.DEFAULT_ANIMATION_SID;
+            _animationSid = AnimationSid.Idle;
         }
 
         public bool IsDamaged { get; set; }
@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Root.Draw(spriteBatch);
         }
 
-        public void PlayAnimation(string sid)
+        public void PlayAnimation(AnimationSid sid)
         {
             if (sid == _animationSid)
             {
@@ -81,7 +81,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            if (_animationSid == UnitGraphicsConfigBase.DEFAULT_ANIMATION_SID)
+            if (_animationSid == AnimationSid.Idle)
             {
                 _selectedMarker.Visible = ShowActiveMarker;
             }

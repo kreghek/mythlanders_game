@@ -29,8 +29,10 @@ namespace Rpg.Client.Engine
             PlayClickSoundIfExists();
         }
 
-        public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer = null)
+        public void Update(ResolutionIndependentRenderer? resolutionIndependentRenderer)
         {
+            UpdateContent();
+
             if (!IsEnabled)
             {
                 return;
@@ -62,6 +64,10 @@ namespace Rpg.Client.Engine
             {
                 _buttonState = UiButtonState.OutOfButton;
             }
+        }
+
+        protected virtual void UpdateContent()
+        {
         }
 
         protected override Color CalculateColor()
@@ -121,7 +127,7 @@ namespace Rpg.Client.Engine
 
         private Color SelectColorByState()
         {
-            var color = Color.White;
+            var color = GetStartColor();
 
             return _buttonState switch
             {
@@ -133,5 +139,7 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
+
+        protected virtual Color GetStartColor() => Color.White;
     }
 }

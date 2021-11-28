@@ -16,7 +16,7 @@ using CoreCombat = Rpg.Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatSkillPanel
+    internal class CombatSkillPanel: ISkillPanelState
     {
         private const int ICON_SIZE = 32;
         private const int BUTTON_PADDING = 5;
@@ -31,7 +31,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private ButtonBase? _hoverButton;
         private KeyboardState? _lastKeyboardState;
-        private CombatSkillCard _selectedCard;
+        private CombatSkillCard? _selectedCard;
         private CombatUnit? _unit;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage, CoreCombat combat,
@@ -354,7 +354,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty);
+                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty, card, this);
                 _buttons.Add(button);
                 _buttonCombatPowerDict[button] = card;
                 button.OnClick += CombatPowerButton_OnClick;

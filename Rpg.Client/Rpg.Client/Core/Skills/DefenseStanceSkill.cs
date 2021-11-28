@@ -30,7 +30,7 @@ namespace Rpg.Client.Core.Skills
         };
 
         public override SkillSid Sid => SkillSid.DefenseStance;
-        public override SkillTargetType TargetType => SkillTargetType.Friendly;
+        public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 
         private static SkillVisualization PredefinedVisualization => new()

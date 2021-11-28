@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -54,7 +56,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                _graphics.PlayAnimation($"Skill{_index}");
+                var skillText = $"Skill{_index}";
+                var sid = Enum.Parse<AnimationSid>(skillText);
+                _graphics.PlayAnimation(sid);
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

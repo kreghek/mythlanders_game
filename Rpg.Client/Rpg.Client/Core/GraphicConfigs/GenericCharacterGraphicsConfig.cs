@@ -6,14 +6,14 @@ namespace Rpg.Client.Core.GraphicConfigs
     {
         public GenericCharacterGraphicsConfig()
         {
-            Animations = new Dictionary<string, AnimationInfo>
+            Animations = new Dictionary<AnimationSid, AnimationInfo>
             {
-                { DEFAULT_ANIMATION_SID, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { "Skill1", new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                { "Skill2", new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
-                { "Skill3", new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
-                { "Wound", new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
-                { "Death", new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } }
+                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
+                { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Skill2, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Skill3, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Wound, new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Death, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } }
             };
         }
     }

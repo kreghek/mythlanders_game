@@ -1224,7 +1224,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new ArrowRainSkill()
+                                new WispEnergySkill()
                             }
                         }
                     },

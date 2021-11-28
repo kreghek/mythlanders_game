@@ -77,6 +77,7 @@ namespace Rpg.Client.GameScreens
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
+                { UnitName.GreyWolf, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf") },
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
                 { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
                 { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") }
@@ -160,12 +161,20 @@ namespace Rpg.Client.GameScreens
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect")
                 },
                 {
-                    GameObjectSoundType.SnakeBite,
+                    GameObjectSoundType.AspidBite,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
                 },
                 {
                     GameObjectSoundType.BearBludgeon,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BearBludgeon")
+                },
+                {
+                    GameObjectSoundType.WispEnergy,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WispStrikeEffect")
+                },
+                {
+                    GameObjectSoundType.VampireBite,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/VampireHitEffect")
                 },
 
                 {
@@ -205,7 +214,9 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
-                { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") }
+                { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
+                { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
+                { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") }
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");

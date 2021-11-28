@@ -10,10 +10,15 @@ namespace Rpg.Client.GameScreens.EndGame
     {
         private readonly TextButton _backButton;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
 
         public EndGameScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _camera = Game.Services.GetService<Camera2D>();
+            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             _backButton = new TextButton("Back", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
                 Rectangle.Empty);
             _backButton.OnClick += (s, e) =>
@@ -24,7 +29,13 @@ namespace Rpg.Client.GameScreens.EndGame
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Happy end! Or not?", new Vector2(100, 100),
                 Color.White);
 
@@ -35,7 +46,7 @@ namespace Rpg.Client.GameScreens.EndGame
 
         protected override void UpdateContent(GameTime gameTime)
         {
-            _backButton.Update();
+            _backButton.Update(_resolutionIndependentRenderer);
         }
     }
 }

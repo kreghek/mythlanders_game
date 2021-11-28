@@ -9,7 +9,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private const double DURATION = 3f;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly SoundEffectInstance _risingPowerSoundEffect;
+        private readonly SoundEffectInstance? _risingPowerSoundEffect;
         private readonly ScreenShaker _screenShaker;
         private double _counter;
 
@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             if (_counter == 0)
             {
                 _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
-                _risingPowerSoundEffect.Play();
+                _risingPowerSoundEffect?.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
