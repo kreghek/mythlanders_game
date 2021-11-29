@@ -35,7 +35,7 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
-        public void UpdateNodes(IDice dice)
+        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
         {
             // Reset all combat states.
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
@@ -78,7 +78,7 @@ namespace Rpg.Client.Core
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
                     {
-                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel).ToArray();
+                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
 
                         var combat = new CombatSource
                         {
@@ -177,9 +177,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel)
+        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel, IUnitSchemeCatalog unitSchemeCatalog)
         {
-            var availableMonsters = UnitSchemeCatalog.AllUnits
+            var availableMonsters = unitSchemeCatalog.AllMonsters
                 .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
                                                       x.MinRequiredBiomeLevel is not null &&
                                                       x.MinRequiredBiomeLevel.Value <= biome.Level))

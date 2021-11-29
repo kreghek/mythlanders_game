@@ -25,6 +25,8 @@ namespace Rpg.Client.GameScreens.Title
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IDice _dice;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -33,6 +35,8 @@ namespace Rpg.Client.GameScreens.Title
 
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _dice = Game.Services.GetService<IDice>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
@@ -141,8 +145,7 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
-            var dice = Game.Services.GetService<IDice>();
-            _globeProvider.Globe.UpdateNodes(dice);
+            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
             _globeProvider.Globe.IsNodeInitialied = true;
 
             var biomes = _globeProvider.Globe.Biomes.Where(x => x.IsAvailable).ToArray();
@@ -156,7 +159,7 @@ namespace Rpg.Client.GameScreens.Title
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
                 firstAvailableNodeInBiome.CombatSequence.Combats.First(), startBiome,
-                dice,
+                _dice,
                 isAutoplay: false);
 
             if (firstAvailableNodeInBiome?.AssignedEvent is not null)

@@ -47,6 +47,7 @@ namespace Rpg.Client.GameScreens.Biome
         private TextHint? _locationInfoHint;
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -67,6 +68,8 @@ namespace Rpg.Client.GameScreens.Biome
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _dice = Game.Services.GetService<IDice>();
+
+            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
 
             _locationObjectList = new List<LocationGameObject>();
 
@@ -153,7 +156,7 @@ namespace Rpg.Client.GameScreens.Biome
 
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(_dice);
+                _globe.UpdateNodes(_dice, _unitSchemeCatalog);
                 _globe.IsNodeInitialied = true;
             }
             else

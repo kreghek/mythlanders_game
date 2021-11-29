@@ -166,7 +166,7 @@ namespace Rpg.Client
 
         private void RegisterServices(IScreenManager screenManager)
         {
-            Services.AddService<IScreenManager>(screenManager);
+            Services.AddService(screenManager);
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
@@ -179,7 +179,20 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
-            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
+            if (_gameMode == GameMode.Full)
+            {
+                var unitSchemeCatalog = new UnitSchemeCatalog();
+                
+                Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+            }
+            else
+            {
+                var unitSchemeCatalog = new DemoUnitSchemeCatalog();
+                
+                Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+            }
+
+            Services.AddService(new GlobeProvider(Services.GetService<IDice>(), Services.GetService<IUnitSchemeCatalog>()));
 
             Services.AddService(new AnimationManager());
 

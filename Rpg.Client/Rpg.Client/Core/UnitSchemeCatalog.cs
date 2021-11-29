@@ -7,7 +7,13 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal static class UnitSchemeCatalog
+    internal interface IUnitSchemeCatalog
+    {
+        IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+        IReadOnlyCollection<UnitScheme> AllMonsters { get; }
+    }
+
+    internal class UnitSchemeCatalog : IUnitSchemeCatalog
     {
         public static readonly UnitScheme SwordsmanHero = new()
         {
@@ -309,31 +315,33 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public static readonly IDictionary<UnitName, UnitScheme> PlayerUnits = new[]
+        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+
+        public UnitSchemeCatalog()
         {
-            SwordsmanHero,
-            ArcherHero,
-            HerbalistHero,
+            PlayerUnits = new[]
+            {
+                SwordsmanHero,
+                ArcherHero,
+                HerbalistHero,
 
-            MonkHero,
-            SpearmanHero,
-            MissionaryHero,
+                MonkHero,
+                SpearmanHero,
+                MissionaryHero,
 
-            ScorpionHero,
-            PriestHero
-        }.ToDictionary(scheme => scheme.Name, scheme => scheme);
-
-        static UnitSchemeCatalog()
-        {
+                ScorpionHero,
+                PriestHero
+            }.ToDictionary(scheme => scheme.Name, scheme => scheme);
+                
             var slavicMonsters = CreateSlavicMonsters();
             var chineseMonsters = CreateChineseMonsters();
             var egyptianMonsters = CreateEgyptianMonsters();
             var greekMonsters = CreateGreekMonsters();
 
-            AllUnits = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters);
+            AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters).ToArray();
         }
 
-        public static IEnumerable<UnitScheme> AllUnits { get; }
+        public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
 
         private static IEnumerable<UnitScheme> CreateChineseMonsters()
         {

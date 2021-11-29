@@ -46,36 +46,17 @@ namespace Rpg.Client.Core
             IOptionAftermath? optionAftermath = null;
             if (aftermath is not null)
             {
-                switch (aftermath)
+                optionAftermath = aftermath switch
                 {
-                    case "MeetArcher":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero);
-                        break;
-
-                    case "MeetHerbalist":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero);
-                        break;
-
-                    case "MeetMonk":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MonkHero);
-                        break;
-
-                    case "MeetSpearman":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.SpearmanHero);
-                        break;
-
-                    case "MeetMissionary":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero);
-                        break;
-
-                    case "MeetScorpion":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ScorpionHero);
-                        break;
-
-                    case "MeetPriest":
-                        optionAftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero);
-                        break;
-                }
+                    "MeetArcher" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero),
+                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero),
+                    "MeetMonk" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MonkHero),
+                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.SpearmanHero),
+                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero),
+                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ScorpionHero),
+                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero),
+                    _ => optionAftermath
+                };
             }
 
             return new EventNode

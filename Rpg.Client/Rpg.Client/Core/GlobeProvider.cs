@@ -14,14 +14,16 @@ namespace Rpg.Client.Core
         private const string SAVE_JSON = "save.json";
 
         private readonly IDice _dice;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private readonly string _saveFilePath;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice)
+        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
         {
             _dice = dice;
+            _unitSchemeCatalog = unitSchemeCatalog;
 
             var binPath = AppContext.BaseDirectory;
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
@@ -101,7 +103,7 @@ namespace Rpg.Client.Core
 
             LoadBiomes(lastSave.Biomes, Globe.Biomes);
 
-            Globe.UpdateNodes(_dice);
+            Globe.UpdateNodes(_dice, _unitSchemeCatalog);
 
             return true;
         }
@@ -299,13 +301,13 @@ namespace Rpg.Client.Core
             Globe.Player.Pool.Units = loadedPool;
         }
 
-        private static List<Unit> LoadPlayerGroup(GroupDto groupDto)
+        private List<Unit> LoadPlayerGroup(GroupDto groupDto)
         {
             var units = new List<Unit>();
             foreach (var unitDto in groupDto.Units)
             {
                 var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
-                var unitScheme = UnitSchemeCatalog.PlayerUnits[unitName];
+                var unitScheme = _unitSchemeCatalog.PlayerUnits[unitName];
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 
