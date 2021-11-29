@@ -21,7 +21,7 @@ namespace Rpg.Client.GameComponents
 
             if (string.IsNullOrWhiteSpace(binPath))
             {
-                throw new InvalidOperationException("Path to bin directiory is null.");
+                throw new InvalidOperationException("Path to bin directory is null.");
             }
 
             var versionFile = Path.Combine(binPath, "version.txt");

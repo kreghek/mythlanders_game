@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+
+using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,6 +18,7 @@ namespace Rpg.Client
     {
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
+        private readonly GameMode _gameMode;
         private Camera2D _camera;
 
         private ResolutionIndependentRenderer _resolutionIndependence;
@@ -23,17 +26,21 @@ namespace Rpg.Client
 
         private SpriteBatch? _spriteBatch;
 
-        public EwarGame(ILogger<EwarGame> logger)
+        public EwarGame(ILogger<EwarGame> logger, GameMode gameMode)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _logger = logger;
+            _gameMode = gameMode;
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            
+            Debug.Assert(_screenManager is not null);
+            Debug.Assert(_spriteBatch is not null);
 
             _screenManager.Draw(_spriteBatch);
 
@@ -84,7 +91,9 @@ namespace Rpg.Client
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
 
-            _logger.LogInformation("Initialization complete successfuly");
+            _logger.LogInformation("Initialization complete successfully");
+            
+            Services.AddService(_gameMode);
 
             base.Initialize();
         }
@@ -151,12 +160,11 @@ namespace Rpg.Client
             _resolutionIndependence.Initialize();
 
             _camera.Zoom = 1f;
-            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2,
-                _resolutionIndependence.VirtualHeight / 2);
+            _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
             _camera.RecalculateTransformationMatrices();
         }
 
-        private void RegisterServices(ScreenManager screenManager)
+        private void RegisterServices(IScreenManager screenManager)
         {
             Services.AddService<IScreenManager>(screenManager);
 
