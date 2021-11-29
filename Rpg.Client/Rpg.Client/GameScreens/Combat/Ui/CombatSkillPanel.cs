@@ -16,7 +16,7 @@ using CoreCombat = Rpg.Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatSkillPanel: ISkillPanelState
+    internal class CombatSkillPanel : ISkillPanelState
     {
         private const int ICON_SIZE = 32;
         private const int BUTTON_PADDING = 5;
@@ -50,24 +50,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         public CoreCombat Combat { get; }
 
         public bool IsEnabled { get; set; }
-
-        public CombatSkillCard? SelectedCard
-        {
-            get => _selectedCard;
-            set
-            {
-                // Comment this block because monsters can transforms into other unit (See scheme auto transition).
-                // But interaction buttons keep reference to old unit. This is reason of a errors.
-                /*if (_selectedCard == value)
-                {
-                    return;
-                }*/
-
-                _selectedCard = value;
-
-                CardSelected?.Invoke(this, _selectedCard);
-            }
-        }
 
         public CombatUnit? Unit
         {
@@ -354,10 +336,29 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty, card, this);
+                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty,
+                    card, this);
                 _buttons.Add(button);
                 _buttonCombatPowerDict[button] = card;
                 button.OnClick += CombatPowerButton_OnClick;
+            }
+        }
+
+        public CombatSkillCard? SelectedCard
+        {
+            get => _selectedCard;
+            set
+            {
+                // Comment this block because monsters can transforms into other unit (See scheme auto transition).
+                // But interaction buttons keep reference to old unit. This is reason of a errors.
+                /*if (_selectedCard == value)
+                {
+                    return;
+                }*/
+
+                _selectedCard = value;
+
+                CardSelected?.Invoke(this, _selectedCard);
             }
         }
 

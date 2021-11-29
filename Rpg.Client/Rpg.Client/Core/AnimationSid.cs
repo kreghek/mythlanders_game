@@ -1,7 +1,7 @@
 ﻿namespace Rpg.Client.Core
 {
     internal enum AnimationSid
-    { 
+    {
         Idle,
         Defense,
         MoveForward,

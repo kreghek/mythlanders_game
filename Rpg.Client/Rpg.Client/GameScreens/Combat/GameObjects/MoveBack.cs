@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -46,7 +47,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation(Core.AnimationSid.MoveBackward);
+                _graphics.PlayAnimation(AnimationSid.MoveBackward);
             }
 
             if (_counter <= DURATION)

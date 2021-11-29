@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens
         }
 
         private static int GetUnitPortraitIndex(UnitName unitName)
-        { 
+        {
             return unitName switch
             {
                 UnitName.Hq => 1,

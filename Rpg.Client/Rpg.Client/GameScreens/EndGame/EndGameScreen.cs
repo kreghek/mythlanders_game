@@ -9,9 +9,9 @@ namespace Rpg.Client.GameScreens.EndGame
     internal sealed class EndGameScreen : GameScreenBase
     {
         private readonly TextButton _backButton;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Camera2D _camera;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
 
         public EndGameScreen(EwarGame game) : base(game)
         {

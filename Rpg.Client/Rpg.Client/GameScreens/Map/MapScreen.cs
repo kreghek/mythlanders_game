@@ -13,12 +13,12 @@ namespace Rpg.Client.GameScreens.Map
     internal class MapScreen : GameScreenBase
     {
         private readonly IList<TextButton> _biomButtons;
+        private readonly Camera2D _camera;
         private readonly Globe _globe;
-        private readonly IUiContentStorage _uiContentStorage;
-        private bool _isNodeModelsCreated;
 
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-        private readonly Camera2D _camera;
+        private readonly IUiContentStorage _uiContentStorage;
+        private bool _isNodeModelsCreated;
 
         public MapScreen(EwarGame game) : base(game)
         {
