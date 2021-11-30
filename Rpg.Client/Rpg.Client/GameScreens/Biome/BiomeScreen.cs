@@ -35,7 +35,7 @@ namespace Rpg.Client.GameScreens.Biome
 
         private readonly IList<LocationGameObject> _locationObjectList;
 
-        private readonly ButtonBase[] _menuButtons;
+        private readonly List<ButtonBase> _menuButtons;
 
         private readonly Random _random;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
@@ -48,11 +48,13 @@ namespace Rpg.Client.GameScreens.Biome
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            _gameSettings = Game.Services.GetService<GameSettings>();
 
             _random = new Random();
 
@@ -80,14 +82,6 @@ namespace Rpg.Client.GameScreens.Biome
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
             };
 
-            var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-
-            saveGameButton.OnClick += (_, _) =>
-            {
-                globeProvider.StoreGlobe();
-            };
-
             var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
             partyModalButton.OnClick += (_, _) =>
@@ -95,12 +89,24 @@ namespace Rpg.Client.GameScreens.Biome
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
             };
 
-            _menuButtons = new ButtonBase[]
+            _menuButtons = new List<ButtonBase>
             {
                 mapButton,
-                saveGameButton,
                 partyModalButton
             };
+            
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+
+                saveGameButton.OnClick += (_, _) =>
+                {
+                    globeProvider.StoreGlobe();
+                };
+                
+                _menuButtons.Add(saveGameButton);
+            }
 
             _clouds = new Cloud[CLOUD_COUNT];
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)

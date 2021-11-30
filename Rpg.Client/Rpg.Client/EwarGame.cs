@@ -131,7 +131,10 @@ namespace Rpg.Client
 
             bgofSelector.Initialize(gameObjectContentStorage);
 
-            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+            }
         }
 
         protected override void Update(GameTime gameTime)
