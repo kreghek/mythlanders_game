@@ -316,15 +316,30 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                     }
                     else
                     {
-                        bullets = new List<IInteractionDelivery>
+                        if (CombatUnit.Unit.IsPlayerControlled)
                         {
-                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100, 100),
-                                _gameObjectContentStorage, bulletBlocker),
-                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200, 200),
-                                _gameObjectContentStorage, null),
-                            new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300),
-                                _gameObjectContentStorage, null)
-                        };
+                            bullets = new List<IInteractionDelivery>
+                            {
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
+                                    _gameObjectContentStorage, bulletBlocker),
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
+                                    _gameObjectContentStorage, null),
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
+                                    _gameObjectContentStorage, null)
+                            };
+                        }
+                        else
+                        {
+                            bullets = new List<IInteractionDelivery>
+                            {
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                                    _gameObjectContentStorage, bulletBlocker),
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                                    _gameObjectContentStorage, null),
+                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                                    _gameObjectContentStorage, null)
+                            };   
+                        }
                     }
 
                     foreach (var bullet in bullets)

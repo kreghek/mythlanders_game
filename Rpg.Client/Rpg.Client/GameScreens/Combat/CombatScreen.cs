@@ -638,10 +638,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             try
             {
-                if (_unitPanelController is not null)
-                {
-                    _unitPanelController.Draw(spriteBatch);
-                }
+                _unitPanelController?.Draw(spriteBatch);
 
                 DrawCombatSequenceProgress(spriteBatch);
             }
@@ -862,12 +859,14 @@ namespace Rpg.Client.GameScreens.Combat
 
             interactButton.OnClick += (s, e) =>
             {
-                if (!_interactButtonClicked)
+                if (_interactButtonClicked)
                 {
-                    _hudButtons.Clear();
-                    _interactButtonClicked = true;
-                    _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                    return;
                 }
+
+                _hudButtons.Clear();
+                _interactButtonClicked = true;
+                _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
             _hudButtons.Add(interactButton);
