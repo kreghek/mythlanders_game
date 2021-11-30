@@ -238,7 +238,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                     if (skill.Sid == SkillSid.HealingSalve)
                     {
-                        singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64),
+                        singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64 + 32),
                             _gameObjectContentStorage, bulletBlocker);
                     }
                     else
