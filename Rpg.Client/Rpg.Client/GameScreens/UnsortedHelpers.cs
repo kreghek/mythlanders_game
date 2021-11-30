@@ -56,6 +56,7 @@ namespace Rpg.Client.GameScreens
                 UnitName.GreyWolf => 7,
                 UnitName.Bear => 8,
                 UnitName.Wisp => 9,
+                UnitName.Volkolak => 10,
                 _ => 5
             };
         }
