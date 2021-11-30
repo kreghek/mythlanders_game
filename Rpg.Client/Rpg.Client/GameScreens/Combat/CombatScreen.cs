@@ -32,6 +32,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -44,12 +45,17 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly Vector2[] _unitPredefinedPositions;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private readonly Core.Combat _сombat;
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
+        private double _combatFinishedCounter;
+
+        private bool? _combatFinishedVictory;
 
         private bool _combatInitialized;
+        private bool _combatResultModalShown;
         private CombatSkillPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
@@ -57,8 +63,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool _interactButtonClicked;
         private UnitPanelController? _unitPanelController;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -197,72 +201,6 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
             combatUnit.HasBeenHealed -= CombatUnit_Healed;
             combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
-        }
-
-        private bool? _combatFinishedVictory;
-        private double _combatFinishedCounter;
-        private bool _combatResultModalShown;
-
-        private void UpdateCombatFinished(GameTime gameTime)
-        {
-            _combatFinishedCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_combatFinishedCounter >= 2 && !_combatResultModalShown)
-            {
-                _combatResultModalShown = true;
-                ShowCombatResultModal(_combatFinishedVictory.Value);
-            }
-        }
-
-        private void ShowCombatResultModal(bool isVictory)
-        {
-            CombatResultModal combatResultModal;
-
-            if (isVictory)
-            {
-                var completedCombats = _globeNode.CombatSequence.CompletedCombats;
-                completedCombats.Add(_сombat.CombatSource);
-
-                var currentCombatList = _сombat.Node.CombatSequence.Combats.ToList();
-                if (currentCombatList.Count == 1)
-                {
-                    var xpItems = HandleGainXp(completedCombats).ToArray();
-                    ApplyXp(xpItems);
-                    GainEquipmentItems(_globeNode, _globeProvider.Globe.Player);
-                    HandleGlobe(CombatResult.Victory);
-
-                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-                    soundtrackManager.PlayVictoryTrack();
-
-                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
-                        CombatResult.Victory,
-                        xpItems,
-                        _сombat.CombatSource);
-                }
-                else
-                {
-                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
-                        CombatResult.NextCombat,
-                        Array.Empty<XpAward>(),
-                        _сombat.CombatSource);
-                }
-            }
-            else
-            {
-                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-                soundtrackManager.PlayDefeatTrack();
-
-                HandleGlobe(CombatResult.Defeat);
-
-                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
-                    CombatResult.Defeat,
-                    Array.Empty<XpAward>(),
-                    _сombat.CombatSource);
-            }
-
-            AddModal(combatResultModal, isLate: false);
-
-            combatResultModal.Closed += CombatResultModal_Closed;
         }
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
@@ -705,7 +643,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         private Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
         {
-            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentItemType);
+            var targetUnitScheme =
+                UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentItemType);
             var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
             return targetUnit;
         }
@@ -1008,6 +947,57 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
+        private void ShowCombatResultModal(bool isVictory)
+        {
+            CombatResultModal combatResultModal;
+
+            if (isVictory)
+            {
+                var completedCombats = _globeNode.CombatSequence.CompletedCombats;
+                completedCombats.Add(_сombat.CombatSource);
+
+                var currentCombatList = _сombat.Node.CombatSequence.Combats.ToList();
+                if (currentCombatList.Count == 1)
+                {
+                    var xpItems = HandleGainXp(completedCombats).ToArray();
+                    ApplyXp(xpItems);
+                    GainEquipmentItems(_globeNode, _globeProvider.Globe.Player);
+                    HandleGlobe(CombatResult.Victory);
+
+                    var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                    soundtrackManager.PlayVictoryTrack();
+
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                        CombatResult.Victory,
+                        xpItems,
+                        _сombat.CombatSource);
+                }
+                else
+                {
+                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                        CombatResult.NextCombat,
+                        Array.Empty<XpAward>(),
+                        _сombat.CombatSource);
+                }
+            }
+            else
+            {
+                var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+                soundtrackManager.PlayDefeatTrack();
+
+                HandleGlobe(CombatResult.Defeat);
+
+                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                    CombatResult.Defeat,
+                    Array.Empty<XpAward>(),
+                    _сombat.CombatSource);
+            }
+
+            AddModal(combatResultModal, isLate: false);
+
+            combatResultModal.Closed += CombatResultModal_Closed;
+        }
+
         private void UpdateBackgroundObjects(GameTime gameTime)
         {
             foreach (var obj in _foregroundLayerObjects)
@@ -1018,6 +1008,17 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var obj in _cloudLayerObjects)
             {
                 obj.Update(gameTime);
+            }
+        }
+
+        private void UpdateCombatFinished(GameTime gameTime)
+        {
+            _combatFinishedCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_combatFinishedCounter >= 2 && !_combatResultModalShown)
+            {
+                _combatResultModalShown = true;
+                ShowCombatResultModal(_combatFinishedVictory.Value);
             }
         }
     }

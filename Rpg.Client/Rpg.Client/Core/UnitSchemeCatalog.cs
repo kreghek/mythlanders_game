@@ -309,8 +309,6 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
-
         public UnitSchemeCatalog()
         {
             PlayerUnits = new[]
@@ -332,10 +330,9 @@ namespace Rpg.Client.Core
             var egyptianMonsters = CreateEgyptianMonsters();
             var greekMonsters = CreateGreekMonsters();
 
-            AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters).ToArray();
+            AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters)
+                .ToArray();
         }
-
-        public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
 
         private static IEnumerable<UnitScheme> CreateChineseMonsters()
         {
@@ -1463,5 +1460,9 @@ namespace Rpg.Client.Core
                 }
             };
         }
+
+        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+
+        public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
     }
 }

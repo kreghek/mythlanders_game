@@ -31,7 +31,8 @@ namespace Rpg.Client.Engine
             var size = 0.5f;
             var ttl = 120 + _random.Next(40);
 
-            return new MothParticle(texture, new Rectangle(0, 0, 32, 32), position, targetPosition, velocity, angle, angularVelocity,
+            return new MothParticle(texture, new Rectangle(0, 0, 32, 32), position, targetPosition, velocity, angle,
+                angularVelocity,
                 color,
                 size, ttl);
         }

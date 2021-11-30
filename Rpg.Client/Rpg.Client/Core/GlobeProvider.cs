@@ -12,17 +12,18 @@ namespace Rpg.Client.Core
     internal sealed class GlobeProvider
     {
         private const string SAVE_JSON = "save.json";
+        private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly IDice _dice;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IBiomeGenerator _biomeGenerator;
         private readonly IEventCatalog _eventCatalog;
 
         private readonly string _saveFilePath;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator, IEventCatalog eventCatalog)
+        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator,
+            IEventCatalog eventCatalog)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;

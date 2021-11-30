@@ -30,7 +30,9 @@ namespace Rpg.Client.GameScreens.Biome
 
         private readonly Cloud[] _clouds;
         private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
         private readonly IList<LocationGameObject> _locationObjectList;
@@ -40,6 +42,7 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly Random _random;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
@@ -47,9 +50,6 @@ namespace Rpg.Client.GameScreens.Biome
         private TextHint? _locationInfoHint;
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
-        private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -80,7 +80,8 @@ namespace Rpg.Client.GameScreens.Biome
             _menuButtons = new List<ButtonBase>();
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle, _uiContentStorage.GetButtonTexture(),
+                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
                 mapButton.OnClick += (_, _) =>
                 {
@@ -492,7 +493,8 @@ namespace Rpg.Client.GameScreens.Biome
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)
             {
-                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
+                var targetUnitScheme =
+                    UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
 
                 var playerUnit = _globe.Player.GetAll()
                     .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);

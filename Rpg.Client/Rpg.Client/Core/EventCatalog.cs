@@ -30,8 +30,6 @@ namespace Rpg.Client.Core
             _events = testEvents.Concat(plotEvents).ToArray();
         }
 
-        public IEnumerable<Event> Events => _events;
-
         private EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
             string? aftermath)
         {
@@ -51,13 +49,20 @@ namespace Rpg.Client.Core
             {
                 optionAftermath = aftermath switch
                 {
-                    "MeetArcher" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
-                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
-                    "MeetMonk" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Maosin]),
-                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
-                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
-                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
-                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
+                    "MeetArcher" =>
+                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
+                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
+                    "MeetMonk" =>
+                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Maosin]),
+                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
+                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
+                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
+                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
                     _ => optionAftermath
                 };
             }
@@ -196,6 +201,8 @@ namespace Rpg.Client.Core
 
             return sb.ToString();
         }
+
+        public IEnumerable<Event> Events => _events;
 
         private sealed record LocationInfo
         {

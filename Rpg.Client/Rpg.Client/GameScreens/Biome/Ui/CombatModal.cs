@@ -180,7 +180,8 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 return;
             }
 
-            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
+            var targetUnitScheme =
+                UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
 
             var playerUnit = _globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 

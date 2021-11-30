@@ -21,6 +21,7 @@ namespace Rpg.Client
 
     public class EwarGame : Game
     {
+        private readonly GameSettings _gameSettings;
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
@@ -29,7 +30,6 @@ namespace Rpg.Client
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
-        private readonly GameSettings _gameSettings;
 
         public EwarGame(ILogger<EwarGame> logger, GameMode gameMode)
         {

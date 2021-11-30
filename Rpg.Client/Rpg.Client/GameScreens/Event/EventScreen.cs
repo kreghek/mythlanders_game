@@ -34,6 +34,8 @@ namespace Rpg.Client.GameScreens.Event
 
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
+        private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
@@ -41,12 +43,10 @@ namespace Rpg.Client.GameScreens.Event
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
-        private readonly IDice _dice;
 
         public EventScreen(EwarGame game) : base(game)
         {
