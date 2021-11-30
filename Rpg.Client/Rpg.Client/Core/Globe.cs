@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
-        public Globe()
+        public Globe(IBiomeGenerator biomeGenerator)
         {
             // First variant of the names.
             /*
@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
              * "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
              */
 
-            var biomes = GenerateBiomes();
+            var biomes = biomeGenerator.Generate();
 
             Biomes = biomes;
             CurrentBiome = biomes.Single(x => x.IsStart);
@@ -23,7 +23,7 @@ namespace Rpg.Client.Core
 
         public Combat? ActiveCombat { get; set; }
 
-        public IEnumerable<Biome> Biomes { get; }
+        public IReadOnlyCollection<Biome> Biomes { get; }
 
         public Biome? CurrentBiome { get; set; }
 
@@ -35,7 +35,7 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
-        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
+        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
             // Reset all combat states.
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
@@ -84,7 +84,7 @@ namespace Rpg.Client.Core
                         {
                             Level = combatLevel,
                             EnemyGroup = new Group(),
-                            IsTrainingOnly = combatToTrainingIndex == locationIndex
+                            IsTrainingOnly = combatToTrainingIndex == locationIndex && biome.Nodes.Count() == 4
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
@@ -112,7 +112,7 @@ namespace Rpg.Client.Core
             {
                 var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
-                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat);
+                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
@@ -129,14 +129,14 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat)
+        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat, IEventCatalog eventCatalog)
         {
-            var availableEvents = EventCatalog.Events
+            var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
                 .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
                             (x.RequiredBiomeLevel is null))
-                .Where(x => IsUnlocked(x, EventCatalog.Events));
+                .Where(x => IsUnlocked(x, eventCatalog.Events));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)
@@ -216,66 +216,6 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static Biome[] GenerateBiomes()
-        {
-            const int BIOME_MIN_LEVEL_STEP = 12;
-            const int BIOME_NODE_COUNT = 8;
-
-            return new[]
-            {
-                new Biome(0, BiomeType.Slavic)
-                {
-                    IsAvailable = true,
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            Sid = GetNodeSid(x, BiomeType.Slavic),
-                            IsAvailable = GetStartAvailability(x)
-                        }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Chinese,
-                    IsStart = true
-                },
-                new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.Chinese)
-                {
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            Index = x,
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Chinese),
-                            Sid = GetNodeSid(x, BiomeType.Chinese),
-                            IsAvailable = GetStartAvailability(x)
-                        }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Egyptian
-                },
-                new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egyptian)
-                {
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian),
-                            Sid = GetNodeSid(x, BiomeType.Egyptian), IsAvailable = GetStartAvailability(x)
-                        }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Greek
-                },
-                new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
-                {
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            Index = x, EquipmentItem = GetEquipmentItem(x, BiomeType.Greek),
-                            Sid = GetNodeSid(x, BiomeType.Greek), IsAvailable = GetStartAvailability(x)
-                        }
-                    ).ToArray(),
-                    IsFinal = true
-                }
-            };
-        }
-
         private static int[] GetCombatCounts(int level)
         {
             return level switch
@@ -290,41 +230,6 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
-        {
-            switch (biomType)
-            {
-                case BiomeType.Slavic:
-                    {
-                        return nodeIndex switch
-                        {
-                            // TODO Rewrite to pattern matching with range
-                            0 => EquipmentItemType.Warrior,
-                            1 => EquipmentItemType.Archer,
-                            2 => EquipmentItemType.Herbalist,
-                            3 => EquipmentItemType.Warrior,
-                            4 => EquipmentItemType.Archer,
-                            5 => EquipmentItemType.Herbalist,
-
-                            _ => null
-                        };
-                    }
-
-                case BiomeType.Egyptian:
-                    {
-                        return nodeIndex switch
-                        {
-                            0 => EquipmentItemType.Priest,
-                            3 => EquipmentItemType.Priest,
-                            _ => null
-                        };
-                    }
-
-                default:
-                    return null;
-            }
-        }
-
         private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters,
             int predefinedMinMonsterCount)
         {
@@ -336,13 +241,6 @@ namespace Rpg.Client.Core
             var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
             var monsterCount = availableMinMonsterCount;
             return monsterCount;
-        }
-
-        private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
-        {
-            var sidIndex = (int)biomType + nodeIndex + 1;
-            var sid = (GlobeNodeSid)sidIndex;
-            return sid;
         }
 
         private static GlobeNode[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
@@ -379,11 +277,6 @@ namespace Rpg.Client.Core
                 > 10 => new[] { 3, 3, 3 },
                 _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
             };
-        }
-
-        private static bool GetStartAvailability(int nodeIndex)
-        {
-            return nodeIndex == 0;
         }
 
         private static int GetUnitLevel(int combatLevel)

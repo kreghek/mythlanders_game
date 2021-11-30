@@ -389,16 +389,19 @@ namespace Rpg.Client.Core
                 }
             }
 
-            var combatUnit = _unitQueue.FirstOrDefault(x => x.Unit == unit);
-            if (combatUnit is not null)
+            var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x.Unit == unit);
+            if (combatUnitInQueue is not null)
             {
-                _unitQueue.Remove(combatUnit);
+                _unitQueue.Remove(combatUnitInQueue);
             }
 
             unit.Dead -= Unit_Dead;
 
+            var combatUnit = _allUnitList.FirstOrDefault(x => x.Unit == unit);
+
             if (combatUnit is not null)
             {
+                _allUnitList.Remove(combatUnit);
                 UnitDied?.Invoke(this, combatUnit);
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }

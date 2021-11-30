@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Map
         {
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>(), _unitSchemeCatalog);
+                _globe.UpdateNodes(Game.Services.GetService<IDice>(), _unitSchemeCatalog, Game.Services.GetService<IEventCatalog>());
                 _globe.IsNodeInitialied = true;
             }
             else

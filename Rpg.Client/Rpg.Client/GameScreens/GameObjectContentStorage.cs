@@ -80,7 +80,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.GreyWolf, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf") },
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
                 { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
-                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") }
+                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
+                { UnitName.Volkolak, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak") },
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -216,7 +217,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
                 { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
                 { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
-                { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") }
+                { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") },
+                { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
             };
 
             _shadowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SimpleObjectShadow");

@@ -21,6 +21,7 @@ namespace Rpg.Client.GameComponents
         private string? _errorText;
         private KeyboardState _lastState;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
 
         public CheatInput(Game game, SpriteBatch spriteBatch, SpriteFont spriteFont) : base(game)
         {
@@ -33,6 +34,7 @@ namespace Rpg.Client.GameComponents
             _backgroundTexture.SetData(data);
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
         }
 
         public static bool IsCheating { get; private set; }
@@ -124,18 +126,18 @@ namespace Rpg.Client.GameComponents
             };
         }
 
-        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid)
+        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid, IUnitSchemeCatalog unitSchemeCatalog)
         {
             return unitSchemeSid switch
             {
-                "warrior" => UnitSchemeCatalog.SwordsmanHero,
-                "archer" => UnitSchemeCatalog.ArcherHero,
-                "herbalist" => UnitSchemeCatalog.HerbalistHero,
+                "warrior" => unitSchemeCatalog.PlayerUnits[UnitName.Berimir],
+                "archer" => unitSchemeCatalog.PlayerUnits[UnitName.Hawk],
+                "herbalist" => unitSchemeCatalog.PlayerUnits[UnitName.Rada],
 
-                "monk" => UnitSchemeCatalog.MonkHero,
-                "missionary" => UnitSchemeCatalog.MissionaryHero,
+                "monk" => unitSchemeCatalog.PlayerUnits[UnitName.Maosin],
+                "missionary" => unitSchemeCatalog.PlayerUnits[UnitName.Cheng],
 
-                "priest" => UnitSchemeCatalog.PriestHero,
+                "priest" => unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep],
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
@@ -147,7 +149,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
             globe.Player.Pool.Units = poolUnitList;
@@ -163,7 +165,7 @@ namespace Rpg.Client.GameComponents
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-            var characterEvent = EventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
+            var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
             if (characterEvent is not null)
             {
                 // Simulate the event resolving.
@@ -177,7 +179,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
@@ -191,7 +193,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var xpAmount = int.Parse(args[1]);
@@ -205,7 +207,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice, _unitSchemeCatalog);
+            globe.UpdateNodes(dice, _unitSchemeCatalog, _eventCatalog);
         }
 
         /// <summary>

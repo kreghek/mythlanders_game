@@ -19,6 +19,9 @@
     <EmbeddedResource Remove="Content\obj\**" />
     <None Remove="Content\bin\**" />
     <None Remove="Content\obj\**" />
+    <None Update="settings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />

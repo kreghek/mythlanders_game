@@ -26,15 +26,17 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         private readonly Globe _globe;
         private readonly GlobeNodeGameObject _nodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer,
+            IUnitSchemeCatalog unitSchemeCatalog) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _globe = context.Globe;
             _nodeGameObject = context.SelectedNodeGameObject;
             _uiContentStorage = uiContentStorage;
-
+            _unitSchemeCatalog = unitSchemeCatalog;
             _buttons = new List<ButtonBase>();
 
             var combatButton = new TextButton(UiResource.ToTheCombatButtonTitle, _uiContentStorage.GetButtonTexture(),
@@ -178,7 +180,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 return;
             }
 
-            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
 
             var playerUnit = _globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
 

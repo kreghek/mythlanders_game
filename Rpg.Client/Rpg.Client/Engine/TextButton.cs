@@ -25,7 +25,7 @@ namespace Rpg.Client.Engine
                 (widthDiff / 2) + contentRect.Left,
                 (heightDiff / 2) + contentRect.Top);
 
-            spriteBatch.DrawString(_font, Title, textPosition, Color.White);
+            spriteBatch.DrawString(_font, Title, textPosition, Color.SaddleBrown);
         }
     }
 }
