@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Event
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
-        private static bool _tutorial;
+        public static bool _tutorial;
         private readonly Texture2D _backgroundTexture;
         private readonly IList<ButtonBase> _buttons;
 

@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Biome;
+using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Event;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Common
@@ -211,6 +214,10 @@ namespace Rpg.Client.GameScreens.Common
 
         private void FastRestartButton_OnClick(object? sender, EventArgs e)
         {
+            CombatScreen._tutorial = false;
+            EventScreen._tutorial = false;
+            BiomeScreen._tutorial = false;
+
             var screenManager = _game.Services.GetService<IScreenManager>();
             screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
         }

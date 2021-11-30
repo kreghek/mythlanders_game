@@ -22,7 +22,7 @@ namespace Rpg.Client.GameScreens.Biome
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
-        private static bool _tutorial;
+        public static bool _tutorial;
         private readonly Texture2D _backgroundTexture;
 
         private readonly Core.Biome _biome;

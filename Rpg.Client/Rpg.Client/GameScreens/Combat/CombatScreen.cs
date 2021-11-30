@@ -24,7 +24,7 @@ namespace Rpg.Client.GameScreens.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        private static bool _tutorial;
+        public static bool _tutorial;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
@@ -140,7 +140,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 HandleUnits(gameTime);
 
-                if (!_сombat.Finished)
+                if (!_сombat.Finished && _combatFinishedVictory is null)
                 {
                     HandleCombatHud();
                 }
@@ -149,6 +149,11 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             HandleBackgrounds();
+
+            if (_combatFinishedVictory is not null)
+            {
+                UpdateCombatFinished(gameTime);
+            }
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -192,14 +197,26 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 
-        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
-        {
-            _hudButtons.Clear();
-            _combatSkillsPanel = null;
+        private bool? _combatFinishedVictory;
+        private double _combatFinishedCounter;
+        private bool _combatResultModalShown;
 
+        private void UpdateCombatFinished(GameTime gameTime)
+        {
+            _combatFinishedCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_combatFinishedCounter >= 2 && !_combatResultModalShown)
+            {
+                _combatResultModalShown = true;
+                ShowCombatResultModal(_combatFinishedVictory.Value);
+            }
+        }
+
+        private void ShowCombatResultModal(bool isVictory)
+        {
             CombatResultModal combatResultModal;
 
-            if (e.Victory)
+            if (isVictory)
             {
                 var completedCombats = _globeNode.CombatSequence.CompletedCombats;
                 completedCombats.Add(_сombat.CombatSource);
@@ -244,6 +261,16 @@ namespace Rpg.Client.GameScreens.Combat
             AddModal(combatResultModal, isLate: false);
 
             combatResultModal.Closed += CombatResultModal_Closed;
+        }
+
+        private void Combat_Finish(object? sender, CombatFinishEventArgs e)
+        {
+            _hudButtons.Clear();
+            _combatSkillsPanel = null;
+
+            _combatFinishedVictory = e.Victory;
+
+            // See UpdateCombatFinished next
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
