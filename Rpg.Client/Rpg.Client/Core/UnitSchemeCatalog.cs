@@ -326,7 +326,7 @@ namespace Rpg.Client.Core
                 ScorpionHero,
                 PriestHero
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
-                
+
             var slavicMonsters = CreateSlavicMonsters();
             var chineseMonsters = CreateChineseMonsters();
             var egyptianMonsters = CreateEgyptianMonsters();

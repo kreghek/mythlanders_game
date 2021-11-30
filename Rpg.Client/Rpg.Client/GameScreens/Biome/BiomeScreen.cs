@@ -103,7 +103,7 @@ namespace Rpg.Client.GameScreens.Biome
                 {
                     globeProvider.StoreGlobe();
                 };
-                
+
                 _menuButtons.Add(saveGameButton);
             }
 

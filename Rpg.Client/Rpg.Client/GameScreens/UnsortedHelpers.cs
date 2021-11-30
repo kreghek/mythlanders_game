@@ -8,7 +8,7 @@ namespace Rpg.Client.GameScreens
 {
     internal static class UnsortedHelpers
     {
-        public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,  EquipmentItemType? equipmentItemType)
+        public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog, EquipmentItemType? equipmentItemType)
         {
             if (equipmentItemType is null)
             {

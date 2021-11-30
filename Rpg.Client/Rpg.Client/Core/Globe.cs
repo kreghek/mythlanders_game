@@ -84,7 +84,7 @@ namespace Rpg.Client.Core
                         {
                             Level = combatLevel,
                             EnemyGroup = new Group(),
-                            IsTrainingOnly = combatToTrainingIndex == locationIndex && biome.Nodes.Where(x=>x.IsAvailable).Count() == 4
+                            IsTrainingOnly = combatToTrainingIndex == locationIndex && biome.Nodes.Where(x => x.IsAvailable).Count() == 4
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)

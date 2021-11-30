@@ -62,7 +62,7 @@ namespace Rpg.Client.GameScreens.Event
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
-            
+
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 

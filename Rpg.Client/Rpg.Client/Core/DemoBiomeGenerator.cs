@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class DemoBiomeGenerator: IBiomeGenerator
+    internal sealed class DemoBiomeGenerator : IBiomeGenerator
     {
         private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
         {
@@ -11,12 +11,12 @@ namespace Rpg.Client.Core
             var sid = (GlobeNodeSid)sidIndex;
             return sid;
         }
-        
+
         private static bool GetStartAvailability(int nodeIndex)
         {
             return nodeIndex == 0;
         }
-        
+
         public IReadOnlyList<Biome> Generate()
         {
             const int BIOME_NODE_COUNT = 4;

@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Map
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            
+
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
 
             soundtrackManager.PlayMapTrack();

@@ -89,7 +89,7 @@ namespace Rpg.Client.GameScreens.Combat
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
-            
+
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 

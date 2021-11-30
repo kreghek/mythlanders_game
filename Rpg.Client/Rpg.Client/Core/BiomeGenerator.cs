@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class BiomeGenerator: IBiomeGenerator
+    internal sealed class BiomeGenerator : IBiomeGenerator
     {
         private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
         {
@@ -11,12 +11,12 @@ namespace Rpg.Client.Core
             var sid = (GlobeNodeSid)sidIndex;
             return sid;
         }
-        
+
         private static bool GetStartAvailability(int nodeIndex)
         {
             return nodeIndex == 0;
         }
-        
+
         public IReadOnlyList<Biome> Generate()
         {
             const int BIOME_MIN_LEVEL_STEP = 12;

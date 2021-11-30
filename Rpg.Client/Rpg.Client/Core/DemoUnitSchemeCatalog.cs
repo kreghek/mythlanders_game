@@ -108,7 +108,7 @@ namespace Rpg.Client.Core
                 ArcherHero,
                 HerbalistHero,
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
-                
+
             var slavicMonsters = CreateSlavicMonsters();
 
             AllMonsters = slavicMonsters.ToArray();
