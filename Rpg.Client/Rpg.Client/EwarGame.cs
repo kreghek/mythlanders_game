@@ -14,17 +14,22 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
 {
+    internal sealed class GameSettings
+    {
+        public GameMode Mode { get; init; }
+    }
+
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
-        private readonly GameMode _gameMode;
         private Camera2D _camera;
 
         private ResolutionIndependentRenderer _resolutionIndependence;
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
+        private readonly GameSettings _gameSettings;
 
         public EwarGame(ILogger<EwarGame> logger, GameMode gameMode)
         {
@@ -32,7 +37,11 @@ namespace Rpg.Client
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _logger = logger;
-            _gameMode = gameMode;
+
+            _gameSettings = new GameSettings
+            {
+                Mode = gameMode
+            };
         }
 
         protected override void Draw(GameTime gameTime)
@@ -70,6 +79,8 @@ namespace Rpg.Client
 
             _camera = new Camera2D(_resolutionIndependence);
             Services.AddService(_camera);
+            
+            Services.AddService(_gameSettings);
 
 #if DEBUG
             const int WIDTH = 848;
@@ -93,7 +104,7 @@ namespace Rpg.Client
 
             _logger.LogInformation("Initialization complete successfully");
             
-            Services.AddService(_gameMode);
+            Services.AddService(_gameSettings.Mode);
 
             base.Initialize();
         }
@@ -179,7 +190,7 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
-            if (_gameMode == GameMode.Full)
+            if (_gameSettings.Mode == GameMode.Full)
             {
                 var unitSchemeCatalog = new UnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);

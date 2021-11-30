@@ -26,6 +26,7 @@ namespace Rpg.Client.GameScreens.Common
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
+        private readonly GameSettings _gameSettings;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game) : base(uiContentStorage,
@@ -36,15 +37,22 @@ namespace Rpg.Client.GameScreens.Common
 
             _camera = game.Services.GetService<Camera2D>();
 
+            _gameSettings = game.Services.GetService<GameSettings>();
+
             var buttonTexture = uiContentStorage.GetButtonTexture();
             var font = uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>
             {
-                //GetBackToMainMenuButton(buttonTexture, font),
-                GetSwitchLanguageButton(buttonTexture, font),
                 GetSwitchFullScreenButton(buttonTexture, font)
             };
+
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                // Switch language only for showcase.
+                // On a showcase use default russian language.
+                _buttons.Add(GetSwitchLanguageButton(buttonTexture, font));
+            }
 
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
                 buttonTexture,

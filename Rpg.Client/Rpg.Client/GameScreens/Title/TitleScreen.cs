@@ -117,6 +117,11 @@ namespace Rpg.Client.GameScreens.Title
                 return null;
             }
 
+            if (Game.Services.GetService<GameSettings>().Mode == GameMode.Demo)
+            {
+                return null;
+            }
+
             var loadGameButton = new TextButton(
                 UiResource.LoadLastSaveButtonTitle,
                 buttonTexture,
