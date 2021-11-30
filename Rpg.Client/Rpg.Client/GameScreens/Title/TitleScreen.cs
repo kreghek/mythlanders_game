@@ -27,6 +27,8 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private readonly IDice _dice;
+        private readonly GameSettings _gameSettings;
+        private readonly SpriteFont _font;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -37,6 +39,7 @@ namespace Rpg.Client.GameScreens.Title
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _dice = Game.Services.GetService<IDice>();
+            _gameSettings = Game.Services.GetService<GameSettings>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayTitleTrack();
@@ -44,7 +47,7 @@ namespace Rpg.Client.GameScreens.Title
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
             var buttonTexture = _uiContentStorage.GetButtonTexture();
-            var font = _uiContentStorage.GetMainFont();
+            _font = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
@@ -52,7 +55,7 @@ namespace Rpg.Client.GameScreens.Title
             var startButton = new TextButton(
                 UiResource.StartGameButtonTitle,
                 buttonTexture,
-                font,
+                _font,
                 emptyRect);
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
@@ -60,15 +63,18 @@ namespace Rpg.Client.GameScreens.Title
             var settingsButton = new TextButton(
                 UiResource.SettingsButtonTitle,
                 buttonTexture,
-                font,
+                _font,
                 emptyRect);
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
 
-            var loadGameButton = GetLoadButton(buttonTexture, font);
-            if (loadGameButton != null)
+            if (_gameSettings.Mode == GameMode.Full)
             {
-                _buttons.Add(loadGameButton);
+                var loadGameButton = GetLoadButton(buttonTexture, _font);
+                if (loadGameButton != null)
+                {
+                    _buttons.Add(loadGameButton);
+                }
             }
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
@@ -86,11 +92,20 @@ namespace Rpg.Client.GameScreens.Title
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                spriteBatch.DrawString(_font, "Demo",
+                    new Vector2(
+                        _resolutionIndependentRenderer.VirtualBounds.Center.X,
+                        110),
+                    Color.White);
+            }
+
             var index = 0;
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    (_resolutionIndependentRenderer.VirtualWidth - BUTTON_WIDTH) / 2,
+                    _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
                     150 + index * 50,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
