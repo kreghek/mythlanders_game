@@ -126,18 +126,18 @@ namespace Rpg.Client.GameComponents
             };
         }
 
-        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid)
+        private static UnitScheme GetUnitSchemeByString(string unitSchemeSid, IUnitSchemeCatalog unitSchemeCatalog)
         {
             return unitSchemeSid switch
             {
-                "warrior" => UnitSchemeCatalog.SwordsmanHero,
-                "archer" => UnitSchemeCatalog.ArcherHero,
-                "herbalist" => UnitSchemeCatalog.HerbalistHero,
+                "warrior" => unitSchemeCatalog.PlayerUnits[UnitName.Berimir],
+                "archer" => unitSchemeCatalog.PlayerUnits[UnitName.Hawk],
+                "herbalist" => unitSchemeCatalog.PlayerUnits[UnitName.Rada],
 
-                "monk" => UnitSchemeCatalog.MonkHero,
-                "missionary" => UnitSchemeCatalog.MissionaryHero,
+                "monk" => unitSchemeCatalog.PlayerUnits[UnitName.Maosin],
+                "missionary" => unitSchemeCatalog.PlayerUnits[UnitName.Cheng],
 
-                "priest" => UnitSchemeCatalog.PriestHero,
+                "priest" => unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep],
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
@@ -149,7 +149,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
             globe.Player.Pool.Units = poolUnitList;
@@ -179,7 +179,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
@@ -193,7 +193,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid);
+            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var xpAmount = int.Parse(args[1]);

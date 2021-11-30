@@ -60,7 +60,7 @@ namespace Rpg.Client
 #else
             try
             {
-                using var game = new EwarGame(logger);
+                using var game = new EwarGame(logger, gameMode);
                 game.Run();
             }
             catch (Exception exception)

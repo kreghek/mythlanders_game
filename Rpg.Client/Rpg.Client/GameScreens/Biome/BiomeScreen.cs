@@ -290,7 +290,7 @@ namespace Rpg.Client.GameScreens.Biome
                             };
 
                             var combatModal = new CombatModal(context, _uiContentStorage,
-                                _resolutionIndependenceRenderer);
+                                _resolutionIndependenceRenderer, _unitSchemeCatalog);
                             AddModal(combatModal, isLate: false);
                         }
                     }
@@ -492,7 +492,7 @@ namespace Rpg.Client.GameScreens.Biome
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is not null)
             {
-                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentType);
+                var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentType);
 
                 var playerUnit = _globe.Player.GetAll()
                     .SingleOrDefault(x => x.UnitScheme == targetUnitScheme);

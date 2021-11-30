@@ -17,14 +17,13 @@ namespace Rpg.Client.Core.SkillEffects
 
         public float Scatter { get; init; } = 0.1f;
 
+        public int SourceSupport { get; set; }
+
         public MinMax<int> CalculateHeal()
         {
-            var absoluteSupport = Actor.Unit.Support * PowerMultiplier;
+            var absoluteSupport = SourceSupport * PowerMultiplier;
             var min = absoluteSupport - Scatter * absoluteSupport;
             var max = absoluteSupport + Scatter * absoluteSupport;
-
-            min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenHeal);
-            max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenHeal);
 
             if (Target != null)
             {

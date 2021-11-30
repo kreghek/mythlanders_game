@@ -694,7 +694,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void GainEquipmentItems(GlobeNode globeNode, Player? player)
+        private void GainEquipmentItems(GlobeNode globeNode, Player? player)
         {
             var equipmentItemType = globeNode.EquipmentItem;
 
@@ -703,9 +703,9 @@ namespace Rpg.Client.GameScreens.Combat
             targetUnit?.GainEquipmentItem(1);
         }
 
-        private static Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
+        private Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
         {
-            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(equipmentItemType);
+            var targetUnitScheme = UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentItemType);
             var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
             return targetUnit;
         }

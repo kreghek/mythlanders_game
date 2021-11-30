@@ -133,11 +133,11 @@ namespace Rpg.Client.Core
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
-        private static Unit[] CreateStartUnits()
+        private Unit[] CreateStartUnits()
         {
             return new[]
             {
-                new Unit(UnitSchemeCatalog.SwordsmanHero, 1)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], 1)
                 {
                     IsPlayerControlled = true,
                     EquipmentLevel = 1

@@ -8,7 +8,7 @@ namespace Rpg.Client.GameScreens
 {
     internal static class UnsortedHelpers
     {
-        public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(EquipmentItemType? equipmentItemType)
+        public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,  EquipmentItemType? equipmentItemType)
         {
             if (equipmentItemType is null)
             {
@@ -17,10 +17,10 @@ namespace Rpg.Client.GameScreens
 
             switch (equipmentItemType)
             {
-                case EquipmentItemType.Warrior: return UnitSchemeCatalog.SwordsmanHero;
-                case EquipmentItemType.Archer: return UnitSchemeCatalog.ArcherHero;
-                case EquipmentItemType.Herbalist: return UnitSchemeCatalog.HerbalistHero;
-                case EquipmentItemType.Priest: return UnitSchemeCatalog.PriestHero;
+                case EquipmentItemType.Warrior: return unitSchemeCatalog.PlayerUnits[UnitName.Berimir];
+                case EquipmentItemType.Archer: return unitSchemeCatalog.PlayerUnits[UnitName.Hawk];
+                case EquipmentItemType.Herbalist: return unitSchemeCatalog.PlayerUnits[UnitName.Rada];
+                case EquipmentItemType.Priest: return unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep];
                 case EquipmentItemType.Undefined:
                 default:
                     Debug.Fail($"Unknown resource type {equipmentItemType}.");

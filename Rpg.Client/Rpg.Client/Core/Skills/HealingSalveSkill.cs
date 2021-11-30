@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class PeriodicHealSkill : SkillBase
+    internal class HealingSalveSkill : SkillBase
     {
-        public PeriodicHealSkill() : this(false)
+        public HealingSalveSkill() : this(false)
         {
         }
 
-        public PeriodicHealSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public HealingSalveSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -23,9 +23,8 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicHealEffect
+                    var effect = new HealEffect
                     {
-                        Duration = 3,
                         SourceSupport = u.Unit.Support,
                         PowerMultiplier = 0.3f
                     };

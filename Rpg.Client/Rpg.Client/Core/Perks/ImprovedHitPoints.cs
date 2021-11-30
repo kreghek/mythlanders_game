@@ -4,7 +4,7 @@ namespace Rpg.Client.Core.Perks
 {
     internal sealed class ImprovedHitPoints : ImprovedStat
     {
-        private const float HITPOINTS_BONUS = 2f;
+        private const float HITPOINTS_BONUS = 3.5f;
 
         public override void ApplyToStats(ref int maxHitpoints, ref float armorBonus)
         {

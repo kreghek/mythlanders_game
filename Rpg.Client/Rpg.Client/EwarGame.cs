@@ -201,7 +201,7 @@ namespace Rpg.Client
                 var biomeGenerator = new BiomeGenerator();
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
-                var eventCatalog = new EventCatalog();
+                var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
             else
@@ -212,7 +212,7 @@ namespace Rpg.Client
                 var biomeGenerator = new DemoBiomeGenerator();
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
-                var eventCatalog = new DemoEventCatalog();
+                var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
 
