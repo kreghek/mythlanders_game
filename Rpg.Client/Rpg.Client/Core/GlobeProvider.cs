@@ -14,15 +14,20 @@ namespace Rpg.Client.Core
         private const string SAVE_JSON = "save.json";
 
         private readonly IDice _dice;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IBiomeGenerator _biomeGenerator;
+        private readonly IEventCatalog _eventCatalog;
 
         private readonly string _saveFilePath;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice)
+        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator, IEventCatalog eventCatalog)
         {
             _dice = dice;
-
+            _unitSchemeCatalog = unitSchemeCatalog;
+            _biomeGenerator = biomeGenerator;
+            _eventCatalog = eventCatalog;
             var binPath = AppContext.BaseDirectory;
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
         }
@@ -57,7 +62,7 @@ namespace Rpg.Client.Core
 
         public void GenerateNew()
         {
-            var globe = new Globe
+            var globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
@@ -87,7 +92,7 @@ namespace Rpg.Client.Core
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            Globe = new Globe
+            Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
@@ -101,7 +106,7 @@ namespace Rpg.Client.Core
 
             LoadBiomes(lastSave.Biomes, Globe.Biomes);
 
-            Globe.UpdateNodes(_dice);
+            Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
             return true;
         }
@@ -121,18 +126,18 @@ namespace Rpg.Client.Core
             var progress = new ProgressDto
             {
                 Player = player,
-                Events = GetUsedEventDtos(EventCatalog.Events),
+                Events = GetUsedEventDtos(_eventCatalog.Events),
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
             var serializedSave = JsonSerializer.Serialize(progress);
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
-        private static Unit[] CreateStartUnits()
+        private Unit[] CreateStartUnits()
         {
             return new[]
             {
-                new Unit(UnitSchemeCatalog.SwordsmanHero, 1)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], 1)
                 {
                     IsPlayerControlled = true,
                     EquipmentLevel = 1
@@ -233,9 +238,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
+        private void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
         {
-            foreach (var eventItem in EventCatalog.Events)
+            foreach (var eventItem in _eventCatalog.Events)
             {
                 eventItem.Counter = 0;
             }
@@ -252,7 +257,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var eventItem = EventCatalog.Events.Single(x => x.Title == eventDto.Sid);
+                var eventItem = _eventCatalog.Events.Single(x => x.Title == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
         }
@@ -299,13 +304,13 @@ namespace Rpg.Client.Core
             Globe.Player.Pool.Units = loadedPool;
         }
 
-        private static List<Unit> LoadPlayerGroup(GroupDto groupDto)
+        private List<Unit> LoadPlayerGroup(GroupDto groupDto)
         {
             var units = new List<Unit>();
             foreach (var unitDto in groupDto.Units)
             {
                 var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
-                var unitScheme = UnitSchemeCatalog.PlayerUnits[unitName];
+                var unitScheme = _unitSchemeCatalog.PlayerUnits[unitName];
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 

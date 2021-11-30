@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Event
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
-        private static bool _tutorial;
+        public static bool _tutorial;
         private readonly Texture2D _backgroundTexture;
         private readonly IList<ButtonBase> _buttons;
 
@@ -44,6 +44,9 @@ namespace Rpg.Client.GameScreens.Event
         private EventNode _currentDialogNode;
 
         private bool _isInitialized;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
+        private readonly IDice _dice;
 
         public EventScreen(EwarGame game) : base(game)
         {
@@ -59,6 +62,11 @@ namespace Rpg.Client.GameScreens.Event
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
+            
+            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
+
+            _dice = Game.Services.GetService<IDice>();
 
             _currentDialogNode = _globe.CurrentEventNode ??
                                  throw new InvalidOperationException(
@@ -305,7 +313,7 @@ namespace Rpg.Client.GameScreens.Event
                         {
                             _globe.CurrentEvent = null;
                             _globe.CurrentEventNode = null;
-                            _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                            _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                         }
                     }

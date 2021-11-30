@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+
+using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -12,6 +14,11 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
 {
+    internal sealed class GameSettings
+    {
+        public GameMode Mode { get; init; }
+    }
+
     public class EwarGame : Game
     {
         private readonly GraphicsDeviceManager _graphics;
@@ -22,18 +29,27 @@ namespace Rpg.Client
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
+        private readonly GameSettings _gameSettings;
 
-        public EwarGame(ILogger<EwarGame> logger)
+        public EwarGame(ILogger<EwarGame> logger, GameMode gameMode)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _logger = logger;
+
+            _gameSettings = new GameSettings
+            {
+                Mode = gameMode
+            };
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            
+            Debug.Assert(_screenManager is not null);
+            Debug.Assert(_spriteBatch is not null);
 
             _screenManager.Draw(_spriteBatch);
 
@@ -63,6 +79,8 @@ namespace Rpg.Client
 
             _camera = new Camera2D(_resolutionIndependence);
             Services.AddService(_camera);
+            
+            Services.AddService(_gameSettings);
 
 #if DEBUG
             const int WIDTH = 848;
@@ -84,7 +102,9 @@ namespace Rpg.Client
             _graphics.PreferredBackBufferHeight = HEIGHT;
             _graphics.ApplyChanges();
 
-            _logger.LogInformation("Initialization complete successfuly");
+            _logger.LogInformation("Initialization complete successfully");
+            
+            Services.AddService(_gameSettings.Mode);
 
             base.Initialize();
         }
@@ -111,7 +131,10 @@ namespace Rpg.Client
 
             bgofSelector.Initialize(gameObjectContentStorage);
 
-            AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                AddDevelopmentComponents(_spriteBatch, uiContentStorage);
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -151,14 +174,13 @@ namespace Rpg.Client
             _resolutionIndependence.Initialize();
 
             _camera.Zoom = 1f;
-            _camera.Position = new Vector2(_resolutionIndependence.VirtualWidth / 2,
-                _resolutionIndependence.VirtualHeight / 2);
+            _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
             _camera.RecalculateTransformationMatrices();
         }
 
-        private void RegisterServices(ScreenManager screenManager)
+        private void RegisterServices(IScreenManager screenManager)
         {
-            Services.AddService<IScreenManager>(screenManager);
+            Services.AddService(screenManager);
 
             var uiContentStorage = new UiContentStorage();
             Services.AddService<IUiContentStorage>(uiContentStorage);
@@ -171,7 +193,35 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
-            Services.AddService(new GlobeProvider(Services.GetService<IDice>()));
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var unitSchemeCatalog = new UnitSchemeCatalog();
+                Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+
+                var biomeGenerator = new BiomeGenerator();
+                Services.AddService<IBiomeGenerator>(biomeGenerator);
+
+                var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
+                Services.AddService<IEventCatalog>(eventCatalog);
+            }
+            else
+            {
+                var unitSchemeCatalog = new DemoUnitSchemeCatalog();
+                Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+                
+                var biomeGenerator = new DemoBiomeGenerator();
+                Services.AddService<IBiomeGenerator>(biomeGenerator);
+
+                var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());
+                Services.AddService<IEventCatalog>(eventCatalog);
+            }
+
+            Services.AddService(
+                new GlobeProvider(
+                    Services.GetService<IDice>(),
+                    Services.GetService<IUnitSchemeCatalog>(),
+                    Services.GetService<IBiomeGenerator>(),
+                    Services.GetService<IEventCatalog>()));
 
             Services.AddService(new AnimationManager());
 

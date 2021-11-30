@@ -9,17 +9,17 @@ using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Core
 {
-    internal class EventCatalog : IEventCatalog
+    internal class DemoEventCatalog : IEventCatalog
     {
         private readonly Event[] _events;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        public EventCatalog(IUnitSchemeCatalog unitSchemeCatalog)
+        public DemoEventCatalog(IUnitSchemeCatalog unitSchemeCatalog)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
 
             var rm = PlotResources.ResourceManager;
-            var serializedPlotString = rm.GetString("MainPlot");
+            var serializedPlotString = rm.GetString("MainPlotDemo");
 
             Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
 
@@ -53,11 +53,6 @@ namespace Rpg.Client.Core
                 {
                     "MeetArcher" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
                     "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
-                    "MeetMonk" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Maosin]),
-                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
-                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
-                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
-                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
                     _ => optionAftermath
                 };
             }

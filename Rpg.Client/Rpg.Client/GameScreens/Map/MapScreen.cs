@@ -19,12 +19,15 @@ namespace Rpg.Client.GameScreens.Map
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private bool _isNodeModelsCreated;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public MapScreen(EwarGame game) : base(game)
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            
+            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
 
             soundtrackManager.PlayMapTrack();
 
@@ -64,7 +67,7 @@ namespace Rpg.Client.GameScreens.Map
         {
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(Game.Services.GetService<IDice>());
+                _globe.UpdateNodes(Game.Services.GetService<IDice>(), _unitSchemeCatalog, Game.Services.GetService<IEventCatalog>());
                 _globe.IsNodeInitialied = true;
             }
             else

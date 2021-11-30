@@ -10,6 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Biome;
+using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Event;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Common
 {
@@ -22,29 +26,46 @@ namespace Rpg.Client.GameScreens.Common
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
         private readonly Game _game;
+        private readonly IScreen _currentScreen;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
+        private readonly GameSettings _gameSettings;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer, Game game) : base(uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
+            IScreen currentScreen) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _game = game;
+            _currentScreen = currentScreen;
 
             _camera = game.Services.GetService<Camera2D>();
+
+            _gameSettings = game.Services.GetService<GameSettings>();
 
             var buttonTexture = uiContentStorage.GetButtonTexture();
             var font = uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>
             {
-                //GetBackToMainMenuButton(buttonTexture, font),
-                GetSwitchLanguageButton(buttonTexture, font),
                 GetSwitchFullScreenButton(buttonTexture, font)
             };
+
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                // Switch language only for showcase.
+                // On a showcase use default russian language.
+                _buttons.Add(GetSwitchLanguageButton(buttonTexture, font));
+            }
+            else
+            {
+                // Fast restart available only in the demo game.
+                var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
+                _buttons.Add(fastRestartButton);
+            }
 
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
                 buttonTexture,
@@ -177,6 +198,28 @@ namespace Rpg.Client.GameScreens.Common
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
+        }
+
+        private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var fastRestartButton = new TextButton(
+                "Рестарт",
+                buttonTexture,
+                font,
+                new Rectangle());
+            fastRestartButton.OnClick += FastRestartButton_OnClick;
+
+            return fastRestartButton;
+        }
+
+        private void FastRestartButton_OnClick(object? sender, EventArgs e)
+        {
+            CombatScreen._tutorial = false;
+            EventScreen._tutorial = false;
+            BiomeScreen._tutorial = false;
+
+            var screenManager = _game.Services.GetService<IScreenManager>();
+            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
         }
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
