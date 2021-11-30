@@ -200,6 +200,9 @@ namespace Rpg.Client
 
                 var biomeGenerator = new BiomeGenerator();
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
+
+                var eventCatalog = new EventCatalog();
+                Services.AddService<IEventCatalog>(eventCatalog);
             }
             else
             {
@@ -208,13 +211,17 @@ namespace Rpg.Client
                 
                 var biomeGenerator = new DemoBiomeGenerator();
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
+
+                var eventCatalog = new DemoEventCatalog();
+                Services.AddService<IEventCatalog>(eventCatalog);
             }
 
             Services.AddService(
                 new GlobeProvider(
                     Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IBiomeGenerator>()));
+                    Services.GetService<IBiomeGenerator>(),
+                    Services.GetService<IEventCatalog>()));
 
             Services.AddService(new AnimationManager());
 

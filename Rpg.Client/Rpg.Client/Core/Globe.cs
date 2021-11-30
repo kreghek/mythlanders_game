@@ -35,7 +35,7 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
-        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
+        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
             // Reset all combat states.
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
@@ -112,7 +112,7 @@ namespace Rpg.Client.Core
             {
                 var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
-                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat);
+                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
             }
 
             Updated?.Invoke(this, EventArgs.Empty);
@@ -129,14 +129,14 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat)
+        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat, IEventCatalog eventCatalog)
         {
-            var availableEvents = EventCatalog.Events
+            var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
                 .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
                             (x.RequiredBiomeLevel is null))
-                .Where(x => IsUnlocked(x, EventCatalog.Events));
+                .Where(x => IsUnlocked(x, eventCatalog.Events));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)

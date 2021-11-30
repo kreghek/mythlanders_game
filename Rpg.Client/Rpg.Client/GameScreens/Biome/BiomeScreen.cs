@@ -48,6 +48,7 @@ namespace Rpg.Client.GameScreens.Biome
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
         private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
@@ -72,31 +73,29 @@ namespace Rpg.Client.GameScreens.Biome
             _dice = Game.Services.GetService<IDice>();
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _locationObjectList = new List<LocationGameObject>();
 
-            var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle, _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            mapButton.OnClick += (_, _) =>
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-            };
-
-            var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-            partyModalButton.OnClick += (_, _) =>
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
-            };
-
-            _menuButtons = new List<ButtonBase>
-            {
-                mapButton,
-                partyModalButton
-            };
-            
+            _menuButtons = new List<ButtonBase>();
             if (_gameSettings.Mode == GameMode.Full)
             {
+                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+                mapButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                };
+                _menuButtons.Add(mapButton);
+
+                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+                partyModalButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                };
+                _menuButtons.Add(partyModalButton);
+
                 var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
 
@@ -162,7 +161,7 @@ namespace Rpg.Client.GameScreens.Biome
 
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                 _globe.IsNodeInitialied = true;
             }
             else

@@ -58,6 +58,7 @@ namespace Rpg.Client.GameScreens.Combat
         private bool _interactButtonClicked;
         private UnitPanelController? _unitPanelController;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -90,6 +91,7 @@ namespace Rpg.Client.GameScreens.Combat
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
             
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
 
@@ -408,12 +410,12 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             if (_globe.CurrentEventNode is null)
                             {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                             }
                             else
                             {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
                             }
                         }
@@ -422,7 +424,7 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         if (_globe.CurrentEventNode is null)
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                         }
                         else
@@ -435,7 +437,7 @@ namespace Rpg.Client.GameScreens.Combat
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
                 RestoreGroupAfterCombat();
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
             else
@@ -445,7 +447,7 @@ namespace Rpg.Client.GameScreens.Combat
                 RestoreGroupAfterCombat();
 
                 // Fallback is just show biome.
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
         }

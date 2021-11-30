@@ -21,6 +21,7 @@ namespace Rpg.Client.GameComponents
         private string? _errorText;
         private KeyboardState _lastState;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
 
         public CheatInput(Game game, SpriteBatch spriteBatch, SpriteFont spriteFont) : base(game)
         {
@@ -33,6 +34,7 @@ namespace Rpg.Client.GameComponents
             _backgroundTexture.SetData(data);
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
         }
 
         public static bool IsCheating { get; private set; }
@@ -163,7 +165,7 @@ namespace Rpg.Client.GameComponents
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-            var characterEvent = EventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
+            var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
             if (characterEvent is not null)
             {
                 // Simulate the event resolving.
@@ -205,7 +207,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice, _unitSchemeCatalog);
+            globe.UpdateNodes(dice, _unitSchemeCatalog, _eventCatalog);
         }
 
         /// <summary>

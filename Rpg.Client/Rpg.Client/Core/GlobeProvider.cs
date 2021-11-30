@@ -16,17 +16,18 @@ namespace Rpg.Client.Core
         private readonly IDice _dice;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private readonly IBiomeGenerator _biomeGenerator;
+        private readonly IEventCatalog _eventCatalog;
 
         private readonly string _saveFilePath;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator)
+        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator, IEventCatalog eventCatalog)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
             _biomeGenerator = biomeGenerator;
-
+            _eventCatalog = eventCatalog;
             var binPath = AppContext.BaseDirectory;
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
         }
@@ -105,7 +106,7 @@ namespace Rpg.Client.Core
 
             LoadBiomes(lastSave.Biomes, Globe.Biomes);
 
-            Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+            Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
             return true;
         }
@@ -125,7 +126,7 @@ namespace Rpg.Client.Core
             var progress = new ProgressDto
             {
                 Player = player,
-                Events = GetUsedEventDtos(EventCatalog.Events),
+                Events = GetUsedEventDtos(_eventCatalog.Events),
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
             var serializedSave = JsonSerializer.Serialize(progress);
@@ -237,9 +238,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
+        private void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
         {
-            foreach (var eventItem in EventCatalog.Events)
+            foreach (var eventItem in _eventCatalog.Events)
             {
                 eventItem.Counter = 0;
             }
@@ -256,7 +257,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var eventItem = EventCatalog.Events.Single(x => x.Title == eventDto.Sid);
+                var eventItem = _eventCatalog.Events.Single(x => x.Title == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
         }

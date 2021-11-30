@@ -26,6 +26,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly SettingsModal _settingsModal;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
         private readonly IDice _dice;
         private readonly GameSettings _gameSettings;
         private readonly SpriteFont _font;
@@ -37,7 +38,10 @@ namespace Rpg.Client.GameScreens.Title
 
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            _eventCatalog = game.Services.GetService<IEventCatalog>();
+
             _dice = Game.Services.GetService<IDice>();
             _gameSettings = Game.Services.GetService<GameSettings>();
 
@@ -165,7 +169,7 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
-            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog);
+            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
             _globeProvider.Globe.IsNodeInitialied = true;
 
             var biomes = _globeProvider.Globe.Biomes.Where(x => x.IsAvailable).ToArray();
