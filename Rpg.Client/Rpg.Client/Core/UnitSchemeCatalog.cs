@@ -7,12 +7,6 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal interface IUnitSchemeCatalog
-    {
-        IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
-        IReadOnlyCollection<UnitScheme> AllMonsters { get; }
-    }
-
     internal class UnitSchemeCatalog : IUnitSchemeCatalog
     {
         public static readonly UnitScheme SwordsmanHero = new()

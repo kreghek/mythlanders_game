@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
-        public Globe()
+        public Globe(IBiomeGenerator biomeGenerator)
         {
             // First variant of the names.
             /*
@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
              * "Мыс страха", "Тропа\nпогибели", "Кладбише\nпроклятых", "Выжженая\nдеревня", "Холм тлена"
              */
 
-            var biomes = GenerateBiomes();
+            var biomes = biomeGenerator.Generate();
 
             Biomes = biomes;
             CurrentBiome = biomes.Single(x => x.IsStart);
@@ -23,7 +23,7 @@ namespace Rpg.Client.Core
 
         public Combat? ActiveCombat { get; set; }
 
-        public IEnumerable<Biome> Biomes { get; }
+        public IReadOnlyCollection<Biome> Biomes { get; }
 
         public Biome? CurrentBiome { get; set; }
 

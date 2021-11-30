@@ -182,17 +182,25 @@ namespace Rpg.Client
             if (_gameMode == GameMode.Full)
             {
                 var unitSchemeCatalog = new UnitSchemeCatalog();
-                
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+
+                var biomeGenerator = new BiomeGenerator();
+                Services.AddService<IBiomeGenerator>(biomeGenerator);
             }
             else
             {
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
-                
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+                
+                var biomeGenerator = new DemoBiomeGenerator();
+                Services.AddService<IBiomeGenerator>(biomeGenerator);
             }
 
-            Services.AddService(new GlobeProvider(Services.GetService<IDice>(), Services.GetService<IUnitSchemeCatalog>()));
+            Services.AddService(
+                new GlobeProvider(
+                    Services.GetService<IDice>(),
+                    Services.GetService<IUnitSchemeCatalog>(),
+                    Services.GetService<IBiomeGenerator>()));
 
             Services.AddService(new AnimationManager());
 

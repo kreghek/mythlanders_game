@@ -15,15 +15,17 @@ namespace Rpg.Client.Core
 
         private readonly IDice _dice;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly string _saveFilePath;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
+        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
+            _biomeGenerator = biomeGenerator;
 
             var binPath = AppContext.BaseDirectory;
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
@@ -59,7 +61,7 @@ namespace Rpg.Client.Core
 
         public void GenerateNew()
         {
-            var globe = new Globe
+            var globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
@@ -89,7 +91,7 @@ namespace Rpg.Client.Core
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            Globe = new Globe
+            Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
