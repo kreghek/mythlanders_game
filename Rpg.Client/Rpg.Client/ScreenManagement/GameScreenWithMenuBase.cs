@@ -17,7 +17,7 @@ namespace Rpg.Client.ScreenManagement
             var uiContentStorage = game.Services.GetService<IUiContentStorage>();
             var resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _settingsModal = new SettingsModal(uiContentStorage, resolutionIndependentRenderer, Game);
+            _settingsModal = new SettingsModal(uiContentStorage, resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
         }
 

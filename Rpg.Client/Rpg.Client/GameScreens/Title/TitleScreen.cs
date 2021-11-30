@@ -71,7 +71,7 @@ namespace Rpg.Client.GameScreens.Title
                 _buttons.Add(loadGameButton);
             }
 
-            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
         }
 

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Common
 {
@@ -22,6 +23,7 @@ namespace Rpg.Client.GameScreens.Common
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
         private readonly Game _game;
+        private readonly IScreen _currentScreen;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
@@ -29,11 +31,13 @@ namespace Rpg.Client.GameScreens.Common
         private readonly GameSettings _gameSettings;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer, Game game) : base(uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
+            IScreen currentScreen) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _game = game;
+            _currentScreen = currentScreen;
 
             _camera = game.Services.GetService<Camera2D>();
 
@@ -52,6 +56,12 @@ namespace Rpg.Client.GameScreens.Common
                 // Switch language only for showcase.
                 // On a showcase use default russian language.
                 _buttons.Add(GetSwitchLanguageButton(buttonTexture, font));
+            }
+            else
+            {
+                // Fast restart available only in the demo game.
+                var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
+                _buttons.Add(fastRestartButton);
             }
 
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
@@ -185,6 +195,24 @@ namespace Rpg.Client.GameScreens.Common
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
+        }
+
+        private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var fastRestartButton = new TextButton(
+                "Рестарт",
+                buttonTexture,
+                font,
+                new Rectangle());
+            fastRestartButton.OnClick += FastRestartButton_OnClick;
+
+            return fastRestartButton;
+        }
+
+        private void FastRestartButton_OnClick(object? sender, EventArgs e)
+        {
+            var screenManager = _game.Services.GetService<IScreenManager>();
+            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
         }
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
