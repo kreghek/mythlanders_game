@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -32,8 +33,12 @@ namespace Rpg.Client.GameScreens.Event.Ui
         {
             var messageSize = _message.CalculateSize();
             var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+
+            var width = Math.Max(messageSize.X, portraitSize.X);
+            var height = Math.Max(messageSize.Y, portraitSize.Y);
+
             // TODO use margin
-            return Vector2.Max(messageSize, portraitSize) + Vector2.One * (2 * 4);
+            return new Vector2(width, height) + Vector2.One * (2 * 4);
         }
 
         protected override Color CalculateColor()
@@ -56,35 +61,38 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
             var textPosition = clientRect.Location.ToVector2() + Vector2.UnitX * PORTRAIT_SIZE;
             _message.Rect = new Rectangle(textPosition.ToPoint(),
-                new Point(clientRect.Width - PORTRAIT_SIZE, PORTRAIT_SIZE));
+                new Point(clientRect.Width, clientRect.Height));
             _message.Draw(spriteBatch);
         }
 
         private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
         {
-            var portrainSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
-            spriteBatch.Draw(_portraitsTexture, position, portrainSourceRect, Color.White);
-            spriteBatch.DrawString(_font, _localizedSpeakerName, position + Vector2.UnitY * PORTRAIT_SIZE,
-                Color.White);
+            var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
+            spriteBatch.Draw(_portraitsTexture, position, portraitSourceRect, Color.White);
+
+            var speakerNameTextSize = _font.MeasureString(_localizedSpeakerName);
+            var speakerNameTextPosition = position + Vector2.UnitY * PORTRAIT_SIZE;
+
+            var xDiff = speakerNameTextSize.X - PORTRAIT_SIZE;
+
+            var alignedSpeakerNameTextPosition =
+                new Vector2(speakerNameTextPosition.X - xDiff, speakerNameTextPosition.Y);
+           
+            spriteBatch.DrawString(_font, _localizedSpeakerName, alignedSpeakerNameTextPosition, Color.White);
         }
 
         private static string? GetSpeaker(UnitName speaker)
         {
-            if (speaker == UnitName.Environment)
+            switch (speaker)
             {
-                return null;
+                case UnitName.Environment:
+                    return null;
+                case UnitName.Undefined:
+                    Debug.Fail("Speaker is undefined.");
+                    return null;
+                default:
+                    return GameObjectHelper.GetLocalized(speaker);
             }
-
-            if (speaker == UnitName.Undefined)
-            {
-                Debug.Fail("Speaker is undefined.");
-                return null;
-            }
-
-            var unitName = speaker;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            return name;
         }
     }
 }
