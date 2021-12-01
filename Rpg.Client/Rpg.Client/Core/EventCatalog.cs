@@ -30,62 +30,6 @@ namespace Rpg.Client.Core
             _events = testEvents.Concat(plotEvents).ToArray();
         }
 
-        private EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
-            string? aftermath)
-        {
-            var fragments = new List<EventTextFragment>();
-
-            foreach (var fragmentStrageModel in nodeStorageModel.Fragments)
-            {
-                fragments.Add(new EventTextFragment
-                {
-                    Text = TempLineBreaking(fragmentStrageModel.Text),
-                    Speaker = ParseSpeaker(fragmentStrageModel)
-                });
-            }
-
-            IOptionAftermath? optionAftermath = null;
-            if (aftermath is not null)
-            {
-                optionAftermath = aftermath switch
-                {
-                    "MeetArcher" =>
-                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
-                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
-                    "MeetMonk" =>
-                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Maosin]),
-                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
-                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
-                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
-                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
-                    _ => optionAftermath
-                };
-            }
-
-            return new EventNode
-            {
-                CombatPosition = position,
-                Options = new[]
-                {
-                    new EventOption
-                    {
-                        TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                        IsEnd = true,
-                        Aftermath = optionAftermath
-                    }
-                },
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = fragments
-                }
-            };
-        }
-
         private IEnumerable<Event> CreatePlotEvents(string serializedPlotString)
         {
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
@@ -100,10 +44,10 @@ namespace Rpg.Client.Core
             {
                 var locationInfo = GetLocationInfo(eventStorageModel.Location);
 
-                var beforeEventNode = BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat,
-                    eventStorageModel.Aftermath);
-                var afterEventNode = BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat,
-                    aftermath: null);
+                var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat,
+                    eventStorageModel.Aftermath, _unitSchemeCatalog);
+                var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat,
+                    aftermath: null, unitSchemeCatalog: _unitSchemeCatalog);
 
                 // System marker used to load saved game. Read it as identifier.
                 SystemEventMarker? systemMarker = null;
@@ -163,43 +107,6 @@ namespace Rpg.Client.Core
             var biomeValue = (((int)locationSid) / 100) * 100;
             var biome = (BiomeType)biomeValue;
             return new LocationInfo { Biome = biome, LocationSid = locationSid };
-        }
-
-        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
-        {
-            if (fragmentStrageModel.Speaker is null)
-            {
-                return UnitName.Environment;
-            }
-
-            var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
-            return unitName;
-        }
-
-        private static string TempLineBreaking(string localizedSpeakerText)
-        {
-            var items = localizedSpeakerText.Split('\n');
-            var sb = new StringBuilder();
-            foreach (var item in items)
-            {
-                if (item.Length > 80)
-                {
-                    var textRemains = item;
-                    do
-                    {
-                        sb.AppendLine(textRemains.Substring(0, 80));
-                        textRemains = textRemains.Remove(0, 80);
-                    } while (textRemains.Length > 80);
-
-                    sb.AppendLine(textRemains);
-                }
-                else
-                {
-                    sb.AppendLine(item);
-                }
-            }
-
-            return sb.ToString();
         }
 
         public IEnumerable<Event> Events => _events;
