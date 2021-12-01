@@ -98,23 +98,19 @@ namespace Rpg.Client.Core
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
-        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
-
         public DemoUnitSchemeCatalog()
         {
             PlayerUnits = new[]
             {
                 SwordsmanHero,
                 ArcherHero,
-                HerbalistHero,
+                HerbalistHero
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
-                
+
             var slavicMonsters = CreateSlavicMonsters();
 
             AllMonsters = slavicMonsters.ToArray();
         }
-
-        public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
 
         private static IEnumerable<UnitScheme> CreateSlavicMonsters()
         {
@@ -255,5 +251,9 @@ namespace Rpg.Client.Core
                 }
             };
         }
+
+        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+
+        public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
     }
 }

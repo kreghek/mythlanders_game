@@ -21,6 +21,7 @@ namespace Rpg.Client
 
     public class EwarGame : Game
     {
+        private readonly GameSettings _gameSettings;
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
@@ -29,7 +30,6 @@ namespace Rpg.Client
         private ScreenManager? _screenManager;
 
         private SpriteBatch? _spriteBatch;
-        private readonly GameSettings _gameSettings;
 
         public EwarGame(ILogger<EwarGame> logger, GameMode gameMode)
         {
@@ -47,7 +47,7 @@ namespace Rpg.Client
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            
+
             Debug.Assert(_screenManager is not null);
             Debug.Assert(_spriteBatch is not null);
 
@@ -79,7 +79,7 @@ namespace Rpg.Client
 
             _camera = new Camera2D(_resolutionIndependence);
             Services.AddService(_camera);
-            
+
             Services.AddService(_gameSettings);
 
 #if DEBUG
@@ -103,7 +103,7 @@ namespace Rpg.Client
             _graphics.ApplyChanges();
 
             _logger.LogInformation("Initialization complete successfully");
-            
+
             Services.AddService(_gameSettings.Mode);
 
             base.Initialize();
@@ -208,7 +208,7 @@ namespace Rpg.Client
             {
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
-                
+
                 var biomeGenerator = new DemoBiomeGenerator();
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 

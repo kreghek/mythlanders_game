@@ -30,8 +30,6 @@ namespace Rpg.Client.Core
             _events = testEvents.Concat(plotEvents).ToArray();
         }
 
-        public IEnumerable<Event> Events => _events;
-
         private EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
             string? aftermath)
         {
@@ -51,8 +49,10 @@ namespace Rpg.Client.Core
             {
                 optionAftermath = aftermath switch
                 {
-                    "MeetArcher" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
-                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
+                    "MeetArcher" =>
+                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
+                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
+                        _unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
                     _ => optionAftermath
                 };
             }
@@ -191,6 +191,8 @@ namespace Rpg.Client.Core
 
             return sb.ToString();
         }
+
+        public IEnumerable<Event> Events => _events;
 
         private sealed record LocationInfo
         {

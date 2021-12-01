@@ -20,16 +20,16 @@ namespace Rpg.Client.GameScreens.Title
 
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
+        private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
+        private readonly SpriteFont _font;
+        private readonly GameSettings _gameSettings;
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
-        private readonly IDice _dice;
-        private readonly GameSettings _gameSettings;
-        private readonly SpriteFont _font;
 
         public TitleScreen(EwarGame game)
             : base(game)

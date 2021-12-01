@@ -25,13 +25,13 @@ namespace Rpg.Client.GameScreens.Common
 
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
-        private readonly Game _game;
         private readonly IScreen _currentScreen;
+        private readonly Game _game;
+        private readonly GameSettings _gameSettings;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
-        private readonly GameSettings _gameSettings;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
@@ -121,6 +121,28 @@ namespace Rpg.Client.GameScreens.Common
             _selectedMonitorResolutionButton.IsEnabled = false;
         }
 
+        private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var fastRestartButton = new TextButton(
+                "Рестарт",
+                buttonTexture,
+                font,
+                new Rectangle());
+            fastRestartButton.OnClick += FastRestartButton_OnClick;
+
+            return fastRestartButton;
+        }
+
+        private void FastRestartButton_OnClick(object? sender, EventArgs e)
+        {
+            CombatScreen._tutorial = false;
+            EventScreen._tutorial = false;
+            BiomeScreen._tutorial = false;
+
+            var screenManager = _game.Services.GetService<IScreenManager>();
+            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
+        }
+
         private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(
             Texture2D buttonTexture,
             SpriteFont font)
@@ -198,28 +220,6 @@ namespace Rpg.Client.GameScreens.Common
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
-        }
-
-        private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
-        {
-            var fastRestartButton = new TextButton(
-                "Рестарт",
-                buttonTexture,
-                font,
-                new Rectangle());
-            fastRestartButton.OnClick += FastRestartButton_OnClick;
-
-            return fastRestartButton;
-        }
-
-        private void FastRestartButton_OnClick(object? sender, EventArgs e)
-        {
-            CombatScreen._tutorial = false;
-            EventScreen._tutorial = false;
-            BiomeScreen._tutorial = false;
-
-            var screenManager = _game.Services.GetService<IScreenManager>();
-            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
         }
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)

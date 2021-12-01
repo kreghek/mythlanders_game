@@ -338,7 +338,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                                     _gameObjectContentStorage, null),
                                 new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300),
                                     _gameObjectContentStorage, null)
-                            };   
+                            };
                         }
                     }
 

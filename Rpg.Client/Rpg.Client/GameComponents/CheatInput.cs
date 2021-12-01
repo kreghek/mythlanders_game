@@ -15,13 +15,13 @@ namespace Rpg.Client.GameComponents
     {
         private readonly Texture2D _backgroundTexture;
         private readonly StringBuilder _currentText;
+        private readonly IEventCatalog _eventCatalog;
         private readonly SpriteBatch _spriteBatch;
         private readonly SpriteFont _spriteFont;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private double? _errorCounter;
         private string? _errorText;
         private KeyboardState _lastState;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
 
         public CheatInput(Game game, SpriteBatch spriteBatch, SpriteFont spriteFont) : base(game)
         {

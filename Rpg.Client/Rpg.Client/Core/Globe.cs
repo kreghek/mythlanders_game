@@ -84,7 +84,8 @@ namespace Rpg.Client.Core
                         {
                             Level = combatLevel,
                             EnemyGroup = new Group(),
-                            IsTrainingOnly = combatToTrainingIndex == locationIndex && biome.Nodes.Where(x=>x.IsAvailable).Count() == 4
+                            IsTrainingOnly = combatToTrainingIndex == locationIndex &&
+                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
@@ -129,7 +130,8 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat, IEventCatalog eventCatalog)
+        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
+            IEventCatalog eventCatalog)
         {
             var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
@@ -177,7 +179,8 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel, IUnitSchemeCatalog unitSchemeCatalog)
+        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
+            IUnitSchemeCatalog unitSchemeCatalog)
         {
             var availableMonsters = unitSchemeCatalog.AllMonsters
                 .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
