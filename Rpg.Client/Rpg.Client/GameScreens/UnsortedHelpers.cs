@@ -34,7 +34,7 @@ namespace Rpg.Client.GameScreens
             const int SIZE = 32;
             const int COLUMN_COUNT = 3;
 
-            var index = GetUnitPortraitIndex(unitName);
+            var index = GetUnitPortraitOneBasedIndex(unitName);
 
             var indexZeroBased = index - 1;
             var x = indexZeroBased % COLUMN_COUNT;
@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens
             return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
         }
 
-        private static int GetUnitPortraitIndex(UnitName unitName)
+        private static int GetUnitPortraitOneBasedIndex(UnitName unitName)
         {
             return unitName switch
             {
