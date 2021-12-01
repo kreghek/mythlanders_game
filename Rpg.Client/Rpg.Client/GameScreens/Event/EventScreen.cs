@@ -77,11 +77,11 @@ namespace Rpg.Client.GameScreens.Event
 
             _dialogContext = new EventContext(_globe);
 
-            var _combat = _globe.ActiveCombat ??
+            var combat = _globe.ActiveCombat ??
                           throw new InvalidOperationException(
                               $"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
 
-            _globeNode = _combat.Node;
+            _globeNode = combat.Node;
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
@@ -257,7 +257,7 @@ namespace Rpg.Client.GameScreens.Event
                 var textFragmentControl = _textFragments[fragmentIndex];
                 var textFragmentSize = textFragmentControl.CalculateSize();
                 textFragmentControl.Rect = new Rectangle(lastBottomPosition.ToPoint(),
-                    new Point(textContentRect.Width, (int)textFragmentSize.Y));
+                    new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
 
                 lastBottomPosition = new Vector2(textContentRect.X, textFragmentControl.Rect.Bottom + TEXT_MARGIN);
@@ -287,7 +287,13 @@ namespace Rpg.Client.GameScreens.Event
             _textFragments.Clear();
             foreach (var textFragment in _currentDialogNode.TextBlock.Fragments)
             {
-                var textFragmentControl = new TextFragment(_uiContentStorage.GetButtonTexture(),
+                var texture = _uiContentStorage.GetSpeechTexture();
+                if (textFragment.Speaker == UnitName.Environment)
+                {
+                    texture = _uiContentStorage.GetEnvSpeechTexture();
+                }
+
+                var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
                     textFragment, _gameObjectContentStorage.GetUnitPortrains());
                 _textFragments.Add(textFragmentControl);

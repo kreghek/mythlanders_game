@@ -20,8 +20,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         public Vector2 CalculateSize()
         {
-            var fragment = _eventTextFragment;
-            var localizedText = GetLocalizedText(fragment.Text);
+            var localizedText = GetLocalizedText(_eventTextFragment.Text);
             var size = _font.MeasureString(localizedText);
             // TODO use margin
             return size + Vector2.One * (2 * 4);
@@ -34,10 +33,9 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            var fragment = _eventTextFragment;
-            var localizedText = GetLocalizedText(fragment.Text);
+            var localizedText = GetLocalizedText(_eventTextFragment.Text);
 
-            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2(), contentColor);
+            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2() + Vector2.UnitX * 2, Color.SaddleBrown);
         }
 
         private static string GetLocalizedText(string text)
