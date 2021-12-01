@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
                     Speaker = ParseSpeaker(fragmentStorageModel)
                 });
             }
-            
+
             var innerFragments = new List<EventTextFragment>();
             foreach (var fragmentStorageModel in innerStorageFragments)
             {
@@ -114,7 +114,7 @@ namespace Rpg.Client.Core
                 }
             };
         }
-        
+
         private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
         {
             if (fragmentStrageModel.Speaker is null)

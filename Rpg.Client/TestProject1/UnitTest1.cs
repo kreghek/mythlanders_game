@@ -19,8 +19,8 @@ namespace TestProject1
         {
             var nodeStorageModel = new EventNodeStorageModel()
             {
-                Fragments = Enumerable.Range(1, 5).Select(x=> 
-                
+                Fragments = Enumerable.Range(1, 5).Select(x =>
+
                     new EventTextFragmentStorageModel()
                     {
                         Speaker = UnitName.Environment.ToString(),
@@ -33,24 +33,24 @@ namespace TestProject1
             var unitSchemeCatalog = unitSchemeCatalogMock.Object;
 
             // ACT
-            
-            var fact = EventCatalogHelper.BuildEventNode(nodeStorageModel, 
+
+            var fact = EventCatalogHelper.BuildEventNode(nodeStorageModel,
                 EventPosition.BeforeCombat,
                 aftermath: null,
                 unitSchemeCatalog);
-            
+
             // ASSERT
 
             fact.Options.First().Next.Should().BeNull();
         }
-        
+
         [Test]
         public void Test2()
         {
             var nodeStorageModel = new EventNodeStorageModel()
             {
-                Fragments = Enumerable.Range(1, 10).Select(x=> 
-                
+                Fragments = Enumerable.Range(1, 10).Select(x =>
+
                     new EventTextFragmentStorageModel()
                     {
                         Speaker = UnitName.Environment.ToString(),
@@ -63,12 +63,12 @@ namespace TestProject1
             var unitSchemeCatalog = unitSchemeCatalogMock.Object;
 
             // ACT
-            
-            var fact = EventCatalogHelper.BuildEventNode(nodeStorageModel, 
+
+            var fact = EventCatalogHelper.BuildEventNode(nodeStorageModel,
                 EventPosition.BeforeCombat,
                 aftermath: null,
                 unitSchemeCatalog);
-            
+
             // ASSERT
 
             fact.Options.First().Next.Should().NotBeNull();
