@@ -77,7 +77,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
             var alignedSpeakerNameTextPosition =
                 new Vector2(speakerNameTextPosition.X - xDiff, speakerNameTextPosition.Y);
-           
+
             spriteBatch.DrawString(_font, _localizedSpeakerName, alignedSpeakerNameTextPosition, Color.White);
         }
 

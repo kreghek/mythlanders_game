@@ -30,7 +30,7 @@ namespace Rpg.Client.Engine
         {
             return _buttonTexture;
         }
-        
+
         public Texture2D GetSpeechTexture()
         {
             return _speechTexture;
