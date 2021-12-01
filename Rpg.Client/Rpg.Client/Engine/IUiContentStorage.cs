@@ -15,6 +15,7 @@ namespace Rpg.Client.Engine
         Texture2D GetButtonTexture();
         Texture2D GetCombatPowerIconsTexture();
         Song GetDefeatSong();
+        Texture2D GetEnvSpeechTexture();
         SpriteFont GetMainFont();
         IEnumerable<Song> GetMapSong();
 
@@ -23,11 +24,10 @@ namespace Rpg.Client.Engine
         Texture2D GetModalShadowTexture();
 
         Texture2D[] GetModalTopTextures();
+        Texture2D GetSpeechTexture();
         Song GetTitleSong();
         Texture2D GetUnitPanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
-        Texture2D GetSpeechTexture();
-        Texture2D GetEnvSpeechTexture();
     }
 }
