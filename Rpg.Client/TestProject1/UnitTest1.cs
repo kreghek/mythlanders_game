@@ -17,11 +17,10 @@ namespace TestProject1
         [Test]
         public void Test1()
         {
-            var nodeStorageModel = new EventNodeStorageModel()
+            var nodeStorageModel = new EventNodeStorageModel
             {
                 Fragments = Enumerable.Range(1, 5).Select(x =>
-
-                    new EventTextFragmentStorageModel()
+                    new EventTextFragmentStorageModel
                     {
                         Speaker = UnitName.Environment.ToString(),
                         Text = $"test text test text test text test text {x}."
@@ -47,11 +46,10 @@ namespace TestProject1
         [Test]
         public void Test2()
         {
-            var nodeStorageModel = new EventNodeStorageModel()
+            var nodeStorageModel = new EventNodeStorageModel
             {
                 Fragments = Enumerable.Range(1, 10).Select(x =>
-
-                    new EventTextFragmentStorageModel()
+                    new EventTextFragmentStorageModel
                     {
                         Speaker = UnitName.Environment.ToString(),
                         Text = $"test text test text test text test text {x}."

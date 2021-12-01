@@ -11,7 +11,7 @@ using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Core
 {
-    static internal class EventCatalogHelper
+    internal static class EventCatalogHelper
     {
         public static EventNode BuildEventNode(
             EventNodeStorageModel nodeStorageModel, EventPosition position,
