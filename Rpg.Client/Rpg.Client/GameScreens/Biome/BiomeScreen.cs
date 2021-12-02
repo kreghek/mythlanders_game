@@ -32,7 +32,6 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
         private readonly IList<LocationGameObject> _locationObjectList;
@@ -55,7 +54,7 @@ namespace Rpg.Client.GameScreens.Biome
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            _gameSettings = Game.Services.GetService<GameSettings>();
+            var gameSettings = Game.Services.GetService<GameSettings>();
 
             _random = new Random();
 
@@ -78,7 +77,7 @@ namespace Rpg.Client.GameScreens.Biome
             _locationObjectList = new List<LocationGameObject>();
 
             _menuButtons = new List<ButtonBase>();
-            if (_gameSettings.Mode == GameMode.Full)
+            if (gameSettings.Mode == GameMode.Full)
             {
                 var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
                     _uiContentStorage.GetButtonTexture(),
@@ -231,63 +230,8 @@ namespace Rpg.Client.GameScreens.Biome
                             {
                                 Globe = _globe,
                                 SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = _ =>
-                                {
-                                    _screenTransition = true;
-
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
-                                        _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.CombatSource, _biome,
-                                        _dice,
-                                        isAutoplay: false);
-
-                                    if (_hoverNodeGameObject.AvailableEvent is not null)
-                                    {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
-                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
-
-                                        _globe.CurrentEvent.Counter++;
-
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                                    }
-                                    else
-                                    {
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                                    }
-                                },
-
-                                AutoCombatDelegate = _ =>
-                                {
-                                    _screenTransition = true;
-
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
-                                        _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.CombatSource, _biome,
-                                        _dice,
-                                        isAutoplay: true);
-
-                                    if (_hoverNodeGameObject.AvailableEvent is not null)
-                                    {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
-                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
-
-                                        _globe.CurrentEvent.Counter++;
-
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                                    }
-                                    else
-                                    {
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                                    }
-                                }
+                                CombatDelegate = CombatDelegate,
+                                AutoCombatDelegate = AutoCombatDelegate
                             };
 
                             var combatModal = new CombatModal(context, _uiContentStorage,
@@ -302,6 +246,42 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 button.Update(_resolutionIndependenceRenderer);
             }
+        }
+
+        private void CombatDelegate(GlobeNode _)
+        {
+            CombatDelegateInner(false);
+        }
+
+        private void CombatDelegateInner(bool autoCombat)
+        {
+            _screenTransition = true;
+
+            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, _hoverNodeGameObject.GlobeNode,
+                _hoverNodeGameObject.CombatSource, _biome, _dice, isAutoplay: autoCombat);
+
+            if (_hoverNodeGameObject.AvailableEvent is not null)
+            {
+                _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
+                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+
+                _globe.CurrentEvent.Counter++;
+
+                ClearEventHandlerToGlobeObjects();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+            }
+            else
+            {
+                ClearEventHandlerToGlobeObjects();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+            }
+        }
+
+        private void AutoCombatDelegate(GlobeNode _)
+        {
+            CombatDelegateInner(true);
         }
 
         private void ClearEventHandlerToGlobeObjects()
