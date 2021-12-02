@@ -35,7 +35,8 @@ namespace Rpg.Client.GameScreens.Event.Ui
         {
             var localizedText = GetLocalizedText(_eventTextFragment.Text);
 
-            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2() + Vector2.UnitX * 2, Color.SaddleBrown);
+            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2() + Vector2.UnitX * 2,
+                Color.SaddleBrown);
         }
 
         private static string GetLocalizedText(string text)

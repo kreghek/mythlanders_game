@@ -44,9 +44,11 @@ namespace Rpg.Client.Core
             {
                 var locationInfo = GetLocationInfo(eventStorageModel.Location);
 
-                var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode, EventPosition.BeforeCombat,
+                var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode,
+                    EventPosition.BeforeCombat,
                     eventStorageModel.Aftermath, _unitSchemeCatalog);
-                var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode, EventPosition.AfterCombat,
+                var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode,
+                    EventPosition.AfterCombat,
                     aftermath: null, unitSchemeCatalog: _unitSchemeCatalog);
 
                 // System marker used to load saved game. Read it as identifier.

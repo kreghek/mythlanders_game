@@ -21,16 +21,16 @@ namespace Rpg.Client.Engine
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
+        private Texture2D _speechTexture;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _speechTexture;
 
         public Texture2D GetButtonTexture()
         {
             return _buttonTexture;
         }
-        
+
         public Texture2D GetSpeechTexture()
         {
             return _speechTexture;
