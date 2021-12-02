@@ -1,1 +1,1 @@
-Mode=Demo
+Mode=Full
