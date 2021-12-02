@@ -4,11 +4,11 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitDamagedEventArgs : EventArgs
     {
-        public UnitDamagedEventArgs(CombatUnit damageDealer)
+        public UnitDamagedEventArgs(ICombatUnit damageDealer)
         {
             DamageDealer = damageDealer ?? throw new ArgumentNullException(nameof(damageDealer));
         }
 
-        public CombatUnit DamageDealer { get; }
+        public ICombatUnit DamageDealer { get; }
     }
 }

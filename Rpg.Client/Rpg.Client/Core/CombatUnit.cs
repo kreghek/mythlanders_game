@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class CombatUnit
+    internal sealed class CombatUnit : ICombatUnit
     {
         public CombatUnit(Unit unit, int index)
         {

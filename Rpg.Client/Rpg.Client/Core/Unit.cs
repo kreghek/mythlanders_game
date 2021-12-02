@@ -179,7 +179,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public DamageResult TakeDamage(CombatUnit damageDealer, int damageSource)
+        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
             var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
             HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
@@ -331,7 +331,10 @@ namespace Rpg.Client.Core
 
             MaxHitPoints = maxHitPoints;
 
-            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+            if (unitScheme.SkillSets is not null)
+            {
+                Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+            }
         }
 
         private void RestoreHp()

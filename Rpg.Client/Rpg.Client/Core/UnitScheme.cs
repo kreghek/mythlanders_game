@@ -47,14 +47,14 @@ namespace Rpg.Client.Core
 
         public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }
 
-        public IReadOnlyList<SkillSet> SkillSets { get; init; }
+        public IReadOnlyList<SkillSet>? SkillSets { get; init; }
 
         public float SupportBase => CalcSupport();
         public float SupportRank { get; init; }
 
         public float TankRank { get; init; }
 
-        public UnitGraphicsConfigBase UnitGraphicsConfig { get; init; }
+        public UnitGraphicsConfigBase? UnitGraphicsConfig { get; init; }
 
         private float CalcArmor()
         {
