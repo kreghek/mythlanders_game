@@ -132,7 +132,7 @@ namespace Rpg.Client.GameScreens.Biome
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(_backgroundTexture, _resolutionIndependenceRenderer.VirtualBounds, Color.White);
             spriteBatch.End();
 
             if (!_isNodeModelsCreated)
@@ -292,11 +292,11 @@ namespace Rpg.Client.GameScreens.Biome
         private Cloud CreateCloud(int index, bool screenInitStage)
         {
             var endPosition = new Vector2(
-                Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index -
-                Game.GraphicsDevice.Viewport.Width / 2,
-                Game.GraphicsDevice.Viewport.Height);
-            const float START_VIEWPORT_Y_POSITION = -100;
-            var startPosition = new Vector2(endPosition.X + Game.GraphicsDevice.Viewport.Width / 2,
+                _resolutionIndependenceRenderer.VirtualWidth * 1.5f / CLOUD_COUNT * index -
+                _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
+                _resolutionIndependenceRenderer.VirtualHeight);
+            const float START_VIEWPORT_Y_POSITION = -100f;
+            var startPosition = new Vector2(endPosition.X + _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
                 START_VIEWPORT_Y_POSITION);
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
