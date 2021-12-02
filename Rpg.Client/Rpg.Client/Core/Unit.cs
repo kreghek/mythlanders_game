@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
 
         public int Support => CalcSupport();
 
-        public UnitScheme UnitScheme { get; init; }
+        public UnitScheme UnitScheme { get; private set; }
 
         public int Xp { get; set; }
 
@@ -192,9 +192,25 @@ namespace Rpg.Client.Core
 
             var args = new UnitHasBeenDamagedEventArgs { Result = result };
             HasBeenDamaged?.Invoke(this, args);
+
             if (HitPoints <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
+            }
+            else
+            {
+                var autoTransition = UnitScheme.SchemeAutoTransition;
+                if (autoTransition is not null)
+                {
+                    var share = autoTransition.HpShare;
+                    var currentHpShare = (float)HitPoints / MaxHitPoints;
+
+                    if (share <= currentHpShare)
+                    {
+                        UnitScheme = autoTransition.NextScheme;
+                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs());
+                    }
+                }
             }
 
             return result;
@@ -331,14 +347,6 @@ namespace Rpg.Client.Core
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
-        public sealed class UnitDamagedEventArgs : EventArgs
-        {
-            public UnitDamagedEventArgs(CombatUnit damageDealer)
-            {
-                DamageDealer = damageDealer ?? throw new ArgumentNullException(nameof(damageDealer));
-            }
-
-            public CombatUnit DamageDealer { get; }
-        }
+        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
     }
 }

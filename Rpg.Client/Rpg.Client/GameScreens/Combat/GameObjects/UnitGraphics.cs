@@ -10,55 +10,71 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class UnitGraphics
     {
+        private readonly Vector2 _position;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
 
-        private readonly IDictionary<AnimationSid, AnimationInfo> _animationInfos;
-        private readonly Sprite _graphics;
+        private IDictionary<AnimationSid, AnimationInfo> _animationInfos;
+        private Sprite _graphics;
         private readonly Sprite _selectedMarker;
 
         private AnimationSid _animationSid;
         private double _frameCounter;
         private int _frameIndex;
 
-        public UnitGraphics(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public UnitGraphics(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        {
+            _position = position;
+            _gameObjectContentStorage = gameObjectContentStorage;
+            
+            _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
+            {
+                Origin = new Vector2(0.5f, 0.75f),
+                SourceRectangle = new Rectangle(0, 0, 128, 32)
+            };
+            
+            InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
+
+            _animationSid = AnimationSid.Idle;
+        }
+
+        public void SwitchSourceUnit(Unit unit)
+        {
+            InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
+        }
+
+        private void InitializeGraphics(UnitScheme unitScheme, bool isPlayerSide)
         {
             Root = new SpriteContainer
             {
-                Position = position,
-                FlipX = !unit.Unit.IsPlayerControlled
+                Position = _position,
+                FlipX = !isPlayerSide
             };
 
-            var shadow = new Sprite(gameObjectContentStorage.GetUnitShadow())
+            var shadow = new Sprite(_gameObjectContentStorage.GetUnitShadow())
             {
                 Origin = new Vector2(0.5f, 0.5f),
                 Color = Color.Lerp(Color.Black, Color.Transparent, 0.5f)
             };
             Root.AddChild(shadow);
 
-            _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
-            {
-                Origin = new Vector2(0.5f, 0.75f),
-                SourceRectangle = new Rectangle(0, 0, 128, 32)
-            };
             Root.AddChild(_selectedMarker);
 
-            _graphics = new Sprite(gameObjectContentStorage.GetUnitGraphics(unit.Unit.UnitScheme.Name))
+            _graphics = new Sprite(_gameObjectContentStorage.GetUnitGraphics(unitScheme.Name))
             {
                 Origin = new Vector2(0.5f, 0.875f),
                 SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),
-                Position = new Vector2(FRAME_WIDTH / 4, 0)
+                Position = new Vector2(FRAME_WIDTH * 0.25f, 0)
             };
             Root.AddChild(_graphics);
 
-            _animationInfos = unit.Unit.UnitScheme.UnitGraphicsConfig.Animations;
-
-            _animationSid = AnimationSid.Idle;
+            _animationInfos = unitScheme.UnitGraphicsConfig.Animations;
         }
 
         public bool IsDamaged { get; set; }
 
-        public SpriteContainer Root { get; }
+        public SpriteContainer Root { get; private set; }
 
         public bool ShowActiveMarker { get; set; }
 
