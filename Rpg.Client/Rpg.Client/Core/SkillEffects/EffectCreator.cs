@@ -18,7 +18,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             return effect;
         }
-        
+
         public EffectBase Create(CombatUnit actor)
         {
             var effect = _factory(actor);

@@ -128,7 +128,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
-                
+
             }
             else
             {

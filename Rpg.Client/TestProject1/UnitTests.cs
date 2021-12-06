@@ -39,12 +39,12 @@ namespace TestProject1
             // ACT
 
             unit.TakeDamage(damageDealer, damage);
-            
+
             // ASSERT
 
             unit.UnitScheme.Should().BeSameAs(nextScheme);
         }
-        
+
         [Test]
         public void TakeDamage_UnitHasTransformation_EventFired()
         {
@@ -72,7 +72,7 @@ namespace TestProject1
 
             using var monitor = unit.Monitor();
             unit.TakeDamage(damageDealer, damage);
-            
+
             // ASSERT
 
             monitor.Should().Raise(nameof(unit.SchemeAutoTransition));

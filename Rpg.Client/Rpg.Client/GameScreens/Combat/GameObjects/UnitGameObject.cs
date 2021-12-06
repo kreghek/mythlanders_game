@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ScreenShaker _screenShaker;
-        
+
         private readonly UnitGraphics _graphics;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
@@ -33,7 +33,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
             _screenShaker = screenShaker;
-            
+
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 

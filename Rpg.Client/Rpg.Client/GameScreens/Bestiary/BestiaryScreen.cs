@@ -75,7 +75,7 @@ namespace Rpg.Client.GameScreens.Bestiary
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
         {
             var monster = new Unit(monsterScheme, 1);
-            
+
             var unitName = monsterScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);
 
@@ -102,10 +102,10 @@ namespace Rpg.Client.GameScreens.Bestiary
             foreach (var skill in monster.Skills)
             {
                 var localizedName = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString());
-                
+
                 sb.Add(localizedName ?? $"[{skill.Sid}]");
             }
-            
+
             return sb;
         }
 
@@ -124,7 +124,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                         // This monster is unknown. So do not display it on the screen.
                         continue;
                     }
-                    
+
                     var unitName = monsterScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
 

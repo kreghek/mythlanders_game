@@ -27,13 +27,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
-            
+
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f),
                 SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
-            
+
             InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
 
             _animationSid = AnimationSid.Idle;
