@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.GameScreens.Bestiary;
 using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.EndGame;
@@ -39,33 +40,41 @@ namespace Rpg.Client.ScreenManagement
                 ActiveScreen.Draw(spriteBatch);
             }
 
-            spriteBatch.Begin();
-            if (_transitionCounter is not null)
-            {
-                var t = _transitionCounter.Value / TRANSITION_DURATION;
+            DrawTransition(spriteBatch);
+        }
 
-                if (t < 0.5)
-                {
-                    var t2 = t * 2;
-                    spriteBatch.Draw(_transitionTexture,
-                        new Rectangle(
-                            0,
-                            0,
-                            (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                            _game.GraphicsDevice.Viewport.Height),
-                        Color.White);
-                }
-                else
-                {
-                    var t2 = (t - 0.5) * 2;
-                    spriteBatch.Draw(_transitionTexture,
-                        new Rectangle(
-                            (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                            0,
-                            _game.GraphicsDevice.Viewport.Width,
-                            _game.GraphicsDevice.Viewport.Height),
-                        Color.White);
-                }
+        private void DrawTransition(SpriteBatch spriteBatch)
+        {
+            if (_transitionCounter is null)
+            {
+                return;
+            }
+
+            spriteBatch.Begin();
+
+            var t = _transitionCounter.Value / TRANSITION_DURATION;
+
+            if (t < 0.5)
+            {
+                var t2 = t * 2;
+                spriteBatch.Draw(_transitionTexture,
+                    new Rectangle(
+                        0,
+                        0,
+                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                        _game.GraphicsDevice.Viewport.Height),
+                    Color.White);
+            }
+            else
+            {
+                var t2 = (t - 0.5) * 2;
+                spriteBatch.Draw(_transitionTexture,
+                    new Rectangle(
+                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                        0,
+                        _game.GraphicsDevice.Viewport.Width,
+                        _game.GraphicsDevice.Viewport.Height),
+                    Color.White);
             }
 
             spriteBatch.End();
@@ -119,6 +128,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
+                ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };

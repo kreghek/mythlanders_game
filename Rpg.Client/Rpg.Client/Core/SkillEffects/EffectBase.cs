@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class EffectBase
     {
-        public Combat Combat { get; set; }
+        public Combat? Combat { get; set; }
 
         public virtual IEnumerable<EffectRule>? DispelRules => default;
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
