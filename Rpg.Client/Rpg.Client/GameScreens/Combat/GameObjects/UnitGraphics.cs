@@ -46,6 +46,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private void InitializeGraphics(UnitScheme unitScheme, bool isPlayerSide)
         {
+            if (Root is not null)
+            {
+                Root.RemoveChild(_selectedMarker);
+            }
+
             Root = new SpriteContainer
             {
                 Position = _position,
