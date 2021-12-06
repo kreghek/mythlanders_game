@@ -32,7 +32,6 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
         private readonly IList<LocationGameObject> _locationObjectList;
@@ -55,7 +54,7 @@ namespace Rpg.Client.GameScreens.Biome
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            _gameSettings = Game.Services.GetService<GameSettings>();
+            var gameSettings = Game.Services.GetService<GameSettings>();
 
             _random = new Random();
 
@@ -78,7 +77,7 @@ namespace Rpg.Client.GameScreens.Biome
             _locationObjectList = new List<LocationGameObject>();
 
             _menuButtons = new List<ButtonBase>();
-            if (_gameSettings.Mode == GameMode.Full)
+            if (gameSettings.Mode == GameMode.Full)
             {
                 var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
                     _uiContentStorage.GetButtonTexture(),
@@ -96,10 +95,18 @@ namespace Rpg.Client.GameScreens.Biome
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
                 };
                 _menuButtons.Add(partyModalButton);
+                
+                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
+                bestiaryButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
+                };
+                _menuButtons.Add(bestiaryButton);
 
                 var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-
+                
                 saveGameButton.OnClick += (_, _) =>
                 {
                     globeProvider.StoreGlobe();
@@ -133,7 +140,7 @@ namespace Rpg.Client.GameScreens.Biome
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-            spriteBatch.Draw(_backgroundTexture, Game.GraphicsDevice.Viewport.Bounds, Color.White);
+            spriteBatch.Draw(_backgroundTexture, _resolutionIndependenceRenderer.VirtualBounds, Color.White);
             spriteBatch.End();
 
             if (!_isNodeModelsCreated)
@@ -231,63 +238,8 @@ namespace Rpg.Client.GameScreens.Biome
                             {
                                 Globe = _globe,
                                 SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = _ =>
-                                {
-                                    _screenTransition = true;
-
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
-                                        _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.CombatSource, _biome,
-                                        _dice,
-                                        isAutoplay: false);
-
-                                    if (_hoverNodeGameObject.AvailableEvent is not null)
-                                    {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
-                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
-
-                                        _globe.CurrentEvent.Counter++;
-
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                                    }
-                                    else
-                                    {
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                                    }
-                                },
-
-                                AutoCombatDelegate = _ =>
-                                {
-                                    _screenTransition = true;
-
-                                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
-                                        _hoverNodeGameObject.GlobeNode,
-                                        _hoverNodeGameObject.CombatSource, _biome,
-                                        _dice,
-                                        isAutoplay: true);
-
-                                    if (_hoverNodeGameObject.AvailableEvent is not null)
-                                    {
-                                        _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
-                                        _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
-
-                                        _globe.CurrentEvent.Counter++;
-
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                                    }
-                                    else
-                                    {
-                                        ClearEventHandlerToGlobeObjects();
-
-                                        ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                                    }
-                                }
+                                CombatDelegate = CombatDelegate,
+                                AutoCombatDelegate = AutoCombatDelegate
                             };
 
                             var combatModal = new CombatModal(context, _uiContentStorage,
@@ -304,6 +256,42 @@ namespace Rpg.Client.GameScreens.Biome
             }
         }
 
+        private void CombatDelegate(GlobeNode _)
+        {
+            CombatDelegateInner(false);
+        }
+
+        private void CombatDelegateInner(bool autoCombat)
+        {
+            _screenTransition = true;
+
+            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, _hoverNodeGameObject.GlobeNode,
+                _hoverNodeGameObject.CombatSource, _biome, _dice, isAutoplay: autoCombat);
+
+            if (_hoverNodeGameObject.AvailableEvent is not null)
+            {
+                _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
+                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+
+                _globe.CurrentEvent.Counter++;
+
+                ClearEventHandlerToGlobeObjects();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+            }
+            else
+            {
+                ClearEventHandlerToGlobeObjects();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+            }
+        }
+
+        private void AutoCombatDelegate(GlobeNode _)
+        {
+            CombatDelegateInner(true);
+        }
+
         private void ClearEventHandlerToGlobeObjects()
         {
             _globe.Updated -= Globe_Updated;
@@ -312,11 +300,11 @@ namespace Rpg.Client.GameScreens.Biome
         private Cloud CreateCloud(int index, bool screenInitStage)
         {
             var endPosition = new Vector2(
-                Game.GraphicsDevice.Viewport.Width * 1.5f / CLOUD_COUNT * index -
-                Game.GraphicsDevice.Viewport.Width / 2,
-                Game.GraphicsDevice.Viewport.Height);
-            const float START_VIEWPORT_Y_POSITION = -100;
-            var startPosition = new Vector2(endPosition.X + Game.GraphicsDevice.Viewport.Width / 2,
+                _resolutionIndependenceRenderer.VirtualWidth * 1.5f / CLOUD_COUNT * index -
+                _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
+                _resolutionIndependenceRenderer.VirtualHeight);
+            const float START_VIEWPORT_Y_POSITION = -100f;
+            var startPosition = new Vector2(endPosition.X + _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
                 START_VIEWPORT_Y_POSITION);
 
             var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);

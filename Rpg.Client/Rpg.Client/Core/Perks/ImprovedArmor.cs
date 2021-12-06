@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core.Perks
 {
-    internal sealed class ImprovedArmor : ImprovedStat
+    internal sealed class ImprovedArmor : ImprovedStatBase
     {
         private const float ARMOR_BONUS = 2f;
 

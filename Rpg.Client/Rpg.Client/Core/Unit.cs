@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
 
         public int Support => CalcSupport();
 
-        public UnitScheme UnitScheme { get; init; }
+        public UnitScheme UnitScheme { get; private set; }
 
         public int Xp { get; set; }
 
@@ -179,7 +179,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public DamageResult TakeDamage(CombatUnit damageDealer, int damageSource)
+        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
             var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
             HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
@@ -192,9 +192,26 @@ namespace Rpg.Client.Core
 
             var args = new UnitHasBeenDamagedEventArgs { Result = result };
             HasBeenDamaged?.Invoke(this, args);
+
             if (HitPoints <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
+            }
+            else
+            {
+                var autoTransition = UnitScheme.SchemeAutoTransition;
+                if (autoTransition is not null)
+                {
+                    var transformShare = autoTransition.HpShare;
+                    var currentHpShare = (float)HitPoints / MaxHitPoints;
+
+                    if (currentHpShare <= transformShare)
+                    {
+                        UnitScheme = autoTransition.NextScheme;
+                        InitStats(UnitScheme);
+                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs());
+                    }
+                }
             }
 
             return result;
@@ -315,7 +332,10 @@ namespace Rpg.Client.Core
 
             MaxHitPoints = maxHitPoints;
 
-            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+            if (unitScheme.SkillSets is not null)
+            {
+                Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+            }
         }
 
         private void RestoreHp()
@@ -331,14 +351,6 @@ namespace Rpg.Client.Core
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
-        public sealed class UnitDamagedEventArgs : EventArgs
-        {
-            public UnitDamagedEventArgs(CombatUnit damageDealer)
-            {
-                DamageDealer = damageDealer ?? throw new ArgumentNullException(nameof(damageDealer));
-            }
-
-            public CombatUnit DamageDealer { get; }
-        }
+        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
     }
 }

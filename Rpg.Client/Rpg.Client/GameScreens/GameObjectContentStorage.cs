@@ -81,6 +81,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
                 { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
                 { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
+                { UnitName.VolkolakWarrior, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak") },
                 { UnitName.Volkolak, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak") }
             };
 

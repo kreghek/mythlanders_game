@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
@@ -60,6 +61,8 @@ namespace Rpg.Client
         {
             _logger.LogInformation("Initialization started");
 
+            LogGameVersion();
+
             Services.AddService(_logger);
 
             _screenManager = new ScreenManager(this);
@@ -109,6 +112,18 @@ namespace Rpg.Client
             base.Initialize();
         }
 
+        private void LogGameVersion()
+        {
+            if (VersionHelper.TryReadVersion(out var version))
+            {
+                _logger.LogInformation($"Game version info:{Environment.NewLine}{version}");
+            }
+            else
+            {
+                _logger.LogError("Can't read game version");
+            }
+        }
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -155,7 +170,8 @@ namespace Rpg.Client
             var fpsCounter = new FpsCounter(this, spriteBatch, uiContentStorage.GetMainFont());
             Components.Add(fpsCounter);
 
-            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont());
+            var versionDisplay = new VersionDisplay(this, spriteBatch, uiContentStorage.GetMainFont(), _logger);
+            versionDisplay.Initialize();
             Components.Add(versionDisplay);
 
             var cheatInput = new CheatInput(this, spriteBatch, uiContentStorage.GetMainFont());

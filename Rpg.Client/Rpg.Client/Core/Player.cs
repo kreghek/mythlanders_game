@@ -10,11 +10,14 @@ namespace Rpg.Client.Core
         {
             Party = new Group();
             Pool = new PoolGroup();
+            KnownMonsters = new List<UnitScheme>();
         }
 
         public Group Party { get; }
 
         public PoolGroup Pool { get; }
+
+        public IList<UnitScheme> KnownMonsters { get; }
 
         public IEnumerable<Unit> GetAll()
         {

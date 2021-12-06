@@ -17,21 +17,30 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
+        
+        private readonly UnitGraphics _graphics;
 
-        public UnitGameObject(CombatUnit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
+        public UnitGameObject(CombatUnit combatUnit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
             Camera2D camera, ScreenShaker screenShaker)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
-            _graphics = new UnitGraphics(unit, position, gameObjectContentStorage);
+            _graphics = new UnitGraphics(combatUnit.Unit, position, gameObjectContentStorage);
 
-            CombatUnit = unit;
+            CombatUnit = combatUnit;
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
             _screenShaker = screenShaker;
+            
+            combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+        }
+
+        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        {
+            _graphics.SwitchSourceUnit(CombatUnit.Unit);
+            AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
         }
 
         public CombatUnit CombatUnit { get; }

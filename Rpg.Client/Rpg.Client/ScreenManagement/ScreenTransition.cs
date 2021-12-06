@@ -9,6 +9,7 @@
         Party,
         Event,
         Combat,
+        Bestiary,
         EndGame
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Rpg.Client.Core.GraphicConfigs
 {
+
     internal sealed class VolkolakGraphicsConfig : UnitGraphicsConfigBase
     {
         public VolkolakGraphicsConfig()

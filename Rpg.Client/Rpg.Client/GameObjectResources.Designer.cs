@@ -142,6 +142,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evasion.
+        /// </summary>
+        internal static string Evasion {
+            get {
+                return ResourceManager.GetString("Evasion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ability to avoid 50% of any attacks..
+        /// </summary>
+        internal static string EvasionDescription {
+            get {
+                return ResourceManager.GetString("EvasionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Finger of Anubis.
         /// </summary>
         internal static string FingerOfAnubis {
@@ -201,6 +219,42 @@ namespace Rpg.Client {
         internal static string Hq {
             get {
                 return ResourceManager.GetString("Hq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Improved armor.
+        /// </summary>
+        internal static string ImprovedArmor {
+            get {
+                return ResourceManager.GetString("ImprovedArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount of the armor increased by 2 times..
+        /// </summary>
+        internal static string ImprovedArmorDescription {
+            get {
+                return ResourceManager.GetString("ImprovedArmorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Improved hit points.
+        /// </summary>
+        internal static string ImprovedHitPoints {
+            get {
+                return ResourceManager.GetString("ImprovedHitPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount of the hit points increased by 2 times..
+        /// </summary>
+        internal static string ImprovedHitPointsDescription {
+            get {
+                return ResourceManager.GetString("ImprovedHitPointsDescription", resourceCulture);
             }
         }
         
@@ -313,11 +367,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Volkolak.
+        /// </summary>
+        internal static string Volkolak {
+            get {
+                return ResourceManager.GetString("Volkolak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Volkolak claws.
         /// </summary>
         internal static string VolkolakClaws {
             get {
                 return ResourceManager.GetString("VolkolakClaws", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warrior of the Wolf Time.
+        /// </summary>
+        internal static string VolkolakWarrior {
+            get {
+                return ResourceManager.GetString("VolkolakWarrior", resourceCulture);
             }
         }
         

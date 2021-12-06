@@ -25,10 +25,13 @@ namespace Rpg.Client.Core.SkillEffects
             var min = absoluteSupport - Scatter * absoluteSupport;
             var max = absoluteSupport + Scatter * absoluteSupport;
 
-            if (Target != null)
+            if (Combat is not null)
             {
-                min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
-                max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
+                if (Target != null)
+                {
+                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
+                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
+                }
             }
 
             var absoluteMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);

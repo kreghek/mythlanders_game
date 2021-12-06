@@ -92,6 +92,6 @@ namespace Rpg.Client.Engine
             }
         }
 
-        protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor);
+        protected abstract void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor);
     }
 }
