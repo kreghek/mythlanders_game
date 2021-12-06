@@ -202,12 +202,13 @@ namespace Rpg.Client.Core
                 var autoTransition = UnitScheme.SchemeAutoTransition;
                 if (autoTransition is not null)
                 {
-                    var share = autoTransition.HpShare;
+                    var transformShare = autoTransition.HpShare;
                     var currentHpShare = (float)HitPoints / MaxHitPoints;
 
-                    if (share <= currentHpShare)
+                    if (currentHpShare <= transformShare)
                     {
                         UnitScheme = autoTransition.NextScheme;
+                        InitStats(UnitScheme);
                         SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs());
                     }
                 }
