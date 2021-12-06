@@ -951,6 +951,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             CombatResultModal combatResultModal;
 
+            AddMonstersFromCombatIntoKnownMonsters(_сombat.CombatSource.EnemyGroup.GetUnits(), _globe.Player.KnownMonsters);
+
             if (isVictory)
             {
                 var completedCombats = _globeNode.CombatSequence.CompletedCombats;
@@ -996,6 +998,18 @@ namespace Rpg.Client.GameScreens.Combat
             AddModal(combatResultModal, isLate: false);
 
             combatResultModal.Closed += CombatResultModal_Closed;
+        }
+
+        private static void AddMonstersFromCombatIntoKnownMonsters(IEnumerable<Unit> monsters, ICollection<UnitScheme> playerKnownMonsters)
+        {
+            foreach (var monster in monsters)
+            {
+                var scheme = monster.UnitScheme;
+                if (playerKnownMonsters.All(x => x != scheme))
+                {
+                    playerKnownMonsters.Add(scheme);
+                }
+            }
         }
 
         private void UpdateBackgroundObjects(GameTime gameTime)

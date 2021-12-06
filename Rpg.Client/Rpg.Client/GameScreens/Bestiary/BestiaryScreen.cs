@@ -20,6 +20,7 @@ namespace Rpg.Client.GameScreens.Bestiary
         private bool _isInitialized;
         private UnitScheme? _selectedMonster;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly Player _player;
 
         public BestiaryScreen(EwarGame game)
             : base(game)
@@ -30,6 +31,8 @@ namespace Rpg.Client.GameScreens.Bestiary
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
+            var globeProvider = game.Services.GetService<GlobeProvider>();
+            _player = globeProvider.Globe.Player;
 
             _buttonList = new List<ButtonBase>();
         }
@@ -92,6 +95,12 @@ namespace Rpg.Client.GameScreens.Bestiary
 
                 foreach (var monsterScheme in monsterSchemes)
                 {
+                    if (!_player.KnownMonsters.Contains(monsterScheme))
+                    {
+                        // This monster is unknown. So do not display it on the screen.
+                        continue;
+                    }
+                    
                     var unitName = monsterScheme.Name;
                     var name = GameObjectHelper.GetLocalized(unitName);
 
