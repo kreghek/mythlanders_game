@@ -22,6 +22,7 @@ namespace Rpg.Client.Core.Skills
         DarkLight,
         ParaliticChor,
         FingerOfAnubis,
-        WispEnergy
+        WispEnergy,
+        VolkolakWarriorEnergyBurst
     }
 }
