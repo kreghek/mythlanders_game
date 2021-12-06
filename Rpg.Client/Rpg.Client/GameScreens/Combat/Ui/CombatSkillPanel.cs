@@ -27,13 +27,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly IList<ButtonBase> _buttons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
+        private SkillHint? _activeSkillHint;
         private KeyboardState _currentKeyboardState;
 
         private ButtonBase? _hoverButton;
         private KeyboardState? _lastKeyboardState;
         private CombatSkillCard? _selectedCard;
         private CombatUnit? _unit;
-        private SkillHint? _activeSkillHint;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage, CoreCombat combat,
             ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -128,7 +128,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
-
             }
             else
             {

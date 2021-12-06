@@ -17,11 +17,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly ScreenShaker _screenShaker;
 
         private readonly UnitGraphics _graphics;
+        private readonly ScreenShaker _screenShaker;
 
-        public UnitGameObject(CombatUnit combatUnit, Vector2 position, GameObjectContentStorage gameObjectContentStorage,
+        public UnitGameObject(CombatUnit combatUnit, Vector2 position,
+            GameObjectContentStorage gameObjectContentStorage,
             Camera2D camera, ScreenShaker screenShaker)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
@@ -35,12 +36,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _screenShaker = screenShaker;
 
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
-        }
-
-        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
-        {
-            _graphics.SwitchSourceUnit(CombatUnit.Unit);
-            AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
         }
 
         public CombatUnit CombatUnit { get; }
@@ -448,6 +443,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private void ResetActorRootSpritePosition()
         {
             _graphics.Root.Position = Position;
+        }
+
+        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        {
+            _graphics.SwitchSourceUnit(CombatUnit.Unit);
+            AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
         }
 
         public event EventHandler? SkillAnimationCompleted;

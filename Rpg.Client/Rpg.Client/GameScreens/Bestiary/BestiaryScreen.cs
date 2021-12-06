@@ -14,13 +14,13 @@ namespace Rpg.Client.GameScreens.Bestiary
         private readonly IList<ButtonBase> _buttonList;
 
         private readonly Camera2D _camera;
+        private readonly Player _player;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private bool _isInitialized;
         private UnitScheme? _selectedMonster;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly Player _player;
 
         public BestiaryScreen(EwarGame game)
             : base(game)
@@ -72,43 +72,6 @@ namespace Rpg.Client.GameScreens.Bestiary
             spriteBatch.End();
         }
 
-        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
-        {
-            var monster = new Unit(monsterScheme, 1);
-
-            var unitName = monsterScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            var sb = new List<string>
-            {
-                name,
-                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
-                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
-                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
-            };
-
-            foreach (var perk in monsterScheme.Perks)
-            {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
-
-                var localizedDescription = GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
-            }
-
-            foreach (var skill in monster.Skills)
-            {
-                var localizedName = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString());
-
-                sb.Add(localizedName ?? $"[{skill.Sid}]");
-            }
-
-            return sb;
-        }
-
         protected override void UpdateContent(GameTime gameTime)
         {
             if (!_isInitialized)
@@ -154,6 +117,44 @@ namespace Rpg.Client.GameScreens.Bestiary
                     button.Update(_resolutionIndependentRenderer);
                 }
             }
+        }
+
+        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
+        {
+            var monster = new Unit(monsterScheme, 1);
+
+            var unitName = monsterScheme.Name;
+            var name = GameObjectHelper.GetLocalized(unitName);
+
+            var sb = new List<string>
+            {
+                name,
+                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
+                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
+                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
+            };
+
+            foreach (var perk in monsterScheme.Perks)
+            {
+                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
+                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+
+                var localizedDescription =
+                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
+                if (localizedDescription is not null)
+                {
+                    sb.Add(localizedDescription);
+                }
+            }
+
+            foreach (var skill in monster.Skills)
+            {
+                var localizedName = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString());
+
+                sb.Add(localizedName ?? $"[{skill.Sid}]");
+            }
+
+            return sb;
         }
     }
 }

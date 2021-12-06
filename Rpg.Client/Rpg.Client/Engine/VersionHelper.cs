@@ -6,7 +6,6 @@ namespace Rpg.Client.Engine
 {
     internal static class VersionHelper
     {
-
         public static bool TryReadVersion([NotNullWhen(true)] out string? version)
         {
             var binPath = AppContext.BaseDirectory;

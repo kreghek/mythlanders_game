@@ -18,22 +18,12 @@ namespace Rpg.Client.GameComponents
         private readonly SpriteBatch _spriteBatch;
         private string? _version;
 
-        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font, ILogger<EwarGame> logger) : base(game)
+        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font, ILogger<EwarGame> logger) :
+            base(game)
         {
             _spriteBatch = spriteBatch;
             _font = font;
             _logger = logger;
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            if (!VersionHelper.TryReadVersion(out _version))
-            {
-                _version = "version error";
-                _logger.LogError("Can't read game version");
-            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -65,6 +55,17 @@ namespace Rpg.Client.GameComponents
                 position,
                 Color.White);
             _spriteBatch.End();
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            if (!VersionHelper.TryReadVersion(out _version))
+            {
+                _version = "version error";
+                _logger.LogError("Can't read game version");
+            }
         }
     }
 }
