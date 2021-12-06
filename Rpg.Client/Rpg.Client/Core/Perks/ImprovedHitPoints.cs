@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core.Perks
 {
-    internal sealed class ImprovedHitPoints : ImprovedStat
+    internal sealed class ImprovedHitPoints : ImprovedStatBase
     {
         private const float HITPOINTS_BONUS = 3.5f;
 

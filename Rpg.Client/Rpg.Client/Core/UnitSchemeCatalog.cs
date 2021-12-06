@@ -1231,11 +1231,11 @@ namespace Rpg.Client.Core
                 },
                 new UnitScheme
                 {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.Volkolak,
+                    Name = UnitName.VolkolakWarrior,
                     Biome = biomeType,
                     NodeIndexes = new[] { 2, 3, 5 },
                     IsUnique = true,
@@ -1247,11 +1247,42 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new VolkolakClawsSkill()
+                                new VolkolakEnergySkill()
                             }
                         }
                     },
-                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
+
+                    SchemeAutoTransition = new UnitSchemeAutoTransition
+                    {
+                        HpShare = 0.5f,
+                        NextScheme = new UnitScheme
+                        {
+                            TankRank = 0.0f,
+                            DamageDealerRank = 0.5f,
+                            SupportRank = 0.5f,
+
+                            Name = UnitName.Volkolak,
+                            Biome = biomeType,
+                            IsUnique = true,
+                            IsMonster = true,
+
+                            SkillSets = new List<SkillSet>
+                            {
+                                new SkillSet
+                                {
+                                    Skills = new List<SkillBase>
+                                    {
+                                        new VolkolakClawsSkill()
+                                    }
+                                }
+                            },
+                            UnitGraphicsConfig = new VolkolakGraphicsConfig(),
+                            Perks = new []{ 
+                                new ImprovedHitPoints()
+                            }
+                        }
+                    }
                 },
                 new UnitScheme
                 {

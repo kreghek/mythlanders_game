@@ -51,6 +51,7 @@
         Hydra,
         KosheyTheImmortal,
         KosheyTheImmortal2,
-        KosheyTheImmortal3
+        KosheyTheImmortal3,
+        VolkolakWarrior
     }
 }

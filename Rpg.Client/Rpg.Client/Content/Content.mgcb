@@ -626,18 +626,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/UnitPortrains.png
 
-#begin Sprites/GameObjects/Wolf.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/Wolf.png
-
 #begin Sprites/Ui/Biome.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -661,18 +649,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Ui/Button.png
-
-#begin Sprites/Ui/Speech.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Ui/Speech.png
 
 #begin Sprites/Ui/CombatPowerIcons.png
 /importer:TextureImporter
@@ -721,6 +697,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Ui/ModalDialogShadow.png
+
+#begin Sprites/Ui/Speech.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Ui/Speech.png
 
 #begin Sprites/Ui/UnitPanel.png
 /importer:TextureImporter

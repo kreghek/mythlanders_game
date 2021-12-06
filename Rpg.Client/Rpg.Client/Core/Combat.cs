@@ -372,7 +372,7 @@ namespace Rpg.Client.Core
             _round++;
         }
 
-        private void Unit_Dead(object? sender, Unit.UnitDamagedEventArgs e)
+        private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
         {
             if (sender is not Unit unit)
             {

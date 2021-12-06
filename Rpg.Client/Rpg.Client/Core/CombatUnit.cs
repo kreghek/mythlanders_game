@@ -5,13 +5,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal enum CombatUnitState
-    {
-        Idle,
-        Defense
-    }
-
-    internal sealed class CombatUnit
+    internal sealed class CombatUnit : ICombatUnit
     {
         public CombatUnit(Unit unit, int index)
         {
