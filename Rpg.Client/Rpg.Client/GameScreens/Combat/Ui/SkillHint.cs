@@ -25,6 +25,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
+            var color = Color.White;
+
             var combatPower = _skill;
 
             var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
@@ -32,12 +34,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var skillNameText = GameObjectResources.ResourceManager.GetString(combatPower.Skill.Sid.ToString()) ??
                                 $"#Resource-{combatPower.Skill.Sid}";
             spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
-                Color.Black);
+                color);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
             if (combatPower.Skill.ManaCost is not null)
             {
-                var manaCostColor = combatPower.IsAvailable ? Color.White : Color.Red;
+                var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font, $"Cost: {combatPower.Skill.ManaCost}",
                     manaCostPosition, manaCostColor);
             }
@@ -58,13 +60,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                     spriteBatch.DrawString(_font,
                         $"Damage: {damage.Min} - {damage.Max} to {rule.Direction}",
-                        rulePosition, Color.Black);
+                        rulePosition, color);
                 }
                 else if (effectToDisplay is HealEffect healEffect)
                 {
                     var heal = healEffect.CalculateHeal();
                     spriteBatch.DrawString(_font,
-                        $"Heal: {heal.Min} - {heal.Max}", rulePosition, Color.Black);
+                        $"Heal: {heal.Min} - {heal.Max}", rulePosition, color);
                 }
                 else if (effectToDisplay is PeriodicHealEffect periodicHealEffect)
                 {
@@ -72,21 +74,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     spriteBatch.DrawString(_font,
                         $"Heal over time: {heal.Min} - {heal.Max}",
                         rulePosition,
-                        Color.Black);
+                        color);
                 }
                 else if (effectToDisplay is StunEffect stunEffect)
                 {
                     spriteBatch.DrawString(_font,
                         $"Stun: {stunEffect.Duration} turns",
                         rulePosition,
-                        Color.Black);
+                        color);
                 }
                 else if (effectToDisplay is IncreaseAttackEffect increaseAttackEffect)
                 {
                     spriteBatch.DrawString(_font,
                         $"Power up: {increaseAttackEffect.Duration} turns up to {50}% damage",
                         rulePosition,
-                        Color.Black);
+                        color);
                 }
             }
         }
