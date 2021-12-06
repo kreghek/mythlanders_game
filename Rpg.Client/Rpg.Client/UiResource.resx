@@ -208,4 +208,8 @@
     <value>Is in party. Slot {0}.</value>
     <comment>Указывает, что персонаж в партии и номер слота.</comment>
   </data>
+  <data name="BestiaryButtonTitle" xml:space="preserve">
+    <value>Bestiary</value>
+    <comment>Бестиарий монстров в игре</comment>
+  </data>
 </root>

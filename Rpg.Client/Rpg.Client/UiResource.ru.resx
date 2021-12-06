@@ -228,4 +228,7 @@
   <data name="PartyMarkerLabelTemplate" xml:space="preserve">
     <value>Состоит в группе. Слот {0}.</value>
   </data>
+  <data name="BestiaryButtonTitle" xml:space="preserve">
+    <value>Бестиарий</value>
+  </data>
 </root>

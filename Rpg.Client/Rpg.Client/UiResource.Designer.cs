@@ -79,6 +79,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bestiary.
+        /// </summary>
+        internal static string BestiaryButtonTitle {
+            get {
+                return ResourceManager.GetString("BestiaryButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lvl.
         /// </summary>
         internal static string BiomeLevelText {
