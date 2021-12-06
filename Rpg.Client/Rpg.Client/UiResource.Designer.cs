@@ -61,6 +61,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Armor: {0}.
+        /// </summary>
+        internal static string ArmorLabelTemplate {
+            get {
+                return ResourceManager.GetString("ArmorLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto-combat.
         /// </summary>
         internal static string AutocombatButtonTitle {
@@ -129,6 +138,15 @@ namespace Rpg.Client {
         internal static string CombatTutorialText {
             get {
                 return ResourceManager.GetString("CombatTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Damage: {0}.
+        /// </summary>
+        internal static string DamageLabelTemplate {
+            get {
+                return ResourceManager.GetString("DamageLabelTemplate", resourceCulture);
             }
         }
         

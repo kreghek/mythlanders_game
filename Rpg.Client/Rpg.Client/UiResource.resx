@@ -212,4 +212,10 @@
     <value>Bestiary</value>
     <comment>Бестиарий монстров в игре</comment>
   </data>
+  <data name="DamageLabelTemplate" xml:space="preserve">
+    <value>Damage: {0}</value>
+  </data>
+  <data name="ArmorLabelTemplate" xml:space="preserve">
+    <value>Armor: {0}</value>
+  </data>
 </root>

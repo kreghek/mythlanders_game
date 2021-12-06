@@ -74,14 +74,32 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
         {
+            var monster = new Unit(monsterScheme, 1);
+            
             var unitName = monsterScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);
 
             var sb = new List<string>
             {
                 name,
-                string.Format(UiResource.HitPointsLabelTemplate, monsterScheme.HitPointsBase)
+                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
+                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
+                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
             };
+
+            foreach (var perk in monsterScheme.Perks)
+            {
+                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
+                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+            }
+
+            foreach (var skill in monster.Skills)
+            {
+                var localizedName = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString());
+                
+                sb.Add(localizedName ?? $"[{skill.Sid}]");
+            }
+            
             return sb;
         }
 

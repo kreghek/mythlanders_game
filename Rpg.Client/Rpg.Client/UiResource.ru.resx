@@ -231,4 +231,10 @@
   <data name="BestiaryButtonTitle" xml:space="preserve">
     <value>Бестиарий</value>
   </data>
+  <data name="DamageLabelTemplate" xml:space="preserve">
+    <value>Урон: {0}</value>
+  </data>
+  <data name="ArmorLabelTemplate" xml:space="preserve">
+    <value>Броня: {0}</value>
+  </data>
 </root>
