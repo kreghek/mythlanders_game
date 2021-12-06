@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AbstractMonsterAttack" xml:space="preserve">
+    <value>Абстрактная атака монстра</value>
+  </data>
+  <data name="ArrowRain" xml:space="preserve">
+    <value>Дождь стрел</value>
+  </data>
   <data name="Aspid" xml:space="preserve">
     <value>Аспид</value>
   </data>
@@ -125,6 +131,27 @@
   </data>
   <data name="Berimir" xml:space="preserve">
     <value>Беримир</value>
+  </data>
+  <data name="DarkLight" xml:space="preserve">
+    <value>Темная молная</value>
+  </data>
+  <data name="DefenseStance" xml:space="preserve">
+    <value>Защитная стойка</value>
+  </data>
+  <data name="DopeHerb" xml:space="preserve">
+    <value>Дурман-трава</value>
+  </data>
+  <data name="EnergyShot" xml:space="preserve">
+    <value>Энерго-выстрел</value>
+  </data>
+  <data name="Evasion" xml:space="preserve">
+    <value>Уклонение</value>
+  </data>
+  <data name="EvasionDescription" xml:space="preserve">
+    <value>Способность избегать 50% любых атак.</value>
+  </data>
+  <data name="FingerOfAnubis" xml:space="preserve">
+    <value>Перст Анубиса</value>
   </data>
   <data name="GreyWolf" xml:space="preserve">
     <value>Серый волк</value>
@@ -135,8 +162,29 @@
   <data name="Hawk" xml:space="preserve">
     <value>Сокол</value>
   </data>
+  <data name="Heal" xml:space="preserve">
+    <value>Лечение</value>
+  </data>
+  <data name="HealingSalve" xml:space="preserve">
+    <value>Целебная мазь</value>
+  </data>
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
+  </data>
+  <data name="ImprovedArmor" xml:space="preserve">
+    <value>Улучшенная броня</value>
+  </data>
+  <data name="ImprovedArmorDescription" xml:space="preserve">
+    <value>Броня увеличена в 2 раза.</value>
+  </data>
+  <data name="ImprovedHitPoints" xml:space="preserve">
+    <value>Улучшенные хитпоинты</value>
+  </data>
+  <data name="ImprovedHitPointsDescription" xml:space="preserve">
+    <value>Количество хит поинтов увеличено в 2 раза.</value>
+  </data>
+  <data name="MassHeal" xml:space="preserve">
+    <value>Массовое исцеление</value>
   </data>
   <data name="Mines" xml:space="preserve">
     <value>Рудники</value>
@@ -144,47 +192,20 @@
   <data name="Oldman" xml:space="preserve">
     <value>Старик</value>
   </data>
+  <data name="ParaliticChor" xml:space="preserve">
+    <value>Паралитический хор</value>
+  </data>
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
+  </data>
+  <data name="PowerUp" xml:space="preserve">
+    <value>Усиление</value>
   </data>
   <data name="Rada" xml:space="preserve">
     <value>Старая Рада</value>
   </data>
-  <data name="Thicket" xml:space="preserve">
-    <value>Чаща</value>
-  </data>
-  <data name="WarriorEquipment" xml:space="preserve">
-    <value>Осколки меча</value>
-  </data>
-  <data name="Wisp" xml:space="preserve">
-    <value>Блуждающий огонёк</value>
-  </data>
-  <data name="Heal" xml:space="preserve">
-    <value>Лечение</value>
-  </data>
-  <data name="ArrowRain" xml:space="preserve">
-    <value>Дождь стрел</value>
-  </data>
-  <data name="EnergyShot" xml:space="preserve">
-    <value>Энерго-выстрел</value>
-  </data>
-  <data name="DefenseStance" xml:space="preserve">
-    <value>Защитная стойка</value>
-  </data>
-  <data name="DopeHerb" xml:space="preserve">
-    <value>Дурман-трава</value>
-  </data>
-  <data name="MassHeal" xml:space="preserve">
-    <value>Массовое исцеление</value>
-  </data>
-  <data name="AbstractMonsterAttack" xml:space="preserve">
-    <value>Абстрактная атака монстра</value>
-  </data>
-  <data name="HealingSalve" xml:space="preserve">
-    <value>Целебная мазь</value>
-  </data>
-  <data name="PowerUp" xml:space="preserve">
-    <value>Усиление</value>
+  <data name="StaffHit" xml:space="preserve">
+    <value>Удары посохом</value>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
     <value>Взрыв печи Сварога</value>
@@ -192,28 +213,31 @@
   <data name="SwordSlash" xml:space="preserve">
     <value>Рубящий удар мечом</value>
   </data>
-  <data name="StaffHit" xml:space="preserve">
-    <value>Удары посохом</value>
+  <data name="Thicket" xml:space="preserve">
+    <value>Чаща</value>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
   </data>
+  <data name="Volkolak" xml:space="preserve">
+    <value>Волколак</value>
+  </data>
   <data name="VolkolakClaws" xml:space="preserve">
     <value>Когти волколака</value>
+  </data>
+  <data name="VolkolakWarrior" xml:space="preserve">
+    <value>Воин Волчьего часа</value>
+  </data>
+  <data name="WarriorEquipment" xml:space="preserve">
+    <value>Осколки меча</value>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
     <value>Широкий удар мечом</value>
   </data>
+  <data name="Wisp" xml:space="preserve">
+    <value>Блуждающий огонёк</value>
+  </data>
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
-  </data>
-  <data name="DarkLight" xml:space="preserve">
-    <value>Темная молная</value>
-  </data>
-  <data name="ParaliticChor" xml:space="preserve">
-    <value>Паралитический хор</value>
-  </data>
-  <data name="FingerOfAnubis" xml:space="preserve">
-    <value>Перст Анубиса</value>
   </data>
 </root>
