@@ -1,34 +1,38 @@
 ﻿using System;
 using System.IO;
 
+using Castle.Core.Logging;
+
+using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameComponents
 {
     internal class VersionDisplay : DrawableGameComponent
     {
         private readonly SpriteFont _font;
+        private readonly ILogger<EwarGame> _logger;
         private readonly SpriteBatch _spriteBatch;
-        private readonly string? _version;
+        private string? _version;
 
-        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font) : base(game)
+        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font, ILogger<EwarGame> logger) : base(game)
         {
             _spriteBatch = spriteBatch;
             _font = font;
+            _logger = logger;
+        }
 
-            var binPath = AppContext.BaseDirectory;
+        public override void Initialize()
+        {
+            base.Initialize();
 
-            if (string.IsNullOrWhiteSpace(binPath))
+            if (!VersionHelper.TryReadVersion(out _version))
             {
-                throw new InvalidOperationException("Path to bin directory is null.");
-            }
-
-            var versionFile = Path.Combine(binPath, "version.txt");
-
-            if (File.Exists(versionFile))
-            {
-                _version = File.ReadAllText(versionFile);
+                _version = "version error";
+                _logger.LogError("Can't read game version");
             }
         }
 

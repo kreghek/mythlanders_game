@@ -98,10 +98,4 @@ namespace Rpg.Client
             return GameMode.Full;
         }
     }
-
-    public enum GameMode
-    {
-        Demo,
-        Full
-    }
 }
