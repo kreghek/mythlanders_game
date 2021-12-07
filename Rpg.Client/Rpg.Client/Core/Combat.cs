@@ -329,6 +329,9 @@ namespace Rpg.Client.Core
                                 CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
+                
+                case SkillTargetType.Self:
+                    return new[] { CurrentUnit };
 
                 default:
                     // There is a skill with unknown target. So we can't form the target list.
