@@ -43,43 +43,6 @@ namespace Rpg.Client.ScreenManagement
             DrawTransition(spriteBatch);
         }
 
-        private void DrawTransition(SpriteBatch spriteBatch)
-        {
-            if (_transitionCounter is null)
-            {
-                return;
-            }
-
-            spriteBatch.Begin();
-
-            var t = _transitionCounter.Value / TRANSITION_DURATION;
-
-            if (t < 0.5)
-            {
-                var t2 = t * 2;
-                spriteBatch.Draw(_transitionTexture,
-                    new Rectangle(
-                        0,
-                        0,
-                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                        _game.GraphicsDevice.Viewport.Height),
-                    Color.White);
-            }
-            else
-            {
-                var t2 = (t - 0.5) * 2;
-                spriteBatch.Draw(_transitionTexture,
-                    new Rectangle(
-                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
-                        0,
-                        _game.GraphicsDevice.Viewport.Width,
-                        _game.GraphicsDevice.Viewport.Height),
-                    Color.White);
-            }
-
-            spriteBatch.End();
-        }
-
         public void Update(GameTime gameTime)
         {
             if (ActiveScreen is null)
@@ -132,6 +95,43 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.EndGame => new EndGameScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
+        }
+
+        private void DrawTransition(SpriteBatch spriteBatch)
+        {
+            if (_transitionCounter is null)
+            {
+                return;
+            }
+
+            spriteBatch.Begin();
+
+            var t = _transitionCounter.Value / TRANSITION_DURATION;
+
+            if (t < 0.5)
+            {
+                var t2 = t * 2;
+                spriteBatch.Draw(_transitionTexture,
+                    new Rectangle(
+                        0,
+                        0,
+                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                        _game.GraphicsDevice.Viewport.Height),
+                    Color.White);
+            }
+            else
+            {
+                var t2 = (t - 0.5) * 2;
+                spriteBatch.Draw(_transitionTexture,
+                    new Rectangle(
+                        (int)(_game.GraphicsDevice.Viewport.Width * t2),
+                        0,
+                        _game.GraphicsDevice.Viewport.Width,
+                        _game.GraphicsDevice.Viewport.Height),
+                    Color.White);
+            }
+
+            spriteBatch.End();
         }
 
         public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition)

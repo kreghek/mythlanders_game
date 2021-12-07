@@ -27,8 +27,6 @@ namespace Rpg.Client.Core
         public int Index { get; }
         public CombatUnitState State { get; internal set; }
 
-        public Unit Unit { get; }
-
         internal void ChangeState(CombatUnitState targetState)
         {
             State = targetState;
@@ -57,6 +55,8 @@ namespace Rpg.Client.Core
             };
             HasTakenDamage?.Invoke(this, args);
         }
+
+        public Unit Unit { get; }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
 

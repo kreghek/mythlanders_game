@@ -95,8 +95,9 @@ namespace Rpg.Client.GameScreens.Biome
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
                 };
                 _menuButtons.Add(partyModalButton);
-                
-                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle, _uiContentStorage.GetButtonTexture(),
+
+                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
                 bestiaryButton.OnClick += (_, _) =>
                 {
@@ -106,7 +107,7 @@ namespace Rpg.Client.GameScreens.Biome
 
                 var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-                
+
                 saveGameButton.OnClick += (_, _) =>
                 {
                     globeProvider.StoreGlobe();
@@ -256,6 +257,16 @@ namespace Rpg.Client.GameScreens.Biome
             }
         }
 
+        private void AutoCombatDelegate(GlobeNode _)
+        {
+            CombatDelegateInner(true);
+        }
+
+        private void ClearEventHandlerToGlobeObjects()
+        {
+            _globe.Updated -= Globe_Updated;
+        }
+
         private void CombatDelegate(GlobeNode _)
         {
             CombatDelegateInner(false);
@@ -285,16 +296,6 @@ namespace Rpg.Client.GameScreens.Biome
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
             }
-        }
-
-        private void AutoCombatDelegate(GlobeNode _)
-        {
-            CombatDelegateInner(true);
-        }
-
-        private void ClearEventHandlerToGlobeObjects()
-        {
-            _globe.Updated -= Globe_Updated;
         }
 
         private Cloud CreateCloud(int index, bool screenInitStage)

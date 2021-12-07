@@ -1278,7 +1278,8 @@ namespace Rpg.Client.Core
                                 }
                             },
                             UnitGraphicsConfig = new VolkolakGraphicsConfig(),
-                            Perks = new []{ 
+                            Perks = new[]
+                            {
                                 new ImprovedHitPoints()
                             }
                         }

@@ -10,38 +10,82 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class UnitGraphics
     {
-        private readonly Vector2 _position;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly Vector2 _position;
+        private readonly Sprite _selectedMarker;
 
         private IDictionary<AnimationSid, AnimationInfo> _animationInfos;
-        private Sprite _graphics;
-        private readonly Sprite _selectedMarker;
 
         private AnimationSid _animationSid;
         private double _frameCounter;
         private int _frameIndex;
+        private Sprite _graphics;
 
         public UnitGraphics(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
-            
+
             _selectedMarker = new Sprite(gameObjectContentStorage.GetCombatUnitMarker())
             {
                 Origin = new Vector2(0.5f, 0.75f),
                 SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
-            
+
             InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
 
             _animationSid = AnimationSid.Idle;
         }
 
+        public bool IsDamaged { get; set; }
+
+        public SpriteContainer Root { get; private set; }
+
+        public bool ShowActiveMarker { get; set; }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Root.Draw(spriteBatch);
+        }
+
+        public void PlayAnimation(AnimationSid sid)
+        {
+            if (sid == _animationSid)
+            {
+                return;
+            }
+
+            _frameCounter = 0;
+            _frameIndex = 0;
+            _animationSid = sid;
+        }
+
         public void SwitchSourceUnit(Unit unit)
         {
             InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_animationSid == AnimationSid.Idle)
+            {
+                _selectedMarker.Visible = ShowActiveMarker;
+            }
+            else
+            {
+                _selectedMarker.Visible = false;
+            }
+
+            UpdateAnimation(gameTime);
+        }
+
+        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
+        {
+            var col = (frameIndex + startIndex) % cols;
+            var row = (frameIndex + startIndex) / cols;
+            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
         }
 
         private void InitializeGraphics(UnitScheme unitScheme, bool isPlayerSide)
@@ -75,50 +119,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Root.AddChild(_graphics);
 
             _animationInfos = unitScheme.UnitGraphicsConfig.Animations;
-        }
-
-        public bool IsDamaged { get; set; }
-
-        public SpriteContainer Root { get; private set; }
-
-        public bool ShowActiveMarker { get; set; }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            Root.Draw(spriteBatch);
-        }
-
-        public void PlayAnimation(AnimationSid sid)
-        {
-            if (sid == _animationSid)
-            {
-                return;
-            }
-
-            _frameCounter = 0;
-            _frameIndex = 0;
-            _animationSid = sid;
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            if (_animationSid == AnimationSid.Idle)
-            {
-                _selectedMarker.Visible = ShowActiveMarker;
-            }
-            else
-            {
-                _selectedMarker.Visible = false;
-            }
-
-            UpdateAnimation(gameTime);
-        }
-
-        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
-        {
-            var col = (frameIndex + startIndex) % cols;
-            var row = (frameIndex + startIndex) / cols;
-            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
         }
 
         private void UpdateAnimation(GameTime gameTime)

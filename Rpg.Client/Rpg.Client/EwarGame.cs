@@ -112,18 +112,6 @@ namespace Rpg.Client
             base.Initialize();
         }
 
-        private void LogGameVersion()
-        {
-            if (VersionHelper.TryReadVersion(out var version))
-            {
-                _logger.LogInformation($"Game version info:{Environment.NewLine}{version}");
-            }
-            else
-            {
-                _logger.LogError("Can't read game version");
-            }
-        }
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -192,6 +180,18 @@ namespace Rpg.Client
             _camera.Zoom = 1f;
             _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
             _camera.RecalculateTransformationMatrices();
+        }
+
+        private void LogGameVersion()
+        {
+            if (VersionHelper.TryReadVersion(out var version))
+            {
+                _logger.LogInformation($"Game version info:{Environment.NewLine}{version}");
+            }
+            else
+            {
+                _logger.LogError("Can't read game version");
+            }
         }
 
         private void RegisterServices(IScreenManager screenManager)
