@@ -11,7 +11,7 @@ namespace Rpg.Client.ScreenManagement
     /// <summary>
     /// This is the base class for all game scenes.
     /// </summary>
-    internal abstract class GameScreenBase : EwarDrawableComponentBase, IScreen
+    internal abstract class GameScreenBase : EwarRenderableBase, IScreen
     {
         private readonly Camera2D _camera;
         private readonly IList<IModalWindow> _modals;

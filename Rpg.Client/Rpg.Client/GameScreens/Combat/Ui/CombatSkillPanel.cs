@@ -18,9 +18,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
-        const int SPRITESHEET_COLUMN_COUNT = 3;
+        private const int SPRITE_SHEET_COLUMN_COUNT = 3;
 
-        private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
+        private readonly IDictionary<ButtonBase, CombatSkill> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private ButtonBase? _hoverButton;
         private KeyboardState? _lastKeyboardState;
-        private CombatSkillCard? _selectedCard;
+        private CombatSkill? _selectedCard;
         private CombatUnit? _unit;
 
         public CombatSkillPanel(IUiContentStorage uiContentStorage,
@@ -37,7 +37,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _buttons = new List<ButtonBase>();
-            _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
+            _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkill>();
 
             _uiContentStorage = uiContentStorage;
 
@@ -219,8 +219,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var iconIndex = iconIndexNullable.GetValueOrDefault();
 
-            var x = iconIndex % SPRITESHEET_COLUMN_COUNT;
-            var y = iconIndex / SPRITESHEET_COLUMN_COUNT;
+            var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
+            var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;
             var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
 
             return rect;
@@ -308,7 +308,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        public CombatSkillCard? SelectedCard
+        public CombatSkill? SelectedCard
         {
             get => _selectedCard;
             set
@@ -326,6 +326,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        public event EventHandler<CombatSkillCard?>? CardSelected;
+        public event EventHandler<CombatSkill?>? CardSelected;
     }
 }

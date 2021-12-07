@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class EwarDrawableComponentBase : Renderable
+    internal abstract class EwarRenderableBase : Renderable
     {
         public virtual void Update(GameTime gameTime)
         {
             var children = Children.ToList();
 
-            foreach (var ewarDrawableComponent in children.OfType<EwarDrawableComponentBase>())
+            foreach (var ewarDrawableComponent in children.OfType<EwarRenderableBase>())
             {
                 if (ewarDrawableComponent.Parent == this)
                 {
@@ -21,12 +21,10 @@ namespace Rpg.Client.Engine
 
         protected override void AfterAddChild(Renderable child)
         {
-            if (child is not EwarDrawableComponentBase ewarComponen)
+            if (child is EwarRenderableBase ewarRenderable)
             {
-                return;
+                ewarRenderable.Initialize();
             }
-
-            ewarComponen.Initialize();
         }
 
         protected virtual void DoInitialize() { }

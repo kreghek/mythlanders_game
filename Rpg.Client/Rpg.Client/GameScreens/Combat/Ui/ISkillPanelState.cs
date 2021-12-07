@@ -4,6 +4,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal interface ISkillPanelState
     {
-        public CombatSkillCard? SelectedCard { get; }
+        public CombatSkill? SelectedCard { get; }
     }
 }

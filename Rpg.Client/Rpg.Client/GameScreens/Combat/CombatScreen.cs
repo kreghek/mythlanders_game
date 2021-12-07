@@ -271,7 +271,7 @@ namespace Rpg.Client.GameScreens.Combat
             var textPosition = GetUnitGameObject(e).Position;
             var font = _uiContentStorage.GetMainFont();
 
-            var passIndicator = new MovePassedComponent(textPosition, font);
+            var passIndicator = new SkipTextIndicator(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
         }
@@ -403,7 +403,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
+        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkill? skillCard)
         {
             RefreshHudButtons(skillCard);
         }
@@ -416,7 +416,7 @@ namespace Rpg.Client.GameScreens.Combat
             var textPosition = GetUnitGameObject(combatUnit).Position;
             var font = _uiContentStorage.GetMainFont();
 
-            var passIndicator = new EvasionComponent(textPosition, font);
+            var passIndicator = new EvasionTextIndicator(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
         }
@@ -435,7 +435,7 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedComponent(-e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -448,7 +448,7 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedComponent(e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -830,7 +830,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
+        private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
         {
             var interactButton = new UnitButton(
                 _uiContentStorage.GetButtonTexture(),
@@ -863,7 +863,7 @@ namespace Rpg.Client.GameScreens.Combat
             };
         }
 
-        private void RefreshHudButtons(CombatSkillCard? skillCard)
+        private void RefreshHudButtons(CombatSkill? skillCard)
         {
             _interactButtonClicked = false;
             _hudButtons.Clear();

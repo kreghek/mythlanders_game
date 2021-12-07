@@ -181,12 +181,12 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
-  <data name="IndicatorPassedTurn" xml:space="preserve">
-    <value>Passed</value>
+  <data name="IndicatorSkipTurn" xml:space="preserve">
+    <value>Skip!</value>
     <comment>Когда юнит пропускает ход</comment>
   </data>
   <data name="IndicatorEvasion" xml:space="preserve">
-    <value>Evasion</value>
+    <value>Evasion!</value>
     <comment>Когда юнит уклоняется от урона</comment>
   </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">

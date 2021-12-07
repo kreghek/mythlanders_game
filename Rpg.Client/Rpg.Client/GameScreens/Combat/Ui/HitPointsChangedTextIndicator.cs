@@ -5,12 +5,14 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class HitPointsChangedComponent : DisapearingTextComponent
+    internal class HitPointsChangedTextIndicator : TextIndicatorBase
     {
         private readonly int _amount;
         private readonly HitPointsChangeDirection _direction;
 
-        public HitPointsChangedComponent(int amount, HitPointsChangeDirection direction, Vector2 startPosition,
+        public HitPointsChangedTextIndicator(int amount,
+            HitPointsChangeDirection direction,
+            Vector2 startPosition,
             SpriteFont font) : base(startPosition, font)
         {
             _amount = amount;
@@ -24,7 +26,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override string GetText()
         {
-            if (_amount > 0)
+            if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
             {
                 return $"+{_amount}";
             }

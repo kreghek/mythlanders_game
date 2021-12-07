@@ -178,7 +178,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evasion.
+        ///   Looks up a localized string similar to Evasion!.
         /// </summary>
         internal static string IndicatorEvasion {
             get {
@@ -187,11 +187,11 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Passed.
+        ///   Looks up a localized string similar to Skip!.
         /// </summary>
-        internal static string IndicatorPassedTurn {
+        internal static string IndicatorSkipTurn {
             get {
-                return ResourceManager.GetString("IndicatorPassedTurn", resourceCulture);
+                return ResourceManager.GetString("IndicatorSkipTurn", resourceCulture);
             }
         }
         
