@@ -301,8 +301,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
-            _сombat.UnitChanged += Combat_UnitChanged;
-            _сombat.CombatUnitReadyToControl += Combat_UnitReadyToControl;
+            _сombat.ActiveCombatUnitChanged += Combat_UnitChanged;
+            _сombat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
             _сombat.CombatUnitEntered += Combat_UnitEntered;
             _сombat.CombatUnitRemoved += Combat_CombatUnitRemoved;
             _сombat.UnitDied += Combat_UnitDied;
