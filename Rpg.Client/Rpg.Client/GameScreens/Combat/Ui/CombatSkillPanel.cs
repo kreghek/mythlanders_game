@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
-
-using CoreCombat = Rpg.Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
@@ -22,6 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
+        const int SPRITESHEET_COLUMN_COUNT = 3;
 
         private readonly IDictionary<ButtonBase, CombatSkillCard> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
@@ -35,10 +32,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatSkillCard? _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage, CoreCombat combat,
+        public CombatSkillPanel(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
-            Combat = combat;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _buttons = new List<ButtonBase>();
             _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkillCard>();
@@ -47,8 +43,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             IsEnabled = true;
         }
-
-        public CoreCombat Combat { get; }
 
         public bool IsEnabled { get; set; }
 
@@ -88,9 +82,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 DrawHotkey(spriteBatch, hotKey, button);
             }
 
-            if (_hoverButton is not null)
+            if (_hoverButton is not null && _activeSkillHint is not null)
             {
-                DrawHoverCombatSkillInfo(_hoverButton, spriteBatch);
+                DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
         }
 
@@ -154,19 +148,28 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ButtonBase button)
+        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ControlBase button)
         {
             var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
         }
 
-        private void DrawHoverCombatSkillInfo(ButtonBase hoverButton, SpriteBatch spriteBatch)
+        private static void DrawHoverCombatSkillInfo(ControlBase baseControl, ControlBase hintControl,
+            SpriteBatch spriteBatch)
         {
-            var hintPosition = hoverButton.Rect.Location.ToVector2() - new Vector2(0, 105);
-            var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(200, 75));
+            var baseControlCenter = baseControl.Rect.Center.ToVector2();
+            var baseControlTopCenter = new Vector2(baseControlCenter.X, 0);
 
-            _activeSkillHint.Rect = hintRectangle;
-            _activeSkillHint?.Draw(spriteBatch);
+            // TODO Calculate preferred size of the hint based on content.
+            var hintWidth = 200;
+            var hintHeight = 75;
+            const int HINT_MARGIN = 5;
+            
+            var hintPosition = baseControlTopCenter - new Vector2(0, hintHeight + HINT_MARGIN);
+            var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(hintWidth, hintHeight));
+
+            hintControl.Rect = hintRectangle;
+            hintControl.Draw(spriteBatch);
         }
 
         private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer,
@@ -209,13 +212,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private static Rectangle GetIconRect(SkillSid sid)
         {
-            const int SPRITESHEET_COLUMN_COUNT = 3;
-
             var iconIndexNullable = GetIconIndex(sid);
 
             Debug.Assert(iconIndexNullable is not null, $"Don't forget add combat power in {nameof(GetIconIndex)}");
 
-            var iconIndex = iconIndexNullable is not null ? iconIndexNullable.Value : 0;
+            var iconIndex = iconIndexNullable.GetValueOrDefault();
 
             var x = iconIndex % SPRITESHEET_COLUMN_COUNT;
             var y = iconIndex / SPRITESHEET_COLUMN_COUNT;
