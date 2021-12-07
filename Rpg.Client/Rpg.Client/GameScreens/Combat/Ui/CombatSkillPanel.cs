@@ -157,16 +157,17 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private static void DrawHoverCombatSkillInfo(ControlBase baseControl, ControlBase hintControl,
             SpriteBatch spriteBatch)
         {
-            var baseControlCenter = baseControl.Rect.Center.ToVector2();
-            var baseControlTopCenter = new Vector2(baseControlCenter.X, 0);
+            var baseControlCenter = baseControl.Rect.Center;
+            var baseControlTopCenter = new Point(baseControlCenter.X, baseControl.Rect.Top);
 
             // TODO Calculate preferred size of the hint based on content.
             var hintWidth = 200;
             var hintHeight = 75;
+            var hintHorizontalCenter = hintWidth / 2;
             const int HINT_MARGIN = 5;
             
-            var hintPosition = baseControlTopCenter - new Vector2(0, hintHeight + HINT_MARGIN);
-            var hintRectangle = new Rectangle(hintPosition.ToPoint(), new Point(hintWidth, hintHeight));
+            var hintPosition = baseControlTopCenter - new Point(hintHorizontalCenter, hintHeight + HINT_MARGIN);
+            var hintRectangle = new Rectangle(hintPosition, new Point(hintWidth, hintHeight));
 
             hintControl.Rect = hintRectangle;
             hintControl.Draw(spriteBatch);
