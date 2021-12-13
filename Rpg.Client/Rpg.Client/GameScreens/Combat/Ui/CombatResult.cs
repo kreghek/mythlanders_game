@@ -2,7 +2,6 @@
 {
     internal enum CombatResult
     {
-        Undefined,
         Victory,
         NextCombat,
         Defeat

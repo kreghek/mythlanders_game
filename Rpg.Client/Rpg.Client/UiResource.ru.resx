@@ -237,4 +237,13 @@
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Броня: {0}</value>
   </data>
+  <data name="CombatResultVictoryText" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="CombatResultDefeatText" xml:space="preserve">
+    <value>Поражение!</value>
+  </data>
+  <data name="CombatResultNextText" xml:space="preserve">
+    <value>Следующий бой...</value>
+  </data>
 </root>

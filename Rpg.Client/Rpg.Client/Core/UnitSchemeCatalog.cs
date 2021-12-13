@@ -1173,7 +1173,11 @@ namespace Rpg.Client.Core
                             }
                         }
                     },
-                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig(),
+                    Perks = new IPerk[]
+                    {
+                        new CriticalHit()
+                    }
                 },
                 new UnitScheme
                 {

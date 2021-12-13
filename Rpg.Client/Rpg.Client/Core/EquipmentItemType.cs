@@ -2,7 +2,6 @@
 {
     internal enum EquipmentItemType
     {
-        Undefined,
         Warrior,
         Archer,
         Herbalist,
