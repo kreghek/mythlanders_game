@@ -329,7 +329,7 @@ namespace Rpg.Client.Core
                                 CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
-                
+
                 case SkillTargetType.Self:
                     return new[] { CurrentUnit };
 

@@ -165,7 +165,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var hintHeight = 75;
             var hintHorizontalCenter = hintWidth / 2;
             const int HINT_MARGIN = 5;
-            
+
             var hintPosition = baseControlTopCenter - new Point(hintHorizontalCenter, hintHeight + HINT_MARGIN);
             var hintRectangle = new Rectangle(hintPosition, new Point(hintWidth, hintHeight));
 

@@ -18,12 +18,12 @@ namespace TestProject1
         public void UseSkill_PlayerAttacks_MonsterHitPointsWasReduced()
         {
             // ARRANGE
-            
+
             var playerGroup = new Group();
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                SkillSets = new []
+                SkillSets = new[]
                 {
                     new SkillSet
                     {
@@ -31,8 +31,8 @@ namespace TestProject1
                     }
                 }
             };
-            
-            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1){ IsPlayerControlled = true};
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
             var globeNode = new GlobeNode();
 
@@ -40,13 +40,13 @@ namespace TestProject1
             {
                 EnemyGroup = new Group()
             };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(unitScheme, 1){ IsPlayerControlled = false};
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = false };
 
-            var dice = Mock.Of<IDice>(x=> x.Roll(It.IsAny<int>()) == 1);
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
             var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
                 isAutoplay: false);
-            
+
             combat.Initialize();
             combat.Update();
             combat.ActionGenerated += (_, args) =>
@@ -61,22 +61,22 @@ namespace TestProject1
             var targetSourceHitPoints = target.Unit.HitPoints;
 
             combat.UseSkill(skill, target);
-            
+
             // ASSERT
             var targetCurrentHitPoints = target.Unit.HitPoints;
             targetCurrentHitPoints.Should().BeLessThan(targetSourceHitPoints);
         }
-        
+
         [Test]
         public void UseSkill_PlayerAttacksAndMonsterInDefense_MonsterDefenseReducesDamage()
         {
             // ARRANGE
-            
+
             var playerGroup = new Group();
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                SkillSets = new []
+                SkillSets = new[]
                 {
                     new SkillSet
                     {
@@ -84,10 +84,10 @@ namespace TestProject1
                     }
                 }
             };
-            
+
             var monsterUnitScheme = new UnitScheme
             {
-                SkillSets = new []
+                SkillSets = new[]
                 {
                     new SkillSet
                     {
@@ -95,8 +95,8 @@ namespace TestProject1
                     }
                 }
             };
-            
-            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1){ IsPlayerControlled = true};
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
             var globeNode = new GlobeNode();
 
@@ -104,13 +104,13 @@ namespace TestProject1
             {
                 EnemyGroup = new Group()
             };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1){ IsPlayerControlled = false};
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
 
-            var dice = Mock.Of<IDice>(x=> x.Roll(It.IsAny<int>()) == 1);
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
             var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
                 isAutoplay: false);
-            
+
             combat.Initialize();
             combat.Update();
             combat.ActionGenerated += (_, args) =>
@@ -125,16 +125,16 @@ namespace TestProject1
             var targetSourceHitPoints = target.Unit.HitPoints;
 
             combat.UseSkill(skill, target);
-            
+
             var targetCurrentHitPoints = target.Unit.HitPoints;
             combat.Update();
-            
+
             // // ACT 2
             // var attacker2 = combat.CurrentUnit;
             // var skill2 = attacker.Skills.First();
             // combat.UseSkill(skill2, attacker2);
             combat.Update();
-            
+
             // ACT 3
             var attacker3 = combat.CurrentUnit.Unit;
             var skill3 = attacker3.Skills.First();
@@ -143,7 +143,7 @@ namespace TestProject1
 
             combat.UseSkill(skill3, target3);
             combat.Update();
-            
+
             // ASSERT
             var targetCurrentHitPoints3 = target.Unit.HitPoints;
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
