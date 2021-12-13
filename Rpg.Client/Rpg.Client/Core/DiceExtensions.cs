@@ -91,6 +91,16 @@ namespace Rpg.Client.Core
 
             return dice.Roll(6);
         }
+        
+        public static int RollD100(this IDice dice)
+        {
+            if (dice is null)
+            {
+                throw new ArgumentNullException(nameof(dice));
+            }
+
+            return dice.Roll(100);
+        }
 
         /// <summary>
         /// Выбирает случайное значение из списка.

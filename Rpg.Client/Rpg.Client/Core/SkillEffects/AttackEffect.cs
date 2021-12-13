@@ -58,9 +58,16 @@ namespace Rpg.Client.Core.SkillEffects
             }
 
             var damage = CalculateDamage();
-
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
-            Target.Unit.TakeDamage(Actor, rolledDamage);
+
+            var accumulatedDamage = rolledDamage;
+            foreach (var perk in Actor.Unit.Perks)
+            {
+                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, Combat.Dice);
+                accumulatedDamage = modifiedDamage;
+            }
+            
+            Target.Unit.TakeDamage(Actor, accumulatedDamage);
         }
     }
 }

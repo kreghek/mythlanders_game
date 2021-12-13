@@ -8,5 +8,11 @@
         {
             return false; // ImprovedStat perks is not used in interactions.
         }
+
+        public int ModifyDamage(int sourceDamage, IDice dice)
+        {
+            // Do not modify damage in a evasion perks.
+            return sourceDamage;
+        }
     }
 }
