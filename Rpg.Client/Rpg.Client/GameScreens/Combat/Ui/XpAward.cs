@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
+    internal sealed readonly CombatRewards
+    {
+    internal IReadOnlyCollection<UnitRewards> UnitRewards { get; init; }
+    }
+
     internal sealed record UnitRewards
     {
         public Unit Unit { get; init; }
