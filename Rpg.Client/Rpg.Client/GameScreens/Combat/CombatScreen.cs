@@ -30,6 +30,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
+        private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -46,7 +47,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private readonly Vector2[] _unitPredefinedPositions;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly Core.Combat _combat;
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;

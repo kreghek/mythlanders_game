@@ -27,7 +27,7 @@ namespace TestProject1
                 {
                     new SkillSet
                     {
-                        Skills = new []{ new MonsterAttackSkill()}
+                        Skills = new[] { new MonsterAttackSkill() }
                     }
                 }
             };
@@ -36,7 +36,7 @@ namespace TestProject1
 
             var globeNode = new GlobeNode();
 
-            var combatSource = new CombatSource()
+            var combatSource = new CombatSource
             {
                 EnemyGroup = new Group()
             };
@@ -80,7 +80,7 @@ namespace TestProject1
                 {
                     new SkillSet
                     {
-                        Skills = new []{ new MonsterAttackSkill()}
+                        Skills = new[] { new MonsterAttackSkill() }
                     }
                 }
             };
@@ -91,7 +91,7 @@ namespace TestProject1
                 {
                     new SkillSet
                     {
-                        Skills = new []{ new DefenseStanceSkill()}
+                        Skills = new[] { new DefenseStanceSkill() }
                     }
                 }
             };
@@ -100,7 +100,7 @@ namespace TestProject1
 
             var globeNode = new GlobeNode();
 
-            var combatSource = new CombatSource()
+            var combatSource = new CombatSource
             {
                 EnemyGroup = new Group()
             };
