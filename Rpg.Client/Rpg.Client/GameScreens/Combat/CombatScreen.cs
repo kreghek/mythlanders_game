@@ -983,14 +983,20 @@ namespace Rpg.Client.GameScreens.Combat
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                     soundtrackManager.PlayVictoryTrack();
 
-                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                    combatResultModal = new CombatResultModal(
+                        _uiContentStorage,
+                        _gameObjectContentStorage,
+                        _resolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems,
                         _combat.CombatSource);
                 }
                 else
                 {
-                    combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                    combatResultModal = new CombatResultModal(
+                        _uiContentStorage,
+                        _gameObjectContentStorage,
+                        _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>(),
                         _combat.CombatSource);
@@ -1003,7 +1009,10 @@ namespace Rpg.Client.GameScreens.Combat
 
                 HandleGlobe(CombatResult.Defeat);
 
-                combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
+                combatResultModal = new CombatResultModal(
+                    _uiContentStorage,
+                    _gameObjectContentStorage,
+                    _resolutionIndependentRenderer,
                     CombatResult.Defeat,
                     Array.Empty<XpAward>(),
                     _combat.CombatSource);

@@ -18,18 +18,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly CombatSource _combatSource;
         private readonly IReadOnlyCollection<XpAward> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private double _iterationCounter;
 
-        private IEnumerable<XpItem> _xpItems;
+        private IReadOnlyCollection<XpItem>? _xpItems;
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
+            GameObjectContentStorage gameObjectContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
             IReadOnlyCollection<XpAward> xpItems,
             CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
+            _gameObjectContentStorage = gameObjectContentStorage;
             CombatResult = combatResult;
             _sourceXpItems = xpItems;
             _combatSource = combatSource;
@@ -119,21 +122,37 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            if (_xpItems is null)
+            {
+                // The modal is not initialized yet.
+                return;
+            }
+
+            var localizedCombatResultText = GetCombatResultLocalizedText(CombatResult);
+            var resultTitleFont = _uiContentStorage.GetTitlesFont();
+            var resultTitleSize = resultTitleFont.MeasureString(localizedCombatResultText);
+
+            const int MARGIN = 5;
+            var resultPosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
+                                 new Vector2(resultTitleSize.X / 2, 0);
+            
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedCombatResultText, resultPosition,
+                Color.Wheat);
+
+            var benefitsPosition = resultPosition + new Vector2(0, resultTitleSize.Y + MARGIN);
+
             var xpItems = _xpItems.ToArray();
-
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
-                Color.Wheat);
-
-            var benefitsPosition = resultPosition + new Vector2(0, 10);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Полученные улучшения:", benefitsPosition,
-                Color.Wheat);
-
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
                 var item = xpItems[itemIndex];
-                var benefitsLvlVect = new Vector2(benefitsPosition.X, benefitsPosition.Y + 10 * (itemIndex + 1));
-                var unitBenefit = $"{item.UnitName}: {item.CurrentXp}/{item.XpToLevelupSelector()} XP";
+                var benefitsLvlPosition = new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * (itemIndex + 1));
+
+                var portraitRect = UnsortedHelpers.GetUnitPortraitRect(item.UnitName);
+                
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect, Color.White);
+
+                var localizedName = GameObjectHelper.GetLocalized(item.UnitName);
+                var unitBenefit = $"{localizedName}: {item.CurrentXp}/{item.XpToLevelupSelector()} XP";
 
                 if (item.IsShowLevelUpIndicator is not null)
                 {
@@ -145,7 +164,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     }
                 }
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, benefitsLvlVect, Color.Wheat);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, 
+                    benefitsLvlPosition + new Vector2(32 + MARGIN, 0), 
+                    Color.Wheat);
             }
 
             if (!_combatSource.IsTrainingOnly)
@@ -156,19 +177,30 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
+        private static string GetCombatResultLocalizedText(CombatResult combatResult)
+        {
+            return combatResult switch
+            {
+                CombatResult.Victory => UiResource.CombatResultVictoryText,
+                CombatResult.Defeat => "Поражение!",
+                CombatResult.NextCombat => "Следующий бой...",
+                _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
+            };
+        }
+
         private sealed class XpItem
         {
-            private const int XP_COUNTER_SPEED = 2;
+            private int XP_COUNTER_SPEED = 2;
 
             public XpItem(XpAward item)
             {
-                var rm = new ResourceManager(typeof(UiResource));
-                var name = rm.GetString(item.Unit.UnitScheme.Name.ToString()) ?? item.Unit.UnitScheme.Name.ToString();
-                UnitName = name;
+                UnitName = item.Unit.UnitScheme.Name;
                 XpAmount = item.XpAmount;
                 StartXp = item.StartXp;
                 XpToLevelupSelector = item.XpToLevelupSelector;
                 CurrentXp = StartXp;
+
+                XP_COUNTER_SPEED = XpAmount / 100;
             }
 
             public int CountedXp { get; private set; }
@@ -178,7 +210,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             public int? IsShowLevelUpIndicator { get; private set; }
             public int StartXp { get; }
 
-            public string UnitName { get; }
+            public UnitName UnitName { get; }
             public int XpAmount { get; }
 
             public bool XpCountingComplete { get; private set; }

@@ -124,6 +124,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Victory!.
+        /// </summary>
+        internal static string CombatResultVictoryText {
+            get {
+                return ResourceManager.GetString("CombatResultVictoryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to rnd.
         /// </summary>
         internal static string CombatSequenceRoundShortText {

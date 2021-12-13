@@ -25,6 +25,7 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private SpriteFont _titlesFont;
 
         public Texture2D GetButtonTexture()
         {
@@ -44,6 +45,11 @@ namespace Rpg.Client.Engine
         public SpriteFont GetMainFont()
         {
             return _font;
+        }
+        
+        public SpriteFont GetTitlesFont()
+        {
+            return _titlesFont;
         }
 
         public Texture2D[] GetModalBottomTextures()
@@ -66,6 +72,7 @@ namespace Rpg.Client.Engine
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
+            _titlesFont = contentManager.Load<SpriteFont>("Fonts/Titles");
 
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };

@@ -218,4 +218,8 @@
   <data name="ArmorLabelTemplate" xml:space="preserve">
     <value>Armor: {0}</value>
   </data>
+  <data name="CombatResultVictoryText" xml:space="preserve">
+    <value>Victory!</value>
+    <comment>Выводится в окне результатов боя.</comment>
+  </data>
 </root>
