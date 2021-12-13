@@ -46,7 +46,7 @@ namespace Rpg.Client.Engine
         {
             return _font;
         }
-        
+
         public SpriteFont GetTitlesFont()
         {
             return _titlesFont;

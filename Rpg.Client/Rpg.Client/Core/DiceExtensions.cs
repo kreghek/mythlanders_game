@@ -91,7 +91,7 @@ namespace Rpg.Client.Core
 
             return dice.Roll(6);
         }
-        
+
         public static int RollD100(this IDice dice)
         {
             if (dice is null)

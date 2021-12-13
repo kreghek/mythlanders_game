@@ -731,7 +731,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private CombatRewards HandleRewardGaining(
             ICollection<CombatSource> completedCombats,
-            GlobeNode globeNode, 
+            GlobeNode globeNode,
             Player? player)
         {
             var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
@@ -767,7 +767,7 @@ namespace Rpg.Client.GameScreens.Combat
                     },
                     Unit = combatUnit.Unit
                 };
-                
+
                 var equipmentItemType = globeNode.EquipmentItem;
 
                 var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
@@ -789,7 +789,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 BiomeProgress = new RewardStat
                 {
-                    StartValue =_combat.Biome.Level,
+                    StartValue = _combat.Biome.Level,
                     Amount = 1,
                     ValueToLevelupSelector = () => 25
                 },
@@ -1032,7 +1032,8 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        new CombatRewards { 
+                        new CombatRewards
+                        {
                             BiomeProgress = new RewardStat(),
                             UnitRewards = Array.Empty<UnitRewards>()
                         },

@@ -134,16 +134,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int MARGIN = 5;
             var resultPosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
                                  new Vector2(resultTitleSize.X / 2, 0);
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedCombatResultText, resultPosition,
                 Color.Wheat);
 
             var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN, resultPosition.Y + resultTitleSize.Y + MARGIN);
             var biomeProgress = $"{_combatItemsLocal.BiomeProgress.CurrentXp}/{_combatItemsLocal.BiomeProgress.XpToLevelupSelector()} biome level";
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress, 
-                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y), 
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
+                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
-            
+
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
@@ -151,7 +151,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 var benefitsLvlPosition = new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * (itemIndex + 1));
 
                 var portraitRect = UnsortedHelpers.GetUnitPortraitRect(item.UnitName);
-                
+
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect, Color.White);
 
                 var localizedName = GameObjectHelper.GetLocalized(item.UnitName);
@@ -162,14 +162,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, "XP");
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit, 
-                    benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN), 
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit,
+                    benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN),
                     Color.Wheat);
-                
+
                 var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment, "Equipment");
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit, 
-                    benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN), 
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit,
+                    benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN),
                     Color.Wheat);
             }
         }
