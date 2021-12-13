@@ -135,7 +135,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var resultPosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
                                  new Vector2(resultTitleSize.X / 2, 0);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedCombatResultText, resultPosition,
+            spriteBatch.DrawString(resultTitleFont, localizedCombatResultText, resultPosition,
                 Color.Wheat);
 
             var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN,
@@ -151,7 +151,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var item = xpItems[itemIndex];
                 var benefitsLvlPosition =
-                    new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * (itemIndex + 1));
+                    new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * itemIndex);
 
                 var portraitRect = UnsortedHelpers.GetUnitPortraitRect(item.UnitName);
 

@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
         private const float DAMAGE_BASE = 5;
         private const float SUPPORT_BASE = 2;
 
-        private const float HERO_POWER_MULTIPLICATOR = 2f;
+        private const float HERO_POWER_MULTIPLICATOR = 2.5f;
         private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
         private const float POWER_BASE = 1f;
         private const float POWER_PER_LEVEL_BASE = 0.1f;
