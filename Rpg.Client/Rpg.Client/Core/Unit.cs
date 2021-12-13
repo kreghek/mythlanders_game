@@ -114,7 +114,7 @@ namespace Rpg.Client.Core
         /// Used only by monster units.
         /// Amount of the experience gained for killing this unit.
         /// </summary>
-        public int XpReward => Level * 20;
+        public int XpReward => Level > 0 ? Level * 20 : (int)(20 * 0.5f);
 
         public void AvoidDamage()
         {

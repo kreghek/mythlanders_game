@@ -242,6 +242,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
+            e.UnscribeHandlers();
+
             var unitGameObject = GetUnitGameObject(e);
 
             var corpse = unitGameObject.CreateCorpse();

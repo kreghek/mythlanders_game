@@ -160,30 +160,23 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 0),
                     Color.Wheat);
 
-                var unitXpBenefit = UnitValueBenefit(localizedName: localizedName, unitItemStat: item.Xp);
+                var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, "XP");
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit, 
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN), 
                     Color.Wheat);
                 
-                var unitEquipmentBenefit = UnitValueBenefit(localizedName: localizedName, unitItemStat: item.Equipment);
+                var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment, "Equipment");
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit, 
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN), 
                     Color.Wheat);
             }
-
-            if (!_combatSource.IsTrainingOnly)
-            {
-                var biomeChangesPosition = benefitsPosition + new Vector2(0, 10) * (xpItems.Length + 1);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
-                    Color.Wheat);
-            }
         }
 
-        private static string? UnitValueBenefit(string? localizedName, UnitItemStat? unitItemStat)
+        private static string? UnitValueBenefit(UnitItemStat? unitItemStat, string postfix)
         {
-            var unitXpBenefit = $"{unitItemStat.CurrentXp}/{unitItemStat.XpToLevelupSelector()} XP";
+            var unitXpBenefit = $"{unitItemStat.CurrentXp}/{unitItemStat.XpToLevelupSelector()} {postfix}";
 
             if (unitItemStat.IsShowLevelUpIndicator is not null)
             {
@@ -235,7 +228,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 XpToLevelupSelector = item.ValueToLevelupSelector;
                 CurrentXp = StartXp;
 
-                XP_COUNTER_SPEED = XpAmount / 100;
+                XP_COUNTER_SPEED = (int)Math.Max(Math.Round((float)XpAmount / 100, MidpointRounding.AwayFromZero), 1);
             }
 
             public int CountedXp { get; private set; }

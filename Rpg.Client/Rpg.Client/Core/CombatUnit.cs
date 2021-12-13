@@ -22,6 +22,13 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
+        public void UnscribeHandlers()
+        {
+            Unit.HasBeenDamaged -= Unit_HasBeenDamaged;
+            Unit.HasBeenHealed -= Unit_BeenHealed;
+            Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
+        }
+
         public IEnumerable<CombatSkill> CombatCards { get; }
 
         public int Index { get; }
