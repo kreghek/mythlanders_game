@@ -72,6 +72,16 @@ namespace Rpg.Client.Core
             return rollIndex;
         }
 
+        public static int RollD100(this IDice dice)
+        {
+            if (dice is null)
+            {
+                throw new ArgumentNullException(nameof(dice));
+            }
+
+            return dice.Roll(100);
+        }
+
         public static int RollD3(this IDice dice)
         {
             if (dice is null)
@@ -90,16 +100,6 @@ namespace Rpg.Client.Core
             }
 
             return dice.Roll(6);
-        }
-
-        public static int RollD100(this IDice dice)
-        {
-            if (dice is null)
-            {
-                throw new ArgumentNullException(nameof(dice));
-            }
-
-            return dice.Roll(100);
         }
 
         /// <summary>

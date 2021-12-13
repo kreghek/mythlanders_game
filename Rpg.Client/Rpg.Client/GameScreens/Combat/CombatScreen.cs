@@ -729,6 +729,59 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
+        private void HandleGlobe(CombatResult result)
+        {
+            _bossWasDefeat = false;
+            _finalBossWasDefeat = false;
+
+            switch (result)
+            {
+                case CombatResult.Victory:
+                    if (!_combat.CombatSource.IsTrainingOnly)
+                    {
+                        _combat.Biome.Level++;
+                    }
+
+                    var nodeIndex = _globeNode.Index;
+                    var unlockedBiomeIndex = nodeIndex + 1;
+
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
+                    if (unlockedNode is not null)
+                    {
+                        unlockedNode.IsAvailable = true;
+                    }
+
+                    if (_globe.CurrentEvent is not null)
+                    {
+                        _globe.CurrentEvent.Completed = true;
+
+                        _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
+                    }
+
+                    if (_combat.CombatSource.IsBossLevel)
+                    {
+                        _combat.Biome.IsComplete = true;
+                        _bossWasDefeat = true;
+
+                        if (_combat.Biome.IsFinal)
+                        {
+                            _finalBossWasDefeat = true;
+                        }
+                    }
+
+                    break;
+
+                case CombatResult.Defeat:
+                    var levelDiff = _combat.Biome.Level - _combat.Biome.MinLevel;
+                    _combat.Biome.Level = Math.Max(levelDiff / 2, _combat.Biome.MinLevel);
+
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unknown combat result.");
+            }
+        }
+
         private CombatRewards HandleRewardGaining(
             ICollection<CombatSource> completedCombats,
             GlobeNode globeNode,
@@ -797,59 +850,6 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             return combatRewards;
-        }
-
-        private void HandleGlobe(CombatResult result)
-        {
-            _bossWasDefeat = false;
-            _finalBossWasDefeat = false;
-
-            switch (result)
-            {
-                case CombatResult.Victory:
-                    if (!_combat.CombatSource.IsTrainingOnly)
-                    {
-                        _combat.Biome.Level++;
-                    }
-
-                    var nodeIndex = _globeNode.Index;
-                    var unlockedBiomeIndex = nodeIndex + 1;
-
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
-                    if (unlockedNode is not null)
-                    {
-                        unlockedNode.IsAvailable = true;
-                    }
-
-                    if (_globe.CurrentEvent is not null)
-                    {
-                        _globe.CurrentEvent.Completed = true;
-
-                        _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
-                    }
-
-                    if (_combat.CombatSource.IsBossLevel)
-                    {
-                        _combat.Biome.IsComplete = true;
-                        _bossWasDefeat = true;
-
-                        if (_combat.Biome.IsFinal)
-                        {
-                            _finalBossWasDefeat = true;
-                        }
-                    }
-
-                    break;
-
-                case CombatResult.Defeat:
-                    var levelDiff = _combat.Biome.Level - _combat.Biome.MinLevel;
-                    _combat.Biome.Level = Math.Max(levelDiff / 2, _combat.Biome.MinLevel);
-
-                    break;
-
-                default:
-                    throw new InvalidOperationException("Unknown combat result.");
-            }
         }
 
         private void HandleUnits(GameTime gameTime)

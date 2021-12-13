@@ -22,17 +22,17 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
+        public IEnumerable<CombatSkill> CombatCards { get; }
+
+        public int Index { get; }
+        public CombatUnitState State { get; internal set; }
+
         public void UnscribeHandlers()
         {
             Unit.HasBeenDamaged -= Unit_HasBeenDamaged;
             Unit.HasBeenHealed -= Unit_BeenHealed;
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
         }
-
-        public IEnumerable<CombatSkill> CombatCards { get; }
-
-        public int Index { get; }
-        public CombatUnitState State { get; internal set; }
 
         internal void ChangeState(CombatUnitState targetState)
         {

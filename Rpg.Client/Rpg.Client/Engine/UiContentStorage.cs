@@ -22,10 +22,10 @@ namespace Rpg.Client.Engine
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
         private Texture2D _speechTexture;
+        private SpriteFont _titlesFont;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private SpriteFont _titlesFont;
 
         public Texture2D GetButtonTexture()
         {
