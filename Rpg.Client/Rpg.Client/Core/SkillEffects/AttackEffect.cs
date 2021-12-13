@@ -66,7 +66,7 @@ namespace Rpg.Client.Core.SkillEffects
                 var modifiedDamage = perk.ModifyDamage(accumulatedDamage, Combat.Dice);
                 accumulatedDamage = modifiedDamage;
             }
-            
+
             Target.Unit.TakeDamage(Actor, accumulatedDamage);
         }
     }

@@ -14,13 +14,9 @@ namespace Rpg.Client.Core
             _combatSkillContext = combatSkillContext ?? throw new ArgumentNullException(nameof(combatSkillContext));
         }
 
-        public bool IsAvailable
-        {
-            get
-            {
-                return CheckMana();
-            }
-        }
+        public bool IsAvailable => CheckMana();
+
+        public ISkill Skill { get; }
 
         private bool CheckMana()
         {
@@ -32,7 +28,5 @@ namespace Rpg.Client.Core
             var currentMana = _combatSkillContext.GetMana();
             return currentMana >= Skill.ManaCost;
         }
-
-        public ISkill Skill { get; }
     }
 }

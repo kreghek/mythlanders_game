@@ -233,24 +233,6 @@ namespace Rpg.Client.Core
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
 
-        private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
-        {
-            if (e.NewUnit is null)
-            {
-                return;
-            }
-
-            EffectProcessor.Influence(e.NewUnit);
-        }
-
-        private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
-        {
-            if (!e.Unit.IsPlayerControlled || IsAutoplay)
-            {
-                Ai();
-            }
-        }
-
         private void Ai()
         {
             var dice = GetDice();
@@ -283,6 +265,24 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
+        }
+
+        private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
+        {
+            if (e.NewUnit is null)
+            {
+                return;
+            }
+
+            EffectProcessor.Influence(e.NewUnit);
+        }
+
+        private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
+        {
+            if (!e.Unit.IsPlayerControlled || IsAutoplay)
+            {
+                Ai();
+            }
         }
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
@@ -329,7 +329,7 @@ namespace Rpg.Client.Core
                                 CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
-                
+
                 case SkillTargetType.Self:
                     return new[] { CurrentUnit };
 

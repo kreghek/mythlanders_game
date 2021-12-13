@@ -30,6 +30,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
+        private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -46,7 +47,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private readonly Vector2[] _unitPredefinedPositions;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly Core.Combat _combat;
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
@@ -729,76 +729,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private CombatRewards HandleRewardGaining(
-            ICollection<CombatSource> completedCombats,
-            GlobeNode globeNode, 
-            Player? player)
-        {
-            var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
-
-            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
-            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
-
-            var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
-            var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
-            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
-
-            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
-
-            var remainsUsed = false;
-            var list = new List<UnitRewards>();
-            foreach (var combatUnit in aliveUnits)
-            {
-                var gainedXp = xpPerPlayerUnit;
-
-                if (!remainsUsed)
-                {
-                    gainedXp += remains;
-                    remainsUsed = true;
-                }
-
-                var item = new UnitRewards
-                {
-                    Xp = new RewardStat
-                    {
-                        StartValue = combatUnit.Unit.Xp,
-                        Amount = gainedXp,
-                        ValueToLevelupSelector = () => combatUnit.Unit.LevelUpXp
-                    },
-                    Unit = combatUnit.Unit
-                };
-                
-                var equipmentItemType = globeNode.EquipmentItem;
-
-                var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
-
-                if (targetUnit == item.Unit)
-                {
-                    item.Equipment = new RewardStat
-                    {
-                        StartValue = item.Unit.EquipmentItems,
-                        Amount = 1,
-                        ValueToLevelupSelector = () => item.Unit.EquipmentLevelup
-                    };
-                }
-
-                list.Add(item);
-            }
-
-            var combatRewards = new CombatRewards
-            {
-                BiomeProgress = new RewardStat
-                {
-                    StartValue =_combat.Biome.Level,
-                    Amount = 1,
-                    ValueToLevelupSelector = () => 25
-                },
-                UnitRewards = list
-            };
-
-            return combatRewards;
-        }
-
         private void HandleGlobe(CombatResult result)
         {
             _bossWasDefeat = false;
@@ -850,6 +780,76 @@ namespace Rpg.Client.GameScreens.Combat
                 default:
                     throw new InvalidOperationException("Unknown combat result.");
             }
+        }
+
+        private CombatRewards HandleRewardGaining(
+            ICollection<CombatSource> completedCombats,
+            GlobeNode globeNode,
+            Player? player)
+        {
+            var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
+
+            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
+
+            var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
+            var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
+            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
+
+            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
+
+            var remainsUsed = false;
+            var list = new List<UnitRewards>();
+            foreach (var combatUnit in aliveUnits)
+            {
+                var gainedXp = xpPerPlayerUnit;
+
+                if (!remainsUsed)
+                {
+                    gainedXp += remains;
+                    remainsUsed = true;
+                }
+
+                var item = new UnitRewards
+                {
+                    Xp = new RewardStat
+                    {
+                        StartValue = combatUnit.Unit.Xp,
+                        Amount = gainedXp,
+                        ValueToLevelupSelector = () => combatUnit.Unit.LevelUpXp
+                    },
+                    Unit = combatUnit.Unit
+                };
+
+                var equipmentItemType = globeNode.EquipmentItem;
+
+                var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
+
+                if (targetUnit == item.Unit)
+                {
+                    item.Equipment = new RewardStat
+                    {
+                        StartValue = item.Unit.EquipmentItems,
+                        Amount = 1,
+                        ValueToLevelupSelector = () => item.Unit.EquipmentLevelup
+                    };
+                }
+
+                list.Add(item);
+            }
+
+            var combatRewards = new CombatRewards
+            {
+                BiomeProgress = new RewardStat
+                {
+                    StartValue = _combat.Biome.Level,
+                    Amount = 1,
+                    ValueToLevelupSelector = () => 25
+                },
+                UnitRewards = list
+            };
+
+            return combatRewards;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -1032,7 +1032,8 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        new CombatRewards { 
+                        new CombatRewards
+                        {
                             BiomeProgress = new RewardStat(),
                             UnitRewards = Array.Empty<UnitRewards>()
                         },

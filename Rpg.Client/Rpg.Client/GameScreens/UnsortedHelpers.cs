@@ -9,6 +9,11 @@ namespace Rpg.Client.GameScreens
 {
     internal static class UnsortedHelpers
     {
+        public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
+        {
+            return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
+        }
+
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
             EquipmentItemType? equipmentItemType)
         {
@@ -28,9 +33,6 @@ namespace Rpg.Client.GameScreens
                     return null;
             }
         }
-
-        public static IReadOnlyList<float> GetCombatSequenceXpBonuses() =>
-            new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
         public static Rectangle GetUnitPortraitRect(UnitName unitName)
         {

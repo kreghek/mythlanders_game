@@ -15,10 +15,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly TextButton _closeButton;
-        private readonly CombatSource _combatSource;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly CombatRewards _combatItems;
+        private readonly CombatSource _combatSource;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly IUiContentStorage _uiContentStorage;
         private CombatItem? _combatItemsLocal;
 
         private double _iterationCounter;
@@ -134,25 +134,29 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int MARGIN = 5;
             var resultPosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
                                  new Vector2(resultTitleSize.X / 2, 0);
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedCombatResultText, resultPosition,
                 Color.Wheat);
 
-            var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN, resultPosition.Y + resultTitleSize.Y + MARGIN);
-            var biomeProgress = $"{_combatItemsLocal.BiomeProgress.CurrentXp}/{_combatItemsLocal.BiomeProgress.XpToLevelupSelector()} biome level";
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress, 
-                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y), 
+            var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN,
+                resultPosition.Y + resultTitleSize.Y + MARGIN);
+            var biomeProgress =
+                $"{_combatItemsLocal.BiomeProgress.CurrentXp}/{_combatItemsLocal.BiomeProgress.XpToLevelupSelector()} biome level";
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
+                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
-            
+
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
                 var item = xpItems[itemIndex];
-                var benefitsLvlPosition = new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * (itemIndex + 1));
+                var benefitsLvlPosition =
+                    new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * (itemIndex + 1));
 
                 var portraitRect = UnsortedHelpers.GetUnitPortraitRect(item.UnitName);
-                
-                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect, Color.White);
+
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect,
+                    Color.White);
 
                 var localizedName = GameObjectHelper.GetLocalized(item.UnitName);
 
@@ -162,16 +166,27 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, "XP");
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit, 
-                    benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN), 
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit,
+                    benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN),
                     Color.Wheat);
-                
+
                 var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment, "Equipment");
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit, 
-                    benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN), 
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit,
+                    benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN),
                     Color.Wheat);
             }
+        }
+
+        private static string GetCombatResultLocalizedText(CombatResult combatResult)
+        {
+            return combatResult switch
+            {
+                CombatResult.Victory => UiResource.CombatResultVictoryText,
+                CombatResult.Defeat => UiResource.CombatResultDefeatText,
+                CombatResult.NextCombat => UiResource.CombatResultNextText,
+                _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
+            };
         }
 
         private static string? UnitValueBenefit(UnitItemStat? unitItemStat, string postfix)
@@ -191,21 +206,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return unitXpBenefit;
         }
 
-        private static string GetCombatResultLocalizedText(CombatResult combatResult)
-        {
-            return combatResult switch
-            {
-                CombatResult.Victory => UiResource.CombatResultVictoryText,
-                CombatResult.Defeat => UiResource.CombatResultDefeatText,
-                CombatResult.NextCombat => UiResource.CombatResultNextText,
-                _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
-            };
-        }
-
         private sealed class CombatItem
         {
-            public IReadOnlyCollection<UnitItem> UnitItems { get; init; }
             public UnitItemStat BiomeProgress { get; init; }
+            public IReadOnlyCollection<UnitItem> UnitItems { get; init; }
 
             public void Update()
             {
@@ -219,7 +223,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class UnitItemStat
         {
-            private int XP_COUNTER_SPEED = 2;
+            private readonly int XP_COUNTER_SPEED = 2;
 
             public UnitItemStat(RewardStat item)
             {
@@ -282,12 +286,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class UnitItem
         {
-            public UnitName UnitName { get; }
-
-            public UnitItemStat? Xp { get; }
-
-            public UnitItemStat? Equipment { get; }
-
             public UnitItem(UnitRewards rewards)
             {
                 UnitName = rewards.Unit.UnitScheme.Name;
@@ -298,6 +296,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     Equipment = new UnitItemStat(rewards.Equipment);
                 }
             }
+
+            public UnitItemStat? Equipment { get; }
+            public UnitName UnitName { get; }
+
+            public UnitItemStat? Xp { get; }
 
             public void Update()
             {
