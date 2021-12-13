@@ -200,8 +200,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return combatResult switch
             {
                 CombatResult.Victory => UiResource.CombatResultVictoryText,
-                CombatResult.Defeat => "Поражение!",
-                CombatResult.NextCombat => "Следующий бой...",
+                CombatResult.Defeat => UiResource.CombatResultDefeatText,
+                CombatResult.NextCombat => UiResource.CombatResultNextText,
                 _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
             };
         }
