@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 
@@ -22,12 +23,14 @@ namespace Rpg.Client.GameScreens
                 case EquipmentItemType.Archer: return unitSchemeCatalog.PlayerUnits[UnitName.Hawk];
                 case EquipmentItemType.Herbalist: return unitSchemeCatalog.PlayerUnits[UnitName.Rada];
                 case EquipmentItemType.Priest: return unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep];
-                case EquipmentItemType.Undefined:
                 default:
                     Debug.Fail($"Unknown resource type {equipmentItemType}.");
                     return null;
             }
         }
+
+        public static IReadOnlyList<float> GetCombatSequenceXpBonuses() =>
+            new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
         public static Rectangle GetUnitPortraitRect(UnitName unitName)
         {

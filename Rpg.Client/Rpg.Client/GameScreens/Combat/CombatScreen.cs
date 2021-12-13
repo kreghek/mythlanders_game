@@ -185,11 +185,12 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void ApplyXp(IReadOnlyCollection<XpAward> xpItems)
+        private static void ApplyXp(IReadOnlyCollection<UnitRewards> xpItems)
         {
             foreach (var item in xpItems)
             {
-                item.Unit.GainXp(item.XpAmount);
+                item.Unit.GainXp(item.Xp.Amount);
+                item.Unit.GainEquipmentItem(item.Equipment.Amount);
             }
         }
 
@@ -726,22 +727,25 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private IReadOnlyCollection<XpAward> HandleGainXp(ICollection<CombatSource> completedCombats)
+        private IReadOnlyCollection<UnitRewards> HandleGainXp(
+            ICollection<CombatSource> completedCombats,
+            GlobeNode globeNode, 
+            Player? player)
         {
-            var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
+            var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
 
             var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
-            var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
+            var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
             var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
 
             var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
 
             var remainsUsed = false;
-            var list = new List<XpAward>();
-            foreach (var unit in aliveUnits)
+            var list = new List<UnitRewards>();
+            foreach (var combatUnit in aliveUnits)
             {
                 var gainedXp = xpPerPlayerUnit;
 
@@ -751,13 +755,31 @@ namespace Rpg.Client.GameScreens.Combat
                     remainsUsed = true;
                 }
 
-                var item = new XpAward
+                var item = new UnitRewards
                 {
-                    StartXp = unit.Unit.Xp,
-                    Unit = unit.Unit,
-                    XpAmount = gainedXp,
-                    XpToLevelupSelector = () => unit.Unit.LevelUpXp
+                    Xp = new RewardStat
+                    {
+                        StartValue = combatUnit.Unit.Xp,
+                        Amount = gainedXp,
+                        ValueToLevelupSelector = () => combatUnit.Unit.LevelUpXp
+                    },
+                    Unit = combatUnit.Unit
                 };
+                
+                var equipmentItemType = globeNode.EquipmentItem;
+
+                var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
+
+                if (targetUnit == item.Unit)
+                {
+                    item.Equipment = new RewardStat
+                    {
+                        StartValue = item.Unit.EquipmentItems,
+                        Amount = 1,
+                        ValueToLevelupSelector = () => item.Unit.EquipmentLevelup
+                    };
+                }
+
                 list.Add(item);
             }
 
@@ -975,9 +997,8 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var xpItems = HandleGainXp(completedCombats).ToArray();
+                    var xpItems = HandleGainXp(completedCombats, _globeNode, _globeProvider.Globe.Player).ToArray();
                     ApplyXp(xpItems);
-                    GainEquipmentItems(_globeNode, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -998,7 +1019,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        Array.Empty<XpAward>(),
+                        Array.Empty<UnitRewards>(),
                         _combat.CombatSource);
                 }
             }
@@ -1014,7 +1035,7 @@ namespace Rpg.Client.GameScreens.Combat
                     _gameObjectContentStorage,
                     _resolutionIndependentRenderer,
                     CombatResult.Defeat,
-                    Array.Empty<XpAward>(),
+                    Array.Empty<UnitRewards>(),
                     _combat.CombatSource);
             }
 

@@ -16,19 +16,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly TextButton _closeButton;
         private readonly CombatSource _combatSource;
-        private readonly IReadOnlyCollection<XpAward> _sourceXpItems;
+        private readonly IReadOnlyCollection<UnitRewards> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private double _iterationCounter;
 
-        private IReadOnlyCollection<XpItem>? _xpItems;
+        private IReadOnlyCollection<UnitItem>? _xpItems;
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            IReadOnlyCollection<XpAward> xpItems,
+            IReadOnlyCollection<UnitRewards> xpItems,
             CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
@@ -69,7 +69,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void InitContent()
         {
             base.InitContent();
-            _xpItems = _sourceXpItems.Select(x => new XpItem(x)).ToArray();
+            _xpItems = _sourceXpItems.Select(x => new UnitItem(x)).ToArray();
         }
 
         protected override void UpdateContent(GameTime gameTime,
@@ -152,20 +152,17 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect, Color.White);
 
                 var localizedName = GameObjectHelper.GetLocalized(item.UnitName);
-                var unitBenefit = $"{localizedName}: {item.CurrentXp}/{item.XpToLevelupSelector()} XP";
+                
+                var unitXpBenefit = UnitValueBenefit(localizedName: localizedName, unitItemStat: item.Xp);
 
-                if (item.IsShowLevelUpIndicator is not null)
-                {
-                    unitBenefit += " LEVELUP!";
-
-                    if (item.IsShowLevelUpIndicator > 1)
-                    {
-                        unitBenefit += $" x {item.IsShowLevelUpIndicator}";
-                    }
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitBenefit, 
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit, 
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 0), 
+                    Color.Wheat);
+                
+                var unitEquipmentBenefit = UnitValueBenefit(localizedName: localizedName, unitItemStat: item.Equipment);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit, 
+                    benefitsLvlPosition + new Vector2(32 + MARGIN + 10, 0), 
                     Color.Wheat);
             }
 
@@ -175,6 +172,23 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: +1", biomeChangesPosition,
                     Color.Wheat);
             }
+        }
+
+        private static string? UnitValueBenefit(string? localizedName, UnitItemStat? unitItemStat)
+        {
+            var unitXpBenefit = $"{localizedName}: {unitItemStat.CurrentXp}/{unitItemStat.XpToLevelupSelector()} XP";
+
+            if (unitItemStat.IsShowLevelUpIndicator is not null)
+            {
+                unitXpBenefit += " LEVELUP!";
+
+                if (unitItemStat.IsShowLevelUpIndicator > 1)
+                {
+                    unitXpBenefit += $" x {unitItemStat.IsShowLevelUpIndicator}";
+                }
+            }
+
+            return unitXpBenefit;
         }
 
         private static string GetCombatResultLocalizedText(CombatResult combatResult)
@@ -188,16 +202,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             };
         }
 
-        private sealed class XpItem
+        private sealed class UnitItemStat
         {
             private int XP_COUNTER_SPEED = 2;
 
-            public XpItem(XpAward item)
+            public UnitItemStat(RewardStat item)
             {
-                UnitName = item.Unit.UnitScheme.Name;
-                XpAmount = item.XpAmount;
-                StartXp = item.StartXp;
-                XpToLevelupSelector = item.XpToLevelupSelector;
+                XpAmount = item.Amount;
+                StartXp = item.StartValue;
+                XpToLevelupSelector = item.ValueToLevelupSelector;
                 CurrentXp = StartXp;
 
                 XP_COUNTER_SPEED = XpAmount / 100;
@@ -210,7 +223,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             public int? IsShowLevelUpIndicator { get; private set; }
             public int StartXp { get; }
 
-            public UnitName UnitName { get; }
             public int XpAmount { get; }
 
             public bool XpCountingComplete { get; private set; }
@@ -250,6 +262,32 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 {
                     XpCountingComplete = true;
                 }
+            }
+        }
+
+        private sealed class UnitItem
+        {
+            public UnitName UnitName { get; }
+
+            public UnitItemStat? Xp { get; }
+
+            public UnitItemStat? Equipment { get; }
+
+            public UnitItem(UnitRewards rewards)
+            {
+                UnitName = rewards.Unit.UnitScheme.Name;
+                Xp = new UnitItemStat(rewards.Xp);
+
+                if (rewards.Equipment is not null)
+                {
+                    Equipment = new UnitItemStat(rewards.Equipment);
+                }
+            }
+
+            public void Update()
+            {
+                Xp?.Update();
+                Equipment?.Update();
             }
         }
     }
