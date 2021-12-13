@@ -46,7 +46,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private readonly Vector2[] _unitPredefinedPositions;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly Core.Combat _сombat;
+        private readonly Core.Combat _combat;
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
@@ -74,11 +74,11 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globe = _globeProvider.Globe;
 
-            _сombat = _globe.ActiveCombat ??
+            _combat = _globe.ActiveCombat ??
                       throw new InvalidOperationException(
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
-            _globeNode = _сombat.Node;
+            _globeNode = _combat.Node;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -146,7 +146,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 HandleUnits(gameTime);
 
-                if (!_сombat.Finished && _combatFinishedVictory is null)
+                if (!_combat.Finished && _combatFinishedVictory is null)
                 {
                     HandleCombatHud();
                 }
@@ -169,7 +169,7 @@ namespace Rpg.Client.GameScreens.Combat
                 unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
             }
 
-            _сombat.Update();
+            _combat.Update();
         }
 
         private static void AddMonstersFromCombatIntoKnownMonsters(IEnumerable<Unit> monsters,
@@ -271,7 +271,7 @@ namespace Rpg.Client.GameScreens.Combat
             var textPosition = GetUnitGameObject(e).Position;
             var font = _uiContentStorage.GetMainFont();
 
-            var passIndicator = new MovePassedComponent(textPosition, font);
+            var passIndicator = new SkipTextIndicator(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
         }
@@ -299,21 +299,21 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _сombat, _resolutionIndependentRenderer);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
-            _сombat.UnitChanged += Combat_UnitChanged;
-            _сombat.CombatUnitReadyToControl += Combat_UnitReadyToControl;
-            _сombat.CombatUnitEntered += Combat_UnitEntered;
-            _сombat.CombatUnitRemoved += Combat_CombatUnitRemoved;
-            _сombat.UnitDied += Combat_UnitDied;
-            _сombat.ActionGenerated += Combat_ActionGenerated;
-            _сombat.Finish += Combat_Finish;
-            _сombat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
-            _сombat.UnitPassedTurn += Combat_UnitPassed;
-            _сombat.Initialize();
-            _сombat.Update();
+            _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
+            _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
+            _combat.CombatUnitEntered += Combat_UnitEntered;
+            _combat.CombatUnitRemoved += Combat_CombatUnitRemoved;
+            _combat.UnitDied += Combat_UnitDied;
+            _combat.ActionGenerated += Combat_ActionGenerated;
+            _combat.Finish += Combat_Finish;
+            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
+            _combat.UnitPassedTurn += Combat_UnitPassed;
+            _combat.Initialize();
+            _combat.Update();
 
-            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _сombat,
+            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 
@@ -332,18 +332,18 @@ namespace Rpg.Client.GameScreens.Combat
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
                 var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
-                currentCombatList.Remove(_сombat.CombatSource);
+                currentCombatList.Remove(_combat.CombatSource);
                 _globeNode.CombatSequence.Combats = currentCombatList;
 
-                if (_сombat.Node.CombatSequence.Combats.Any())
+                if (_combat.Node.CombatSequence.Combats.Any())
                 {
                     var nextCombat = _globeNode.CombatSequence.Combats.First();
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _сombat.Biome,
+                        _combat.Biome,
                         _dice,
-                        _сombat.IsAutoplay);
+                        _combat.IsAutoplay);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
                 }
@@ -403,7 +403,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkillCard? skillCard)
+        private void CombatSkillsPanel_CardSelected(object? sender, CombatSkill? skillCard)
         {
             RefreshHudButtons(skillCard);
         }
@@ -416,7 +416,7 @@ namespace Rpg.Client.GameScreens.Combat
             var textPosition = GetUnitGameObject(combatUnit).Position;
             var font = _uiContentStorage.GetMainFont();
 
-            var passIndicator = new EvasionComponent(textPosition, font);
+            var passIndicator = new EvasionTextIndicator(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
         }
@@ -435,7 +435,7 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedComponent(-e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -448,7 +448,7 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetMainFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedComponent(e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -603,7 +603,7 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_сombat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 if (_combatSkillsPanel is not null)
                 {
@@ -730,7 +730,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var combatSequenceCoeffs = new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
 
-            var aliveUnits = _сombat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
             var sequenceBonus = combatSequenceCoeffs[completedCombats.Count - 1];
@@ -772,9 +772,9 @@ namespace Rpg.Client.GameScreens.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    if (!_сombat.CombatSource.IsTrainingOnly)
+                    if (!_combat.CombatSource.IsTrainingOnly)
                     {
-                        _сombat.Biome.Level++;
+                        _combat.Biome.Level++;
                     }
 
                     var nodeIndex = _globeNode.Index;
@@ -793,12 +793,12 @@ namespace Rpg.Client.GameScreens.Combat
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
-                    if (_сombat.CombatSource.IsBossLevel)
+                    if (_combat.CombatSource.IsBossLevel)
                     {
-                        _сombat.Biome.IsComplete = true;
+                        _combat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
 
-                        if (_сombat.Biome.IsFinal)
+                        if (_combat.Biome.IsFinal)
                         {
                             _finalBossWasDefeat = true;
                         }
@@ -807,8 +807,8 @@ namespace Rpg.Client.GameScreens.Combat
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _сombat.Biome.Level - _сombat.Biome.MinLevel;
-                    _сombat.Biome.Level = Math.Max(levelDiff / 2, _сombat.Biome.MinLevel);
+                    var levelDiff = _combat.Biome.Level - _combat.Biome.MinLevel;
+                    _combat.Biome.Level = Math.Max(levelDiff / 2, _combat.Biome.MinLevel);
 
                     break;
 
@@ -830,7 +830,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void InitHudButton(UnitGameObject target, CombatSkillCard skillCard)
+        private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
         {
             var interactButton = new UnitButton(
                 _uiContentStorage.GetButtonTexture(),
@@ -847,7 +847,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 _hudButtons.Clear();
                 _interactButtonClicked = true;
-                _сombat.UseSkill(skillCard.Skill, target.CombatUnit);
+                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
             _hudButtons.Add(interactButton);
@@ -863,7 +863,7 @@ namespace Rpg.Client.GameScreens.Combat
             };
         }
 
-        private void RefreshHudButtons(CombatSkillCard? skillCard)
+        private void RefreshHudButtons(CombatSkill? skillCard)
         {
             _interactButtonClicked = false;
             _hudButtons.Clear();
@@ -873,7 +873,7 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            if (_сombat.CurrentUnit is null)
+            if (_combat.CurrentUnit is null)
             {
                 Debug.Fail("WTF!");
                 return;
@@ -884,7 +884,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Self)
                 {
-                    if (target.CombatUnit.Unit != _сombat.CurrentUnit.Unit)
+                    if (target.CombatUnit.Unit != _combat.CurrentUnit.Unit)
                     {
                         continue;
                     }
@@ -900,7 +900,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             if (skillCard.Skill.TargetType == SkillTargetType.Enemy
                                 && target.CombatUnit.Unit.IsPlayerControlled ==
-                                _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                                _combat.CurrentUnit.Unit.IsPlayerControlled)
                             {
                                 continue;
                             }
@@ -918,7 +918,7 @@ namespace Rpg.Client.GameScreens.Combat
                             {
                                 if (skillCard.Skill.TargetType == SkillTargetType.Enemy
                                     && target.CombatUnit.Unit.IsPlayerControlled ==
-                                    _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                                    _combat.CurrentUnit.Unit.IsPlayerControlled)
                                 {
                                     continue;
                                 }
@@ -930,7 +930,7 @@ namespace Rpg.Client.GameScreens.Combat
                     else
                     {
                         if (skillCard.Skill.TargetType == SkillTargetType.Enemy
-                            && target.CombatUnit.Unit.IsPlayerControlled == _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                            && target.CombatUnit.Unit.IsPlayerControlled == _combat.CurrentUnit.Unit.IsPlayerControlled)
                         {
                             continue;
                         }
@@ -941,7 +941,7 @@ namespace Rpg.Client.GameScreens.Combat
                 else
                 {
                     if (skillCard.Skill.TargetType == SkillTargetType.Friendly
-                        && target.CombatUnit.Unit.IsPlayerControlled != _сombat.CurrentUnit.Unit.IsPlayerControlled)
+                        && target.CombatUnit.Unit.IsPlayerControlled != _combat.CurrentUnit.Unit.IsPlayerControlled)
                     {
                         continue;
                     }
@@ -964,15 +964,15 @@ namespace Rpg.Client.GameScreens.Combat
         {
             CombatResultModal combatResultModal;
 
-            AddMonstersFromCombatIntoKnownMonsters(_сombat.CombatSource.EnemyGroup.GetUnits(),
+            AddMonstersFromCombatIntoKnownMonsters(_combat.CombatSource.EnemyGroup.GetUnits(),
                 _globe.Player.KnownMonsters);
 
             if (isVictory)
             {
                 var completedCombats = _globeNode.CombatSequence.CompletedCombats;
-                completedCombats.Add(_сombat.CombatSource);
+                completedCombats.Add(_combat.CombatSource);
 
-                var currentCombatList = _сombat.Node.CombatSequence.Combats.ToList();
+                var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleGainXp(completedCombats).ToArray();
@@ -986,14 +986,14 @@ namespace Rpg.Client.GameScreens.Combat
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems,
-                        _сombat.CombatSource);
+                        _combat.CombatSource);
                 }
                 else
                 {
                     combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         Array.Empty<XpAward>(),
-                        _сombat.CombatSource);
+                        _combat.CombatSource);
                 }
             }
             else
@@ -1006,7 +1006,7 @@ namespace Rpg.Client.GameScreens.Combat
                 combatResultModal = new CombatResultModal(_uiContentStorage, _resolutionIndependentRenderer,
                     CombatResult.Defeat,
                     Array.Empty<XpAward>(),
-                    _сombat.CombatSource);
+                    _combat.CombatSource);
             }
 
             AddModal(combatResultModal, isLate: false);

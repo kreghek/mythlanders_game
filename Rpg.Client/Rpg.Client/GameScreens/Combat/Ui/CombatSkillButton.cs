@@ -8,7 +8,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal sealed class CombatSkillButton : ButtonBase
     {
-        private readonly CombatSkillCard _card;
+        private readonly CombatSkill _card;
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
         private readonly ISkillPanelState _skillPanelState;
@@ -16,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private float _counter;
 
-        public CombatSkillButton(Texture2D texture, IconData iconData, Rectangle rect, CombatSkillCard card,
+        public CombatSkillButton(Texture2D texture, IconData iconData, Rectangle rect, CombatSkill card,
             ISkillPanelState skillPanelState) : base(texture, rect)
         {
             _icon = iconData.Spritesheet;

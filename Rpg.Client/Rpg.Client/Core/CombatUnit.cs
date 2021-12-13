@@ -13,7 +13,7 @@ namespace Rpg.Client.Core
             Index = index;
             var skillContext = new CombatSkillContext(this);
 
-            var cards = unit.Skills.Select(skill => new CombatSkillCard(skill, skillContext)).ToList();
+            var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
 
             CombatCards = cards;
 
@@ -22,7 +22,7 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
-        public IEnumerable<CombatSkillCard> CombatCards { get; }
+        public IEnumerable<CombatSkill> CombatCards { get; }
 
         public int Index { get; }
         public CombatUnitState State { get; internal set; }

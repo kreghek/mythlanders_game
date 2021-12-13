@@ -6,7 +6,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal sealed class CorpseGameObject : EwarDrawableComponentBase
+    internal sealed class CorpseGameObject : EwarRenderableBase
     {
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;

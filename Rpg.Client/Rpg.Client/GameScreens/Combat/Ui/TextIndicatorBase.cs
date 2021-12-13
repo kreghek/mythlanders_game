@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal abstract class DisapearingTextComponent : EwarDrawableComponentBase
+    internal abstract class TextIndicatorBase : EwarRenderableBase
 
     {
         private readonly SpriteFont _font;
@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private int _lifetime;
         private Vector2 _position;
 
-        public DisapearingTextComponent(Vector2 startPosition, SpriteFont font)
+        public TextIndicatorBase(Vector2 startPosition, SpriteFont font)
         {
             _position = startPosition;
             _font = font;
@@ -25,10 +25,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             if (_lifetime <= 0)
             {
-                if (Parent != null)
-                {
-                    Parent.RemoveChild(this);
-                }
+                Parent?.RemoveChild(this);
 
                 return;
             }

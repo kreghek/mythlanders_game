@@ -12,7 +12,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal class UnitGameObject : EwarDrawableComponentBase
+    internal class UnitGameObject : EwarRenderableBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly Camera2D _camera;

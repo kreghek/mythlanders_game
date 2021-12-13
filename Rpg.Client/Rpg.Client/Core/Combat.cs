@@ -55,11 +55,11 @@ namespace Rpg.Client.Core
                 var oldUnit = _currentUnit;
 
                 _currentUnit = value;
-                UnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
+                ActiveCombatUnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
                 if (!IsCurrentStepCompleted)
                 {
-                    CombatUnitReadyToControl?.Invoke(this, _currentUnit);
+                    CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
                 }
                 else
                 {
@@ -198,8 +198,8 @@ namespace Rpg.Client.Core
                 combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             }
 
-            UnitChanged += ActiveCombat_UnitChanged;
-            CombatUnitReadyToControl += ActiveCombat_UnitReadyToControl;
+            ActiveCombatUnitChanged += Combat_ActiveCombatUnitChanged;
+            CombatUnitIsReadyToControl += Combat_CombatUnitReadyIsToControl;
 
             IsCurrentStepCompleted = true;
         }
@@ -233,7 +233,7 @@ namespace Rpg.Client.Core
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
 
-        private void ActiveCombat_UnitChanged(object? sender, UnitChangedEventArgs e)
+        private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
         {
             if (e.NewUnit is null)
             {
@@ -243,7 +243,7 @@ namespace Rpg.Client.Core
             EffectProcessor.Influence(e.NewUnit);
         }
 
-        private void ActiveCombat_UnitReadyToControl(object? sender, CombatUnit e)
+        private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled || IsAutoplay)
             {
@@ -287,8 +287,6 @@ namespace Rpg.Client.Core
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
-            var unit = e.CombatUnit.Unit;
-
             UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
         }
 
@@ -331,6 +329,9 @@ namespace Rpg.Client.Core
                                 CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
+                
+                case SkillTargetType.Self:
+                    return new[] { CurrentUnit };
 
                 default:
                     // There is a skill with unknown target. So we can't form the target list.
@@ -409,7 +410,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? CombatUnitRemoved;
 
-        internal event EventHandler<UnitChangedEventArgs>? UnitChanged;
+        internal event EventHandler<UnitChangedEventArgs>? ActiveCombatUnitChanged;
 
         internal event EventHandler<CombatFinishEventArgs>? Finish;
 
@@ -421,7 +422,7 @@ namespace Rpg.Client.Core
 
         internal event EventHandler<CombatUnit>? UnitPassedTurn;
 
-        internal event EventHandler<CombatUnit>? CombatUnitReadyToControl;
+        internal event EventHandler<CombatUnit>? CombatUnitIsReadyToControl;
 
         /// <summary>
         /// Event bus for combat object interactions.
