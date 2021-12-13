@@ -727,7 +727,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private IReadOnlyCollection<UnitRewards> HandleGainXp(
+        private CombatRewards HandleGainXp(
             ICollection<CombatSource> completedCombats,
             GlobeNode globeNode, 
             Player? player)
@@ -783,7 +783,17 @@ namespace Rpg.Client.GameScreens.Combat
                 list.Add(item);
             }
 
-            return list;
+            var combatRewards = new CombatRewards
+            {
+                BiomeProgress = new RewardStat
+                {
+                    StartValue =_combat.Biome.Level,
+                    Amount = 1,
+                    ValueToLevelupSelector = () => 25
+                }
+            };
+
+            return combatRewards;
         }
 
         private void HandleGlobe(CombatResult result)
@@ -997,8 +1007,8 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var xpItems = HandleGainXp(completedCombats, _globeNode, _globeProvider.Globe.Player).ToArray();
-                    ApplyXp(xpItems);
+                    var xpItems = HandleGainXp(completedCombats, _globeNode, _globeProvider.Globe.Player);
+                    ApplyXp(xpItems.UnitRewards);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1019,7 +1029,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        Array.Empty<UnitRewards>(),
+                        new CombatRewards(),
                         _combat.CombatSource);
                 }
             }
@@ -1035,7 +1045,15 @@ namespace Rpg.Client.GameScreens.Combat
                     _gameObjectContentStorage,
                     _resolutionIndependentRenderer,
                     CombatResult.Defeat,
-                    Array.Empty<UnitRewards>(),
+                    new CombatRewards
+                    {
+                        BiomeProgress = new RewardStat
+                        {
+                            StartValue = _combat.Biome.Level,
+                            Amount = _combat.Biome.Level / 2,
+                            ValueToLevelupSelector = () => 25
+                        }
+                    },
                     _combat.CombatSource);
             }
 

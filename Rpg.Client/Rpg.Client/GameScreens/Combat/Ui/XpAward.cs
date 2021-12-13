@@ -5,9 +5,10 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed readonly CombatRewards
+    internal sealed record CombatRewards
     {
-    internal IReadOnlyCollection<UnitRewards> UnitRewards { get; init; }
+        public IReadOnlyCollection<UnitRewards> UnitRewards { get; init; }
+        public RewardStat BiomeProgress { get; init; }
     }
 
     internal sealed record UnitRewards

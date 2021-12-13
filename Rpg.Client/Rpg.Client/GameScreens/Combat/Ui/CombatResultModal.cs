@@ -16,25 +16,24 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly TextButton _closeButton;
         private readonly CombatSource _combatSource;
-        private readonly IReadOnlyCollection<UnitRewards> _sourceXpItems;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly CombatRewards _combatItems;
+        private CombatItem? _combatItemsLocal;
 
         private double _iterationCounter;
-
-        private IReadOnlyCollection<UnitItem>? _xpItems;
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            IReadOnlyCollection<UnitRewards> xpItems,
+            CombatRewards combatItems,
             CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
+            _combatItems = combatItems;
             CombatResult = combatResult;
-            _sourceXpItems = xpItems;
             _combatSource = combatSource;
             _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), Rectangle.Empty);
@@ -69,7 +68,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void InitContent()
         {
             base.InitContent();
-            _xpItems = _sourceXpItems.Select(x => new UnitItem(x)).ToArray();
+            _combatItemsLocal = new CombatItem
+            {
+                UnitItems = _combatItems.UnitRewards.Select(x => new UnitItem(x)).ToArray(),
+                BiomeProgress = new UnitItemStat(_combatItems.BiomeProgress)
+            };
         }
 
         protected override void UpdateContent(GameTime gameTime,
@@ -77,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
-            if (_xpItems is null)
+            if (_combatItemsLocal is null)
             {
                 throw new InvalidOperationException();
             }
@@ -86,11 +89,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_iterationCounter >= 0.01)
             {
-                foreach (var item in _xpItems)
-                {
-                    item.Update();
-                }
-
+                _combatItemsLocal.Update();
                 _iterationCounter = 0;
             }
 
@@ -122,7 +121,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (_xpItems is null)
+            if (_combatItemsLocal is null)
             {
                 // The modal is not initialized yet.
                 return;
@@ -140,8 +139,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 Color.Wheat);
 
             var benefitsPosition = resultPosition + new Vector2(0, resultTitleSize.Y + MARGIN);
-
-            var xpItems = _xpItems.ToArray();
+            var biomeProgress = $"{_combatItemsLocal.BiomeProgress.CurrentXp}/{_combatItemsLocal.BiomeProgress.XpToLevelupSelector()} XP";
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress, 
+                benefitsPosition + new Vector2(32 + MARGIN, 100), 
+                Color.Wheat);
+            
+            
+            var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
                 var item = xpItems[itemIndex];
@@ -200,6 +204,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 CombatResult.NextCombat => "Следующий бой...",
                 _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
             };
+        }
+
+        private sealed class CombatItem
+        {
+            public IReadOnlyCollection<UnitItem> UnitItems { get; init; }
+            public UnitItemStat BiomeProgress { get; init; }
+
+            public void Update()
+            {
+                BiomeProgress.Update();
+                foreach (var unitItem in UnitItems)
+                {
+                    unitItem.Update();
+                }
+            }
         }
 
         private sealed class UnitItemStat
