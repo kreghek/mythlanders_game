@@ -185,7 +185,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void ApplyXp(IReadOnlyCollection<UnitRewards> xpItems)
+        private static void ApplyCombatReward(IReadOnlyCollection<UnitRewards> xpItems)
         {
             foreach (var item in xpItems)
             {
@@ -727,7 +727,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private CombatRewards HandleGainXp(
+        private CombatRewards HandleRewardGaining(
             ICollection<CombatSource> completedCombats,
             GlobeNode globeNode, 
             Player? player)
@@ -790,7 +790,8 @@ namespace Rpg.Client.GameScreens.Combat
                     StartValue =_combat.Biome.Level,
                     Amount = 1,
                     ValueToLevelupSelector = () => 25
-                }
+                },
+                UnitRewards = list
             };
 
             return combatRewards;
@@ -1007,8 +1008,8 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var xpItems = HandleGainXp(completedCombats, _globeNode, _globeProvider.Globe.Player);
-                    ApplyXp(xpItems.UnitRewards);
+                    var xpItems = HandleRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player);
+                    ApplyCombatReward(xpItems.UnitRewards);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1029,7 +1030,10 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.NextCombat,
-                        new CombatRewards(),
+                        new CombatRewards { 
+                            BiomeProgress = new RewardStat(),
+                            UnitRewards = Array.Empty<UnitRewards>()
+                        },
                         _combat.CombatSource);
                 }
             }
@@ -1052,7 +1056,8 @@ namespace Rpg.Client.GameScreens.Combat
                             StartValue = _combat.Biome.Level,
                             Amount = _combat.Biome.Level / 2,
                             ValueToLevelupSelector = () => 25
-                        }
+                        },
+                        UnitRewards = Array.Empty<UnitRewards>()
                     },
                     _combat.CombatSource);
             }
