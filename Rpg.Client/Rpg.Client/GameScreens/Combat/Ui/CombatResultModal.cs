@@ -66,10 +66,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void InitContent()
         {
             base.InitContent();
-            
+
             var biomeProgress = new UnitItemStat(_combatItems.BiomeProgress);
             var unitRewards = _combatItems.UnitRewards.Select(x => new UnitItem(x)).ToArray();
-            
+
             _combatItemsLocal = new CombatItem(biomeProgress, unitRewards);
             _foundEquipments = _combatItems.FoundEquipments;
         }
@@ -139,7 +139,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN,
                 titlePosition.Y + resultTitleSize.Y + MARGIN);
-            
+
             var biomeProgress =
                 string.Format(UiResource.CombatResultMonsterDangerIncreasedTemplate,
                 _combatItemsLocal.BiomeProgress.CurrentValue);
@@ -147,7 +147,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y),
                 Color.Wheat);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), UiResource.CombatResultItemsFoundLabel, 
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), UiResource.CombatResultItemsFoundLabel,
                 new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y + 10),
                 Color.Wheat);
             var foundEquipmentsList = _foundEquipments.ToArray();
@@ -277,7 +277,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             const int MINIMAL_COUNTER_SPEED = 2;
             const int MINIMAL_COUNTER_THRESHOLD = 100;
-            
+
             private readonly int _counterSpeed;
 
             public UnitItemStat(RewardStat item)
