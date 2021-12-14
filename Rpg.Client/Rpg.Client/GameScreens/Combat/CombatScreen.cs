@@ -800,6 +800,12 @@ namespace Rpg.Client.GameScreens.Combat
 
             var remainsUsed = false;
             var list = new List<UnitRewards>();
+            var foundEquipments = new List<EquipmentItemType>();
+            if (globeNode.EquipmentItem is not null)
+            {
+                foundEquipments.Add(globeNode.EquipmentItem.Value);
+            }
+
             foreach (var combatUnit in aliveUnits)
             {
                 var gainedXp = xpPerPlayerUnit;
@@ -846,7 +852,8 @@ namespace Rpg.Client.GameScreens.Combat
                     Amount = 1,
                     ValueToLevelupSelector = () => 25
                 },
-                UnitRewards = list
+                UnitRewards = list,
+                FoundEquipments = foundEquipments.Select(x=>new FoundEquipment(x)).ToArray()
             };
 
             return combatRewards;

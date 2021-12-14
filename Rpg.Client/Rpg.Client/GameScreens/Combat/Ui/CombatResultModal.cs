@@ -21,6 +21,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatItem? _combatItemsLocal;
 
         private double _iterationCounter;
+        private IReadOnlyCollection<FoundEquipment> _foundEquipments;
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage,
@@ -65,11 +66,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void InitContent()
         {
             base.InitContent();
-            _combatItemsLocal = new CombatItem
-            {
-                UnitItems = _combatItems.UnitRewards.Select(x => new UnitItem(x)).ToArray(),
-                BiomeProgress = new UnitItemStat(_combatItems.BiomeProgress)
-            };
+            
+            var biomeProgress = new UnitItemStat(_combatItems.BiomeProgress);
+            var unitRewards = _combatItems.UnitRewards.Select(x => new UnitItem(x)).ToArray();
+            
+            _combatItemsLocal = new CombatItem(biomeProgress, unitRewards);
+            _foundEquipments = _combatItems.FoundEquipments;
         }
 
         protected override void UpdateContent(GameTime gameTime,
@@ -129,19 +131,27 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var resultTitleSize = resultTitleFont.MeasureString(localizedCombatResultText);
 
             const int MARGIN = 5;
-            var resultPosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
+            var titlePosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
                                  new Vector2(resultTitleSize.X / 2, 0);
 
-            spriteBatch.DrawString(resultTitleFont, localizedCombatResultText, resultPosition,
+            spriteBatch.DrawString(resultTitleFont, localizedCombatResultText, titlePosition,
                 Color.Wheat);
 
             var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN,
-                resultPosition.Y + resultTitleSize.Y + MARGIN);
+                titlePosition.Y + resultTitleSize.Y + MARGIN);
+            
             var biomeProgress =
                 $"{_combatItemsLocal.BiomeProgress.CurrentValue}/{_combatItemsLocal.BiomeProgress.LevelupSelector()} biome level";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
                 benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
+
+            foreach (var foundEquipment in _foundEquipments)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), foundEquipment.EquipmentItemType.ToString(),
+                    benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y + 10),
+                    Color.Wheat);
+            }
 
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
@@ -205,8 +215,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class CombatItem
         {
-            public UnitItemStat? BiomeProgress { get; init; }
-            public IReadOnlyCollection<UnitItem>? UnitItems { get; init; }
+            public UnitItemStat BiomeProgress { get; init; }
+            public IReadOnlyCollection<UnitItem> UnitItems { get; }
+
+            public CombatItem(UnitItemStat biomeProgress, IReadOnlyCollection<UnitItem> unitItems)
+            {
+                BiomeProgress = biomeProgress;
+                UnitItems = unitItems;
+            }
 
             public void Update()
             {
@@ -217,11 +233,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             private void UpdateUnitItems()
             {
-                if (UnitItems is null)
-                {
-                    return;
-                }
-
                 foreach (var unitItem in UnitItems)
                 {
                     unitItem.Update();
