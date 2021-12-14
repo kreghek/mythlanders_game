@@ -16,7 +16,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly TextButton _closeButton;
         private readonly CombatRewards _combatItems;
-        private readonly CombatSource _combatSource;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatItem? _combatItemsLocal;
@@ -27,14 +26,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             GameObjectContentStorage gameObjectContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            CombatRewards combatItems,
-            CombatSource combatSource) : base(uiContentStorage, resolutionIndependentRenderer)
+            CombatRewards combatItems) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
             _combatItems = combatItems;
             CombatResult = combatResult;
-            _combatSource = combatSource;
             _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), Rectangle.Empty);
             _closeButton.OnClick += CloseButton_OnClick;
@@ -141,7 +138,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var benefitsPosition = new Vector2(contentRect.Location.X + MARGIN,
                 resultPosition.Y + resultTitleSize.Y + MARGIN);
             var biomeProgress =
-                $"{_combatItemsLocal.BiomeProgress.CurrentXp}/{_combatItemsLocal.BiomeProgress.XpToLevelupSelector()} biome level";
+                $"{_combatItemsLocal.BiomeProgress.CurrentValue}/{_combatItemsLocal.BiomeProgress.LevelupSelector()} biome level";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
                 benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
@@ -191,7 +188,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private static string? UnitValueBenefit(UnitItemStat? unitItemStat, string postfix)
         {
-            var unitXpBenefit = $"{unitItemStat.CurrentXp}/{unitItemStat.XpToLevelupSelector()} {postfix}";
+            var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelupSelector()} {postfix}";
 
             if (unitItemStat.IsShowLevelUpIndicator is not null)
             {
@@ -208,12 +205,23 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class CombatItem
         {
-            public UnitItemStat BiomeProgress { get; init; }
-            public IReadOnlyCollection<UnitItem> UnitItems { get; init; }
+            public UnitItemStat? BiomeProgress { get; init; }
+            public IReadOnlyCollection<UnitItem>? UnitItems { get; init; }
 
             public void Update()
             {
-                BiomeProgress.Update();
+                BiomeProgress?.Update();
+
+                UpdateUnitItems();
+            }
+
+            private void UpdateUnitItems()
+            {
+                if (UnitItems is null)
+                {
+                    return;
+                }
+
                 foreach (var unitItem in UnitItems)
                 {
                     unitItem.Update();
@@ -223,49 +231,72 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class UnitItemStat
         {
-            private readonly int XP_COUNTER_SPEED = 2;
+            const int MINIMAL_COUNTER_SPEED = 2;
+            const int MINIMAL_COUNTER_THRESHOLD = 100;
+            
+            private readonly int _counterSpeed;
 
             public UnitItemStat(RewardStat item)
             {
-                XpAmount = item.Amount;
-                StartXp = item.StartValue;
-                XpToLevelupSelector = item.ValueToLevelupSelector;
-                CurrentXp = StartXp;
+                _amount = item.Amount;
+                LevelupSelector = item.ValueToLevelupSelector;
+                CurrentValue = item.StartValue;
 
-                XP_COUNTER_SPEED = (int)Math.Max(Math.Round((float)XpAmount / 100, MidpointRounding.AwayFromZero), 1);
+                _counterSpeed = CalcCounterSpeed();
             }
 
-            public int CountedXp { get; private set; }
+            private int CalcCounterSpeed()
+            {
+                int counterSpeed;
+                if (Math.Abs(_amount) > MINIMAL_COUNTER_THRESHOLD)
+                {
+                    counterSpeed =
+                        (int)Math.Max(Math.Round((float)_amount / MINIMAL_COUNTER_THRESHOLD, MidpointRounding.AwayFromZero), 1);
+                }
+                else
+                {
+                    counterSpeed = _amount switch
+                    {
+                        > 0 => MINIMAL_COUNTER_SPEED,
+                        < 0 => -MINIMAL_COUNTER_SPEED,
+                        _ => throw new InvalidOperationException(
+                            $"{nameof(_amount)} required to be greatest that zero.")
+                    };
+                }
 
-            public int CurrentXp { get; private set; }
+                return counterSpeed;
+            }
+
+            private int _countedValue;
+
+            public int CurrentValue { get; private set; }
 
             public int? IsShowLevelUpIndicator { get; private set; }
-            public int StartXp { get; }
 
-            public int XpAmount { get; }
+            private readonly int _amount;
 
-            public bool XpCountingComplete { get; private set; }
-            public Func<int> XpToLevelupSelector { get; }
+            private bool _countingComplete;
+            public Func<int> LevelupSelector { get; }
 
             public void Update()
             {
-                if (XpCountingComplete)
+                if (_countingComplete)
                 {
                     return;
                 }
 
-                if (XpAmount == 0)
+                if (_amount == 0)
                 {
-                    XpCountingComplete = true;
+                    _countingComplete = true;
                     return;
                 }
 
-                CurrentXp += XP_COUNTER_SPEED;
-                CountedXp += XP_COUNTER_SPEED;
+                CurrentValue += _counterSpeed;
+                _countedValue += _counterSpeed;
 
-                if (CurrentXp >= XpToLevelupSelector())
+                if (CurrentValue >= LevelupSelector())
                 {
-                    CurrentXp -= XpToLevelupSelector();
+                    CurrentValue -= LevelupSelector();
 
                     if (IsShowLevelUpIndicator is null)
                     {
@@ -277,9 +308,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     }
                 }
 
-                if (CountedXp >= XpAmount)
+                if (_countedValue >= _amount)
                 {
-                    XpCountingComplete = true;
+                    _countingComplete = true;
                 }
             }
         }

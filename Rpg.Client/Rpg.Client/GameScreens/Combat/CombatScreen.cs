@@ -1022,8 +1022,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.Victory,
-                        xpItems,
-                        _combat.CombatSource);
+                        xpItems);
                 }
                 else
                 {
@@ -1036,8 +1035,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             BiomeProgress = new RewardStat(),
                             UnitRewards = Array.Empty<UnitRewards>()
-                        },
-                        _combat.CombatSource);
+                        });
                 }
             }
             else
@@ -1061,8 +1059,7 @@ namespace Rpg.Client.GameScreens.Combat
                             ValueToLevelupSelector = () => 25
                         },
                         UnitRewards = Array.Empty<UnitRewards>()
-                    },
-                    _combat.CombatSource);
+                    });
             }
 
             AddModal(combatResultModal, isLate: false);
