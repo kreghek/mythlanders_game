@@ -17,6 +17,7 @@ namespace Rpg.Client.GameScreens
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
+        private Texture2D _equipmentIcons;
         private SpriteFont _font;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
@@ -30,7 +31,6 @@ namespace Rpg.Client.GameScreens
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
         private Texture2D _svarogSymbolTexture;
-        private Texture2D _equipmentIcons;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -262,11 +262,6 @@ namespace Rpg.Client.GameScreens
             return _biomClouds;
         }
 
-        internal Texture2D GetEquipmentIcons()
-        {
-            return _equipmentIcons;
-        }
-
         internal Texture2D GetBulletGraphics()
         {
             return _arrowTexture;
@@ -295,6 +290,11 @@ namespace Rpg.Client.GameScreens
             }
 
             return _deathSoundDict[UnitName.GreyWolf];
+        }
+
+        internal Texture2D GetEquipmentIcons()
+        {
+            return _equipmentIcons;
         }
 
         internal SpriteFont GetFont()
