@@ -143,21 +143,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var biomeProgress =
                 $"Monster danger increased to {_combatItemsLocal.BiomeProgress.CurrentValue}";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
-                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
+                benefitsPosition + new Vector2(32 + MARGIN + 100, 0),
                 Color.Wheat);
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Items found:", 
-                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
+                benefitsPosition + new Vector2(32 + MARGIN + 100, 10),
                 Color.Wheat);
             var foundEquipmentsList = _foundEquipments.ToArray();
             for (var index = 0; index < foundEquipmentsList.Length; index++)
             {
                 var foundEquipment = foundEquipmentsList[index];
-                var position = benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y + 10 * 32 * index);
+                var position = benefitsPosition + new Vector2(32 + MARGIN + 100, (10 + 32) * index + 10 + 10);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), foundEquipment.EquipmentItemType.ToString(),
                     position + new Vector2(0, 32),
                     Color.Wheat);
-                spriteBatch.Draw(_uiContentStorage.GetCombatPowerIconsTexture(),
+                spriteBatch.Draw(_gameObjectContentStorage.GetEquipmentIcons(),
                     position,
                     new Rectangle(0,0,32,32),
                     Color.White);
