@@ -146,11 +146,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
 
-            foreach (var foundEquipment in _foundEquipments)
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Items found:", 
+                benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
+                Color.Wheat);
+            var foundEquipmentsList = _foundEquipments.ToArray();
+            for (var index = 0; index < foundEquipmentsList.Length; index++)
             {
+                var foundEquipment = foundEquipmentsList[index];
+                var position = benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y + 10 * 32 * index);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), foundEquipment.EquipmentItemType.ToString(),
-                    benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y + 10),
+                    position + new Vector2(0, 32),
                     Color.Wheat);
+                spriteBatch.Draw(_uiContentStorage.GetCombatPowerIconsTexture(),
+                    position,
+                    new Rectangle(0,0,32,32),
+                    Color.White);
             }
 
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
