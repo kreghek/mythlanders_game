@@ -276,7 +276,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var unitGameObject = GetUnitGameObject(e);
             var textPosition = GetUnitGameObject(e).Position;
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
 
             var passIndicator = new SkipTextIndicator(textPosition, font);
 
