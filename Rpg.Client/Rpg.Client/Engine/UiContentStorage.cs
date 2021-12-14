@@ -16,13 +16,14 @@ namespace Rpg.Client.Engine
         private Texture2D? _buttonTexture;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
-        private SpriteFont _font;
+        private SpriteFont _mainFont;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
         private Texture2D _speechTexture;
         private SpriteFont _titlesFont;
+        private SpriteFont _combatIndicatorFont;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
@@ -44,12 +45,17 @@ namespace Rpg.Client.Engine
 
         public SpriteFont GetMainFont()
         {
-            return _font;
+            return _mainFont;
         }
 
         public SpriteFont GetTitlesFont()
         {
             return _titlesFont;
+        }
+
+        public SpriteFont GetCombatIndicatorFont()
+        {
+            return _combatIndicatorFont;
         }
 
         public Texture2D[] GetModalBottomTextures()
@@ -71,8 +77,9 @@ namespace Rpg.Client.Engine
         {
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
-            _font = contentManager.Load<SpriteFont>("Fonts/Main");
+            _mainFont = contentManager.Load<SpriteFont>("Fonts/Main");
             _titlesFont = contentManager.Load<SpriteFont>("Fonts/Titles");
+            _combatIndicatorFont = contentManager.Load<SpriteFont>("Fonts/CombatIndicator");
 
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };

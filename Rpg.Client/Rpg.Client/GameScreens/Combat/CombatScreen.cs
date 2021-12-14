@@ -421,7 +421,7 @@ namespace Rpg.Client.GameScreens.Combat
             var combatUnit = (CombatUnit)sender;
             var unitGameObject = GetUnitGameObject(combatUnit);
             var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
 
             var passIndicator = new EvasionTextIndicator(textPosition, font);
 
@@ -439,7 +439,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
             var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
@@ -452,7 +452,7 @@ namespace Rpg.Client.GameScreens.Combat
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
             var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);

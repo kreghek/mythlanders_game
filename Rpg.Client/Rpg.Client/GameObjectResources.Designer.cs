@@ -70,6 +70,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Broken arrows.
+        /// </summary>
+        internal static string ArcherEquipment {
+            get {
+                return ResourceManager.GetString("ArcherEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Arrow rain.
         /// </summary>
         internal static string ArrowRain {
@@ -210,6 +219,15 @@ namespace Rpg.Client {
         internal static string HealingSalve {
             get {
                 return ResourceManager.GetString("HealingSalve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wild herbs.
+        /// </summary>
+        internal static string HerbalistEquipment {
+            get {
+                return ResourceManager.GetString("HerbalistEquipment", resourceCulture);
             }
         }
         

@@ -13,6 +13,7 @@ namespace Rpg.Client.Engine
         IEnumerable<Song> GetBattleSongs();
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonTexture();
+        SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Song GetDefeatSong();
         Texture2D GetEnvSpeechTexture();

@@ -223,6 +223,13 @@
 /processorParam:Quality=Best
 /build:Audio/Ui/ButtonHover.mp3
 
+#begin Fonts/CombatIndicator.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/CombatIndicator.spritefont
+
 #begin Fonts/Main.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
