@@ -141,7 +141,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 titlePosition.Y + resultTitleSize.Y + MARGIN);
             
             var biomeProgress =
-                $"{_combatItemsLocal.BiomeProgress.CurrentValue}/{_combatItemsLocal.BiomeProgress.LevelupSelector()} biome level";
+                $"Monster danger increased to {_combatItemsLocal.BiomeProgress.CurrentValue}";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
                 benefitsPosition + new Vector2(32 + MARGIN + 100, benefitsPosition.Y),
                 Color.Wheat);
@@ -208,7 +208,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private static string? UnitValueBenefit(UnitItemStat? unitItemStat, string postfix)
         {
-            var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelupSelector()} {postfix}";
+            var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelUpValue} {postfix}";
 
             if (unitItemStat.IsShowLevelUpIndicator is not null)
             {
@@ -225,7 +225,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class CombatItem
         {
-            public UnitItemStat BiomeProgress { get; init; }
+            public UnitItemStat BiomeProgress { get; }
             public IReadOnlyCollection<UnitItem> UnitItems { get; }
 
             public CombatItem(UnitItemStat biomeProgress, IReadOnlyCollection<UnitItem> unitItems)
@@ -298,6 +298,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             private bool _countingComplete;
             public Func<int> LevelupSelector { get; }
+
+            public int LevelUpValue => LevelupSelector();
 
             public void Update()
             {
