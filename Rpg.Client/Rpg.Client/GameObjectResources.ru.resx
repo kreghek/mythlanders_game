@@ -120,6 +120,9 @@
   <data name="AbstractMonsterAttack" xml:space="preserve">
     <value>Абстрактная атака монстра</value>
   </data>
+  <data name="ArcherEquipment" xml:space="preserve">
+    <value>Сломанные стрелы</value>
+  </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="HealingSalve" xml:space="preserve">
     <value>Целебная мазь</value>
+  </data>
+  <data name="HerbalistEquipment" xml:space="preserve">
+    <value>Дикие травы</value>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>

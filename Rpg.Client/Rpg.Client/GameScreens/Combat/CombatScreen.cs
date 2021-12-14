@@ -190,7 +190,11 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var item in xpItems)
             {
                 item.Unit.GainXp(item.Xp.Amount);
-                item.Unit.GainEquipmentItem(item.Equipment.Amount);
+
+                if (item.Equipment is not null)
+                {
+                    item.Unit.GainEquipmentItem(item.Equipment.Amount);
+                }
             }
         }
 
@@ -272,7 +276,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var unitGameObject = GetUnitGameObject(e);
             var textPosition = GetUnitGameObject(e).Position;
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
 
             var passIndicator = new SkipTextIndicator(textPosition, font);
 
@@ -417,7 +421,7 @@ namespace Rpg.Client.GameScreens.Combat
             var combatUnit = (CombatUnit)sender;
             var unitGameObject = GetUnitGameObject(combatUnit);
             var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
 
             var passIndicator = new EvasionTextIndicator(textPosition, font);
 
@@ -435,7 +439,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
             var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
@@ -448,7 +452,7 @@ namespace Rpg.Client.GameScreens.Combat
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetMainFont();
+            var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
             var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
@@ -800,6 +804,12 @@ namespace Rpg.Client.GameScreens.Combat
 
             var remainsUsed = false;
             var list = new List<UnitRewards>();
+            var foundEquipments = new List<EquipmentItemType>();
+            if (globeNode.EquipmentItem is not null)
+            {
+                foundEquipments.Add(globeNode.EquipmentItem.Value);
+            }
+
             foreach (var combatUnit in aliveUnits)
             {
                 var gainedXp = xpPerPlayerUnit;
@@ -846,7 +856,8 @@ namespace Rpg.Client.GameScreens.Combat
                     Amount = 1,
                     ValueToLevelupSelector = () => 25
                 },
-                UnitRewards = list
+                UnitRewards = list,
+                FoundEquipments = foundEquipments.Select(x=>new FoundEquipment(x)).ToArray()
             };
 
             return combatRewards;
@@ -1022,8 +1033,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         _resolutionIndependentRenderer,
                         CombatResult.Victory,
-                        xpItems,
-                        _combat.CombatSource);
+                        xpItems);
                 }
                 else
                 {
@@ -1036,8 +1046,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             BiomeProgress = new RewardStat(),
                             UnitRewards = Array.Empty<UnitRewards>()
-                        },
-                        _combat.CombatSource);
+                        });
                 }
             }
             else
@@ -1061,8 +1070,7 @@ namespace Rpg.Client.GameScreens.Combat
                             ValueToLevelupSelector = () => 25
                         },
                         UnitRewards = Array.Empty<UnitRewards>()
-                    },
-                    _combat.CombatSource);
+                    });
             }
 
             AddModal(combatResultModal, isLate: false);

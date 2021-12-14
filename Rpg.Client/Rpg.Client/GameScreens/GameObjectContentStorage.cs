@@ -30,6 +30,7 @@ namespace Rpg.Client.GameScreens
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
         private Texture2D _svarogSymbolTexture;
+        private Texture2D _equipmentIcons;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -253,11 +254,17 @@ namespace Rpg.Client.GameScreens
             };
 
             _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
+            _equipmentIcons = contentManager.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons");
         }
 
         internal Texture2D GetBiomeClouds()
         {
             return _biomClouds;
+        }
+
+        internal Texture2D GetEquipmentIcons()
+        {
+            return _equipmentIcons;
         }
 
         internal Texture2D GetBulletGraphics()

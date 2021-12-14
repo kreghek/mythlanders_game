@@ -223,6 +223,13 @@
 /processorParam:Quality=Best
 /build:Audio/Ui/ButtonHover.mp3
 
+#begin Fonts/CombatIndicator.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/CombatIndicator.spritefont
+
 #begin Fonts/Main.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -428,6 +435,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatUnitMarkers.png
+
+#begin Sprites/GameObjects/EquipmentIcons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/EquipmentIcons.png
 
 #begin Sprites/GameObjects/Map/DeepThicket.png
 /importer:TextureImporter

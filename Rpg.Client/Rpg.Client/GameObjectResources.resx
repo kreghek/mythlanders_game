@@ -100,6 +100,10 @@
   <data name="AbstractMonsterAttack" xml:space="preserve">
       <value>Abstract monster attack</value>
   </data>
+  <data name="ArcherEquipment" xml:space="preserve">
+    <value>Broken arrows</value>
+    <comment>Фрагмент экипировки</comment>
+  </data>
   <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
   </data>
@@ -149,6 +153,10 @@
   </data>
   <data name="HealingSalve" xml:space="preserve">
       <value>Healing salve</value>
+  </data>
+  <data name="HerbalistEquipment" xml:space="preserve">
+    <value>Wild herbs</value>
+    <comment>Фрагмент экипировки</comment>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>HQ</value>
@@ -219,7 +227,7 @@
   </data>
   <data name="WarriorEquipment" xml:space="preserve">
     <value>Sword pieces</value>
-    <comment>Осколки меча</comment>
+    <comment>Фрагмент экипировки</comment>
   </data>
   <data name="WideSwordSlash" xml:space="preserve">
       <value>Wide sword slash</value>

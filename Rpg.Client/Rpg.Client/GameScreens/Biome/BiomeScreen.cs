@@ -490,7 +490,7 @@ namespace Rpg.Client.GameScreens.Biome
 
                 if (playerUnit is not null)
                 {
-                    var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
+                    var equipmentTypeText = GameObjectHelper.GetLocalized(equipmentType);
                     summaryReward += Environment.NewLine + equipmentTypeText;
                 }
             }

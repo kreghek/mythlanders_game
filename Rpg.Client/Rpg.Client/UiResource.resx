@@ -117,11 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArmorLabelTemplate" xml:space="preserve">
+    <value>Armor: {0}</value>
+  </data>
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Auto-combat</value>
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>Back to the map</value>
+  </data>
+  <data name="BestiaryButtonTitle" xml:space="preserve">
+    <value>Bestiary</value>
+    <comment>Бестиарий монстров в игре</comment>
   </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
@@ -129,14 +136,63 @@
   <data name="BiomeTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="CombatLevelLavelTemplate" xml:space="preserve">
+    <value>Combat level: {0} ({1}/{2} exp)</value>
+  </data>
+  <data name="CombatResultDefeatText" xml:space="preserve">
+    <value>Defeat!</value>
+    <comment>Выводится в результатах боя при проигрыше боя.</comment>
+  </data>
+  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
+    <value>equipment</value>
+  </data>
+  <data name="CombatResultItemsFoundLabel" xml:space="preserve">
+    <value>Items found:</value>
+    <comment>Подпись для списка найденных предметов  результате победы.</comment>
+  </data>
+  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
+    <value>LEVELUP!</value>
+  </data>
+  <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
+    <value>Monster danger increased to {0}</value>
+    <comment>Увеличиение уровня всех монстров.</comment>
+  </data>
+  <data name="CombatResultNextText" xml:space="preserve">
+    <value>Next combat...</value>
+    <comment>Выводится в окне результатов между боями</comment>
+  </data>
+  <data name="CombatResultVictoryText" xml:space="preserve">
+    <value>Victory!</value>
+    <comment>Выводится в окне результатов боя.</comment>
+  </data>
+  <data name="CombatResultXpPostfix" xml:space="preserve">
+    <value>XP</value>
+  </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
     <value>rnd</value><comment>Раунд сражения из цепочки боёв.</comment>
   </data>
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="DamageLabelTemplate" xml:space="preserve">
+    <value>Damage: {0}</value>
+  </data>
+  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
+    <value>Equipment level: {0} ({1}/{2} items)</value>
+  </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
+  </data>
+  <data name="HitPointsLabelTemplate" xml:space="preserve">
+    <value>HitPoints: {0}</value>
+  </data>
+  <data name="IndicatorEvasion" xml:space="preserve">
+    <value>Evasion!</value>
+    <comment>Когда юнит уклоняется от урона</comment>
+  </data>
+  <data name="IndicatorSkipTurn" xml:space="preserve">
+    <value>Skip!</value>
+    <comment>Когда юнит пропускает ход</comment>
   </data>
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Is training only</value>
@@ -148,6 +204,12 @@
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
   </data>
+  <data name="ManaCostLabelTemplate" xml:space="preserve">
+    <value>Mana cost: {0}</value>
+  </data>
+  <data name="ManaLabelTemplate" xml:space="preserve">
+    <value>Mana: {0}/{1}</value>
+  </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
   </data>
@@ -156,6 +218,10 @@
   </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Party</value>
+  </data>
+  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
+    <value>Is in party. Slot {0}.</value>
+    <comment>Указывает, что персонаж в партии и номер слота.</comment>
   </data>
   <data name="SaveButtonTitle" xml:space="preserve">
     <value>Save</value>
@@ -180,54 +246,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="IndicatorSkipTurn" xml:space="preserve">
-    <value>Skip!</value>
-    <comment>Когда юнит пропускает ход</comment>
-  </data>
-  <data name="IndicatorEvasion" xml:space="preserve">
-    <value>Evasion!</value>
-    <comment>Когда юнит уклоняется от урона</comment>
-  </data>
-  <data name="HitPointsLabelTemplate" xml:space="preserve">
-    <value>HitPoints: {0}</value>
-  </data>
-  <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Mana: {0}/{1}</value>
-  </data>
-  <data name="CombatLevelLavelTemplate" xml:space="preserve">
-    <value>Combat level: {0} ({1}/{2} exp)</value>
-  </data>
-  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
-    <value>Equipment level: {0} ({1}/{2} items)</value>
-  </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Mana cost: {0}</value>
-  </data>
-  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
-    <value>Is in party. Slot {0}.</value>
-    <comment>Указывает, что персонаж в партии и номер слота.</comment>
-  </data>
-  <data name="BestiaryButtonTitle" xml:space="preserve">
-    <value>Bestiary</value>
-    <comment>Бестиарий монстров в игре</comment>
-  </data>
-  <data name="DamageLabelTemplate" xml:space="preserve">
-    <value>Damage: {0}</value>
-  </data>
-  <data name="ArmorLabelTemplate" xml:space="preserve">
-    <value>Armor: {0}</value>
-  </data>
-  <data name="CombatResultVictoryText" xml:space="preserve">
-    <value>Victory!</value>
-    <comment>Выводится в окне результатов боя.</comment>
-  </data>
-  <data name="CombatResultDefeatText" xml:space="preserve">
-    <value>Defeat!</value>
-    <comment>Выводится в результатах боя при проигрыше боя.</comment>
-  </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Next combat...</value>
-    <comment>Выводится в окне результатов между боями</comment>
   </data>
 </root>

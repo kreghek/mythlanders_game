@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArmorLabelTemplate" xml:space="preserve">
+    <value>Броня: {0}</value>
+  </data>
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
   </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
+  </data>
+  <data name="BestiaryButtonTitle" xml:space="preserve">
+    <value>Бестиарий</value>
   </data>
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
@@ -134,6 +140,33 @@
 3. В некоторых локациях могут происходить различные события, которые
 могут повлиять на
 текущий бой, отдельных персонажей или партию.</value>
+  </data>
+  <data name="CombatLevelLavelTemplate" xml:space="preserve">
+    <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
+  </data>
+  <data name="CombatResultDefeatText" xml:space="preserve">
+    <value>Поражение!</value>
+  </data>
+  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
+    <value>экипировка</value>
+  </data>
+  <data name="CombatResultItemsFoundLabel" xml:space="preserve">
+    <value>Найдены предметы:</value>
+  </data>
+  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
+    <value>ПОВЫШЕНИЕ!</value>
+  </data>
+  <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
+    <value>Опасность монстров выросла до {0}</value>
+  </data>
+  <data name="CombatResultNextText" xml:space="preserve">
+    <value>Следующий бой...</value>
+  </data>
+  <data name="CombatResultVictoryText" xml:space="preserve">
+    <value>Победа!</value>
+  </data>
+  <data name="CombatResultXpPostfix" xml:space="preserve">
+    <value>опыт</value>
   </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
     <value>рнд</value>
@@ -156,17 +189,41 @@
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
   </data>
+  <data name="DamageLabelTemplate" xml:space="preserve">
+    <value>Урон: {0}</value>
+  </data>
+  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
+    <value>Экипировка: {0} ({1}/{2} частей)</value>
+  </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
 
 1. Некоторые события продвигают партию по сюжету.
 2. Другие - могут повлиять на партию и конкретных персонажей.</value>
   </data>
+  <data name="HitPointsLabelTemplate" xml:space="preserve">
+    <value>Хитопонты: {0}</value>
+  </data>
+  <data name="IndicatorEvasion" xml:space="preserve">
+    <value>Уклонение!</value>
+  </data>
+  <data name="IndicatorSkipTurn" xml:space="preserve">
+    <value>Пропуск!</value>
+  </data>
+  <data name="IsTrainingOnly" xml:space="preserve">
+    <value>Для тренировки</value>
+  </data>
   <data name="LoadLastSaveButtonTitle" xml:space="preserve">
     <value>Загрузить</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
+  </data>
+  <data name="ManaCostLabelTemplate" xml:space="preserve">
+    <value>Цена: {0}</value>
+  </data>
+  <data name="ManaLabelTemplate" xml:space="preserve">
+    <value>Мана: {0}/{1}</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
@@ -176,6 +233,9 @@
   </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Группа</value>
+  </data>
+  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
+    <value>Состоит в группе. Слот {0}.</value>
   </data>
   <data name="SaveButtonTitle" xml:space="preserve">
     <value>Сохранить</value>
@@ -200,50 +260,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="IndicatorSkipTurn" xml:space="preserve">
-    <value>Пропуск!</value>
-  </data>
-  <data name="IndicatorEvasion" xml:space="preserve">
-    <value>Уклонение!</value>
-  </data>
-  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
-    <value>Экипировка: {0} ({1}/{2} частей)</value>
-  </data>
-  <data name="CombatLevelLavelTemplate" xml:space="preserve">
-    <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
-  </data>
-  <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Мана: {0}/{1}</value>
-  </data>
-  <data name="HitPointsLabelTemplate" xml:space="preserve">
-    <value>Хитопонты: {0}</value>
-  </data>
-  <data name="IsTrainingOnly" xml:space="preserve">
-    <value>Для тренировки</value>
-  </data>
-  <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Цена: {0}</value>
-  </data>
-  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
-    <value>Состоит в группе. Слот {0}.</value>
-  </data>
-  <data name="BestiaryButtonTitle" xml:space="preserve">
-    <value>Бестиарий</value>
-  </data>
-  <data name="DamageLabelTemplate" xml:space="preserve">
-    <value>Урон: {0}</value>
-  </data>
-  <data name="ArmorLabelTemplate" xml:space="preserve">
-    <value>Броня: {0}</value>
-  </data>
-  <data name="CombatResultVictoryText" xml:space="preserve">
-    <value>Победа!</value>
-  </data>
-  <data name="CombatResultDefeatText" xml:space="preserve">
-    <value>Поражение!</value>
-  </data>
-  <data name="CombatResultNextText" xml:space="preserve">
-    <value>Следующий бой...</value>
   </data>
 </root>

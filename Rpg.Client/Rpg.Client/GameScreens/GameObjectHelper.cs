@@ -14,6 +14,16 @@ namespace Rpg.Client.GameScreens
             return GetLocalizedInner(locationSid.ToString());
         }
 
+        public static string? GetLocalized(EquipmentItemType? equipmentType)
+        {
+            if (equipmentType is null)
+            {
+                return null;
+            }
+
+            return GetLocalizedInner($"{equipmentType}Equipment");
+        }
+
         private static string GetLocalizedInner(string sid)
         {
             var rm = GameObjectResources.ResourceManager;

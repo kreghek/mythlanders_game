@@ -190,7 +190,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 return;
             }
 
-            var equipmentTypeText = BiomeScreenTextHelper.GetDisplayNameOfEquipment(equipmentType);
+            var equipmentTypeText = GameObjectHelper.GetLocalized(equipmentType);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentTypeText,
                 toolTipPosition + new Vector2(5, 45), Color.Wheat);
         }
