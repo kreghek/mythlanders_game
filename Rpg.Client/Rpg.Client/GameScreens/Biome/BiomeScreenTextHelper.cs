@@ -46,19 +46,5 @@ namespace Rpg.Client.GameScreens.Biome
                     return string.Empty;
             }
         }
-
-        public static string? GetDisplayNameOfEquipment(EquipmentItemType? equipmentType)
-        {
-            if (equipmentType is null)
-            {
-                return null;
-            }
-
-            var rm = GameObjectResources.ResourceManager;
-
-            var equipmentDisplayName = rm.GetString($"{equipmentType}Equipment");
-
-            return equipmentDisplayName ?? $"{equipmentType} equipment items";
-        }
     }
 }

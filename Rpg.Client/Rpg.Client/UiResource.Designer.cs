@@ -133,6 +133,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items found:.
+        /// </summary>
+        internal static string CombatResultItemsFoundLabel {
+            get {
+                return ResourceManager.GetString("CombatResultItemsFoundLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monster danger increased to {0}.
+        /// </summary>
+        internal static string CombatResultMonsterDangerIncreasedTemplate {
+            get {
+                return ResourceManager.GetString("CombatResultMonsterDangerIncreasedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next combat....
         /// </summary>
         internal static string CombatResultNextText {
