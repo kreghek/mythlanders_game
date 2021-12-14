@@ -143,9 +143,15 @@
     <value>Defeat!</value>
     <comment>Выводится в результатах боя при проигрыше боя.</comment>
   </data>
+  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
+    <value>equipment</value>
+  </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Items found:</value>
     <comment>Подпись для списка найденных предметов  результате победы.</comment>
+  </data>
+  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
+    <value>LEVELUP!</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Monster danger increased to {0}</value>
@@ -158,6 +164,9 @@
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Victory!</value>
     <comment>Выводится в окне результатов боя.</comment>
+  </data>
+  <data name="CombatResultXpPostfix" xml:space="preserve">
+    <value>XP</value>
   </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
     <value>rnd</value><comment>Раунд сражения из цепочки боёв.</comment>

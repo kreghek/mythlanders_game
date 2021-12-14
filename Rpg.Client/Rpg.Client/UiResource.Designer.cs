@@ -133,11 +133,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to equipment.
+        /// </summary>
+        internal static string CombatResultEquipmentPostfix {
+            get {
+                return ResourceManager.GetString("CombatResultEquipmentPostfix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Items found:.
         /// </summary>
         internal static string CombatResultItemsFoundLabel {
             get {
                 return ResourceManager.GetString("CombatResultItemsFoundLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LEVELUP!.
+        /// </summary>
+        internal static string CombatResultLevelUpIndicator {
+            get {
+                return ResourceManager.GetString("CombatResultLevelUpIndicator", resourceCulture);
             }
         }
         
@@ -165,6 +183,15 @@ namespace Rpg.Client {
         internal static string CombatResultVictoryText {
             get {
                 return ResourceManager.GetString("CombatResultVictoryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XP.
+        /// </summary>
+        internal static string CombatResultXpPostfix {
+            get {
+                return ResourceManager.GetString("CombatResultXpPostfix", resourceCulture);
             }
         }
         

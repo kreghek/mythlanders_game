@@ -161,7 +161,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     Color.Wheat);
                 spriteBatch.Draw(_gameObjectContentStorage.GetEquipmentIcons(),
                     position,
-                    new Rectangle(0,0,32,32),
+                    GetEquipmentSpriteRect(foundEquipment.EquipmentItemType),
                     Color.White);
             }
 
@@ -183,18 +183,39 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 0),
                     Color.Wheat);
 
-                var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, "XP");
+                var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, UiResource.CombatResultXpPostfix);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit,
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN),
                     Color.Wheat);
 
-                var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment, "Equipment");
+                if (item.Equipment is not null)
+                {
+                    var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment, UiResource.CombatResultEquipmentPostfix);
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit,
-                    benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN),
-                    Color.Wheat);
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit,
+                        benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN),
+                        Color.Wheat);
+                }
             }
+        }
+
+        private static Rectangle GetEquipmentSpriteRect(EquipmentItemType equipmentItemType)
+        {
+            const int COLUMN_COUNT = 2;
+            const int ICON_SIZE = 32;
+
+            var index = GetEquipmentSpriteIndex(equipmentItemType);
+
+            var x = index % COLUMN_COUNT;
+            var y = index / COLUMN_COUNT;
+
+            return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        }
+
+        private static int GetEquipmentSpriteIndex(EquipmentItemType equipmentItemType)
+        {
+            return (int)equipmentItemType;
         }
 
         private static string GetCombatResultLocalizedText(CombatResult combatResult)
@@ -214,7 +235,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (unitItemStat.IsShowLevelUpIndicator is not null)
             {
-                unitXpBenefit += " LEVELUP!";
+                unitXpBenefit += " " + UiResource.CombatResultLevelUpIndicator;
 
                 if (unitItemStat.IsShowLevelUpIndicator > 1)
                 {
@@ -282,8 +303,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     {
                         > 0 => MINIMAL_COUNTER_SPEED,
                         < 0 => -MINIMAL_COUNTER_SPEED,
-                        _ => throw new InvalidOperationException(
-                            $"{nameof(_amount)} required to be greatest that zero.")
+                        _ => MINIMAL_COUNTER_SPEED/*throw new InvalidOperationException(
+                            $"{nameof(_amount)} required to be greatest that zero.")*/
                     };
                 }
 

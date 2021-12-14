@@ -190,7 +190,11 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var item in xpItems)
             {
                 item.Unit.GainXp(item.Xp.Amount);
-                item.Unit.GainEquipmentItem(item.Equipment.Amount);
+
+                if (item.Equipment is not null)
+                {
+                    item.Unit.GainEquipmentItem(item.Equipment.Amount);
+                }
             }
         }
 

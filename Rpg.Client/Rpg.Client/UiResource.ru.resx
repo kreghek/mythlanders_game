@@ -147,8 +147,14 @@
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Поражение!</value>
   </data>
+  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
+    <value>экипировка</value>
+  </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Найдены предметы:</value>
+  </data>
+  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
+    <value>ПОВЫШЕНИЕ!</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
@@ -158,6 +164,9 @@
   </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
+  </data>
+  <data name="CombatResultXpPostfix" xml:space="preserve">
+    <value>опыт</value>
   </data>
   <data name="CombatSequenceRoundShortText" xml:space="preserve">
     <value>рнд</value>
