@@ -46,7 +46,9 @@ namespace Rpg.Client
             Components.Add(soundtrackComponent);
 
             var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
             UiThemeManager.SoundStorage = uiSoundStorage;
+            UiThemeManager.UiContentStorage = uiContentStorage;
 
             base.Initialize();
         }
