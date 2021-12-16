@@ -48,16 +48,16 @@ namespace Rpg.Client.Models.Title
             _buttons = new List<ButtonBase>();
 
             var emptyRect = new Rectangle();
-            var startButton = new TextButton(
-                UiResource.StartGameButtonTitle,
+            var startButton = new ResourceTextButton(
+                nameof(UiResource.StartGameButtonTitle),
                 buttonTexture,
                 font,
                 emptyRect);
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
 
-            var settingsButton = new TextButton(
-                UiResource.SettingsButtonTitle,
+            var settingsButton = new ResourceTextButton(
+                nameof(UiResource.SettingsButtonTitle),
                 buttonTexture,
                 font,
                 emptyRect);
