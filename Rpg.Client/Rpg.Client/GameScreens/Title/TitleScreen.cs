@@ -56,29 +56,26 @@ namespace Rpg.Client.GameScreens.Title
             _buttons = new List<ButtonBase>();
 
             var emptyRect = new Rectangle();
-            var startButton = new TextButton(
-                UiResource.StartGameButtonTitle,
+            var startButton = new ResourceTextButton(
+                nameof(UiResource.StartGameButtonTitle),
                 buttonTexture,
                 _font,
                 emptyRect);
             startButton.OnClick += StartButton_OnClick;
             _buttons.Add(startButton);
 
-            var settingsButton = new TextButton(
-                UiResource.SettingsButtonTitle,
+            var settingsButton = new ResourceTextButton(
+                nameof(UiResource.SettingsButtonTitle),
                 buttonTexture,
                 _font,
                 emptyRect);
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
 
-            if (_gameSettings.Mode == GameMode.Full)
+            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, _font);
+            if (loadGameButton is not null)
             {
-                var loadGameButton = GetLoadButton(buttonTexture, _font);
-                if (loadGameButton != null)
-                {
-                    _buttons.Add(loadGameButton);
-                }
+                _buttons.Add(loadGameButton);
             }
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
@@ -129,7 +126,7 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private ButtonBase? GetLoadButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
         {
             if (!_globeProvider.CheckExistsSave())
             {
@@ -141,13 +138,13 @@ namespace Rpg.Client.GameScreens.Title
                 return null;
             }
 
-            var loadGameButton = new TextButton(
-                UiResource.LoadLastSaveButtonTitle,
+            var loadGameButton = new ResourceTextButton(
+                nameof(UiResource.LoadLastSaveButtonTitle),
                 buttonTexture,
                 font,
                 new Rectangle(0, 0, 100, 25));
 
-            loadGameButton.OnClick += (s, e) =>
+            loadGameButton.OnClick += (_, _) =>
             {
                 var isSuccessLoaded = _globeProvider.LoadGlobe();
                 if (!isSuccessLoaded)
