@@ -97,6 +97,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Battleground.
+        /// </summary>
+        internal static string Battleground {
+            get {
+                return ResourceManager.GetString("Battleground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Brown bear.
         /// </summary>
         internal static string Bear {
@@ -115,11 +124,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grim Castle in the Rock.
+        /// </summary>
+        internal static string Castle {
+            get {
+                return ResourceManager.GetString("Castle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark light.
         /// </summary>
         internal static string DarkLight {
             get {
                 return ResourceManager.GetString("DarkLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Death path.
+        /// </summary>
+        internal static string DeathPath {
+            get {
+                return ResourceManager.GetString("DeathPath", resourceCulture);
             }
         }
         
@@ -228,6 +255,15 @@ namespace Rpg.Client {
         internal static string HerbalistEquipment {
             get {
                 return ResourceManager.GetString("HerbalistEquipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hermitage.
+        /// </summary>
+        internal static string Hermitage {
+            get {
+                return ResourceManager.GetString("Hermitage", resourceCulture);
             }
         }
         
@@ -354,6 +390,15 @@ namespace Rpg.Client {
         internal static string SvarogBlastFurnace {
             get {
                 return ResourceManager.GetString("SvarogBlastFurnace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evil swamp.
+        /// </summary>
+        internal static string Swamp {
+            get {
+                return ResourceManager.GetString("Swamp", resourceCulture);
             }
         }
         

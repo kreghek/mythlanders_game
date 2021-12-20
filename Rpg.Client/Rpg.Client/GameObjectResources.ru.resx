@@ -129,14 +129,23 @@
   <data name="Aspid" xml:space="preserve">
     <value>Аспид</value>
   </data>
+  <data name="Battleground" xml:space="preserve">
+    <value>Поле брани</value>
+  </data>
   <data name="Bear" xml:space="preserve">
     <value>Бурый медведь</value>
   </data>
   <data name="Berimir" xml:space="preserve">
     <value>Беримир</value>
   </data>
+  <data name="Castle" xml:space="preserve">
+    <value>Мрачная Твердыня в Скале</value>
+  </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
+  </data>
+  <data name="DeathPath" xml:space="preserve">
+    <value>Тропа смерти</value>
   </data>
   <data name="DefenseStance" xml:space="preserve">
     <value>Защитная стойка</value>
@@ -173,6 +182,9 @@
   </data>
   <data name="HerbalistEquipment" xml:space="preserve">
     <value>Дикие травы</value>
+  </data>
+  <data name="Hermitage" xml:space="preserve">
+    <value>Покинутый скит</value>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
@@ -215,6 +227,9 @@
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
     <value>Взрыв печи Сварога</value>
+  </data>
+  <data name="Swamp" xml:space="preserve">
+    <value>Зловещее болото</value>
   </data>
   <data name="SwordSlash" xml:space="preserve">
     <value>Рубящий удар мечом</value>
