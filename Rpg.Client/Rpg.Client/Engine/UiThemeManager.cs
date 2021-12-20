@@ -22,9 +22,11 @@ namespace Rpg.Client.Engine
             }
         }
 
-        public static IUiContentStorage? UiContentStorage {
+        public static IUiContentStorage? UiContentStorage
+        {
             get => _uiContentStorage;
-            set {
+            set
+            {
                 _uiContentStorage = value;
             }
         }
