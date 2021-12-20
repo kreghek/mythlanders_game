@@ -37,8 +37,7 @@ jobs:
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
 
     - name: Publish
-      run: dotnet publish Rpg.Client/Rpg.Client.sln --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release
-    
+      run: dotnet publish Rpg.Client/Rpg.Client/Rpg.Client.csproj --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time

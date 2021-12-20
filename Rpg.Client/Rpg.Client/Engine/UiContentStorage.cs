@@ -14,6 +14,7 @@ namespace Rpg.Client.Engine
         private Song[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D? _buttonTexture;
+        private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
         private SpriteFont _mainFont;
@@ -23,7 +24,6 @@ namespace Rpg.Client.Engine
         private Texture2D[] _modalTopTextures;
         private Texture2D _speechTexture;
         private SpriteFont _titlesFont;
-        private SpriteFont _combatIndicatorFont;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;

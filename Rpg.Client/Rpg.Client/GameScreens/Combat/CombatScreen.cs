@@ -857,7 +857,7 @@ namespace Rpg.Client.GameScreens.Combat
                     ValueToLevelupSelector = () => 25
                 },
                 UnitRewards = list,
-                FoundEquipments = foundEquipments.Select(x=>new FoundEquipment(x)).ToArray()
+                FoundEquipments = foundEquipments.Select(x => new FoundEquipment(x)).ToArray()
             };
 
             return combatRewards;
