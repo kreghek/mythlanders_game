@@ -200,8 +200,8 @@ namespace Rpg.Client.GameScreens.Common
 
         private ButtonBase GetSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
         {
-            var switchFullScreenButton = new TextButton(
-                UiResource.SwitchFullScreenButtonTitle,
+            var switchFullScreenButton = new ResourceTextButton(
+                nameof(UiResource.SwitchFullScreenButtonTitle),
                 buttonTexture,
                 font,
                 new Rectangle());
@@ -212,8 +212,8 @@ namespace Rpg.Client.GameScreens.Common
 
         private static ButtonBase GetSwitchLanguageButton(Texture2D buttonTexture, SpriteFont font)
         {
-            var switchLanguageButton = new TextButton(
-                UiResource.SwitchLanguageButtonTitle,
+            var switchLanguageButton = new ResourceTextButton(
+                nameof(UiResource.SwitchLanguageButtonTitle),
                 buttonTexture,
                 font,
                 new Rectangle());
