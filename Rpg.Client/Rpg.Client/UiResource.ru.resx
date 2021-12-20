@@ -237,9 +237,6 @@
   <data name="PartyMarkerLabelTemplate" xml:space="preserve">
     <value>Состоит в группе. Слот {0}.</value>
   </data>
-  <data name="SaveButtonTitle" xml:space="preserve">
-    <value>Сохранить</value>
-  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>

@@ -223,9 +223,6 @@
     <value>Is in party. Slot {0}.</value>
     <comment>Указывает, что персонаж в партии и номер слота.</comment>
   </data>
-  <data name="SaveButtonTitle" xml:space="preserve">
-    <value>Save</value>
-  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
