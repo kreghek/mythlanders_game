@@ -95,7 +95,7 @@ namespace Rpg.Client.Core
                     }
                 }
             },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
+            UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 
         public DemoUnitSchemeCatalog()
