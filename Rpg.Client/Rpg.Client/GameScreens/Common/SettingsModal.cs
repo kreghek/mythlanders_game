@@ -80,6 +80,18 @@ namespace Rpg.Client.GameScreens.Common
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
             InitSelectedMonitorResolution(globeProvider);
+
+            var exitGameButton = new ResourceTextButton(
+                nameof(UiResource.ExitGameButtonTitle),
+                buttonTexture,
+                font,
+                Rectangle.Empty
+                );
+            exitGameButton.OnClick += (s, e) => 
+            {
+                game.Exit();
+            };
+            _buttons.Add(exitGameButton);
         }
 
 

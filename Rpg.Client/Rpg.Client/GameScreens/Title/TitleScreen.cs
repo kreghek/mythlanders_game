@@ -78,6 +78,18 @@ namespace Rpg.Client.GameScreens.Title
                 _buttons.Add(loadGameButton);
             }
 
+            var exitGameButton = new ResourceTextButton(
+                nameof(UiResource.ExitGameButtonTitle),
+                buttonTexture,
+                _font,
+                Rectangle.Empty
+                );
+            exitGameButton.OnClick += (s, e) =>
+            {
+                game.Exit();
+            };
+            _buttons.Add(exitGameButton);
+
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
         }
