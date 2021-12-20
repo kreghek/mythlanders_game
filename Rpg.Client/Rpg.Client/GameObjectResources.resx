@@ -110,14 +110,26 @@
   <data name="Aspid" xml:space="preserve">
     <value>Aspid</value>
   </data>
+  <data name="Battleground" xml:space="preserve">
+    <value>Battleground</value>
+    <comment>Location</comment>
+  </data>
   <data name="Bear" xml:space="preserve">
     <value>Brown bear</value>
   </data>
   <data name="Berimir" xml:space="preserve">
     <value>Berimir</value>
   </data>
+  <data name="Castle" xml:space="preserve">
+    <value>Grim Castle in the Rock</value>
+    <comment>Location</comment>
+  </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
+  </data>
+  <data name="DeathPath" xml:space="preserve">
+    <value>Death path</value>
+    <comment>Location</comment>
   </data>
   <data name="DefenseStance" xml:space="preserve">
       <value>Defense stance</value>
@@ -157,6 +169,10 @@
   <data name="HerbalistEquipment" xml:space="preserve">
     <value>Wild herbs</value>
     <comment>Фрагмент экипировки</comment>
+  </data>
+  <data name="Hermitage" xml:space="preserve">
+    <value>Hermitage</value>
+    <comment>Location</comment>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>HQ</value>
@@ -205,6 +221,10 @@
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
+  </data>
+  <data name="Swamp" xml:space="preserve">
+    <value>Evil swamp</value>
+    <comment>Location</comment>
   </data>
   <data name="SwordSlash" xml:space="preserve">
       <value>Sword slash</value>

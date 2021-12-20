@@ -241,6 +241,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit game.
+        /// </summary>
+        internal static string ExitGameButtonTitle {
+            get {
+                return ResourceManager.GetString("ExitGameButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HitPoints: {0}.
         /// </summary>
         internal static string HitPointsLabelTemplate {
@@ -277,7 +286,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load last save.
+        ///   Looks up a localized string similar to Continue game.
         /// </summary>
         internal static string LoadLastSaveButtonTitle {
             get {
@@ -345,15 +354,6 @@ namespace Rpg.Client {
         internal static string PartyMarkerLabelTemplate {
             get {
                 return ResourceManager.GetString("PartyMarkerLabelTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        internal static string SaveButtonTitle {
-            get {
-                return ResourceManager.GetString("SaveButtonTitle", resourceCulture);
             }
         }
         

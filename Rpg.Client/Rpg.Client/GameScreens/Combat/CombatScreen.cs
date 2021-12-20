@@ -363,6 +363,8 @@ namespace Rpg.Client.GameScreens.Combat
                         if (_finalBossWasDefeat)
                         {
                             ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+
+                            _globeProvider.StoreGlobe();
                         }
                         else
                         {
@@ -376,6 +378,8 @@ namespace Rpg.Client.GameScreens.Combat
                                 _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
                             }
+
+                            _globeProvider.StoreGlobe();
                         }
                     }
                     else
@@ -384,6 +388,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            _globeProvider.StoreGlobe();
                         }
                         else
                         {

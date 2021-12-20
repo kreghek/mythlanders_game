@@ -104,16 +104,6 @@ namespace Rpg.Client.GameScreens.Biome
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
                 };
                 _menuButtons.Add(bestiaryButton);
-
-                var saveGameButton = new TextButton(UiResource.SaveButtonTitle, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-
-                saveGameButton.OnClick += (_, _) =>
-                {
-                    globeProvider.StoreGlobe();
-                };
-
-                _menuButtons.Add(saveGameButton);
             }
 
             _clouds = new Cloud[CLOUD_COUNT];

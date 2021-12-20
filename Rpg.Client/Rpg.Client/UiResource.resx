@@ -183,6 +183,9 @@
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
   </data>
+  <data name="ExitGameButtonTitle" xml:space="preserve">
+    <value>Exit game</value>
+  </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">
     <value>HitPoints: {0}</value>
   </data>
@@ -199,7 +202,7 @@
     <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
   </data>
   <data name="LoadLastSaveButtonTitle" xml:space="preserve">
-    <value>Load last save</value>
+    <value>Continue game</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
@@ -222,9 +225,6 @@
   <data name="PartyMarkerLabelTemplate" xml:space="preserve">
     <value>Is in party. Slot {0}.</value>
     <comment>Указывает, что персонаж в партии и номер слота.</comment>
-  </data>
-  <data name="SaveButtonTitle" xml:space="preserve">
-    <value>Save</value>
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>

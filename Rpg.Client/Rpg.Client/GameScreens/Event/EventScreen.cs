@@ -31,7 +31,7 @@ namespace Rpg.Client.GameScreens.Event
         private readonly IList<ButtonBase> _buttons;
 
         private readonly Camera2D _camera;
-
+        private readonly GlobeProvider _globeProvider;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
@@ -55,7 +55,8 @@ namespace Rpg.Client.GameScreens.Event
 
             _camera = Game.Services.GetService<Camera2D>();
 
-            _globe = game.Services.GetService<GlobeProvider>().Globe;
+            _globeProvider = game.Services.GetService<GlobeProvider>();
+            _globe = _globeProvider.Globe;
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
@@ -321,6 +322,7 @@ namespace Rpg.Client.GameScreens.Event
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            _globeProvider.StoreGlobe();
                         }
                     }
                     else

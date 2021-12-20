@@ -230,7 +230,7 @@ namespace Rpg.Client.Core
                     }
                 }
             },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
+            UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 
         private static readonly UnitScheme PriestHero = new()

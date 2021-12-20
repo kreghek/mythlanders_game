@@ -4,6 +4,7 @@ namespace Rpg.Client.Engine
 {
     internal static class UiThemeManager
     {
+        private static IUiContentStorage? _uiContentStorage;
         private static IUiSoundStorage? _soundStorage;
 
         public static IUiSoundStorage? SoundStorage
@@ -18,6 +19,13 @@ namespace Rpg.Client.Engine
                 }
 
                 _soundStorage = value;
+            }
+        }
+
+        public static IUiContentStorage? UiContentStorage {
+            get => _uiContentStorage;
+            set {
+                _uiContentStorage = value;
             }
         }
     }
