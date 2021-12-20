@@ -14,7 +14,7 @@ namespace Rpg.Client.Core.GraphicConfigs
                 { AnimationSid.Skill3, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
                 { AnimationSid.Wound, new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
                 { AnimationSid.Death, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
-                {AnimationSid.Defense, new AnimationInfo(startFrame: 16, frames: 1, speed: 1) }
+                { AnimationSid.Defense, new AnimationInfo(startFrame: 16, frames: 1, speed: 1) }
             };
         }
     }
