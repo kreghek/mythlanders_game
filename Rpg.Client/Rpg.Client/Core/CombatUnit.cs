@@ -25,6 +25,7 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatSkill> CombatCards { get; }
 
         public int Index { get; }
+
         public CombatUnitState State { get; internal set; }
 
         public void UnscribeHandlers()
