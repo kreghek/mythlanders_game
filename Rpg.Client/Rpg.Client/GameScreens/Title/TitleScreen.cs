@@ -83,7 +83,7 @@ namespace Rpg.Client.GameScreens.Title
                 buttonTexture,
                 _font,
                 Rectangle.Empty
-                );
+            );
             exitGameButton.OnClick += (s, e) =>
             {
                 game.Exit();

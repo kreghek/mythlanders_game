@@ -5,10 +5,11 @@ namespace Rpg.Client.Engine
 {
     internal class ResourceTextButton : ButtonBase
     {
-        private readonly string _resourceSid;
         private readonly SpriteFont _font;
+        private readonly string _resourceSid;
 
-        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(texture, rect)
+        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(
+            texture, rect)
         {
             _resourceSid = resourceSid;
 
