@@ -13,5 +13,6 @@
         public bool IsAvailable { get; set; }
 
         public GlobeNodeSid Sid { get; set; }
+        public bool IsLast { get; internal set; }
     }
 }
