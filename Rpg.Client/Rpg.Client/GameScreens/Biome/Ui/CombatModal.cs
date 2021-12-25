@@ -135,18 +135,31 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private void AddAutoCombatButtonIfAvailable(CombatModalContext context)
         {
-            var availableSlavicNodes = _globe.Biomes.First(x => x.Type == BiomeType.Slavic).Nodes
-                .Where(x => x.IsAvailable);
-            if (availableSlavicNodes.Count() >= 10)
+            var isAutoCombatAvailable = CheckAllSlavicLocationUnlocked();
+
+            if (isAutoCombatAvailable)
             {
-                var autocombatButton = new TextButton(UiResource.AutocombatButtonTitle,
-                    _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                var autocombatButton = new ResourceTextButton(
+                    nameof(UiResource.AutocombatButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(),
+                    Rectangle.Empty);
+
                 autocombatButton.OnClick += (s, e) =>
                 {
                     context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode);
                 };
                 _buttons.Add(autocombatButton);
             }
+        }
+
+        private bool CheckAllSlavicLocationUnlocked()
+        {
+            // Display autocombat button if all slavic locations are unlocked.
+            var lockedSlavicNodes = _globe.Biomes.First(x => x.Type == BiomeType.Slavic).Nodes
+                .Where(x => !x.IsAvailable);
+
+            return !lockedSlavicNodes.Any();
         }
 
         private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
