@@ -377,6 +377,8 @@ namespace Rpg.Client.GameScreens.Combat
                             _globe.CurrentEvent = startGlobeNode.AssignedEvent;
                             _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
+                            _globe.CurrentEvent.Counter++;
+
                             var combatSource = startGlobeNode.CombatSequence.Combats.First();
                             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
                                 combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
