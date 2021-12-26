@@ -204,7 +204,7 @@ namespace Rpg.Client.Core
             int targetCount;
             if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
             {
-                nodeList.Add(new (bossLocation, true));
+                nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
             }
             else

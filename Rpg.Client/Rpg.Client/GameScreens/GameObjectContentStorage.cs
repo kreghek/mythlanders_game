@@ -252,7 +252,7 @@ namespace Rpg.Client.GameScreens
         }
 
         private enum BackgroundLayerType
-        { 
+        {
             Clouds,
             Far,
             Main,

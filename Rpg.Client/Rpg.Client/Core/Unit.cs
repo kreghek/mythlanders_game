@@ -323,7 +323,7 @@ namespace Rpg.Client.Core
             var maxHitPoints = (int)Math.Round(
                 unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
                 MidpointRounding.AwayFromZero);
-            
+
             foreach (var perk in Perks)
             {
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);

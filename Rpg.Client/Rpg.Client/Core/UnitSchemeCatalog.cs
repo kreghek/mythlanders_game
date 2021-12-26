@@ -420,7 +420,7 @@ namespace Rpg.Client.Core
                     },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                
+
                 new UnitScheme
                 {
                     TankRank = 0.0f,
