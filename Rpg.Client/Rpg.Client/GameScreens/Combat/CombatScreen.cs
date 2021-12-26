@@ -368,18 +368,12 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            if (_globe.CurrentEventNode is null)
-                            {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            }
-                            else
-                            {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                            }
-
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.CurrentBiome = _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
+                            _globe.CurrentEvent = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable).AssignedEvent;
+                            _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                            
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
                     }
                     else
