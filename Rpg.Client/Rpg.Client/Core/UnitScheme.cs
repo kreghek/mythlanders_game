@@ -83,7 +83,7 @@ namespace Rpg.Client.Core
                 return DAMAGE_BASE;
             }
 
-            return DAMAGE_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return DAMAGE_BASE * BossLevel.Value;
         }
 
         private float CalcHitPointsBase()

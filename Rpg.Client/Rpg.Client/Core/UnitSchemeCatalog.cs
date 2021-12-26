@@ -838,6 +838,7 @@ namespace Rpg.Client.Core
                             Name = UnitName.KosheyTheImmortal2,
                             Biome = BiomeType.Slavic,
                             IsMonster = true,
+                            BossLevel = 1,
 
                             SkillSets = new List<SkillSet>
                             {
@@ -865,6 +866,7 @@ namespace Rpg.Client.Core
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biome = BiomeType.Slavic,
                                     IsMonster = true,
+                                    BossLevel = 1,
 
                                     SkillSets = new List<SkillSet>
                                     {
