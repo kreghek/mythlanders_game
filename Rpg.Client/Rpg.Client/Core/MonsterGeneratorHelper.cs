@@ -13,7 +13,9 @@ namespace Rpg.Client.Core
                 .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
                                                       x.MinRequiredBiomeLevel is not null &&
                                                       x.MinRequiredBiomeLevel.Value <= biome.Level))
-                .Where(x => x.Biome == biome.Type && ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) || x.LocationSids is null))
+                .Where(x => x.Biome == biome.Type &&
+                            ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) ||
+                             x.LocationSids is null))
                 .ToList();
 
             if (availableMonsters.Any(x => x.BossLevel is not null))
@@ -55,6 +57,19 @@ namespace Rpg.Client.Core
             return units;
         }
 
+        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters,
+            int predefinedMinMonsterCount)
+        {
+            if (node.IsLast && !biome.IsComplete)
+            {
+                return 1;
+            }
+
+            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
+            var monsterCount = availableMinMonsterCount;
+            return monsterCount;
+        }
+
         private static int[] GetPredefinedMonsterCounts(int level)
         {
             return level switch
@@ -72,18 +87,6 @@ namespace Rpg.Client.Core
             // +1 because combat starts with zero.
             // But a unit's level have to starts with 1.
             return combatLevel + 1;
-        }
-
-        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters, int predefinedMinMonsterCount)
-        {
-            if (node.IsLast && !biome.IsComplete)
-            {
-                return 1;
-            }
-
-            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            var monsterCount = availableMinMonsterCount;
-            return monsterCount;
         }
     }
 }

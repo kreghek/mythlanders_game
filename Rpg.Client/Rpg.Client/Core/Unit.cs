@@ -67,8 +67,6 @@ namespace Rpg.Client.Core
 
         public int HitPoints { get; set; }
 
-        public int ShieldPoints { get; set; }
-
         public bool IsDead => HitPoints <= 0;
 
         public bool IsPlayerControlled { get; init; }
@@ -86,6 +84,8 @@ namespace Rpg.Client.Core
         public IEnumerable<IPerk> Perks { get; }
 
         public float Power => CalcPower();
+
+        public int ShieldPoints { get; set; }
 
         public IReadOnlyList<ISkill> Skills { get; set; }
 

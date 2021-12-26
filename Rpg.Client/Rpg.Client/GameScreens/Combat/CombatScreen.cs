@@ -109,7 +109,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Vector2(200, 350),
                 new Vector2(350, 250),
                 new Vector2(350, 350),
-                new Vector2(150, 300),
+                new Vector2(150, 300)
             };
 
             _screenShaker = new ScreenShaker();
@@ -372,7 +372,8 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                            _globeProvider.Globe.CurrentBiome = _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
+                            _globeProvider.Globe.CurrentBiome =
+                                _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
                             var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
                             _globe.CurrentEvent = startGlobeNode.AssignedEvent;
                             _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
