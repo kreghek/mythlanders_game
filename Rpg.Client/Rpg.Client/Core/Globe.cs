@@ -85,7 +85,8 @@ namespace Rpg.Client.Core
                             Level = combatLevel,
                             EnemyGroup = new Group(),
                             IsTrainingOnly = combatToTrainingIndex == locationIndex &&
-                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4
+                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4,
+                            IsBossLevel = selectedNode.Item2
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
