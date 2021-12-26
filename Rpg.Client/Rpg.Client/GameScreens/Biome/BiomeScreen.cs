@@ -173,7 +173,8 @@ namespace Rpg.Client.GameScreens.Biome
                         {
                             var centerNodePosition = _resolutionIndependenceRenderer.VirtualBounds.Center.ToVector2();
                             var firstNodePosition = centerNodePosition - Vector2.UnitY * 128;
-                            var locationObject = new LocationGameObject(node.Index % 3, node.Index / 3,
+                            var index = (int)node.Sid % 100;
+                            var locationObject = new LocationGameObject(index % 3, index / 3,
                                 firstNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
                         }

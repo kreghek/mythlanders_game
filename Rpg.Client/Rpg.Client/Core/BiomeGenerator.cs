@@ -65,7 +65,6 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
-                            Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
                             Sid = GetNodeSid(x, BiomeType.Slavic),
                             IsAvailable = GetStartAvailability(x),
@@ -80,7 +79,6 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
-                            Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Chinese),
                             Sid = GetNodeSid(x, BiomeType.Chinese),
                             IsAvailable = GetStartAvailability(x),
@@ -94,7 +92,6 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
-                            Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Egyptian),
                             Sid = GetNodeSid(x, BiomeType.Egyptian),
                             IsAvailable = GetStartAvailability(x),
@@ -108,7 +105,6 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
-                            Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Greek),
                             Sid = GetNodeSid(x, BiomeType.Greek),
                             IsAvailable = GetStartAvailability(x),

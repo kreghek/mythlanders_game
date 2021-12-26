@@ -6,14 +6,14 @@ namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
-        public static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
+        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
             var availableMonsters = unitSchemeCatalog.AllMonsters
                 .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
                                                       x.MinRequiredBiomeLevel is not null &&
                                                       x.MinRequiredBiomeLevel.Value <= biome.Level))
-                .Where(x => x.Biome == biome.Type && x.NodeIndexes.Contains(node.Index))
+                .Where(x => x.Biome == biome.Type && ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) || x.LocationSids is null))
                 .ToList();
 
             var rolledUnits = new List<UnitScheme>();

@@ -37,7 +37,7 @@ namespace Rpg.Client.Core
 
         public UnitName Name { get; init; }
 
-        public IEnumerable<int>? NodeIndexes { get; init; }
+        public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
         public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
 

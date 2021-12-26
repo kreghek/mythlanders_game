@@ -347,7 +347,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.Monastery, GlobeNodeSid.GaintBamboo, GlobeNodeSid.EmperorTomb, GlobeNodeSid.SecretTown, GlobeNodeSid.GreatWall, GlobeNodeSid.RiseFields, GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -365,214 +365,12 @@ namespace Rpg.Client.Core
                 new UnitScheme
                 {
                     TankRank = 0.0f,
-                    DamageDealerRank = 0.4f,
-                    SupportRank = 0.6f,
-
-                    Name = UnitName.Bear,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(), // Bite
-                                new DefenseStanceSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Wisp,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new BowShotSkill(),
-                                new ArrowRainSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Volkolak,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Korgorush,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new HealSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Stryga,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new HealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Vampire,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new MassHealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.HornedFrog,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DefenseStanceSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Basilisk,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
                     Name = UnitName.Taote,
                     Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.SkyTower },
 
                     BossLevel = 2,
                     IsMonster = true,
@@ -607,7 +405,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk, GlobeNodeSid.ScreamValey },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -616,217 +414,13 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(), // Bite
-                                new PowerUpSkill(), // Wolf howl
-                                new HealSkill() // lick wounds
+                                new MonsterAttackSkill()
                             }
                         }
                     },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Bear,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(), // Bite
-                                new DefenseStanceSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Wisp,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new BowShotSkill(),
-                                new ArrowRainSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Volkolak,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Korgorush,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new HealSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Stryga,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new HealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Vampire,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new MassHealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.HornedFrog,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DefenseStanceSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Basilisk,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
+                
                 new UnitScheme
                 {
                     TankRank = 0.0f,
@@ -835,6 +429,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Sphynx,
                     Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.ScreamValey },
 
                     BossLevel = 3,
                     IsMonster = true,
@@ -869,7 +464,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.ShipGraveyard, GlobeNodeSid.Vines, GlobeNodeSid.Garden, GlobeNodeSid.Palace, GlobeNodeSid.Labirinth },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -878,212 +473,7 @@ namespace Rpg.Client.Core
                         {
                             Skills = new List<SkillBase>
                             {
-                                new MonsterAttackSkill(), // Bite
-                                new PowerUpSkill(), // Wolf howl
-                                new HealSkill() // lick wounds
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Bear,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(), // Bite
-                                new DefenseStanceSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Wisp,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new BowShotSkill(),
-                                new ArrowRainSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Volkolak,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new PowerUpSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Korgorush,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new HealSkill(),
-                                new WideSlashSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Stryga,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new WideSlashSkill(),
-                                new HealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Vampire,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new MassHealSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.HornedFrog,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DefenseStanceSkill()
-                            }
-                        }
-                    },
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
-                },
-                new UnitScheme
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Basilisk,
-                    Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
-                    IsUnique = true,
-                    IsMonster = true,
-
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new MonsterAttackSkill(),
-                                new DopeHerbSkill(),
-                                new WideSlashSkill()
+                                new MonsterAttackSkill()
                             }
                         }
                     },
@@ -1097,6 +487,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Hydra,
                     Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.Labirinth },
 
                     BossLevel = 4,
                     IsMonster = true,
@@ -1131,7 +522,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1160,7 +551,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1187,7 +578,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 4 },
+                    LocationSids = new[] { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1218,7 +609,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
+                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1241,7 +632,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.VolkolakWarrior,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 2, 3, 5 },
+                    LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1297,7 +688,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
+                    LocationSids = new[] { GlobeNodeSid.Hermitage },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1321,7 +712,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Stryga,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
+                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1344,7 +735,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Vampire,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 6, 7, 8 },
+                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1368,7 +759,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.HornedFrog,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
+                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -1391,7 +782,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Basilisk,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 7, 8, 9 },
+                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -1432,7 +823,7 @@ namespace Rpg.Client.Core
                         }
                     },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
-                    NodeIndexes = new[] { 9 },
+                    LocationSids = new[] { GlobeNodeSid.Castle },
                     MinRequiredBiomeLevel = 10,
 
                     SchemeAutoTransition = new UnitSchemeAutoTransition
@@ -1460,7 +851,7 @@ namespace Rpg.Client.Core
                                     }
                                 }
                             },
-                            UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
+                            UnitGraphicsConfig = new KocheyDeadFormGraphicsConfig(),
 
                             SchemeAutoTransition = new UnitSchemeAutoTransition
                             {
@@ -1473,7 +864,6 @@ namespace Rpg.Client.Core
 
                                     Name = UnitName.KosheyTheImmortal3,
                                     Biome = BiomeType.Slavic,
-                                    NodeIndexes = new[] { 0, 1, 2 },
                                     IsMonster = true,
 
                                     SkillSets = new List<SkillSet>

@@ -657,15 +657,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void GainEquipmentItems(GlobeNode globeNode, Player? player)
-        {
-            var equipmentItemType = globeNode.EquipmentItem;
-
-            var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
-
-            targetUnit?.GainEquipmentItem(1);
-        }
-
         private Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
         {
             var targetUnitScheme =
@@ -751,10 +742,11 @@ namespace Rpg.Client.GameScreens.Combat
                         _combat.Biome.Level++;
                     }
 
-                    var nodeIndex = _globeNode.Index;
-                    var unlockedBiomeIndex = nodeIndex + 1;
+                    var nodeIndex = (int)_globeNode.Sid;
+                    var unlockedLocationIndex = nodeIndex + 1;
+                    var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
 
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == unlockedLocationSid);
                     if (unlockedNode is not null)
                     {
                         unlockedNode.IsAvailable = true;

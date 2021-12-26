@@ -62,7 +62,7 @@ namespace Rpg.Client.Core
                 Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
                 var nodesWithCombats = GetNodesWithCombats(biome, dice, availableNodes);
 
-                var combatCounts = GetCombatCounts(biome.Level);
+                var combatCounts = GetCombatSequnceLength(biome.Level);
                 var combatLevelAdditionalList = new[] { 0, -1, 3 };
                 var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                 var combatLevelAdditional = 0;
@@ -72,13 +72,13 @@ namespace Rpg.Client.Core
                 for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
                 {
                     var selectedNode = nodesWithCombats[locationIndex];
-                    var targetCombatCount = selectedNodeCombatCount[locationIndex];
+                    var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
                     var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
-                    for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
+                    for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
-                        var units = MonsterGeneratorHelper.CreateMonsters(selectedNode, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
+                        var units = MonsterGeneratorHelper.CreateMonsters(selectedNode.Item1, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
 
                         var combat = new CombatSource
                         {
@@ -102,7 +102,7 @@ namespace Rpg.Client.Core
                         Combats = combatList
                     };
 
-                    selectedNode.CombatSequence = combatSequence;
+                    selectedNode.Item1.CombatSequence = combatSequence;
 
                     combatLevelAdditional++;
                 }
@@ -179,7 +179,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static int[] GetCombatCounts(int level)
+        private static int[] GetCombatSequnceLength(int level)
         {
             return level switch
             {
@@ -193,17 +193,17 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static GlobeNode[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
+        private static (GlobeNode, bool)[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            const int BOSS_LOCATION_INDEX = 9;
+            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Castle;
 
-            var nodeList = new List<GlobeNode>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => x.Index == BOSS_LOCATION_INDEX);
+            var nodeList = new List<(GlobeNode, bool)>(3);
+            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
             int targetCount;
             if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
             {
-                nodeList.Add(bossLocation);
+                nodeList.Add(new (bossLocation, true));
                 targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
             }
             else
@@ -212,7 +212,10 @@ namespace Rpg.Client.Core
             }
 
             var regularLocations = dice.RollFromList(availableNodes, targetCount);
-            nodeList.AddRange(regularLocations);
+            foreach (var location in regularLocations)
+            {
+                nodeList.Add(new(location, false));
+            }
 
             return nodeList.ToArray();
         }
