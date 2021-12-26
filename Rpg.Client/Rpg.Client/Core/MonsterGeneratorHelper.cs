@@ -16,6 +16,15 @@ namespace Rpg.Client.Core
                 .Where(x => x.Biome == biome.Type && ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) || x.LocationSids is null))
                 .ToList();
 
+            if (availableMonsters.Any(x => x.BossLevel is not null))
+            {
+                // This location for a boss.
+                // Boss has higher priority so generate only one boss and ignore other units.
+                var bossScheme = availableMonsters.Single(x => x.BossLevel is not null);
+                var unit = new Unit(bossScheme, combatLevel);
+                return new[] { unit };
+            }
+
             var rolledUnits = new List<UnitScheme>();
 
             var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(combatLevel);

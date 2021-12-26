@@ -735,7 +735,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Vampire,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
+                    LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp, GlobeNodeSid.Castle },
                     IsUnique = true,
                     IsMonster = true,
 
