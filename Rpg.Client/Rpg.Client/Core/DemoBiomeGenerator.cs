@@ -64,7 +64,6 @@ namespace Rpg.Client.Core
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
-                            Index = x,
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
                             Sid = GetNodeSid(x, BiomeType.Slavic),
                             IsAvailable = GetStartAvailability(x)

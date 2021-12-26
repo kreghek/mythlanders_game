@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -92,43 +93,19 @@ namespace Rpg.Client.GameScreens
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
             {
                 {
-                    BackgroundType.SlavicDarkThicket, new Texture2D[]
-                    {
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/CloudsLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/FarLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/MainLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/ClosestLayer")
-                    }
+                    BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.Thicket)
                 },
 
                 {
-                    BackgroundType.SlavicBattleground, new Texture2D[]
-                    {
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/CloudsLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/FarLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer")
-                    }
+                    BackgroundType.SlavicBattleground, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.Battleground)
                 },
 
                 {
-                    BackgroundType.SlavicSwamp, new Texture2D[]
-                    {
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/CloudsLayer"),
-                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/FarLayer"),
-                        contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer"),
-                        contentManager.Load<Texture2D>(
-                            "Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/ClosestLayer")
-                    }
+                    BackgroundType.SlavicSwamp, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.Swamp)
+                },
+
+                {
+                    BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, GlobeNodeSid.Monastery)
                 }
             };
 
@@ -255,6 +232,31 @@ namespace Rpg.Client.GameScreens
 
             _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
             _equipmentIcons = contentManager.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons");
+
+            Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
+            {
+                var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(), locationSid.ToString(), $"{layerType}Layer");
+                return contentManager.Load<Texture2D>(imagePath);
+            }
+
+            Texture2D[] LoadBackgroundLayers(BiomeType biomeType, GlobeNodeSid locationSid)
+            {
+                return new Texture2D[]
+                {
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Clouds),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Far),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Main),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest),
+                };
+            }
+        }
+
+        private enum BackgroundLayerType
+        { 
+            Clouds,
+            Far,
+            Main,
+            Closest
         }
 
         internal Texture2D GetBiomeClouds()

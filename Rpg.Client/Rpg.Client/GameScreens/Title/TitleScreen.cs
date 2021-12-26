@@ -55,28 +55,30 @@ namespace Rpg.Client.GameScreens.Title
 
             _buttons = new List<ButtonBase>();
 
-            var emptyRect = new Rectangle();
-            var startButton = new ResourceTextButton(
-                nameof(UiResource.StartGameButtonTitle),
-                buttonTexture,
-                _font,
-                emptyRect);
-            startButton.OnClick += StartButton_OnClick;
-            _buttons.Add(startButton);
-
-            var settingsButton = new ResourceTextButton(
-                nameof(UiResource.SettingsButtonTitle),
-                buttonTexture,
-                _font,
-                emptyRect);
-            settingsButton.OnClick += SettingsButton_OnClick;
-            _buttons.Add(settingsButton);
-
             var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, _font);
             if (loadGameButton is not null)
             {
                 _buttons.Add(loadGameButton);
             }
+            else
+            {
+                var startButton = new ResourceTextButton(
+                nameof(UiResource.StartGameButtonTitle),
+                buttonTexture,
+                _font,
+                Rectangle.Empty);
+                startButton.OnClick += StartButton_OnClick;
+
+                _buttons.Add(startButton);
+            }
+
+            var settingsButton = new ResourceTextButton(
+                nameof(UiResource.SettingsButtonTitle),
+                buttonTexture,
+                _font,
+                Rectangle.Empty);
+            settingsButton.OnClick += SettingsButton_OnClick;
+            _buttons.Add(settingsButton);
 
             var exitGameButton = new ResourceTextButton(
                 nameof(UiResource.ExitGameButtonTitle),

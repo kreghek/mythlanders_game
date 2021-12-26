@@ -62,7 +62,7 @@ namespace Rpg.Client.Core
                 Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
                 var nodesWithCombats = GetNodesWithCombats(biome, dice, availableNodes);
 
-                var combatCounts = GetCombatCounts(biome.Level);
+                var combatCounts = GetCombatSequnceLength(biome.Level);
                 var combatLevelAdditionalList = new[] { 0, -1, 3 };
                 var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                 var combatLevelAdditional = 0;
@@ -72,20 +72,21 @@ namespace Rpg.Client.Core
                 for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
                 {
                     var selectedNode = nodesWithCombats[locationIndex];
-                    var targetCombatCount = selectedNodeCombatCount[locationIndex];
+                    var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
                     var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
-                    for (var combatIndex = 0; combatIndex < targetCombatCount; combatIndex++)
+                    for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
-                        var units = CreateMonsters(selectedNode, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
+                        var units = MonsterGeneratorHelper.CreateMonsters(selectedNode.Item1, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
 
                         var combat = new CombatSource
                         {
                             Level = combatLevel,
                             EnemyGroup = new Group(),
                             IsTrainingOnly = combatToTrainingIndex == locationIndex &&
-                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4
+                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4,
+                            IsBossLevel = selectedNode.Item2
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
@@ -102,7 +103,7 @@ namespace Rpg.Client.Core
                         Combats = combatList
                     };
 
-                    selectedNode.CombatSequence = combatSequence;
+                    selectedNode.Item1.CombatSequence = combatSequence;
 
                     combatLevelAdditional++;
                 }
@@ -179,47 +180,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static IEnumerable<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
-            IUnitSchemeCatalog unitSchemeCatalog)
-        {
-            var availableMonsters = unitSchemeCatalog.AllMonsters
-                .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
-                                                      x.MinRequiredBiomeLevel is not null &&
-                                                      x.MinRequiredBiomeLevel.Value <= biome.Level))
-                .Where(x => x.Biome == biome.Type && x.NodeIndexes.Contains(node.Index))
-                .ToList();
-
-            var rolledUnits = new List<UnitScheme>();
-
-            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(combatLevel);
-            var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
-            var monsterCount = GetMonsterCount(node, biome, availableMonsters, predefinedMinMonsterCount);
-
-            for (var i = 0; i < monsterCount; i++)
-            {
-                var scheme = dice.RollFromList(availableMonsters, 1).Single();
-
-                rolledUnits.Add(scheme);
-
-                if (scheme.IsUnique)
-                {
-                    // Remove all unique monsters from roll list.
-                    availableMonsters.RemoveAll(x => x.IsUnique);
-                }
-            }
-
-            var units = new List<Unit>();
-            foreach (var unitScheme in rolledUnits)
-            {
-                var unitLevel = GetUnitLevel(combatLevel);
-                var unit = new Unit(unitScheme, unitLevel);
-                units.Add(unit);
-            }
-
-            return units;
-        }
-
-        private static int[] GetCombatCounts(int level)
+        private static int[] GetCombatSequnceLength(int level)
         {
             return level switch
             {
@@ -233,30 +194,17 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters,
-            int predefinedMinMonsterCount)
-        {
-            if (node.Index == 9 && !biome.IsComplete)
-            {
-                return 1;
-            }
-
-            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            var monsterCount = availableMinMonsterCount;
-            return monsterCount;
-        }
-
-        private static GlobeNode[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
+        private static (GlobeNode, bool)[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            const int BOSS_LOCATION_INDEX = 9;
+            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Castle;
 
-            var nodeList = new List<GlobeNode>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => x.Index == BOSS_LOCATION_INDEX);
+            var nodeList = new List<(GlobeNode, bool)>(3);
+            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
             int targetCount;
             if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
             {
-                nodeList.Add(bossLocation);
+                nodeList.Add(new (bossLocation, true));
                 targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
             }
             else
@@ -265,28 +213,12 @@ namespace Rpg.Client.Core
             }
 
             var regularLocations = dice.RollFromList(availableNodes, targetCount);
-            nodeList.AddRange(regularLocations);
+            foreach (var location in regularLocations)
+            {
+                nodeList.Add(new(location, false));
+            }
 
             return nodeList.ToArray();
-        }
-
-        private static int[] GetPredefinedMonsterCounts(int level)
-        {
-            return level switch
-            {
-                0 or 1 => new[] { 1, 2, 3 },
-                2 => new[] { 1, 2, 2, 3 },
-                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
-                > 10 => new[] { 3, 3, 3 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };
-        }
-
-        private static int GetUnitLevel(int combatLevel)
-        {
-            // +1 because combat starts with zero.
-            // But a unit's level have to starts with 1.
-            return combatLevel + 1;
         }
 
         private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)

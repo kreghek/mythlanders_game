@@ -67,6 +67,8 @@ namespace Rpg.Client.Core
 
         public int HitPoints { get; set; }
 
+        public int ShieldPoints { get; set; }
+
         public bool IsDead => HitPoints <= 0;
 
         public bool IsPlayerControlled { get; init; }
@@ -77,7 +79,9 @@ namespace Rpg.Client.Core
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
-        public int MaxHitPoints { get; set; }
+        public int MaxHitPoints { get; private set; }
+
+        public int MaxShieldPoints { get; private set; }
 
         public IEnumerable<IPerk> Perks { get; }
 
@@ -120,7 +124,7 @@ namespace Rpg.Client.Core
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool GainEquipmentItem(int amount)
+        public void GainEquipmentItem(int amount)
         {
             var items = EquipmentItems;
             var level = EquipmentLevel;
@@ -134,15 +138,13 @@ namespace Rpg.Client.Core
             {
                 InitStats(UnitScheme);
             }
-
-            return wasLevelUp;
         }
 
         /// <summary>
         /// Increase XP.
         /// </summary>
         /// <returns>Returns true is level up.</returns>
-        public bool GainXp(int amount)
+        public void GainXp(int amount)
         {
             var xp = Xp;
             var level = Level;
@@ -156,8 +158,6 @@ namespace Rpg.Client.Core
             {
                 InitStats(UnitScheme);
             }
-
-            return wasLevelUp;
         }
 
         public void RestoreHitPoints(int heal)
@@ -323,7 +323,7 @@ namespace Rpg.Client.Core
             var maxHitPoints = (int)Math.Round(
                 unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
                 MidpointRounding.AwayFromZero);
-
+            
             foreach (var perk in Perks)
             {
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);

@@ -37,7 +37,7 @@ namespace Rpg.Client.Core
 
         public UnitName Name { get; init; }
 
-        public IEnumerable<int>? NodeIndexes { get; init; }
+        public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
         public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
 
@@ -83,7 +83,7 @@ namespace Rpg.Client.Core
                 return DAMAGE_BASE;
             }
 
-            return DAMAGE_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return DAMAGE_BASE * BossLevel.Value;
         }
 
         private float CalcHitPointsBase()

@@ -11,6 +11,7 @@ namespace Rpg.Client.GameScreens
                 GlobeNodeSid.Thicket => BackgroundType.SlavicDarkThicket,
                 GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
                 GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
+                GlobeNodeSid.Monastery => BackgroundType.ChineseMonastery,
                 _ => BackgroundType.SlavicBattleground
             };
         }

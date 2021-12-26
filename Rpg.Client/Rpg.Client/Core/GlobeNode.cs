@@ -8,10 +8,9 @@
 
         public EquipmentItemType? EquipmentItem { get; set; }
 
-        public int Index { get; internal set; }
-
         public bool IsAvailable { get; set; }
 
         public GlobeNodeSid Sid { get; set; }
+        public bool IsLast { get; internal set; }
     }
 }

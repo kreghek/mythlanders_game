@@ -47,7 +47,6 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
             CombatSource = globeNode.CombatSequence?.Combats.FirstOrDefault();
             GlobeNode = globeNode;
             Position = position;
-            Index = globeNode.Index;
             AvailableEvent = globeNode.AssignedEvent;
         }
 
@@ -55,7 +54,6 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
 
         public CombatSource? CombatSource { get; }
         public GlobeNode GlobeNode { get; }
-        public int Index { get; }
         public Vector2 Position { get; }
 
         public void Draw(SpriteBatch spriteBatch)

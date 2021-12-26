@@ -130,7 +130,7 @@ namespace Rpg.Client.Core
                 Events = GetUsedEventDtos(_eventCatalog.Events),
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
-            var serializedSave = JsonSerializer.Serialize(progress);
+            var serializedSave = JsonSerializer.Serialize(progress, options: new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 

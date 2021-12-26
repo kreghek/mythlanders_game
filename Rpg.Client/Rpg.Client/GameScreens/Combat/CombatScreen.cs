@@ -106,7 +106,10 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 new Vector2(300, 300),
                 new Vector2(200, 250),
-                new Vector2(200, 350)
+                new Vector2(200, 350),
+                new Vector2(350, 250),
+                new Vector2(350, 350),
+                new Vector2(150, 300),
             };
 
             _screenShaker = new ScreenShaker();
@@ -368,18 +371,19 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            if (_globe.CurrentEventNode is null)
-                            {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            }
-                            else
-                            {
-                                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                            }
+                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.CurrentBiome = _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
+                            var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
+                            _globe.CurrentEvent = startGlobeNode.AssignedEvent;
+                            _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
-                            _globeProvider.StoreGlobe();
+                            _globe.CurrentEvent.Counter++;
+
+                            var combatSource = startGlobeNode.CombatSequence.Combats.First();
+                            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
+                                combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
+
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
                     }
                     else
@@ -657,15 +661,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void GainEquipmentItems(GlobeNode globeNode, Player? player)
-        {
-            var equipmentItemType = globeNode.EquipmentItem;
-
-            var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
-
-            targetUnit?.GainEquipmentItem(1);
-        }
-
         private Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
         {
             var targetUnitScheme =
@@ -751,10 +746,11 @@ namespace Rpg.Client.GameScreens.Combat
                         _combat.Biome.Level++;
                     }
 
-                    var nodeIndex = _globeNode.Index;
-                    var unlockedBiomeIndex = nodeIndex + 1;
+                    var nodeIndex = (int)_globeNode.Sid;
+                    var unlockedLocationIndex = nodeIndex + 1;
+                    var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
 
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Index == unlockedBiomeIndex);
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == unlockedLocationSid);
                     if (unlockedNode is not null)
                     {
                         unlockedNode.IsAvailable = true;

@@ -125,7 +125,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -154,7 +154,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 0, 1, 2 },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -177,7 +177,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 3 },
+                    LocationSids = new[] { GlobeNodeSid.Battleground },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -208,7 +208,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 1, 2, 3 },
+                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.Pit, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -231,7 +231,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Volkolak,
                     Biome = biomeType,
-                    NodeIndexes = new[] { 3 },
+                    LocationSids = new[] { GlobeNodeSid.Battleground },
                     IsUnique = true,
                     IsMonster = true,
                     BossLevel = 1,
