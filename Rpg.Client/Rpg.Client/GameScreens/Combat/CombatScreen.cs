@@ -106,7 +106,10 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 new Vector2(300, 300),
                 new Vector2(200, 250),
-                new Vector2(200, 350)
+                new Vector2(200, 350),
+                new Vector2(350, 250),
+                new Vector2(350, 350),
+                new Vector2(150, 300),
             };
 
             _screenShaker = new ScreenShaker();
@@ -370,9 +373,14 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             _globeProvider.Globe.CurrentBiome = _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
-                            _globe.CurrentEvent = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable).AssignedEvent;
+                            var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
+                            _globe.CurrentEvent = startGlobeNode.AssignedEvent;
                             _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
-                            
+
+                            var combatSource = startGlobeNode.CombatSequence.Combats.First();
+                            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
+                                combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
+
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
                     }

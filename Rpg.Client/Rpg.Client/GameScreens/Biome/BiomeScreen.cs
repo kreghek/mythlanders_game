@@ -267,12 +267,16 @@ namespace Rpg.Client.GameScreens.Biome
         {
             _screenTransition = true;
 
-            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, _hoverNodeGameObject.GlobeNode,
-                _hoverNodeGameObject.CombatSource, _biome, _dice, isAutoplay: autoCombat);
+            var globeNode = _hoverNodeGameObject.GlobeNode;
+            var combatSource = globeNode.CombatSequence.Combats.First();
+            var availableEvent = _hoverNodeGameObject.AvailableEvent;
 
-            if (_hoverNodeGameObject.AvailableEvent is not null)
+            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, globeNode,
+                combatSource, _biome, _dice, isAutoplay: autoCombat);
+
+            if (availableEvent is not null)
             {
-                _globe.CurrentEvent = _hoverNodeGameObject.AvailableEvent;
+                _globe.CurrentEvent = availableEvent;
                 _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                 _globe.CurrentEvent.Counter++;
