@@ -33,11 +33,11 @@ namespace Rpg.Client.Core
 
         public bool IsUnique { get; init; }
 
+        public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
+
         public int? MinRequiredBiomeLevel { get; init; }
 
         public UnitName Name { get; init; }
-
-        public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
         public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
 

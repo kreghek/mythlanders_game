@@ -63,10 +63,10 @@ namespace Rpg.Client.GameScreens.Title
             else
             {
                 var startButton = new ResourceTextButton(
-                nameof(UiResource.StartGameButtonTitle),
-                buttonTexture,
-                _font,
-                Rectangle.Empty);
+                    nameof(UiResource.StartGameButtonTitle),
+                    buttonTexture,
+                    _font,
+                    Rectangle.Empty);
                 startButton.OnClick += StartButton_OnClick;
 
                 _buttons.Add(startButton);

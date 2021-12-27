@@ -235,28 +235,21 @@ namespace Rpg.Client.GameScreens
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
-                var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(), locationSid.ToString(), $"{layerType}Layer");
+                var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
+                    locationSid.ToString(), $"{layerType}Layer");
                 return contentManager.Load<Texture2D>(imagePath);
             }
 
             Texture2D[] LoadBackgroundLayers(BiomeType biomeType, GlobeNodeSid locationSid)
             {
-                return new Texture2D[]
+                return new[]
                 {
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Clouds),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Far),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Main),
-                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
             }
-        }
-
-        private enum BackgroundLayerType
-        { 
-            Clouds,
-            Far,
-            Main,
-            Closest
         }
 
         internal Texture2D GetBiomeClouds()
@@ -342,6 +335,14 @@ namespace Rpg.Client.GameScreens
         internal Texture2D GetUnitShadow()
         {
             return _shadowTexture;
+        }
+
+        private enum BackgroundLayerType
+        {
+            Clouds,
+            Far,
+            Main,
+            Closest
         }
     }
 }

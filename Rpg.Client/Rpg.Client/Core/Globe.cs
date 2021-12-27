@@ -78,7 +78,8 @@ namespace Rpg.Client.Core
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
-                        var units = MonsterGeneratorHelper.CreateMonsters(selectedNode.Item1, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
+                        var units = MonsterGeneratorHelper
+                            .CreateMonsters(selectedNode.Item1, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
 
                         var combat = new CombatSource
                         {
@@ -204,7 +205,7 @@ namespace Rpg.Client.Core
             int targetCount;
             if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
             {
-                nodeList.Add(new (bossLocation, true));
+                nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
             }
             else

@@ -347,7 +347,12 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Monastery, GlobeNodeSid.GaintBamboo, GlobeNodeSid.EmperorTomb, GlobeNodeSid.SecretTown, GlobeNodeSid.GreatWall, GlobeNodeSid.RiseFields, GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Monastery, GlobeNodeSid.GaintBamboo, GlobeNodeSid.EmperorTomb,
+                        GlobeNodeSid.SecretTown, GlobeNodeSid.GreatWall, GlobeNodeSid.RiseFields,
+                        GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower
+                    },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -405,7 +410,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk, GlobeNodeSid.ScreamValey },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
+                        GlobeNodeSid.ScreamValey
+                    },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -420,7 +429,7 @@ namespace Rpg.Client.Core
                     },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                
+
                 new UnitScheme
                 {
                     TankRank = 0.0f,
@@ -464,7 +473,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.ShipGraveyard, GlobeNodeSid.Vines, GlobeNodeSid.Garden, GlobeNodeSid.Palace, GlobeNodeSid.Labirinth },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.ShipGraveyard, GlobeNodeSid.Vines, GlobeNodeSid.Garden, GlobeNodeSid.Palace,
+                        GlobeNodeSid.Labirinth
+                    },
                     IsMonster = true,
 
                     SkillSets = new List<SkillSet>
@@ -578,7 +591,8 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
+                    LocationSids = new[]
+                        { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
                     IsMonster = true,
 
