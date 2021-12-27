@@ -67,7 +67,6 @@ namespace Rpg.Client.GameScreens.Combat
         public CombatScreen(EwarGame game) : base(game)
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-            soundtrackManager.PlayBattleTrack();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _camera = Game.Services.GetService<Camera2D>();
@@ -79,6 +78,7 @@ namespace Rpg.Client.GameScreens.Combat
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _combat.Node;
+            soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();

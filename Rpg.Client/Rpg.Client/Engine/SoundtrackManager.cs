@@ -3,6 +3,8 @@ using System.Linq;
 
 using Microsoft.Xna.Framework.Media;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
@@ -32,13 +34,17 @@ namespace Rpg.Client.Engine
             IsInitialized = true;
         }
 
-        public void PlayBattleTrack()
+        private BiomeType _currentBiome;
+
+        public void PlayBattleTrack(BiomeType type)
         {
+            _currentBiome = type;
             ChangeState("battle");
         }
 
         public void PlayDefeatTrack()
         {
+            _transition = true;
             ChangeState("defeat");
         }
 
@@ -59,6 +65,7 @@ namespace Rpg.Client.Engine
 
         public void PlayVictoryTrack()
         {
+            _transition = true;
             ChangeState("victory");
         }
 
@@ -120,7 +127,7 @@ namespace Rpg.Client.Engine
 
                         if (_uiContentStorage is not null)
                         {
-                            var songs = _uiContentStorage.GetBattleSongs().ToArray();
+                            var songs = _uiContentStorage.GetBattleSongs(_currentBiome).ToArray();
                             var soundIndex = _random.Next(0, songs.Length);
                             var song = songs[soundIndex];
 
@@ -132,19 +139,22 @@ namespace Rpg.Client.Engine
                         }
                     }
 
-                    //_counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                    //if (_counter >= DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
-                    //{
-                    //    _counter = 0;
-
-                    //    PlayVictoryTrack();
-                    //}
-
                     break;
 
                 case "victory":
                     if (_changeTrack)
                     {
+                        if (_transition)
+                        {
+                            _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                            if (_counter < DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
+                            {
+                                return;
+                            }
+
+                            _counter = 0;
+                        }
+
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -164,6 +174,17 @@ namespace Rpg.Client.Engine
                 case "defeat":
                     if (_changeTrack)
                     {
+                        if (_transition)
+                        {
+                            _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
+                            if (_counter < DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
+                            {
+                                return;
+                            }
+
+                            _counter = 0;
+                        }
+
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -182,9 +203,10 @@ namespace Rpg.Client.Engine
             }
         }
 
-        //private double _counter;
-        //private const double DURATION_MS = 2051;  // 117 bmp https://vk.com/away.php?to=https%3A%2F%2Ftoolstud.io%2Fmusic%2Fbpm.php%3Fbpm%3D117%26bpm_unit%3D4%252F4&cc_key=
+        private double _counter;
+        private const double DURATION_MS = 2051;  // 117 bmp https://toolstud.io/music/bpm.php?bpm=117&bpm_unit=4%2F4
         // this is 2051 * 4 * (1 + 2 + 2 + 2) full length
+        private bool _transition;
 
         private void ChangeState(string targetState)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
-        private Song[] _battleTracks;
+        private (BiomeType, Song)[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D? _buttonTexture;
         private SpriteFont _combatIndicatorFont;
@@ -103,8 +104,9 @@ namespace Rpg.Client.Engine
             };
             _battleTracks = new[]
             {
-                contentManager.Load<Song>("Audio/Background/Battle"),
-                contentManager.Load<Song>("Audio/Background/Battle2")
+                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
+                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
@@ -133,9 +135,9 @@ namespace Rpg.Client.Engine
             return _mapTracks;
         }
 
-        public IEnumerable<Song> GetBattleSongs()
+        public IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome)
         {
-            return _battleTracks;
+            return _battleTracks.Where(x=>x.Item1 == currentBiome).Select(x=>x.Item2).ToList();
         }
 
         public Song GetVictorySong()
