@@ -23,6 +23,8 @@ namespace Rpg.Client.Core.Skills
         ParaliticChor,
         FingerOfAnubis,
         WispEnergy,
-        VolkolakWarriorEnergyBurst
+        VolkolakWarriorEnergyBurst,
+        HealMantre,
+        PathOf1000Firsts
     }
 }
