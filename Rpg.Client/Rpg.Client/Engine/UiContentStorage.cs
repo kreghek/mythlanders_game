@@ -137,7 +137,7 @@ namespace Rpg.Client.Engine
 
         public IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome)
         {
-            return _battleTracks.Where(x=>x.Item1 == currentBiome).Select(x=>x.Item2).ToList();
+            return _battleTracks.Where(x => x.Item1 == currentBiome).Select(x => x.Item2).ToList();
         }
 
         public Song GetVictorySong()
