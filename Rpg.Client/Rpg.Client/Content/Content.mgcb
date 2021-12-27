@@ -25,6 +25,12 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Battle2.ogg
 
+#begin Audio/Background/BattleChinese.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/BattleChinese.ogg
+
 #begin Audio/Background/Defeat.ogg
 /importer:OggImporter
 /processor:SongProcessor

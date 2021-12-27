@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
-        private const int SPRITE_SHEET_COLUMN_COUNT = 3;
+        private const int SPRITE_SHEET_COLUMN_COUNT = 4;
 
         private readonly IDictionary<ButtonBase, CombatSkill> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
@@ -201,6 +201,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.HealingSalve => 6,
                 SkillSid.DopeHerb => 7,
                 SkillSid.MassHeal => 8,
+
+                SkillSid.StaffHit => 12,
+                SkillSid.HealMantre => 13,
+                SkillSid.PathOf1000Firsts => 14,
 
                 SkillSid.DarkLight => 9,
                 SkillSid.ParaliticChor => 10,
