@@ -10,13 +10,21 @@ namespace Rpg.Client.Engine
     internal sealed class SoundtrackManager
     {
         private const float MUSIC_VOLUME = 0.5f;
+        private const double DURATION_MS = 2051; // 117 bmp https://toolstud.io/music/bpm.php?bpm=117&bpm_unit=4%2F4
 
         private readonly Random _random;
 
         private bool _changeTrack;
+
+        private double _counter;
+
+        private BiomeType _currentBiome;
         private Song? _currentSong;
 
         private string? _state;
+
+        // this is 2051 * 4 * (1 + 2 + 2 + 2) full length
+        private bool _transition;
         private IUiContentStorage? _uiContentStorage;
 
         public SoundtrackManager()
@@ -33,8 +41,6 @@ namespace Rpg.Client.Engine
             _uiContentStorage = uiContentStorage;
             IsInitialized = true;
         }
-
-        private BiomeType _currentBiome;
 
         public void PlayBattleTrack(BiomeType type)
         {
@@ -147,7 +153,7 @@ namespace Rpg.Client.Engine
                         if (_transition)
                         {
                             _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                            if (_counter < DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
+                            if (_counter < DURATION_MS * 4 /* * (1 + 2 + 2 + 2 + 2)*/)
                             {
                                 return;
                             }
@@ -177,7 +183,7 @@ namespace Rpg.Client.Engine
                         if (_transition)
                         {
                             _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                            if (_counter < DURATION_MS * 4/* * (1 + 2 + 2 + 2 + 2)*/)
+                            if (_counter < DURATION_MS * 4 /* * (1 + 2 + 2 + 2 + 2)*/)
                             {
                                 return;
                             }
@@ -202,11 +208,6 @@ namespace Rpg.Client.Engine
                     break;
             }
         }
-
-        private double _counter;
-        private const double DURATION_MS = 2051;  // 117 bmp https://toolstud.io/music/bpm.php?bpm=117&bpm_unit=4%2F4
-        // this is 2051 * 4 * (1 + 2 + 2 + 2) full length
-        private bool _transition;
 
         private void ChangeState(string targetState)
         {

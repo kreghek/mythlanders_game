@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Tests
             // ARRANGE
 
             var node = new GlobeNode
-            { IsLast = true, Sid = GlobeNodeSid.Castle };
+                { IsLast = true, Sid = GlobeNodeSid.Castle };
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
@@ -55,7 +55,7 @@ namespace Rpg.Client.Core.Tests
             // ARRANGE
 
             var node = new GlobeNode
-            { IsLast = true, Sid = GlobeNodeSid.Castle };
+                { IsLast = true, Sid = GlobeNodeSid.Castle };
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
