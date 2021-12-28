@@ -141,6 +141,9 @@
 могут повлиять на
 текущий бой, отдельных персонажей или партию.</value>
   </data>
+  <data name="CombatLengthLabel" xml:space="preserve">
+    <value>Длительность сражения:</value>
+  </data>
   <data name="CombatLevelLavelTemplate" xml:space="preserve">
     <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
   </data>

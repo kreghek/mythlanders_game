@@ -136,6 +136,10 @@
   <data name="BiomeTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="CombatLengthLabel" xml:space="preserve">
+    <value>Combat length:</value>
+    <comment>Количество сражений в цепочке боёв</comment>
+  </data>
   <data name="CombatLevelLavelTemplate" xml:space="preserve">
     <value>Combat level: {0} ({1}/{2} exp)</value>
   </data>

@@ -115,6 +115,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Combat length:.
+        /// </summary>
+        internal static string CombatLengthLabel {
+            get {
+                return ResourceManager.GetString("CombatLengthLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat level: {0} ({1}/{2} exp).
         /// </summary>
         internal static string CombatLevelLavelTemplate {
