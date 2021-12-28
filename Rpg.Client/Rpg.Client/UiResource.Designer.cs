@@ -340,6 +340,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move to the pool.
+        /// </summary>
+        internal static string MoveToThePoolButtonTitle {
+            get {
+                return ResourceManager.GetString("MoveToThePoolButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Party.
         /// </summary>
         internal static string PartyButtonTitle {

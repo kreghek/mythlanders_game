@@ -12,7 +12,9 @@ namespace Rpg.Client.GameScreens.Party
 {
     internal sealed class PartyScreen : GameScreenBase
     {
-        private readonly IList<ButtonBase> _buttonList;
+        private readonly IList<ButtonBase> _navigationButtonList;
+        private readonly IList<ButtonBase> _unitButtonList;
+        private readonly IList<ButtonBase> _slotButtonList;
 
         private readonly Camera2D _camera;
         private readonly GlobeProvider _globeProvider;
@@ -30,7 +32,9 @@ namespace Rpg.Client.GameScreens.Party
             _camera = game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _buttonList = new List<ButtonBase>();
+            _navigationButtonList = new List<ButtonBase>();
+            _unitButtonList = new List<ButtonBase>();
+            _slotButtonList = new List<ButtonBase>();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -46,10 +50,17 @@ namespace Rpg.Client.GameScreens.Party
 
             var contentRect = _resolutionIndependentRenderer.VirtualBounds;
 
-            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
+            for (var buttonIndex = 0; buttonIndex < _navigationButtonList.Count; buttonIndex++)
             {
-                var button = _buttonList[characterIndex];
-                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
+                var button = _navigationButtonList[buttonIndex];
+                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + buttonIndex * 21, 100, 20);
+                button.Draw(spriteBatch);
+            }
+
+            for (var buttonIndex = 0; buttonIndex < _unitButtonList.Count; buttonIndex++)
+            {
+                var button = _unitButtonList[buttonIndex];
+                button.Rect = new Rectangle(contentRect.Left + 200, contentRect.Top + 200 + buttonIndex * 21, 100, 20);
                 button.Draw(spriteBatch);
             }
 
@@ -85,17 +96,18 @@ namespace Rpg.Client.GameScreens.Party
                     // TODO Display skill efficient - damages, durations, etc.
                 }
 
-                if (_globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter))
-                {
-                    var index = _globeProvider.Globe.Player.Party.GetUnits().ToList().IndexOf(_selectedCharacter);
-                    sb.Add(string.Format(UiResource.PartyMarkerLabelTemplate, index + 1));
-                }
-
                 for (var statIndex = 0; statIndex < sb.Count; statIndex++)
                 {
                     var line = sb[statIndex];
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
                         new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                }
+
+                for (var buttonIndex = 0; buttonIndex < _slotButtonList.Count; buttonIndex++)
+                {
+                    var button = _slotButtonList[buttonIndex];
+                    button.Rect = new Rectangle(contentRect.Center.X, contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
+                    button.Draw(spriteBatch);
                 }
             }
 
@@ -109,7 +121,15 @@ namespace Rpg.Client.GameScreens.Party
                 var globe = _globeProvider.Globe;
                 var playerCharacters = globe.Player.Party.GetUnits().Concat(globe.Player.Pool.Units).ToArray();
 
-                _buttonList.Clear();
+                var biomeButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(),
+                    Rectangle.Empty);
+                biomeButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                };
+                _navigationButtonList.Add(biomeButton);
 
                 foreach (var character in playerCharacters)
                 {
@@ -121,56 +141,79 @@ namespace Rpg.Client.GameScreens.Party
                     button.OnClick += (_, _) =>
                     {
                         _selectedCharacter = character;
+
+                        InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
                     };
-                    _buttonList.Add(button);
+                    _unitButtonList.Add(button);
                 }
-
-                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                biomeButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                };
-                _buttonList.Add(biomeButton);
-
-                var switchUnitButton = new TextButton("Switch unit", _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                switchUnitButton.OnClick += (_, _) =>
-                {
-                    if (_selectedCharacter is null)
-                    {
-                        return;
-                    }
-
-                    if (_globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter))
-                    {
-                        if (_globeProvider.Globe.Player.Party.GetUnits().Count() > 1)
-                        {
-                            _globeProvider.Globe.Player.MoveToPool(_selectedCharacter);
-                        }
-                    }
-                    else
-                    {
-                        var freeSlots = _globeProvider.Globe.Player.Party.GetFreeSlots();
-                        var selectedSlot = freeSlots.FirstOrDefault();
-
-                        if (selectedSlot is not null)
-                        {
-                            _globeProvider.Globe.Player.MoveToParty(_selectedCharacter, selectedSlot.Index);
-                        }
-                    }
-                };
-                _buttonList.Add(switchUnitButton);
 
                 _isInitialized = true;
             }
             else
             {
-                foreach (var button in _buttonList)
+                foreach (var button in _navigationButtonList)
+                {
+                    button.Update(_resolutionIndependentRenderer);
+                }
+
+                foreach (var button in _unitButtonList)
+                {
+                    button.Update(_resolutionIndependentRenderer);
+                }
+
+                foreach (var button in _slotButtonList.ToArray())
                 {
                     button.Update(_resolutionIndependentRenderer);
                 }
             }
+        }
+
+        private void InitSlotAssignmentButtons(Unit character, Player player)
+        {
+            _slotButtonList.Clear();
+
+            var isCharacterInGroup = GetIsCharacterInGroup();
+            if (isCharacterInGroup)
+            {
+                var reserveButton = new ResourceTextButton(
+                    nameof(UiResource.MoveToThePoolButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(),
+                    Rectangle.Empty);
+                _slotButtonList.Add(reserveButton);
+
+                reserveButton.OnClick += (_, _) =>
+                {
+                    player.MoveToPool(character);
+
+                    InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                };
+            }
+            else
+            {
+                var freeSlots = player.Party.GetFreeSlots();
+                foreach (var slot in freeSlots)
+                {
+                    var slotButton = new TextButton(slot.Index.ToString(),
+                        _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(),
+                    Rectangle.Empty);
+
+                    _slotButtonList.Add(slotButton);
+
+                    slotButton.OnClick += (_, _) =>
+                    {
+                        player.MoveToParty(character, slot.Index);
+
+                        InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                    };
+                }
+            }
+        }
+
+        private bool GetIsCharacterInGroup()
+        {
+            return _globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter);
         }
     }
 }

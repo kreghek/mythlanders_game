@@ -219,6 +219,9 @@
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>lvl</value>
   </data>
+  <data name="MoveToThePoolButtonTitle" xml:space="preserve">
+    <value>Move to the pool</value>
+  </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Party</value>
   </data>
