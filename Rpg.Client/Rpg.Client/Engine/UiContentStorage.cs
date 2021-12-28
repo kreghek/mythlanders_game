@@ -106,7 +106,7 @@ namespace Rpg.Client.Engine
             {
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
@@ -137,7 +137,7 @@ namespace Rpg.Client.Engine
 
         public IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome)
         {
-            return _battleTracks.Where(x=>x.Item1 == currentBiome).Select(x=>x.Item2).ToList();
+            return _battleTracks.Where(x => x.Item1 == currentBiome).Select(x => x.Item2).ToList();
         }
 
         public Song GetVictorySong()
