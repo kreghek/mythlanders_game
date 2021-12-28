@@ -193,6 +193,10 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="Maosin" xml:space="preserve">
+    <value>Maosin</value>
+    <comment>Персонаж</comment>
+  </data>
   <data name="MassHeal" xml:space="preserve">
       <value>Mass heal</value>
   </data>

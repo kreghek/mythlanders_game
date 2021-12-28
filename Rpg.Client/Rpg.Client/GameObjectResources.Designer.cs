@@ -313,6 +313,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maosin.
+        /// </summary>
+        internal static string Maosin {
+            get {
+                return ResourceManager.GetString("Maosin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mass heal.
         /// </summary>
         internal static string MassHeal {
