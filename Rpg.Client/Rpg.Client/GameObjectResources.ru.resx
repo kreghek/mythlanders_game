@@ -201,6 +201,9 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
   </data>
+  <data name="Maosin" xml:space="preserve">
+    <value>Мяосин</value>
+  </data>
   <data name="MassHeal" xml:space="preserve">
     <value>Массовое исцеление</value>
   </data>

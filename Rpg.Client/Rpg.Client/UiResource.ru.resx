@@ -234,6 +234,9 @@
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>ур.</value>
   </data>
+  <data name="MoveToThePoolButtonTitle" xml:space="preserve">
+    <value>Убрать в пулл</value>
+  </data>
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Группа</value>
   </data>
