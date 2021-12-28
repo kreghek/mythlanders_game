@@ -19,7 +19,11 @@ namespace Rpg.Client.Core.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default) { Level = 0, IsComplete = true };
+            var biome = new Biome(default, default) 
+            {
+                Level = 0, 
+                IsComplete = true
+            };
 
             var bossUnitScheme = new UnitScheme
             {
@@ -34,11 +38,12 @@ namespace Rpg.Client.Core.Tests
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
 
-            var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == new[]
+            var predefinedMonsters = new[]
             {
                 regularUnitScheme,
                 bossUnitScheme
-            });
+            };
+            var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
             // ACT
 
@@ -59,7 +64,11 @@ namespace Rpg.Client.Core.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default) { Level = 0, IsComplete = false };
+            var biome = new Biome(default, default) 
+            {
+                Level = 0, 
+                IsComplete = false 
+            };
 
             var bossUnitScheme = new UnitScheme
             {
@@ -74,11 +83,12 @@ namespace Rpg.Client.Core.Tests
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
 
-            var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == new[]
+            var predefinedMonsters = new[]
             {
                 regularUnitScheme,
                 bossUnitScheme
-            });
+            };
+            var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
             // ACT
 
