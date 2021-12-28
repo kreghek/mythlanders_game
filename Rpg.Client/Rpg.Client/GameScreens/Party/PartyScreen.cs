@@ -12,14 +12,13 @@ namespace Rpg.Client.GameScreens.Party
 {
     internal sealed class PartyScreen : GameScreenBase
     {
-        private readonly IList<ButtonBase> _navigationButtonList;
-        private readonly IList<ButtonBase> _unitButtonList;
-        private readonly IList<ButtonBase> _slotButtonList;
-
         private readonly Camera2D _camera;
         private readonly GlobeProvider _globeProvider;
+        private readonly IList<ButtonBase> _navigationButtonList;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IList<ButtonBase> _slotButtonList;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly IList<ButtonBase> _unitButtonList;
 
         private bool _isInitialized;
         private Unit? _selectedCharacter;
@@ -106,7 +105,8 @@ namespace Rpg.Client.GameScreens.Party
                 for (var buttonIndex = 0; buttonIndex < _slotButtonList.Count; buttonIndex++)
                 {
                     var button = _slotButtonList[buttonIndex];
-                    button.Rect = new Rectangle(contentRect.Center.X, contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
+                    button.Rect = new Rectangle(contentRect.Center.X,
+                        contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
                     button.Draw(spriteBatch);
                 }
             }
@@ -168,6 +168,11 @@ namespace Rpg.Client.GameScreens.Party
             }
         }
 
+        private bool GetIsCharacterInGroup()
+        {
+            return _globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter);
+        }
+
         private void InitSlotAssignmentButtons(Unit character, Player player)
         {
             _slotButtonList.Clear();
@@ -196,8 +201,8 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     var slotButton = new TextButton(slot.Index.ToString(),
                         _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(),
-                    Rectangle.Empty);
+                        _uiContentStorage.GetMainFont(),
+                        Rectangle.Empty);
 
                     _slotButtonList.Add(slotButton);
 
@@ -209,11 +214,6 @@ namespace Rpg.Client.GameScreens.Party
                     };
                 }
             }
-        }
-
-        private bool GetIsCharacterInGroup()
-        {
-            return _globeProvider.Globe.Player.Party.GetUnits().Contains(_selectedCharacter);
         }
     }
 }
