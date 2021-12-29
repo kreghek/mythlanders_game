@@ -259,7 +259,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var eventItem = _eventCatalog.Events.Single(x => x.Title == eventDto.Sid);
+                var eventItem = _eventCatalog.Events.Single(x => x.Sid == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
         }
