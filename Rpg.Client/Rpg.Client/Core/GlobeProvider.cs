@@ -209,7 +209,7 @@ namespace Rpg.Client.Core
 
                 var dto = new EventDto
                 {
-                    Sid = eventItem.Title,
+                    Sid = eventItem.Sid,
                     Counter = eventItem.Counter
                 };
 
