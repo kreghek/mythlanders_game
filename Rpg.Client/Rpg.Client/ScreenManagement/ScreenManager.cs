@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.GameScreens.Bestiary;
 using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Event;
 using Rpg.Client.GameScreens.Map;
@@ -92,6 +93,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
+                ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
