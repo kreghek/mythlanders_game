@@ -17,14 +17,14 @@ namespace Rpg.Client.Core.Tests
             var node = new GlobeNode
             {
                 IsLast = true,
-                Sid = GlobeNodeSid.Castle 
+                Sid = GlobeNodeSid.Castle
             };
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default) 
+            var biome = new Biome(default, default)
             {
-                Level = 0, 
+                Level = 0,
                 IsComplete = true
             };
 
@@ -64,16 +64,16 @@ namespace Rpg.Client.Core.Tests
 
             var node = new GlobeNode
             {
-                IsLast = true, 
-                Sid = GlobeNodeSid.Castle 
+                IsLast = true,
+                Sid = GlobeNodeSid.Castle
             };
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default) 
+            var biome = new Biome(default, default)
             {
-                Level = 0, 
-                IsComplete = false 
+                Level = 0,
+                IsComplete = false
             };
 
             var bossUnitScheme = new UnitScheme
