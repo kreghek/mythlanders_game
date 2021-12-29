@@ -38,7 +38,8 @@
       ]
     },
     "Location": "Thicket",
-    "Name": "Начальная зачистка"
+    "Name": "Начальная зачистка",
+    "Sid": "MainSlavic1"
   },
   {
     "AfterCombatNode": {
@@ -83,7 +84,8 @@
       ]
     },
     "Location": "Swamp",
-    "Name": "В поисках мудрости"
+    "Name": "В поисках мудрости",
+    "Sid": "MainSlavic2"
   },
   {
     "AfterCombatNode": {
@@ -132,7 +134,8 @@
       ]
     },
     "Location": "Pit",
-    "Name": "Ты - один из немногих"
+    "Name": "Ты - один из немногих",
+    "Sid": "MainSlavic3"
   },
   {
     "AfterCombatNode": {
@@ -181,7 +184,8 @@
       ]
     },
     "Location": "DeathPath",
-    "Name": "Путь невозврата"
+    "Name": "Путь невозврата",
+    "Sid": "MainSlavic4"
   },
   {
     "AfterCombatNode": {
@@ -230,7 +234,8 @@
       ]
     },
     "Location": "Mines",
-    "Name": "Мудрость трав"
+    "Name": "Мудрость трав",
+    "Sid": "MainSlavic5"
   },
   {
     "AfterCombatNode": {
@@ -271,7 +276,8 @@
       ]
     },
     "Location": "Monastery",
-    "Name": "Новый мир"
+    "Name": "Новый мир",
+    "Sid": "MainChinese1"
   },
   {
     "AfterCombatNode": {
@@ -316,7 +322,8 @@
       ]
     },
     "Location": "GaintBamboo",
-    "Name": "Другая смерть"
+    "Name": "Другая смерть",
+    "Sid": "MainChinese2"
   },
   {
     "AfterCombatNode": {
@@ -365,7 +372,8 @@
       ]
     },
     "Location": "EmperorTomb",
-    "Name": "Демоны внутри меня"
+    "Name": "Демоны внутри меня",
+    "Sid": "MainChinese3"
   },
   {
     "AfterCombatNode": {
@@ -410,7 +418,8 @@
       ]
     },
     "Location": "RiseFields",
-    "Name": "Ученье - свет"
+    "Name": "Ученье - свет",
+    "Sid": "MainChinese4"
   },
   {
     "AfterCombatNode": {
@@ -451,7 +460,8 @@
       ]
     },
     "Location": "SkyTower",
-    "Name": "Зло каждого из нас"
+    "Name": "Зло каждого из нас",
+    "Sid": "MainChinese5"
   },
   {
     "AfterCombatNode": {
@@ -496,7 +506,8 @@
       ]
     },
     "Location": "SacredPlace",
-    "Name": "Беги"
+    "Name": "Беги",
+    "Sid": "MainEgyptian1"
   },
   {
     "AfterCombatNode": {
@@ -537,7 +548,8 @@
       ]
     },
     "Location": "Temple",
-    "Name": "Темное и злое"
+    "Name": "Темное и злое",
+    "Sid": "MainEgyptian2"
   },
   {
     "AfterCombatNode": {
@@ -578,7 +590,8 @@
       ]
     },
     "Location": "Oasis",
-    "Name": "Несогласованный визит"
+    "Name": "Несогласованный визит",
+    "Sid": "MainEgyptian3"
   },
   {
     "AfterCombatNode": {
@@ -619,7 +632,8 @@
       ]
     },
     "Location": "Obelisk",
-    "Name": "Смотреть, но не видеть"
+    "Name": "Смотреть, но не видеть",
+    "Sid": "MainEgyptian4"
   },
   {
     "AfterCombatNode": {
@@ -664,7 +678,8 @@
       ]
     },
     "Location": "ScreamValey",
-    "Name": "Начало конца"
+    "Name": "Начало конца",
+    "Sid": "MainEgyptian5"
   },
   {
     "AfterCombatNode": {
@@ -709,7 +724,8 @@
       ]
     },
     "Location": "ShipGraveyard",
-    "Name": "Во имя света!"
+    "Name": "Во имя света!",
+    "Sid": "MainGreek1"
   },
   {
     "AfterCombatNode": {
@@ -754,7 +770,8 @@
       ]
     },
     "Location": "Vines",
-    "Name": "[TMP] Встреча с амазонкой"
+    "Name": "[TMP] Встреча с амазонкой",
+    "Sid": "MainGreek2"
   },
   {
     "AfterCombatNode": {
@@ -799,7 +816,8 @@
       ]
     },
     "Location": "Garden",
-    "Name": "Адская машина"
+    "Name": "Адская машина",
+    "Sid": "MainGreek3"
   },
   {
     "AfterCombatNode": {
@@ -848,7 +866,8 @@
       ]
     },
     "Location": "Palace",
-    "Name": "[TMP] Подземка"
+    "Name": "[TMP] Подземка",
+    "Sid": "MainGreek4"
   },
   {
     "AfterCombatNode": {
@@ -889,7 +908,8 @@
       ]
     },
     "Location": "Labirinth",
-    "Name": "Быка за рога"
+    "Name": "Быка за рога",
+    "Sid": "MainGreek5"
   },
   {
     "AfterCombatNode": {
@@ -930,7 +950,8 @@
       ]
     },
     "Location": "ChangingLabirinth",
-    "Name": "Говорящие стены"
+    "Name": "Говорящие стены",
+    "Sid": "MainChaos1"
   },
   {
     "AfterCombatNode": {
@@ -975,7 +996,8 @@
       ]
     },
     "Location": "Nothing",
-    "Name": "Не разговаривай с незнакомцами"
+    "Name": "Не разговаривай с незнакомцами",
+    "Sid": "MainChaos2"
   },
   {
     "AfterCombatNode": {
@@ -1016,6 +1038,7 @@
       ]
     },
     "Location": "Epicenter",
-    "Name": "Зло - вечно!"
+    "Name": "Зло - вечно!",
+    "Sid": "MainChaos3"
   }
 ]

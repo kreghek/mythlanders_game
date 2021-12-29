@@ -32,7 +32,7 @@ namespace Rpg.Client
                             sb.Append($"{DateTime.Now:o}");
                             sb.Append($" [{msg.LogLevel}] ");
                             sb.Append(msg.Message);
-                            sb.Append(msg.Exception?.ToString());
+                            sb.Append(msg.Exception);
                             return sb.ToString();
                         }
                     })
