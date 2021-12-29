@@ -30,7 +30,8 @@
       ]
     },
     "Location": "Thicket",
-    "Name": "Начальная зачистка"
+    "Name": "Начальная зачистка",
+    "Sid": "MainSlavic1"
   },
   {
     "AfterCombatNode": {
@@ -91,7 +92,8 @@
       ]
     },
     "Location": "Swamp",
-    "Name": "Ты - один из немногих"
+    "Name": "Ты - один из немногих",
+    "Sid": "MainSlavic2"
   },
   {
     "AfterCombatNode": {
@@ -152,6 +154,7 @@
       ]
     },
     "Location": "Pit",
-    "Name": "Мудрость трав"
+    "Name": "Мудрость трав",
+    "Sid": "MainSlavic3"
   }
 ]
