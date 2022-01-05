@@ -178,6 +178,9 @@
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="CreditsButtonTitle" xml:space="preserve">
+    <value>Credits</value>
+  </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
   </data>

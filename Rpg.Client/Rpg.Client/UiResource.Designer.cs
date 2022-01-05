@@ -223,6 +223,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        internal static string CreditsButtonTitle {
+            get {
+                return ResourceManager.GetString("CreditsButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Damage: {0}.
         /// </summary>
         internal static string DamageLabelTemplate {

@@ -192,6 +192,9 @@
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
   </data>
+  <data name="CreditsButtonTitle" xml:space="preserve">
+    <value>Кредиты</value>
+  </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
   </data>

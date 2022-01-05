@@ -11,27 +11,42 @@ namespace Rpg.Client.GameScreens.Credits
         private string _creditsText;
         private float _textPosition;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly ResolutionIndependentRenderer _renderer;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Camera2D _camera;
 
         public CreditsScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _renderer = game.Services.GetService<ResolutionIndependentRenderer>();
+            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
+            _camera = Game.Services.GetService<Camera2D>();
 
-            _textPosition = _renderer.VirtualHeight + 100;
+            _textPosition = _resolutionIndependentRenderer.VirtualHeight + 100;
+
+            _creditsText = "Кредиты";
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
+            _resolutionIndependentRenderer.BeginDraw();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
+
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), 
                 _creditsText,
-                new Vector2(_renderer.VirtualBounds.Center.X, _textPosition), 
+                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition), 
                 Color.Wheat);
+
+            spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)
         {
-            _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
         }
     }
 }

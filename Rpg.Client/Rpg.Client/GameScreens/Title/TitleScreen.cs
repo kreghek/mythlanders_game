@@ -81,7 +81,7 @@ namespace Rpg.Client.GameScreens.Title
             _buttons.Add(settingsButton);
 
             var creditsButton = new ResourceTextButton(
-                "nameof(UiResource.)",
+                nameof(UiResource.CreditsButtonTitle),
                 buttonTexture,
                 _font,
                 Rectangle.Empty
