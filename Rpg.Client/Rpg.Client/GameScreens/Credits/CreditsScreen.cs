@@ -9,6 +9,7 @@ namespace Rpg.Client.GameScreens.Credits
     internal sealed class CreditsScreen: GameScreenBase
     {
         private string _creditsText;
+        private readonly ResourceTextButton _backButton;
         private float _textPosition;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
@@ -22,7 +23,9 @@ namespace Rpg.Client.GameScreens.Credits
 
             _textPosition = _resolutionIndependentRenderer.VirtualHeight + 100;
 
-            _creditsText = "Кредиты";
+            _creditsText = CreditsResource.ResourceManager.GetString("Credits");
+
+            _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -41,12 +44,17 @@ namespace Rpg.Client.GameScreens.Credits
                 new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition), 
                 Color.Wheat);
 
+            _backButton.Rect = new Rectangle(5, 5, 100, 20);
+            _backButton.Draw(spriteBatch);
+
             spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)
         {
             _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
+
+            _backButton.Update(_resolutionIndependentRenderer);
         }
     }
 }

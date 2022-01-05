@@ -79,6 +79,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string BackButtonTitle {
+            get {
+                return ResourceManager.GetString("BackButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to the map.
         /// </summary>
         internal static string BackToMapMenuButtonTitle {

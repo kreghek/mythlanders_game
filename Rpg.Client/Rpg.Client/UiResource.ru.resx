@@ -123,6 +123,9 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
   </data>
+  <data name="BackButtonTitle" xml:space="preserve">
+    <value>Назад</value>
+  </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
   </data>
