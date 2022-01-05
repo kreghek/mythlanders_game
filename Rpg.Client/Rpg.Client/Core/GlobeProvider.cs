@@ -139,10 +139,9 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], 1)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1, equipmentLevel: 1, xp: 0, equipmentItems: 0)
                 {
-                    IsPlayerControlled = true,
-                    EquipmentLevel = 1
+                    IsPlayerControlled = true
                 }
             };
         }

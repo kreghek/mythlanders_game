@@ -331,10 +331,17 @@ namespace Rpg.Client.Core
 
             MaxHitPoints = maxHitPoints;
 
-            if (unitScheme.SkillSets is not null)
+            InitSkillSet(unitScheme);
+        }
+
+        private void InitSkillSet(UnitScheme unitScheme)
+        {
+            if (unitScheme.SkillSets is null)
             {
-                Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+                return;
             }
+
+            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
         private void RestoreHp()
