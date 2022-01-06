@@ -84,7 +84,9 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             var monsterIndex = 0;
 
-            var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.CombatSequence.Combats.SelectMany(combatSource => combatSource.EnemyGroup.GetUnits()).Select(x => x.UnitScheme).Distinct().ToArray();
+            var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.CombatSequence.Combats
+                .SelectMany(combatSource => combatSource.EnemyGroup.GetUnits()).Select(x => x.UnitScheme).Distinct()
+                .ToArray();
             foreach (var monsterScheme in uniqueMonsterSchemes)
             {
                 var unitName = monsterScheme.Name;

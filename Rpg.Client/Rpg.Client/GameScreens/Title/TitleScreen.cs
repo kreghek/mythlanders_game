@@ -105,11 +105,6 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
-        private void CreditsButton_OnClick(object? sender, EventArgs e)
-        {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             _resolutionIndependentRenderer.BeginDraw();
@@ -184,6 +179,11 @@ namespace Rpg.Client.GameScreens.Title
             };
 
             return loadGameButton;
+        }
+
+        private void CreditsButton_OnClick(object? sender, EventArgs e)
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)

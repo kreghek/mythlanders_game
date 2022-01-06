@@ -318,6 +318,16 @@ namespace Rpg.Client.Core
             return wasLevelup;
         }
 
+        private void InitSkillSet(UnitScheme unitScheme)
+        {
+            if (unitScheme.SkillSets is null)
+            {
+                return;
+            }
+
+            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
+        }
+
         private void InitStats(UnitScheme unitScheme)
         {
             var maxHitPoints = (int)Math.Round(
@@ -332,16 +342,6 @@ namespace Rpg.Client.Core
             MaxHitPoints = maxHitPoints;
 
             InitSkillSet(unitScheme);
-        }
-
-        private void InitSkillSet(UnitScheme unitScheme)
-        {
-            if (unitScheme.SkillSets is null)
-            {
-                return;
-            }
-
-            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
         }
 
         private void RestoreHp()
