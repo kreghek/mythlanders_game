@@ -1,17 +1,16 @@
-Кредиты
+Credits
 
-Гейм-дизайн:
+Game Design:
 Я
 
-Разработчики:
+Programmers:
 Я
 
-Музыка:
+Music:
 Иван
 
-Художники:
+Artist:
 Егор
 
-
-Отдельное спасибо:
+Special thanks to:
 Толя, Гриша

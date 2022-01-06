@@ -26,6 +26,7 @@ namespace Rpg.Client.GameScreens.Credits
             _creditsText = CreditsResource.ResourceManager.GetString("Credits");
 
             _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title); };
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
