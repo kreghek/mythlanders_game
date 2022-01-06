@@ -195,6 +195,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.WideSwordSlash => 2,
                 SkillSid.SvarogBlastFurnace => 2,
                 SkillSid.EnergyShot => 3,
+                SkillSid.RapidEnergyShot => 3,
                 SkillSid.ArrowRain => 4,
                 SkillSid.ZduhachMight => 5,
                 SkillSid.Heal => 6,

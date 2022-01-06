@@ -8,5 +8,6 @@
         public EventNodeDto BeforeCombatNode { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
+        public string Sid { get; set; }
     }
 }

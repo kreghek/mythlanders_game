@@ -2,7 +2,6 @@
 {
     internal enum ScreenTransition
     {
-        Undefined,
         Title,
         Map,
         Biome,
@@ -10,6 +9,7 @@
         Event,
         Combat,
         Bestiary,
-        EndGame
+        EndGame,
+        Credits
     }
 }

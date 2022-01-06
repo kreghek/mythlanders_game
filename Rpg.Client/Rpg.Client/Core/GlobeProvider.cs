@@ -139,10 +139,9 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], 1)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1, equipmentLevel: 1, xp: 0, equipmentItems: 0)
                 {
-                    IsPlayerControlled = true,
-                    EquipmentLevel = 1
+                    IsPlayerControlled = true
                 }
             };
         }
@@ -209,7 +208,7 @@ namespace Rpg.Client.Core
 
                 var dto = new EventDto
                 {
-                    Sid = eventItem.Title,
+                    Sid = eventItem.Sid,
                     Counter = eventItem.Counter
                 };
 
@@ -259,7 +258,7 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var eventItem = _eventCatalog.Events.Single(x => x.Title == eventDto.Sid);
+                var eventItem = _eventCatalog.Events.Single(x => x.Sid == eventDto.Sid);
                 eventItem.Counter = eventDto.Counter;
             }
         }

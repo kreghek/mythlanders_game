@@ -68,7 +68,9 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             var combatCount = _nodeGameObject.GlobeNode.CombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatSequenceSizeText,
+            spriteBatch.DrawString(
+                _uiContentStorage.GetMainFont(),
+                $"{UiResource.CombatLengthLabel} {combatSequenceSizeText}",
                 textPosition + new Vector2(5, 35), Color.Wheat);
 
             DisplayCombatRewards(spriteBatch, _nodeGameObject, textPosition, _nodeGameObject);
@@ -81,23 +83,18 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             }
 
             var monsterIndex = 0;
-            var roundIndex = 1;
 
-            foreach (var combat in _nodeGameObject.GlobeNode.CombatSequence.Combats)
+            var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.CombatSequence.Combats.SelectMany(combatSource => combatSource.EnemyGroup.GetUnits()).Select(x => x.UnitScheme).Distinct().ToArray();
+            foreach (var monsterScheme in uniqueMonsterSchemes)
             {
-                foreach (var monster in combat.EnemyGroup.GetUnits())
-                {
-                    var unitName = monster.UnitScheme.Name;
-                    var name = GameObjectHelper.GetLocalized(unitName);
+                var unitName = monsterScheme.Name;
+                var localizedUnitName = GameObjectHelper.GetLocalized(unitName);
 
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        $"({UiResource.CombatSequenceRoundShortText} {roundIndex}) {name} ({UiResource.MonsterLevelShortText}{monster.Level})",
-                        textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    localizedUnitName,
+                    textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
 
-                    monsterIndex++;
-                }
-
-                roundIndex++;
+                monsterIndex++;
             }
 
             var sumButtonWidth = _buttons.Count * (100 + 5);

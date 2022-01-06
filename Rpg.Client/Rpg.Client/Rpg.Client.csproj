@@ -45,6 +45,11 @@
     <PackageReference Include="NReco.Logging.File" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="CreditsResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreditsResource.resx</DependentUpon>
+    </Compile>
     <Compile Update="GameObjectResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -62,6 +67,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="CreditsResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CreditsResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CreditsResources.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="GameObjectResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GameObjectResources.Designer.cs</LastGenOutput>

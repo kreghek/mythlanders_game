@@ -80,13 +80,22 @@ namespace Rpg.Client.GameScreens.Title
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
 
+            var creditsButton = new ResourceTextButton(
+                nameof(UiResource.CreditsButtonTitle),
+                buttonTexture,
+                _font,
+                Rectangle.Empty
+            );
+            creditsButton.OnClick += CreditsButton_OnClick;
+            _buttons.Add(creditsButton);
+
             var exitGameButton = new ResourceTextButton(
                 nameof(UiResource.ExitGameButtonTitle),
                 buttonTexture,
                 _font,
                 Rectangle.Empty
             );
-            exitGameButton.OnClick += (s, e) =>
+            exitGameButton.OnClick += (_, _) =>
             {
                 game.Exit();
             };
@@ -94,6 +103,11 @@ namespace Rpg.Client.GameScreens.Title
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
+        }
+
+        private void CreditsButton_OnClick(object? sender, EventArgs e)
+        {
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)

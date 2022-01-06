@@ -15,11 +15,6 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
 {
-    internal sealed class GameSettings
-    {
-        public GameMode Mode { get; init; }
-    }
-
     public class EwarGame : Game
     {
         private readonly GameSettings _gameSettings;

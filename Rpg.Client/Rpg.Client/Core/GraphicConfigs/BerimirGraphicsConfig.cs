@@ -17,12 +17,14 @@ namespace Rpg.Client.Core.GraphicConfigs
                     AnimationSid.MoveBackward,
                     new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
                 },
+
                 { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Skill2, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Skill3, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Ult, new AnimationInfo(startFrame: 59, frames: 2, speed: 8) },
+
                 { AnimationSid.Wound, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Ult, new AnimationInfo(startFrame: 59, frames: 2, speed: 8) }
+                { AnimationSid.Death, new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
             };
         }
     }

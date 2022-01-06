@@ -79,6 +79,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string BackButtonTitle {
+            get {
+                return ResourceManager.GetString("BackButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to the map.
         /// </summary>
         internal static string BackToMapMenuButtonTitle {
@@ -111,6 +120,15 @@ namespace Rpg.Client {
         internal static string BiomeTutorialText {
             get {
                 return ResourceManager.GetString("BiomeTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Combat length:.
+        /// </summary>
+        internal static string CombatLengthLabel {
+            get {
+                return ResourceManager.GetString("CombatLengthLabel", resourceCulture);
             }
         }
         
@@ -210,6 +228,15 @@ namespace Rpg.Client {
         internal static string CombatTutorialText {
             get {
                 return ResourceManager.GetString("CombatTutorialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        internal static string CreditsButtonTitle {
+            get {
+                return ResourceManager.GetString("CreditsButtonTitle", resourceCulture);
             }
         }
         

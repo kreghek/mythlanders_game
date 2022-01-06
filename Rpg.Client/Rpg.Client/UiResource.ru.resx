@@ -123,6 +123,9 @@
   <data name="AutocombatButtonTitle" xml:space="preserve">
     <value>Автобой</value>
   </data>
+  <data name="BackButtonTitle" xml:space="preserve">
+    <value>Назад</value>
+  </data>
   <data name="BackToMapMenuButtonTitle" xml:space="preserve">
     <value>На карту</value>
   </data>
@@ -140,6 +143,9 @@
 3. В некоторых локациях могут происходить различные события, которые
 могут повлиять на
 текущий бой, отдельных персонажей или партию.</value>
+  </data>
+  <data name="CombatLengthLabel" xml:space="preserve">
+    <value>Длительность сражения:</value>
   </data>
   <data name="CombatLevelLavelTemplate" xml:space="preserve">
     <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
@@ -188,6 +194,9 @@
 Всем монстры становятся сильнее. На 10 уровне появится босс.
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
+  </data>
+  <data name="CreditsButtonTitle" xml:space="preserve">
+    <value>Кредиты</value>
   </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>

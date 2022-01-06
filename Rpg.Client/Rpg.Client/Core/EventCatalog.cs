@@ -25,7 +25,7 @@ namespace Rpg.Client.Core
 
             var testEvents = CreateTestEvents();
 
-            var plotEvents = CreatePlotEvents(serializedPlotString ?? string.Empty);
+            var plotEvents = CreatePlotEvents(serializedPlotString);
 
             _events = testEvents.Concat(plotEvents).ToArray();
         }
@@ -35,10 +35,6 @@ namespace Rpg.Client.Core
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
             Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
-            if (eventStorageModelList is null)
-            {
-                yield break;
-            }
 
             foreach (var eventStorageModel in eventStorageModelList)
             {
@@ -63,6 +59,7 @@ namespace Rpg.Client.Core
 
                 var plotEvent = new Event
                 {
+                    Sid = eventStorageModel.Sid,
                     Biome = locationInfo.Biome,
                     ApplicableOnlyFor = new[] { locationInfo.LocationSid },
                     IsUnique = true,

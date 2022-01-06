@@ -30,6 +30,15 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
+                        new WideSlashSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new SwordSlashSkill(),
+                        new WideSlashSkill(),
                         new DefenseStanceSkill(true)
                     }
                 },
@@ -38,6 +47,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new SwordSlashSkill(),
+                        new WideSlashSkill(),
                         new DefenseStanceSkill(true),
                         new SvarogBlastFurnaceSkill(true)
                     }
@@ -217,6 +227,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
+                        new RapidBowShotSkill(),
                         new ArrowRainSkill(true)
                     }
                 },
@@ -225,6 +236,16 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
+                        new RapidBowShotSkill(),
+                        new ArrowRainSkill(true)
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new BowShotSkill(),
+                        new RapidBowShotSkill(),
                         new ArrowRainSkill(true),
                         new DefenseStanceSkill(true)
                     }
