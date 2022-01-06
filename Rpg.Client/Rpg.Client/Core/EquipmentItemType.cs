@@ -2,6 +2,7 @@
 {
     internal enum EquipmentItemType
     {
+        Xp,
         Warrior,
         Archer,
         Herbalist,

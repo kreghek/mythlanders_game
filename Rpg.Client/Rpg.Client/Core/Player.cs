@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
+
     internal sealed class Player
     {
         public Player()
@@ -11,6 +12,27 @@ namespace Rpg.Client.Core
             Party = new Group();
             Pool = new PoolGroup();
             KnownMonsters = new List<UnitScheme>();
+
+            var inventory = CreateInventory();
+
+            Inventory = inventory;
+        }
+
+        private static List<ResourceItem> CreateInventory()
+        {
+            var inventory = new List<ResourceItem>();
+            var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
+            foreach (var enumItem in inventoryAvailableItems)
+            {
+                var item = new ResourceItem
+                {
+                    Type = enumItem
+                };
+
+                inventory.Add(item);
+            }
+
+            return inventory;
         }
 
         public IList<UnitScheme> KnownMonsters { get; }
@@ -18,6 +40,8 @@ namespace Rpg.Client.Core
         public Group Party { get; }
 
         public PoolGroup Pool { get; }
+
+        public IReadOnlyCollection<ResourceItem> Inventory { get; }
 
         public IEnumerable<Unit> GetAll()
         {
