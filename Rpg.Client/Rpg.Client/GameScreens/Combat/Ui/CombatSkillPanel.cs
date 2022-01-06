@@ -199,6 +199,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.ArrowRain => 4,
                 SkillSid.ZduhachMight => 5,
                 SkillSid.Heal => 6,
+                SkillSid.ToxicHerbs => 9,
                 SkillSid.HealingSalve => 6,
                 SkillSid.DopeHerb => 7,
                 SkillSid.MassHeal => 8,

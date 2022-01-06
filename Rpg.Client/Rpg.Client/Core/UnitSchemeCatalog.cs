@@ -189,6 +189,15 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new HealingSalveSkill(),
+                        new ToxicHerbsSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new HealingSalveSkill(),
+                        new ToxicHerbsSkill(),
                         new DopeHerbSkill(true)
                     }
                 },
@@ -197,6 +206,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new HealingSalveSkill(),
+                        new ToxicHerbsSkill(),
                         new DopeHerbSkill(true),
                         new MassHealSkill(true)
                     }

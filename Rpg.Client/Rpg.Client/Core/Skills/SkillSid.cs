@@ -26,6 +26,7 @@ namespace Rpg.Client.Core.Skills
         VolkolakWarriorEnergyBurst,
         HealMantre,
         PathOf1000Firsts,
-        RapidEnergyShot
+        RapidEnergyShot,
+        ToxicHerbs
     }
 }
