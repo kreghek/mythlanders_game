@@ -6,7 +6,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Credits
 {
-    internal sealed class CreditsScreen: GameScreenBase
+    internal sealed class CreditsScreen : GameScreenBase
     {
         private string _creditsText;
         private readonly ResourceTextButton _backButton;
@@ -40,9 +40,9 @@ namespace Rpg.Client.GameScreens.Credits
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), 
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
                 _creditsText,
-                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition), 
+                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition),
                 Color.Wheat);
 
             _backButton.Rect = new Rectangle(5, 5, 100, 20);
