@@ -5,13 +5,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class BowShotSkill : SkillBase
+    internal class RapidBowShotSkill : SkillBase
     {
-        public BowShotSkill() : this(false)
+        public RapidBowShotSkill() : this(false)
         {
         }
 
-        public BowShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public RapidBowShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -25,7 +25,8 @@ namespace Rpg.Client.Core.Skills
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f
+                        DamageMultiplier = 1f,
+                        Scatter = 0.5f
                     };
 
                     return res;
@@ -33,7 +34,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.EnergyShot;
+        public override SkillSid Sid => SkillSid.RapidEnergyShot;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

@@ -237,8 +237,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
-                        new RapidBowShotSkill(),
-                        new ArrowRainSkill(true)
+                        new RapidBowShotSkill()
                     }
                 },
                 new SkillSet
