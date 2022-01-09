@@ -103,6 +103,9 @@ namespace Rpg.Client.Core
                 LoadPlayerCharacters(lastSave.Player);
             }
 
+            LoadPlayerResources(Globe.Player.Inventory, lastSave.Player.Resources);
+            LoadPlayerKnownMonsters(lastSave.Player, _unitSchemeCatalog, Globe.Player);
+
             LoadEvents(lastSave.Events);
 
             LoadBiomes(lastSave.Biomes, Globe.Biomes);
@@ -110,6 +113,36 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
             return true;
+        }
+
+        private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
+        {
+            player.KnownMonsters.Clear();
+
+            if (playerDto.KnownMonsterSids is null)
+            {
+                return;
+            }
+
+            foreach (var monsterSid in playerDto.KnownMonsterSids)
+            {
+                var monsterScheme = unitSchemeCatalog.AllMonsters.Single(x => x.Name.ToString() == monsterSid);
+                player.KnownMonsters.Add(monsterScheme);
+            }
+        }
+
+        private void LoadPlayerResources(IReadOnlyCollection<ResourceItem> inventory, ResourceDto[] resources)
+        {
+            if (resources is null)
+            {
+                return;
+            }
+
+            foreach (var resourceDto in resources)
+            {
+                var resource = inventory.Single(x => x.Type == resourceDto.Type);
+                resource.Amount = resourceDto.Amount;
+            }
         }
 
         public void StoreGlobe()
@@ -120,7 +153,9 @@ namespace Rpg.Client.Core
                 player = new PlayerDto
                 {
                     Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
-                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
+                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
+                    Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
+                    KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters)
                 };
             }
 
@@ -133,6 +168,19 @@ namespace Rpg.Client.Core
             var serializedSave =
                 JsonSerializer.Serialize(progress, options: new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_saveFilePath, serializedSave);
+        }
+
+        private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+        {
+            return knownMonsters.Select(x => x.Name.ToString()).ToArray();
+        }
+
+        private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
+        {
+            return inventory.Select(x => new ResourceDto { 
+                Amount = x.Amount,
+                Type = x.Type
+            }).ToArray();
         }
 
         private Unit[] CreateStartUnits()
