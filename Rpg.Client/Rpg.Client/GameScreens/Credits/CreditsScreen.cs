@@ -6,14 +6,14 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Credits
 {
-    internal sealed class CreditsScreen: GameScreenBase
+    internal sealed class CreditsScreen : GameScreenBase
     {
-        private string _creditsText;
         private readonly ResourceTextButton _backButton;
-        private float _textPosition;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Camera2D _camera;
+        private readonly string _creditsText;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IUiContentStorage _uiContentStorage;
+        private float _textPosition;
 
         public CreditsScreen(EwarGame game) : base(game)
         {
@@ -25,7 +25,8 @@ namespace Rpg.Client.GameScreens.Credits
 
             _creditsText = CreditsResource.ResourceManager.GetString("Credits");
 
-            _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle),
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
             _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title); };
         }
 
@@ -40,9 +41,9 @@ namespace Rpg.Client.GameScreens.Credits
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), 
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
                 _creditsText,
-                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition), 
+                new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition),
                 Color.Wheat);
 
             _backButton.Rect = new Rectangle(5, 5, 100, 20);

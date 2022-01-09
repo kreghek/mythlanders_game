@@ -14,7 +14,6 @@ namespace Rpg.Client.Core.GraphicConfigs
                 { AnimationSid.MoveForward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.MoveBackward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
 
-
                 { AnimationSid.Skill1, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Skill2, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },

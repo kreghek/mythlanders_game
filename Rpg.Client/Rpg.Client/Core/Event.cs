@@ -13,9 +13,9 @@
         public bool IsUnique { get; set; }
         public int? RequiredBiomeLevel { get; internal set; }
         public string?[]? RequiredEventsCompleted { get; internal set; }
-        public SystemEventMarker? SystemMarker { get; set; }
-        public string Title { get; set; }
 
         public string Sid { get; set; }
+        public SystemEventMarker? SystemMarker { get; set; }
+        public string Title { get; set; }
     }
 }

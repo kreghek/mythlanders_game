@@ -191,7 +191,7 @@ namespace Rpg.Client.GameComponents
         {
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
-            
+
             var xpAmount = int.Parse(args[0]);
 
             globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount += xpAmount;

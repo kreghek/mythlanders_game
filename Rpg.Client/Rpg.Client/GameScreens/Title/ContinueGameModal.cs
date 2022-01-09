@@ -13,20 +13,22 @@ namespace Rpg.Client.GameScreens.Title
 {
     internal sealed class ContinueGameModal : ModalDialogBase
     {
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-        private readonly GlobeProvider _globeProvider;
-        private readonly IDice _dice;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
-        private readonly IScreenManager _screenManager;
-        private readonly IScreen _screen;
-        private List<ButtonBase> _continueGameButtons;
-
         private const int BUTTON_HEIGHT = 20;
 
         private const int BUTTON_WIDTH = 100;
+        private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
+        private readonly GlobeProvider _globeProvider;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IScreen _screen;
+        private readonly IScreenManager _screenManager;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly List<ButtonBase> _continueGameButtons;
 
-        public ContinueGameModal(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
+        public ContinueGameModal(IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
+            IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog, IScreenManager screenManager,
+            IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _continueGameButtons = new List<ButtonBase>();
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -37,11 +39,13 @@ namespace Rpg.Client.GameScreens.Title
             _screenManager = screenManager;
             _screen = screen;
 
-            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle), uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle),
+                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             newGameButton.OnClick += StartButton_OnClick;
             _continueGameButtons.Add(newGameButton);
 
-            var continueGameButton = new ResourceTextButton(nameof(UiResource.ContinueGameButtonTitle), uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            var continueGameButton = new ResourceTextButton(nameof(UiResource.ContinueGameButtonTitle),
+                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             continueGameButton.OnClick += (_, _) =>
             {
                 var isSuccessLoaded = _globeProvider.LoadGlobe();
@@ -72,7 +76,8 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 

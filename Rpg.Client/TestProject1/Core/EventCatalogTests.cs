@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Tests
             // ARRANGE
 
             var unitSchemeCatalog = new UnitSchemeCatalog();
-            
+
             // ACT
 
             Action act = () =>

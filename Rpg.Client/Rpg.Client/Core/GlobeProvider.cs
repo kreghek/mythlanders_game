@@ -117,36 +117,6 @@ namespace Rpg.Client.Core
             return true;
         }
 
-        private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
-        {
-            player.KnownMonsters.Clear();
-
-            if (playerDto.KnownMonsterSids is null)
-            {
-                return;
-            }
-
-            foreach (var monsterSid in playerDto.KnownMonsterSids)
-            {
-                var monsterScheme = unitSchemeCatalog.AllMonsters.Single(x => x.Name.ToString() == monsterSid);
-                player.KnownMonsters.Add(monsterScheme);
-            }
-        }
-
-        private void LoadPlayerResources(IReadOnlyCollection<ResourceItem> inventory, ResourceDto[] resources)
-        {
-            if (resources is null)
-            {
-                return;
-            }
-
-            foreach (var resourceDto in resources)
-            {
-                var resource = inventory.Single(x => x.Type == resourceDto.Type);
-                resource.Amount = resourceDto.Amount;
-            }
-        }
-
         public void StoreGlobe()
         {
             PlayerDto? player = null;
@@ -173,19 +143,6 @@ namespace Rpg.Client.Core
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
-        private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
-        {
-            return knownMonsters.Select(x => x.Name.ToString()).ToArray();
-        }
-
-        private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
-        {
-            return inventory.Select(x => new ResourceDto { 
-                Amount = x.Amount,
-                Type = x.Type
-            }).ToArray();
-        }
-
         private Unit[] CreateStartUnits()
         {
             return new[]
@@ -210,6 +167,11 @@ namespace Rpg.Client.Core
                     Nodes = GetNodeDtos(biome)
                 };
             }
+        }
+
+        private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+        {
+            return knownMonsters.Select(x => x.Name.ToString()).ToArray();
         }
 
         private static IEnumerable<GlobeNodeDto?> GetNodeDtos(Biome biome)
@@ -244,6 +206,15 @@ namespace Rpg.Client.Core
             };
 
             return groupDto;
+        }
+
+        private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
+        {
+            return inventory.Select(x => new ResourceDto
+            {
+                Amount = x.Amount,
+                Type = x.Type
+            }).ToArray();
         }
 
         private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Event> events)
@@ -378,6 +349,36 @@ namespace Rpg.Client.Core
             }
 
             return units;
+        }
+
+        private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
+        {
+            player.KnownMonsters.Clear();
+
+            if (playerDto.KnownMonsterSids is null)
+            {
+                return;
+            }
+
+            foreach (var monsterSid in playerDto.KnownMonsterSids)
+            {
+                var monsterScheme = unitSchemeCatalog.AllMonsters.Single(x => x.Name.ToString() == monsterSid);
+                player.KnownMonsters.Add(monsterScheme);
+            }
+        }
+
+        private void LoadPlayerResources(IReadOnlyCollection<ResourceItem> inventory, ResourceDto[] resources)
+        {
+            if (resources is null)
+            {
+                return;
+            }
+
+            foreach (var resourceDto in resources)
+            {
+                var resource = inventory.Single(x => x.Type == resourceDto.Type);
+                resource.Amount = resourceDto.Amount;
+            }
         }
     }
 }
