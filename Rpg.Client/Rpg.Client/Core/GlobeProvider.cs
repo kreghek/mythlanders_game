@@ -177,7 +177,8 @@ namespace Rpg.Client.Core
 
         private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
         {
-            return inventory.Select(x => new ResourceDto { 
+            return inventory.Select(x => new ResourceDto
+            {
                 Amount = x.Amount,
                 Type = x.Type
             }).ToArray();

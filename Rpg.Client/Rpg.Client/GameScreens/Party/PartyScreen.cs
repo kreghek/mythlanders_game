@@ -204,7 +204,8 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     var levelUpButton = new TextButton("Equipment Upgrade", _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                    levelUpButton.OnClick += (_, _) => {
+                    levelUpButton.OnClick += (_, _) =>
+                    {
                         player.Inventory.Single(x => x.Type == equipmentType.Value).Amount -= character.EquipmentLevelup;
                         character.EquipmentLevel++;
                         InitUpgrageButtons(character, player);
