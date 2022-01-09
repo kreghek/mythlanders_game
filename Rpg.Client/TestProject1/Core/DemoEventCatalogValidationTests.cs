@@ -7,7 +7,6 @@ using NUnit.Framework;
 namespace Rpg.Client.Core.Tests
 {
     [TestFixture]
-    [Category("VALIDATION")]
     public class DemoEventCatalogValidationTests
     {
         [Test]
