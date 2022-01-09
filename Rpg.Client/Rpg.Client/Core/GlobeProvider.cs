@@ -29,7 +29,7 @@ namespace Rpg.Client.Core
             _unitSchemeCatalog = unitSchemeCatalog;
             _biomeGenerator = biomeGenerator;
             _eventCatalog = eventCatalog;
-            var binPath = AppContext.BaseDirectory;
+            var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
         }
 
