@@ -191,14 +191,10 @@ namespace Rpg.Client.GameComponents
         {
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
+            
+            var xpAmount = int.Parse(args[0]);
 
-            var unitSchemeSid = args[0];
-            var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
-
-            var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
-            var xpAmount = int.Parse(args[1]);
-
-            targetUnit.GainXp(xpAmount);
+            globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount += xpAmount;
         }
 
         private void HandleUpdateGlobe()
@@ -320,13 +316,14 @@ namespace Rpg.Client.GameComponents
             }
 
             var command = cheatParts[0];
+            var commandArgs = cheatParts.Skip(1).ToArray();
             switch (command)
             {
                 case "add-unit":
 
                     try
                     {
-                        HandleAddUnit(cheatParts.Skip(1).ToArray());
+                        HandleAddUnit(commandArgs);
                         return true;
                     }
                     catch (InvalidOperationException)
@@ -337,7 +334,7 @@ namespace Rpg.Client.GameComponents
                 case "gain-xp":
                     try
                     {
-                        HandleGainXp(cheatParts.Skip(1).ToArray());
+                        HandleGainXp(commandArgs);
                         return true;
                     }
                     catch (Exception ex) when (
@@ -349,7 +346,7 @@ namespace Rpg.Client.GameComponents
                 case "change-hp":
                     try
                     {
-                        HandleChangeHp(cheatParts.Skip(1).ToArray());
+                        HandleChangeHp(commandArgs);
                         return true;
                     }
                     catch (Exception ex) when (
