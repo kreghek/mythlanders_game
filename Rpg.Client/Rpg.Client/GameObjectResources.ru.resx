@@ -141,6 +141,12 @@
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
   </data>
+  <data name="CriticalHit" xml:space="preserve">
+    <value>Критический удар</value>
+  </data>
+  <data name="CriticalHitDescription" xml:space="preserve">
+    <value>Способность наносить двойной урон с 50% вероятностью.</value>
+  </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
   </data>

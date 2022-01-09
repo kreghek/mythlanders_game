@@ -7,6 +7,6 @@
         public GroupDto Pool { get; init; }
 
         public ResourceDto[] Resources { get; init; }
-        public string[] KnownMonsterSids { get; internal set; }
+        public string[] KnownMonsterSids { get; init; }
     }
 }

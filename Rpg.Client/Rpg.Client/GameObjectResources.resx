@@ -124,6 +124,14 @@
     <value>Grim Castle in the Rock</value>
     <comment>Location</comment>
   </data>
+  <data name="CriticalHit" xml:space="preserve">
+    <value>Critical hit</value>
+    <comment>Perk</comment>
+  </data>
+  <data name="CriticalHitDescription" xml:space="preserve">
+    <value>Ability to deal double damage in 50% cases.</value>
+    <comment>Perk</comment>
+  </data>
   <data name="DarkLight" xml:space="preserve">
       <value>Dark light</value>
   </data>

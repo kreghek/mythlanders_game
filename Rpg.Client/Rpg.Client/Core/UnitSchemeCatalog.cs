@@ -375,7 +375,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.ChineseMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
@@ -438,7 +438,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.EqyptianMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
@@ -501,7 +501,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.GreekMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
