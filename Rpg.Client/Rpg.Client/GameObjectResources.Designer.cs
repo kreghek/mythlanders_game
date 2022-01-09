@@ -385,6 +385,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rapid shot.
+        /// </summary>
+        internal static string RapidEnergyShot {
+            get {
+                return ResourceManager.GetString("RapidEnergyShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff hits.
         /// </summary>
         internal static string StaffHit {

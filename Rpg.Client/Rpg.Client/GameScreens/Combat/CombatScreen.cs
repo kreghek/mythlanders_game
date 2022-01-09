@@ -188,16 +188,13 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void ApplyCombatReward(IReadOnlyCollection<UnitRewards> xpItems)
+        private static void ApplyCombatReward(IReadOnlyCollection<CombatRewardsItem> xpItems, Player player)
         {
             foreach (var item in xpItems)
             {
-                item.Unit.GainXp(item.Xp.Amount);
+                var inventoryItem = player.Inventory.Single(x => x.Type == item.Xp.Type);
 
-                if (item.Equipment is not null)
-                {
-                    item.Unit.GainEquipmentItem(item.Equipment.Amount);
-                }
+                inventoryItem.Amount += item.Xp.Amount;
             }
         }
 
@@ -795,71 +792,43 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
 
-            var aliveUnits = _combat.Units.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
             var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
 
             var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
-            var xpPerPlayerUnit = summaryXp / aliveUnits.Length;
 
-            var remains = summaryXp - (xpPerPlayerUnit * aliveUnits.Length);
-
-            var remainsUsed = false;
-            var list = new List<UnitRewards>();
+            var list = new List<CombatRewardsItem>();
             var foundEquipments = new List<EquipmentItemType>();
             if (globeNode.EquipmentItem is not null)
             {
                 foundEquipments.Add(globeNode.EquipmentItem.Value);
             }
 
-            foreach (var combatUnit in aliveUnits)
+            var gainedXp = summaryXp;
+
+            var item = new CombatRewardsItem
             {
-                var gainedXp = xpPerPlayerUnit;
-
-                if (!remainsUsed)
+                
+                Xp = new CountableRewardStat
                 {
-                    gainedXp += remains;
-                    remainsUsed = true;
+                    StartValue = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount,
+                    Amount = gainedXp,
+                    Type = EquipmentItemType.ExpiriencePoints
                 }
+            };
 
-                var item = new UnitRewards
-                {
-                    Xp = new RewardStat
-                    {
-                        StartValue = combatUnit.Unit.Xp,
-                        Amount = gainedXp,
-                        ValueToLevelupSelector = () => combatUnit.Unit.LevelUpXp
-                    },
-                    Unit = combatUnit.Unit
-                };
+            list.Add(item);
 
-                var equipmentItemType = globeNode.EquipmentItem;
-
-                var targetUnit = GetUnitByEquipmentOrNull(player: player, equipmentItemType: equipmentItemType);
-
-                if (targetUnit == item.Unit)
-                {
-                    item.Equipment = new RewardStat
-                    {
-                        StartValue = item.Unit.EquipmentItems,
-                        Amount = 1,
-                        ValueToLevelupSelector = () => item.Unit.EquipmentLevelup
-                    };
-                }
-
-                list.Add(item);
-            }
 
             var combatRewards = new CombatRewards
             {
-                BiomeProgress = new RewardStat
+                BiomeProgress = new ProgressionRewardStat
                 {
                     StartValue = _combat.Biome.Level,
                     Amount = 1,
-                    ValueToLevelupSelector = () => 25
+                    ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
                 },
-                UnitRewards = list,
-                FoundEquipments = foundEquipments.Select(x => new FoundEquipment(x)).ToArray()
+                InventoryRewards = list
             };
 
             return combatRewards;
@@ -1024,7 +993,7 @@ namespace Rpg.Client.GameScreens.Combat
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player);
-                    ApplyCombatReward(xpItems.UnitRewards);
+                    ApplyCombatReward(xpItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1046,8 +1015,8 @@ namespace Rpg.Client.GameScreens.Combat
                         CombatResult.NextCombat,
                         new CombatRewards
                         {
-                            BiomeProgress = new RewardStat(),
-                            UnitRewards = Array.Empty<UnitRewards>()
+                            BiomeProgress = new ProgressionRewardStat(),
+                            InventoryRewards = Array.Empty<CombatRewardsItem>()
                         });
                 }
             }
@@ -1065,13 +1034,13 @@ namespace Rpg.Client.GameScreens.Combat
                     CombatResult.Defeat,
                     new CombatRewards
                     {
-                        BiomeProgress = new RewardStat
+                        BiomeProgress = new ProgressionRewardStat
                         {
                             StartValue = _combat.Biome.Level,
                             Amount = _combat.Biome.Level / 2,
                             ValueToLevelupSelector = () => 25
                         },
-                        UnitRewards = Array.Empty<UnitRewards>()
+                        InventoryRewards = Array.Empty<CombatRewardsItem>()
                     });
             }
 

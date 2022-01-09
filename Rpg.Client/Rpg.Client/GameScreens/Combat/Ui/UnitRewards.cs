@@ -1,11 +1,7 @@
-using Rpg.Client.Core;
-
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed record UnitRewards
+    internal sealed record CombatRewardsItem
     {
-        public RewardStat? Equipment { get; set; }
-        public Unit Unit { get; init; }
-        public RewardStat? Xp { get; set; }
+        public CountableRewardStat? Xp { get; set; }
     }
 }

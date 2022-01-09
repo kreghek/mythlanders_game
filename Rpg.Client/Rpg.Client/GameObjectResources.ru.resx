@@ -225,6 +225,9 @@
   <data name="Rada" xml:space="preserve">
     <value>Старая Рада</value>
   </data>
+  <data name="RapidEnergyShot" xml:space="preserve">
+    <value>Быстрый выстрел</value>
+  </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>
   </data>
