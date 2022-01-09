@@ -220,6 +220,9 @@
   <data name="Rada" xml:space="preserve">
     <value>Rada The Old</value>
   </data>
+  <data name="RapidEnergyShot" xml:space="preserve">
+    <value>Rapid shot</value>
+  </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
   </data>

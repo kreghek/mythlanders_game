@@ -15,11 +15,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private readonly TextButton _closeButton;
-        private readonly CombatRewards _combatItems;
+        private readonly CombatRewards _combatRewards;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
         private CombatItem? _combatItemsLocal;
-        private IReadOnlyCollection<FoundEquipment> _foundEquipments;
 
         private double _iterationCounter;
 
@@ -27,11 +26,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             GameObjectContentStorage gameObjectContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             CombatResult combatResult,
-            CombatRewards combatItems) : base(uiContentStorage, resolutionIndependentRenderer)
+            CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
-            _combatItems = combatItems;
+            _combatRewards = combatRewards;
             CombatResult = combatResult;
             _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont(), Rectangle.Empty);
@@ -67,11 +66,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             base.InitContent();
 
-            var biomeProgress = new UnitItemStat(_combatItems.BiomeProgress);
-            var unitRewards = _combatItems.UnitRewards.Select(x => new UnitItem(x)).ToArray();
+            var biomeProgress = new AnimatedProgressionUnitItemStat(_combatRewards.BiomeProgress);
+            var unitRewards = _combatRewards.InventoryRewards.Select(x => new AnimatedRewardItem(x)).ToArray();
 
             _combatItemsLocal = new CombatItem(biomeProgress, unitRewards);
-            _foundEquipments = _combatItems.FoundEquipments;
         }
 
         protected override void UpdateContent(GameTime gameTime,
@@ -147,58 +145,30 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y),
                 Color.Wheat);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), UiResource.CombatResultItemsFoundLabel,
-                new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y + 10),
-                Color.Wheat);
-            var foundEquipmentsList = _foundEquipments.ToArray();
-            for (var index = 0; index < foundEquipmentsList.Length; index++)
-            {
-                var foundEquipment = foundEquipmentsList[index];
-                var position = new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y + 10) +
-                               new Vector2(0, (10 + 32) * index + 10);
-                var equipmentLocalizedText = GameObjectHelper.GetLocalized(foundEquipment.EquipmentItemType);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), equipmentLocalizedText,
-                    position + new Vector2(0, 32),
-                    Color.Wheat);
-                spriteBatch.Draw(_gameObjectContentStorage.GetEquipmentIcons(),
-                    position,
-                    GetEquipmentSpriteRect(foundEquipment.EquipmentItemType),
-                    Color.White);
-            }
-
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
                 var item = xpItems[itemIndex];
-                var benefitsLvlPosition =
-                    new Vector2(benefitsPosition.X, benefitsPosition.Y + (32 + MARGIN) * itemIndex);
 
-                var portraitRect = UnsortedHelpers.GetUnitPortraitRect(item.UnitName);
+                var itemOffsetVector = new Vector2(0, (32 + MARGIN) * itemIndex);
 
-                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), benefitsLvlPosition, portraitRect,
+                var benefitsLvlPosition = benefitsPosition + itemOffsetVector;
+
+
+                var resourceIconRect = GetEquipmentSpriteRect(item.Equipment.Type);
+
+                spriteBatch.Draw(_gameObjectContentStorage.GetEquipmentIcons(), benefitsLvlPosition, resourceIconRect,
                     Color.White);
 
-                var localizedName = GameObjectHelper.GetLocalized(item.UnitName);
+                var localizedName = GameObjectHelper.GetLocalized(item.Equipment.Type);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 0),
                     Color.Wheat);
 
-                var unitXpBenefit = UnitValueBenefit(unitItemStat: item.Xp, UiResource.CombatResultXpPostfix);
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitXpBenefit,
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"x {item.Equipment.CurrentValue}",
                     benefitsLvlPosition + new Vector2(32 + MARGIN, 10 + MARGIN),
                     Color.Wheat);
-
-                if (item.Equipment is not null)
-                {
-                    var unitEquipmentBenefit = UnitValueBenefit(unitItemStat: item.Equipment,
-                        UiResource.CombatResultEquipmentPostfix);
-
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitEquipmentBenefit,
-                        benefitsLvlPosition + new Vector2(32 + MARGIN, 20 + MARGIN),
-                        Color.Wheat);
-                }
             }
         }
 
@@ -231,7 +201,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
-        private static string? UnitValueBenefit(UnitItemStat? unitItemStat, string postfix)
+        private static string? UnitValueBenefit(AnimatedProgressionUnitItemStat? unitItemStat, string postfix)
         {
             var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelUpValue} {postfix}";
 
@@ -250,14 +220,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class CombatItem
         {
-            public CombatItem(UnitItemStat biomeProgress, IReadOnlyCollection<UnitItem> unitItems)
+            public CombatItem(AnimatedProgressionUnitItemStat biomeProgress, IReadOnlyCollection<AnimatedRewardItem> unitItems)
             {
                 BiomeProgress = biomeProgress;
                 UnitItems = unitItems;
             }
 
-            public UnitItemStat BiomeProgress { get; }
-            public IReadOnlyCollection<UnitItem> UnitItems { get; }
+            public AnimatedProgressionUnitItemStat BiomeProgress { get; }
+            public IReadOnlyCollection<AnimatedRewardItem> UnitItems { get; }
 
             public void Update()
             {
@@ -275,7 +245,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private sealed class UnitItemStat
+        private sealed class AnimatedProgressionUnitItemStat
         {
             private const int MINIMAL_COUNTER_SPEED = 2;
             private const int MINIMAL_COUNTER_THRESHOLD = 100;
@@ -288,7 +258,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             private bool _countingComplete;
 
-            public UnitItemStat(RewardStat item)
+            public AnimatedProgressionUnitItemStat(ProgressionRewardStat item)
             {
                 _amount = item.Amount;
                 LevelupSelector = item.ValueToLevelupSelector;
@@ -364,27 +334,89 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private sealed class UnitItem
+        private sealed class AnimatedCountableUnitItemStat
         {
-            public UnitItem(UnitRewards rewards)
-            {
-                UnitName = rewards.Unit.UnitScheme.Name;
-                Xp = new UnitItemStat(rewards.Xp);
+            private const int MINIMAL_COUNTER_SPEED = 2;
+            private const int MINIMAL_COUNTER_THRESHOLD = 100;
 
-                if (rewards.Equipment is not null)
-                {
-                    Equipment = new UnitItemStat(rewards.Equipment);
-                }
+            private readonly int _amount;
+
+            private readonly int _counterSpeed;
+
+            private int _countedValue;
+
+            private bool _countingComplete;
+
+            public AnimatedCountableUnitItemStat(CountableRewardStat item)
+            {
+                _amount = item.Amount;
+                CurrentValue = item.StartValue;
+
+                _counterSpeed = CalcCounterSpeed();
+                Type = item.Type;
             }
 
-            public UnitItemStat? Equipment { get; }
-            public UnitName UnitName { get; }
+            public int CurrentValue { get; private set; }
 
-            public UnitItemStat? Xp { get; }
+            public EquipmentItemType Type { get; }
 
             public void Update()
             {
-                Xp?.Update();
+                if (_countingComplete)
+                {
+                    return;
+                }
+
+                if (_amount == 0)
+                {
+                    _countingComplete = true;
+                    return;
+                }
+
+                CurrentValue += _counterSpeed;
+                _countedValue += _counterSpeed;
+
+                if (_countedValue >= _amount)
+                {
+                    _countingComplete = true;
+                }
+            }
+
+            private int CalcCounterSpeed()
+            {
+                int counterSpeed;
+                if (Math.Abs(_amount) > MINIMAL_COUNTER_THRESHOLD)
+                {
+                    counterSpeed =
+                        (int)Math.Max(
+                            Math.Round((float)_amount / MINIMAL_COUNTER_THRESHOLD, MidpointRounding.AwayFromZero), 1);
+                }
+                else
+                {
+                    counterSpeed = _amount switch
+                    {
+                        > 0 => MINIMAL_COUNTER_SPEED,
+                        < 0 => -MINIMAL_COUNTER_SPEED,
+                        _ => MINIMAL_COUNTER_SPEED /*throw new InvalidOperationException(
+                            $"{nameof(_amount)} required to be greatest that zero.")*/
+                    };
+                }
+
+                return counterSpeed;
+            }
+        }
+
+        private sealed class AnimatedRewardItem
+        {
+            public AnimatedRewardItem(CombatRewardsItem rewardItem)
+            {
+                Equipment = new AnimatedCountableUnitItemStat(rewardItem.Xp);
+            }
+
+            public AnimatedCountableUnitItemStat? Equipment { get; }
+
+            public void Update()
+            {
                 Equipment?.Update();
             }
         }

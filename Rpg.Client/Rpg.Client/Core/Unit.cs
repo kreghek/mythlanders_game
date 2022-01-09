@@ -21,22 +21,18 @@ namespace Rpg.Client.Core
         private float _armorBonus;
 
         public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level,
-            equipmentLevel: 0,
-            xp: 0,
-            equipmentItems: 0)
+            equipmentLevel: 0)
         {
         }
 
-        public Unit(UnitScheme unitScheme, int level, int equipmentLevel, int xp, int equipmentItems)
+        public Unit(UnitScheme unitScheme, int level, int equipmentLevel)
         {
             UnitScheme = unitScheme;
 
             Perks = unitScheme.Perks;
 
             Level = level;
-            Xp = xp;
             EquipmentLevel = equipmentLevel;
-            EquipmentItems = equipmentItems;
 
             InitStats(unitScheme);
             RestoreHp();
@@ -48,13 +44,10 @@ namespace Rpg.Client.Core
 
         public int Damage => CalcDamage();
 
-        public int EquipmentItems { get; private set; }
 
         public int EquipmentLevel { get; set; }
 
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
-
-        public int EquipmentRemains => EquipmentLevelup - EquipmentItems;
 
         public bool HasSkillsWithCost
         {
@@ -109,10 +102,6 @@ namespace Rpg.Client.Core
 
         public UnitScheme UnitScheme { get; private set; }
 
-        public int Xp { get; set; }
-
-        public int XpRemains => LevelUpXp - Xp;
-
         /// <summary>
         /// Used only by monster units.
         /// Amount of the experience gained for killing this unit.
@@ -122,42 +111,6 @@ namespace Rpg.Client.Core
         public void AvoidDamage()
         {
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void GainEquipmentItem(int amount)
-        {
-            var items = EquipmentItems;
-            var level = EquipmentLevel;
-            var equipmentLevelup = EquipmentLevelup;
-            var equipmentRemains = EquipmentRemains;
-            var wasLevelUp = GainCounterInner(amount, ref items, ref level, ref equipmentLevelup, ref equipmentRemains);
-            EquipmentItems = items;
-            EquipmentLevel = level;
-
-            if (wasLevelUp)
-            {
-                InitStats(UnitScheme);
-            }
-        }
-
-        /// <summary>
-        /// Increase XP.
-        /// </summary>
-        /// <returns>Returns true is level up.</returns>
-        public void GainXp(int amount)
-        {
-            var xp = Xp;
-            var level = Level;
-            var levelupXp = LevelUpXp;
-            var xpRemains = XpRemains;
-            var wasLevelUp = GainCounterInner(amount, ref xp, ref level, ref levelupXp, ref xpRemains);
-            Xp = xp;
-            Level = level;
-
-            if (wasLevelUp)
-            {
-                InitStats(UnitScheme);
-            }
         }
 
         public void RestoreHitPoints(int heal)
@@ -291,31 +244,6 @@ namespace Rpg.Client.Core
             var normalizedSupport = (int)Math.Round(support, MidpointRounding.AwayFromZero);
 
             return normalizedSupport;
-        }
-
-        private static bool GainCounterInner(int amount, ref int xp, ref int level, ref int levelupXp,
-            ref int xpRemains)
-        {
-            var currentXpCounter = amount;
-            var wasLevelup = false;
-
-            while (currentXpCounter > 0)
-            {
-                var xpToNextLevel = Math.Min(currentXpCounter, xpRemains);
-                currentXpCounter -= xpToNextLevel;
-
-                xp += xpToNextLevel;
-
-                if (xp >= levelupXp)
-                {
-                    level++;
-                    xp = 0;
-
-                    wasLevelup = true;
-                }
-            }
-
-            return wasLevelup;
         }
 
         private void InitStats(UnitScheme unitScheme)

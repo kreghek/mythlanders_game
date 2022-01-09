@@ -74,10 +74,10 @@ namespace Rpg.Client.GameScreens.Party
                     string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
                     string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
                         _selectedCharacter.ManaPoolSize),
-                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, _selectedCharacter.Xp,
+                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, 0,
                         _selectedCharacter.LevelUpXp),
                     string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel,
-                        _selectedCharacter.EquipmentItems,
+                        0,
                         _selectedCharacter.EquipmentLevelup)
                 };
 
@@ -109,6 +109,13 @@ namespace Rpg.Client.GameScreens.Party
                         contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
                     button.Draw(spriteBatch);
                 }
+            }
+
+            var array = _globeProvider.Globe.Player.Inventory.ToArray();
+            for (var i = 0; i < array.Length; i++)
+            {
+                var resourceItem = array[i];
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}", new Vector2(100, i * 20 + 100), Color.Wheat);
             }
 
             spriteBatch.End();
@@ -143,6 +150,8 @@ namespace Rpg.Client.GameScreens.Party
                         _selectedCharacter = character;
 
                         InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+
+                        InitUpgrageButtons(character, _globeProvider.Globe.Player);
                     };
                     _unitButtonList.Add(button);
                 }
@@ -164,6 +173,43 @@ namespace Rpg.Client.GameScreens.Party
                 foreach (var button in _slotButtonList.ToArray())
                 {
                     button.Update(_resolutionIndependentRenderer);
+                }
+            }
+        }
+
+        private void InitUpgrageButtons(Unit character, Player player)
+        {
+
+            var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
+            if (xpAmount >= character.LevelUpXp)
+            {
+                var levelUpButton = new TextButton("Level Up", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+
+                levelUpButton.OnClick += (_, _) =>
+                {
+                    player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -= character.LevelUpXp;
+                    character.Level++;
+                    InitUpgrageButtons(character, player);
+                };
+
+                _slotButtonList.Add(levelUpButton);
+            }
+
+            var equipmentType = UnsortedHelpers.GetEquipmentItemTypeByUnitScheme(character.UnitScheme);
+            if (equipmentType is not null)
+            {
+                var equipmentResource = player.Inventory.Single(x => x.Type == equipmentType.Value).Amount;
+                if (equipmentResource >= character.EquipmentLevelup)
+                {
+                    var levelUpButton = new TextButton("Equipment Upgrade", _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                    levelUpButton.OnClick += (_, _) => {
+                        player.Inventory.Single(x => x.Type == equipmentType.Value).Amount -= character.EquipmentLevelup;
+                        character.EquipmentLevel++;
+                        InitUpgrageButtons(character, player);
+                    };
+                    _slotButtonList.Add(levelUpButton);
                 }
             }
         }
