@@ -111,6 +111,13 @@ namespace Rpg.Client.GameScreens.Party
                 }
             }
 
+            var array = _globeProvider.Globe.Player.Inventory.ToArray();
+            for (var i = 0; i < array.Length; i++)
+            {
+                var resourceItem = array[i];
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}", new Vector2(100, i * 20 + 100), Color.Wheat);
+            }
+
             spriteBatch.End();
         }
 
