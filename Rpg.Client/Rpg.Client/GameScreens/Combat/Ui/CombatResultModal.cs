@@ -154,7 +154,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var benefitsLvlPosition = benefitsPosition + itemOffsetVector;
 
-
                 var resourceIconRect = GetEquipmentSpriteRect(item.Equipment.Type);
 
                 spriteBatch.Draw(_gameObjectContentStorage.GetEquipmentIcons(), benefitsLvlPosition, resourceIconRect,
@@ -220,7 +219,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private sealed class CombatItem
         {
-            public CombatItem(AnimatedProgressionUnitItemStat biomeProgress, IReadOnlyCollection<AnimatedRewardItem> unitItems)
+            public CombatItem(AnimatedProgressionUnitItemStat biomeProgress,
+                IReadOnlyCollection<AnimatedRewardItem> unitItems)
             {
                 BiomeProgress = biomeProgress;
                 UnitItems = unitItems;

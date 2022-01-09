@@ -808,7 +808,6 @@ namespace Rpg.Client.GameScreens.Combat
 
             var item = new CombatRewardsItem
             {
-
                 Xp = new CountableRewardStat
                 {
                     StartValue = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount,
@@ -818,7 +817,6 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             list.Add(item);
-
 
             var combatRewards = new CombatRewards
             {

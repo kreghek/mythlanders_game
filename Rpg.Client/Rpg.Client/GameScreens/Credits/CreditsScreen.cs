@@ -10,9 +10,9 @@ namespace Rpg.Client.GameScreens.Credits
     {
         private readonly ResourceTextButton _backButton;
         private readonly Camera2D _camera;
+        private readonly string _creditsText;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly string _creditsText;
         private float _textPosition;
 
         public CreditsScreen(EwarGame game) : base(game)

@@ -101,7 +101,8 @@ namespace Rpg.Client.GameScreens.Title
             };
             _buttons.Add(exitGameButton);
 
-            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this, exitButton: false);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
+                exitButton: false);
             AddModal(_settingsModal, isLate: true);
         }
 
@@ -169,7 +170,8 @@ namespace Rpg.Client.GameScreens.Title
 
             loadGameButton.OnClick += (_, _) =>
             {
-                var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer, _globeProvider, _dice, _unitSchemeCatalog, _eventCatalog, ScreenManager, this);
+                var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
+                    _globeProvider, _dice, _unitSchemeCatalog, _eventCatalog, ScreenManager, this);
                 AddModal(continueDialog, isLate: true);
                 continueDialog.Show();
             };
