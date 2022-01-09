@@ -101,6 +101,8 @@ namespace Rpg.Client.Core
             if (lastSave.Player is not null)
             {
                 LoadPlayerCharacters(lastSave.Player);
+
+                Globe.Player.SkipTutorial = lastSave.Player.SkipTutorial;
             }
 
             LoadPlayerResources(Globe.Player.Inventory, lastSave.Player.Resources);
@@ -155,7 +157,8 @@ namespace Rpg.Client.Core
                     Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
-                    KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters)
+                    KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
+                    SkipTutorial = Globe.Player.SkipTutorial
                 };
             }
 

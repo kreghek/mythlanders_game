@@ -148,13 +148,14 @@ namespace Rpg.Client.GameScreens.Biome
         {
             base.UpdateContent(gameTime);
 
-            if (!_tutorial)
+            if (!_tutorial && !_globe.Player.SkipTutorial)
             {
                 _tutorial = true;
                 var tutorialModal = new TutorialModal(
                     new BiomeTutorialPageDrawer(_uiContentStorage),
                     _uiContentStorage,
-                    _resolutionIndependenceRenderer);
+                    _resolutionIndependenceRenderer,
+                    _globe.Player);
                 AddModal(tutorialModal, isLate: false);
             }
 

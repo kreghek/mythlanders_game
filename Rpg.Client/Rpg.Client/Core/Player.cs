@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-
     internal sealed class Player
     {
         public Player()
@@ -34,6 +33,8 @@ namespace Rpg.Client.Core
 
             return inventory;
         }
+
+        public bool SkipTutorial { get; set; }
 
         public IList<UnitScheme> KnownMonsters { get; }
 

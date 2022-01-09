@@ -111,12 +111,12 @@ namespace Rpg.Client.GameScreens.Event
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            if (!_tutorial && !_globe.CurrentEvent?.IsGameStart == true)
+            if (!_tutorial && !_globe.CurrentEvent?.IsGameStart == true && !_globe.Player.SkipTutorial)
             {
                 _tutorial = true;
 
                 var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    _resolutionIndependentRenderer);
+                    _resolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
             }
 

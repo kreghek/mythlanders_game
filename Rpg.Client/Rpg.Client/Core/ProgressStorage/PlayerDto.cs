@@ -8,5 +8,6 @@
 
         public ResourceDto[] Resources { get; init; }
         public string[] KnownMonsterSids { get; init; }
+        public bool SkipTutorial { get; init; }
     }
 }

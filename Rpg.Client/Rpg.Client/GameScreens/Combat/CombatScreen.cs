@@ -128,11 +128,11 @@ namespace Rpg.Client.GameScreens.Combat
         {
             base.UpdateContent(gameTime);
 
-            if (!_tutorial)
+            if (!_tutorial && !_globe.Player.SkipTutorial)
             {
                 _tutorial = true;
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
-                    _uiContentStorage, _resolutionIndependentRenderer);
+                    _uiContentStorage, _resolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
             }
 

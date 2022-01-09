@@ -412,6 +412,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not show anymore.
+        /// </summary>
+        internal static string SkipTutorialButtonTitle {
+            get {
+                return ResourceManager.GetString("SkipTutorialButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New game.
         /// </summary>
         internal static string StartNewGameButtonTitle {
