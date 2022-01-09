@@ -17,7 +17,8 @@ namespace Rpg.Client.GameScreens.Common
         {
             _pageDrawer = pageDrawer;
 
-            _skipTutorialButton = new ResourceTextButton(UiResource.SkipTutorialButtonTitle, uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            _skipTutorialButton = new ResourceTextButton(UiResource.SkipTutorialButtonTitle,
+                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             _skipTutorialButton.OnClick += (_, _) =>
             {
                 player.SkipTutorial = true;
@@ -35,7 +36,8 @@ namespace Rpg.Client.GameScreens.Common
             _skipTutorialButton.Draw(spriteBatch);
         }
 
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
