@@ -195,6 +195,9 @@
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
   </data>
+  <data name="ContinueGameButtonTitle" xml:space="preserve">
+    <value>Продолжить игру</value>
+  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Кредиты</value>
   </data>
@@ -225,9 +228,6 @@
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Для тренировки</value>
   </data>
-  <data name="ContinueGameButtonTitle" xml:space="preserve">
-    <value>Продолжить игру</value>
-  </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
   </data>
@@ -257,6 +257,9 @@
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
+  </data>
+  <data name="SkipTutorialButtonTitle" xml:space="preserve">
+    <value>Пропустить обучение</value>
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>Новая игра</value>

@@ -19,6 +19,8 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<ResourceItem> Inventory { get; }
 
+        public bool SkipTutorial { get; set; }
+
         public IList<UnitScheme> KnownMonsters { get; }
 
         public Group Party { get; }

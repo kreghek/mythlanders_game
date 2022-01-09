@@ -8,5 +8,6 @@
         public GroupDto Pool { get; init; }
 
         public ResourceDto[] Resources { get; init; }
+        public bool SkipTutorial { get; init; }
     }
 }

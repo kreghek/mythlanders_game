@@ -117,7 +117,8 @@ namespace Rpg.Client.Core
                     BeforeCombatStartNode = beforeEventNode,
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
-                    IsGameStart = eventStorageModel == eventStorageModelList.First()
+                    IsGameStart = eventStorageModel == eventStorageModelList.First(),
+                    Sid = eventStorageModel.Sid
                 };
 
                 yield return plotEvent;

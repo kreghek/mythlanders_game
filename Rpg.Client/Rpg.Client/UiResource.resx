@@ -181,6 +181,9 @@
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="ContinueGameButtonTitle" xml:space="preserve">
+    <value>Continue game</value>
+  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
@@ -210,9 +213,6 @@
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Is training only</value>
     <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
-  </data>
-  <data name="ContinueGameButtonTitle" xml:space="preserve">
-    <value>Continue game</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
@@ -244,6 +244,9 @@
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Short</value>
+  </data>
+  <data name="SkipTutorialButtonTitle" xml:space="preserve">
+    <value>Do not show anymore</value>
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
