@@ -211,7 +211,7 @@
     <value>Is training only</value>
     <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
   </data>
-  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
+  <data name="ContinueGameButtonTitle" xml:space="preserve">
     <value>Continue game</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
@@ -245,8 +245,8 @@
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Short</value>
   </data>
-  <data name="StartGameButtonTitle" xml:space="preserve">
-    <value>Start</value>
+  <data name="StartNewGameButtonTitle" xml:space="preserve">
+    <value>New game</value>
   </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
     <value>Switch fullscreen</value>

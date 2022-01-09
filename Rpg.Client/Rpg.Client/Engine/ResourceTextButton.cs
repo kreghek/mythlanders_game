@@ -8,6 +8,8 @@ namespace Rpg.Client.Engine
         private readonly SpriteFont _font;
         private readonly string _resourceSid;
 
+        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font) : this(resourceSid, texture, font, Rectangle.Empty) { }
+
         public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(
             texture, rect)
         {
@@ -27,7 +29,7 @@ namespace Rpg.Client.Engine
                 (widthDiff / 2) + contentRect.Left,
                 (heightDiff / 2) + contentRect.Top);
 
-            spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.White);
+            spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.SaddleBrown);
         }
     }
 }

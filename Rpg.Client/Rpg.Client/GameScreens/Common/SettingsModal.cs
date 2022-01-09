@@ -35,7 +35,7 @@ namespace Rpg.Client.GameScreens.Common
 
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
-            IScreen currentScreen) : base(uiContentStorage,
+            IScreen currentScreen, bool exitButton = true) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -81,17 +81,20 @@ namespace Rpg.Client.GameScreens.Common
 
             InitSelectedMonitorResolution(globeProvider);
 
-            var exitGameButton = new ResourceTextButton(
-                nameof(UiResource.ExitGameButtonTitle),
-                buttonTexture,
-                font,
-                Rectangle.Empty
-            );
-            exitGameButton.OnClick += (s, e) =>
+            if (exitButton)
             {
-                game.Exit();
-            };
-            _buttons.Add(exitGameButton);
+                var exitGameButton = new ResourceTextButton(
+                    nameof(UiResource.ExitGameButtonTitle),
+                    buttonTexture,
+                    font,
+                    Rectangle.Empty
+                );
+                exitGameButton.OnClick += (s, e) =>
+                {
+                    game.Exit();
+                };
+                _buttons.Add(exitGameButton);
+            }
         }
 
 

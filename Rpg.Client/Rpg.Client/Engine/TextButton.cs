@@ -7,6 +7,10 @@ namespace Rpg.Client.Engine
     {
         private readonly SpriteFont _font;
 
+        public TextButton(string title, Texture2D texture, SpriteFont font) : this(title, texture, font, Rectangle.Empty)
+        {
+        }
+
         public TextButton(string title, Texture2D texture, SpriteFont font, Rectangle rect) : base(texture, rect)
         {
             Title = title;

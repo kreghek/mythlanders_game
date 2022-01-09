@@ -133,6 +133,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Critical hit.
+        /// </summary>
+        internal static string CriticalHit {
+            get {
+                return ResourceManager.GetString("CriticalHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ability to deal double damage in 50% cases..
+        /// </summary>
+        internal static string CriticalHitDescription {
+            get {
+                return ResourceManager.GetString("CriticalHitDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark light.
         /// </summary>
         internal static string DarkLight {
@@ -381,6 +399,15 @@ namespace Rpg.Client {
         internal static string Rada {
             get {
                 return ResourceManager.GetString("Rada", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rapid shot.
+        /// </summary>
+        internal static string RapidEnergyShot {
+            get {
+                return ResourceManager.GetString("RapidEnergyShot", resourceCulture);
             }
         }
         

@@ -29,7 +29,7 @@ namespace Rpg.Client.Core
             _unitSchemeCatalog = unitSchemeCatalog;
             _biomeGenerator = biomeGenerator;
             _eventCatalog = eventCatalog;
-            var binPath = AppContext.BaseDirectory;
+            var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             _saveFilePath = Path.Combine(binPath, SAVE_JSON);
         }
 
@@ -103,6 +103,9 @@ namespace Rpg.Client.Core
                 LoadPlayerCharacters(lastSave.Player);
             }
 
+            LoadPlayerResources(Globe.Player.Inventory, lastSave.Player.Resources);
+            LoadPlayerKnownMonsters(lastSave.Player, _unitSchemeCatalog, Globe.Player);
+
             LoadEvents(lastSave.Events);
 
             LoadBiomes(lastSave.Biomes, Globe.Biomes);
@@ -110,6 +113,36 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
             return true;
+        }
+
+        private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
+        {
+            player.KnownMonsters.Clear();
+
+            if (playerDto.KnownMonsterSids is null)
+            {
+                return;
+            }
+
+            foreach (var monsterSid in playerDto.KnownMonsterSids)
+            {
+                var monsterScheme = unitSchemeCatalog.AllMonsters.Single(x => x.Name.ToString() == monsterSid);
+                player.KnownMonsters.Add(monsterScheme);
+            }
+        }
+
+        private void LoadPlayerResources(IReadOnlyCollection<ResourceItem> inventory, ResourceDto[] resources)
+        {
+            if (resources is null)
+            {
+                return;
+            }
+
+            foreach (var resourceDto in resources)
+            {
+                var resource = inventory.Single(x => x.Type == resourceDto.Type);
+                resource.Amount = resourceDto.Amount;
+            }
         }
 
         public void StoreGlobe()
@@ -120,7 +153,9 @@ namespace Rpg.Client.Core
                 player = new PlayerDto
                 {
                     Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
-                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units)
+                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
+                    Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
+                    KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters)
                 };
             }
 
@@ -135,12 +170,24 @@ namespace Rpg.Client.Core
             File.WriteAllText(_saveFilePath, serializedSave);
         }
 
+        private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
+        {
+            return knownMonsters.Select(x => x.Name.ToString()).ToArray();
+        }
+
+        private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
+        {
+            return inventory.Select(x => new ResourceDto { 
+                Amount = x.Amount,
+                Type = x.Type
+            }).ToArray();
+        }
+
         private Unit[] CreateStartUnits()
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1, equipmentLevel: 1, xp: 0,
-                    equipmentItems: 0)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1, equipmentLevel: 1)
                 {
                     IsPlayerControlled = true
                 }
@@ -183,9 +230,7 @@ namespace Rpg.Client.Core
                 {
                     SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.HitPoints,
-                    Xp = unit.Xp,
                     Level = unit.Level,
-                    EquipmentItems = unit.EquipmentItems,
                     EquipmentLevel = unit.EquipmentLevel,
                     ManaPool = unit.ManaPool
                 });
@@ -316,8 +361,7 @@ namespace Rpg.Client.Core
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 
-                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel, unitDto.Xp,
-                    unitDto.EquipmentItems)
+                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel)
                 {
                     IsPlayerControlled = true
                 };

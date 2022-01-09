@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
-
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal sealed record CombatRewards
     {
-        public RewardStat BiomeProgress { get; init; }
-        public IReadOnlyCollection<FoundEquipment> FoundEquipments { get; init; }
-        public IReadOnlyCollection<UnitRewards> UnitRewards { get; init; }
+        public ProgressionRewardStat BiomeProgress { get; init; }
+        public IReadOnlyCollection<CombatRewardsItem> InventoryRewards { get; init; }
     }
-
-    internal sealed record FoundEquipment(EquipmentItemType EquipmentItemType);
 }

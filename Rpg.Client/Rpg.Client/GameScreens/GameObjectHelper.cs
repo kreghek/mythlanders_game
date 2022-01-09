@@ -21,6 +21,11 @@ namespace Rpg.Client.GameScreens
                 return null;
             }
 
+            if (equipmentType == EquipmentItemType.ExpiriencePoints)
+            {
+                return "Xp";
+            }
+
             return GetLocalizedInner($"{equipmentType}Equipment");
         }
 

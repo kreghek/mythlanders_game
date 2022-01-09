@@ -61,27 +61,26 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Кредиты
+        ///   Looks up a localized string similar to Credits
         ///
-        ///Гейм-дизайн:
+        ///Game Design:
         ///Я
         ///
-        ///Разработчики:
+        ///Programmers:
         ///Я
         ///
-        ///Музыка:
+        ///Music:
         ///Иван
         ///
-        ///Художники:
+        ///Artist:
         ///Егор
         ///
-        ///
-        ///Отдельное спасибо:
+        ///Special thanks to:
         ///Толя, Гриша.
         /// </summary>
-        internal static string Credits_ru {
+        internal static string Credits {
             get {
-                return ResourceManager.GetString("Credits_ru", resourceCulture);
+                return ResourceManager.GetString("Credits", resourceCulture);
             }
         }
     }

@@ -141,6 +141,12 @@
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
   </data>
+  <data name="CriticalHit" xml:space="preserve">
+    <value>Критический удар</value>
+  </data>
+  <data name="CriticalHitDescription" xml:space="preserve">
+    <value>Способность наносить двойной урон с 50% вероятностью.</value>
+  </data>
   <data name="DarkLight" xml:space="preserve">
     <value>Темная молная</value>
   </data>
@@ -224,6 +230,9 @@
   </data>
   <data name="Rada" xml:space="preserve">
     <value>Старая Рада</value>
+  </data>
+  <data name="RapidEnergyShot" xml:space="preserve">
+    <value>Быстрый выстрел</value>
   </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>

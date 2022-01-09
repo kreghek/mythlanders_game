@@ -5,13 +5,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class HealingSalveSkill : SkillBase
+    internal class ToxicHerbsSkill : SkillBase
     {
-        public HealingSalveSkill() : this(false)
+        public ToxicHerbsSkill() : this(false)
         {
         }
 
-        public HealingSalveSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ToxicHerbsSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -22,8 +22,9 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new HealEffect
+                    var effect = new PeriodicSupportAttackEffect
                     {
+                        Actor = u,
                         SourceSupport = u.Unit.Support,
                         PowerMultiplier = 0.3f
                     };
@@ -33,7 +34,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.HealingSalve;
+        public override SkillSid Sid => SkillSid.ToxicHerbs;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 

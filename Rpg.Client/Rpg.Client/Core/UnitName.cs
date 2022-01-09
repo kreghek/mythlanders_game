@@ -52,6 +52,9 @@
         KosheyTheImmortal,
         KosheyTheImmortal2,
         KosheyTheImmortal3,
-        VolkolakWarrior
+        VolkolakWarrior,
+        ChineseMonster,
+        EqyptianMonster,
+        GreekMonster
     }
 }

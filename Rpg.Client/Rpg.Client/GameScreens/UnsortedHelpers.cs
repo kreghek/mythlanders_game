@@ -14,6 +14,17 @@ namespace Rpg.Client.GameScreens
             return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
         }
 
+        public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)
+        {
+            switch (unitScheme.Name)
+            {
+                case UnitName.Berimir:
+                    return EquipmentItemType.Warrior;
+                default:
+                    return null;
+            }
+        }
+
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
             EquipmentItemType? equipmentItemType)
         {

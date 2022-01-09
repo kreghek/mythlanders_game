@@ -189,6 +189,15 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new HealingSalveSkill(),
+                        new ToxicHerbsSkill()
+                    }
+                },
+                new SkillSet
+                {
+                    Skills = new List<SkillBase>
+                    {
+                        new HealingSalveSkill(),
+                        new ToxicHerbsSkill(),
                         new DopeHerbSkill(true)
                     }
                 },
@@ -197,6 +206,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new HealingSalveSkill(),
+                        new ToxicHerbsSkill(),
                         new DopeHerbSkill(true),
                         new MassHealSkill(true)
                     }
@@ -227,8 +237,7 @@ namespace Rpg.Client.Core
                     Skills = new List<SkillBase>
                     {
                         new BowShotSkill(),
-                        new RapidBowShotSkill(),
-                        new ArrowRainSkill(true)
+                        new RapidBowShotSkill()
                     }
                 },
                 new SkillSet
@@ -366,7 +375,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.ChineseMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
@@ -429,7 +438,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.EqyptianMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
@@ -492,7 +501,7 @@ namespace Rpg.Client.Core
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.GreyWolf,
+                    Name = UnitName.GreekMonster,
                     Biome = biomeType,
                     LocationSids = new[]
                     {
