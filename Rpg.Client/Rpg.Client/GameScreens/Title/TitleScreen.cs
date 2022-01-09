@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Title
             else
             {
                 var startButton = new ResourceTextButton(
-                    nameof(UiResource.StartGameButtonTitle),
+                    nameof(UiResource.StartNewGameButtonTitle),
                     buttonTexture,
                     _font,
                     Rectangle.Empty);
@@ -101,7 +101,7 @@ namespace Rpg.Client.GameScreens.Title
             };
             _buttons.Add(exitGameButton);
 
-            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this, exitButton: false);
             AddModal(_settingsModal, isLate: true);
         }
 
@@ -167,20 +167,16 @@ namespace Rpg.Client.GameScreens.Title
             }
 
             var loadGameButton = new ResourceTextButton(
-                nameof(UiResource.LoadLastSaveButtonTitle),
+                nameof(UiResource.ContinueGameButtonTitle),
                 buttonTexture,
                 font,
                 new Rectangle(0, 0, 100, 25));
 
             loadGameButton.OnClick += (_, _) =>
             {
-                var isSuccessLoaded = _globeProvider.LoadGlobe();
-                if (!isSuccessLoaded)
-                {
-                    return;
-                }
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer, _globeProvider, _dice, _unitSchemeCatalog, _eventCatalog, ScreenManager, this);
+                AddModal(continueDialog, isLate: true);
+                continueDialog.Show();
             };
 
             return loadGameButton;

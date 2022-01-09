@@ -8,6 +8,8 @@ namespace Rpg.Client.Engine
         private readonly SpriteFont _font;
         private readonly string _resourceSid;
 
+        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font) : this(resourceSid, texture, font, Rectangle.Empty) { }
+
         public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(
             texture, rect)
         {

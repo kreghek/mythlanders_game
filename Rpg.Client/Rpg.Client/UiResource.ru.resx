@@ -225,7 +225,7 @@
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Для тренировки</value>
   </data>
-  <data name="LoadLastSaveButtonTitle" xml:space="preserve">
+  <data name="ContinueGameButtonTitle" xml:space="preserve">
     <value>Продолжить игру</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
@@ -258,8 +258,8 @@
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
   </data>
-  <data name="StartGameButtonTitle" xml:space="preserve">
-    <value>Старт</value>
+  <data name="StartNewGameButtonTitle" xml:space="preserve">
+    <value>Новая игра</value>
   </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
     <value>Полный экран</value>

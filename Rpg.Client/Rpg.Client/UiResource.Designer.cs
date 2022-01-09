@@ -232,6 +232,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue game.
+        /// </summary>
+        internal static string ContinueGameButtonTitle {
+            get {
+                return ResourceManager.GetString("ContinueGameButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credits.
         /// </summary>
         internal static string CreditsButtonTitle {
@@ -309,15 +318,6 @@ namespace Rpg.Client {
         internal static string IsTrainingOnly {
             get {
                 return ResourceManager.GetString("IsTrainingOnly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Continue game.
-        /// </summary>
-        internal static string LoadLastSaveButtonTitle {
-            get {
-                return ResourceManager.GetString("LoadLastSaveButtonTitle", resourceCulture);
             }
         }
         
@@ -412,11 +412,11 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start.
+        ///   Looks up a localized string similar to New game.
         /// </summary>
-        internal static string StartGameButtonTitle {
+        internal static string StartNewGameButtonTitle {
             get {
-                return ResourceManager.GetString("StartGameButtonTitle", resourceCulture);
+                return ResourceManager.GetString("StartNewGameButtonTitle", resourceCulture);
             }
         }
         
