@@ -154,5 +154,32 @@ namespace TestProject1
             unit.Perks.Should().ContainSingle(x=>x == perk);
             
         }
+        
+        [Test]
+        public void Constructor_ReplaceSkillOn5lvl_SkillReplacedByImrovedVersion()
+        {
+            // ARRANGE
+
+            var skill = Mock.Of<ISkill>(x=>x.Sid == SkillSid.SwordSlash);
+            var improvedSkill = Mock.Of<ISkill>();
+            
+            var scheme = new UnitScheme
+            {
+                Levels = new IUnitLevelScheme[]
+                {
+                    new AddSkillUnitLevel(1, skill),
+                    new ReplaceSkillUnitLevel(5, SkillSid.SwordSlash, improvedSkill)
+                }
+            };
+            
+            // ACT
+            
+            var unit = new Unit(scheme, 5);
+            
+            // ASSERT
+
+            unit.Skills.Should().ContainSingle(x=>x == improvedSkill);
+            
+        }
     }
 }
