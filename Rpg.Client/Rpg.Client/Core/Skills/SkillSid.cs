@@ -27,6 +27,7 @@ namespace Rpg.Client.Core.Skills
         HealMantre,
         PathOf1000Firsts,
         RapidEnergyShot,
-        ToxicHerbs
+        ToxicHerbs,
+        MutantBearBludgeon
     }
 }
