@@ -16,25 +16,25 @@ namespace Rpg.Client.Core
             SupportRank = 0.1f,
 
             Name = UnitName.Berimir,
-            SkillSets = new List<SkillSet>
-            {
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new SwordSlashSkill()
-                    }
-                },
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new SwordSlashSkill(),
-                        new DefenseStanceSkill(true),
-                        new SvarogBlastFurnaceSkill(true)
-                    }
-                }
-            },
+            // SkillSets = new List<SkillSet>
+            // {
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new SwordSlashSkill()
+            //         }
+            //     },
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new SwordSlashSkill(),
+            //             new DefenseStanceSkill(true),
+            //             new SvarogBlastFurnaceSkill(true)
+            //         }
+            //     }
+            // },
             UnitGraphicsConfig = new BerimirGraphicsConfig()
         };
 
@@ -46,25 +46,25 @@ namespace Rpg.Client.Core
 
             Name = UnitName.Rada,
 
-            SkillSets = new List<SkillSet>
-            {
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new HealingSalveSkill()
-                    }
-                },
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new HealingSalveSkill(),
-                        new DopeHerbSkill(true),
-                        new MassHealSkill(true)
-                    }
-                }
-            },
+            // SkillSets = new List<SkillSet>
+            // {
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new HealingSalveSkill()
+            //         }
+            //     },
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new HealingSalveSkill(),
+            //             new DopeHerbSkill(true),
+            //             new MassHealSkill(true)
+            //         }
+            //     }
+            // },
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
@@ -76,25 +76,25 @@ namespace Rpg.Client.Core
 
             Name = UnitName.Hawk,
 
-            SkillSets = new List<SkillSet>
-            {
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new BowShotSkill()
-                    }
-                },
-                new SkillSet
-                {
-                    Skills = new List<SkillBase>
-                    {
-                        new BowShotSkill(),
-                        new ArrowRainSkill(true),
-                        new DefenseStanceSkill(true)
-                    }
-                }
-            },
+            // SkillSets = new List<SkillSet>
+            // {
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new BowShotSkill()
+            //         }
+            //     },
+            //     new SkillSet
+            //     {
+            //         Skills = new List<SkillBase>
+            //         {
+            //             new BowShotSkill(),
+            //             new ArrowRainSkill(true),
+            //             new DefenseStanceSkill(true)
+            //         }
+            //     }
+            // },
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 
@@ -128,16 +128,16 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new SnakeBiteSkill()
-                            }
-                        }
-                    },
+                    // SkillSets = new List<SkillSet>
+                    // {
+                    //     new SkillSet
+                    //     {
+                    //         Skills = new List<SkillBase>
+                    //         {
+                    //             new SnakeBiteSkill()
+                    //         }
+                    //     }
+                    // },
 
                     Perks = new[]
                     {
@@ -157,16 +157,16 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new WolfBiteSkill()
-                            }
-                        }
-                    },
+                    // SkillSets = new List<SkillSet>
+                    // {
+                    //     new SkillSet
+                    //     {
+                    //         Skills = new List<SkillBase>
+                    //         {
+                    //             new WolfBiteSkill()
+                    //         }
+                    //     }
+                    // },
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -181,16 +181,16 @@ namespace Rpg.Client.Core
                     IsUnique = true,
                     IsMonster = true,
 
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new BearBludgeonSkill()
-                            }
-                        }
-                    },
+                    // SkillSets = new List<SkillSet>
+                    // {
+                    //     new SkillSet
+                    //     {
+                    //         Skills = new List<SkillBase>
+                    //         {
+                    //             new BearBludgeonSkill()
+                    //         }
+                    //     }
+                    // },
 
                     Perks = new IPerk[]
                     {
@@ -211,16 +211,16 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.Pit, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new WispEnergySkill()
-                            }
-                        }
-                    },
+                    // SkillSets = new List<SkillSet>
+                    // {
+                    //     new SkillSet
+                    //     {
+                    //         Skills = new List<SkillBase>
+                    //         {
+                    //             new WispEnergySkill()
+                    //         }
+                    //     }
+                    // },
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -237,16 +237,16 @@ namespace Rpg.Client.Core
                     BossLevel = 1,
                     MinRequiredBiomeLevel = 5,
 
-                    SkillSets = new List<SkillSet>
-                    {
-                        new SkillSet
-                        {
-                            Skills = new List<SkillBase>
-                            {
-                                new VolkolakClawsSkill()
-                            }
-                        }
-                    },
+                    // SkillSets = new List<SkillSet>
+                    // {
+                    //     new SkillSet
+                    //     {
+                    //         Skills = new List<SkillBase>
+                    //         {
+                    //             new VolkolakClawsSkill()
+                    //         }
+                    //     }
+                    // },
                     UnitGraphicsConfig = new VolkolakGraphicsConfig()
                 }
             };

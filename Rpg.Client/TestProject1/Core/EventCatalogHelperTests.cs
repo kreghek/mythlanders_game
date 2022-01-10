@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions;
@@ -10,12 +9,12 @@ using NUnit.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
-namespace TestProject1
+namespace TestProject1.Core
 {
-    public class Tests
+    public class EventCatalogHelperTests
     {
         [Test]
-        public void Test1()
+        public void BuildEventNode_FewTextFragments_SinglePage()
         {
             var nodeStorageModel = new EventNodeStorageModel
             {
@@ -44,7 +43,7 @@ namespace TestProject1
         }
 
         [Test]
-        public void Test2()
+        public void BuildEventNode_ALotOfTextFragments_MultiplePages()
         {
             var nodeStorageModel = new EventNodeStorageModel
             {

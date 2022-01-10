@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
@@ -46,8 +48,6 @@ namespace Rpg.Client.Core
         public float PowerPerLevel => CalcPowerPerLevel();
 
         public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }
-
-        public IReadOnlyList<SkillSet>? SkillSets { get; init; }
 
         public float SupportBase => CalcSupport();
         public float SupportRank { get; init; }
@@ -160,6 +160,56 @@ namespace Rpg.Client.Core
             }
 
             return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+        }
+
+        public IReadOnlyList<IUnitLevelScheme> Levels { get; init; }
+    }
+
+    internal interface IUnitLevelScheme
+    {
+        void Apply(Unit unit);
+        int Level { get; }
+    }
+
+    internal abstract class UnitLevelBase : IUnitLevelScheme
+    {
+        public abstract void Apply(Unit unit);
+
+        public int Level { get; }
+
+        public UnitLevelBase(int level)
+        {
+            Level = level;
+        }
+    }
+
+    internal sealed class AddSkillUnitLevel : UnitLevelBase
+    {
+        private readonly ISkill _skill;
+
+        public AddSkillUnitLevel(int level, ISkill skill) : base(level)
+        {
+            _skill = skill;
+        }
+
+        public override void Apply(Unit unit)
+        {
+            unit.Skills.Add(_skill);
+        }
+    }
+
+    internal sealed class AddPerkUnitLevel : UnitLevelBase
+    {
+        private readonly IPerk _perk;
+
+        public AddPerkUnitLevel(int level, IPerk perk) : base(level)
+        {
+            _perk = perk;
+        }
+
+        public override void Apply(Unit unit)
+        {
+            unit.Perks.Add(_perk);
         }
     }
 }

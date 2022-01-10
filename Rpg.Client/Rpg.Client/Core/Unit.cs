@@ -29,7 +29,8 @@ namespace Rpg.Client.Core
         {
             UnitScheme = unitScheme;
 
-            Perks = unitScheme.Perks;
+            Skills = new List<ISkill>();
+            Perks = new List<IPerk>(unitScheme.Perks);
 
             Level = level;
             EquipmentLevel = equipmentLevel;
@@ -72,31 +73,11 @@ namespace Rpg.Client.Core
 
         public int MaxHitPoints { get; private set; }
 
-        public int MaxShieldPoints { get; private set; }
-
-        public IEnumerable<IPerk> Perks { get; }
+        public IList<IPerk> Perks { get; }
 
         public float Power => CalcPower();
 
-        public int ShieldPoints { get; set; }
-
-        public IReadOnlyList<ISkill> Skills { get; set; }
-
-        public int SkillSetIndex
-        {
-            get
-            {
-                var skillSetIndex = 0;
-                if (EquipmentLevel > 0)
-                {
-                    skillSetIndex = EquipmentLevel - 1;
-                }
-
-                var skillSetIndexNormalized = Math.Min(skillSetIndex, UnitScheme.SkillSets.Count - 1);
-
-                return skillSetIndexNormalized;
-            }
-        }
+        public IList<ISkill> Skills { get; }
 
         public int Support => CalcSupport();
 
@@ -246,16 +227,6 @@ namespace Rpg.Client.Core
             return normalizedSupport;
         }
 
-        private void InitSkillSet(UnitScheme unitScheme)
-        {
-            if (unitScheme.SkillSets is null)
-            {
-                return;
-            }
-
-            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
-        }
-
         private void InitStats(UnitScheme unitScheme)
         {
             var maxHitPoints = (int)Math.Round(
@@ -269,7 +240,22 @@ namespace Rpg.Client.Core
 
             MaxHitPoints = maxHitPoints;
 
-            InitSkillSet(unitScheme);
+            ApplyLevels();
+        }
+
+        private void ApplyLevels()
+        {
+            var levels = UnitScheme.Levels;
+            if (levels is null)
+            {
+                return;
+            }
+
+            var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
+            foreach (var levelScheme in levelSchemesToCurrentLevel)
+            {
+                levelScheme.Apply(this);
+            }
         }
 
         private void RestoreHp()
