@@ -102,7 +102,13 @@ namespace Rpg.Client.Core
             {
                 LoadPlayerCharacters(lastSave.Player);
 
-                Globe.Player.SkipTutorial = lastSave.Player.SkipTutorial;
+                foreach (var playerAbilityDto in lastSave.Player.Abilities)
+                {
+                    if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
+                    {
+                        Globe.Player.AddPlayerAbility(playerAbilityEnum);
+                    }
+                }
             }
 
             LoadPlayerResources(Globe.Player.Inventory, lastSave.Player.Resources);
@@ -128,7 +134,7 @@ namespace Rpg.Client.Core
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                     KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                    SkipTutorial = Globe.Player.SkipTutorial
+                    Abilities = Globe.Player.Abilities.Select(x=>x.ToString()).ToArray()
                 };
             }
 

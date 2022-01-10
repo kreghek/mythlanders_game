@@ -4,28 +4,55 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
+    internal enum PlayerAbility
+    {
+        SkipTutorials,
+        ReadMapTutorial,
+        ReadEventTutorial,
+        ReadCombatTutorial,
+        AvailableTanks
+    }
+
     internal sealed class Player
     {
+        private readonly HashSet<PlayerAbility> _abilities;
+        private readonly IReadOnlyCollection<ResourceItem> _inventory;
+        private readonly IList<UnitScheme> _knownMonsters;
+        private readonly Group _party;
+        private readonly PoolGroup _pool;
+
         public Player()
         {
-            Party = new Group();
-            Pool = new PoolGroup();
-            KnownMonsters = new List<UnitScheme>();
+            _party = new Group();
+            _pool = new PoolGroup();
+            _knownMonsters = new List<UnitScheme>();
 
             var inventory = CreateInventory();
 
-            Inventory = inventory;
+            _inventory = inventory;
+
+            _abilities = new HashSet<PlayerAbility>();
         }
 
-        public IReadOnlyCollection<ResourceItem> Inventory { get; }
+        public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-        public IList<UnitScheme> KnownMonsters { get; }
+        public void AddPlayerAbility(PlayerAbility ability)
+        {
+            _abilities.Add(ability);
+        }
 
-        public Group Party { get; }
+        public bool HasAbility(PlayerAbility ability)
+        {
+            return _abilities.Contains(ability);
+        }
 
-        public PoolGroup Pool { get; }
+        public IReadOnlyCollection<ResourceItem> Inventory => _inventory;
 
-        public bool SkipTutorial { get; set; }
+        public IList<UnitScheme> KnownMonsters => _knownMonsters;
+
+        public Group Party => _party;
+
+        public PoolGroup Pool => _pool;
 
         public IEnumerable<Unit> GetAll()
         {
@@ -68,6 +95,11 @@ namespace Rpg.Client.Core
             }
 
             return inventory;
+        }
+
+        public void ClearAbilities()
+        {
+            _abilities.Clear();
         }
     }
 }

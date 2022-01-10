@@ -170,7 +170,7 @@ namespace Rpg.Client.Core
 
                 if (!unit.IsDead)
                 {
-                    var combatUnit = new CombatUnit(unit, slot.Index);
+                    var combatUnit = new CombatUnit(unit, slot);
                     _allUnitList.Add(combatUnit);
                     CombatUnitEntered?.Invoke(this, combatUnit);
                 }
@@ -187,7 +187,7 @@ namespace Rpg.Client.Core
 
                 // Monster has no dead ones on start of the combat.
 
-                var combatUnit = new CombatUnit(unit, slot.Index);
+                var combatUnit = new CombatUnit(unit, slot);
                 _allUnitList.Add(combatUnit);
                 CombatUnitEntered?.Invoke(this, combatUnit);
             }
@@ -305,7 +305,7 @@ namespace Rpg.Client.Core
                         {
                             var unitsInTankPosition = Units.Where(x =>
                                     CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
-                                    !x.Unit.IsDead && x.Index == 0)
+                                    !x.Unit.IsDead && x.IsInTankLine)
                                 .ToList();
 
                             if (unitsInTankPosition.Any())

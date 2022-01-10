@@ -24,8 +24,6 @@ namespace Rpg.Client.GameScreens.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        public static bool _tutorial;
-
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
@@ -105,10 +103,10 @@ namespace Rpg.Client.GameScreens.Combat
             _unitPredefinedPositions = new[]
             {
                 new Vector2(300, 300),
-                new Vector2(200, 250),
-                new Vector2(200, 350),
                 new Vector2(350, 250),
                 new Vector2(350, 350),
+                new Vector2(200, 250),
+                new Vector2(200, 350),
                 new Vector2(150, 300)
             };
 
@@ -128,9 +126,9 @@ namespace Rpg.Client.GameScreens.Combat
         {
             base.UpdateContent(gameTime);
 
-            if (!_tutorial && !_globe.Player.SkipTutorial)
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
             {
-                _tutorial = true;
+                _globe.Player.AddPlayerAbility(PlayerAbility.ReadCombatTutorial);
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
                     _uiContentStorage, _resolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
@@ -765,6 +763,8 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         _combat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
+                        // Then the player defeat first boss he can split characters on a tanks and dd+support line.
+                        _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.AvailableTanks);
 
                         if (_combat.Biome.IsFinal)
                         {

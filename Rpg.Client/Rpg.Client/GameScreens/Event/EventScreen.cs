@@ -26,7 +26,6 @@ namespace Rpg.Client.GameScreens.Event
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
-        public static bool _tutorial;
         private readonly Texture2D _backgroundTexture;
         private readonly IList<ButtonBase> _buttons;
 
@@ -111,9 +110,9 @@ namespace Rpg.Client.GameScreens.Event
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            if (!_tutorial && !_globe.CurrentEvent?.IsGameStart == true && !_globe.Player.SkipTutorial)
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
             {
-                _tutorial = true;
+                _globe.Player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
 
                 var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
                     _resolutionIndependentRenderer, _globe.Player);

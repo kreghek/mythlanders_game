@@ -32,10 +32,11 @@ namespace Rpg.Client.GameScreens.Common
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
+        private readonly GlobeProvider _globeProvider;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
-            IScreen currentScreen, bool exitButton = true) : base(uiContentStorage,
+            IScreen currentScreen, bool isGameState = true) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -62,9 +63,12 @@ namespace Rpg.Client.GameScreens.Common
             }
             else
             {
-                // Fast restart available only in the demo game.
-                var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
-                _buttons.Add(fastRestartButton);
+                if (isGameState)
+                {
+                    // Fast restart available only in the demo game.
+                    var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
+                    _buttons.Add(fastRestartButton);
+                }
             }
 
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
@@ -77,11 +81,11 @@ namespace Rpg.Client.GameScreens.Common
 
             //_buttons.AddRange(_resolutionsButtonsInfos.Keys);
 
-            var globeProvider = game.Services.GetService<GlobeProvider>();
+            _globeProvider = game.Services.GetService<GlobeProvider>();
 
-            InitSelectedMonitorResolution(globeProvider);
+            InitSelectedMonitorResolution(_globeProvider);
 
-            if (exitButton)
+            if (isGameState)
             {
                 var exitGameButton = new ResourceTextButton(
                     nameof(UiResource.ExitGameButtonTitle),
@@ -150,9 +154,7 @@ namespace Rpg.Client.GameScreens.Common
 
         private void FastRestartButton_OnClick(object? sender, EventArgs e)
         {
-            CombatScreen._tutorial = false;
-            EventScreen._tutorial = false;
-            BiomeScreen._tutorial = false;
+            _globeProvider.Globe.Player.ClearAbilities();
 
             var screenManager = _game.Services.GetService<IScreenManager>();
             screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);

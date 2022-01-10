@@ -102,7 +102,7 @@ namespace Rpg.Client.GameScreens.Title
             _buttons.Add(exitGameButton);
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
-                exitButton: false);
+                isGameState: false);
             AddModal(_settingsModal, isLate: true);
         }
 

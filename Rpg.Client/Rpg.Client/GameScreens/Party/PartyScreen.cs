@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -207,7 +208,8 @@ namespace Rpg.Client.GameScreens.Party
             else
             {
                 var freeSlots = player.Party.GetFreeSlots();
-                foreach (var slot in freeSlots)
+                var availableSlots = GetAvailableSlots(freeSlots);
+                foreach (var slot in availableSlots)
                 {
                     var slotButton = new TextButton(slot.Index.ToString(),
                         _uiContentStorage.GetButtonTexture(),
@@ -224,6 +226,18 @@ namespace Rpg.Client.GameScreens.Party
                     };
                 }
             }
+        }
+
+        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
+        {
+            if (_globeProvider.Globe.Player.Abilities.Contains(PlayerAbility.AvailableTanks))
+            {
+                return freeSlots;
+            }
+
+            // In the first biome the player can use only first 3 slots.
+            // There is no ability to split characters on tank line and dd+support.
+            return freeSlots.Where(x => !x.IsTankLine);
         }
 
         private void InitUpgrageButtons(Unit character, Player player)

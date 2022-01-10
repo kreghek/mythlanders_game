@@ -22,7 +22,6 @@ namespace Rpg.Client.GameScreens.Biome
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
-        public static bool _tutorial;
         private readonly Texture2D _backgroundTexture;
 
         private readonly Core.Biome _biome;
@@ -148,9 +147,9 @@ namespace Rpg.Client.GameScreens.Biome
         {
             base.UpdateContent(gameTime);
 
-            if (!_tutorial && !_globe.Player.SkipTutorial)
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadMapTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
             {
-                _tutorial = true;
+                _globe.Player.AddPlayerAbility(PlayerAbility.ReadMapTutorial);
                 var tutorialModal = new TutorialModal(
                     new BiomeTutorialPageDrawer(_uiContentStorage),
                     _uiContentStorage,
