@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
-        public void UseSkill(ISkill skill, CombatUnit target)
+        public void UseSkill(ISkill skill, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -139,7 +139,7 @@ namespace Rpg.Client.Core
 
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
                 CompleteStep();
             };
 
@@ -148,7 +148,7 @@ namespace Rpg.Client.Core
                 action,
                 CurrentUnit,
                 skill,
-                target
+                targetUnit
             );
 
             ActionGenerated?.Invoke(this, actionEventArgs);

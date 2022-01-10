@@ -203,16 +203,7 @@ namespace Rpg.Client.Core
 
         private float CalcPowerLevel()
         {
-            float powerLevel;
-            if (EquipmentLevel > 0)
-            {
-                powerLevel = (Level * 0.5f + EquipmentLevel * 0.5f);
-            }
-            else
-            {
-                // The monsters do not use equipment level. They has no equipment at all.
-                powerLevel = Level;
-            }
+            var powerLevel = Level;
 
             return powerLevel;
         }

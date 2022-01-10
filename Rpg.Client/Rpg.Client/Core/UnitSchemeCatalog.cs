@@ -168,7 +168,7 @@ namespace Rpg.Client.Core
             
             Levels = new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new BowShotSkill()),
+                new AddSkillUnitLevel(1, new EnergyShotSkill()),
                 new AddSkillUnitLevel(2, new RapidBowShotSkill()),
                 new AddPerkUnitLevel(2, new CriticalHit()),
                 new AddSkillUnitLevel(3, new ArrowRainSkill(true)),

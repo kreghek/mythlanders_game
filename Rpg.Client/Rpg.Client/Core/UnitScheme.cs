@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
@@ -164,72 +161,29 @@ namespace Rpg.Client.Core
         }
 
         public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
+
+        public IReadOnlyList<IEquipmentScheme> Equipments { get; init; }
     }
 
-    internal interface IUnitLevelScheme
+    internal interface IEquipmentScheme
     {
-        void Apply(Unit unit);
-        int Level { get; }
+        public EquipmentSid Sid { get; }
+        public EquipmentRule Rule { get; }
     }
 
-    internal abstract class UnitLevelBase : IUnitLevelScheme
+    internal enum EquipmentSid
     {
-        public abstract void Apply(Unit unit);
-
-        public int Level { get; }
-
-        protected UnitLevelBase(int level)
-        {
-            Level = level;
-        }
+        Weapon,
+        Armor,
+        Aux
     }
 
-    internal sealed class AddSkillUnitLevel : UnitLevelBase
+    internal enum EquipmentRule
     {
-        private readonly ISkill _skill;
-
-        public AddSkillUnitLevel(int level, ISkill skill) : base(level)
-        {
-            _skill = skill;
-        }
-
-        public override void Apply(Unit unit)
-        {
-            unit.Skills.Add(_skill);
-        }
-    }
-
-    internal sealed class AddPerkUnitLevel : UnitLevelBase
-    {
-        private readonly IPerk _perk;
-
-        public AddPerkUnitLevel(int level, IPerk perk) : base(level)
-        {
-            _perk = perk;
-        }
-
-        public override void Apply(Unit unit)
-        {
-            unit.Perks.Add(_perk);
-        }
-    }
-    
-    internal sealed class ReplaceSkillUnitLevel: UnitLevelBase
-    {
-        private readonly SkillSid _targetSid;
-        private readonly ISkill _newSkill;
-
-        public ReplaceSkillUnitLevel(int level, SkillSid targetSid, ISkill newSkill) : base(level)
-        {
-            _targetSid = targetSid;
-            _newSkill = newSkill;
-        }
-
-        public override void Apply(Unit unit)
-        {
-            var targetSkill = unit.Skills.Single(x => x.Sid == _targetSid);
-            var index = unit.Skills.IndexOf(targetSkill);
-            unit.Skills[index] = _newSkill;
-        }
+        ImproveSkill1,
+        ImproveSkill2,
+        ImproveSkill3,
+        ImproveSkill4,
+        ImproveHp
     }
 }
