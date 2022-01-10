@@ -152,7 +152,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
         {
-            if (!_globeProvider.CheckExistsSave())
+            if (!_globeProvider.CheckSavesExist())
             {
                 return null;
             }

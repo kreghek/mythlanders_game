@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using Rpg.Client.Core.ProgressStorage;
 
@@ -11,13 +12,13 @@ namespace Rpg.Client.Core
 {
     internal sealed class GlobeProvider
     {
-        private const string SAVE_JSON = "save.json";
+        private const string SAVE_FILE_TEMPLATE = "save{0}.json";
         private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
 
-        private readonly string _saveFilePath;
+        private readonly string _storagePath;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private Globe? _globe;
@@ -30,7 +31,7 @@ namespace Rpg.Client.Core
             _biomeGenerator = biomeGenerator;
             _eventCatalog = eventCatalog;
             var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            _saveFilePath = Path.Combine(binPath, SAVE_JSON);
+            _storagePath = Path.Combine(binPath, "CDT", "UpcomingPastJRPG");
         }
 
         public (int Width, int Height)? ChoisedUserMonitorResolution { get; set; } = null;
@@ -49,16 +50,26 @@ namespace Rpg.Client.Core
             private set => _globe = value;
         }
 
-        public bool CheckExistsSave()
+        public bool CheckSavesExist()
         {
-            if (File.Exists(_saveFilePath))
+            if (!IsDirectoryEmpty(_storagePath))
             {
                 return true;
             }
 
-            Debug.WriteLine($"Not found a save file by provided path: {_saveFilePath}");
+            Debug.WriteLine($"Not found a save file by provided path: {_storagePath}");
 
             return false;
+        }
+
+        private static bool IsDirectoryEmpty(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return false;
+            }
+
+            return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
         public void GenerateNew()
@@ -77,34 +88,60 @@ namespace Rpg.Client.Core
             Globe = globe;
         }
 
-        public bool LoadGlobe()
+        public sealed class SaveShortInfo
+        { 
+            public string FileName { get; set; }
+
+            [JsonPropertyName(nameof(SaveDto.Name))]
+            public string PlayerName { get; init; }
+
+            public DateTime UpdateTime { get; init; }
+        }
+
+        public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
-            if (!CheckExistsSave())
+            var files = Directory.EnumerateFiles(_storagePath);
+
+            var saves = new List<SaveShortInfo>();
+            foreach (var file in files)
             {
-                return false;
+                var content = File.ReadAllText(file);
+                var jsonSave = JsonSerializer.Deserialize<SaveShortInfo>(content);
+                jsonSave.FileName = Path.GetFileName(file);
+
+                saves.Add(jsonSave);
             }
 
-            var json = File.ReadAllText(_saveFilePath);
+            return saves;
+        }
 
-            var lastSave = JsonSerializer.Deserialize<ProgressDto>(json);
+        public void LoadGlobe(string saveName)
+        {
+            var storageFile = Path.Combine(_storagePath, saveName);
+
+            var json = File.ReadAllText(storageFile);
+
+            var lastSave = JsonSerializer.Deserialize<SaveDto>(json);
 
             if (lastSave is null)
             {
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
+            var progressDto = lastSave.Progress;
+
             Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
 
-            if (lastSave.Player is not null)
+            if (progressDto.Player is not null)
             {
-                LoadPlayerCharacters(lastSave.Player);
+                LoadPlayerCharacters(progressDto.Player);
 
-                if (lastSave.Player.Abilities is not null)
+                if (progressDto.Player.Abilities is not null)
                 {
-                    foreach (var playerAbilityDto in lastSave.Player.Abilities)
+                    foreach (var playerAbilityDto in progressDto.Player.Abilities)
                     {
                         if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
                         {
@@ -114,19 +151,17 @@ namespace Rpg.Client.Core
                 }
             }
 
-            LoadPlayerResources(Globe.Player.Inventory, lastSave.Player.Resources);
-            LoadPlayerKnownMonsters(lastSave.Player, _unitSchemeCatalog, Globe.Player);
+            LoadPlayerResources(Globe.Player.Inventory, progressDto.Player.Resources);
+            LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
 
-            LoadEvents(lastSave.Events);
+            LoadEvents(progressDto.Events);
 
-            LoadBiomes(lastSave.Biomes, Globe.Biomes);
+            LoadBiomes(progressDto.Biomes, Globe.Biomes);
 
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-
-            return true;
         }
 
-        public void StoreGlobe()
+        public void StoreCurrentGlobe()
         {
             PlayerDto? player = null;
             if (Globe.Player != null)
@@ -147,9 +182,40 @@ namespace Rpg.Client.Core
                 Events = GetUsedEventDtos(_eventCatalog.Events),
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
-            var serializedSave =
-                JsonSerializer.Serialize(progress, options: new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_saveFilePath, serializedSave);
+
+            var saveName = Path.GetRandomFileName();
+
+            var saveDataString = CreateSaveData(Globe.Player.Name, progress);
+
+            if (!Directory.Exists(_storagePath))
+            {
+                Directory.CreateDirectory(_storagePath);
+            }
+
+            var storageFile = Path.Combine(_storagePath, string.Format(SAVE_FILE_TEMPLATE, saveName));
+            File.WriteAllText(storageFile, saveDataString);
+        }
+
+        private static string CreateSaveData(string saveName, ProgressDto progress)
+        {
+            var saveDto = new SaveDto
+            {
+                Name = saveName,
+                UpdateTime = DateTime.UtcNow,
+                Progress = progress
+            };
+
+            var serializedSaveData =
+                JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
+
+            return serializedSaveData;
+        }
+
+        private class SaveDto
+        { 
+            public string Name { get; init; }
+            public DateTime UpdateTime { get; init; }
+            public ProgressDto Progress { get; init; }
         }
 
         private Unit[] CreateStartUnits()

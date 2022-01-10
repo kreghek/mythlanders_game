@@ -362,7 +362,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
 
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.StoreCurrentGlobe();
                         }
                         else
                         {
@@ -388,7 +388,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.StoreCurrentGlobe();
                         }
                         else
                         {

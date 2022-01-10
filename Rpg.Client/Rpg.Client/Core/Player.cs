@@ -32,7 +32,16 @@ namespace Rpg.Client.Core
             _inventory = inventory;
 
             _abilities = new HashSet<PlayerAbility>();
+
+            Name = CreateRandomName();
         }
+
+        private static string CreateRandomName()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        public string Name { get; }
 
         public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 

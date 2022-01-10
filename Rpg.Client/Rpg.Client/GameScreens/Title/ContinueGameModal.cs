@@ -13,9 +13,9 @@ namespace Rpg.Client.GameScreens.Title
 {
     internal sealed class ContinueGameModal : ModalDialogBase
     {
-        private const int BUTTON_HEIGHT = 20;
+        private const int BUTTON_HEIGHT = 40;
 
-        private const int BUTTON_WIDTH = 100;
+        private const int BUTTON_WIDTH = 200;
         private readonly List<ButtonBase> _continueGameButtons;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -39,25 +39,36 @@ namespace Rpg.Client.GameScreens.Title
             _screenManager = screenManager;
             _screen = screen;
 
+            CreateButtonOnEachSave(uiContentStorage);
+
+            CreateNewGameButton(uiContentStorage);
+        }
+
+        private void CreateNewGameButton(IUiContentStorage uiContentStorage)
+        {
             var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle),
                 uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             newGameButton.OnClick += StartButton_OnClick;
             _continueGameButtons.Add(newGameButton);
+        }
 
-            var continueGameButton = new ResourceTextButton(nameof(UiResource.ContinueGameButtonTitle),
-                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-            continueGameButton.OnClick += (_, _) =>
+        private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
+        {
+            var saves = _globeProvider.GetSaves();
+
+            foreach (var saveInfo in saves)
             {
-                var isSuccessLoaded = _globeProvider.LoadGlobe();
-                if (!isSuccessLoaded)
+                var continueGameButton = new TextButton($"{saveInfo.PlayerName}{Environment.NewLine}{saveInfo.UpdateTime:f}",
+                    uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                continueGameButton.OnClick += (_, _) =>
                 {
-                    return;
-                }
+                    _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                _screenManager.ExecuteTransition(_screen, ScreenTransition.Map);
-            };
+                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Map);
+                };
 
-            _continueGameButtons.Add(continueGameButton);
+                _continueGameButtons.Add(continueGameButton);
+            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -67,7 +78,7 @@ namespace Rpg.Client.GameScreens.Title
             {
                 button.Rect = new Rectangle(
                     _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
-                    150 + index * 30,
+                    150 + index * (BUTTON_HEIGHT + 10),
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);

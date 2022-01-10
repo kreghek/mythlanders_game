@@ -321,7 +321,7 @@ namespace Rpg.Client.GameScreens.Event
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.StoreCurrentGlobe();
                         }
                     }
                     else
