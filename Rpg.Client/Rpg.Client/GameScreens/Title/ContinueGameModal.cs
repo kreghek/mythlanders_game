@@ -16,6 +16,7 @@ namespace Rpg.Client.GameScreens.Title
         private const int BUTTON_HEIGHT = 20;
 
         private const int BUTTON_WIDTH = 100;
+        private readonly List<ButtonBase> _continueGameButtons;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GlobeProvider _globeProvider;
@@ -23,7 +24,6 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IScreen _screen;
         private readonly IScreenManager _screenManager;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly List<ButtonBase> _continueGameButtons;
 
         public ContinueGameModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
