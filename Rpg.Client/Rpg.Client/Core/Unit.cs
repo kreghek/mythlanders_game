@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
 
             Skills = new List<ISkill>();
-            Perks = new List<IPerk>(unitScheme.Perks);
+            Perks = new List<IPerk>();
 
             Level = level;
             EquipmentLevel = equipmentLevel;

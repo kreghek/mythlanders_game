@@ -3,11 +3,10 @@ using System.Linq;
 
 using Rpg.Client.Core.GraphicConfigs;
 using Rpg.Client.Core.Perks;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal class DemoUnitSchemeCatalog : IUnitSchemeCatalog
+    internal sealed class DemoUnitSchemeCatalog : IUnitSchemeCatalog
     {
         private static readonly UnitScheme SwordsmanHero = new()
         {
@@ -139,10 +138,10 @@ namespace Rpg.Client.Core
                     //     }
                     // },
 
-                    Perks = new[]
-                    {
-                        new Evasion()
-                    },
+                    // Perks = new[]
+                    // {
+                    //     new Evasion()
+                    // },
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
@@ -192,11 +191,11 @@ namespace Rpg.Client.Core
                     //     }
                     // },
 
-                    Perks = new IPerk[]
-                    {
-                        new ImprovedHitPoints(),
-                        new ImprovedArmor()
-                    },
+                    // Perks = new IPerk[]
+                    // {
+                    //     new ImprovedHitPoints(),
+                    //     new ImprovedArmor()
+                    // },
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },

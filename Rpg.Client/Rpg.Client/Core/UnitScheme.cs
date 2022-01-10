@@ -42,8 +42,6 @@ namespace Rpg.Client.Core
 
         public UnitName Name { get; init; }
 
-        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
-
         public float Power => CalcPower();
 
         public float PowerPerLevel => CalcPowerPerLevel();
@@ -163,7 +161,7 @@ namespace Rpg.Client.Core
             return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
         }
 
-        public IReadOnlyList<IUnitLevelScheme> Levels { get; init; }
+        public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
     }
 
     internal interface IUnitLevelScheme
@@ -178,7 +176,7 @@ namespace Rpg.Client.Core
 
         public int Level { get; }
 
-        public UnitLevelBase(int level)
+        protected UnitLevelBase(int level)
         {
             Level = level;
         }

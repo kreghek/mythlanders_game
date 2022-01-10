@@ -7,7 +7,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal class UnitSchemeCatalog : IUnitSchemeCatalog
+    internal sealed class UnitSchemeCatalog : IUnitSchemeCatalog
     {
         private static readonly UnitScheme SwordsmanHero = new()
         {
@@ -17,10 +17,11 @@ namespace Rpg.Client.Core
 
             Name = UnitName.Berimir,
             
-            Levels = new []
+            Levels = new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new SwordSlashSkill()),
                 new AddSkillUnitLevel(2, new WideSlashSkill()),
+                new AddPerkUnitLevel(2, new ImprovedHitPoints()),
                 new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true)),
             },
@@ -145,44 +146,15 @@ namespace Rpg.Client.Core
             SupportRank = 1.0f,
 
             Name = UnitName.Rada,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill(),
-            //             new ToxicHerbsSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill(),
-            //             new ToxicHerbsSkill(),
-            //             new DopeHerbSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill(),
-            //             new ToxicHerbsSkill(),
-            //             new DopeHerbSkill(true),
-            //             new MassHealSkill(true)
-            //         }
-            //     }
-            // },
+            
+            Levels = new IUnitLevelScheme[]
+            {
+                new AddSkillUnitLevel(1, new HealingSalveSkill()),
+                new AddSkillUnitLevel(2, new ToxicHerbsSkill()),
+                new AddPerkUnitLevel(2, new CriticalHeal()),
+                new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
+                new AddSkillUnitLevel(4, new MassHealSkill(true)),
+            },
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
 
@@ -193,44 +165,15 @@ namespace Rpg.Client.Core
             SupportRank = 0.25f,
 
             Name = UnitName.Hawk,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new RapidBowShotSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new RapidBowShotSkill(),
-            //             new ArrowRainSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new RapidBowShotSkill(),
-            //             new ArrowRainSkill(true),
-            //             new DefenseStanceSkill(true)
-            //         }
-            //     }
-            // },
+            
+            Levels = new IUnitLevelScheme[]
+            {
+                new AddSkillUnitLevel(1, new BowShotSkill()),
+                new AddSkillUnitLevel(2, new RapidBowShotSkill()),
+                new AddPerkUnitLevel(2, new CriticalHit()),
+                new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
+                new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
+            },
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 
@@ -355,17 +298,12 @@ namespace Rpg.Client.Core
                         GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower
                     },
                     IsMonster = true,
-
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill()
-                    //         }
-                    //     }
-                    // },
+                    
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -381,18 +319,13 @@ namespace Rpg.Client.Core
                     BossLevel = 2,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill(),
-                    //             new DopeHerbSkill(),
-                    //             new ArrowRainSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -418,16 +351,11 @@ namespace Rpg.Client.Core
                     },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
 
@@ -444,18 +372,13 @@ namespace Rpg.Client.Core
                     BossLevel = 3,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill(),
-                    //             new DopeHerbSkill(),
-                    //             new ArrowRainSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -481,16 +404,11 @@ namespace Rpg.Client.Core
                     },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -506,18 +424,13 @@ namespace Rpg.Client.Core
                     BossLevel = 4,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill(),
-                    //             new DopeHerbSkill(),
-                    //             new ArrowRainSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -539,21 +452,12 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new SnakeBiteSkill()
-                    //         }
-                    //     }
-                    // },
-
-                    Perks = new[]
+                    Levels = new IUnitLevelScheme[]
                     {
-                        new Evasion()
+                        new AddSkillUnitLevel(1, new SnakeBiteSkill()),
+                        new AddPerkUnitLevel(3, new Evasion())
                     },
+
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
@@ -568,21 +472,13 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new WolfBiteSkill()
-                    //         }
-                    //     }
-                    // },
-                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig(),
-                    Perks = new IPerk[]
+                    Levels = new IUnitLevelScheme[]
                     {
-                        new CriticalHit()
-                    }
+                        new AddSkillUnitLevel(1, new WolfBiteSkill()),
+                        new AddPerkUnitLevel(3, new CriticalHit())
+                    },
+                    
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
@@ -597,21 +493,11 @@ namespace Rpg.Client.Core
                     IsUnique = true,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new BearBludgeonSkill()
-                    //         }
-                    //     }
-                    // },
-
-                    Perks = new IPerk[]
+                    Levels = new IUnitLevelScheme[]
                     {
-                        new ImprovedHitPoints(),
-                        new ImprovedArmor()
+                        new AddSkillUnitLevel(1, new BearBludgeonSkill()),
+                        new AddPerkUnitLevel(3, new ImprovedHitPoints()),
+                        new AddPerkUnitLevel(10, new ImprovedArmor()),
                     },
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
@@ -627,16 +513,11 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new WispEnergySkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new WispEnergySkill())
+                    },
+                    
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -651,16 +532,12 @@ namespace Rpg.Client.Core
                     IsUnique = true,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new VolkolakEnergySkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
+                        new AddPerkUnitLevel(10, new CriticalHit())
+                    },
+                    
                     UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
 
                     SchemeAutoTransition = new UnitSchemeAutoTransition
@@ -677,20 +554,11 @@ namespace Rpg.Client.Core
                             IsUnique = true,
                             IsMonster = true,
 
-                            // SkillSets = new List<SkillSet>
-                            // {
-                            //     new SkillSet
-                            //     {
-                            //         Skills = new List<SkillBase>
-                            //         {
-                            //             new VolkolakClawsSkill()
-                            //         }
-                            //     }
-                            // },
-                            UnitGraphicsConfig = new VolkolakGraphicsConfig(),
-                            Perks = new[]
+                            Levels = new IUnitLevelScheme[]
                             {
-                                new ImprovedHitPoints()
+                                new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
+                                new AddPerkUnitLevel(1, new ImprovedHitPoints()),
+                                new AddPerkUnitLevel(10, new Evasion())
                             }
                         }
                     }
@@ -706,16 +574,10 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Hermitage },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new HealSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MassHealSkill())
+                    },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
@@ -729,17 +591,12 @@ namespace Rpg.Client.Core
                     Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
+                    
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill())
+                    },
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill()
-                    //         }
-                    //     }
-                    // },
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -754,22 +611,18 @@ namespace Rpg.Client.Core
                     IsUnique = true,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new VampireBiteSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new VampireBiteSkill()),
+                        new AddPerkUnitLevel(5, new Evasion())
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
+                    TankRank = 1.0f,
+                    DamageDealerRank = 0.0f,
                     SupportRank = 0.0f,
 
                     Name = UnitName.HornedFrog,
@@ -777,16 +630,11 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new DefenseStanceSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new DefenseStanceSkill())
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -801,23 +649,18 @@ namespace Rpg.Client.Core
                     IsUnique = true,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new WideSlashSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new WideSlashSkill())
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
+                    TankRank = 0.3f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.2f,
 
                     Name = UnitName.KosheyTheImmortal,
                     Biome = biomeType,
@@ -825,18 +668,13 @@ namespace Rpg.Client.Core
                     BossLevel = 1,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new MonsterAttackSkill(),
-                    //             new DopeHerbSkill(),
-                    //             new ArrowRainSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                    },
+                    
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
                     LocationSids = new[] { GlobeNodeSid.Castle },
                     MinRequiredBiomeLevel = 10,
@@ -850,23 +688,18 @@ namespace Rpg.Client.Core
                             DamageDealerRank = 1.0f,
                             SupportRank = 0.0f,
 
-                            Name = UnitName.KosheyTheImmortal2,
+                            Name = UnitName.KosheyTheImmortal2, // Dead-golem form
                             Biome = BiomeType.Slavic,
                             IsMonster = true,
                             BossLevel = 1,
 
-                            // SkillSets = new List<SkillSet>
-                            // {
-                            //     new SkillSet
-                            //     {
-                            //         Skills = new List<SkillBase>
-                            //         {
-                            //             new MonsterAttackSkill(), // Bite
-                            //             new DefenseStanceSkill(), // Dead one hard to die
-                            //             new HealSkill() // Eat a flash
-                            //         }
-                            //     }
-                            // },
+                            Levels = new IUnitLevelScheme[]
+                            {
+                                new AddSkillUnitLevel(1, new WideSlashSkill()), // Bite
+                                new AddSkillUnitLevel(1, new DefenseStanceSkill()), // Dead one hard to die
+                                new AddSkillUnitLevel(1, new HealSkill()), // Eat a flash
+                            },
+                            
                             UnitGraphicsConfig = new KocheyDeadFormGraphicsConfig(),
 
                             SchemeAutoTransition = new UnitSchemeAutoTransition
@@ -878,23 +711,18 @@ namespace Rpg.Client.Core
                                     DamageDealerRank = 1.0f,
                                     SupportRank = 0.0f,
 
-                                    Name = UnitName.KosheyTheImmortal3,
+                                    Name = UnitName.KosheyTheImmortal3, // Gaint spiritual face
                                     Biome = BiomeType.Slavic,
                                     IsMonster = true,
                                     BossLevel = 1,
 
-                                    // SkillSets = new List<SkillSet>
-                                    // {
-                                    //     new SkillSet
-                                    //     {
-                                    //         Skills = new List<SkillBase>
-                                    //         {
-                                    //             new ArrowRainSkill(), // Dark Wind
-                                    //             new DopeHerbSkill(), // Scary Eyes
-                                    //             new PowerUpSkill() // 1000-years hate
-                                    //         }
-                                    //     }
-                                    // },
+                                    Levels = new IUnitLevelScheme[]
+                                    {
+                                        new AddSkillUnitLevel(1, new WispEnergySkill()), // Dark Wind
+                                        new AddSkillUnitLevel(1, new DopeHerbSkill()), // Scary Eyes
+                                        new AddSkillUnitLevel(1, new PowerUpSkill()), // 1000-years hate
+                                    },
+                                    
                                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                                 }
                             }
