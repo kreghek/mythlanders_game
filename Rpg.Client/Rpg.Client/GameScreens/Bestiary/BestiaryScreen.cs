@@ -59,7 +59,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
             if (_selectedMonster is not null)
             {
-                var sb = CollectMonsterStats(_selectedMonster);
+                var sb = CollectMonsterStats(_selectedMonster, monsterLevel: 1);
 
                 for (var statIndex = 0; statIndex < sb.Count; statIndex++)
                 {
@@ -119,9 +119,9 @@ namespace Rpg.Client.GameScreens.Bestiary
             }
         }
 
-        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme)
+        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
         {
-            var monster = new Unit(monsterScheme, 1);
+            var monster = new Unit(monsterScheme, monsterLevel);
 
             var unitName = monsterScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);
@@ -134,7 +134,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                 string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
             };
 
-            foreach (var perk in monsterScheme.Perks)
+            foreach (var perk in monster.Perks)
             {
                 var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
                 sb.Add(localizedName ?? $"[{perk.GetType().Name}]");

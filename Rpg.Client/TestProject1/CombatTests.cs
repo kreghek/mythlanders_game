@@ -23,12 +23,9 @@ namespace TestProject1
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                SkillSets = new[]
+                Levels = new []
                 {
-                    new SkillSet
-                    {
-                        Skills = new[] { new MonsterAttackSkill() }
-                    }
+                    new AddSkillUnitLevel(1, new MonsterAttackSkill())
                 }
             };
 
@@ -76,23 +73,17 @@ namespace TestProject1
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                SkillSets = new[]
+                Levels = new []
                 {
-                    new SkillSet
-                    {
-                        Skills = new[] { new MonsterAttackSkill() }
-                    }
+                    new AddSkillUnitLevel(1, new MonsterAttackSkill())
                 }
             };
 
             var monsterUnitScheme = new UnitScheme
             {
-                SkillSets = new[]
+                Levels = new []
                 {
-                    new SkillSet
-                    {
-                        Skills = new[] { new DefenseStanceSkill() }
-                    }
+                    new AddSkillUnitLevel(1, new DefenseStanceSkill())
                 }
             };
 
