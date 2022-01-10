@@ -36,7 +36,6 @@ namespace Rpg.Client.Core
             EquipmentLevel = equipmentLevel;
 
             InitStats(unitScheme);
-            RestoreHp();
 
             ManaPool = 0;
         }
@@ -47,6 +46,13 @@ namespace Rpg.Client.Core
 
 
         public int EquipmentLevel { get; set; }
+
+        public void LevelUp()
+        {
+            Level++;
+
+            InitStats(UnitScheme);
+        }
 
         public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
 
@@ -65,7 +71,7 @@ namespace Rpg.Client.Core
 
         public bool IsPlayerControlled { get; init; }
 
-        public int Level { get; set; }
+        public int Level { get; private set; }
         public int LevelUpXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
@@ -224,6 +230,8 @@ namespace Rpg.Client.Core
                 unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
                 MidpointRounding.AwayFromZero);
 
+            ApplyLevels();
+
             foreach (var perk in Perks)
             {
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
@@ -231,7 +239,7 @@ namespace Rpg.Client.Core
 
             MaxHitPoints = maxHitPoints;
 
-            ApplyLevels();
+            RestoreHp();
         }
 
         private void ApplyLevels()
@@ -241,6 +249,9 @@ namespace Rpg.Client.Core
             {
                 return;
             }
+
+            Skills.Clear();
+            Perks.Clear();
 
             var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
             foreach (var levelScheme in levelSchemesToCurrentLevel)

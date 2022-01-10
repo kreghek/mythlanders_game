@@ -96,6 +96,19 @@ namespace Rpg.Client.GameScreens.Party
                     // TODO Display skill efficient - damages, durations, etc.
                 }
 
+                foreach (var perk in _selectedCharacter.Perks)
+                {
+                    var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
+                    sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+
+                    var localizedDescription =
+                        GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
+                    if (localizedDescription is not null)
+                    {
+                        sb.Add(localizedDescription);
+                    }
+                }
+
                 for (var statIndex = 0; statIndex < sb.Count; statIndex++)
                 {
                     var line = sb[statIndex];
@@ -152,8 +165,6 @@ namespace Rpg.Client.GameScreens.Party
                         _selectedCharacter = character;
 
                         InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
-
-                        InitUpgrageButtons(character, _globeProvider.Globe.Player);
                     };
                     _unitButtonList.Add(button);
                 }
@@ -202,7 +213,7 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     player.MoveToPool(character);
 
-                    InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                    InitSlotAssignmentButtons(character, player);
                 };
             }
             else
@@ -222,10 +233,12 @@ namespace Rpg.Client.GameScreens.Party
                     {
                         player.MoveToParty(character, slot.Index);
 
-                        InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                        InitSlotAssignmentButtons(character, player);
                     };
                 }
             }
+
+            InitUpgrageButtons(character, player);
         }
 
         private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
@@ -252,8 +265,8 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
                         character.LevelUpXp;
-                    character.Level++;
-                    InitUpgrageButtons(character, player);
+                    character.LevelUp();
+                    InitSlotAssignmentButtons(character, player);
                 };
 
                 _slotButtonList.Add(levelUpButton);
@@ -272,7 +285,7 @@ namespace Rpg.Client.GameScreens.Party
                         player.Inventory.Single(x => x.Type == equipmentType.Value).Amount -=
                             character.EquipmentLevelup;
                         character.EquipmentLevel++;
-                        InitUpgrageButtons(character, player);
+                        InitSlotAssignmentButtons(character, player);
                     };
                     _slotButtonList.Add(levelUpButton);
                 }

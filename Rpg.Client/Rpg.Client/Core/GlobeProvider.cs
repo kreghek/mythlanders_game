@@ -102,11 +102,14 @@ namespace Rpg.Client.Core
             {
                 LoadPlayerCharacters(lastSave.Player);
 
-                foreach (var playerAbilityDto in lastSave.Player.Abilities)
+                if (lastSave.Player.Abilities is not null)
                 {
-                    if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
+                    foreach (var playerAbilityDto in lastSave.Player.Abilities)
                     {
-                        Globe.Player.AddPlayerAbility(playerAbilityEnum);
+                        if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
+                        {
+                            Globe.Player.AddPlayerAbility(playerAbilityEnum);
+                        }
                     }
                 }
             }
