@@ -36,6 +36,8 @@ namespace Rpg.Client.Core
 
         public bool IsUnique { get; init; }
 
+        public bool IsBig { get; init; }
+
         public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
         public int? MinRequiredBiomeLevel { get; init; }

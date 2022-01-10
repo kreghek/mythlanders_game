@@ -531,6 +531,7 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
                     IsUnique = true,
                     IsMonster = true,
+                    IsBig = true,
 
                     Levels = new IUnitLevelScheme[]
                     {

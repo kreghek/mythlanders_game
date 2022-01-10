@@ -104,5 +104,47 @@ namespace Rpg.Client.Core.Tests
 
             factMonsters[0].UnitScheme.Should().Be(bossUnitScheme);
         }
+        
+        [Test]
+        public void CreateMonsters_RollBigAndRegularMonsters_ReturnsOnlyOneBigMonster()
+        {
+            // ARRANGE
+
+            var node = new GlobeNode
+            {
+                Sid = GlobeNodeSid.Battleground
+            };
+
+            // Roll 2 to get non-single monster count.
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 2);
+
+            var biome = new Biome(minLevel: default, type: default);
+
+            var bigUnitScheme = new UnitScheme
+            {
+                LocationSids = new[] { GlobeNodeSid.Battleground },
+                IsBig = true
+            };
+
+            var regularUnitScheme = new UnitScheme
+            {
+                LocationSids = new[] { GlobeNodeSid.Battleground }
+            };
+
+            var predefinedMonsters = new[]
+            {
+                regularUnitScheme,
+                bigUnitScheme
+            };
+            var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
+
+            // ACT
+
+            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, combatLevel: default, unitCatalog);
+
+            // ASSERT
+
+            factMonsters[0].UnitScheme.Should().Be(bigUnitScheme);
+        }
     }
 }
