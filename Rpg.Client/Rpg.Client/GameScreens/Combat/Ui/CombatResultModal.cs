@@ -40,21 +40,20 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            if (CombatResult == CombatResult.Victory)
+            switch (CombatResult)
             {
-                DrawVictoryBenefits(spriteBatch, ContentRect);
-            }
-            else if (CombatResult == CombatResult.NextCombat)
-            {
-                DrawNextCombatBenefits(spriteBatch, ContentRect);
-            }
-            else if (CombatResult == CombatResult.Defeat)
-            {
-                DrawDefeatBenefits(spriteBatch, ContentRect);
-            }
-            else
-            {
-                Debug.Fail("Unknown combat result.");
+                case CombatResult.Victory:
+                    DrawVictoryBenefits(spriteBatch, ContentRect);
+                    break;
+                case CombatResult.NextCombat:
+                    DrawNextCombatBenefits(spriteBatch, ContentRect);
+                    break;
+                case CombatResult.Defeat:
+                    DrawDefeatBenefits(spriteBatch, ContentRect);
+                    break;
+                default:
+                    Debug.Fail("Unknown combat result.");
+                    break;
             }
 
             _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);

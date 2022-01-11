@@ -47,10 +47,7 @@ namespace Rpg.Client.Core
 
             foreach (var equipmentScheme in UnitScheme.Equipments)
             {
-                var equipment = new Equipment
-                {
-                    Scheme = equipmentScheme
-                };
+                var equipment = new Equipment(equipmentScheme);
                 
                 equipment.GainLevelUp += Equipment_GainLevelUp;
                 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
 using Rpg.Client.Core.Perks;
 using Rpg.Client.Core.Skills;
@@ -25,6 +26,9 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true)),
             },
+            
+            Equipments = new []{ new WarriorSword() },
+            
             UnitGraphicsConfig = new BerimirGraphicsConfig()
         };
 
@@ -175,7 +179,7 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
             },
             
-            Equipments = new []{ new ArcherEnergoBow() },
+            Equipments = new []{ new ArcherPulsarBow() },
             
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };
