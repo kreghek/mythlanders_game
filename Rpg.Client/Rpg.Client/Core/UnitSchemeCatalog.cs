@@ -183,7 +183,11 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
             },
             
-            Equipments = new []{ new ArcherPulsarBow() },
+            Equipments = new IEquipmentScheme[]
+            {
+                new ArcherPulsarBow(),
+                new Mk3ScoutPowerArmor()
+            },
             
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };

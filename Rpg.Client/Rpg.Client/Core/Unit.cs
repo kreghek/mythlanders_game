@@ -264,7 +264,14 @@ namespace Rpg.Client.Core
 
         public float GetEquipmentAttackMultiplier(SkillSid skillSid)
         {
-            return 1;
+            var m = 1f;
+            
+            foreach (var equipment in Equipments)
+            {
+                m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);
+            }
+
+            return m;
         }
 
         private void ApplyLevels()
