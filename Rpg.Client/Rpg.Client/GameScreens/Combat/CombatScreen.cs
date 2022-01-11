@@ -797,26 +797,16 @@ namespace Rpg.Client.GameScreens.Combat
             var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
 
-            var list = new List<CombatRewardsItem>();
-            var foundEquipments = new List<EquipmentItemType>();
+            var rewardList = new List<CombatRewardsItem>();
             if (globeNode.EquipmentItem is not null)
             {
-                foundEquipments.Add(globeNode.EquipmentItem.Value);
+                var rewardItem = CreateReward(player.Inventory, globeNode.EquipmentItem.Value, amount: 1);
+                rewardList.Add(rewardItem);
             }
 
             var gainedXp = summaryXp;
-
-            var item = new CombatRewardsItem
-            {
-                Xp = new CountableRewardStat
-                {
-                    StartValue = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount,
-                    Amount = gainedXp,
-                    Type = EquipmentItemType.ExpiriencePoints
-                }
-            };
-
-            list.Add(item);
+            var xpRewardItem = CreateXpReward(player.Inventory, gainedXp);
+            rewardList.Add(xpRewardItem);
 
             var combatRewards = new CombatRewards
             {
@@ -826,10 +816,32 @@ namespace Rpg.Client.GameScreens.Combat
                     Amount = 1,
                     ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
                 },
-                InventoryRewards = list
+                InventoryRewards = rewardList
             };
 
             return combatRewards;
+        }
+
+        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
+        {
+            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
+            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
+        }
+
+        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory, EquipmentItemType resourceType, int amount)
+        {
+            var inventoryItem = inventory.Single(x => x.Type == resourceType);
+            var item = new CombatRewardsItem
+            {
+                Xp = new CountableRewardStat
+                {
+                    StartValue = inventoryItem.Amount,
+                    Amount = amount,
+                    Type = resourceType
+                }
+            };
+
+            return item;
         }
 
         private void HandleUnits(GameTime gameTime)

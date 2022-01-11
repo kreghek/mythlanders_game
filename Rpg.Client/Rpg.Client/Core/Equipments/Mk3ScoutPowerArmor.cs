@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.Equipments
             throw new System.NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level) => level * 0.05f;
+        float IEquipmentScheme.GetHitPointsMultiplier(int level) => 1 + level * 0.05f;
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
     }
