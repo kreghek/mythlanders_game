@@ -2,13 +2,13 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal sealed class WarriorSword: SimpleAttackEquipmentBase
+    internal sealed class WarriorGreatSword: SimpleAttackEquipmentBase
     {
-        public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
+        public override EquipmentSid Sid => EquipmentSid.WarriorGreatSword;
         
         public override string GetDescription()
         {
-            return GameObjectResources.Hawk;
+            return GameObjectResources.Aspid;
         }
 
         protected override SkillSid[] AffectedAttackingSkills =>

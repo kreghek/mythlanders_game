@@ -6,7 +6,8 @@ namespace Rpg.Client.Core
     {
         EquipmentSid Sid { get; }
         string GetDescription();
-        float GetDamageMultiplier(SkillSid skillSid, int level);
+        float GetDamageMultiplier(SkillSid skillSid, int level) => 1f;
+        float GetHitPointsMultiplier(int level) => 1f;
         public EquipmentItemType RequiredResourceToLevelUp { get; }
     }
 }

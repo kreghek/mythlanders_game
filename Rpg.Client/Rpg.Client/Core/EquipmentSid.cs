@@ -4,6 +4,8 @@ namespace Rpg.Client.Core
     {
         ArcherPulsarBow,
         ArcherLightPowerArmor,
-        WindMedallion
+        WindMedallion,
+        WarriorGreatSword,
+        Mk2MediumPowerArmor
     }
 }

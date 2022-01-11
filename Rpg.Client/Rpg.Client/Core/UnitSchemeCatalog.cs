@@ -27,7 +27,11 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true)),
             },
             
-            Equipments = new []{ new WarriorSword() },
+            Equipments = new IEquipmentScheme[]
+            {
+                new WarriorGreatSword(),
+                new Mk2MediumPowerArmor()
+            },
             
             UnitGraphicsConfig = new BerimirGraphicsConfig()
         };

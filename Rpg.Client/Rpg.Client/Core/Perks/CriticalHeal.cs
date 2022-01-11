@@ -1,6 +1,6 @@
 namespace Rpg.Client.Core.Perks
 {
-    internal class CriticalHit : IPerk
+    internal class CriticalHeal : IPerk
     {
         public int ModifyDamage(int sourceDamage, IDice dice)
         {

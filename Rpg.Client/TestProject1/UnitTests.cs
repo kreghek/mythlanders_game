@@ -181,5 +181,29 @@ namespace TestProject1
             unit.Skills.Should().ContainSingle(x=>x == improvedSkill);
             
         }
+
+        [Test]
+        public void Constructor_LevelUpEquipmentAffectedToHp_HpRaised()
+        {
+            // ARRANGE
+
+            var scheme = new UnitScheme
+            {
+                Equipments = new []
+                {
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    // This is for reflection to make mock.
+                    Mock.Of<IEquipmentScheme>(x=>x.GetHitPointsMultiplier(It.IsAny<int>()) == 2f)
+                }
+            };
+            
+            // ACT
+            
+            var unit = new Unit(scheme, 1);
+            
+            // ASSERT
+            var expectedValue = (int)(scheme.HitPointsBase * 2f);
+            unit.MaxHitPoints.Should().Be(expectedValue);
+        }
     }
 }

@@ -241,9 +241,7 @@ namespace Rpg.Client.Core
 
         private void InitStats(UnitScheme unitScheme)
         {
-            var maxHitPoints = (int)Math.Round(
-                unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
-                MidpointRounding.AwayFromZero);
+            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
 
             ApplyLevels();
 
@@ -252,7 +250,12 @@ namespace Rpg.Client.Core
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
             }
 
-            MaxHitPoints = maxHitPoints;
+            foreach (var equipment in Equipments)
+            {
+                maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
+            }
+
+            MaxHitPoints = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
 
             RestoreHp();
         }
