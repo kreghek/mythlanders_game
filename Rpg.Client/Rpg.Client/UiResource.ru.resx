@@ -147,8 +147,8 @@
   <data name="CombatLengthLabel" xml:space="preserve">
     <value>Длительность сражения:</value>
   </data>
-  <data name="CombatLevelLavelTemplate" xml:space="preserve">
-    <value>Боевой опыт: {0} ({1}/{2} ед.)</value>
+  <data name="CombatLevelTemplate" xml:space="preserve">
+    <value>Боевой опыт: {0}</value>
   </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Поражение!</value>
@@ -158,9 +158,6 @@
   </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Найдены предметы:</value>
-  </data>
-  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
-    <value>ПОВЫШЕНИЕ!</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
@@ -203,9 +200,6 @@
   </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
-  </data>
-  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
-    <value>Экипировка: {0} ({1}/{2} частей)</value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
@@ -275,5 +269,8 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
+  </data>
+  <data name="CombatLevelUpTemplate" xml:space="preserve">
+    <value>{0} ед. опыта для повышения уровня</value>
   </data>
 </root>

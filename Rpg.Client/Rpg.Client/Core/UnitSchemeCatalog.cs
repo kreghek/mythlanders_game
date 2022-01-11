@@ -174,6 +174,9 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
                 new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
             },
+            
+            Equipments = new []{ new ArcherEnergoBow() },
+            
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 

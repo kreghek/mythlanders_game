@@ -75,11 +75,8 @@ namespace Rpg.Client.GameScreens.Party
                     string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
                     string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
                         _selectedCharacter.ManaPoolSize),
-                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, 0,
-                        _selectedCharacter.LevelUpXp),
-                    string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel,
-                        0,
-                        _selectedCharacter.EquipmentLevelup)
+                    string.Format(UiResource.CombatLevelTemplate, _selectedCharacter.Level),
+                    string.Format(UiResource.CombatLevelUpTemplate, _selectedCharacter.LevelUpXpAmount),
                 };
 
                 foreach (var skill in _selectedCharacter.Skills)
@@ -238,7 +235,7 @@ namespace Rpg.Client.GameScreens.Party
                 }
             }
 
-            InitUpgrageButtons(character, player);
+            InitUpgradeButtons(character, player);
         }
 
         private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
@@ -253,10 +250,10 @@ namespace Rpg.Client.GameScreens.Party
             return freeSlots.Where(x => !x.IsTankLine);
         }
 
-        private void InitUpgrageButtons(Unit character, Player player)
+        private void InitUpgradeButtons(Unit character, Player player)
         {
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
-            if (xpAmount >= character.LevelUpXp)
+            if (xpAmount >= character.LevelUpXpAmount)
             {
                 var levelUpButton = new TextButton("Level Up", _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
@@ -264,7 +261,7 @@ namespace Rpg.Client.GameScreens.Party
                 levelUpButton.OnClick += (_, _) =>
                 {
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
-                        character.LevelUpXp;
+                        character.LevelUpXpAmount;
                     character.LevelUp();
                     InitSlotAssignmentButtons(character, player);
                 };
@@ -272,19 +269,19 @@ namespace Rpg.Client.GameScreens.Party
                 _slotButtonList.Add(levelUpButton);
             }
 
-            var equipmentType = UnsortedHelpers.GetEquipmentItemTypeByUnitScheme(character.UnitScheme);
-            if (equipmentType is not null)
+            foreach (var equipment in character.Equipments)
             {
-                var equipmentResource = player.Inventory.Single(x => x.Type == equipmentType.Value).Amount;
-                if (equipmentResource >= character.EquipmentLevelup)
+                var resourceItem = player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
+                var equipmentResourceAmount = resourceItem.Amount;
+                if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
                 {
-                    var levelUpButton = new TextButton("Equipment Upgrade", _uiContentStorage.GetButtonTexture(),
+                    var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level+1}",
+                        _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     levelUpButton.OnClick += (_, _) =>
                     {
-                        player.Inventory.Single(x => x.Type == equipmentType.Value).Amount -=
-                            character.EquipmentLevelup;
-                        character.EquipmentLevel++;
+                        resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
+                        equipment.LevelUp();
                         InitSlotAssignmentButtons(character, player);
                     };
                     _slotButtonList.Add(levelUpButton);

@@ -133,11 +133,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Combat level: {0} ({1}/{2} exp).
+        ///   Looks up a localized string similar to Combat level: {0}.
         /// </summary>
-        internal static string CombatLevelLavelTemplate {
+        internal static string CombatLevelTemplate {
             get {
-                return ResourceManager.GetString("CombatLevelLavelTemplate", resourceCulture);
+                return ResourceManager.GetString("CombatLevelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} xp to level up.
+        /// </summary>
+        internal static string CombatLevelUpTemplate {
+            get {
+                return ResourceManager.GetString("CombatLevelUpTemplate", resourceCulture);
             }
         }
         
@@ -165,15 +174,6 @@ namespace Rpg.Client {
         internal static string CombatResultItemsFoundLabel {
             get {
                 return ResourceManager.GetString("CombatResultItemsFoundLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to LEVELUP!.
-        /// </summary>
-        internal static string CombatResultLevelUpIndicator {
-            get {
-                return ResourceManager.GetString("CombatResultLevelUpIndicator", resourceCulture);
             }
         }
         
@@ -255,15 +255,6 @@ namespace Rpg.Client {
         internal static string DamageLabelTemplate {
             get {
                 return ResourceManager.GetString("DamageLabelTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Equipment level: {0} ({1}/{2} items).
-        /// </summary>
-        internal static string EquipmentLevelLavelTemplate {
-            get {
-                return ResourceManager.GetString("EquipmentLevelLavelTemplate", resourceCulture);
             }
         }
         

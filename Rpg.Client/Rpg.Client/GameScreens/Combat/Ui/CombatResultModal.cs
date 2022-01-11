@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -200,23 +199,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
-        private static string? UnitValueBenefit(AnimatedProgressionUnitItemStat? unitItemStat, string postfix)
-        {
-            var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelUpValue} {postfix}";
-
-            if (unitItemStat.IsShowLevelUpIndicator is not null)
-            {
-                unitXpBenefit += " " + UiResource.CombatResultLevelUpIndicator;
-
-                if (unitItemStat.IsShowLevelUpIndicator > 1)
-                {
-                    unitXpBenefit += $" x {unitItemStat.IsShowLevelUpIndicator}";
-                }
-            }
-
-            return unitXpBenefit;
-        }
-
         private sealed class CombatItem
         {
             public CombatItem(AnimatedProgressionUnitItemStat biomeProgress,
@@ -271,8 +253,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             public int? IsShowLevelUpIndicator { get; private set; }
             public Func<int> LevelupSelector { get; }
-
-            public int LevelUpValue => LevelupSelector();
 
             public void Update()
             {

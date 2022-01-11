@@ -222,7 +222,7 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1, equipmentLevel: 1)
+                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1)
                 {
                     IsPlayerControlled = true
                 }
@@ -271,7 +271,6 @@ namespace Rpg.Client.Core
                     SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.HitPoints,
                     Level = unit.Level,
-                    EquipmentLevel = unit.EquipmentLevel,
                     ManaPool = unit.ManaPool
                 });
 
@@ -410,7 +409,7 @@ namespace Rpg.Client.Core
 
                 Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
 
-                var unit = new Unit(unitScheme, unitDto.Level, unitDto.EquipmentLevel)
+                var unit = new Unit(unitScheme, unitDto.Level)
                 {
                     IsPlayerControlled = true
                 };

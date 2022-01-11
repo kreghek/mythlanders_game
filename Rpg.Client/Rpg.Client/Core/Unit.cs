@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -20,32 +21,51 @@ namespace Rpg.Client.Core
 
         private float _armorBonus;
 
-        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level,
-            equipmentLevel: 0)
-        {
-        }
-
-        public Unit(UnitScheme unitScheme, int level, int equipmentLevel)
+        public Unit(UnitScheme unitScheme, int level)
         {
             UnitScheme = unitScheme;
 
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
+            var equipments = new List<Equipment>();
+            InitEquipment(equipments);
+            Equipments = equipments;
 
             Level = level;
-            EquipmentLevel = equipmentLevel;
 
             InitStats(unitScheme);
 
             ManaPool = 0;
         }
 
+        private void InitEquipment(IList<Equipment> equipments)
+        {
+            if (UnitScheme.Equipments is null)
+            {
+                return;
+            }
+
+            foreach (var equipmentScheme in UnitScheme.Equipments)
+            {
+                var equipment = new Equipment
+                {
+                    Scheme = equipmentScheme
+                };
+                
+                equipment.GainLevelUp += Equipment_GainLevelUp;
+                
+                equipments.Add(equipment);
+            }
+        }
+
+        private void Equipment_GainLevelUp(object? sender, EventArgs e)
+        {
+            InitStats(UnitScheme);
+        }
+
         public int Armor => CalcArmor();
 
         public int Damage => CalcDamage();
-
-
-        public int EquipmentLevel { get; set; }
 
         public void LevelUp()
         {
@@ -53,8 +73,6 @@ namespace Rpg.Client.Core
 
             InitStats(UnitScheme);
         }
-
-        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
 
         public bool HasSkillsWithCost
         {
@@ -72,7 +90,7 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; init; }
 
         public int Level { get; private set; }
-        public int LevelUpXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
+        public int LevelUpXpAmount => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
@@ -240,6 +258,13 @@ namespace Rpg.Client.Core
             MaxHitPoints = maxHitPoints;
 
             RestoreHp();
+        }
+
+        public IReadOnlyList<Equipment> Equipments { get; }
+
+        public float GetEquipmentAttackMultiplier(SkillSid skillSid)
+        {
+            return 1;
         }
 
         private void ApplyLevels()

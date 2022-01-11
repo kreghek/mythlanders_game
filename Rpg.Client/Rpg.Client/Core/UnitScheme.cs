@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
@@ -167,8 +169,47 @@ namespace Rpg.Client.Core
 
     internal interface IEquipmentScheme
     {
-        public EquipmentSid Sid { get; }
-        public EquipmentRule Rule { get; }
+        EquipmentSid Sid { get; }
+        string GetDescription();
+        float GetDamageMultiplier(SkillSid skillSid, int level);
+        public EquipmentItemType RequiredResourceToLevelUp { get; }
+    }
+
+    internal sealed class ArcherEnergoBow: IEquipmentScheme
+    {
+        public EquipmentSid Sid => EquipmentSid.Weapon;
+        public string GetDescription()
+        {
+            return GameObjectResources.Hawk;
+        }
+
+        public float GetDamageMultiplier(SkillSid skillSid, int level)
+        {
+            if (skillSid is SkillSid.EnergyShot or SkillSid.RapidEnergyShot)
+            {
+                return 1 + level * 0.5f;
+            }
+
+            return 1;
+        }
+
+        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
+    }
+
+    internal sealed class Equipment
+    {
+        public IEquipmentScheme Scheme { get; init; }
+        public int Level { get; private set; }
+        public int RequiredResourceAmountToLevelUp => (int)Math.Pow(2, Level);
+
+        public void LevelUp()
+        {
+            Level++;
+            
+            GainLevelUp?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler GainLevelUp;
     }
 
     internal enum EquipmentSid
@@ -176,14 +217,5 @@ namespace Rpg.Client.Core
         Weapon,
         Armor,
         Aux
-    }
-
-    internal enum EquipmentRule
-    {
-        ImproveSkill1,
-        ImproveSkill2,
-        ImproveSkill3,
-        ImproveSkill4,
-        ImproveHp
     }
 }
