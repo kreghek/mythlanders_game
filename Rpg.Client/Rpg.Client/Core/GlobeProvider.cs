@@ -138,27 +138,33 @@ namespace Rpg.Client.Core
             if (progressDto.Player is not null)
             {
                 LoadPlayerCharacters(progressDto.Player);
+                LoadPlayerAbilities(progressDto.Player);
 
-                if (progressDto.Player.Abilities is not null)
-                {
-                    foreach (var playerAbilityDto in progressDto.Player.Abilities)
-                    {
-                        if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
-                        {
-                            Globe.Player.AddPlayerAbility(playerAbilityEnum);
-                        }
-                    }
-                }
+                LoadPlayerResources(progressDto.Player.Resources, Globe.Player.Inventory);
+                LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
             }
-
-            LoadPlayerResources(Globe.Player.Inventory, progressDto.Player.Resources);
-            LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
 
             LoadEvents(progressDto.Events);
 
             LoadBiomes(progressDto.Biomes, Globe.Biomes);
 
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+        }
+
+        private void LoadPlayerAbilities(PlayerDto playerDto)
+        {
+            if (playerDto.Abilities is null)
+            {
+                return;
+            }
+
+            foreach (var playerAbilityDto in playerDto.Abilities)
+            {
+                if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
+                {
+                    Globe.Player.AddPlayerAbility(playerAbilityEnum);
+                }
+            }
         }
 
         public void StoreCurrentGlobe()
@@ -287,7 +293,7 @@ namespace Rpg.Client.Core
             return inventory.Select(x => new ResourceDto
             {
                 Amount = x.Amount,
-                Type = x.Type
+                Type = x.Type.ToString()
             }).ToArray();
         }
 
@@ -407,8 +413,6 @@ namespace Rpg.Client.Core
                 var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
                 var unitScheme = _unitSchemeCatalog.PlayerUnits[unitName];
 
-                Debug.Assert(unitDto.EquipmentLevel > 0, "The player unit's equipment level always bigger that zero.");
-
                 var unit = new Unit(unitScheme, unitDto.Level)
                 {
                     IsPlayerControlled = true
@@ -441,7 +445,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void LoadPlayerResources(IReadOnlyCollection<ResourceItem> inventory, ResourceDto[] resources)
+        private void LoadPlayerResources(ResourceDto[] resources, IReadOnlyCollection<ResourceItem> inventory)
         {
             if (resources is null)
             {
@@ -450,7 +454,7 @@ namespace Rpg.Client.Core
 
             foreach (var resourceDto in resources)
             {
-                var resource = inventory.Single(x => x.Type == resourceDto.Type);
+                var resource = inventory.Single(x => x.Type.ToString() == resourceDto.Type);
                 resource.Amount = resourceDto.Amount;
             }
         }
