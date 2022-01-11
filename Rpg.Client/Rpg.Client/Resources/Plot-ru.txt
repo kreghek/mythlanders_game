@@ -1040,5 +1040,27 @@
     "Location": "Epicenter",
     "Name": "Зло - вечно!",
     "Sid": "MainChaos3"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Тест1 - 2"
+        }
+      ]
+    },
+    "Aftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Тест1"
+        }
+      ]
+    },
+    "Location": "Thicket",
+    "Name": "Тест1",
+    "Sid": "SideSlavic1"
   }
 ]
