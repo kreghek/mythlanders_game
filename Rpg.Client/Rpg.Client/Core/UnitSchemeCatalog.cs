@@ -575,7 +575,9 @@ namespace Rpg.Client.Core
                                 new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
                                 new AddPerkUnitLevel(1, new ImprovedHitPoints()),
                                 new AddPerkUnitLevel(10, new Evasion())
-                            }
+                            },
+
+                            UnitGraphicsConfig = new VolkolakGraphicsConfig(),
                         }
                     }
                 },

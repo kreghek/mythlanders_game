@@ -101,18 +101,18 @@ namespace Rpg.Client.Core
 
             var json = File.ReadAllText(storageFile);
 
-            var lastSave = JsonSerializer.Deserialize<SaveDto>(json);
+            var saveDataDto = JsonSerializer.Deserialize<SaveDto>(json);
 
-            if (lastSave is null)
+            if (saveDataDto is null)
             {
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            var progressDto = lastSave.Progress;
+            var progressDto = saveDataDto.Progress;
 
             Globe = new Globe(_biomeGenerator)
             {
-                Player = new Player()
+                Player = new Player(saveDataDto.Name)
             };
 
             if (progressDto.Player is not null)
@@ -153,7 +153,7 @@ namespace Rpg.Client.Core
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
 
-            var saveName = Path.GetRandomFileName();
+            var saveName = GetSaveName(Globe.Player.Name);
 
             var saveDataString = CreateSaveData(Globe.Player.Name, progress);
 
@@ -164,6 +164,20 @@ namespace Rpg.Client.Core
 
             var storageFile = Path.Combine(_storagePath, string.Format(SAVE_FILE_TEMPLATE, saveName));
             File.WriteAllText(storageFile, saveDataString);
+        }
+
+        private string GetSaveName(string playerName)
+        {
+            var saves = GetSaves();
+            var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
+            if (currentSave is null)
+            {
+                return Path.GetRandomFileName();
+            }
+            else
+            {
+                return currentSave.FileName;
+            }
         }
 
         private static string CreateSaveData(string saveName, ProgressDto progress)
