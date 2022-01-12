@@ -104,7 +104,7 @@ namespace Rpg.Client.Core.Tests
 
             factMonsters[0].UnitScheme.Should().Be(bossUnitScheme);
         }
-        
+
         [Test]
         public void CreateMonsters_RollBigAndRegularMonsters_ReturnsOnlyOneBigMonster()
         {

@@ -23,7 +23,7 @@ namespace TestProject1
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                Levels = new []
+                Levels = new[]
                 {
                     new AddSkillUnitLevel(1, new MonsterAttackSkill())
                 }
@@ -73,7 +73,7 @@ namespace TestProject1
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                Levels = new []
+                Levels = new[]
                 {
                     new AddSkillUnitLevel(1, new MonsterAttackSkill())
                 }
@@ -81,7 +81,7 @@ namespace TestProject1
 
             var monsterUnitScheme = new UnitScheme
             {
-                Levels = new []
+                Levels = new[]
                 {
                     new AddSkillUnitLevel(1, new DefenseStanceSkill())
                 }
@@ -138,7 +138,7 @@ namespace TestProject1
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().NotBe(0).And.BeLessThan(targetHitPointsDiff);
         }
-        
+
         [Test]
         public void UseSkill_UsePeriodicDamageSkill_DamageTakenDuringTwoRounds()
         {
@@ -148,7 +148,7 @@ namespace TestProject1
             var unitScheme = new UnitScheme
             {
                 DamageDealerRank = 1,
-                Levels = new []
+                Levels = new[]
                 {
                     new AddSkillUnitLevel(1, new MonsterAttackSkill())
                 }
@@ -156,7 +156,7 @@ namespace TestProject1
 
             var monsterUnitScheme = new UnitScheme
             {
-                Levels = new []
+                Levels = new[]
                 {
                     new AddSkillUnitLevel(1, new DefenseStanceSkill())
                 }

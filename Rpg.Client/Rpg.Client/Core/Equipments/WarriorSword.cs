@@ -2,10 +2,10 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal sealed class WarriorGreatSword: SimpleAttackEquipmentBase
+    internal sealed class WarriorGreatSword : SimpleAttackEquipmentBase
     {
         public override EquipmentSid Sid => EquipmentSid.WarriorGreatSword;
-        
+
         public override string GetDescription()
         {
             return GameObjectResources.Aspid;

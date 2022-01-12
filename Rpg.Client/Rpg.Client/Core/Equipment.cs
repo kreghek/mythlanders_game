@@ -16,7 +16,7 @@ namespace Rpg.Client.Core
         public void LevelUp()
         {
             Level++;
-            
+
             GainLevelUp?.Invoke(this, EventArgs.Empty);
         }
 

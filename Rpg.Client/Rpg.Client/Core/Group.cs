@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
         {
             Slots = Enumerable
                 .Range(0, 6)
-                .Select(x => new GroupSlot { Index = x, IsTankLine = CheckIsTankLine(x)})
+                .Select(x => new GroupSlot { Index = x, IsTankLine = CheckIsTankLine(x) })
                 .ToArray();
         }
 

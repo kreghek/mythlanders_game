@@ -89,7 +89,7 @@ namespace Rpg.Client.Core
         }
 
         public sealed class SaveShortInfo
-        { 
+        {
             public string FileName { get; set; }
 
             [JsonPropertyName(nameof(SaveDto.Name))]
@@ -178,7 +178,7 @@ namespace Rpg.Client.Core
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                     KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                    Abilities = Globe.Player.Abilities.Select(x=>x.ToString()).ToArray()
+                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
                 };
             }
 
@@ -218,7 +218,7 @@ namespace Rpg.Client.Core
         }
 
         private class SaveDto
-        { 
+        {
             public string Name { get; init; }
             public DateTime UpdateTime { get; init; }
             public ProgressDto Progress { get; init; }

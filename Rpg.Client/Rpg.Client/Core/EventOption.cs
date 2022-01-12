@@ -17,8 +17,8 @@ namespace Rpg.Client.Core
         bool IsActive { get; }
         void Update();
     }
-    
-    internal sealed class CharacterDeepPreyingGlobeEvent: IGlobeEvent
+
+    internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     {
         private readonly UnitName _name;
         private readonly GlobeRule _rule;

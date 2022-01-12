@@ -50,9 +50,9 @@ namespace Rpg.Client.Core
             foreach (var equipmentScheme in UnitScheme.Equipments)
             {
                 var equipment = new Equipment(equipmentScheme);
-                
+
                 equipment.GainLevelUp += Equipment_GainLevelUp;
-                
+
                 equipments.Add(equipment);
             }
         }
@@ -267,7 +267,7 @@ namespace Rpg.Client.Core
         public float GetEquipmentAttackMultiplier(SkillSid skillSid)
         {
             var m = 1f;
-            
+
             foreach (var equipment in Equipments)
             {
                 m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);

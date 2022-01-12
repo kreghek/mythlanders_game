@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
             SupportRank = 0.1f,
 
             Name = UnitName.Berimir,
-            
+
             Levels = new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new SwordSlashSkill()),
@@ -26,13 +26,13 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true)),
             },
-            
+
             Equipments = new IEquipmentScheme[]
             {
                 new WarriorGreatSword(),
                 new Mk2MediumPowerArmor()
             },
-            
+
             UnitGraphicsConfig = new BerimirGraphicsConfig()
         };
 
@@ -154,7 +154,7 @@ namespace Rpg.Client.Core
             SupportRank = 1.0f,
 
             Name = UnitName.Rada,
-            
+
             Levels = new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new HealingSalveSkill()),
@@ -173,7 +173,7 @@ namespace Rpg.Client.Core
             SupportRank = 0.25f,
 
             Name = UnitName.Hawk,
-            
+
             Levels = new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new EnergyShotSkill()),
@@ -182,13 +182,13 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
                 new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
             },
-            
+
             Equipments = new IEquipmentScheme[]
             {
                 new ArcherPulsarBow(),
                 new Mk3ScoutPowerArmor()
             },
-            
+
             UnitGraphicsConfig = new HawkGraphicsConfig()
         };
 
@@ -313,12 +313,12 @@ namespace Rpg.Client.Core
                         GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower
                     },
                     IsMonster = true,
-                    
+
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -340,7 +340,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -370,7 +370,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
 
@@ -393,7 +393,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -423,7 +423,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -445,7 +445,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 }
             };
@@ -492,7 +492,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new WolfBiteSkill()),
                         new AddPerkUnitLevel(3, new CriticalHit())
                     },
-                    
+
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -532,7 +532,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new WispEnergySkill())
                     },
-                    
+
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -553,7 +553,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
                         new AddPerkUnitLevel(10, new CriticalHit())
                     },
-                    
+
                     UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
 
                     SchemeAutoTransition = new UnitSchemeAutoTransition
@@ -607,7 +607,7 @@ namespace Rpg.Client.Core
                     Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
-                    
+
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
@@ -632,7 +632,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new VampireBiteSkill()),
                         new AddPerkUnitLevel(5, new Evasion())
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -650,7 +650,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new DefenseStanceSkill())
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -669,7 +669,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new WideSlashSkill())
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -690,7 +690,7 @@ namespace Rpg.Client.Core
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill()),
                     },
-                    
+
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
                     LocationSids = new[] { GlobeNodeSid.Castle },
                     MinRequiredBiomeLevel = 10,
@@ -715,7 +715,7 @@ namespace Rpg.Client.Core
                                 new AddSkillUnitLevel(1, new DefenseStanceSkill()), // Dead one hard to die
                                 new AddSkillUnitLevel(1, new HealSkill()), // Eat a flash
                             },
-                            
+
                             UnitGraphicsConfig = new KocheyDeadFormGraphicsConfig(),
 
                             SchemeAutoTransition = new UnitSchemeAutoTransition
@@ -738,7 +738,7 @@ namespace Rpg.Client.Core
                                         new AddSkillUnitLevel(1, new DopeHerbSkill()), // Scary Eyes
                                         new AddSkillUnitLevel(1, new PowerUpSkill()), // 1000-years hate
                                     },
-                                    
+
                                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                                 }
                             }

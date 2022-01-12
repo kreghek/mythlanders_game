@@ -275,7 +275,7 @@ namespace Rpg.Client.GameScreens.Party
                 var equipmentResourceAmount = resourceItem.Amount;
                 if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
                 {
-                    var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level+1}",
+                    var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level + 1}",
                         _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     levelUpButton.OnClick += (_, _) =>

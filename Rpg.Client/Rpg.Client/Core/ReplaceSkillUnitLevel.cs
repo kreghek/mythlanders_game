@@ -4,7 +4,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class ReplaceSkillUnitLevel: UnitLevelBase
+    internal sealed class ReplaceSkillUnitLevel : UnitLevelBase
     {
         private readonly SkillSid _targetSid;
         private readonly ISkill _newSkill;

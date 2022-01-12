@@ -2,10 +2,10 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal sealed class ArcherPulsarBow: SimpleAttackEquipmentBase
+    internal sealed class ArcherPulsarBow : SimpleAttackEquipmentBase
     {
         public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
-        
+
         public override string GetDescription()
         {
             return GameObjectResources.Hawk;

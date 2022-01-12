@@ -1,6 +1,6 @@
 namespace Rpg.Client.Core.Equipments
 {
-    internal sealed class Mk3ScoutPowerArmor: IEquipmentScheme
+    internal sealed class Mk3ScoutPowerArmor : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.ArcherMk3ScoutPowerArmor;
         public string GetDescription()
