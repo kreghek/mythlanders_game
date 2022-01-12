@@ -25,15 +25,19 @@ namespace Rpg.Client.Core
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }
 
+        public IReadOnlyList<IEquipmentScheme> Equipments { get; init; }
+
         public float HitPointsBase => CalcHitPointsBase();
 
         public float HitPointsPerLevelBase => CalcHitPointsPerLevelBase();
+
+        public bool IsBig { get; init; }
 
         public bool IsMonster { get; init; }
 
         public bool IsUnique { get; init; }
 
-        public bool IsBig { get; init; }
+        public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
 
         public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
@@ -159,9 +163,5 @@ namespace Rpg.Client.Core
 
             return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
         }
-
-        public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
-
-        public IReadOnlyList<IEquipmentScheme> Equipments { get; init; }
     }
 }

@@ -28,11 +28,11 @@ namespace Rpg.Client.GameScreens.Common
         private readonly IScreen _currentScreen;
         private readonly Game _game;
         private readonly GameSettings _gameSettings;
+        private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
-        private readonly GlobeProvider _globeProvider;
 
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,

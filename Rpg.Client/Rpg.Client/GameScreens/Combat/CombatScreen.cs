@@ -126,7 +126,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             base.UpdateContent(gameTime);
 
-            if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) &&
+                !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
             {
                 _globe.Player.AddPlayerAbility(PlayerAbility.ReadCombatTutorial);
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
@@ -463,6 +464,29 @@ namespace Rpg.Client.GameScreens.Combat
             var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
 
             unitGameObject.AddChild(damageIndicator);
+        }
+
+        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory,
+            EquipmentItemType resourceType, int amount)
+        {
+            var inventoryItem = inventory.Single(x => x.Type == resourceType);
+            var item = new CombatRewardsItem
+            {
+                Xp = new CountableRewardStat
+                {
+                    StartValue = inventoryItem.Amount,
+                    Amount = amount,
+                    Type = resourceType
+                }
+            };
+
+            return item;
+        }
+
+        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
+        {
+            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
+            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
@@ -820,28 +844,6 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             return combatRewards;
-        }
-
-        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
-        {
-            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
-            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
-        }
-
-        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory, EquipmentItemType resourceType, int amount)
-        {
-            var inventoryItem = inventory.Single(x => x.Type == resourceType);
-            var item = new CombatRewardsItem
-            {
-                Xp = new CountableRewardStat
-                {
-                    StartValue = inventoryItem.Amount,
-                    Amount = amount,
-                    Type = resourceType
-                }
-            };
-
-            return item;
         }
 
         private void HandleUnits(GameTime gameTime)

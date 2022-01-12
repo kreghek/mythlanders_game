@@ -206,26 +206,6 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        private static bool CheckUnitIsAvailable(Unit unit)
-        {
-            // Some of the player persons can be killed in previous combat in a combat sequence.
-            if (unit.IsDead)
-            {
-                return false;
-            }
-
-            foreach (var effect in unit.GlobalEffects)
-            {
-                if (unit.UnitScheme.Name == UnitName.Berimir && effect.Source.IsActive &&
-                    effect.Source.GetRules().Contains(GlobeRule.DisableBerimir))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
@@ -287,6 +267,26 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
+        }
+
+        private static bool CheckUnitIsAvailable(Unit unit)
+        {
+            // Some of the player persons can be killed in previous combat in a combat sequence.
+            if (unit.IsDead)
+            {
+                return false;
+            }
+
+            foreach (var effect in unit.GlobalEffects)
+            {
+                if (unit.UnitScheme.Name == UnitName.Berimir && effect.Source.IsActive &&
+                    effect.Source.GetRules().Contains(GlobeRule.DisableBerimir))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)

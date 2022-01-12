@@ -13,12 +13,12 @@ namespace Rpg.Client.Core
 
     internal interface IGlobeEvent
     {
-        IReadOnlyList<GlobeRule> GetRules();
         bool IsActive { get; }
+        IReadOnlyList<GlobeRule> GetRules();
         void Update();
     }
-    
-    internal sealed class CharacterDeepPreyingGlobeEvent: IGlobeEvent
+
+    internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     {
         private readonly UnitName _name;
         private readonly GlobeRule _rule;

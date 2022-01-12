@@ -104,7 +104,7 @@ namespace Rpg.Client.Core.Tests
 
             factMonsters[0].UnitScheme.Should().Be(bossUnitScheme);
         }
-        
+
         [Test]
         public void CreateMonsters_RollBigAndRegularMonsters_ReturnsOnlyOneBigMonster()
         {
@@ -140,7 +140,8 @@ namespace Rpg.Client.Core.Tests
 
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, combatLevel: default, unitCatalog);
+            var factMonsters =
+                MonsterGeneratorHelper.CreateMonsters(node, dice, biome, combatLevel: default, unitCatalog);
 
             // ASSERT
 

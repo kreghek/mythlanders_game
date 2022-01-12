@@ -4,16 +4,15 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal abstract class SimpleAttackEquipmentBase: IEquipmentScheme
+    internal abstract class SimpleAttackEquipmentBase : IEquipmentScheme
     {
+        protected abstract SkillSid[] AffectedAttackingSkills { get; }
+
+        protected abstract float MultiplicatorByLevel { get; }
         public abstract EquipmentSid Sid { get; }
 
         public abstract string GetDescription();
 
-        protected abstract SkillSid[] AffectedAttackingSkills { get; }
-
-        protected abstract float MultiplicatorByLevel { get; }
-        
 
         public float GetDamageMultiplier(SkillSid skillSid, int level)
         {
