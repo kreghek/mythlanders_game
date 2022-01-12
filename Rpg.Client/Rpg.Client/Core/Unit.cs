@@ -322,14 +322,4 @@ namespace Rpg.Client.Core
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
     }
-
-    internal sealed class GlobalUnitEffect
-    {
-        public GlobalUnitEffect(IGlobeEvent source)
-        {
-            Source = source;
-        }
-
-        public IGlobeEvent Source { get; }
-    }
 }

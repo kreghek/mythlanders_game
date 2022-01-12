@@ -153,7 +153,7 @@ namespace Rpg.Client.Core
                 Biomes = GetBiomeDtos(Globe.Biomes)
             };
 
-            var saveName = Path.GetRandomFileName();
+            var saveName = GetSaveName(Globe.Player.Name);
 
             var saveDataString = CreateSaveData(Globe.Player.Name, progress);
 
@@ -164,6 +164,20 @@ namespace Rpg.Client.Core
 
             var storageFile = Path.Combine(_storagePath, string.Format(SAVE_FILE_TEMPLATE, saveName));
             File.WriteAllText(storageFile, saveDataString);
+        }
+
+        private string GetSaveName(string playerName)
+        {
+            var saves = GetSaves();
+            var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
+            if (currentSave is null)
+            {
+                return Path.GetRandomFileName();
+            }
+            else
+            {
+                return currentSave.FileName;
+            }
         }
 
         private static string CreateSaveData(string saveName, ProgressDto progress)

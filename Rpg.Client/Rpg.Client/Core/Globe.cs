@@ -44,6 +44,7 @@ namespace Rpg.Client.Core
         public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
             _globeEvents.Add(globalEvent);
+            globalEvent.Initialize(this);
         }
 
         public void Update(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
