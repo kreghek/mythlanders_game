@@ -44,33 +44,6 @@ namespace Rpg.Client.GameScreens.Title
             CreateNewGameButton(uiContentStorage);
         }
 
-        private void CreateNewGameButton(IUiContentStorage uiContentStorage)
-        {
-            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle),
-                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-            newGameButton.OnClick += StartButton_OnClick;
-            _continueGameButtons.Add(newGameButton);
-        }
-
-        private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
-        {
-            var saves = _globeProvider.GetSaves();
-
-            foreach (var saveInfo in saves)
-            {
-                var continueGameButton = new TextButton($"{saveInfo.PlayerName}{Environment.NewLine}{saveInfo.UpdateTime:f}",
-                    uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-                continueGameButton.OnClick += (_, _) =>
-                {
-                    _globeProvider.LoadGlobe(saveInfo.FileName);
-
-                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Map);
-                };
-
-                _continueGameButtons.Add(continueGameButton);
-            }
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             var index = 0;
@@ -96,6 +69,34 @@ namespace Rpg.Client.GameScreens.Title
             {
                 button.Update(_resolutionIndependentRenderer);
             }
+        }
+
+        private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
+        {
+            var saves = _globeProvider.GetSaves();
+
+            foreach (var saveInfo in saves)
+            {
+                var continueGameButton = new TextButton(
+                    $"{saveInfo.PlayerName}{Environment.NewLine}{saveInfo.UpdateTime:f}",
+                    uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                continueGameButton.OnClick += (_, _) =>
+                {
+                    _globeProvider.LoadGlobe(saveInfo.FileName);
+
+                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Map);
+                };
+
+                _continueGameButtons.Add(continueGameButton);
+            }
+        }
+
+        private void CreateNewGameButton(IUiContentStorage uiContentStorage)
+        {
+            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle),
+                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            newGameButton.OnClick += StartButton_OnClick;
+            _continueGameButtons.Add(newGameButton);
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)

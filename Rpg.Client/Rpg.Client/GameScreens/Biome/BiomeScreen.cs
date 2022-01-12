@@ -147,7 +147,8 @@ namespace Rpg.Client.GameScreens.Biome
         {
             base.UpdateContent(gameTime);
 
-            if (!_globe.Player.HasAbility(PlayerAbility.ReadMapTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadMapTutorial) &&
+                !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
             {
                 _globe.Player.AddPlayerAbility(PlayerAbility.ReadMapTutorial);
                 var tutorialModal = new TutorialModal(

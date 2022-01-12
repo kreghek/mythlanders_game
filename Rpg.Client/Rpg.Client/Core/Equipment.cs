@@ -9,9 +9,10 @@ namespace Rpg.Client.Core
             Scheme = scheme;
         }
 
-        public IEquipmentScheme Scheme { get; }
         public int Level { get; private set; }
         public int RequiredResourceAmountToLevelUp => (int)Math.Pow(2, Level);
+
+        public IEquipmentScheme Scheme { get; }
 
         public void LevelUp()
         {

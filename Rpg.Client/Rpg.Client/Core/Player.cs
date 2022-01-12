@@ -16,56 +16,52 @@ namespace Rpg.Client.Core
     internal sealed class Player
     {
         private readonly HashSet<PlayerAbility> _abilities;
-        private readonly IReadOnlyCollection<ResourceItem> _inventory;
-        private readonly IList<UnitScheme> _knownMonsters;
-        private readonly Group _party;
-        private readonly PoolGroup _pool;
 
         public Player()
         {
-            _party = new Group();
-            _pool = new PoolGroup();
-            _knownMonsters = new List<UnitScheme>();
+            Party = new Group();
+            Pool = new PoolGroup();
+            KnownMonsters = new List<UnitScheme>();
 
             var inventory = CreateInventory();
 
-            _inventory = inventory;
+            Inventory = inventory;
 
             _abilities = new HashSet<PlayerAbility>();
 
             Name = CreateRandomName();
         }
 
-        private static string CreateRandomName()
-        {
-            return Guid.NewGuid().ToString();
-        }
+        public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+
+        public IReadOnlyCollection<ResourceItem> Inventory { get; }
+
+        public IList<UnitScheme> KnownMonsters { get; }
 
         public string Name { get; }
 
-        public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
+        public Group Party { get; }
+
+        public PoolGroup Pool { get; }
 
         public void AddPlayerAbility(PlayerAbility ability)
         {
             _abilities.Add(ability);
         }
 
-        public bool HasAbility(PlayerAbility ability)
+        public void ClearAbilities()
         {
-            return _abilities.Contains(ability);
+            _abilities.Clear();
         }
-
-        public IReadOnlyCollection<ResourceItem> Inventory => _inventory;
-
-        public IList<UnitScheme> KnownMonsters => _knownMonsters;
-
-        public Group Party => _party;
-
-        public PoolGroup Pool => _pool;
 
         public IEnumerable<Unit> GetAll()
         {
             return Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
+        }
+
+        public bool HasAbility(PlayerAbility ability)
+        {
+            return _abilities.Contains(ability);
         }
 
         public void MoveToParty(Unit unit, int slotIndex)
@@ -106,9 +102,9 @@ namespace Rpg.Client.Core
             return inventory;
         }
 
-        public void ClearAbilities()
+        private static string CreateRandomName()
         {
-            _abilities.Clear();
+            return Guid.NewGuid().ToString();
         }
     }
 }

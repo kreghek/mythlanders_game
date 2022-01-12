@@ -140,7 +140,8 @@ namespace Rpg.Client.Core.Tests
 
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, combatLevel: default, unitCatalog);
+            var factMonsters =
+                MonsterGeneratorHelper.CreateMonsters(node, dice, biome, combatLevel: default, unitCatalog);
 
             // ASSERT
 

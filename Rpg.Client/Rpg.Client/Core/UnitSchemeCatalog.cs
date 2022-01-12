@@ -24,7 +24,7 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(2, new WideSlashSkill()),
                 new AddPerkUnitLevel(2, new ImprovedHitPoints()),
                 new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
-                new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true)),
+                new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
             },
 
             Equipments = new IEquipmentScheme[]
@@ -161,7 +161,7 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(2, new ToxicHerbsSkill()),
                 new AddPerkUnitLevel(2, new CriticalHeal()),
                 new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
-                new AddSkillUnitLevel(4, new MassHealSkill(true)),
+                new AddSkillUnitLevel(4, new MassHealSkill(true))
             },
             UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
         };
@@ -180,7 +180,7 @@ namespace Rpg.Client.Core
                 new AddSkillUnitLevel(2, new RapidBowShotSkill()),
                 new AddPerkUnitLevel(2, new CriticalHit()),
                 new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
-                new AddSkillUnitLevel(4, new DefenseStanceSkill(true)),
+                new AddSkillUnitLevel(4, new DefenseStanceSkill(true))
             },
 
             Equipments = new IEquipmentScheme[]
@@ -316,7 +316,7 @@ namespace Rpg.Client.Core
 
                     Levels = new IUnitLevelScheme[]
                     {
-                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -338,7 +338,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -368,7 +368,7 @@ namespace Rpg.Client.Core
 
                     Levels = new IUnitLevelScheme[]
                     {
-                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -391,7 +391,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -421,7 +421,7 @@ namespace Rpg.Client.Core
 
                     Levels = new IUnitLevelScheme[]
                     {
-                        new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -443,7 +443,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -512,7 +512,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new BearBludgeonSkill()),
                         new AddPerkUnitLevel(3, new ImprovedHitPoints()),
-                        new AddPerkUnitLevel(10, new ImprovedArmor()),
+                        new AddPerkUnitLevel(10, new ImprovedArmor())
                     },
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
@@ -688,7 +688,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill()),
+                        new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
@@ -713,7 +713,7 @@ namespace Rpg.Client.Core
                             {
                                 new AddSkillUnitLevel(1, new WideSlashSkill()), // Bite
                                 new AddSkillUnitLevel(1, new DefenseStanceSkill()), // Dead one hard to die
-                                new AddSkillUnitLevel(1, new HealSkill()), // Eat a flash
+                                new AddSkillUnitLevel(1, new HealSkill()) // Eat a flash
                             },
 
                             UnitGraphicsConfig = new KocheyDeadFormGraphicsConfig(),
@@ -736,7 +736,7 @@ namespace Rpg.Client.Core
                                     {
                                         new AddSkillUnitLevel(1, new WispEnergySkill()), // Dark Wind
                                         new AddSkillUnitLevel(1, new DopeHerbSkill()), // Scary Eyes
-                                        new AddSkillUnitLevel(1, new PowerUpSkill()), // 1000-years hate
+                                        new AddSkillUnitLevel(1, new PowerUpSkill()) // 1000-years hate
                                     },
 
                                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()

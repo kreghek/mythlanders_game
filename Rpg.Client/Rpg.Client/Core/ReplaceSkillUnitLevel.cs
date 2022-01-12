@@ -6,8 +6,8 @@ namespace Rpg.Client.Core
 {
     internal sealed class ReplaceSkillUnitLevel : UnitLevelBase
     {
-        private readonly SkillSid _targetSid;
         private readonly ISkill _newSkill;
+        private readonly SkillSid _targetSid;
 
         public ReplaceSkillUnitLevel(int level, SkillSid targetSid, ISkill newSkill) : base(level)
         {

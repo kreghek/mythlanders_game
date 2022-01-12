@@ -6,13 +6,12 @@ namespace Rpg.Client.Core.Equipments
 {
     internal abstract class SimpleAttackEquipmentBase : IEquipmentScheme
     {
-        public abstract EquipmentSid Sid { get; }
-
-        public abstract string GetDescription();
-
         protected abstract SkillSid[] AffectedAttackingSkills { get; }
 
         protected abstract float MultiplicatorByLevel { get; }
+        public abstract EquipmentSid Sid { get; }
+
+        public abstract string GetDescription();
 
 
         public float GetDamageMultiplier(SkillSid skillSid, int level)

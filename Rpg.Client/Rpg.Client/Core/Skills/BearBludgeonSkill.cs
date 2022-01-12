@@ -11,12 +11,6 @@ namespace Rpg.Client.Core.Skills
         {
         }
 
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.BearBludgeon
-        };
-
         public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
@@ -51,5 +45,11 @@ namespace Rpg.Client.Core.Skills
         public override SkillSid Sid => SkillSid.MutantBearBludgeon;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Melee,
+            SoundEffectType = GameObjectSoundType.BearBludgeon
+        };
     }
 }

@@ -62,16 +62,6 @@ namespace Rpg.Client.Core
             return false;
         }
 
-        private static bool IsDirectoryEmpty(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                return false;
-            }
-
-            return !Directory.EnumerateFileSystemEntries(path).Any();
-        }
-
         public void GenerateNew()
         {
             var globe = new Globe(_biomeGenerator)
@@ -86,16 +76,6 @@ namespace Rpg.Client.Core
             }
 
             Globe = globe;
-        }
-
-        public sealed class SaveShortInfo
-        {
-            public string FileName { get; set; }
-
-            [JsonPropertyName(nameof(SaveDto.Name))]
-            public string PlayerName { get; init; }
-
-            public DateTime UpdateTime { get; init; }
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
@@ -151,22 +131,6 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
         }
 
-        private void LoadPlayerAbilities(PlayerDto playerDto)
-        {
-            if (playerDto.Abilities is null)
-            {
-                return;
-            }
-
-            foreach (var playerAbilityDto in playerDto.Abilities)
-            {
-                if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
-                {
-                    Globe.Player.AddPlayerAbility(playerAbilityEnum);
-                }
-            }
-        }
-
         public void StoreCurrentGlobe()
         {
             PlayerDto? player = null;
@@ -215,13 +179,6 @@ namespace Rpg.Client.Core
                 JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
 
             return serializedSaveData;
-        }
-
-        private class SaveDto
-        {
-            public string Name { get; init; }
-            public DateTime UpdateTime { get; init; }
-            public ProgressDto Progress { get; init; }
         }
 
         private Unit[] CreateStartUnits()
@@ -316,6 +273,16 @@ namespace Rpg.Client.Core
             }
         }
 
+        private static bool IsDirectoryEmpty(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return false;
+            }
+
+            return !Directory.EnumerateFileSystemEntries(path).Any();
+        }
+
         private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Biome> biomes)
         {
             if (biomeDtoList is null)
@@ -383,6 +350,22 @@ namespace Rpg.Client.Core
                 if (targetNode is not null)
                 {
                     targetNode.IsAvailable = nodeDto.IsAvailable;
+                }
+            }
+        }
+
+        private void LoadPlayerAbilities(PlayerDto playerDto)
+        {
+            if (playerDto.Abilities is null)
+            {
+                return;
+            }
+
+            foreach (var playerAbilityDto in playerDto.Abilities)
+            {
+                if (Enum.TryParse<PlayerAbility>(playerAbilityDto, out var playerAbilityEnum))
+                {
+                    Globe.Player.AddPlayerAbility(playerAbilityEnum);
                 }
             }
         }
@@ -457,6 +440,23 @@ namespace Rpg.Client.Core
                 var resource = inventory.Single(x => x.Type.ToString() == resourceDto.Type);
                 resource.Amount = resourceDto.Amount;
             }
+        }
+
+        public sealed class SaveShortInfo
+        {
+            public string FileName { get; set; }
+
+            [JsonPropertyName(nameof(SaveDto.Name))]
+            public string PlayerName { get; init; }
+
+            public DateTime UpdateTime { get; init; }
+        }
+
+        private class SaveDto
+        {
+            public string Name { get; init; }
+            public ProgressDto Progress { get; init; }
+            public DateTime UpdateTime { get; init; }
         }
     }
 }

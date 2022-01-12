@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
-        private List<IGlobeEvent> _globeEvents;
+        private readonly List<IGlobeEvent> _globeEvents;
 
         public Globe(IBiomeGenerator biomeGenerator)
         {
@@ -35,13 +35,21 @@ namespace Rpg.Client.Core
 
         public EventNode? CurrentEventNode { get; set; }
 
+        public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
+
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
 
-        public IReadOnlyCollection<IGlobeEvent> GlobeEvents
+        public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
-            get => _globeEvents;
+            _globeEvents.Add(globalEvent);
+        }
+
+        public void Update(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
+        {
+            UpdateGlobeEvents();
+            UpdateNodes(dice, unitSchemeCatalog, eventCatalog);
         }
 
         public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
@@ -256,14 +264,6 @@ namespace Rpg.Client.Core
             return true;
         }
 
-        public event EventHandler? Updated;
-
-        public void Update(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
-        {
-            UpdateGlobeEvents();
-            UpdateNodes(dice, unitSchemeCatalog, eventCatalog);
-        }
-
         private void UpdateGlobeEvents()
         {
             var eventsSnapshot = _globeEvents.ToArray();
@@ -292,9 +292,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        public void AddGlobalEvent(IGlobeEvent globalEvent)
-        {
-            _globeEvents.Add(globalEvent);
-        }
+        public event EventHandler? Updated;
     }
 }

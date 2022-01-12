@@ -17,9 +17,9 @@ namespace Rpg.Client.Core
 
         private const float OVERPOWER_BASE = 2;
         private const int MINIMAL_LEVEL_WITH_MANA = 2;
+        private readonly List<GlobalUnitEffect> _globalEffects;
 
         private float _armorBonus;
-        private readonly List<GlobalUnitEffect> _globalEffects;
 
         public Unit(UnitScheme unitScheme, int level)
         {
@@ -40,38 +40,13 @@ namespace Rpg.Client.Core
             _globalEffects = new List<GlobalUnitEffect>();
         }
 
-        private void InitEquipment(IList<Equipment> equipments)
-        {
-            if (UnitScheme.Equipments is null)
-            {
-                return;
-            }
-
-            foreach (var equipmentScheme in UnitScheme.Equipments)
-            {
-                var equipment = new Equipment(equipmentScheme);
-
-                equipment.GainLevelUp += Equipment_GainLevelUp;
-
-                equipments.Add(equipment);
-            }
-        }
-
-        private void Equipment_GainLevelUp(object? sender, EventArgs e)
-        {
-            InitStats(UnitScheme);
-        }
-
         public int Armor => CalcArmor();
 
         public int Damage => CalcDamage();
 
-        public void LevelUp()
-        {
-            Level++;
+        public IReadOnlyList<Equipment> Equipments { get; }
 
-            InitStats(UnitScheme);
-        }
+        public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
 
         public bool HasSkillsWithCost
         {
@@ -112,9 +87,39 @@ namespace Rpg.Client.Core
         /// </summary>
         public int XpReward => Level > 0 ? Level * 20 : (int)(20 * 0.5f);
 
+        public void AddGlobalEffect(IGlobeEvent source)
+        {
+            var effect = new GlobalUnitEffect(source);
+            _globalEffects.Add(effect);
+        }
+
         public void AvoidDamage()
         {
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
+        }
+
+        public float GetEquipmentAttackMultiplier(SkillSid skillSid)
+        {
+            var m = 1f;
+
+            foreach (var equipment in Equipments)
+            {
+                m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);
+            }
+
+            return m;
+        }
+
+        public void LevelUp()
+        {
+            Level++;
+
+            InitStats(UnitScheme);
+        }
+
+        public void RemoveGlobalEffect(GlobalUnitEffect effect)
+        {
+            _globalEffects.Add(effect);
         }
 
         public void RestoreHitPoints(int heal)
@@ -181,6 +186,24 @@ namespace Rpg.Client.Core
             }
         }
 
+        private void ApplyLevels()
+        {
+            var levels = UnitScheme.Levels;
+            if (levels is null)
+            {
+                return;
+            }
+
+            Skills.Clear();
+            Perks.Clear();
+
+            var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
+            foreach (var levelScheme in levelSchemesToCurrentLevel)
+            {
+                levelScheme.Apply(this);
+            }
+        }
+
         private int CalcArmor()
         {
             var power = Power;
@@ -241,6 +264,28 @@ namespace Rpg.Client.Core
             return normalizedSupport;
         }
 
+        private void Equipment_GainLevelUp(object? sender, EventArgs e)
+        {
+            InitStats(UnitScheme);
+        }
+
+        private void InitEquipment(IList<Equipment> equipments)
+        {
+            if (UnitScheme.Equipments is null)
+            {
+                return;
+            }
+
+            foreach (var equipmentScheme in UnitScheme.Equipments)
+            {
+                var equipment = new Equipment(equipmentScheme);
+
+                equipment.GainLevelUp += Equipment_GainLevelUp;
+
+                equipments.Add(equipment);
+            }
+        }
+
         private void InitStats(UnitScheme unitScheme)
         {
             var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
@@ -262,38 +307,6 @@ namespace Rpg.Client.Core
             RestoreHp();
         }
 
-        public IReadOnlyList<Equipment> Equipments { get; }
-
-        public float GetEquipmentAttackMultiplier(SkillSid skillSid)
-        {
-            var m = 1f;
-
-            foreach (var equipment in Equipments)
-            {
-                m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);
-            }
-
-            return m;
-        }
-
-        private void ApplyLevels()
-        {
-            var levels = UnitScheme.Levels;
-            if (levels is null)
-            {
-                return;
-            }
-
-            Skills.Clear();
-            Perks.Clear();
-
-            var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
-            foreach (var levelScheme in levelSchemesToCurrentLevel)
-            {
-                levelScheme.Apply(this);
-            }
-        }
-
         private void RestoreHp()
         {
             HitPoints = MaxHitPoints;
@@ -308,19 +321,6 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
-
-        public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
-
-        public void AddGlobalEffect(IGlobeEvent source)
-        {
-            var effect = new GlobalUnitEffect(source);
-            _globalEffects.Add(effect);
-        }
-
-        public void RemoveGlobalEffect(GlobalUnitEffect effect)
-        {
-            _globalEffects.Add(effect);
-        }
     }
 
     internal sealed class GlobalUnitEffect

@@ -15,11 +15,6 @@ namespace Rpg.Client.Core
                 .ToArray();
         }
 
-        private static bool CheckIsTankLine(int slotIndex)
-        {
-            return slotIndex is >= 0 and < 3;
-        }
-
         public IReadOnlyList<GroupSlot> Slots { get; }
 
         public IEnumerable<GroupSlot> GetFreeSlots()
@@ -36,6 +31,11 @@ namespace Rpg.Client.Core
                 .Select(x => x.Unit!)
                 .ToArray();
         }
+
+        private static bool CheckIsTankLine(int slotIndex)
+        {
+            return slotIndex is >= 0 and < 3;
+        }
     }
 
     internal sealed class PoolGroup
@@ -51,7 +51,7 @@ namespace Rpg.Client.Core
     internal sealed class GroupSlot
     {
         public int Index { get; init; }
-        public Unit? Unit { get; set; }
         public bool IsTankLine { get; init; }
+        public Unit? Unit { get; set; }
     }
 }

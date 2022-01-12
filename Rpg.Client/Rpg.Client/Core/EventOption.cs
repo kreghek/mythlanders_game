@@ -13,8 +13,8 @@ namespace Rpg.Client.Core
 
     internal interface IGlobeEvent
     {
-        IReadOnlyList<GlobeRule> GetRules();
         bool IsActive { get; }
+        IReadOnlyList<GlobeRule> GetRules();
         void Update();
     }
 
