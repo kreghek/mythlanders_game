@@ -3,6 +3,6 @@
     internal sealed record ResourceDto
     {
         public int Amount { get; init; }
-        public EquipmentItemType Type { get; init; }
+        public string Type { get; init; }
     }
 }

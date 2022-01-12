@@ -33,21 +33,19 @@ namespace Rpg.Client.Core
 
         public bool IsUnique { get; init; }
 
+        public bool IsBig { get; init; }
+
         public IEnumerable<GlobeNodeSid>? LocationSids { get; init; }
 
         public int? MinRequiredBiomeLevel { get; init; }
 
         public UnitName Name { get; init; }
 
-        public IEnumerable<IPerk> Perks { get; init; } = Array.Empty<IPerk>();
-
         public float Power => CalcPower();
 
         public float PowerPerLevel => CalcPowerPerLevel();
 
         public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }
-
-        public IReadOnlyList<SkillSet>? SkillSets { get; init; }
 
         public float SupportBase => CalcSupport();
         public float SupportRank { get; init; }
@@ -161,5 +159,9 @@ namespace Rpg.Client.Core
 
             return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
         }
+
+        public IReadOnlyList<IUnitLevelScheme>? Levels { get; init; }
+
+        public IReadOnlyList<IEquipmentScheme> Equipments { get; init; }
     }
 }

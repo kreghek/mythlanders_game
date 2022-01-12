@@ -29,5 +29,10 @@ namespace Rpg.Client.Core
                 _globe.Player.Pool.Units = units;
             }
         }
+
+        public void AddNewGlobalEvent(IGlobeEvent globalEvent)
+        {
+            _globe.AddGlobalEvent(globalEvent);
+        }
     }
 }

@@ -1040,5 +1040,31 @@
     "Location": "Epicenter",
     "Name": "Зло - вечно!",
     "Sid": "MainChaos3"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Berimir",
+          "Text": "Мне нужно отдань дань уважения Сварогу. Это будет долгая молитва."
+        },
+        {
+          "Speaker": null,
+          "Text": "Беримир натолько глубоко погружается в молитву, что его невозможно призвать в реальный мир."
+        }
+      ]
+    },
+    "Aftermath": "BerimirDeepPreying",
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Беримир чувствует присутствие древних богов."
+        }
+      ]
+    },
+    "Location": "Thicket",
+    "Name": "Великий кузнец",
+    "Sid": "SideSlavic1"
   }
 ]

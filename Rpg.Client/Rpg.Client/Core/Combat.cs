@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
-        public void UseSkill(ISkill skill, CombatUnit target)
+        public void UseSkill(ISkill skill, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -139,7 +139,7 @@ namespace Rpg.Client.Core
 
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Rules, CurrentUnit, target);
+                EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
                 CompleteStep();
             };
 
@@ -148,7 +148,7 @@ namespace Rpg.Client.Core
                 action,
                 CurrentUnit,
                 skill,
-                target
+                targetUnit
             );
 
             ActionGenerated?.Invoke(this, actionEventArgs);
@@ -166,14 +166,16 @@ namespace Rpg.Client.Core
                 }
 
                 var unit = slot.Unit;
-                // Some of the player persons can be killed in previous combat in a combat sequence.
+                var isAvailable = CheckUnitIsAvailable(slot.Unit);
 
-                if (!unit.IsDead)
+                if (!isAvailable)
                 {
-                    var combatUnit = new CombatUnit(unit, slot.Index);
-                    _allUnitList.Add(combatUnit);
-                    CombatUnitEntered?.Invoke(this, combatUnit);
+                    continue;
                 }
+
+                var combatUnit = new CombatUnit(unit, slot);
+                _allUnitList.Add(combatUnit);
+                CombatUnitEntered?.Invoke(this, combatUnit);
             }
 
             foreach (var slot in CombatSource.EnemyGroup.Slots)
@@ -187,7 +189,7 @@ namespace Rpg.Client.Core
 
                 // Monster has no dead ones on start of the combat.
 
-                var combatUnit = new CombatUnit(unit, slot.Index);
+                var combatUnit = new CombatUnit(unit, slot);
                 _allUnitList.Add(combatUnit);
                 CombatUnitEntered?.Invoke(this, combatUnit);
             }
@@ -202,6 +204,26 @@ namespace Rpg.Client.Core
             CombatUnitIsReadyToControl += Combat_CombatUnitReadyIsToControl;
 
             IsCurrentStepCompleted = true;
+        }
+
+        private static bool CheckUnitIsAvailable(Unit unit)
+        {
+            // Some of the player persons can be killed in previous combat in a combat sequence.
+            if (unit.IsDead)
+            {
+                return false;
+            }
+
+            foreach (var effect in unit.GlobalEffects)
+            {
+                if (unit.UnitScheme.Name == UnitName.Berimir && effect.Source.IsActive &&
+                    effect.Source.GetRules().Contains(GlobeRule.DisableBerimir))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         internal void Update()
@@ -305,7 +327,7 @@ namespace Rpg.Client.Core
                         {
                             var unitsInTankPosition = Units.Where(x =>
                                     CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
-                                    !x.Unit.IsDead && x.Index == 0)
+                                    !x.Unit.IsDead && x.IsInTankLine)
                                 .ToList();
 
                             if (unitsInTankPosition.Any())

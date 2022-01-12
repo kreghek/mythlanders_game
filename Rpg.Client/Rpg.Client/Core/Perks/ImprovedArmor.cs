@@ -4,7 +4,7 @@
     {
         private const float ARMOR_BONUS = 2f;
 
-        public override void ApplyToStats(ref int maxHitpoints, ref float armorBonus)
+        public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
         {
             armorBonus = ARMOR_BONUS;
         }

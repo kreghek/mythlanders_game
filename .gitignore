@@ -36,3 +36,4 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 /Rpg.Client/.ai
+/Rpg.Client/PlotConverter/Properties/launchSettings.json

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 
 using Rpg.Client.Core.EventSerialization;
@@ -57,18 +56,19 @@ namespace Rpg.Client.Core
                     }
                 }
 
+                var isMainPlot = eventStorageModel.Sid.StartsWith("Main");
                 var plotEvent = new Event
                 {
                     Sid = eventStorageModel.Sid,
                     Biome = locationInfo.Biome,
                     ApplicableOnlyFor = new[] { locationInfo.LocationSid },
-                    IsUnique = true,
-                    IsHighPriority = true,
+                    IsUnique = isMainPlot,
+                    IsHighPriority = isMainPlot,
                     Title = eventStorageModel.Name,
                     BeforeCombatStartNode = beforeEventNode,
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
-                    IsGameStart = eventStorageModel == eventStorageModelList.First()
+                    IsGameStart = eventStorageModel.Sid == "MainSlavic1"
                 };
 
                 yield return plotEvent;

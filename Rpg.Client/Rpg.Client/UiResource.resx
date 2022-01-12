@@ -143,8 +143,8 @@
     <value>Combat length:</value>
     <comment>Количество сражений в цепочке боёв</comment>
   </data>
-  <data name="CombatLevelLavelTemplate" xml:space="preserve">
-    <value>Combat level: {0} ({1}/{2} exp)</value>
+  <data name="CombatLevelTemplate" xml:space="preserve">
+    <value>Combat level: {0}</value>
   </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Defeat!</value>
@@ -156,9 +156,6 @@
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Items found:</value>
     <comment>Подпись для списка найденных предметов  результате победы.</comment>
-  </data>
-  <data name="CombatResultLevelUpIndicator" xml:space="preserve">
-    <value>LEVELUP!</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Monster danger increased to {0}</value>
@@ -189,9 +186,6 @@
   </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
-  </data>
-  <data name="EquipmentLevelLavelTemplate" xml:space="preserve">
-    <value>Equipment level: {0} ({1}/{2} items)</value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value></value>
@@ -262,5 +256,8 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
+  </data>
+  <data name="CombatLevelUpTemplate" xml:space="preserve">
+    <value>{0} xp to level up</value>
   </data>
 </root>

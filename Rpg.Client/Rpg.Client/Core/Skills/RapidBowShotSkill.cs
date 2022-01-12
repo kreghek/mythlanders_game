@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
@@ -22,10 +23,11 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SkillSid.RapidEnergyShot);
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f,
+                        DamageMultiplier = 1f * equipmentMultiplier,
                         Scatter = 0.5f
                     };
 

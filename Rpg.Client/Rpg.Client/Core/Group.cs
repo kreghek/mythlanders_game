@@ -11,8 +11,13 @@ namespace Rpg.Client.Core
         {
             Slots = Enumerable
                 .Range(0, 6)
-                .Select(x => new GroupSlot { Index = x })
+                .Select(x => new GroupSlot { Index = x, IsTankLine = CheckIsTankLine(x)})
                 .ToArray();
+        }
+
+        private static bool CheckIsTankLine(int slotIndex)
+        {
+            return slotIndex is >= 0 and < 3;
         }
 
         public IReadOnlyList<GroupSlot> Slots { get; }
@@ -47,5 +52,6 @@ namespace Rpg.Client.Core
     {
         public int Index { get; init; }
         public Unit? Unit { get; set; }
+        public bool IsTankLine { get; init; }
     }
 }

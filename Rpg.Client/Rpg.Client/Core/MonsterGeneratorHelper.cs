@@ -37,12 +37,22 @@ namespace Rpg.Client.Core
             {
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
-                rolledUnits.Add(scheme);
-
-                if (scheme.IsUnique)
+                if (!scheme.IsBig)
                 {
-                    // Remove all unique monsters from roll list.
-                    availableMonsters.RemoveAll(x => x.IsUnique);
+                    rolledUnits.Add(scheme);
+
+                    if (scheme.IsUnique)
+                    {
+                        // Remove all unique monsters from roll list.
+                        availableMonsters.RemoveAll(x => x.IsUnique);
+                    }
+                }
+                else
+                {
+                    // A big monster is alone on a battleground.
+                    rolledUnits.Clear();
+                    rolledUnits.Add(scheme);
+                    break;
                 }
             }
 

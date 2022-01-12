@@ -5,13 +5,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class BowShotSkill : SkillBase
+    internal class EnergyShotSkill : SkillBase
     {
-        public BowShotSkill() : this(false)
+        public EnergyShotSkill() : this(false)
         {
         }
 
-        public BowShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

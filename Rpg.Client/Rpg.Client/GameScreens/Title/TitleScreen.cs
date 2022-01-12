@@ -102,7 +102,7 @@ namespace Rpg.Client.GameScreens.Title
             _buttons.Add(exitGameButton);
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
-                exitButton: false);
+                isGameState: false);
             AddModal(_settingsModal, isLate: true);
         }
 
@@ -152,7 +152,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
         {
-            if (!_globeProvider.CheckExistsSave())
+            if (!_globeProvider.CheckSavesExist())
             {
                 return null;
             }

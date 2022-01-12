@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -74,11 +75,8 @@ namespace Rpg.Client.GameScreens.Party
                     string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
                     string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
                         _selectedCharacter.ManaPoolSize),
-                    string.Format(UiResource.CombatLevelLavelTemplate, _selectedCharacter.Level, 0,
-                        _selectedCharacter.LevelUpXp),
-                    string.Format(UiResource.EquipmentLevelLavelTemplate, _selectedCharacter.EquipmentLevel,
-                        0,
-                        _selectedCharacter.EquipmentLevelup)
+                    string.Format(UiResource.CombatLevelTemplate, _selectedCharacter.Level),
+                    string.Format(UiResource.CombatLevelUpTemplate, _selectedCharacter.LevelUpXpAmount),
                 };
 
                 foreach (var skill in _selectedCharacter.Skills)
@@ -93,6 +91,19 @@ namespace Rpg.Client.GameScreens.Party
                     }
 
                     // TODO Display skill efficient - damages, durations, etc.
+                }
+
+                foreach (var perk in _selectedCharacter.Perks)
+                {
+                    var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
+                    sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+
+                    var localizedDescription =
+                        GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
+                    if (localizedDescription is not null)
+                    {
+                        sb.Add(localizedDescription);
+                    }
                 }
 
                 for (var statIndex = 0; statIndex < sb.Count; statIndex++)
@@ -151,8 +162,6 @@ namespace Rpg.Client.GameScreens.Party
                         _selectedCharacter = character;
 
                         InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
-
-                        InitUpgrageButtons(character, _globeProvider.Globe.Player);
                     };
                     _unitButtonList.Add(button);
                 }
@@ -201,13 +210,14 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     player.MoveToPool(character);
 
-                    InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                    InitSlotAssignmentButtons(character, player);
                 };
             }
             else
             {
                 var freeSlots = player.Party.GetFreeSlots();
-                foreach (var slot in freeSlots)
+                var availableSlots = GetAvailableSlots(freeSlots);
+                foreach (var slot in availableSlots)
                 {
                     var slotButton = new TextButton(slot.Index.ToString(),
                         _uiContentStorage.GetButtonTexture(),
@@ -220,16 +230,30 @@ namespace Rpg.Client.GameScreens.Party
                     {
                         player.MoveToParty(character, slot.Index);
 
-                        InitSlotAssignmentButtons(character, _globeProvider.Globe.Player);
+                        InitSlotAssignmentButtons(character, player);
                     };
                 }
             }
+
+            InitUpgradeButtons(character, player);
         }
 
-        private void InitUpgrageButtons(Unit character, Player player)
+        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
+        {
+            if (_globeProvider.Globe.Player.Abilities.Contains(PlayerAbility.AvailableTanks))
+            {
+                return freeSlots;
+            }
+
+            // In the first biome the player can use only first 3 slots.
+            // There is no ability to split characters on tank line and dd+support.
+            return freeSlots.Where(x => !x.IsTankLine);
+        }
+
+        private void InitUpgradeButtons(Unit character, Player player)
         {
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
-            if (xpAmount >= character.LevelUpXp)
+            if (xpAmount >= character.LevelUpXpAmount)
             {
                 var levelUpButton = new TextButton("Level Up", _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
@@ -237,28 +261,28 @@ namespace Rpg.Client.GameScreens.Party
                 levelUpButton.OnClick += (_, _) =>
                 {
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
-                        character.LevelUpXp;
-                    character.Level++;
-                    InitUpgrageButtons(character, player);
+                        character.LevelUpXpAmount;
+                    character.LevelUp();
+                    InitSlotAssignmentButtons(character, player);
                 };
 
                 _slotButtonList.Add(levelUpButton);
             }
 
-            var equipmentType = UnsortedHelpers.GetEquipmentItemTypeByUnitScheme(character.UnitScheme);
-            if (equipmentType is not null)
+            foreach (var equipment in character.Equipments)
             {
-                var equipmentResource = player.Inventory.Single(x => x.Type == equipmentType.Value).Amount;
-                if (equipmentResource >= character.EquipmentLevelup)
+                var resourceItem = player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
+                var equipmentResourceAmount = resourceItem.Amount;
+                if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
                 {
-                    var levelUpButton = new TextButton("Equipment Upgrade", _uiContentStorage.GetButtonTexture(),
+                    var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level+1}",
+                        _uiContentStorage.GetButtonTexture(),
                         _uiContentStorage.GetMainFont(), Rectangle.Empty);
                     levelUpButton.OnClick += (_, _) =>
                     {
-                        player.Inventory.Single(x => x.Type == equipmentType.Value).Amount -=
-                            character.EquipmentLevelup;
-                        character.EquipmentLevel++;
-                        InitUpgrageButtons(character, player);
+                        resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
+                        equipment.LevelUp();
+                        InitSlotAssignmentButtons(character, player);
                     };
                     _slotButtonList.Add(levelUpButton);
                 }

@@ -21,7 +21,7 @@ namespace Rpg.Client.GameScreens.Common
                 uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             _skipTutorialButton.OnClick += (_, _) =>
             {
-                player.SkipTutorial = true;
+                player.AddPlayerAbility(PlayerAbility.SkipTutorials);
                 Close();
             };
         }

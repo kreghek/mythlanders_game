@@ -157,8 +157,7 @@ namespace Rpg.Client.GameComponents
             const int DEFAULT_LEVEL = 1;
             var unit = new Unit(unitScheme, DEFAULT_LEVEL)
             {
-                IsPlayerControlled = true,
-                EquipmentLevel = 1
+                IsPlayerControlled = true
             };
 
             poolUnitList.Add(unit);
@@ -203,7 +202,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var dice = Game.Services.GetService<IDice>();
-            globe.UpdateNodes(dice, _unitSchemeCatalog, _eventCatalog);
+            globe.Update(dice, _unitSchemeCatalog, _eventCatalog);
         }
 
         /// <summary>

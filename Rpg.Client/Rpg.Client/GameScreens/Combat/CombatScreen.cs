@@ -24,8 +24,6 @@ namespace Rpg.Client.GameScreens.Combat
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
-        public static bool _tutorial;
-
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
@@ -105,10 +103,10 @@ namespace Rpg.Client.GameScreens.Combat
             _unitPredefinedPositions = new[]
             {
                 new Vector2(300, 300),
-                new Vector2(200, 250),
-                new Vector2(200, 350),
                 new Vector2(350, 250),
                 new Vector2(350, 350),
+                new Vector2(200, 250),
+                new Vector2(200, 350),
                 new Vector2(150, 300)
             };
 
@@ -128,9 +126,9 @@ namespace Rpg.Client.GameScreens.Combat
         {
             base.UpdateContent(gameTime);
 
-            if (!_tutorial && !_globe.Player.SkipTutorial)
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) && !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
             {
-                _tutorial = true;
+                _globe.Player.AddPlayerAbility(PlayerAbility.ReadCombatTutorial);
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
                     _uiContentStorage, _resolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
@@ -364,7 +362,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
 
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.StoreCurrentGlobe();
                         }
                         else
                         {
@@ -390,7 +388,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreGlobe();
+                            _globeProvider.StoreCurrentGlobe();
                         }
                         else
                         {
@@ -765,6 +763,8 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         _combat.Biome.IsComplete = true;
                         _bossWasDefeat = true;
+                        // Then the player defeat first boss he can split characters on a tanks and dd+support line.
+                        _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.AvailableTanks);
 
                         if (_combat.Biome.IsFinal)
                         {
@@ -797,26 +797,16 @@ namespace Rpg.Client.GameScreens.Combat
             var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
 
-            var list = new List<CombatRewardsItem>();
-            var foundEquipments = new List<EquipmentItemType>();
+            var rewardList = new List<CombatRewardsItem>();
             if (globeNode.EquipmentItem is not null)
             {
-                foundEquipments.Add(globeNode.EquipmentItem.Value);
+                var rewardItem = CreateReward(player.Inventory, globeNode.EquipmentItem.Value, amount: 1);
+                rewardList.Add(rewardItem);
             }
 
             var gainedXp = summaryXp;
-
-            var item = new CombatRewardsItem
-            {
-                Xp = new CountableRewardStat
-                {
-                    StartValue = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount,
-                    Amount = gainedXp,
-                    Type = EquipmentItemType.ExpiriencePoints
-                }
-            };
-
-            list.Add(item);
+            var xpRewardItem = CreateXpReward(player.Inventory, gainedXp);
+            rewardList.Add(xpRewardItem);
 
             var combatRewards = new CombatRewards
             {
@@ -826,10 +816,32 @@ namespace Rpg.Client.GameScreens.Combat
                     Amount = 1,
                     ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
                 },
-                InventoryRewards = list
+                InventoryRewards = rewardList
             };
 
             return combatRewards;
+        }
+
+        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
+        {
+            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
+            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
+        }
+
+        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory, EquipmentItemType resourceType, int amount)
+        {
+            var inventoryItem = inventory.Single(x => x.Type == resourceType);
+            var item = new CombatRewardsItem
+            {
+                Xp = new CountableRewardStat
+                {
+                    StartValue = inventoryItem.Amount,
+                    Amount = amount,
+                    Type = resourceType
+                }
+            };
+
+            return item;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -910,7 +922,7 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     if (skillCard.Skill.Type == SkillType.Melee)
                     {
-                        var isTargetInTankPosition = target.CombatUnit.Index == 0;
+                        var isTargetInTankPosition = target.CombatUnit.IsInTankLine;
                         if (isTargetInTankPosition)
                         {
                             if (skillCard.Skill.TargetType == SkillTargetType.Enemy
@@ -926,7 +938,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
                                     !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
-                                    x.CombatUnit.Index == 0)
+                                    x.CombatUnit.IsInTankLine)
                                 .Any();
 
                             if (!isAnyUnitsInTaskPosition)

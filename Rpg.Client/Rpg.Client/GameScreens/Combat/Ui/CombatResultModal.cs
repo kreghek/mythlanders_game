@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,21 +40,20 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            if (CombatResult == CombatResult.Victory)
+            switch (CombatResult)
             {
-                DrawVictoryBenefits(spriteBatch, ContentRect);
-            }
-            else if (CombatResult == CombatResult.NextCombat)
-            {
-                DrawNextCombatBenefits(spriteBatch, ContentRect);
-            }
-            else if (CombatResult == CombatResult.Defeat)
-            {
-                DrawDefeatBenefits(spriteBatch, ContentRect);
-            }
-            else
-            {
-                Debug.Fail("Unknown combat result.");
+                case CombatResult.Victory:
+                    DrawVictoryBenefits(spriteBatch, ContentRect);
+                    break;
+                case CombatResult.NextCombat:
+                    DrawNextCombatBenefits(spriteBatch, ContentRect);
+                    break;
+                case CombatResult.Defeat:
+                    DrawDefeatBenefits(spriteBatch, ContentRect);
+                    break;
+                default:
+                    Debug.Fail("Unknown combat result.");
+                    break;
             }
 
             _closeButton.Rect = new Rectangle(ContentRect.Center.X - 50, ContentRect.Bottom - 25, 100, 20);
@@ -200,23 +198,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
-        private static string? UnitValueBenefit(AnimatedProgressionUnitItemStat? unitItemStat, string postfix)
-        {
-            var unitXpBenefit = $"{unitItemStat.CurrentValue}/{unitItemStat.LevelUpValue} {postfix}";
-
-            if (unitItemStat.IsShowLevelUpIndicator is not null)
-            {
-                unitXpBenefit += " " + UiResource.CombatResultLevelUpIndicator;
-
-                if (unitItemStat.IsShowLevelUpIndicator > 1)
-                {
-                    unitXpBenefit += $" x {unitItemStat.IsShowLevelUpIndicator}";
-                }
-            }
-
-            return unitXpBenefit;
-        }
-
         private sealed class CombatItem
         {
             public CombatItem(AnimatedProgressionUnitItemStat biomeProgress,
@@ -271,8 +252,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             public int? IsShowLevelUpIndicator { get; private set; }
             public Func<int> LevelupSelector { get; }
-
-            public int LevelUpValue => LevelupSelector();
 
             public void Update()
             {

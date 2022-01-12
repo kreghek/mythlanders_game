@@ -19,35 +19,59 @@ namespace Rpg.Client.Core
         private const int MINIMAL_LEVEL_WITH_MANA = 2;
 
         private float _armorBonus;
+        private readonly List<GlobalUnitEffect> _globalEffects;
 
-        public Unit(UnitScheme unitScheme, int level) : this(unitScheme, level,
-            equipmentLevel: 0)
-        {
-        }
-
-        public Unit(UnitScheme unitScheme, int level, int equipmentLevel)
+        public Unit(UnitScheme unitScheme, int level)
         {
             UnitScheme = unitScheme;
 
-            Perks = unitScheme.Perks;
+            Skills = new List<ISkill>();
+            Perks = new List<IPerk>();
+            var equipments = new List<Equipment>();
+            InitEquipment(equipments);
+            Equipments = equipments;
 
             Level = level;
-            EquipmentLevel = equipmentLevel;
 
             InitStats(unitScheme);
-            RestoreHp();
 
             ManaPool = 0;
+
+            _globalEffects = new List<GlobalUnitEffect>();
+        }
+
+        private void InitEquipment(IList<Equipment> equipments)
+        {
+            if (UnitScheme.Equipments is null)
+            {
+                return;
+            }
+
+            foreach (var equipmentScheme in UnitScheme.Equipments)
+            {
+                var equipment = new Equipment(equipmentScheme);
+                
+                equipment.GainLevelUp += Equipment_GainLevelUp;
+                
+                equipments.Add(equipment);
+            }
+        }
+
+        private void Equipment_GainLevelUp(object? sender, EventArgs e)
+        {
+            InitStats(UnitScheme);
         }
 
         public int Armor => CalcArmor();
 
         public int Damage => CalcDamage();
 
+        public void LevelUp()
+        {
+            Level++;
 
-        public int EquipmentLevel { get; set; }
-
-        public int EquipmentLevelup => (int)Math.Pow(2, EquipmentLevel);
+            InitStats(UnitScheme);
+        }
 
         public bool HasSkillsWithCost
         {
@@ -64,39 +88,19 @@ namespace Rpg.Client.Core
 
         public bool IsPlayerControlled { get; init; }
 
-        public int Level { get; set; }
-        public int LevelUpXp => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
+        public int Level { get; private set; }
+        public int LevelUpXpAmount => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
         public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
 
-        public int MaxShieldPoints { get; private set; }
-
-        public IEnumerable<IPerk> Perks { get; }
+        public IList<IPerk> Perks { get; }
 
         public float Power => CalcPower();
 
-        public int ShieldPoints { get; set; }
-
-        public IReadOnlyList<ISkill> Skills { get; set; }
-
-        public int SkillSetIndex
-        {
-            get
-            {
-                var skillSetIndex = 0;
-                if (EquipmentLevel > 0)
-                {
-                    skillSetIndex = EquipmentLevel - 1;
-                }
-
-                var skillSetIndexNormalized = Math.Min(skillSetIndex, UnitScheme.SkillSets.Count - 1);
-
-                return skillSetIndexNormalized;
-            }
-        }
+        public IList<ISkill> Skills { get; }
 
         public int Support => CalcSupport();
 
@@ -222,16 +226,7 @@ namespace Rpg.Client.Core
 
         private float CalcPowerLevel()
         {
-            float powerLevel;
-            if (EquipmentLevel > 0)
-            {
-                powerLevel = (Level * 0.5f + EquipmentLevel * 0.5f);
-            }
-            else
-            {
-                // The monsters do not use equipment level. They has no equipment at all.
-                powerLevel = Level;
-            }
+            var powerLevel = Level;
 
             return powerLevel;
         }
@@ -246,30 +241,57 @@ namespace Rpg.Client.Core
             return normalizedSupport;
         }
 
-        private void InitSkillSet(UnitScheme unitScheme)
-        {
-            if (unitScheme.SkillSets is null)
-            {
-                return;
-            }
-
-            Skills = unitScheme.SkillSets[SkillSetIndex].Skills;
-        }
-
         private void InitStats(UnitScheme unitScheme)
         {
-            var maxHitPoints = (int)Math.Round(
-                unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * Level,
-                MidpointRounding.AwayFromZero);
+            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
+
+            ApplyLevels();
 
             foreach (var perk in Perks)
             {
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
             }
 
-            MaxHitPoints = maxHitPoints;
+            foreach (var equipment in Equipments)
+            {
+                maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
+            }
 
-            InitSkillSet(unitScheme);
+            MaxHitPoints = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
+
+            RestoreHp();
+        }
+
+        public IReadOnlyList<Equipment> Equipments { get; }
+
+        public float GetEquipmentAttackMultiplier(SkillSid skillSid)
+        {
+            var m = 1f;
+            
+            foreach (var equipment in Equipments)
+            {
+                m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);
+            }
+
+            return m;
+        }
+
+        private void ApplyLevels()
+        {
+            var levels = UnitScheme.Levels;
+            if (levels is null)
+            {
+                return;
+            }
+
+            Skills.Clear();
+            Perks.Clear();
+
+            var levelSchemesToCurrentLevel = levels.OrderBy(x => x.Level).Where(x => x.Level <= Level).ToArray();
+            foreach (var levelScheme in levelSchemesToCurrentLevel)
+            {
+                levelScheme.Apply(this);
+            }
         }
 
         private void RestoreHp()
@@ -286,5 +308,28 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
+
+        public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
+
+        public void AddGlobalEffect(IGlobeEvent source)
+        {
+            var effect = new GlobalUnitEffect(source);
+            _globalEffects.Add(effect);
+        }
+
+        public void RemoveGlobalEffect(GlobalUnitEffect effect)
+        {
+            _globalEffects.Add(effect);
+        }
+    }
+
+    internal sealed class GlobalUnitEffect
+    {
+        public GlobalUnitEffect(IGlobeEvent source)
+        {
+            Source = source;
+        }
+
+        public IGlobeEvent Source { get; }
     }
 }

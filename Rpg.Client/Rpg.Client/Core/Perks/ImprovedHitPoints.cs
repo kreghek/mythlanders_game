@@ -6,9 +6,9 @@ namespace Rpg.Client.Core.Perks
     {
         private const float HITPOINTS_BONUS = 3.5f;
 
-        public override void ApplyToStats(ref int maxHitpoints, ref float armorBonus)
+        public override void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
         {
-            maxHitpoints = (int)Math.Round(maxHitpoints * HITPOINTS_BONUS);
+            maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
         }
     }
 }

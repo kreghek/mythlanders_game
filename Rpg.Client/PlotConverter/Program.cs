@@ -79,7 +79,13 @@ namespace PlotConverter
                 WriteIndented = true
             });
 
-            File.WriteAllLines("plot-ru.json", new[] { serialized });
+            // Run with argument which contains full path to Rpg.Client/Resources directory
+
+            var outputRuFileName = Path.Combine(args[0], "Plot-ru.txt");
+            File.WriteAllLines(outputRuFileName, new[] { serialized });
+
+            var outputEnFileName = Path.Combine(args[0], "Plot-en.txt");
+            File.WriteAllLines(outputEnFileName, new[] { serialized });
         }
 
         private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)

@@ -7,6 +7,8 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
+        private List<IGlobeEvent> _globeEvents;
+
         public Globe(IBiomeGenerator biomeGenerator)
         {
             // First variant of the names.
@@ -19,6 +21,8 @@ namespace Rpg.Client.Core
 
             Biomes = biomes;
             CurrentBiome = biomes.Single(x => x.IsStart);
+
+            _globeEvents = new List<IGlobeEvent>();
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -34,6 +38,11 @@ namespace Rpg.Client.Core
         public bool IsNodeInitialied { get; set; }
 
         public Player? Player { get; set; }
+
+        public IReadOnlyCollection<IGlobeEvent> GlobeEvents
+        {
+            get => _globeEvents;
+        }
 
         public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
@@ -248,5 +257,44 @@ namespace Rpg.Client.Core
         }
 
         public event EventHandler? Updated;
+
+        public void Update(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
+        {
+            UpdateGlobeEvents();
+            UpdateNodes(dice, unitSchemeCatalog, eventCatalog);
+        }
+
+        private void UpdateGlobeEvents()
+        {
+            var eventsSnapshot = _globeEvents.ToArray();
+            foreach (var globeEvent in eventsSnapshot)
+            {
+                if (globeEvent.IsActive)
+                {
+                    globeEvent.Update();
+                }
+                else
+                {
+                    _globeEvents.Remove(globeEvent);
+                }
+            }
+
+            foreach (var unit in Player.GetAll())
+            {
+                var unitEffectsSnapshot = unit.GlobalEffects.ToArray();
+                foreach (var effect in unitEffectsSnapshot)
+                {
+                    if (!effect.Source.IsActive)
+                    {
+                        unit.RemoveGlobalEffect(effect);
+                    }
+                }
+            }
+        }
+
+        public void AddGlobalEvent(IGlobeEvent globalEvent)
+        {
+            _globeEvents.Add(globalEvent);
+        }
     }
 }

@@ -56,6 +56,7 @@ namespace Rpg.Client.Core
                         unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
+                    "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Berimir),
                     _ => optionAftermath
                 };
             }

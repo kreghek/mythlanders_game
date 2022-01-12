@@ -7,10 +7,11 @@ namespace Rpg.Client.Core
 {
     internal sealed class CombatUnit : ICombatUnit
     {
-        public CombatUnit(Unit unit, int index)
+        public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
-            Index = index;
+            Index = slot.Index;
+            IsInTankLine = slot.IsTankLine;
             var skillContext = new CombatSkillContext(this);
 
             var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
@@ -25,6 +26,8 @@ namespace Rpg.Client.Core
         public IEnumerable<CombatSkill> CombatCards { get; }
 
         public int Index { get; }
+
+        public bool IsInTankLine { get; }
 
         public CombatUnitState State { get; internal set; }
 
