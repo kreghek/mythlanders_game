@@ -17,6 +17,11 @@ namespace Rpg.Client.Core
     {
         private readonly HashSet<PlayerAbility> _abilities;
 
+        public Player(string name) : this()
+        { 
+            Name = name;
+        }
+
         public Player()
         {
             Party = new Group();

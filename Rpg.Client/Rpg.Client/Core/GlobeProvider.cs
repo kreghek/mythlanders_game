@@ -101,18 +101,18 @@ namespace Rpg.Client.Core
 
             var json = File.ReadAllText(storageFile);
 
-            var lastSave = JsonSerializer.Deserialize<SaveDto>(json);
+            var saveDataDto = JsonSerializer.Deserialize<SaveDto>(json);
 
-            if (lastSave is null)
+            if (saveDataDto is null)
             {
                 throw new InvalidOperationException("Error during loading the last save.");
             }
 
-            var progressDto = lastSave.Progress;
+            var progressDto = saveDataDto.Progress;
 
             Globe = new Globe(_biomeGenerator)
             {
-                Player = new Player()
+                Player = new Player(saveDataDto.Name)
             };
 
             if (progressDto.Player is not null)

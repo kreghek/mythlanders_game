@@ -13,6 +13,8 @@ namespace Rpg.Client.Core
 
     internal interface IGlobeEvent
     {
+        string Title { get; }
+        int CombatsLeft { get; }
         bool IsActive { get; }
         IReadOnlyList<GlobeRule> GetRules();
         void Update();
@@ -45,6 +47,9 @@ namespace Rpg.Client.Core
         }
 
         public bool IsActive => _counter > 0;
+
+        public string Title => $"{_name} is preying";
+        public int CombatsLeft => _counter;
 
         public void Update()
         {
