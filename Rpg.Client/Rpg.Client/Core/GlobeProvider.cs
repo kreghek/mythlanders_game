@@ -166,20 +166,6 @@ namespace Rpg.Client.Core
             File.WriteAllText(storageFile, saveDataString);
         }
 
-        private string GetSaveName(string playerName)
-        {
-            var saves = GetSaves();
-            var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
-            if (currentSave is null)
-            {
-                return Path.GetRandomFileName();
-            }
-            else
-            {
-                return currentSave.FileName;
-            }
-        }
-
         private static string CreateSaveData(string saveName, ProgressDto progress)
         {
             var saveDto = new SaveDto
@@ -266,6 +252,18 @@ namespace Rpg.Client.Core
                 Amount = x.Amount,
                 Type = x.Type.ToString()
             }).ToArray();
+        }
+
+        private string GetSaveName(string playerName)
+        {
+            var saves = GetSaves();
+            var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
+            if (currentSave is null)
+            {
+                return Path.GetRandomFileName();
+            }
+
+            return currentSave.FileName;
         }
 
         private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Event> events)

@@ -577,7 +577,7 @@ namespace Rpg.Client.Core
                                 new AddPerkUnitLevel(10, new Evasion())
                             },
 
-                            UnitGraphicsConfig = new VolkolakGraphicsConfig(),
+                            UnitGraphicsConfig = new VolkolakGraphicsConfig()
                         }
                     }
                 },

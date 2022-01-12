@@ -8,7 +8,6 @@ namespace Rpg.Client.Core.GlobalEvents
     {
         private readonly UnitName _name;
         private readonly GlobeRule _rule;
-        private int _counter = 5;
 
         public CharacterDeepPreyingGlobeEvent(UnitName name)
         {
@@ -30,20 +29,21 @@ namespace Rpg.Client.Core.GlobalEvents
             return new[] { _rule };
         }
 
-        public bool IsActive => _counter > 0;
+        public bool IsActive => CombatsLeft > 0;
 
         public string Title => $"{_name} is preying";
-        public int CombatsLeft => _counter;
+        public int CombatsLeft { get; private set; } = 5;
 
         public void Update()
         {
-            _counter--;
+            CombatsLeft--;
         }
 
         public void Initialize(Globe globe)
         {
             var targetPlayerCharacter = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme.Name == _name);
-            Debug.Assert(targetPlayerCharacter is not null, "Global events shoudn't be before the target character join the party.");
+            Debug.Assert(targetPlayerCharacter is not null,
+                "Global events shoudn't be before the target character join the party.");
 
             targetPlayerCharacter.AddGlobalEffect(this);
         }
