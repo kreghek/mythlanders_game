@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -20,6 +19,7 @@ namespace Rpg.Client.Core
         private const int MINIMAL_LEVEL_WITH_MANA = 2;
 
         private float _armorBonus;
+        private readonly List<GlobalUnitEffect> _globalEffects;
 
         public Unit(UnitScheme unitScheme, int level)
         {
@@ -36,6 +36,8 @@ namespace Rpg.Client.Core
             InitStats(unitScheme);
 
             ManaPool = 0;
+
+            _globalEffects = new List<GlobalUnitEffect>();
         }
 
         private void InitEquipment(IList<Equipment> equipments)
@@ -306,5 +308,28 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
+
+        public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
+
+        public void AddGlobalEffect(IGlobeEvent source)
+        {
+            var effect = new GlobalUnitEffect(source);
+            _globalEffects.Add(effect);
+        }
+
+        public void RemoveGlobalEffect(GlobalUnitEffect effect)
+        {
+            _globalEffects.Add(effect);
+        }
+    }
+
+    internal sealed class GlobalUnitEffect
+    {
+        public GlobalUnitEffect(IGlobeEvent source)
+        {
+            Source = source;
+        }
+
+        public IGlobeEvent Source { get; }
     }
 }

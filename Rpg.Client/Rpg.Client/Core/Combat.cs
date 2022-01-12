@@ -166,14 +166,16 @@ namespace Rpg.Client.Core
                 }
 
                 var unit = slot.Unit;
-                // Some of the player persons can be killed in previous combat in a combat sequence.
+                var isAvailable = CheckUnitIsAvailable(slot.Unit);
 
-                if (!unit.IsDead)
+                if (!isAvailable)
                 {
-                    var combatUnit = new CombatUnit(unit, slot);
-                    _allUnitList.Add(combatUnit);
-                    CombatUnitEntered?.Invoke(this, combatUnit);
+                    continue;
                 }
+
+                var combatUnit = new CombatUnit(unit, slot);
+                _allUnitList.Add(combatUnit);
+                CombatUnitEntered?.Invoke(this, combatUnit);
             }
 
             foreach (var slot in CombatSource.EnemyGroup.Slots)
@@ -202,6 +204,26 @@ namespace Rpg.Client.Core
             CombatUnitIsReadyToControl += Combat_CombatUnitReadyIsToControl;
 
             IsCurrentStepCompleted = true;
+        }
+
+        private static bool CheckUnitIsAvailable(Unit unit)
+        {
+            // Some of the player persons can be killed in previous combat in a combat sequence.
+            if (unit.IsDead)
+            {
+                return false;
+            }
+
+            foreach (var effect in unit.GlobalEffects)
+            {
+                if (unit.UnitScheme.Name == UnitName.Berimir && effect.Source.IsActive &&
+                    effect.Source.GetRules().Contains(GlobeRule.DisableBerimir))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         internal void Update()

@@ -3,5 +3,6 @@
     internal interface IEventContext
     {
         void AddNewCharacter(Unit unit);
+        void AddNewGlobalEvent(IGlobeEvent globalEvent);
     }
 }
