@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class GlobeProvider
     {
-        private const string SAVE_FILE_TEMPLATE = "save{0}.json";
+        private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
         private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly IDice _dice;
@@ -166,7 +166,7 @@ namespace Rpg.Client.Core
                 Directory.CreateDirectory(_storagePath);
             }
 
-            var storageFile = Path.Combine(_storagePath, string.Format(SAVE_FILE_TEMPLATE, saveName));
+            var storageFile = Path.Combine(_storagePath, saveName);
             File.WriteAllText(storageFile, saveDataString);
         }
 
@@ -283,7 +283,8 @@ namespace Rpg.Client.Core
             var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
             if (currentSave is null)
             {
-                return Path.GetRandomFileName();
+                var randomFileName = Path.GetRandomFileName();
+                return string.Format(SAVE_FILE_TEMPLATE, randomFileName);
             }
 
             return currentSave.FileName;

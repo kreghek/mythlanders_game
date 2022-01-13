@@ -507,6 +507,7 @@ namespace Rpg.Client.Core
                         { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
                     IsMonster = true,
+                    IsBig = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
