@@ -22,19 +22,33 @@ namespace Rpg.Client.Core
 
             Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
 
-            var testEvents = CreateTestEvents();
-
-            var plotEvents = CreatePlotEvents(serializedPlotString);
-
-            _events = testEvents.Concat(plotEvents).ToArray();
-        }
-
-        private IEnumerable<Event> CreatePlotEvents(string serializedPlotString)
-        {
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
             Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
+            
+            var events = CreatePlotEvents(eventStorageModelList);
 
+            CreateEventHierarchy(events, eventStorageModelList);
+
+            _events = events.ToArray();
+        }
+
+        private void CreateEventHierarchy(IEnumerable<Event> events, IEnumerable<EventStorageModel> eventStorageModelList)
+        {
+            foreach (var eventStorageModel in eventStorageModelList)
+            {
+                if (eventStorageModel.ParentSids is null)
+                {
+                    continue;
+                }
+                
+                var childEvent = events.Single(x => x.Sid == eventStorageModel.Sid);
+                childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
+            }
+        }
+
+        private IEnumerable<Event> CreatePlotEvents(EventStorageModel[] eventStorageModelList)
+        {
             foreach (var eventStorageModel in eventStorageModelList)
             {
                 var locationInfo = GetLocationInfo(eventStorageModel.Location);
@@ -91,31 +105,6 @@ namespace Rpg.Client.Core
             }
             
             return systemEventMarker;
-        }
-
-        private static Event[] CreateTestEvents()
-        {
-            return Array.Empty<Event>();
-            //return new[]
-            //            {
-            //    CreateTestDialog(1, BiomeType.Slavic),
-            //    CreateTestDialog(2, BiomeType.Slavic),
-            //    CreateTestDialog(3, BiomeType.Slavic),
-            //    CreateTestDialog(4, BiomeType.Slavic),
-            //    CreateTestDialog(5, BiomeType.Slavic),
-            //    CreateTestDialog(6, BiomeType.Slavic),
-            //    CreateTestDialog(7, BiomeType.Slavic),
-            //    CreateTestDialog(8, BiomeType.Slavic),
-            //    CreateTestDialog(9, BiomeType.Slavic),
-            //    CreateTestDialog(10, BiomeType.Slavic),
-
-            //    CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
-
-            //    CreateMeetHerbalistDialog(),
-            //    CreateMeetArcherDialog(),
-            //    CreateMeetPriestDialog(),
-            //    CreateMeetMissionaryDialog()
-            //};
         }
 
         private static LocationInfo GetLocationInfo(string location)

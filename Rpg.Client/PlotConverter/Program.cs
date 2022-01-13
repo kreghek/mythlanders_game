@@ -126,7 +126,8 @@ namespace PlotConverter
                             GoalDescription = row[2] as string,
                             Location = row[3] as string,
                             BeforeCombatAftermath = row[4] as string,
-                            AfterCombatAftermath = row[5] as string
+                            AfterCombatAftermath = row[5] as string,
+                            ParentSid = row[6] as string
                         };
 
                         excelRows.Add(excelRow);

@@ -55,25 +55,30 @@ namespace Rpg.Client.Core
 
         public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
-            // Reset all combat states.
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
-            foreach (var biom in biomes)
+
+            HandleBiomes(biomes);
+
+            CreateCombatsInBiomeNodes(dice: dice, unitSchemeCatalog: unitSchemeCatalog, biomes: biomes);
+
+            CreateEventsInBiomeNodes(dice: dice, eventCatalog: eventCatalog, biomes: biomes);
+
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes)
+        {
+            // create dialogs of nodes with combat
+            foreach (var biome in biomes)
             {
-                foreach (var node in biom.Nodes)
-                {
-                    node.CombatSequence = null;
-                    node.AssignedEvent = null;
-                }
+                var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
-                if (biom.IsComplete && biom.UnlockBiome is not null)
-                {
-                    var unlockedBiom = Biomes.Single(x => x.Type == biom.UnlockBiome);
-
-                    unlockedBiom.IsAvailable = true;
-                }
+                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
             }
+        }
 
-            // Create new combats
+        private static void CreateCombatsInBiomeNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, Biome[] biomes)
+        {
             foreach (var biome in biomes)
             {
                 var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
@@ -81,7 +86,10 @@ namespace Rpg.Client.Core
                 var nodesWithCombats = GetNodesWithCombats(biome, dice, availableNodes);
 
                 var combatCounts = GetCombatSequnceLength(biome.Level);
-                var combatLevelAdditionalList = new[] { 0, -1, 3 };
+                var combatLevelAdditionalList = new[]
+                {
+                    0, -1, 3
+                };
                 var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
                 var combatLevelAdditional = 0;
 
@@ -127,16 +135,27 @@ namespace Rpg.Client.Core
                     combatLevelAdditional++;
                 }
             }
+        }
 
-            // create dialogs of nodes with combat
+        private void HandleBiomes(IEnumerable<Biome> biomes)
+        {
             foreach (var biome in biomes)
             {
-                var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
+                // Reset all combat and event states.
+                foreach (var node in biome.Nodes)
+                {
+                    node.CombatSequence = null;
+                    node.AssignedEvent = null;
+                }
 
-                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
+                // unlock biomes
+                if (biome.IsComplete && biome.UnlockBiome is not null)
+                {
+                    var unlockedBiom = Biomes.Single(x => x.Type == biome.UnlockBiome);
+
+                    unlockedBiom.IsAvailable = true;
+                }
             }
-
-            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

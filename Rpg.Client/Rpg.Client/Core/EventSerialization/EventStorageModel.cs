@@ -12,5 +12,6 @@
         public string Sid { get; set; }
 
         public string GoalDescription { get; set; }
+        public string[] ParentSids { get; set; }
     }
 }
