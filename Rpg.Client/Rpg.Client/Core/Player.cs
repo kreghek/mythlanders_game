@@ -52,7 +52,8 @@ namespace Rpg.Client.Core
 
         public IEnumerable<Unit> GetAll()
         {
-            return Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
+            var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+            return unitsInSlots.Concat(Pool.Units);
         }
 
         public bool HasAbility(PlayerAbility ability)
@@ -81,21 +82,11 @@ namespace Rpg.Client.Core
             Pool.Units = poolList;
         }
 
-        private static List<ResourceItem> CreateInventory()
+        private static IReadOnlyCollection<ResourceItem> CreateInventory()
         {
-            var inventory = new List<ResourceItem>();
             var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-            foreach (var enumItem in inventoryAvailableItems)
-            {
-                var item = new ResourceItem
-                {
-                    Type = enumItem
-                };
 
-                inventory.Add(item);
-            }
-
-            return inventory;
+            return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
         }
 
         private static string CreateRandomName()

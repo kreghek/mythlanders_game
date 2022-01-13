@@ -238,7 +238,8 @@ namespace Rpg.Client.Core
                     SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.HitPoints,
                     Level = unit.Level,
-                    ManaPool = unit.ManaPool
+                    ManaPool = unit.ManaPool,
+                    Equipments = GetCharacterEquipmentToSave(unit)
                 });
 
             var groupDto = new GroupDto
@@ -247,6 +248,24 @@ namespace Rpg.Client.Core
             };
 
             return groupDto;
+        }
+
+        private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
+        {
+            var equipmentDtoList = new List<EquipmentDto>();
+
+            foreach (var equipment in unit.Equipments)
+            {
+                var dto = new EquipmentDto
+                {
+                    Sid = equipment.Scheme.Sid.ToString(),
+                    Level = equipment.Level
+                };
+                
+                equipmentDtoList.Add(dto);
+            }
+
+            return equipmentDtoList.ToArray();
         }
 
         private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
@@ -412,6 +431,8 @@ namespace Rpg.Client.Core
                     IsPlayerControlled = true
                 };
 
+                LoadCharacterEquipments(unit, unitDto.Equipments);
+
                 if (unitDto.ManaPool is not null)
                 {
                     unit.ManaPool = Math.Min(unitDto.ManaPool.Value, unit.ManaPoolSize);
@@ -421,6 +442,19 @@ namespace Rpg.Client.Core
             }
 
             return units;
+        }
+
+        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[] unitDtoEquipments)
+        {
+            foreach (var dto in unitDtoEquipments)
+            {
+                var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
+
+                for (var i = 0; i < equipment.Level; i++)
+                {
+                    equipment.LevelUp();
+                }
+            }
         }
 
         private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
