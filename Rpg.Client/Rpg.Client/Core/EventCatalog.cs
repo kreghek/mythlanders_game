@@ -22,82 +22,95 @@ namespace Rpg.Client.Core
 
             Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
 
-            var testEvents = CreateTestEvents();
-
-            var plotEvents = CreatePlotEvents(serializedPlotString);
-
-            _events = testEvents.Concat(plotEvents).ToArray();
-        }
-
-        private IEnumerable<Event> CreatePlotEvents(string serializedPlotString)
-        {
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
             Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
+            
+            var events = CreateEvents(eventStorageModelList);
 
+            AssignEventParents(events, eventStorageModelList);
+
+            _events = events.ToArray();
+        }
+
+        private static void AssignEventParents(IReadOnlyCollection<Event> events, IEnumerable<EventStorageModel> eventStorageModelList)
+        {
+            foreach (var eventStorageModel in eventStorageModelList)
+            {
+                if (eventStorageModel.ParentSids is null)
+                {
+                    continue;
+                }
+                
+                var childEvent = events.Single(x => x.Sid == eventStorageModel.Sid);
+                childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
+            }
+        }
+
+        private IReadOnlyCollection<Event> CreateEvents(EventStorageModel[] eventStorageModelList)
+        {
+            var events = CreateEventsIterator(eventStorageModelList).ToArray();
+            return events;
+        }
+
+        private IEnumerable<Event> CreateEventsIterator(EventStorageModel[] eventStorageModelList)
+        {
             foreach (var eventStorageModel in eventStorageModelList)
             {
                 var locationInfo = GetLocationInfo(eventStorageModel.Location);
 
                 var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode,
                     EventPosition.BeforeCombat,
-                    eventStorageModel.Aftermath, _unitSchemeCatalog);
+                    eventStorageModel.BeforeCombatAftermath, _unitSchemeCatalog);
                 var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode,
                     EventPosition.AfterCombat,
-                    aftermath: null, unitSchemeCatalog: _unitSchemeCatalog);
+                    eventStorageModel.AfterCombatAftermath, unitSchemeCatalog: _unitSchemeCatalog);
 
                 // System marker used to load saved game. Read it as identifier.
-                SystemEventMarker? systemMarker = null;
-                if (eventStorageModel.Aftermath is not null)
-                {
-                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
-                    {
-                        systemMarker = systemEventMarkerTemp;
-                    }
-                }
+                var systemMarker = GetSystemEventMarker(eventStorageModel);
 
-                var isMainPlot = eventStorageModel.Sid.StartsWith("Main");
+                var isMainPlotEvent = IsMainPlotEvent(eventStorageModel);
+                const string? START_EVENT_SID = "MainSlavic1";
+                var isGameStartEvent = eventStorageModel.Sid == START_EVENT_SID;
                 var plotEvent = new Event
                 {
                     Sid = eventStorageModel.Sid,
                     Biome = locationInfo.Biome,
                     ApplicableOnlyFor = new[] { locationInfo.LocationSid },
-                    IsUnique = isMainPlot,
-                    IsHighPriority = isMainPlot,
+                    IsUnique = isMainPlotEvent,
+                    IsHighPriority = isMainPlotEvent,
                     Title = eventStorageModel.Name,
                     BeforeCombatStartNode = beforeEventNode,
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
-                    IsGameStart = eventStorageModel.Sid == "MainSlavic1"
+                    IsGameStart = isGameStartEvent,
+                    GoalDescription = StringHelper.TempLineBreaking(eventStorageModel.GoalDescription)
                 };
 
                 yield return plotEvent;
             }
         }
 
-        private static Event[] CreateTestEvents()
+        private static bool IsMainPlotEvent(EventStorageModel eventStorageModel)
         {
-            return Array.Empty<Event>();
-            //return new[]
-            //            {
-            //    CreateTestDialog(1, BiomeType.Slavic),
-            //    CreateTestDialog(2, BiomeType.Slavic),
-            //    CreateTestDialog(3, BiomeType.Slavic),
-            //    CreateTestDialog(4, BiomeType.Slavic),
-            //    CreateTestDialog(5, BiomeType.Slavic),
-            //    CreateTestDialog(6, BiomeType.Slavic),
-            //    CreateTestDialog(7, BiomeType.Slavic),
-            //    CreateTestDialog(8, BiomeType.Slavic),
-            //    CreateTestDialog(9, BiomeType.Slavic),
-            //    CreateTestDialog(10, BiomeType.Slavic),
+            return eventStorageModel.Sid.StartsWith("Main");
+        }
 
-            //    CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
+        private static SystemEventMarker? GetSystemEventMarker(EventStorageModel eventStorageModel)
+        {
+            string? aftermath = eventStorageModel.BeforeCombatAftermath ?? eventStorageModel.AfterCombatAftermath;
 
-            //    CreateMeetHerbalistDialog(),
-            //    CreateMeetArcherDialog(),
-            //    CreateMeetPriestDialog(),
-            //    CreateMeetMissionaryDialog()
-            //};
+            if (aftermath is null)
+            {
+                return null;
+            }
+
+            if (!Enum.TryParse<SystemEventMarker>(aftermath, out var systemEventMarker))
+            {
+                return null;
+            }
+            
+            return systemEventMarker;
         }
 
         private static LocationInfo GetLocationInfo(string location)
@@ -115,287 +128,5 @@ namespace Rpg.Client.Core
             public BiomeType Biome { get; init; }
             public GlobeNodeSid LocationSid { get; init; }
         }
-
-        //private static Event CreateDependentTestEvent(int id, string requiredEventName, BiomeType biomeType)
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = $"Описание ситуации {id}. Это событие зависит от {requiredEventName}."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Описание последствий."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Что-то сделать.",
-        //            Next = dialogNode2
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = $"Зависимое Тестовое событие {id}",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        Biome = biomeType,
-        //        RequiredEventsCompleted = new[]
-        //        {
-        //            requiredEventName
-        //        }
-        //    };
-        //    return dialog;
-        //}
-
-        //private static Event CreateMeetArcherDialog()
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = "Вы встречаете путника. Это лучник."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Лучник присоединился к вам."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Пригласить в группу.",
-        //            Next = dialogNode2,
-        //            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.ArcherHero)
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = "Ты и я одной крови",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        IsUnique = true,
-        //        SystemMarker = SystemEventMarker.MeetArcher,
-        //        Biome = BiomeType.Slavic,
-        //        RequiredBiomeLevel = 3
-        //    };
-        //    return dialog;
-        //}
-
-        //private static Event CreateMeetHerbalistDialog()
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = "Вы встречаете путника. Это травница."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Травница присоединилась к вам."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Пригласить в группу.",
-        //            Next = dialogNode2,
-        //            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.HerbalistHero)
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = "Собирая гербарий",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        IsUnique = true,
-        //        SystemMarker = SystemEventMarker.MeetHerbalist,
-        //        Biome = BiomeType.Slavic,
-        //        RequiredBiomeLevel = 6
-        //    };
-        //    return dialog;
-        //}
-
-        //private static Event CreateMeetMissionaryDialog()
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = "Вы встречаете путника. Это китайский миссионер."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Миссионер присоединился к вам."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Пригласить в группу.",
-        //            Next = dialogNode2,
-        //            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.MissionaryHero)
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = "Я несу слово",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        IsUnique = true,
-        //        SystemMarker = SystemEventMarker.MeetMissionary,
-        //        Biome = BiomeType.China
-        //    };
-        //    return dialog;
-        //}
-
-        //private static Event CreateMeetPriestDialog()
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = "Вы встречаете путника. Это египетский Жрец."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Жрец присоединился к вам."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Пригласить в группу.",
-        //            Next = dialogNode2,
-        //            Aftermath = new AddPlayerCharacterOptionAftermath(UnitSchemeCatalog.PriestHero)
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = "Поклонение песку",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        IsUnique = true,
-        //        SystemMarker = SystemEventMarker.MeetPriest,
-        //        Biome = BiomeType.Egypt
-        //    };
-        //    return dialog;
-        //}
-
-        //private static Event CreateTestDialog(int id, BiomeType biomeType)
-        //{
-        //    var dialogNode1 = new EventNode
-        //    {
-        //        Text = $"Описание ситуации {id}."
-        //    };
-
-        //    var dialogNode2 = new EventNode
-        //    {
-        //        Text = "Описание последствий."
-        //    };
-
-        //    dialogNode1.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "Что-то сделать.",
-        //            Next = dialogNode2
-        //        }
-        //    };
-
-        //    dialogNode2.Options = new[]
-        //    {
-        //        new EventOption
-        //        {
-        //            Text = "В бой!",
-        //            IsEnd = true
-        //        }
-        //    };
-
-        //    var dialog = new Event
-        //    {
-        //        Name = $"Тестовое событие {id}",
-        //        Nodes = new[]
-        //        {
-        //            dialogNode1,
-        //            dialogNode2
-        //        },
-        //        StartNode = dialogNode1,
-        //        Biome = biomeType
-        //    };
-        //    return dialog;
-        //}
     }
 }

@@ -66,15 +66,15 @@ namespace Rpg.Client.GameScreens
                 UnitName.Hq => 1,
                 UnitName.Berimir => 2,
                 UnitName.Hawk => 3,
-                UnitName.Rada => 5,
-                UnitName.Oldman => 4,
-                UnitName.GuardianWoman => 5,
-                UnitName.Aspid => 6,
-                UnitName.GreyWolf => 7,
-                UnitName.Bear => 8,
-                UnitName.Wisp => 9,
-                UnitName.Volkolak => 10,
-                _ => 5
+                UnitName.Rada => 4,
+                UnitName.Maosin => 5,
+                UnitName.Oldman => 6,
+                UnitName.Aspid => 7,
+                UnitName.GreyWolf => 8,
+                UnitName.Bear => 9,
+                UnitName.Wisp => 10,
+                UnitName.Volkolak => 11,
+                _ => 12
             };
         }
     }

@@ -80,11 +80,12 @@ namespace Rpg.Client.Core
             return monsterCount;
         }
 
-        private static int[] GetPredefinedMonsterCounts(int level)
+        private static int[] GetPredefinedMonsterCounts(int biomeLevel)
         {
-            return level switch
+            return biomeLevel switch
             {
-                0 or 1 => new[] { 1, 2, 3 },
+                0 => new[] { 1 },
+                1 => new[] { 1, 2, 3 },
                 2 => new[] { 1, 2, 2, 3 },
                 > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
                 > 10 => new[] { 3, 3, 3 },

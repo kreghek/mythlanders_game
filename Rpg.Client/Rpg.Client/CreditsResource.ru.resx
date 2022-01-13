@@ -121,4 +121,10 @@
   <data name="Credits" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Credits-ru.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="NicknameFirstParts" xml:space="preserve">
+    <value>Коричневый, Черный, Белый, Оранжевый, Дикий, Тигр, Снежный барс, Ку, Kooapps, Серый, Зомби, Мармелад, Конфеты, Чоко, Дарт, Темный, Золотая рыбка на, Зло, Немецкий, Пляж, Город, Призрачный, Жуткий</value>
+  </data>
+  <data name="NicknameSecondParts" xml:space="preserve">
+    <value>Собака, Кошка, Далматин, Птица, Кообёрд, Золотая рыбка, Черепаха, Клайд, Селина, Трой, Оскар, Лили, Скейтборд, Swim E Fresh, Пип, Лео, Раф, Донни, Майки, Человек, Ленивец, Хорек, Дедушка, Вовибой</value>
+  </data>
 </root>

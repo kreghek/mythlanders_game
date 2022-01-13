@@ -9,5 +9,7 @@ namespace Rpg.Client.Core.ProgressStorage
         public int? ManaPool { get; init; }
 
         public string SchemeSid { get; init; }
+
+        public EquipmentDto[] Equipments { get; init; }
     }
 }

@@ -363,9 +363,9 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 var globeEvent = globeEventList[i];
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), globeEvent.Title,
-                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 100, i * 40), Color.White);
+                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 200, i * 40), Color.White);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{globeEvent.CombatsLeft} combats left",
-                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 100, i * 40 + 20), Color.White);
+                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 200, i * 40 + 20), Color.White);
             }
         }
 
@@ -389,11 +389,23 @@ namespace Rpg.Client.GameScreens.Biome
 
             DrawBiomeLevel(spriteBatch);
 
+            DrawCurrentGoalEvent(spriteBatch);
+
             DrawGlobalEvents(spriteBatch);
 
             DrawLocationHintIfHover(spriteBatch);
 
             spriteBatch.End();
+        }
+
+        private void DrawCurrentGoalEvent(SpriteBatch spriteBatch)
+        {
+            if (_globe.Player.CurrentGoalEvent is not null)
+            {
+                var position = new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 100, 0);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.Title, position, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.GoalDescription, position + new Vector2(0, 10), Color.White);
+            }
         }
 
         private void DrawLocationHintIfHover(SpriteBatch spriteBatch)

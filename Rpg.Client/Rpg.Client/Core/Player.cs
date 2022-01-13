@@ -4,15 +4,6 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal enum PlayerAbility
-    {
-        SkipTutorials,
-        ReadMapTutorial,
-        ReadEventTutorial,
-        ReadCombatTutorial,
-        AvailableTanks
-    }
-
     internal sealed class Player
     {
         private readonly HashSet<PlayerAbility> _abilities;
@@ -49,6 +40,8 @@ namespace Rpg.Client.Core
 
         public PoolGroup Pool { get; }
 
+        public Event? CurrentGoalEvent { get; set; }
+
         public void AddPlayerAbility(PlayerAbility ability)
         {
             _abilities.Add(ability);
@@ -61,7 +54,8 @@ namespace Rpg.Client.Core
 
         public IEnumerable<Unit> GetAll()
         {
-            return Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit).Concat(Pool.Units);
+            var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+            return unitsInSlots.Concat(Pool.Units);
         }
 
         public bool HasAbility(PlayerAbility ability)
@@ -90,26 +84,24 @@ namespace Rpg.Client.Core
             Pool.Units = poolList;
         }
 
-        private static List<ResourceItem> CreateInventory()
+        private static IReadOnlyCollection<ResourceItem> CreateInventory()
         {
-            var inventory = new List<ResourceItem>();
             var inventoryAvailableItems = Enum.GetValues<EquipmentItemType>();
-            foreach (var enumItem in inventoryAvailableItems)
-            {
-                var item = new ResourceItem
-                {
-                    Type = enumItem
-                };
 
-                inventory.Add(item);
-            }
-
-            return inventory;
+            return inventoryAvailableItems.Select(enumItem => new ResourceItem(enumItem)).ToList();
         }
 
         private static string CreateRandomName()
         {
-            return Guid.NewGuid().ToString();
+            var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
+            var last = CreditsResource.NicknameSecondParts.Split(',').Select(x => x.Trim()).ToArray();
+
+            var rnd = new Random();
+
+            var x = rnd.Next(0, first.Length);
+            var y = rnd.Next(0, last.Length);
+
+            return first[x] + " " + last[y];
         }
     }
 }

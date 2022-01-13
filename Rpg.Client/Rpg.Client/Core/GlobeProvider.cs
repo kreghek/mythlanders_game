@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class GlobeProvider
     {
-        private const string SAVE_FILE_TEMPLATE = "save{0}.json";
+        private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
         private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly IDice _dice;
@@ -52,14 +52,12 @@ namespace Rpg.Client.Core
 
         public bool CheckSavesExist()
         {
-            if (!IsDirectoryEmpty(_storagePath))
+            if (!Directory.Exists(_storagePath))
             {
-                return true;
+                return false;
             }
-
-            Debug.WriteLine($"Not found a save file by provided path: {_storagePath}");
-
-            return false;
+            
+            return !IsDirectoryEmpty(_storagePath);
         }
 
         public void GenerateNew()
@@ -80,6 +78,11 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
+            if (!Directory.Exists(_storagePath))
+            {
+                return Array.Empty<SaveShortInfo>();
+            }
+
             var files = Directory.EnumerateFiles(_storagePath);
 
             var saves = new List<SaveShortInfo>();
@@ -87,6 +90,7 @@ namespace Rpg.Client.Core
             {
                 var content = File.ReadAllText(file);
                 var jsonSave = JsonSerializer.Deserialize<SaveShortInfo>(content);
+                Debug.Assert(jsonSave is not null);
                 jsonSave.FileName = Path.GetFileName(file);
 
                 saves.Add(jsonSave);
@@ -113,6 +117,9 @@ namespace Rpg.Client.Core
             Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player(saveDataDto.Name)
+                { 
+                    CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
+                },
             };
 
             if (progressDto.Player is not null)
@@ -131,6 +138,12 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
         }
 
+        private Event? GetEventOrNull(string? currentGoalEventSid)
+        {
+            var goalEvent = _eventCatalog.Events.SingleOrDefault(x => x.Sid == currentGoalEventSid);
+            return goalEvent;
+        }
+
         public void StoreCurrentGlobe()
         {
             PlayerDto? player = null;
@@ -142,7 +155,8 @@ namespace Rpg.Client.Core
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                     KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
+                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
+                    CurrentGoalEventSid = Globe.Player.CurrentGoalEvent?.Sid
                 };
             }
 
@@ -162,7 +176,7 @@ namespace Rpg.Client.Core
                 Directory.CreateDirectory(_storagePath);
             }
 
-            var storageFile = Path.Combine(_storagePath, string.Format(SAVE_FILE_TEMPLATE, saveName));
+            var storageFile = Path.Combine(_storagePath, saveName);
             File.WriteAllText(storageFile, saveDataString);
         }
 
@@ -234,7 +248,8 @@ namespace Rpg.Client.Core
                     SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.HitPoints,
                     Level = unit.Level,
-                    ManaPool = unit.ManaPool
+                    ManaPool = unit.ManaPool,
+                    Equipments = GetCharacterEquipmentToSave(unit)
                 });
 
             var groupDto = new GroupDto
@@ -243,6 +258,24 @@ namespace Rpg.Client.Core
             };
 
             return groupDto;
+        }
+
+        private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
+        {
+            var equipmentDtoList = new List<EquipmentDto>();
+
+            foreach (var equipment in unit.Equipments)
+            {
+                var dto = new EquipmentDto
+                {
+                    Sid = equipment.Scheme.Sid.ToString(),
+                    Level = equipment.Level
+                };
+                
+                equipmentDtoList.Add(dto);
+            }
+
+            return equipmentDtoList.ToArray();
         }
 
         private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
@@ -260,7 +293,8 @@ namespace Rpg.Client.Core
             var currentSave = saves.SingleOrDefault(x => x.PlayerName == playerName);
             if (currentSave is null)
             {
-                return Path.GetRandomFileName();
+                var randomFileName = Path.GetRandomFileName();
+                return string.Format(SAVE_FILE_TEMPLATE, randomFileName);
             }
 
             return currentSave.FileName;
@@ -287,11 +321,6 @@ namespace Rpg.Client.Core
 
         private static bool IsDirectoryEmpty(string path)
         {
-            if (!Directory.Exists(path))
-            {
-                return false;
-            }
-
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
@@ -413,6 +442,8 @@ namespace Rpg.Client.Core
                     IsPlayerControlled = true
                 };
 
+                LoadCharacterEquipments(unit, unitDto.Equipments);
+
                 if (unitDto.ManaPool is not null)
                 {
                     unit.ManaPool = Math.Min(unitDto.ManaPool.Value, unit.ManaPoolSize);
@@ -422,6 +453,19 @@ namespace Rpg.Client.Core
             }
 
             return units;
+        }
+
+        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[] unitDtoEquipments)
+        {
+            foreach (var dto in unitDtoEquipments)
+            {
+                var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
+
+                for (var i = 0; i < equipment.Level; i++)
+                {
+                    equipment.LevelUp();
+                }
+            }
         }
 
         private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)

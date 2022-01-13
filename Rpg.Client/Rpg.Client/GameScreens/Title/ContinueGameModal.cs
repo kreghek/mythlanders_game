@@ -73,12 +73,13 @@ namespace Rpg.Client.GameScreens.Title
 
         private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
         {
-            var saves = _globeProvider.GetSaves();
+            var saves = _globeProvider.GetSaves().OrderByDescending(x=>x.UpdateTime).ToArray();
 
             foreach (var saveInfo in saves)
             {
+                var localSaveTime = saveInfo.UpdateTime.ToLocalTime();
                 var continueGameButton = new TextButton(
-                    $"{saveInfo.PlayerName}{Environment.NewLine}{saveInfo.UpdateTime:f}",
+                    $"{saveInfo.PlayerName}{Environment.NewLine}{localSaveTime:f}",
                     uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
                 continueGameButton.OnClick += (_, _) =>
                 {

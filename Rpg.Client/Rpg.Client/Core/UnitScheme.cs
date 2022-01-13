@@ -25,7 +25,8 @@ namespace Rpg.Client.Core
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }
 
-        public IReadOnlyList<IEquipmentScheme> Equipments { get; init; }
+        // Null for monsters
+        public IReadOnlyList<IEquipmentScheme>? Equipments { get; init; }
 
         public float HitPointsBase => CalcHitPointsBase();
 

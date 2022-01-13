@@ -10,7 +10,8 @@ namespace Rpg.Client.Core
         }
 
         public int Level { get; private set; }
-        public int RequiredResourceAmountToLevelUp => (int)Math.Pow(2, Level);
+
+        public int RequiredResourceAmountToLevelUp => (int)Math.Pow(2, Level + 1);
 
         public IEquipmentScheme Scheme { get; }
 
