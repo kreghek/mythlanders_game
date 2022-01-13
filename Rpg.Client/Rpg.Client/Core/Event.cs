@@ -17,5 +17,7 @@
         public string Sid { get; set; }
         public SystemEventMarker? SystemMarker { get; set; }
         public string Title { get; set; }
+
+        public string GoalDescription { get; set; }
     }
 }

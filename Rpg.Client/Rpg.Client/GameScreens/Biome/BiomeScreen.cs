@@ -389,11 +389,22 @@ namespace Rpg.Client.GameScreens.Biome
 
             DrawBiomeLevel(spriteBatch);
 
+            DrawCurrentGoalEvent(spriteBatch);
+
             DrawGlobalEvents(spriteBatch);
 
             DrawLocationHintIfHover(spriteBatch);
 
             spriteBatch.End();
+        }
+
+        private void DrawCurrentGoalEvent(SpriteBatch spriteBatch)
+        {
+            if (_globe.Player.CurrentGoalEvent is not null)
+            {
+                var position = new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 100, 0);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.GoalDescription, position, Color.White);
+            }
         }
 
         private void DrawLocationHintIfHover(SpriteBatch spriteBatch)

@@ -51,7 +51,8 @@ namespace PlotConverter
                     Name = excelEvent.Name,
                     Location = excelEvent.Location,
                     BeforeCombatAftermath = excelEvent.BeforeCombatAftermath,
-                    AfterCombatAftermath = excelEvent.AfterCombatAftermath
+                    AfterCombatAftermath = excelEvent.AfterCombatAftermath,
+                    GoalDescription = excelEvent.GoalDescription
                 };
                 eventDtoList.Add(eventDto);
 
@@ -123,8 +124,9 @@ namespace PlotConverter
                             Sid = row[0] as string,
                             Name = row[1] as string,
                             Location = row[2] as string,
-                            BeforeCombatAftermath = row[3] as string,
-                            AfterCombatAftermath = row[4] as string
+                            GoalDescription = row[3] as string,
+                            BeforeCombatAftermath = row[4] as string,
+                            AfterCombatAftermath = row[5] as string
                         };
 
                         excelRows.Add(excelRow);

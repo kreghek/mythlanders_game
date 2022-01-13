@@ -318,6 +318,11 @@ namespace Rpg.Client.GameScreens.Event
                         }
                         else
                         {
+                            if (_globe.CurrentEvent.GoalDescription is not null)
+                            {
+                                _globe.Player.CurrentGoalEvent = _globe.CurrentEvent;
+                            }
+
                             _globe.CurrentEvent = null;
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);

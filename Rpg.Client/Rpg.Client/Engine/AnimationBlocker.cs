@@ -9,6 +9,6 @@ namespace Rpg.Client.Engine
             Released?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler Released;
+        public event EventHandler? Released;
     }
 }

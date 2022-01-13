@@ -40,6 +40,8 @@ namespace Rpg.Client.Core
 
         public PoolGroup Pool { get; }
 
+        public Event? CurrentGoalEvent { get; set; }
+
         public void AddPlayerAbility(PlayerAbility ability)
         {
             _abilities.Add(ability);

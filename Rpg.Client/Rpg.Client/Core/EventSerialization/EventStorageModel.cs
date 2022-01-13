@@ -10,5 +10,7 @@
         public string Location { get; set; }
         public string Name { get; set; }
         public string Sid { get; set; }
+
+        public string GoalDescription { get; set; }
     }
 }
