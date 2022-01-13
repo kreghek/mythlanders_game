@@ -22,7 +22,7 @@ namespace Rpg.Client.Core
             {
                 fragments.Add(new EventTextFragment
                 {
-                    Text = TempLineBreaking(fragmentStorageModel.Text),
+                    Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
                     Speaker = ParseSpeaker(fragmentStorageModel)
                 });
             }
@@ -32,7 +32,7 @@ namespace Rpg.Client.Core
             {
                 innerFragments.Add(new EventTextFragment
                 {
-                    Text = TempLineBreaking(fragmentStorageModel.Text),
+                    Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
                     Speaker = ParseSpeaker(fragmentStorageModel)
                 });
             }
@@ -112,41 +112,15 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStrageModel)
+        private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStorageModel)
         {
-            if (fragmentStrageModel.Speaker is null)
+            if (fragmentStorageModel.Speaker is null)
             {
                 return UnitName.Environment;
             }
 
-            var unitName = Enum.Parse<UnitName>(fragmentStrageModel.Speaker);
+            var unitName = Enum.Parse<UnitName>(fragmentStorageModel.Speaker);
             return unitName;
-        }
-
-        private static string TempLineBreaking(string localizedSpeakerText)
-        {
-            var items = localizedSpeakerText.Split('\n');
-            var sb = new StringBuilder();
-            foreach (var item in items)
-            {
-                if (item.Length > 80)
-                {
-                    var textRemains = item;
-                    do
-                    {
-                        sb.AppendLine(textRemains.Substring(0, 80));
-                        textRemains = textRemains.Remove(0, 80);
-                    } while (textRemains.Length > 80);
-
-                    sb.AppendLine(textRemains);
-                }
-                else
-                {
-                    sb.AppendLine(item);
-                }
-            }
-
-            return sb.ToString();
         }
     }
 }

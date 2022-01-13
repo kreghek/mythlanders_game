@@ -64,7 +64,7 @@ namespace Rpg.Client.Core
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
                     IsGameStart = isGameStartEvent,
-                    GoalDescription = eventStorageModel.GoalDescription
+                    GoalDescription = StringHelper.TempLineBreaking(eventStorageModel.GoalDescription)
                 };
 
                 yield return plotEvent;
