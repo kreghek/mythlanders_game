@@ -3,7 +3,6 @@
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "На месте убитых гадов появился чёрный ромб, похожий на камень."
         },
         {
@@ -16,8 +15,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -33,22 +30,18 @@
           "Text": "Темны времена, земли полнятся порождениями, о которых мы и слыхом не слыхивали.\nПусть будет верно оружие в бою"
         },
         {
-          "Speaker": null,
           "Text": "Беримир отыскал гнездо поганых змеев. Стоило убить одного - приползали десятки.\nБлестящие шкуры виднелись на сажени вперёд. Он крепче перехватил меч."
         }
       ]
     },
     "Location": "Thicket",
     "Name": "Начальная зачистка",
-    "Sid": "MainSlavic1",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainSlavic1"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "В дверях показывается древний старец. Он едва стоит на ногах и с трудом удерживает\nпереданный Беремиром предмет"
         },
         {
@@ -60,13 +53,10 @@
           "Text": "Выжги калёным железом порождения поганые. Где их искать блюдечко с голубой каёмочкой кажет. Поспеши, да возьми флеш-летопись в помощь"
         },
         {
-          "Speaker": null,
           "Text": "Старик падает без сил. Из его руки выпадает карточка флеш-летописи"
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -74,7 +64,6 @@
           "Text": "Куда путь держать-то?.."
         },
         {
-          "Speaker": null,
           "Text": "Беримир бережно вынимает из котомки потрёпанный шерстяной клубок"
         },
         {
@@ -82,7 +71,6 @@
           "Text": "Ты катись-катись клубок, через Запад на Восток, покажи мне все пути...\nАх, чёрт. Ненавижу болота"
         },
         {
-          "Speaker": null,
           "Text": "Ноги всё глубже вязнут в трясине. Наконец показывается научная станция. Комплекс\nвыглядит заброшенным, но ближе не рассмотреть: топь приходит в движение"
         }
       ]
@@ -90,22 +78,18 @@
     "Location": "Swamp",
     "Name": "В поисках мудрости",
     "Sid": "MainSlavic2",
-    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра.",
-    "ParentSids": null
+    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра."
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Схватка была тяжкой. Последнее лихо, испустив дикий вопль, сгинуло. После краткого привала воины следуют к тайнику. Сокол немногословен."
         },
         {
-          "Speaker": null,
           "Text": "Село лучника сгинуло под водой. А сам он невесть как очутился за тысячи лет вперёд. Беримир было воспрял: жива надежда друзей сыскать."
         },
         {
-          "Speaker": null,
           "Text": "Губы Сокола сжимаются в узкую полоску: пустое это. Здесь только нежить. В молчании ратники встретили стражницу схрона. С виду юна, да глаза больно старые"
         },
         {
@@ -115,7 +99,6 @@
       ]
     },
     "BeforeCombatAftermath": "MeetArcher",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -123,7 +106,6 @@
           "Text": "Вести учёных мужей получены. Отослали наногонца в палаты штабные. В версте экипаж \u0022Полынь\u0022, довезёт до схрона, где ларец с блюдечком запрятан"
         },
         {
-          "Speaker": null,
           "Text": "Беримир отправляется к полученному сигналу. Постепенно вокруг наступает тишина. Подозрительная тишина. Рука тянется к эфесу. Внезапно рядом вонзается стрела"
         },
         {
@@ -142,9 +124,7 @@
     },
     "Location": "Pit",
     "Name": "Ты - один из немногих",
-    "Sid": "MainSlavic3",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainSlavic3"
   },
   {
     "AfterCombatNode": {
@@ -158,7 +138,6 @@
           "Text": "Да напрасная. Сгинули все торговцы и ремесленники с тракта"
         },
         {
-          "Speaker": null,
           "Text": "Сокол отирает грязь с камня на распутье"
         },
         {
@@ -167,8 +146,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -180,24 +157,19 @@
           "Text": "Нужно больше образцов. Мудрецы глаголят: блюдечко с голубой каёмочкой да яблочком наливным покажет, где семена тьмы укоренились. Сыщите его"
         },
         {
-          "Speaker": null,
           "Text": "Воины идут по пустынному тракту. Сокол немногословен. Пару лет назад его село сгинуло под водой. А сам он невесть как очутился за тысячи лет вперёд"
         },
         {
-          "Speaker": null,
           "Text": "Беримир было воспрял: жива надежда друзей отыскать. Губы Сокола сжимаются в узкую полоску: пустое это. Нет здесь ничего кроме нежити, что множится день ото дня"
         },
         {
-          "Speaker": null,
           "Text": "К слову о нежити. Тропа резко сужается. Путников обступают зловещие силуэты"
         }
       ]
     },
     "Location": "DeathPath",
     "Name": "Путь невозврата",
-    "Sid": "MainSlavic4",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainSlavic4"
   },
   {
     "AfterCombatNode": {
@@ -221,11 +193,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetHerbalist",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Долго ли коротко ли. В мире, огнём и тьмой охваченном не так просто сыскать яблочко наливное. День и ночь витязи рыскали, да нашли заветное деревце и его хозяйку"
         },
         {
@@ -248,15 +218,12 @@
     },
     "Location": "Mines",
     "Name": "Мудрость трав",
-    "Sid": "MainSlavic5",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainSlavic5"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Путники тяжело дышат после схватки. Беримир осматривает поле боя, выискивая семя зла. Монах Мяосин наблюдает за ним"
         },
         {
@@ -270,7 +237,6 @@
       ]
     },
     "BeforeCombatAftermath": "MeetMonk",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -293,9 +259,7 @@
     },
     "Location": "Monastery",
     "Name": "Новый мир",
-    "Sid": "MainChinese1",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChinese1"
   },
   {
     "AfterCombatNode": {
@@ -318,12 +282,9 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Путники углубляются в чащу высоких стеблей. Солнце едва проникает на тропу"
         },
         {
@@ -342,9 +303,7 @@
     },
     "Location": "GaintBamboo",
     "Name": "Другая смерть",
-    "Sid": "MainChinese2",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChinese2"
   },
   {
     "AfterCombatNode": {
@@ -354,7 +313,6 @@
           "Text": "Едва отмахались от порождений. Да куда же монах запропастился?"
         },
         {
-          "Speaker": null,
           "Text": "На месте битвы, переливаясь на свету. Ни единого шороха. Тишина вселяет тревогу. Вдруг появляется монах, поигрывающий блестящим на солнце камнем"
         },
         {
@@ -364,11 +322,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetSpearman",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "В пещеру первыми спускаются Беримир и Сокол. За ними на цыпочках следует Мяосин. Перед их глазами простирается большая армия каменных солдат"
         },
         {
@@ -376,7 +332,6 @@
           "Text": "Тише быть следует нам. Нечисть спящую иначе разбудим мы. В руках императора амулет, но до него живыми добраться надо. За шагами своими следите"
         },
         {
-          "Speaker": null,
           "Text": "Сокол старается смотреть под ноги, но неосторожно ступает на упавшую руку статуи, лежащую на земле. Хруст. Раздаётся пронзительный крик"
         },
         {
@@ -388,16 +343,13 @@
           "Text": "Утихомирься, касатик. Коли ты живой, не подымай мёртвых."
         },
         {
-          "Speaker": null,
           "Text": "Ближайшая статуя медленно повернула голову в сторону путников. Увидев это, Мяосин поспешил в схватку, велев ждать у входа"
         }
       ]
     },
     "Location": "EmperorTomb",
     "Name": "Демоны внутри меня",
-    "Sid": "MainChinese3",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChinese3"
   },
   {
     "AfterCombatNode": {
@@ -417,7 +369,6 @@
       ]
     },
     "BeforeCombatAftermath": "MeetMissionary",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -444,9 +395,7 @@
     },
     "Location": "RiseFields",
     "Name": "Ученье - свет",
-    "Sid": "MainChinese4",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChinese4"
   },
   {
     "AfterCombatNode": {
@@ -465,12 +414,9 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Вход в старинную гробницу завален камнями. Попытки сдвинуть глыбы с места безуспешны. Хи Ченг начинает рассыпать вокруг валунов белый порошок"
         },
         {
@@ -482,16 +428,13 @@
           "Text": "Не суеверия здесь нужны, а наука. Порох лишь поджечь нужно, да укрыться понадёжнее"
         },
         {
-          "Speaker": null,
           "Text": "С хитрым прищуром Рада достаёт заговорённое огниво. Стоит камням рухнуть, как из дыры устремляется нечисть"
         }
       ]
     },
     "Location": "SkyTower",
     "Name": "Зло каждого из нас",
-    "Sid": "MainChinese5",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChinese5"
   },
   {
     "AfterCombatNode": {
@@ -515,11 +458,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetScorpion",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "На стенах логова проступают причудливые иероглифы. Каменные стены становятся гладкими. На воинов с изогнутой палкой наперевес выбегает загорелый мужчина"
         },
         {
@@ -538,9 +479,7 @@
     },
     "Location": "SacredPlace",
     "Name": "Беги",
-    "Sid": "MainEgyptian1",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainEgyptian1"
   },
   {
     "AfterCombatNode": {
@@ -560,11 +499,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetPriest",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Некогда величавое строение полуразрушено. Пустые проёмы зияют чернотой. Зловещая атмосфера повисла над руинами"
         },
         {
@@ -576,16 +513,13 @@
           "Text": "Секретный проход в ущелье. Бежим!"
         },
         {
-          "Speaker": null,
           "Text": "В темноте загорается пара глаз. Затем ещё одна, ещё и ещё\u2026 Светящиеся точки направляются к путникам"
         }
       ]
     },
     "Location": "Temple",
     "Name": "Темное и злое",
-    "Sid": "MainEgyptian2",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainEgyptian2"
   },
   {
     "AfterCombatNode": {
@@ -605,7 +539,6 @@
       ]
     },
     "BeforeCombatAftermath": "MeetNubiti",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -617,7 +550,6 @@
           "Text": "Много ли там рукописей? Изучить бы..."
         },
         {
-          "Speaker": null,
           "Text": "Голоса путников обрываются. Вместо зелёного острова в пустыне они видят полуразрушенное селение"
         },
         {
@@ -628,9 +560,7 @@
     },
     "Location": "Oasis",
     "Name": "Несогласованный визит",
-    "Sid": "MainEgyptian3",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainEgyptian3"
   },
   {
     "AfterCombatNode": {
@@ -645,8 +575,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -666,22 +594,18 @@
           "Text": "Сам гляди, уже пришли. Но смотреть на него охоты нет. Будто в душу пробирается что-то"
         },
         {
-          "Speaker": null,
           "Text": "Путники начинают осматриваться. Но чем дольше находятся возле смотрящей на них статуи, тем скорее начинают ссориться. На крики сбегаются порождения"
         }
       ]
     },
     "Location": "Obelisk",
     "Name": "Смотреть, но не видеть",
-    "Sid": "MainEgyptian4",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainEgyptian4"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "На месте срубленной ветки вырастали две. С каждым ударом ствол креп и разрастался."
         },
         {
@@ -694,16 +618,12 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Что-то не так. Река, на берегу которой росло Древо жизни, почернела. Вокруг всё иссохло. Ни листочка, ни травинки. Но дерево было покрыто плодами"
         },
         {
-          "Speaker": null,
           "Text": "Один из них, покачиваясь, упал с ветки и ударился о землю. Из него роем посыпались семена зла. Беримир невесело усмехнулся"
         },
         {
@@ -715,16 +635,13 @@
           "Text": "Ннннне может быть! Осирис, взываю к тебе и мощи твоей. Возроди древо, прогони тьму!"
         },
         {
-          "Speaker": null,
           "Text": "Ответом был громогласный хохот с небес. \u201CСмертный, кончилось время легенд. Тьма - новый бог. Служи верой и правдой или умри в муках\u0022"
         }
       ]
     },
     "Location": "ScreamValey",
     "Name": "Начало конца",
-    "Sid": "MainEgyptian5",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainEgyptian5"
   },
   {
     "AfterCombatNode": {
@@ -748,11 +665,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetLegionare",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Травница, монах и жрец яростно спорят. Временами до путников доносятся обрывки их ругательств. Голоса затихают. Кажется, они пришли к согласию"
         },
         {
@@ -760,7 +675,6 @@
           "Text": "Проход в другой мир откроем. Что там нас ждёт неведомо. Оружие приготовьте"
         },
         {
-          "Speaker": null,
           "Text": "Всё вокруг погрузилось в темноту. Вокруг поднялась песчаная буря, в эпицентре которой оказались путники. В один миг всё утихло."
         },
         {
@@ -771,15 +685,12 @@
     },
     "Location": "ShipGraveyard",
     "Name": "Во имя света!",
-    "Sid": "MainGreek1",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainGreek1"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Последнее порождение тьмы пало, раздался скрип: медленно двигались каменные двери древнего храма. Внутри сидели три длинноволосые старухи с бесконечным вязанием"
         },
         {
@@ -797,7 +708,6 @@
       ]
     },
     "BeforeCombatAftermath": "MeetAmazon",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -820,15 +730,12 @@
     },
     "Location": "Vines",
     "Name": "[TMP] Встреча с амазонкой",
-    "Sid": "MainGreek2",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainGreek2"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Стоило бою закончиться, как инженер снова взялся перебирать свои детали. Путники приготовились кричать, но миссионер остановил их"
         },
         {
@@ -846,11 +753,9 @@
       ]
     },
     "BeforeCombatAftermath": "MeetEngeneer",
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Пробившись к саду, путники вышли к поляне, покрытой разбросанными деталями. Вокруг них, бормоча, ходит кругами мужчина, не заметивший гостей"
         },
         {
@@ -869,9 +774,7 @@
     },
     "Location": "Garden",
     "Name": "Адская машина",
-    "Sid": "MainGreek3",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainGreek3"
   },
   {
     "AfterCombatNode": {
@@ -898,12 +801,9 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Остров дворца чёрен. С пасмурного неба осыпается пепел. Место полностью вымерло"
         },
         {
@@ -922,19 +822,15 @@
     },
     "Location": "Palace",
     "Name": "[TMP] Подземка",
-    "Sid": "MainGreek4",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainGreek4"
   },
   {
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Убитый Минотавр стерёг клубок корней Древа смерти. Пульсируя, он продолжал вести тьму и погибель в миры."
         },
         {
-          "Speaker": null,
           "Text": "Оружие, заклинания, наука. Путники пустили в ход весь свой арсенал. Но ничто не брало прародителя порождений"
         },
         {
@@ -942,13 +838,10 @@
           "Text": "Ещё силы-силушки немного. Давайте все вместе, навались!"
         },
         {
-          "Speaker": null,
           "Text": "Наконец один стебель поддался, а за ним другие. Вслед за смертью корней стали рушиться потолок и стены. Путники устремились в открывшийся за Древом проход"
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -967,9 +860,7 @@
     },
     "Location": "Labirinth",
     "Name": "Быка за рога",
-    "Sid": "MainGreek5",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainGreek5"
   },
   {
     "AfterCombatNode": {
@@ -992,12 +883,9 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Путники попадают в продолжение лабиринта. Но стены будто живые: по ним то и дело рябью пробегают надписи от иероглифов до букв греческого алфавита"
         },
         {
@@ -1012,9 +900,7 @@
     },
     "Location": "ChangingLabirinth",
     "Name": "Говорящие стены",
-    "Sid": "MainChaos1",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChaos1"
   },
   {
     "AfterCombatNode": {
@@ -1029,8 +915,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1038,7 +922,6 @@
           "Text": "Истории перестали рассказывать. Хорошие времена породили слабых людей. Они забыли о предупреждениях предков"
         },
         {
-          "Speaker": null,
           "Text": "В пещере появляется красивая юная девушка. Нет в ней изъяна, лишь кожа бледна. Каждому из путников она напомнила об утерянном доме"
         },
         {
@@ -1050,20 +933,16 @@
           "Text": "Храбрые воины! Вы пришли освободить меня? Вы дадите мне свободу?"
         },
         {
-          "Speaker": null,
           "Text": "Девушка отступает от стены, показывая цепь, которой прикована к скале. Леонидас без раздумий разрубает металл."
         },
         {
-          "Speaker": null,
           "Text": "Мяосин и Рада только закончили изучать стену с записями и пытаются что-то прокричать. Но уже поздно. В пещере раздаётся жуткий смех"
         }
       ]
     },
     "Location": "Nothing",
     "Name": "Не разговаривай с незнакомцами",
-    "Sid": "MainChaos2",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChaos2"
   },
   {
     "AfterCombatNode": {
@@ -1082,8 +961,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1091,7 +968,6 @@
           "Text": "Сюда! Я вижу её!"
         },
         {
-          "Speaker": null,
           "Text": "В центре комнаты пульсирует субстанция. Она хаотично принимает разные формы. Именно к ней спешит незнакомка-Тьма"
         },
         {
@@ -1099,16 +975,13 @@
           "Text": "Жизни положим, да не дадим злу свершиться!"
         },
         {
-          "Speaker": null,
           "Text": "Кахотеп и Мяосин начинают чертить знаки на полу. Рада разбивает блюдечко с голубой каёмочкой на кусочки и выкладывает поверх мозаику. Со всех сторон сбегаются невиданные твари"
         }
       ]
     },
     "Location": "Epicenter",
     "Name": "Зло - вечно!",
-    "Sid": "MainChaos3",
-    "GoalDescription": null,
-    "ParentSids": null
+    "Sid": "MainChaos3"
   },
   {
     "AfterCombatNode": {
@@ -1118,17 +991,14 @@
           "Text": "Мне нужно отдань дань уважения Сварогу. Это будет долгая молитва."
         },
         {
-          "Speaker": null,
           "Text": "Беримир натолько глубоко погружается в молитву, что его невозможно призвать в реальный мир."
         }
       ]
     },
-    "BeforeCombatAftermath": null,
     "AfterCombatAftermath": "BerimirDeepPreying",
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Беримир чувствует присутствие древних богов."
         }
       ]
@@ -1136,7 +1006,6 @@
     "Location": "Thicket",
     "Name": "Великий кузнец",
     "Sid": "SideSlavic1",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]
@@ -1150,8 +1019,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1159,7 +1026,6 @@
           "Text": "Сокол, где твоя сила богатырская?"
         },
         {
-          "Speaker": null,
           "Text": "Сокол посмотрел на Беримира. Посмотрел вокруг и выстрелил. Послышался рёв."
         }
       ]
@@ -1167,7 +1033,6 @@
     "Location": "Swamp",
     "Name": "Точность",
     "Sid": "SideSlavic2",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]
@@ -1176,17 +1041,13 @@
     "AfterCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Прошло немного времени. Инвесторы уже ожидали увидеть золотые яйца. Но\u2026 увидели не золотые."
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Некогда здесь располагался горноперерабатывающий завод. Сырьё брали из других районов мира. Предприятие казалось перспективным. Ещё и потому, что на смену старому консервативному руководству пришёл молодой амбициозный управленец."
         }
       ]
@@ -1194,7 +1055,6 @@
     "Location": "Mines",
     "Name": "Золотые яйца",
     "Sid": "SideSlavic3",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]
@@ -1203,8 +1063,6 @@
     "AfterCombatNode": {
       "Fragments": []
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1220,7 +1078,6 @@
     "Location": "DeathPath",
     "Name": "Пустой",
     "Sid": "SideSlavic4",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]
@@ -1234,8 +1091,6 @@
         }
       ]
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1243,7 +1098,6 @@
           "Text": "Нам, чтобы пройти дальше, нужно подписать путевой лист."
         },
         {
-          "Speaker": null,
           "Text": "Оформляем, подписываем путевой лист."
         },
         {
@@ -1251,7 +1105,6 @@
           "Text": "Теперь нужна служебная записка."
         },
         {
-          "Speaker": null,
           "Text": "Запрашиваем служебную записку. Ждём."
         },
         {
@@ -1259,7 +1112,6 @@
           "Text": "Служебную записку невозможно заполнить без табельного номера. Нужно подать завление на получение этого гадского номера."
         },
         {
-          "Speaker": null,
           "Text": "Надо, так надо. Заявка оформлена со всей скурпулёзностью и отправлена."
         },
         {
@@ -1271,7 +1123,6 @@
     "Location": "Battleground",
     "Name": "Бюрократия",
     "Sid": "SideSlavic5",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]
@@ -1280,16 +1131,12 @@
     "AfterCombatNode": {
       "Fragments": []
     },
-    "BeforeCombatAftermath": null,
-    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
-          "Speaker": null,
           "Text": "Вокруг огромного бизнес-центра снуют люди. Тут решается множество вопросов. Ведут серьезные и мелкие дела. Решаются важные проблемы."
         },
         {
-          "Speaker": null,
           "Text": "Возле входа сидит бабушка. Она уже пожила своё, она видела многое. И, честно говоря, её время отличается от теперешнего. Поэтому она просто сидит и безучастно смотрит на всю эту бесполезную суету."
         }
       ]
@@ -1297,7 +1144,6 @@
     "Location": "Mines",
     "Name": "Другие времена",
     "Sid": "SideSlavic6",
-    "GoalDescription": null,
     "ParentSids": [
       "MainSlavic3"
     ]

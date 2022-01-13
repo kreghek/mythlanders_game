@@ -95,7 +95,8 @@ namespace PlotConverter
             var serialized = JsonSerializer.Serialize(eventDtoList, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
+                WriteIndented = true,
+                IgnoreNullValues = true
             });
 
             // Run with argument which contains full path to Rpg.Client/Resources directory
