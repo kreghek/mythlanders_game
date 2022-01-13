@@ -552,6 +552,7 @@ namespace Rpg.Client.Core
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
+                        new AddPerkUnitLevel(1, new ImprovedHitPoints()),
                         new AddPerkUnitLevel(10, new CriticalHit())
                     },
 
@@ -562,9 +563,9 @@ namespace Rpg.Client.Core
                         HpShare = 0.5f,
                         NextScheme = new UnitScheme
                         {
-                            TankRank = 0.0f,
+                            TankRank = 0.5f,
                             DamageDealerRank = 0.5f,
-                            SupportRank = 0.5f,
+                            SupportRank = 0.0f,
 
                             Name = UnitName.Volkolak,
                             Biome = biomeType,
@@ -575,7 +576,8 @@ namespace Rpg.Client.Core
                             {
                                 new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
                                 new AddPerkUnitLevel(1, new ImprovedHitPoints()),
-                                new AddPerkUnitLevel(10, new Evasion())
+                                new AddPerkUnitLevel(5, new Evasion()),
+                                new AddPerkUnitLevel(10, new CriticalHit())
                             },
 
                             UnitGraphicsConfig = new VolkolakGraphicsConfig()
