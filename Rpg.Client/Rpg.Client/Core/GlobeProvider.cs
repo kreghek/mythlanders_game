@@ -117,6 +117,9 @@ namespace Rpg.Client.Core
             Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player(saveDataDto.Name)
+                { 
+                    CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
+                },
             };
 
             if (progressDto.Player is not null)
@@ -135,6 +138,12 @@ namespace Rpg.Client.Core
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
         }
 
+        private Event? GetEventOrNull(string? currentGoalEventSid)
+        {
+            var goalEvent = _eventCatalog.Events.SingleOrDefault(x => x.Sid == currentGoalEventSid);
+            return goalEvent;
+        }
+
         public void StoreCurrentGlobe()
         {
             PlayerDto? player = null;
@@ -146,7 +155,8 @@ namespace Rpg.Client.Core
                     Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                     KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
+                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
+                    CurrentGoalEventSid = Globe.Player.CurrentGoalEvent?.Sid
                 };
             }
 

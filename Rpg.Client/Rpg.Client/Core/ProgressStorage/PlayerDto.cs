@@ -7,5 +7,6 @@
         public string[] KnownMonsterSids { get; init; }
         public GroupDto Pool { get; init; }
         public ResourceDto[] Resources { get; init; }
+        public string? CurrentGoalEventSid { get; init; }
     }
 }
