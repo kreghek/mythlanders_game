@@ -41,7 +41,8 @@
     "Location": "Thicket",
     "Name": "Начальная зачистка",
     "Sid": "MainSlavic1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -89,7 +90,8 @@
     "Location": "Swamp",
     "Name": "В поисках мудрости",
     "Sid": "MainSlavic2",
-    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра."
+    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра.",
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -141,7 +143,8 @@
     "Location": "Pit",
     "Name": "Ты - один из немногих",
     "Sid": "MainSlavic3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -193,7 +196,8 @@
     "Location": "DeathPath",
     "Name": "Путь невозврата",
     "Sid": "MainSlavic4",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -245,7 +249,8 @@
     "Location": "Mines",
     "Name": "Мудрость трав",
     "Sid": "MainSlavic5",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -289,7 +294,8 @@
     "Location": "Monastery",
     "Name": "Новый мир",
     "Sid": "MainChinese1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -337,7 +343,8 @@
     "Location": "GaintBamboo",
     "Name": "Другая смерть",
     "Sid": "MainChinese2",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -389,7 +396,8 @@
     "Location": "EmperorTomb",
     "Name": "Демоны внутри меня",
     "Sid": "MainChinese3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -437,7 +445,8 @@
     "Location": "RiseFields",
     "Name": "Ученье - свет",
     "Sid": "MainChinese4",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -481,7 +490,8 @@
     "Location": "SkyTower",
     "Name": "Зло каждого из нас",
     "Sid": "MainChinese5",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -529,7 +539,8 @@
     "Location": "SacredPlace",
     "Name": "Беги",
     "Sid": "MainEgyptian1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -573,7 +584,8 @@
     "Location": "Temple",
     "Name": "Темное и злое",
     "Sid": "MainEgyptian2",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -617,7 +629,8 @@
     "Location": "Oasis",
     "Name": "Несогласованный визит",
     "Sid": "MainEgyptian3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -661,7 +674,8 @@
     "Location": "Obelisk",
     "Name": "Смотреть, но не видеть",
     "Sid": "MainEgyptian4",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -709,7 +723,8 @@
     "Location": "ScreamValey",
     "Name": "Начало конца",
     "Sid": "MainEgyptian5",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -757,7 +772,8 @@
     "Location": "ShipGraveyard",
     "Name": "Во имя света!",
     "Sid": "MainGreek1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -805,7 +821,8 @@
     "Location": "Vines",
     "Name": "[TMP] Встреча с амазонкой",
     "Sid": "MainGreek2",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -853,7 +870,8 @@
     "Location": "Garden",
     "Name": "Адская машина",
     "Sid": "MainGreek3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -905,7 +923,8 @@
     "Location": "Palace",
     "Name": "[TMP] Подземка",
     "Sid": "MainGreek4",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -949,7 +968,8 @@
     "Location": "Labirinth",
     "Name": "Быка за рога",
     "Sid": "MainGreek5",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -993,7 +1013,8 @@
     "Location": "ChangingLabirinth",
     "Name": "Говорящие стены",
     "Sid": "MainChaos1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -1041,7 +1062,8 @@
     "Location": "Nothing",
     "Name": "Не разговаривай с незнакомцами",
     "Sid": "MainChaos2",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -1085,7 +1107,8 @@
     "Location": "Epicenter",
     "Name": "Зло - вечно!",
     "Sid": "MainChaos3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": null
   },
   {
     "AfterCombatNode": {
@@ -1113,7 +1136,10 @@
     "Location": "Thicket",
     "Name": "Великий кузнец",
     "Sid": "SideSlavic1",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   },
   {
     "AfterCombatNode": {
@@ -1141,7 +1167,10 @@
     "Location": "Swamp",
     "Name": "Точность",
     "Sid": "SideSlavic2",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   },
   {
     "AfterCombatNode": {
@@ -1165,7 +1194,10 @@
     "Location": "Mines",
     "Name": "Золотые яйца",
     "Sid": "SideSlavic3",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   },
   {
     "AfterCombatNode": {
@@ -1188,7 +1220,10 @@
     "Location": "DeathPath",
     "Name": "Пустой",
     "Sid": "SideSlavic4",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   },
   {
     "AfterCombatNode": {
@@ -1236,7 +1271,10 @@
     "Location": "Battleground",
     "Name": "Бюрократия",
     "Sid": "SideSlavic5",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   },
   {
     "AfterCombatNode": {
@@ -1259,6 +1297,9 @@
     "Location": "Mines",
     "Name": "Другие времена",
     "Sid": "SideSlavic6",
-    "GoalDescription": null
+    "GoalDescription": null,
+    "ParentSids": [
+      "MainSlavic3"
+    ]
   }
 ]
