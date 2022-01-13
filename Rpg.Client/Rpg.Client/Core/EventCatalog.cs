@@ -25,7 +25,7 @@ namespace Rpg.Client.Core
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
             Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
-            
+
             var events = CreateEvents(eventStorageModelList);
 
             AssignEventParents(events, eventStorageModelList);
@@ -41,7 +41,7 @@ namespace Rpg.Client.Core
                 {
                     continue;
                 }
-                
+
                 var childEvent = events.Single(x => x.Sid == eventStorageModel.Sid);
                 childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
             }
@@ -109,7 +109,7 @@ namespace Rpg.Client.Core
             {
                 return null;
             }
-            
+
             return systemEventMarker;
         }
 

@@ -56,7 +56,7 @@ namespace Rpg.Client.Core
             {
                 return false;
             }
-            
+
             return !IsDirectoryEmpty(_storagePath);
         }
 
@@ -117,7 +117,7 @@ namespace Rpg.Client.Core
             Globe = new Globe(_biomeGenerator)
             {
                 Player = new Player(saveDataDto.Name)
-                { 
+                {
                     CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
                 },
             };
@@ -271,7 +271,7 @@ namespace Rpg.Client.Core
                     Sid = equipment.Scheme.Sid.ToString(),
                     Level = equipment.Level
                 };
-                
+
                 equipmentDtoList.Add(dto);
             }
 

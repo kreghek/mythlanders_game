@@ -78,14 +78,14 @@ namespace PlotConverter
             }
 
             var sids = excelEvent.ParentSids
-                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries); 
+                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             return sids;
         }
 
         private static void Main(string[] args)
         {
             var outputPath = args[0];
-            
+
             const string SOURCE_EVENTS_EXCEL = "Ewar - Plot.xlsx";
             var excelEventRows = ReadEventsFromExcel(SOURCE_EVENTS_EXCEL);
             var excelTextFragmentsRows = ReadTextFragmentsFromExcel(SOURCE_EVENTS_EXCEL);
