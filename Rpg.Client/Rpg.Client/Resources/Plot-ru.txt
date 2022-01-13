@@ -1090,5 +1090,146 @@
     "Location": "Thicket",
     "Name": "Великий кузнец",
     "Sid": "SideSlavic1"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Hawk",
+          "Text": "Когда комар сядет тебе на яйца, ты поймёшь, что точность важнее силы"
+        }
+      ]
+    },
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Berimir",
+          "Text": "Сокол, где твоя сила богатырская?"
+        },
+        {
+          "Speaker": null,
+          "Text": "Сокол посмотрел на Беримира. Посмотрел вокруг и выстрелил. Послышался рёв."
+        }
+      ]
+    },
+    "Location": "Swamp",
+    "Name": "Точность",
+    "Sid": "SideSlavic2"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Прошло немного времени. Инвесторы уже ожидали увидеть золотые яйца. Но\u2026 увидели не золотые."
+        }
+      ]
+    },
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Некогда здесь располагался горноперерабатывающий завод. Сырьё брали из других районов мира. Предприятие казалось перспективным. Ещё и потому, что на смену старому консервативному руководству пришёл молодой амбициозный управленец."
+        }
+      ]
+    },
+    "Location": "Mines",
+    "Name": "Золотые яйца",
+    "Sid": "SideSlavic3"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": []
+    },
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Hawk",
+          "Text": "Слышал, здесь похоронен великий человек. Несмотря на сильную хворь он нашёл в себе силы и продолжил величие дела. Но всё равно черная хворь скосила его."
+        },
+        {
+          "Speaker": "Rada",
+          "Text": "Он просто спутал выздоровление с бессмертием. Скосила его не хворь, а омерзительный образ жизни. И это потому, что великим сделал он себя сам. Знавала я этого мерзавца. Дюже неприятный человек был."
+        }
+      ]
+    },
+    "Location": "DeathPath",
+    "Name": "Пустой",
+    "Sid": "SideSlavic4"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Hawk",
+          "Text": "Я не хочу заниматься этими бумагами! Я! ХОЧУ! СТРЕЛЯТЬ СГУСТКАМИ ЭНЕРГИИ! ИЗ ЛУКА!"
+        }
+      ]
+    },
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": "Hawk",
+          "Text": "Нам, чтобы пройти дальше, нужно подписать путевой лист."
+        },
+        {
+          "Speaker": null,
+          "Text": "Оформляем, подписываем путевой лист."
+        },
+        {
+          "Speaker": "Hawk",
+          "Text": "Теперь нужна служебная записка."
+        },
+        {
+          "Speaker": null,
+          "Text": "Запрашиваем служебную записку. Ждём."
+        },
+        {
+          "Speaker": "Hawk",
+          "Text": "Служебную записку невозможно заполнить без табельного номера. Нужно подать завление на получение этого гадского номера."
+        },
+        {
+          "Speaker": null,
+          "Text": "Надо, так надо. Заявка оформлена со всей скурпулёзностью и отправлена."
+        },
+        {
+          "Speaker": "Hawk",
+          "Text": "Заявка не может быть удовлетворена, пока не пройдёт 10 дней с момента получения путевого листа. Что!"
+        }
+      ]
+    },
+    "Location": "Battleground",
+    "Name": "Бюрократия",
+    "Sid": "SideSlavic5"
+  },
+  {
+    "AfterCombatNode": {
+      "Fragments": []
+    },
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
+    "BeforeCombatNode": {
+      "Fragments": [
+        {
+          "Speaker": null,
+          "Text": "Вокруг огромного бизнес-центра снуют люди. Тут решается множество вопросов. Ведут серьезные и мелкие дела. Решаются важные проблемы."
+        },
+        {
+          "Speaker": null,
+          "Text": "Возле входа сидит бабушка. Она уже пожила своё, она видела многое. И, честно говоря, её время отличается от теперешнего. Поэтому она просто сидит и безучастно смотрит на всю эту бесполезную суету."
+        }
+      ]
+    },
+    "Location": "Mines",
+    "Name": "Другие времена",
+    "Sid": "SideSlavic6"
   }
 ]
