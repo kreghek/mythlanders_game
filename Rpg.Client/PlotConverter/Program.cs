@@ -50,7 +50,8 @@ namespace PlotConverter
                     Sid = excelEvent.Sid,
                     Name = excelEvent.Name,
                     Location = excelEvent.Location,
-                    Aftermath = excelEvent.Aftermath
+                    BeforeCombatAftermath = excelEvent.BeforeCombatAftermath,
+                    AfterCombatAftermath = excelEvent.AfterCombatAftermath
                 };
                 eventDtoList.Add(eventDto);
 
@@ -68,8 +69,9 @@ namespace PlotConverter
 
         private static void Main(string[] args)
         {
-            var excelEventRows = ReadEventsFromExcel("Ewar - Plot.xlsx");
-            var excelTextFragmentsRows = ReadTextFragmentsFromExcel("Ewar - Plot.xlsx");
+            var sourceEventsExcel = "Ewar - Plot.xlsx";
+            var excelEventRows = ReadEventsFromExcel(sourceEventsExcel);
+            var excelTextFragmentsRows = ReadTextFragmentsFromExcel(sourceEventsExcel);
 
             var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
@@ -121,7 +123,8 @@ namespace PlotConverter
                             Sid = row[0] as string,
                             Name = row[1] as string,
                             Location = row[2] as string,
-                            Aftermath = row[3] as string
+                            BeforeCombatAftermath = row[3] as string,
+                            AfterCombatAftermath = row[4] as string
                         };
 
                         excelRows.Add(excelRow);

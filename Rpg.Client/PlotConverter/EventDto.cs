@@ -3,7 +3,9 @@
     internal sealed record EventDto
     {
         public EventNodeDto AfterCombatNode { get; set; }
-        public string Aftermath { get; set; }
+        public string BeforeCombatAftermath { get; set; }
+        
+        public string AfterCombatAftermath { get; set; }
 
         public EventNodeDto BeforeCombatNode { get; set; }
         public string Location { get; set; }

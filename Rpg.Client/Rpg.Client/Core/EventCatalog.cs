@@ -41,38 +41,55 @@ namespace Rpg.Client.Core
 
                 var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode,
                     EventPosition.BeforeCombat,
-                    eventStorageModel.Aftermath, _unitSchemeCatalog);
+                    eventStorageModel.BeforeCombatAftermath, _unitSchemeCatalog);
                 var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode,
                     EventPosition.AfterCombat,
-                    aftermath: null, unitSchemeCatalog: _unitSchemeCatalog);
+                    eventStorageModel.AfterCombatAftermath, unitSchemeCatalog: _unitSchemeCatalog);
 
                 // System marker used to load saved game. Read it as identifier.
-                SystemEventMarker? systemMarker = null;
-                if (eventStorageModel.Aftermath is not null)
-                {
-                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
-                    {
-                        systemMarker = systemEventMarkerTemp;
-                    }
-                }
+                var systemMarker = GetSystemEventMarker(eventStorageModel);
 
-                var isMainPlot = eventStorageModel.Sid.StartsWith("Main");
+                var isMainPlotEvent = IsMainPlotEvent(eventStorageModel);
+                const string? START_EVENT_SID = "MainSlavic1";
+                var isGameStartEvent = eventStorageModel.Sid == START_EVENT_SID;
                 var plotEvent = new Event
                 {
                     Sid = eventStorageModel.Sid,
                     Biome = locationInfo.Biome,
                     ApplicableOnlyFor = new[] { locationInfo.LocationSid },
-                    IsUnique = isMainPlot,
-                    IsHighPriority = isMainPlot,
+                    IsUnique = isMainPlotEvent,
+                    IsHighPriority = isMainPlotEvent,
                     Title = eventStorageModel.Name,
                     BeforeCombatStartNode = beforeEventNode,
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
-                    IsGameStart = eventStorageModel.Sid == "MainSlavic1"
+                    IsGameStart = isGameStartEvent
                 };
 
                 yield return plotEvent;
             }
+        }
+
+        private static bool IsMainPlotEvent(EventStorageModel? eventStorageModel)
+        {
+            return eventStorageModel.Sid.StartsWith("Main");
+        }
+
+        private static SystemEventMarker? GetSystemEventMarker(EventStorageModel eventStorageModel)
+        {
+            string? aftermath = eventStorageModel.BeforeCombatAftermath ?? eventStorageModel.AfterCombatAftermath;
+
+            if (aftermath is null)
+            {
+                return null;
+            }
+
+            if (!Enum.TryParse<SystemEventMarker>(aftermath, out var systemEventMarker))
+            {
+                return null;
+            }
+            
+            return systemEventMarker;
         }
 
         private static Event[] CreateTestEvents()

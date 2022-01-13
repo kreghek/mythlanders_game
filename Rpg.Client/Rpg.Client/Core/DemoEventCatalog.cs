@@ -92,16 +92,16 @@ namespace Rpg.Client.Core
 
                 var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode,
                     EventPosition.BeforeCombat,
-                    eventStorageModel.Aftermath, _unitSchemeCatalog);
+                    eventStorageModel.BeforeCombatAftermath, _unitSchemeCatalog);
                 var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode,
                     EventPosition.AfterCombat,
                     aftermath: null, _unitSchemeCatalog);
 
                 // System marker used to load saved game. Read it as identifier.
                 SystemEventMarker? systemMarker = null;
-                if (eventStorageModel.Aftermath is not null)
+                if (eventStorageModel.BeforeCombatAftermath is not null)
                 {
-                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.Aftermath, out var systemEventMarkerTemp))
+                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.BeforeCombatAftermath, out var systemEventMarkerTemp))
                     {
                         systemMarker = systemEventMarkerTemp;
                     }

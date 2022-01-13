@@ -54,7 +54,7 @@ namespace Rpg.Client.Core
         {
             if (!IsDirectoryEmpty(_storagePath))
             {
-                return true;
+                return false;
             }
 
             Debug.WriteLine($"Not found a save file by provided path: {_storagePath}");
@@ -80,6 +80,11 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
+            if (!Directory.Exists(_storagePath))
+            {
+                return Array.Empty<SaveShortInfo>();
+            }
+
             var files = Directory.EnumerateFiles(_storagePath);
 
             var saves = new List<SaveShortInfo>();
@@ -87,6 +92,7 @@ namespace Rpg.Client.Core
             {
                 var content = File.ReadAllText(file);
                 var jsonSave = JsonSerializer.Deserialize<SaveShortInfo>(content);
+                Debug.Assert(jsonSave is not null);
                 jsonSave.FileName = Path.GetFileName(file);
 
                 saves.Add(jsonSave);

@@ -16,7 +16,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -62,7 +63,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -108,7 +110,8 @@
         }
       ]
     },
-    "Aftermath": "MeetArcher",
+    "BeforeCombatAftermath": "MeetArcher",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -158,7 +161,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -208,7 +212,8 @@
         }
       ]
     },
-    "Aftermath": "MeetHerbalist",
+    "BeforeCombatAftermath": "MeetHerbalist",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -254,7 +259,8 @@
         }
       ]
     },
-    "Aftermath": "MeetMonk",
+    "BeforeCombatAftermath": "MeetMonk",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -300,7 +306,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -342,7 +349,8 @@
         }
       ]
     },
-    "Aftermath": "MeetSpearman",
+    "BeforeCombatAftermath": "MeetSpearman",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -392,7 +400,8 @@
         }
       ]
     },
-    "Aftermath": "MeetMissionary",
+    "BeforeCombatAftermath": "MeetMissionary",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -438,7 +447,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -484,7 +494,8 @@
         }
       ]
     },
-    "Aftermath": "MeetScorpion",
+    "BeforeCombatAftermath": "MeetScorpion",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -526,7 +537,8 @@
         }
       ]
     },
-    "Aftermath": "MeetPriest",
+    "BeforeCombatAftermath": "MeetPriest",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -568,7 +580,8 @@
         }
       ]
     },
-    "Aftermath": "MeetNubiti",
+    "BeforeCombatAftermath": "MeetNubiti",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -606,7 +619,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -652,7 +666,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -702,7 +717,8 @@
         }
       ]
     },
-    "Aftermath": "MeetLegionare",
+    "BeforeCombatAftermath": "MeetLegionare",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -748,7 +764,8 @@
         }
       ]
     },
-    "Aftermath": "MeetAmazon",
+    "BeforeCombatAftermath": "MeetAmazon",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -794,7 +811,8 @@
         }
       ]
     },
-    "Aftermath": "MeetEngeneer",
+    "BeforeCombatAftermath": "MeetEngeneer",
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -844,7 +862,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -890,7 +909,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -932,7 +952,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -966,7 +987,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1016,7 +1038,8 @@
         }
       ]
     },
-    "Aftermath": null,
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": null,
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1054,7 +1077,8 @@
         }
       ]
     },
-    "Aftermath": "BerimirDeepPreying",
+    "BeforeCombatAftermath": null,
+    "AfterCombatAftermath": "BerimirDeepPreying",
     "BeforeCombatNode": {
       "Fragments": [
         {
