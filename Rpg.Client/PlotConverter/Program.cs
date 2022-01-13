@@ -123,8 +123,8 @@ namespace PlotConverter
                         {
                             Sid = row[0] as string,
                             Name = row[1] as string,
-                            Location = row[2] as string,
-                            GoalDescription = row[3] as string,
+                            GoalDescription = row[2] as string,
+                            Location = row[3] as string,
                             BeforeCombatAftermath = row[4] as string,
                             AfterCombatAftermath = row[5] as string
                         };

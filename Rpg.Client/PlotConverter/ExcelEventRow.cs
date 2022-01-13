@@ -7,7 +7,6 @@
         public string Location { get; init; }
         public string Name { get; init; }
         public string Sid { get; init; }
-        
         public string GoalDescription { get; set; }
     }
 }
