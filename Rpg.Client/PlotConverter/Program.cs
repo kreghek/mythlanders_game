@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -35,8 +36,8 @@ namespace PlotConverter
             return node;
         }
 
-        private static List<EventDto> ConventExcelRowsToObjectGraph(List<ExcelEventRow> excelEventRows,
-            List<ExcelTextFragmentRow> excelRows)
+        private static List<EventDto> ConventExcelRowsToObjectGraph(IReadOnlyCollection<ExcelEventRow> excelEventRows,
+            IEnumerable<ExcelTextFragmentRow> excelRows)
         {
             var eventGrouped = excelRows.GroupBy(x => x.EventSid);
 
@@ -52,7 +53,8 @@ namespace PlotConverter
                     Location = excelEvent.Location,
                     BeforeCombatAftermath = excelEvent.BeforeCombatAftermath,
                     AfterCombatAftermath = excelEvent.AfterCombatAftermath,
-                    GoalDescription = excelEvent.GoalDescription
+                    GoalDescription = excelEvent.GoalDescription,
+                    ParentSids = ParseParentSids(excelEvent)
                 };
                 eventDtoList.Add(eventDto);
 
@@ -68,11 +70,25 @@ namespace PlotConverter
             return eventDtoList;
         }
 
+        private static string[] ParseParentSids(ExcelEventRow excelEvent)
+        {
+            if (excelEvent.ParentSids is null)
+            {
+                return null;
+            }
+
+            var sids = excelEvent.ParentSids
+                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries); 
+            return sids;
+        }
+
         private static void Main(string[] args)
         {
-            var sourceEventsExcel = "Ewar - Plot.xlsx";
-            var excelEventRows = ReadEventsFromExcel(sourceEventsExcel);
-            var excelTextFragmentsRows = ReadTextFragmentsFromExcel(sourceEventsExcel);
+            var outputPath = args[0];
+            
+            const string SOURCE_EVENTS_EXCEL = "Ewar - Plot.xlsx";
+            var excelEventRows = ReadEventsFromExcel(SOURCE_EVENTS_EXCEL);
+            var excelTextFragmentsRows = ReadTextFragmentsFromExcel(SOURCE_EVENTS_EXCEL);
 
             var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
@@ -84,10 +100,10 @@ namespace PlotConverter
 
             // Run with argument which contains full path to Rpg.Client/Resources directory
 
-            var outputRuFileName = Path.Combine(args[0], "Plot-ru.txt");
+            var outputRuFileName = Path.Combine(outputPath, "Plot-ru.txt");
             File.WriteAllLines(outputRuFileName, new[] { serialized });
 
-            var outputEnFileName = Path.Combine(args[0], "Plot-en.txt");
+            var outputEnFileName = Path.Combine(outputPath, "Plot-en.txt");
             File.WriteAllLines(outputEnFileName, new[] { serialized });
         }
 
@@ -96,88 +112,84 @@ namespace PlotConverter
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             var excelRows = new List<ExcelEventRow>();
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
+            // Auto-detect format, supports:
+            //  - Binary Excel files (2.0-2003 format; *.xls)
+            //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
+            using var reader = ExcelReaderFactory.CreateReader(stream);
+            var result = reader.AsDataSet();
+
+            var plotTable = result.Tables["Events"];
+
+            // ReSharper disable once PossibleNullReferenceException
+            // See docs. Returns a collection or empty collection.
+            var rows = plotTable.Rows;
+
+            var isFirst = false;
+
+            foreach (DataRow row in rows)
             {
-                // Auto-detect format, supports:
-                //  - Binary Excel files (2.0-2003 format; *.xls)
-                //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                if (!isFirst)
                 {
-                    var result = reader.AsDataSet();
-
-                    var plotTable = result.Tables["Events"];
-
-                    var rows = plotTable.Rows;
-
-                    var isFirst = false;
-
-                    foreach (DataRow row in rows)
-                    {
-                        if (!isFirst)
-                        {
-                            isFirst = true;
-                            continue;
-                        }
-
-                        var excelRow = new ExcelEventRow
-                        {
-                            Sid = row[0] as string,
-                            Name = row[1] as string,
-                            GoalDescription = row[2] as string,
-                            Location = row[3] as string,
-                            BeforeCombatAftermath = row[4] as string,
-                            AfterCombatAftermath = row[5] as string,
-                            ParentSid = row[6] as string
-                        };
-
-                        excelRows.Add(excelRow);
-                    }
+                    isFirst = true;
+                    continue;
                 }
+
+                var excelRow = new ExcelEventRow
+                {
+                    Sid = row[0] as string,
+                    Name = row[1] as string,
+                    GoalDescription = row[2] as string,
+                    Location = row[3] as string,
+                    BeforeCombatAftermath = row[4] as string,
+                    AfterCombatAftermath = row[5] as string,
+                    ParentSids = row[6] as string
+                };
+
+                excelRows.Add(excelRow);
             }
 
             return excelRows;
         }
 
-        private static List<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath)
+        private static IEnumerable<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             var excelRows = new List<ExcelTextFragmentRow>();
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
+            // Auto-detect format, supports:
+            //  - Binary Excel files (2.0-2003 format; *.xls)
+            //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
+            using var reader = ExcelReaderFactory.CreateReader(stream);
+            var result = reader.AsDataSet();
+
+            var plotTable = result.Tables["Texts"];
+
+            // ReSharper disable once PossibleNullReferenceException
+            // See docs. Returns a collection or empty collection.
+            var rows = plotTable.Rows;
+
+            var isFirst = false;
+
+            foreach (DataRow row in rows)
             {
-                // Auto-detect format, supports:
-                //  - Binary Excel files (2.0-2003 format; *.xls)
-                //  - OpenXml Excel files (2007 format; *.xlsx, *.xlsb)
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                if (!isFirst)
                 {
-                    var result = reader.AsDataSet();
-
-                    var plotTable = result.Tables["Texts"];
-
-                    var rows = plotTable.Rows;
-
-                    var isFirst = false;
-
-                    foreach (DataRow row in rows)
-                    {
-                        if (!isFirst)
-                        {
-                            isFirst = true;
-                            continue;
-                        }
-
-                        var excelRow = new ExcelTextFragmentRow
-                        {
-                            EventSid = row[0] as string,
-                            Speaker = row[1] as string,
-                            Text = row[2] as string,
-                            Index = (int)((double?)row[3]).GetValueOrDefault(),
-                            CombatPosition = (int)((double?)row[4]).GetValueOrDefault()
-                        };
-
-                        excelRows.Add(excelRow);
-                    }
+                    isFirst = true;
+                    continue;
                 }
+
+                var excelRow = new ExcelTextFragmentRow
+                {
+                    EventSid = row[0] as string,
+                    Speaker = row[1] as string,
+                    Text = row[2] as string,
+                    Index = (int)((double?)row[3]).GetValueOrDefault(),
+                    CombatPosition = (int)((double?)row[4]).GetValueOrDefault()
+                };
+
+                excelRows.Add(excelRow);
             }
 
             return excelRows;

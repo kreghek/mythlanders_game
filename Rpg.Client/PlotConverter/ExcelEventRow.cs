@@ -8,6 +8,6 @@
         public string Name { get; init; }
         public string Sid { get; init; }
         public string GoalDescription { get; init; }
-        public string? ParentSid { get; init; }
+        public string ParentSids { get; init; }
     }
 }
