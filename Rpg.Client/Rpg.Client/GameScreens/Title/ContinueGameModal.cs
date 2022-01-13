@@ -77,8 +77,9 @@ namespace Rpg.Client.GameScreens.Title
 
             foreach (var saveInfo in saves)
             {
+                var localSaveTime = saveInfo.UpdateTime.ToLocalTime();
                 var continueGameButton = new TextButton(
-                    $"{saveInfo.PlayerName}{Environment.NewLine}{saveInfo.UpdateTime:f}",
+                    $"{saveInfo.PlayerName}{Environment.NewLine}{localSaveTime:f}",
                     uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
                 continueGameButton.OnClick += (_, _) =>
                 {

@@ -4,15 +4,6 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    internal enum PlayerAbility
-    {
-        SkipTutorials,
-        ReadMapTutorial,
-        ReadEventTutorial,
-        ReadCombatTutorial,
-        AvailableTanks
-    }
-
     internal sealed class Player
     {
         private readonly HashSet<PlayerAbility> _abilities;
@@ -109,7 +100,15 @@ namespace Rpg.Client.Core
 
         private static string CreateRandomName()
         {
-            return Guid.NewGuid().ToString();
+            var first = CreditsResource.NicknameFirstParts.Split(',').Select(x => x.Trim()).ToArray();
+            var last = CreditsResource.NicknameSecondParts.Split(',').Select(x => x.Trim()).ToArray();
+
+            var rnd = new Random();
+
+            var x = rnd.Next(0, first.Length);
+            var y = rnd.Next(0, last.Length);
+
+            return first[x] + " " + last[y];
         }
     }
 }

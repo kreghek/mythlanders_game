@@ -52,14 +52,12 @@ namespace Rpg.Client.Core
 
         public bool CheckSavesExist()
         {
-            if (!IsDirectoryEmpty(_storagePath))
+            if (!Directory.Exists(_storagePath))
             {
                 return false;
             }
-
-            Debug.WriteLine($"Not found a save file by provided path: {_storagePath}");
-
-            return false;
+            
+            return !IsDirectoryEmpty(_storagePath);
         }
 
         public void GenerateNew()
@@ -293,11 +291,6 @@ namespace Rpg.Client.Core
 
         private static bool IsDirectoryEmpty(string path)
         {
-            if (!Directory.Exists(path))
-            {
-                return false;
-            }
-
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 

@@ -83,5 +83,23 @@ namespace Rpg.Client {
                 return ResourceManager.GetString("Credits", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brown, Black, White, Orange, Wild, Tiger, Snow Leopard, Koo, Kooapps, Gray, Zombie, Gumdrop, Candy, Choco, Darth, Dark, Goldfish on a, Evil, German, Beach, City, Haunted, Spooky.
+        /// </summary>
+        internal static string NicknameFirstParts {
+            get {
+                return ResourceManager.GetString("NicknameFirstParts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dog, Cat, Dalmation, Bird, Koobird, Goldfish, Turtle, Clyde, Selina, Troy, Oscar, Lily, Skateboard, Swim E Fresh, Pip, Leo, Raph, Donny, Mikey, Man, Sloth, Ferret, Grandpa, Voviboye.
+        /// </summary>
+        internal static string NicknameSecondParts {
+            get {
+                return ResourceManager.GetString("NicknameSecondParts", resourceCulture);
+            }
+        }
     }
 }

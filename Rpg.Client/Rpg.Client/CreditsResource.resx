@@ -121,4 +121,10 @@
   <data name="Credits" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Credits-en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="NicknameFirstParts" xml:space="preserve">
+    <value>Brown, Black, White, Orange, Wild, Tiger, Snow Leopard, Koo, Kooapps, Gray, Zombie, Gumdrop, Candy, Choco, Darth, Dark, Goldfish on a, Evil, German, Beach, City, Haunted, Spooky</value>
+  </data>
+  <data name="NicknameSecondParts" xml:space="preserve">
+    <value>Dog, Cat, Dalmation, Bird, Koobird, Goldfish, Turtle, Clyde, Selina, Troy, Oscar, Lily, Skateboard, Swim E Fresh, Pip, Leo, Raph, Donny, Mikey, Man, Sloth, Ferret, Grandpa, Voviboye</value>
+  </data>
 </root>
