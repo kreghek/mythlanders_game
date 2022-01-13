@@ -119,7 +119,7 @@ namespace Rpg.Client.Core
                 Player = new Player(saveDataDto.Name)
                 {
                     CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
-                },
+                }
             };
 
             if (progressDto.Player is not null)
@@ -136,12 +136,6 @@ namespace Rpg.Client.Core
             LoadBiomes(progressDto.Biomes, Globe.Biomes);
 
             Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-        }
-
-        private Event? GetEventOrNull(string? currentGoalEventSid)
-        {
-            var goalEvent = _eventCatalog.Events.SingleOrDefault(x => x.Sid == currentGoalEventSid);
-            return goalEvent;
         }
 
         public void StoreCurrentGlobe()
@@ -221,6 +215,30 @@ namespace Rpg.Client.Core
             }
         }
 
+        private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
+        {
+            var equipmentDtoList = new List<EquipmentDto>();
+
+            foreach (var equipment in unit.Equipments)
+            {
+                var dto = new EquipmentDto
+                {
+                    Sid = equipment.Scheme.Sid.ToString(),
+                    Level = equipment.Level
+                };
+
+                equipmentDtoList.Add(dto);
+            }
+
+            return equipmentDtoList.ToArray();
+        }
+
+        private Event? GetEventOrNull(string? currentGoalEventSid)
+        {
+            var goalEvent = _eventCatalog.Events.SingleOrDefault(x => x.Sid == currentGoalEventSid);
+            return goalEvent;
+        }
+
         private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
         {
             return knownMonsters.Select(x => x.Name.ToString()).ToArray();
@@ -258,24 +276,6 @@ namespace Rpg.Client.Core
             };
 
             return groupDto;
-        }
-
-        private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
-        {
-            var equipmentDtoList = new List<EquipmentDto>();
-
-            foreach (var equipment in unit.Equipments)
-            {
-                var dto = new EquipmentDto
-                {
-                    Sid = equipment.Scheme.Sid.ToString(),
-                    Level = equipment.Level
-                };
-
-                equipmentDtoList.Add(dto);
-            }
-
-            return equipmentDtoList.ToArray();
         }
 
         private static ResourceDto[] GetPlayerResourcesToSave(IReadOnlyCollection<ResourceItem> inventory)
@@ -344,6 +344,19 @@ namespace Rpg.Client.Core
                 targetBiome.Level = biomeDto.Level;
 
                 LoadNodes(targetBiome, biomeDto);
+            }
+        }
+
+        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[] unitDtoEquipments)
+        {
+            foreach (var dto in unitDtoEquipments)
+            {
+                var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
+
+                for (var i = 0; i < equipment.Level; i++)
+                {
+                    equipment.LevelUp();
+                }
             }
         }
 
@@ -453,19 +466,6 @@ namespace Rpg.Client.Core
             }
 
             return units;
-        }
-
-        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[] unitDtoEquipments)
-        {
-            foreach (var dto in unitDtoEquipments)
-            {
-                var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
-
-                for (var i = 0; i < equipment.Level; i++)
-                {
-                    equipment.LevelUp();
-                }
-            }
         }
 
         private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)

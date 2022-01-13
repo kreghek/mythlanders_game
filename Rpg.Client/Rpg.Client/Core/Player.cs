@@ -30,6 +30,8 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
+        public Event? CurrentGoalEvent { get; set; }
+
         public IReadOnlyCollection<ResourceItem> Inventory { get; }
 
         public IList<UnitScheme> KnownMonsters { get; }
@@ -39,8 +41,6 @@ namespace Rpg.Client.Core
         public Group Party { get; }
 
         public PoolGroup Pool { get; }
-
-        public Event? CurrentGoalEvent { get; set; }
 
         public void AddPlayerAbility(PlayerAbility ability)
         {

@@ -8,6 +8,8 @@
         public BiomeType? Biome { get; internal set; }
         public bool Completed { get; set; }
         public int Counter { get; set; }
+
+        public string GoalDescription { get; set; }
         public bool IsGameStart { get; set; }
         public bool IsHighPriority { get; set; }
         public bool IsUnique { get; set; }
@@ -17,7 +19,5 @@
         public string Sid { get; set; }
         public SystemEventMarker? SystemMarker { get; set; }
         public string Title { get; set; }
-
-        public string GoalDescription { get; set; }
     }
 }

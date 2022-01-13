@@ -101,7 +101,8 @@ namespace Rpg.Client.Core
                 SystemEventMarker? systemMarker = null;
                 if (eventStorageModel.BeforeCombatAftermath is not null)
                 {
-                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.BeforeCombatAftermath, out var systemEventMarkerTemp))
+                    if (Enum.TryParse<SystemEventMarker>(eventStorageModel.BeforeCombatAftermath,
+                        out var systemEventMarkerTemp))
                     {
                         systemMarker = systemEventMarkerTemp;
                     }
