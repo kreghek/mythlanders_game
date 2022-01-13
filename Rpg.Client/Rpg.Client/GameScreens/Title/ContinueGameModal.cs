@@ -73,7 +73,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
         {
-            var saves = _globeProvider.GetSaves();
+            var saves = _globeProvider.GetSaves().OrderByDescending(x=>x.UpdateTime).ToArray();
 
             foreach (var saveInfo in saves)
             {

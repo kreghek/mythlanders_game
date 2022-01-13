@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Core.GlobalEvents;
-
-namespace Rpg.Client.Core
+﻿namespace Rpg.Client.Core
 {
     internal sealed class AddPlayerCharacterOptionAftermath : IOptionAftermath
     {
@@ -19,23 +17,6 @@ namespace Rpg.Client.Core
                 IsPlayerControlled = true
             };
             dialogContext.AddNewCharacter(unit);
-        }
-    }
-
-    internal sealed class UnitDeepPreyingOptionAftermath : IOptionAftermath
-    {
-        private readonly UnitName _name;
-
-        public UnitDeepPreyingOptionAftermath(UnitName name)
-        {
-            _name = name;
-        }
-
-        public void Apply(IEventContext dialogContext)
-        {
-            var globalEvent = new CharacterDeepPreyingGlobeEvent(_name);
-
-            dialogContext.AddNewGlobalEvent(globalEvent);
         }
     }
 }
