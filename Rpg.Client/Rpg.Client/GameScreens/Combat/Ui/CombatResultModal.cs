@@ -143,12 +143,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new Vector2(MARGIN + contentRect.Center.X, benefitsPosition.Y),
                 Color.Wheat);
 
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.CombatResultItemsFoundLabel, benefitsPosition, Color.White);
             var xpItems = _combatItemsLocal.UnitItems.ToArray();
             for (var itemIndex = 0; itemIndex < xpItems.Length; itemIndex++)
             {
                 var item = xpItems[itemIndex];
 
-                var itemOffsetVector = new Vector2(0, (32 + MARGIN) * itemIndex);
+                var itemOffsetVector = new Vector2(0, (32 + MARGIN) * itemIndex) + new Vector2(0, 20);
 
                 var benefitsLvlPosition = benefitsPosition + itemOffsetVector;
 

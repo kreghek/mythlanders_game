@@ -153,9 +153,6 @@
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Поражение!</value>
   </data>
-  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
-    <value>экипировка</value>
-  </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Найдены предметы:</value>
   </data>
@@ -167,12 +164,6 @@
   </data>
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Победа!</value>
-  </data>
-  <data name="CombatResultXpPostfix" xml:space="preserve">
-    <value>опыт</value>
-  </data>
-  <data name="CombatSequenceRoundShortText" xml:space="preserve">
-    <value>рнд</value>
   </data>
   <data name="CombatTutorialText" xml:space="preserve">
     <value>Вы попали в бой с монстрами!
@@ -243,9 +234,6 @@
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Группа</value>
   </data>
-  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
-    <value>Состоит в группе. Слот {0}.</value>
-  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
@@ -272,5 +260,11 @@
   </data>
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} ед. опыта для повышения уровня</value>
+  </data>
+  <data name="CombatProgressTemplate" xml:space="preserve">
+    <value>Прогресс сражения: {0}/{1}</value>
+  </data>
+  <data name="MonsterDangerTemplate" xml:space="preserve">
+    <value>Опасность: {0}</value>
   </data>
 </root>

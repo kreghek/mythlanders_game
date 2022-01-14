@@ -151,20 +151,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Combat progress: {0}/{1}.
+        /// </summary>
+        internal static string CombatProgressTemplate {
+            get {
+                return ResourceManager.GetString("CombatProgressTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Defeat!.
         /// </summary>
         internal static string CombatResultDefeatText {
             get {
                 return ResourceManager.GetString("CombatResultDefeatText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to equipment.
-        /// </summary>
-        internal static string CombatResultEquipmentPostfix {
-            get {
-                return ResourceManager.GetString("CombatResultEquipmentPostfix", resourceCulture);
             }
         }
         
@@ -201,24 +201,6 @@ namespace Rpg.Client {
         internal static string CombatResultVictoryText {
             get {
                 return ResourceManager.GetString("CombatResultVictoryText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XP.
-        /// </summary>
-        internal static string CombatResultXpPostfix {
-            get {
-                return ResourceManager.GetString("CombatResultXpPostfix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to rnd.
-        /// </summary>
-        internal static string CombatSequenceRoundShortText {
-            get {
-                return ResourceManager.GetString("CombatSequenceRoundShortText", resourceCulture);
             }
         }
         
@@ -349,6 +331,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Danger of the monsters: {0}.
+        /// </summary>
+        internal static string MonsterDangerTemplate {
+            get {
+                return ResourceManager.GetString("MonsterDangerTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to lvl.
         /// </summary>
         internal static string MonsterLevelShortText {
@@ -372,15 +363,6 @@ namespace Rpg.Client {
         internal static string PartyButtonTitle {
             get {
                 return ResourceManager.GetString("PartyButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is in party. Slot {0}..
-        /// </summary>
-        internal static string PartyMarkerLabelTemplate {
-            get {
-                return ResourceManager.GetString("PartyMarkerLabelTemplate", resourceCulture);
             }
         }
         

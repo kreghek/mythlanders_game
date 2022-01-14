@@ -16,24 +16,21 @@ namespace PlotConverter
     {
         private static EventNodeDto BuildEventNodes(List<ExcelTextFragmentRow> excelTextFragments)
         {
-            var fragments = new List<EventNodeTextFragment>();
-
-            foreach (var excelTextFragment in excelTextFragments)
-            {
-                var fragment = new EventNodeTextFragment
-                {
-                    Speaker = excelTextFragment.Speaker,
-                    Text = excelTextFragment.Text
-                };
-                fragments.Add(fragment);
-            }
-
             var node = new EventNodeDto
             {
-                Fragments = fragments.ToArray()
+                Fragments = excelTextFragments.Select(ConvertExcelToJsonStorage).ToArray()
             };
 
             return node;
+        }
+
+        private static EventNodeTextFragment ConvertExcelToJsonStorage(ExcelTextFragmentRow excelTextFragment)
+        {
+            return new EventNodeTextFragment
+            {
+                Speaker = excelTextFragment.Speaker,
+                Text = excelTextFragment.Text
+            };
         }
 
         private static List<EventDto> ConventExcelRowsToObjectGraph(IReadOnlyCollection<ExcelEventRow> excelEventRows,
@@ -98,12 +95,7 @@ namespace PlotConverter
 
         private static string[] ParseParentSids(ExcelEventRow excelEvent)
         {
-            if (excelEvent.ParentSids is null)
-            {
-                return null;
-            }
-
-            var sids = excelEvent.ParentSids
+            var sids = excelEvent.ParentSids?
                 .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             return sids;
         }

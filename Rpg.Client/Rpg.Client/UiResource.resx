@@ -150,9 +150,6 @@
     <value>Defeat!</value>
     <comment>Выводится в результатах боя при проигрыше боя.</comment>
   </data>
-  <data name="CombatResultEquipmentPostfix" xml:space="preserve">
-    <value>equipment</value>
-  </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Items found:</value>
     <comment>Подпись для списка найденных предметов  результате победы.</comment>
@@ -168,12 +165,6 @@
   <data name="CombatResultVictoryText" xml:space="preserve">
     <value>Victory!</value>
     <comment>Выводится в окне результатов боя.</comment>
-  </data>
-  <data name="CombatResultXpPostfix" xml:space="preserve">
-    <value>XP</value>
-  </data>
-  <data name="CombatSequenceRoundShortText" xml:space="preserve">
-    <value>rnd</value><comment>Раунд сражения из цепочки боёв.</comment>
   </data>
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
@@ -229,10 +220,6 @@
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Party</value>
   </data>
-  <data name="PartyMarkerLabelTemplate" xml:space="preserve">
-    <value>Is in party. Slot {0}.</value>
-    <comment>Указывает, что персонаж в партии и номер слота.</comment>
-  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -259,5 +246,11 @@
   </data>
   <data name="CombatLevelUpTemplate" xml:space="preserve">
     <value>{0} xp to level up</value>
+  </data>
+  <data name="CombatProgressTemplate" xml:space="preserve">
+    <value>Combat progress: {0}/{1}</value>
+  </data>
+  <data name="MonsterDangerTemplate" xml:space="preserve">
+    <value>Danger of the monsters: {0}</value>
   </data>
 </root>
