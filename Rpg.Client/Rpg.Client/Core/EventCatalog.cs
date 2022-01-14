@@ -25,7 +25,7 @@ namespace Rpg.Client.Core
             var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
 
             Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
-            
+
             var events = CreateEvents(eventStorageModelList);
 
             AssignEventParents(events, eventStorageModelList);
@@ -33,7 +33,8 @@ namespace Rpg.Client.Core
             _events = events.ToArray();
         }
 
-        private static void AssignEventParents(IReadOnlyCollection<Event> events, IEnumerable<EventStorageModel> eventStorageModelList)
+        private static void AssignEventParents(IReadOnlyCollection<Event> events,
+            IEnumerable<EventStorageModel> eventStorageModelList)
         {
             foreach (var eventStorageModel in eventStorageModelList)
             {
@@ -41,7 +42,7 @@ namespace Rpg.Client.Core
                 {
                     continue;
                 }
-                
+
                 var childEvent = events.Single(x => x.Sid == eventStorageModel.Sid);
                 childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
             }
@@ -91,14 +92,17 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static bool IsMainPlotEvent(EventStorageModel eventStorageModel)
+        private static LocationInfo GetLocationInfo(string location)
         {
-            return eventStorageModel.Sid.StartsWith("Main");
+            var locationSid = Enum.Parse<GlobeNodeSid>(location);
+            var biomeValue = (((int)locationSid) / 100) * 100;
+            var biome = (BiomeType)biomeValue;
+            return new LocationInfo { Biome = biome, LocationSid = locationSid };
         }
 
         private static SystemEventMarker? GetSystemEventMarker(EventStorageModel eventStorageModel)
         {
-            string? aftermath = eventStorageModel.BeforeCombatAftermath ?? eventStorageModel.AfterCombatAftermath;
+            var aftermath = eventStorageModel.BeforeCombatAftermath ?? eventStorageModel.AfterCombatAftermath;
 
             if (aftermath is null)
             {
@@ -109,16 +113,13 @@ namespace Rpg.Client.Core
             {
                 return null;
             }
-            
+
             return systemEventMarker;
         }
 
-        private static LocationInfo GetLocationInfo(string location)
+        private static bool IsMainPlotEvent(EventStorageModel eventStorageModel)
         {
-            var locationSid = Enum.Parse<GlobeNodeSid>(location);
-            var biomeValue = (((int)locationSid) / 100) * 100;
-            var biome = (BiomeType)biomeValue;
-            return new LocationInfo { Biome = biome, LocationSid = locationSid };
+            return eventStorageModel.Sid.StartsWith("Main");
         }
 
         public IEnumerable<Event> Events => _events;

@@ -70,22 +70,10 @@ namespace PlotConverter
             return eventDtoList;
         }
 
-        private static string[] ParseParentSids(ExcelEventRow excelEvent)
-        {
-            if (excelEvent.ParentSids is null)
-            {
-                return null;
-            }
-
-            var sids = excelEvent.ParentSids
-                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries); 
-            return sids;
-        }
-
         private static void Main(string[] args)
         {
             var outputPath = args[0];
-            
+
             const string SOURCE_EVENTS_EXCEL = "Ewar - Plot.xlsx";
             var excelEventRows = ReadEventsFromExcel(SOURCE_EVENTS_EXCEL);
             var excelTextFragmentsRows = ReadTextFragmentsFromExcel(SOURCE_EVENTS_EXCEL);
@@ -106,6 +94,18 @@ namespace PlotConverter
 
             var outputEnFileName = Path.Combine(outputPath, "Plot-en.txt");
             File.WriteAllLines(outputEnFileName, new[] { serialized });
+        }
+
+        private static string[] ParseParentSids(ExcelEventRow excelEvent)
+        {
+            if (excelEvent.ParentSids is null)
+            {
+                return null;
+            }
+
+            var sids = excelEvent.ParentSids
+                .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+            return sids;
         }
 
         private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)
