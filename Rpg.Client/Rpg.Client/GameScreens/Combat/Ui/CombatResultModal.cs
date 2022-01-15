@@ -47,7 +47,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 200));
+            _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 50));
             _title.Draw(spriteBatch);
             
             var benefitsPosition = new Vector2(ContentRect.Location.X + MARGIN, _title.Rect.Bottom + MARGIN);
@@ -140,7 +140,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_combatRewardList is not null)
             {
-                _combatRewardList.Rect = benefitsRect;
+                _combatRewardList.Rect = new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
                 _combatRewardList.Draw(spriteBatch);
                 
                 var biomeProgress =

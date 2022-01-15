@@ -51,12 +51,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private void DrawRewardList(SpriteBatch spriteBatch, AnimatedRewardItem[] rewardItems,
             Rectangle contentRectangle)
         {
-            const int ITEM_WIDTH = 64;
+            const int ITEM_WIDTH = 128;
             const int ITEM_HEIGHT = 32;
             const int CELL_COLS = 3;
-            for (var itemIndex = 0; itemIndex < rewardItems.Length; itemIndex++)
+
+            var orderedRewardItems = rewardItems.OrderBy(x => x.Equipment.Type).ToArray();
+
+            for (var itemIndex = 0; itemIndex < orderedRewardItems.Length; itemIndex++)
             {
-                var item = rewardItems[itemIndex];
+                var item = orderedRewardItems[itemIndex];
 
                 var itemCellX = itemIndex % CELL_COLS;
                 var itemCellY = itemIndex / CELL_COLS;
