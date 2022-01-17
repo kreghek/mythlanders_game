@@ -15,7 +15,7 @@ namespace Rpg.Client.ScreenManagement
     {
         private readonly Camera2D _camera;
         private readonly IList<IModalWindow> _modals;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        protected readonly ResolutionIndependentRenderer ResolutionIndependentRenderer;
 
         public GameScreenBase(EwarGame game)
         {
@@ -24,7 +24,7 @@ namespace Rpg.Client.ScreenManagement
             ScreenManager = game.Services.GetService<IScreenManager>();
 
             _camera = Game.Services.GetService<Camera2D>();
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            ResolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
             _modals = new List<IModalWindow>();
         }
@@ -60,7 +60,7 @@ namespace Rpg.Client.ScreenManagement
             {
                 if (modal.IsVisible)
                 {
-                    modal.Update(gameTime, _resolutionIndependentRenderer);
+                    modal.Update(gameTime, ResolutionIndependentRenderer);
                     break;
                 }
             }
