@@ -178,6 +178,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monster danger decreased to {0} (on -50%).
+        /// </summary>
+        internal static string CombatResultMonsterDangerDecreasedTemplate {
+            get {
+                return ResourceManager.GetString("CombatResultMonsterDangerDecreasedTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monster danger increased to {0}.
         /// </summary>
         internal static string CombatResultMonsterDangerIncreasedTemplate {

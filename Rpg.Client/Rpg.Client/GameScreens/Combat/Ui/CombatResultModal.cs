@@ -112,22 +112,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             Close();
         }
 
-        private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
-                Color.Wheat);
-
-            var biomeChangesPosition = resultPosition + new Vector2(0, 10);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Biome level: -50%", biomeChangesPosition,
+            var biomeProgress =
+                string.Format(UiResource.CombatResultMonsterDangerDecreasedTemplate,
+                    _combatItemsLocal.BiomeProgress.CurrentValue);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
+                new Vector2(benefitsRect.Center.X, _combatRewardList.Rect.Bottom + MARGIN),
                 Color.Wheat);
         }
 
-        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle contentRect)
+        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            var resultPosition = contentRect.Location.ToVector2() + new Vector2(5, 5);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), CombatResult.ToString(), resultPosition,
-                Color.Wheat);
+            
         }
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)

@@ -253,4 +253,7 @@
   <data name="MonsterDangerTemplate" xml:space="preserve">
     <value>Danger of the monsters: {0}</value>
   </data>
+  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
+    <value>Monster danger decreased to {0} (on -50%)</value>
+  </data>
 </root>
