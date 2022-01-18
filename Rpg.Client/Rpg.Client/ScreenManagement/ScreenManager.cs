@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
 using Rpg.Client.GameScreens.Biome;
+using Rpg.Client.GameScreens.CharacterDetails;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
@@ -91,6 +92,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Map => new MapScreen(_game),
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new UpgradeScreen(_game),
+                ScreenTransition.CharacterDetails => new CharacterDetailsScreen(_game),
                 ScreenTransition.Event => new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),

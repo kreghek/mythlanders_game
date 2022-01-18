@@ -9,10 +9,19 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Upgrade.Ui
 {
+    internal sealed class SelectCharacterEventArgs : EventArgs
+    {
+        public SelectCharacterEventArgs(Unit character)
+        {
+            Character = character;
+        }
+
+        public Unit Character { get; }
+    }
+
     internal sealed class CharacterPanel : ControlBase
     {
-        private readonly ButtonBase _levelUpButton;
-        private readonly IDictionary<Equipment, ButtonBase> _upgradeEquipmentButtonDict;
+        private readonly ButtonBase _infoButton;
         private readonly Unit _character;
         private readonly Texture2D _portraitTexture;
         private readonly SpriteFont _nameFont;
@@ -20,30 +29,19 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
 
         public CharacterPanel(Texture2D texture, Unit character, Texture2D buttonTexture, SpriteFont buttonFont, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
         {
-            _levelUpButton = new TextButton("Level up", buttonTexture, buttonFont);
-            _levelUpButton.OnClick += LevelUpButton_OnClick;
             _character = character;
             _portraitTexture = portraitTexture;
             _nameFont = nameFont;
             _mainFont = mainFont;
-            _upgradeEquipmentButtonDict = new Dictionary<Equipment, ButtonBase>();
 
-            foreach (var equipment in character.Equipments)
+            _infoButton = new ResourceTextButton("Info", buttonTexture, buttonFont);
+            _infoButton.OnClick += (_, _) =>
             {
-                var upgradeEquipmentButton = new TextButton($"Upgrade {equipment.Scheme.Sid}", buttonTexture, buttonFont);
-                upgradeEquipmentButton.OnClick += (_, _) =>
-                {
-                    equipment.LevelUp();
-                };
-
-                _upgradeEquipmentButtonDict.Add(equipment, upgradeEquipmentButton);
-            }
+                SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));
+            };
         }
 
-        private void LevelUpButton_OnClick(object? sender, EventArgs e)
-        {
-            _character.LevelUp();
-        }
+        public event EventHandler<SelectCharacterEventArgs> SelectCharacter;
 
         protected override Color CalculateColor()
         {
@@ -54,8 +52,15 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
         {
             DrawPortrait(spriteBatch, contentRect);
             DrawName(spriteBatch, contentRect);
+            DrawInfoButton(spriteBatch, contentRect);
 
             spriteBatch.DrawString(_mainFont, string.Format(UiResource.CombatLevelTemplate, _character.Level), contentRect.Location.ToVector2() + new Vector2(32 + 5, 10), Color.Black);
+        }
+
+        private void DrawInfoButton(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            _infoButton.Rect = new Rectangle(contentRect.Left + 32, contentRect.Top + 32, 100, 20);
+            _infoButton.Draw(spriteBatch);
         }
 
         private void DrawName(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -73,12 +78,7 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
 
         public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
-            _levelUpButton.Update(resolutionIndependentRenderer);
-
-            foreach (var buttonBase in _upgradeEquipmentButtonDict)
-            {
-                buttonBase.Value.Update(resolutionIndependentRenderer);
-            }
+            _infoButton.Update(resolutionIndependentRenderer);
         }
     }
 }

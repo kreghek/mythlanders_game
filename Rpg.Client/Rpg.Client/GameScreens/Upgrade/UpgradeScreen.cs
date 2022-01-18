@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,21 +47,39 @@ namespace Rpg.Client.GameScreens.Upgrade
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
+            DrawCharacters(spriteBatch: spriteBatch, contentRect: contentRect);
+            
+            DrawInventory(spriteBatch, contentRect);
+
+            spriteBatch.End();
+        }
+
+        private void DrawCharacters(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
             for (var i = 0; i < _characterPanels.Count; i++)
             {
                 var panel = _characterPanels[i];
                 var col = i % CHARACTER_COUNT;
                 var row = i / CHARACTER_COUNT;
                 var panelOffset = new Point(col * (PANEL_WIDTH + 5), row * (PANEL_HEIGHT + 5));
-                
+
                 panel.Rect =
                     new Rectangle(
                         contentRect.Location + panelOffset,
                         new Point(PANEL_WIDTH, PANEL_HEIGHT));
                 panel.Draw(spriteBatch);
             }
+        }
 
-            spriteBatch.End();
+        private void DrawInventory(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var array = _globeProvider.Globe.Player.Inventory.ToArray();
+            for (var i = 0; i < array.Length; i++)
+            {
+                var resourceItem = array[i];
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}",
+                    new Vector2(100, i * 20 + 100), Color.Wheat);
+            }
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -80,6 +99,8 @@ namespace Rpg.Client.GameScreens.Upgrade
                         nameFont: _uiContentStorage.GetTitlesFont(),
                         mainFont: _uiContentStorage.GetMainFont());
                     _characterPanels.Add(panel);
+                    
+                    panel.SelectCharacter += Panel_SelectCharacter;
                 }
 
                 _isInitialized = true;
@@ -91,6 +112,14 @@ namespace Rpg.Client.GameScreens.Upgrade
                     characterPanel.Update(ResolutionIndependentRenderer);
                 }
             }
+        }
+
+        private void Panel_SelectCharacter(object? sender, SelectCharacterEventArgs e)
+        {
+            var screenService = Game.Services.GetService<ScreenService>();
+            screenService.Selected = e.Character;
+            
+            ScreenManager.ExecuteTransition(this, ScreenTransition.CharacterDetails);
         }
 
         protected override IList<ButtonBase> CreateMenu()
