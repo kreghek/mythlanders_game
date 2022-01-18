@@ -256,4 +256,7 @@
   <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
     <value>Monster danger decreased to {0} (on -50%)</value>
   </data>
+  <data name="InfoButtonTitle" xml:space="preserve">
+    <value>Info</value>
+  </data>
 </root>

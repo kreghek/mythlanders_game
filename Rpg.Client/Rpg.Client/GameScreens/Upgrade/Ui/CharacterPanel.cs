@@ -34,7 +34,7 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
             _nameFont = nameFont;
             _mainFont = mainFont;
 
-            _infoButton = new ResourceTextButton("Info", buttonTexture, buttonFont);
+            _infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont);
             _infoButton.OnClick += (_, _) =>
             {
                 SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));

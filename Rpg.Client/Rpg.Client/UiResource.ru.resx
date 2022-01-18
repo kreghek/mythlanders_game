@@ -270,4 +270,7 @@
   <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
     <value>Опасность монстров уменьшена до {0} (на -50%)</value>
   </data>
+  <data name="InfoButtonTitle" xml:space="preserve">
+    <value>Инфо</value>
+  </data>
 </root>

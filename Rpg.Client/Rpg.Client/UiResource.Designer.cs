@@ -295,6 +295,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string InfoButtonTitle {
+            get {
+                return ResourceManager.GetString("InfoButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is training only.
         /// </summary>
         internal static string IsTrainingOnly {
