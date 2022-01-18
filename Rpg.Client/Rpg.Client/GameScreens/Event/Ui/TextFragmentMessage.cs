@@ -1,3 +1,5 @@
+using System.Text;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,11 +18,14 @@ namespace Rpg.Client.GameScreens.Event.Ui
         {
             _font = font;
             _eventTextFragment = eventTextFragment;
+            
+            _localizedText = GetLocalizedText(_eventTextFragment.Text);
+            _textToPrintBuilder = new StringBuilder();
         }
 
         public Vector2 CalculateSize()
         {
-            var localizedText = GetLocalizedText(_eventTextFragment.Text);
+            var localizedText = GetLocalizedText(_textToPrintBuilder.ToString());
             var size = _font.MeasureString(localizedText);
             // TODO use margin
             return size + Vector2.One * (2 * 4);
@@ -33,9 +38,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            var localizedText = GetLocalizedText(_eventTextFragment.Text);
-
-            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2() + Vector2.UnitX * 2,
+            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(), clientRect.Location.ToVector2() + Vector2.UnitX * 2,
                 Color.SaddleBrown);
         }
 
@@ -44,5 +47,33 @@ namespace Rpg.Client.GameScreens.Event.Ui
             // The text in the event is localized from resources yet.
             return text;
         }
+
+        private double _characterCounter;
+        private readonly string _localizedText;
+        private readonly StringBuilder _textToPrintBuilder;
+        private int _index;
+
+        public void Update(GameTime gameTime)
+        {
+            if (_characterCounter <= 0.01f)
+            {
+                _characterCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (_index < _localizedText.Length - 1)
+                {
+                    _textToPrintBuilder.Append(_localizedText[_index]);
+                    _characterCounter = 0;
+                    _index++;
+                }
+                else
+                {
+                    IsComplete = true;
+                }
+            }
+        }
+
+        public bool IsComplete { get; private set; }
     }
 }

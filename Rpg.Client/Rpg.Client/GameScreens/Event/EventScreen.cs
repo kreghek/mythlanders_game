@@ -104,7 +104,7 @@ namespace Rpg.Client.GameScreens.Event
 
             DrawGameObjects(spriteBatch);
 
-            DrawHud(spriteBatch);
+            DrawHud(spriteBatch, contentRectangle);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -130,7 +130,7 @@ namespace Rpg.Client.GameScreens.Event
             {
                 UpdateBackgroundObjects(gameTime);
 
-                UpdateHud();
+                UpdateHud(gameTime);
             }
         }
 
@@ -152,7 +152,7 @@ namespace Rpg.Client.GameScreens.Event
                 var position3d = new Vector3(position, 0);
 
                 var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
                 var matrix = Matrix.CreateTranslation(translationVector + position3d)
                              * Matrix.CreateScale(scaleVector);
@@ -238,7 +238,7 @@ namespace Rpg.Client.GameScreens.Event
             spriteBatch.End();
         }
 
-        private void DrawHud(SpriteBatch spriteBatch)
+        private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
@@ -250,17 +250,18 @@ namespace Rpg.Client.GameScreens.Event
 
             var textRect = new Rectangle(0, 0, 400, 350);
             var textContentRect = new Rectangle(
-                _resolutionIndependentRenderer.VirtualBounds.Center.X - textRect.Center.X,
-                _resolutionIndependentRenderer.VirtualBounds.Center.Y - textRect.Center.Y,
+                contentRectangle.Center.X - textRect.Center.X,
+                contentRectangle.Center.Y - textRect.Center.Y,
                 textRect.Width,
                 textRect.Height);
 
             var startPosition = textContentRect.Location.ToVector2();
             var lastBottomPosition = startPosition;
 
-            for (var fragmentIndex = 0; fragmentIndex < _textFragments.Count; fragmentIndex++)
+            for (var fragmentIndex = 0; fragmentIndex <= _currentFragmentIndex; fragmentIndex++)
             {
                 var textFragmentControl = _textFragments[fragmentIndex];
+
                 var textFragmentSize = textFragmentControl.CalculateSize();
                 textFragmentControl.Rect = new Rectangle(lastBottomPosition.ToPoint(),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
@@ -269,15 +270,18 @@ namespace Rpg.Client.GameScreens.Event
                 lastBottomPosition = new Vector2(textContentRect.X, textFragmentControl.Rect.Bottom + TEXT_MARGIN);
             }
 
-            var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y);
-
-            var index = 0;
-            foreach (var button in _buttons)
+            if (_currentFragmentIndex == _textFragments.Count - 1)
             {
-                var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
-                var optionButtonSize = new Point(100, 25);
-                button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
-                button.Draw(spriteBatch);
+                var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y);
+
+                var index = 0;
+                foreach (var button in _buttons)
+                {
+                    var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
+                    var optionButtonSize = new Point(100, 25);
+                    button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
+                    button.Draw(spriteBatch);
+                }
             }
 
             spriteBatch.End();
@@ -359,12 +363,27 @@ namespace Rpg.Client.GameScreens.Event
             }
         }
 
-        private void UpdateHud()
+        private void UpdateHud(GameTime gameTime)
         {
-            foreach (var button in _buttons)
+            var currentFragment = _textFragments[_currentFragmentIndex];
+            currentFragment.Update(gameTime);
+            if (currentFragment.IsComplete)
             {
-                button.Update(_resolutionIndependentRenderer);
+                if (_currentFragmentIndex < _textFragments.Count - 1)
+                {
+                    _currentFragmentIndex++;
+                }
+            }
+
+            if (_currentFragmentIndex == _textFragments.Count - 1)
+            {
+                foreach (var button in _buttons)
+                {
+                    button.Update(_resolutionIndependentRenderer);
+                }
             }
         }
+
+        private int _currentFragmentIndex;
     }
 }

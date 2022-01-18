@@ -65,6 +65,13 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _message.Draw(spriteBatch);
         }
 
+        public void Update(GameTime gameTime)
+        {
+            _message.Update(gameTime);
+        }
+
+        public bool IsComplete => _message.IsComplete;
+
         private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
         {
             var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
@@ -83,16 +90,18 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         private static string? GetSpeaker(UnitName speaker)
         {
-            switch (speaker)
+            if (speaker == UnitName.Environment)
             {
-                case UnitName.Environment:
-                    return null;
-                case UnitName.Undefined:
-                    Debug.Fail("Speaker is undefined.");
-                    return null;
-                default:
-                    return GameObjectHelper.GetLocalized(speaker);
+                return null;
             }
+
+            if (speaker == UnitName.Undefined)
+            {
+                Debug.Fail("Speaker is undefined.");
+                return null;
+            }
+
+            return GameObjectHelper.GetLocalized(speaker);
         }
     }
 }
