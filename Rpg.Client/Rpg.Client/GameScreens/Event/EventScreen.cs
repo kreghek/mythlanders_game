@@ -50,12 +50,24 @@ namespace Rpg.Client.GameScreens.Event
         public EventScreen(EwarGame game) : base(game)
         {
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-            soundtrackManager.PlayMapTrack();
-
-            _camera = Game.Services.GetService<Camera2D>();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = _globeProvider.Globe;
+
+            _currentDialogNode = _globe.CurrentEventNode ??
+                                 throw new InvalidOperationException(
+                                     "The screen was started before CurrentEventNode was assigned.");
+
+            if (_currentDialogNode.CombatPosition == EventPosition.BeforeCombat)
+            {
+                soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
+            }
+            else
+            {
+                soundtrackManager.PlayMapTrack();
+            }
+
+            _camera = Game.Services.GetService<Camera2D>();
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
@@ -67,10 +79,6 @@ namespace Rpg.Client.GameScreens.Event
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
-
-            _currentDialogNode = _globe.CurrentEventNode ??
-                                 throw new InvalidOperationException(
-                                     "The screen was started before CurrentEventNode was assigned.");
 
             _buttons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
@@ -305,7 +313,7 @@ namespace Rpg.Client.GameScreens.Event
 
                 var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
-                    textFragment, _gameObjectContentStorage.GetUnitPortrains());
+                    textFragment, _gameObjectContentStorage.GetUnitPortrains(), _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
                 _textFragments.Add(textFragmentControl);
             }
 

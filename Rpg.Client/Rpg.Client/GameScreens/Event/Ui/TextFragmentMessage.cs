@@ -1,6 +1,7 @@
 using System.Text;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -11,14 +12,15 @@ namespace Rpg.Client.GameScreens.Event.Ui
     internal sealed class TextFragmentMessage : ControlBase
     {
         private readonly EventTextFragment _eventTextFragment;
+        private readonly SoundEffect _textSoundEffect;
         private readonly SpriteFont _font;
 
-        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment) :
+        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) :
             base(texture)
         {
             _font = font;
             _eventTextFragment = eventTextFragment;
-            
+            _textSoundEffect = textSoundEffect;
             _localizedText = GetLocalizedText(_eventTextFragment.Text);
             _textToPrintBuilder = new StringBuilder();
         }
@@ -52,10 +54,13 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly string _localizedText;
         private readonly StringBuilder _textToPrintBuilder;
         private int _index;
+        private double _delayCounter;
+        private SoundEffectInstance? _currentSound;
 
         public void Update(GameTime gameTime)
         {
-            if (_characterCounter <= 0.01f)
+            var duration = _eventTextFragment.Speaker == UnitName.Environment ? 0.01f : 0.01f;
+            if (_characterCounter <= duration)
             {
                 _characterCounter += gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -63,14 +68,33 @@ namespace Rpg.Client.GameScreens.Event.Ui
             {
                 if (_index < _localizedText.Length - 1)
                 {
+                    PlayTextSound();
+
                     _textToPrintBuilder.Append(_localizedText[_index]);
                     _characterCounter = 0;
                     _index++;
                 }
                 else
                 {
-                    IsComplete = true;
+                    if (_delayCounter <= 1)
+                    {
+                        _delayCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                    else
+                    {
+                        IsComplete = true;
+                    }
                 }
+            }
+        }
+
+        private void PlayTextSound()
+        {
+            if (_currentSound is null || _currentSound.State == SoundState.Stopped)
+            {
+                _currentSound = _textSoundEffect.CreateInstance();
+                _currentSound.Volume = 0.5f;
+                _currentSound.Play();
             }
         }
 

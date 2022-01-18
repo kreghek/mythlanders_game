@@ -233,6 +233,13 @@ namespace Rpg.Client.GameScreens
             _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
             _equipmentIcons = contentManager.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons");
 
+            _textSoundDict = new Dictionary<UnitName, SoundEffect> {
+                { UnitName.Environment, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Environment") },
+                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
+                { UnitName.Hq, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hq") },
+                { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
+            };
+
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
                 var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
@@ -325,6 +332,18 @@ namespace Rpg.Client.GameScreens
             }
 
             return _skillSoundDict[GameObjectSoundType.WolfBite];
+        }
+
+        private IDictionary<UnitName, SoundEffect> _textSoundDict;
+
+        internal SoundEffect GetTextSoundEffect(UnitName unitName)
+        {
+            if (!_textSoundDict.TryGetValue(unitName, out var soundEffect))
+            {
+                return _textSoundDict[UnitName.Berimir];
+            }
+
+            return soundEffect;
         }
 
         internal Texture2D GetUnitPortrains()
