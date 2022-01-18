@@ -33,6 +33,11 @@ namespace Rpg.Client.Engine
         {
             return _buttonTexture;
         }
+        
+        public Texture2D GetPanelTexture()
+        {
+            return _buttonTexture;
+        }
 
         public Texture2D GetSpeechTexture()
         {

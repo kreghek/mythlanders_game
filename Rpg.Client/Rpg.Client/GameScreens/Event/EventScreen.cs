@@ -95,7 +95,7 @@ namespace Rpg.Client.GameScreens.Event
             _backgroundTexture.SetData(data);
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             if (!_isInitialized)
             {
@@ -132,6 +132,11 @@ namespace Rpg.Client.GameScreens.Event
 
                 UpdateHud();
             }
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            return ArraySegment<ButtonBase>.Empty;
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,

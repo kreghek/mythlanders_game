@@ -10,7 +10,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Upgrade
 {
-    internal sealed class UpgradeScreen : GameScreenBase
+    internal sealed class UpgradeScreen : GameScreenWithMenuBase
     {
         private const int CHARACTER_COUNT = 12;
         private const int PANEL_WIDTH = 128;
@@ -30,7 +30,7 @@ namespace Rpg.Client.GameScreens.Upgrade
             _characterPanels = new List<CharacterPanel>();
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             if (!_isInitialized)
             {
@@ -51,7 +51,12 @@ namespace Rpg.Client.GameScreens.Upgrade
                 var panel = _characterPanels[i];
                 var col = i % CHARACTER_COUNT;
                 var row = i / CHARACTER_COUNT;
-                panel.Rect = new Rectangle(new Point(col * (PANEL_WIDTH + 5), row * (PANEL_HEIGHT + 5)), new Point(PANEL_WIDTH, PANEL_HEIGHT));
+                var panelOffset = new Point(col * (PANEL_WIDTH + 5), row * (PANEL_HEIGHT + 5));
+                
+                panel.Rect =
+                    new Rectangle(
+                        contentRect.Location + panelOffset,
+                        new Point(PANEL_WIDTH, PANEL_HEIGHT));
                 panel.Draw(spriteBatch);
             }
 
@@ -60,12 +65,14 @@ namespace Rpg.Client.GameScreens.Upgrade
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+            
             if (!_isInitialized)
             {
                 foreach (var character in _globeProvider.Globe.Player.GetAll())
                 {
                     var panel = new CharacterPanel(
-                        texture: _uiContentStorage.GetButtonTexture(),
+                        texture: _uiContentStorage.GetPanelTexture(),
                         character: character,
                         buttonTexture: _uiContentStorage.GetButtonTexture(),
                         buttonFont: _uiContentStorage.GetTitlesFont(),
@@ -84,6 +91,18 @@ namespace Rpg.Client.GameScreens.Upgrade
                     characterPanel.Update(ResolutionIndependentRenderer);
                 }
             }
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle),
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            backButton.OnClick += (_, _) =>
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            };
+
+            return new ButtonBase[] { backButton };
         }
     }
 }

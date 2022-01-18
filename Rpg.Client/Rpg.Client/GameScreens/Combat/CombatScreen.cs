@@ -113,7 +113,7 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             _resolutionIndependentRenderer.BeginDraw();
 
@@ -162,6 +162,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 UpdateCombatFinished(gameTime);
             }
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            return ArraySegment<ButtonBase>.Empty;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
