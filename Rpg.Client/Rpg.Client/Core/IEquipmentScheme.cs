@@ -5,6 +5,7 @@ namespace Rpg.Client.Core
     internal interface IEquipmentScheme
     {
         public EquipmentItemType RequiredResourceToLevelUp { get; }
+
         EquipmentSid Sid { get; }
 
         float GetDamageMultiplier(SkillSid skillSid, int level)
