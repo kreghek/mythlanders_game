@@ -95,7 +95,8 @@ namespace Rpg.Client.GameScreens.Party
             
             if (!_isInitialized)
             {
-                foreach (var character in _globeProvider.Globe.Player.GetAll())
+                var characters = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
+                foreach (var character in characters)
                 {
                     var resources = new CharacterPanelResources
                     (

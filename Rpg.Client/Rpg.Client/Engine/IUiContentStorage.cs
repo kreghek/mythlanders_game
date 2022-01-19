@@ -20,11 +20,8 @@ namespace Rpg.Client.Engine
         Texture2D GetEnvSpeechTexture();
         SpriteFont GetMainFont();
         IEnumerable<Song> GetMapSong();
-
         Texture2D[] GetModalBottomTextures();
-
         Texture2D GetModalShadowTexture();
-
         Texture2D[] GetModalTopTextures();
         Texture2D GetPanelTexture();
         Texture2D GetSpeechTexture();

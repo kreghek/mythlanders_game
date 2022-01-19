@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
-    internal class PerkInfoPanel: ControlBase
+    internal class PerkInfoPanel: PanelBase
     {
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
@@ -24,7 +23,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             return Color.White;
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+        protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var sb = new List<string>();
             
@@ -45,7 +44,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 var line = sb[statIndex];
                 spriteBatch.DrawString(_mainFont, line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
+                    new Vector2(contentRect.Left, contentRect.Top + statIndex * 22), Color.SaddleBrown);
             }
         }
     }

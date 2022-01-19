@@ -13,6 +13,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 {
     internal sealed class CharacterDetailsScreen : GameScreenWithMenuBase
     {
+        private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
         private readonly ScreenService _screenService;
@@ -41,7 +42,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             _unitGraphics = new UnitGraphics(_screenService.Selected, new Vector2(), gameObjectContentStorage);
 
-            InitSlotAssignmentButtons(_screenService.Selected, _globeProvider.Globe.Player);
+            InitActionButtons(_screenService.Selected, _globeProvider.Globe.Player);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -94,7 +95,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 const int BUTTON_HEIGHT = 20;
 
                 var button = _buttonList[buttonIndex];
-                const int BUTTON_MARGIN = 5;
+                const int BUTTON_MARGIN = GRID_CELL_MARGIN;
                 var offset = new Point(0, (BUTTON_HEIGHT + BUTTON_MARGIN) * buttonIndex);
                 var panelLocation = new Point(actionButtonRect.Center.X - BUTTON_WIDTH / 2, actionButtonRect.Top);
                 var buttonSize = new Point(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -109,7 +110,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             var gridColumnWidth = contentRect.Width / 3;
             var gridRowHeight = contentRect.Height / 2;
             var position = new Point(contentRect.Left + gridColumnWidth * col, contentRect.Top + gridRowHeight * row);
-            var size = new Point(gridColumnWidth, gridRowHeight);
+            var size = new Point(gridColumnWidth - GRID_CELL_MARGIN, gridRowHeight - GRID_CELL_MARGIN);
             return new Rectangle(position, size);
         }
 
@@ -125,9 +126,11 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             _unitGraphics.Update(gameTime);
         }
 
-        private void InitSlotAssignmentButtons(Unit character, Player player)
+        private void InitActionButtons(Unit character, Player player)
         {
             _buttonList.Clear();
+
+            InitUpgradeButtons(character, player);
 
             var slotButton = new TextButton("Formation",
                         _uiContentStorage.GetButtonTexture(),
@@ -140,8 +143,6 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 var formationModal = new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
                 AddModal(formationModal, isLate: false);
             };
-
-            InitUpgradeButtons(character, player);
         }
 
         private void InitUpgradeButtons(Unit character, Player player)
@@ -157,7 +158,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
                         character.LevelUpXpAmount;
                     character.LevelUp();
-                    InitSlotAssignmentButtons(character, player);
+                    InitActionButtons(character, player);
                 };
 
                 _buttonList.Add(levelUpButton);
@@ -176,7 +177,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     {
                         resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
                         equipment.LevelUp();
-                        InitSlotAssignmentButtons(character, player);
+                        InitActionButtons(character, player);
                     };
                     _buttonList.Add(levelUpButton);
                 }

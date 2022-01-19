@@ -118,7 +118,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
 
             // In the first biome the player can use only first 3 slots.
             // There is no ability to split characters on tank line and dd+support.
-            return freeSlots.Where(x => !x.IsTankLine);
+            return freeSlots.Where(x => x.IsTankLine);
         }
     }
 }

@@ -7,26 +7,26 @@ namespace Rpg.Client.Engine
     {
         private const int CONTENT_MARGIN = 4;
         private const int CORNER_SIZE = 15;
-        private const int CENTER_SIZE = (16 - CORNER_SIZE) * 2;
+        private const int INNER_SIZE = (16 - CORNER_SIZE) * 2;
 
         private static readonly Rectangle[,] _sourceRects =
         {
             {
                 new(0, 0, CORNER_SIZE, CORNER_SIZE),
-                new(CORNER_SIZE, 0, CENTER_SIZE, CORNER_SIZE),
-                new(CORNER_SIZE + CENTER_SIZE, 0, CORNER_SIZE, CORNER_SIZE)
+                new(CORNER_SIZE, 0, INNER_SIZE, CORNER_SIZE),
+                new(CORNER_SIZE + INNER_SIZE, 0, CORNER_SIZE, CORNER_SIZE)
             },
 
             {
-                new(0, CORNER_SIZE, CORNER_SIZE, CENTER_SIZE),
+                new(0, CORNER_SIZE, CORNER_SIZE, INNER_SIZE),
                 new(CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, CORNER_SIZE),
-                new(CENTER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
+                new(INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
             },
 
             {
-                new(0, CENTER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE),
-                new(CORNER_SIZE, CENTER_SIZE + CORNER_SIZE, CENTER_SIZE, CORNER_SIZE),
-                new(CENTER_SIZE + CORNER_SIZE, CENTER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
+                new(0, INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE),
+                new(CORNER_SIZE, INNER_SIZE + CORNER_SIZE, INNER_SIZE, CORNER_SIZE),
+                new(INNER_SIZE + CORNER_SIZE, INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
             }
         };
 

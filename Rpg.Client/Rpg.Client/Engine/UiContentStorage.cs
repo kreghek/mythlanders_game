@@ -15,6 +15,7 @@ namespace Rpg.Client.Engine
         private (BiomeType, Song)[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D? _buttonTexture;
+        private Texture2D? _panelTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
@@ -39,7 +40,7 @@ namespace Rpg.Client.Engine
 
         public Texture2D GetPanelTexture()
         {
-            return _buttonTexture;
+            return _panelTexture;
         }
 
         public Texture2D GetSpeechTexture()
@@ -85,6 +86,7 @@ namespace Rpg.Client.Engine
         public void LoadContent(ContentManager contentManager)
         {
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
+            _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
             _mainFont = contentManager.Load<SpriteFont>("Fonts/Main");
             _titlesFont = contentManager.Load<SpriteFont>("Fonts/Titles");
