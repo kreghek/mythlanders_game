@@ -13,9 +13,9 @@ namespace Rpg.Client.ScreenManagement
     /// </summary>
     internal abstract class GameScreenBase : EwarRenderableBase, IScreen
     {
-        private readonly Camera2D _camera;
+        protected Camera2D Camera { get; }
         private readonly IList<IModalWindow> _modals;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        protected ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
 
         public GameScreenBase(EwarGame game)
         {
@@ -23,8 +23,8 @@ namespace Rpg.Client.ScreenManagement
 
             ScreenManager = game.Services.GetService<IScreenManager>();
 
-            _camera = Game.Services.GetService<Camera2D>();
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
+            Camera = Game.Services.GetService<Camera2D>();
+            ResolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
             _modals = new List<IModalWindow>();
         }
@@ -60,7 +60,7 @@ namespace Rpg.Client.ScreenManagement
             {
                 if (modal.IsVisible)
                 {
-                    modal.Update(gameTime, _resolutionIndependentRenderer);
+                    modal.Update(gameTime, ResolutionIndependentRenderer);
                     break;
                 }
             }
@@ -74,7 +74,7 @@ namespace Rpg.Client.ScreenManagement
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
+                transformMatrix: Camera.GetViewTransformationMatrix());
 
             foreach (var modal in _modals)
             {

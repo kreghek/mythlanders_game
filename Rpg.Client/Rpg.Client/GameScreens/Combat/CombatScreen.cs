@@ -113,7 +113,7 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             _resolutionIndependentRenderer.BeginDraw();
 
@@ -162,6 +162,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 UpdateCombatFinished(gameTime);
             }
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            return ArraySegment<ButtonBase>.Empty;
         }
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
@@ -545,10 +550,20 @@ namespace Rpg.Client.GameScreens.Combat
         {
             if (_globeNode.CombatSequence is not null)
             {
-                var combatCountRemains = _globeNode.CombatSequence.Combats.Count;
+                var sumSequenceLength = _globeNode.CombatSequence.Combats.Count +
+                                       _globeNode.CombatSequence.CompletedCombats.Count;
+                
+                var completeCombatCount = _globeNode.CombatSequence.CompletedCombats.Count + 1;
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"Combats remains: {combatCountRemains}",
-                    new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5), Color.White);
+                var position = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5);
+                
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    string.Format(UiResource.CombatProgressTemplate, completeCombatCount, sumSequenceLength),
+                    position, Color.White);
+                
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    string.Format(UiResource.MonsterDangerTemplate, _combat.CombatSource.Level),
+                    position + new Vector2(0, 10), Color.White);
             }
         }
 

@@ -13,6 +13,6 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<CombatSource> Combats { get; set; }
 
-        public IList<CombatSource> CompletedCombats { get; set; }
+        public IList<CombatSource> CompletedCombats { get; }
     }
 }

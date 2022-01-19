@@ -35,8 +35,6 @@ namespace Rpg.Client.GameScreens.Biome
 
         private readonly IList<LocationGameObject> _locationObjectList;
 
-        private readonly List<ButtonBase> _menuButtons;
-
         private readonly Random _random;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -48,12 +46,13 @@ namespace Rpg.Client.GameScreens.Biome
         private TextHint? _locationInfoHint;
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
+        private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-            var gameSettings = Game.Services.GetService<GameSettings>();
+            _gameSettings = Game.Services.GetService<GameSettings>();
 
             _random = new Random();
 
@@ -75,36 +74,6 @@ namespace Rpg.Client.GameScreens.Biome
 
             _locationObjectList = new List<LocationGameObject>();
 
-            _menuButtons = new List<ButtonBase>();
-            if (gameSettings.Mode == GameMode.Full)
-            {
-                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-                mapButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                };
-                _menuButtons.Add(mapButton);
-
-                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-                partyModalButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
-                };
-                _menuButtons.Add(partyModalButton);
-
-                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle(0, 0, 100, 25));
-                bestiaryButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
-                };
-                _menuButtons.Add(bestiaryButton);
-            }
-
             _clouds = new Cloud[CLOUD_COUNT];
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
             {
@@ -119,7 +88,7 @@ namespace Rpg.Client.GameScreens.Biome
             _backgroundTexture.SetData(data);
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             _resolutionIndependenceRenderer.BeginDraw();
 
@@ -138,9 +107,9 @@ namespace Rpg.Client.GameScreens.Biome
                 return;
             }
 
-            DrawObjects(spriteBatch);
+            DrawObjects(spriteBatch, contentRect);
 
-            DrawHud(spriteBatch);
+            DrawHud(spriteBatch, contentRect);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -242,11 +211,41 @@ namespace Rpg.Client.GameScreens.Biome
                     }
                 }
             }
+        }
 
-            foreach (var button in _menuButtons)
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            var menuButtons = new List<ButtonBase>();
+            if (_gameSettings.Mode == GameMode.Full)
             {
-                button.Update(_resolutionIndependenceRenderer);
+                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                mapButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                };
+                menuButtons.Add(mapButton);
+
+                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                partyModalButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                };
+                menuButtons.Add(partyModalButton);
+
+                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                bestiaryButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
+                };
+                menuButtons.Add(bestiaryButton);
             }
+
+            return menuButtons;
         }
 
         private void AutoCombatDelegate(GlobeNode _)
@@ -343,45 +342,49 @@ namespace Rpg.Client.GameScreens.Biome
             return hint;
         }
 
-        private void DrawBiomeLevel(SpriteBatch spriteBatch)
+        private void DrawBiomeLevel(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var biomeLevelText = $"{UiResource.BiomeLevelText}: {_biome.Level}";
             var textSize = _uiContentStorage.GetMainFont().MeasureString(biomeLevelText);
             const int BIOME_LEVEL_TOP_MARGIN = 5;
             var biomeLevelTextPosition = new Vector2(
-                _resolutionIndependenceRenderer.VirtualWidth * 0.5f - textSize.X * 0.5f,
-                BIOME_LEVEL_TOP_MARGIN);
+                contentRect.Width * 0.5f - textSize.X * 0.5f,
+                contentRect.Top + BIOME_LEVEL_TOP_MARGIN);
 
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeLevelText,
                 biomeLevelTextPosition, Color.White);
         }
 
-        private void DrawCurrentGoalEvent(SpriteBatch spriteBatch)
+        private void DrawCurrentGoalEvent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (_globe.Player.CurrentGoalEvent is not null)
+            if (_globe.Player.CurrentGoalEvent is null)
             {
-                var position = new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 100, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.Title, position,
-                    Color.White);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.GoalDescription,
-                    position + new Vector2(0, 10), Color.White);
+                return;
             }
+
+            var position = new Vector2(contentRect.Right - 300, contentRect.Top);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.Title, position,
+                Color.White);
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.GoalDescription,
+                position + new Vector2(0, 10), Color.White);
         }
 
-        private void DrawGlobalEvents(SpriteBatch spriteBatch)
+        private void DrawGlobalEvents(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var globeEventList = _globe.GlobeEvents.OrderBy(x => x.Title).ToArray();
+            var position = new Vector2(contentRect.Right - 300, contentRect.Top);
             for (var i = 0; i < globeEventList.Length; i++)
             {
                 var globeEvent = globeEventList[i];
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), globeEvent.Title,
-                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 200, i * 40), Color.White);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{globeEvent.CombatsLeft} combats left",
-                    new Vector2(_resolutionIndependenceRenderer.VirtualWidth - 200, i * 40 + 20), Color.White);
+                    position + new Vector2(0, i * 40), Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{globeEvent.CombatsLeft} combats left",
+                    position + new Vector2(0, i * 40 + 20), Color.White);
             }
         }
 
-        private void DrawHud(SpriteBatch spriteBatch)
+        private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
@@ -391,19 +394,11 @@ namespace Rpg.Client.GameScreens.Biome
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            var buttonIndex = 0;
-            foreach (var button in _menuButtons)
-            {
-                button.Rect = new Rectangle(5, 5 + buttonIndex * 25, 100, 20);
-                button.Draw(spriteBatch);
-                buttonIndex++;
-            }
+            DrawBiomeLevel(spriteBatch, contentRect);
 
-            DrawBiomeLevel(spriteBatch);
+            DrawCurrentGoalEvent(spriteBatch, contentRect);
 
-            DrawCurrentGoalEvent(spriteBatch);
-
-            DrawGlobalEvents(spriteBatch);
+            DrawGlobalEvents(spriteBatch, contentRect);
 
             DrawLocationHintIfHover(spriteBatch);
 
@@ -421,7 +416,7 @@ namespace Rpg.Client.GameScreens.Biome
             }
         }
 
-        private void DrawObjects(SpriteBatch spriteBatch)
+        private void DrawObjects(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var spriteList = new List<Sprite>();
             foreach (var location in _locationObjectList)

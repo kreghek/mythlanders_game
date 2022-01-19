@@ -10,6 +10,7 @@
         Combat,
         Bestiary,
         EndGame,
-        Credits
+        Credits,
+        CharacterDetails
     }
 }

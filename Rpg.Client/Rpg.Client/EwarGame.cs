@@ -245,6 +245,8 @@ namespace Rpg.Client
 
             var bgoFactorySelector = new BackgroundObjectFactorySelector();
             Services.AddService(bgoFactorySelector);
+
+            Services.AddService(new ScreenService());
         }
     }
 }

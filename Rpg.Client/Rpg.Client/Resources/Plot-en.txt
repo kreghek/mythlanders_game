@@ -75,10 +75,10 @@
         }
       ]
     },
+    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра.",
     "Location": "Swamp",
     "Name": "В поисках мудрости",
-    "Sid": "MainSlavic2",
-    "GoalDescription": "Найти старый исследовательский центр и спросить учёных про артефакт из моснтра."
+    "Sid": "MainSlavic2"
   },
   {
     "AfterCombatNode": {
@@ -984,6 +984,7 @@
     "Sid": "MainChaos3"
   },
   {
+    "AfterCombatAftermath": "BerimirDeepPreying",
     "AfterCombatNode": {
       "Fragments": [
         {
@@ -995,7 +996,6 @@
         }
       ]
     },
-    "AfterCombatAftermath": "BerimirDeepPreying",
     "BeforeCombatNode": {
       "Fragments": [
         {
@@ -1005,10 +1005,10 @@
     },
     "Location": "Thicket",
     "Name": "Великий кузнец",
-    "Sid": "SideSlavic1",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic1"
   },
   {
     "AfterCombatNode": {
@@ -1032,10 +1032,10 @@
     },
     "Location": "Swamp",
     "Name": "Точность",
-    "Sid": "SideSlavic2",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic2"
   },
   {
     "AfterCombatNode": {
@@ -1054,10 +1054,10 @@
     },
     "Location": "Mines",
     "Name": "Золотые яйца",
-    "Sid": "SideSlavic3",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic3"
   },
   {
     "AfterCombatNode": {
@@ -1077,10 +1077,10 @@
     },
     "Location": "DeathPath",
     "Name": "Пустой",
-    "Sid": "SideSlavic4",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic4"
   },
   {
     "AfterCombatNode": {
@@ -1122,10 +1122,10 @@
     },
     "Location": "Battleground",
     "Name": "Бюрократия",
-    "Sid": "SideSlavic5",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic5"
   },
   {
     "AfterCombatNode": {
@@ -1143,9 +1143,9 @@
     },
     "Location": "Mines",
     "Name": "Другие времена",
-    "Sid": "SideSlavic6",
     "ParentSids": [
       "MainSlavic3"
-    ]
+    ],
+    "Sid": "SideSlavic6"
   }
 ]

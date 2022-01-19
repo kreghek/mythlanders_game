@@ -162,25 +162,25 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         }
 
         private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
-            Vector2 toolTipPosition, GlobeNodeGameObject node)
+            Vector2 rewardBlockPosition, GlobeNodeGameObject node)
         {
             if (node.GlobeNode.CombatSequence is null)
             {
                 // No combat - no rewards
                 return;
             }
-
+            
             // TODO Display icons
 
             DrawSummaryXpAwardLabel(
                 spriteBatch,
                 node,
-                toolTipPosition + new Vector2(5, 55));
+                rewardBlockPosition + new Vector2(5, 55));
 
             DrawEquipmentRewards(
                 spriteBatch: spriteBatch,
                 nodeGameObject: nodeGameObject,
-                toolTipPosition: toolTipPosition);
+                toolTipPosition: rewardBlockPosition);
         }
 
         private void DrawEquipmentRewards(SpriteBatch spriteBatch,

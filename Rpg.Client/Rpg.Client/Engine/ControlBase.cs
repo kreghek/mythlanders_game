@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal abstract class ControlBase
+    public abstract class ControlBase
     {
         private const int CONTENT_MARGIN = 4;
         private const int CORNER_SIZE = 15;

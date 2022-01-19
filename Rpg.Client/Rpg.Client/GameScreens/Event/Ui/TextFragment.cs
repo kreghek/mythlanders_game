@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -17,16 +18,18 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly string? _localizedSpeakerName;
         private readonly TextFragmentMessage _message;
         private readonly Texture2D _portraitsTexture;
+        private readonly SoundEffect _textSoundEffect;
         private readonly UnitName _speaker;
 
         public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
-            Texture2D portraitsTexture) : base(texture)
+            Texture2D portraitsTexture, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) : base(texture)
         {
             _font = font;
             _portraitsTexture = portraitsTexture;
+            _textSoundEffect = textSoundEffect;
             _speaker = eventTextFragment.Speaker;
             _localizedSpeakerName = GetSpeaker(_speaker);
-            _message = new TextFragmentMessage(texture, font, eventTextFragment);
+            _message = new TextFragmentMessage(texture, font, eventTextFragment, _textSoundEffect);
         }
 
         public Vector2 CalculateSize()
@@ -65,6 +68,13 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _message.Draw(spriteBatch);
         }
 
+        public void Update(GameTime gameTime)
+        {
+            _message.Update(gameTime);
+        }
+
+        public bool IsComplete => _message.IsComplete;
+
         private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
         {
             var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(_speaker);
@@ -83,16 +93,18 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         private static string? GetSpeaker(UnitName speaker)
         {
-            switch (speaker)
+            if (speaker == UnitName.Environment)
             {
-                case UnitName.Environment:
-                    return null;
-                case UnitName.Undefined:
-                    Debug.Fail("Speaker is undefined.");
-                    return null;
-                default:
-                    return GameObjectHelper.GetLocalized(speaker);
+                return null;
             }
+
+            if (speaker == UnitName.Undefined)
+            {
+                Debug.Fail("Speaker is undefined.");
+                return null;
+            }
+
+            return GameObjectHelper.GetLocalized(speaker);
         }
     }
 }

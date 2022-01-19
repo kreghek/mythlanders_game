@@ -217,6 +217,36 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/WolfHitEffect.mp3
 
+#begin Audio/GameObjects/Text/Berimir.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Text/Berimir.wav
+
+#begin Audio/GameObjects/Text/Berimir.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Text/Berimir.wav
+
+#begin Audio/GameObjects/Text/Environment.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Text/Environment.wav
+
+#begin Audio/GameObjects/Text/Hawk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Text/Hawk.wav
+
+#begin Audio/GameObjects/Text/Hq.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Text/Hq.wav
+
 #begin Audio/Ui/ButtonClick.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

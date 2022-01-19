@@ -1,4 +1,7 @@
+using System.Text;
+
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
@@ -9,18 +12,22 @@ namespace Rpg.Client.GameScreens.Event.Ui
     internal sealed class TextFragmentMessage : ControlBase
     {
         private readonly EventTextFragment _eventTextFragment;
+        private readonly SoundEffect _textSoundEffect;
         private readonly SpriteFont _font;
 
-        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment) :
+        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) :
             base(texture)
         {
             _font = font;
             _eventTextFragment = eventTextFragment;
+            _textSoundEffect = textSoundEffect;
+            _localizedText = GetLocalizedText(_eventTextFragment.Text);
+            _textToPrintBuilder = new StringBuilder();
         }
 
         public Vector2 CalculateSize()
         {
-            var localizedText = GetLocalizedText(_eventTextFragment.Text);
+            var localizedText = GetLocalizedText(_textToPrintBuilder.ToString());
             var size = _font.MeasureString(localizedText);
             // TODO use margin
             return size + Vector2.One * (2 * 4);
@@ -33,9 +40,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            var localizedText = GetLocalizedText(_eventTextFragment.Text);
-
-            spriteBatch.DrawString(_font, localizedText, clientRect.Location.ToVector2() + Vector2.UnitX * 2,
+            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(), clientRect.Location.ToVector2() + Vector2.UnitX * 2,
                 Color.SaddleBrown);
         }
 
@@ -44,5 +49,55 @@ namespace Rpg.Client.GameScreens.Event.Ui
             // The text in the event is localized from resources yet.
             return text;
         }
+
+        private double _characterCounter;
+        private readonly string _localizedText;
+        private readonly StringBuilder _textToPrintBuilder;
+        private int _index;
+        private double _delayCounter;
+        private SoundEffectInstance? _currentSound;
+
+        public void Update(GameTime gameTime)
+        {
+            var duration = _eventTextFragment.Speaker == UnitName.Environment ? 0.01f : 0.01f;
+            if (_characterCounter <= duration)
+            {
+                _characterCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (_index < _localizedText.Length - 1)
+                {
+                    PlayTextSound();
+
+                    _textToPrintBuilder.Append(_localizedText[_index]);
+                    _characterCounter = 0;
+                    _index++;
+                }
+                else
+                {
+                    if (_delayCounter <= 1)
+                    {
+                        _delayCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                    else
+                    {
+                        IsComplete = true;
+                    }
+                }
+            }
+        }
+
+        private void PlayTextSound()
+        {
+            if (_currentSound is null || _currentSound.State == SoundState.Stopped)
+            {
+                _currentSound = _textSoundEffect.CreateInstance();
+                _currentSound.Volume = 0.5f;
+                _currentSound.Play();
+            }
+        }
+
+        public bool IsComplete { get; private set; }
     }
 }

@@ -347,8 +347,14 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[] unitDtoEquipments)
+        private static void LoadCharacterEquipments(Unit unit, EquipmentDto[]? unitDtoEquipments)
         {
+            if (unitDtoEquipments is null)
+            {
+                // Old version of the saves.
+                return;
+            }
+
             foreach (var dto in unitDtoEquipments)
             {
                 var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
