@@ -8,17 +8,20 @@ namespace Rpg.Client.Engine
     internal class IndicatorTextButton : ButtonBase
     {
         private readonly SpriteFont _font;
-        private readonly string _resourceSid;
         private readonly Texture2D _indicatorsTexture;
+        private readonly string _resourceSid;
 
-        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font, Texture2D indicatorsTexture) : base(texture, Rectangle.Empty)
+        private float _counter;
+
+        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font, Texture2D indicatorsTexture)
+            : base(texture, Rectangle.Empty)
         {
             _resourceSid = resourceSid;
             _font = font;
             _indicatorsTexture = indicatorsTexture;
         }
 
-        private float _counter;
+        public Func<bool>? IndicatingSelector { get; set; }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
@@ -48,7 +51,8 @@ namespace Rpg.Client.Engine
                 var index = (int)Math.Round(INDICATOR_FRAME_COUNT * _counter, MidpointRounding.AwayFromZero);
                 const int INDICATOR_SIZE = 16;
                 var sourceRect = new Rectangle(INDICATOR_SIZE * index, 0, INDICATOR_SIZE, INDICATOR_SIZE);
-                spriteBatch.Draw(_indicatorsTexture, new Rectangle(contentRect.Right - INDICATOR_SIZE, contentRect.Top, INDICATOR_SIZE, INDICATOR_SIZE),
+                spriteBatch.Draw(_indicatorsTexture,
+                    new Rectangle(contentRect.Right - INDICATOR_SIZE, contentRect.Top, INDICATOR_SIZE, INDICATOR_SIZE),
                     sourceRect, contentColor);
             }
 
@@ -63,7 +67,5 @@ namespace Rpg.Client.Engine
 
             spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.SaddleBrown);
         }
-
-        public Func<bool>? IndicatingSelector { get; set; }
     }
 }

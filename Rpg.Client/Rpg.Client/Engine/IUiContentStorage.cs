@@ -12,12 +12,14 @@ namespace Rpg.Client.Engine
     {
         IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome);
         Texture2D GetBiomeBackground(BiomeType type);
+        Texture2D GetButtonIndicatorsTexture();
         Texture2D GetButtonTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Song GetDefeatSong();
-        Texture2D[] GetIntroVideo();
         Texture2D GetEnvSpeechTexture();
+        Song GetIntroSong();
+        Texture2D[] GetIntroVideo();
         SpriteFont GetMainFont();
         IEnumerable<Song> GetMapSong();
         Texture2D[] GetModalBottomTextures();
@@ -30,7 +32,5 @@ namespace Rpg.Client.Engine
         Texture2D GetUnitPanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
-        Texture2D GetButtonIndicatorsTexture();
-        Song GetIntroSong();
     }
 }

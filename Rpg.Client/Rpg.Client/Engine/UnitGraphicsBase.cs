@@ -8,7 +8,6 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Engine
 {
-
     internal abstract class UnitGraphicsBase
     {
         private const int FRAME_WIDTH = 256;

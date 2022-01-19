@@ -32,11 +32,6 @@ namespace Rpg.Client.Engine
             _random = new Random();
         }
 
-        internal void PlayIntroTrack()
-        {
-            ChangeState("intro");
-        }
-
         public string? CurrentTrackName => _currentSong?.Name;
 
         public bool IsInitialized { get; private set; }
@@ -228,6 +223,11 @@ namespace Rpg.Client.Engine
 
                     break;
             }
+        }
+
+        internal void PlayIntroTrack()
+        {
+            ChangeState("intro");
         }
 
         private void ChangeState(string targetState)

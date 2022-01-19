@@ -15,12 +15,12 @@ namespace Rpg.Client.GameScreens.CharacterDetails
     {
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
-        private readonly GlobeProvider _globeProvider;
-        private readonly ScreenService _screenService;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly GeneralInfoPanel _generalInfoPanel;
-        private readonly SkillsInfoPanel _skillsInfoPanel;
+        private readonly GlobeProvider _globeProvider;
         private readonly PerkInfoPanel _perkInfoPanel;
+        private readonly ScreenService _screenService;
+        private readonly SkillsInfoPanel _skillsInfoPanel;
+        private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
 
         public CharacterDetailsScreen(EwarGame game) : base(game)
@@ -87,6 +87,18 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             spriteBatch.End();
         }
 
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            base.UpdateContent(gameTime);
+
+            foreach (var button in _buttonList.ToArray())
+            {
+                button.Update(ResolutionIndependentRenderer);
+            }
+
+            _unitGraphics.Update(gameTime);
+        }
+
         private void DrawActionButtons(SpriteBatch spriteBatch, Rectangle actionButtonRect)
         {
             for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
@@ -114,18 +126,6 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             return new Rectangle(position, size);
         }
 
-        protected override void UpdateContent(GameTime gameTime)
-        {
-            base.UpdateContent(gameTime);
-
-            foreach (var button in _buttonList.ToArray())
-            {
-                button.Update(ResolutionIndependentRenderer);
-            }
-
-            _unitGraphics.Update(gameTime);
-        }
-
         private void InitActionButtons(Unit character, Player player)
         {
             _buttonList.Clear();
@@ -133,14 +133,15 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             InitUpgradeButtons(character, player);
 
             var slotButton = new TextButton("Formation",
-                        _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont());
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
 
             _buttonList.Add(slotButton);
 
             slotButton.OnClick += (_, _) =>
             {
-                var formationModal = new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
+                var formationModal =
+                    new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
                 AddModal(formationModal, isLate: false);
             };
         }

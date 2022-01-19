@@ -9,11 +9,14 @@ namespace Rpg.Client.GameScreens.Intro
 {
     internal sealed class IntroScreen : GameScreenBase
     {
-        private SpriteFont _font;
-        private Texture2D[] _videoTextures;
         private const int FPS = 5;
         private const double DURATION = 1.0 / FPS;
         private const int FRAMES = 150;
+        private readonly SpriteFont _font;
+
+        private double _frameCounter;
+        private int _frameIndex;
+        private readonly Texture2D[] _videoTextures;
 
         public IntroScreen(EwarGame game) : base(game)
         {
@@ -26,9 +29,6 @@ namespace Rpg.Client.GameScreens.Intro
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             soundtrackManager.PlayIntroTrack();
         }
-
-        private double _frameCounter;
-        private int _frameIndex;
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
@@ -43,18 +43,18 @@ namespace Rpg.Client.GameScreens.Intro
 
             spriteBatch.Draw(_videoTextures[_frameIndex], ResolutionIndependentRenderer.VirtualBounds, Color.White);
 
-
-            for (int i = -1; i <= 1; i++)
+            for (var i = -1; i <= 1; i++)
             {
-                for (int j = -1; j <= 1; j++)
+                for (var j = -1; j <= 1; j++)
                 {
-
-                    spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X + i,
+                    spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(
+                        ResolutionIndependentRenderer.VirtualBounds.Center.X + i,
                         ResolutionIndependentRenderer.VirtualBounds.Bottom - 40 + j), Color.DarkGray);
                 }
             }
 
-            spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X,
+            spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(
+                ResolutionIndependentRenderer.VirtualBounds.Center.X,
                 ResolutionIndependentRenderer.VirtualBounds.Bottom - 40), Color.White);
 
             spriteBatch.End();
