@@ -4,11 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.GameScreens.CharacterDetails
+namespace Rpg.Client.Engine
 {
-    internal sealed class UnitGraphics
+    
+    internal abstract class UnitGraphicsBase
     {
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
@@ -23,7 +24,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private int _frameIndex;
         private Sprite _graphics;
 
-        public UnitGraphics(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
+        public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
             _position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
@@ -36,10 +37,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
 
-            _animationSid = AnimationSid.Idle;
+            PlayAnimation(AnimationSid.Idle);
         }
-
-        public bool IsDamaged { get; set; }
 
         public SpriteContainer Root { get; private set; }
 
