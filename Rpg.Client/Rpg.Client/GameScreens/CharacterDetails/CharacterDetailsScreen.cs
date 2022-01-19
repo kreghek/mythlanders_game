@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CharacterDetails.Ui;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
@@ -124,65 +125,21 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             _unitGraphics.Update(gameTime);
         }
 
-        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
-        {
-            if (_globeProvider.Globe.Player.Abilities.Contains(PlayerAbility.AvailableTanks))
-            {
-                return freeSlots;
-            }
-
-            // In the first biome the player can use only first 3 slots.
-            // There is no ability to split characters on tank line and dd+support.
-            return freeSlots.Where(x => !x.IsTankLine);
-        }
-
-        private bool GetIsCharacterInGroup(Unit selectedCharacter)
-        {
-            return _globeProvider.Globe.Player.Party.GetUnits().Contains(selectedCharacter);
-        }
-
         private void InitSlotAssignmentButtons(Unit character, Player player)
         {
             _buttonList.Clear();
 
-            var isCharacterInGroup = GetIsCharacterInGroup(character);
-            if (isCharacterInGroup)
-            {
-                var reserveButton = new ResourceTextButton(
-                    nameof(UiResource.MoveToThePoolButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(),
-                    Rectangle.Empty);
-                _buttonList.Add(reserveButton);
-
-                reserveButton.OnClick += (_, _) =>
-                {
-                    player.MoveToPool(character);
-
-                    InitSlotAssignmentButtons(character, player);
-                };
-            }
-            else
-            {
-                var freeSlots = player.Party.GetFreeSlots();
-                var availableSlots = GetAvailableSlots(freeSlots);
-                foreach (var slot in availableSlots)
-                {
-                    var slotButton = new TextButton(slot.Index.ToString(),
+            var slotButton = new TextButton("Formation",
                         _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(),
-                        Rectangle.Empty);
+                        _uiContentStorage.GetMainFont());
 
-                    _buttonList.Add(slotButton);
+            _buttonList.Add(slotButton);
 
-                    slotButton.OnClick += (_, _) =>
-                    {
-                        player.MoveToParty(character, slot.Index);
-
-                        InitSlotAssignmentButtons(character, player);
-                    };
-                }
-            }
+            slotButton.OnClick += (_, _) =>
+            {
+                var formationModal = new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
+                AddModal(formationModal, isLate: false);
+            };
 
             InitUpgradeButtons(character, player);
         }
