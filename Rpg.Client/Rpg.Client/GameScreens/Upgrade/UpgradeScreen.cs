@@ -73,12 +73,18 @@ namespace Rpg.Client.GameScreens.Upgrade
 
         private void DrawInventory(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            const int COL = 5;
             var array = _globeProvider.Globe.Player.Inventory.ToArray();
             for (var i = 0; i < array.Length; i++)
             {
                 var resourceItem = array[i];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}",
-                    new Vector2(100, i * 20 + 100), Color.Wheat);
+
+                var col = i % COL;
+                var row = i / COL;
+                
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{resourceItem.Type} x {resourceItem.Amount}",
+                    new Vector2(120 * col, (contentRect.Bottom - 60) + (row * 20)), Color.Wheat);
             }
         }
 
@@ -93,6 +99,7 @@ namespace Rpg.Client.GameScreens.Upgrade
                     var panel = new CharacterPanel(
                         texture: _uiContentStorage.GetPanelTexture(),
                         character: character,
+                        player: _globeProvider.Globe.Player,
                         buttonTexture: _uiContentStorage.GetButtonTexture(),
                         buttonFont: _uiContentStorage.GetTitlesFont(),
                         portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),

@@ -13,18 +13,16 @@ namespace Rpg.Client.GameScreens.CharacterDetails
     internal sealed class CharacterDetailsScreen: GameScreenWithMenuBase
     {
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly GameObjectContentStorage _gameObjectsContentStorage;
         private readonly ScreenService _screenService;
-        private readonly IList<ButtonBase> _slotButtonList;
+        private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
 
         public CharacterDetailsScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _gameObjectsContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _screenService = game.Services.GetService<ScreenService>();
             
-            _slotButtonList = new List<ButtonBase>();
+            _buttonList = new List<ButtonBase>();
             
             _globeProvider = game.Services.GetService<GlobeProvider>();
             
@@ -51,7 +49,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         
         private void InitSlotAssignmentButtons(Unit character, Player player)
         {
-            _slotButtonList.Clear();
+            _buttonList.Clear();
 
             var isCharacterInGroup = GetIsCharacterInGroup(character);
             if (isCharacterInGroup)
@@ -61,7 +59,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(),
                     Rectangle.Empty);
-                _slotButtonList.Add(reserveButton);
+                _buttonList.Add(reserveButton);
 
                 reserveButton.OnClick += (_, _) =>
                 {
@@ -81,7 +79,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                         _uiContentStorage.GetMainFont(),
                         Rectangle.Empty);
 
-                    _slotButtonList.Add(slotButton);
+                    _buttonList.Add(slotButton);
 
                     slotButton.OnClick += (_, _) =>
                     {
@@ -111,7 +109,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     InitSlotAssignmentButtons(character, player);
                 };
 
-                _slotButtonList.Add(levelUpButton);
+                _buttonList.Add(levelUpButton);
             }
 
             foreach (var equipment in character.Equipments)
@@ -129,7 +127,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                         equipment.LevelUp();
                         InitSlotAssignmentButtons(character, player);
                     };
-                    _slotButtonList.Add(levelUpButton);
+                    _buttonList.Add(levelUpButton);
                 }
             }
         }
@@ -206,9 +204,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
             }
 
-            for (var buttonIndex = 0; buttonIndex < _slotButtonList.Count; buttonIndex++)
+            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
             {
-                var button = _slotButtonList[buttonIndex];
+                var button = _buttonList[buttonIndex];
                 button.Rect = new Rectangle(contentRect.Center.X,
                     contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
                 button.Draw(spriteBatch);
@@ -223,6 +221,16 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             }
 
             spriteBatch.End();
+        }
+
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            base.UpdateContent(gameTime);
+            
+            foreach (var button in _buttonList.ToArray())
+            {
+                button.Update(ResolutionIndependentRenderer);
+            }
         }
     }
 }

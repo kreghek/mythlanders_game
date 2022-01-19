@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -18,15 +20,22 @@ namespace Rpg.Client.Engine
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
-            _counter += 0.1f;
-            if (_counter > 1)
+            if (IndicatingSelector())
             {
-                _counter = 0;
+                _counter += 0.1f;
+                if (_counter > 1)
+                {
+                    _counter = 0;
+                }
+
+                var totalColor = Color.Lerp(color, Color.Red, _counter);
+
+                base.DrawBackground(spriteBatch, totalColor);
             }
-
-            var totalColor = Color.Lerp(color, Color.Red, _counter);
-
-            base.DrawBackground(spriteBatch, totalColor);
+            else
+            {
+                base.DrawBackground(spriteBatch, color);
+            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -42,5 +51,7 @@ namespace Rpg.Client.Engine
 
             spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.SaddleBrown);
         }
+
+        public Func<bool> IndicatingSelector { get; set; }
     }
 }

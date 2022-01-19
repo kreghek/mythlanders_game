@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,18 +28,33 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
         private readonly SpriteFont _nameFont;
         private readonly SpriteFont _mainFont;
 
-        public CharacterPanel(Texture2D texture, Unit character, Texture2D buttonTexture, SpriteFont buttonFont, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
+        public CharacterPanel(Texture2D texture, Unit character, Player player, Texture2D buttonTexture, SpriteFont buttonFont, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
         {
             _character = character;
             _portraitTexture = portraitTexture;
             _nameFont = nameFont;
             _mainFont = mainFont;
 
-            _infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont);
-            _infoButton.OnClick += (_, _) =>
+            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont);
+            infoButton.OnClick += (_, _) =>
             {
                 SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));
             };
+            infoButton.IndicatingSelector = () =>
+            {
+                return character.LevelUpXpAmount <=
+                       player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                       IsAnyEquipmentToUpgrade(character: character, player: player);
+            };
+
+            _infoButton = infoButton;
+        }
+
+        private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
+        {
+            return character.Equipments.Any(equipment =>
+                equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
+                    resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
         public event EventHandler<SelectCharacterEventArgs> SelectCharacter;
@@ -59,7 +75,9 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
 
         private void DrawInfoButton(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            _infoButton.Rect = new Rectangle(contentRect.Left + 32, contentRect.Top + 32, 100, 20);
+            const int BUTTON_WIDTH = 100;
+            const int BUTTON_HEIGHT = 20;
+            _infoButton.Rect = new Rectangle(contentRect.Center.X - BUTTON_WIDTH / 2, contentRect.Top + 64, BUTTON_WIDTH, BUTTON_HEIGHT);
             _infoButton.Draw(spriteBatch);
         }
 
