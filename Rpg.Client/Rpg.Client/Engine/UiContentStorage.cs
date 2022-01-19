@@ -29,6 +29,7 @@ namespace Rpg.Client.Engine
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
         private Texture2D _buttonIndicatorsTexture;
+        private Texture2D[] _introVideoTextures;
 
         public Texture2D GetButtonTexture()
         {
@@ -121,6 +122,14 @@ namespace Rpg.Client.Engine
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
             
             _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+
+            var introVideoTextures = new List<Texture2D>(150);
+            for (var i = 1; i <= 150; i++)
+            { 
+                var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
+                introVideoTextures.Add(texture);
+            }
+            _introVideoTextures = introVideoTextures.ToArray();
         }
 
         public Texture2D GetButtonIndicatorsTexture()
@@ -166,6 +175,11 @@ namespace Rpg.Client.Engine
         public Texture2D GetCombatPowerIconsTexture()
         {
             return _combatPowerIconTextres;
+        }
+
+        public Texture2D[] GetIntroVideo()
+        {
+            return _introVideoTextures;
         }
     }
 }
