@@ -19,10 +19,12 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private readonly GeneralInfoPanel _generalInfoPanel;
         private readonly SkillsInfoPanel _skillsInfoPanel;
         private readonly PerkInfoPanel _perkInfoPanel;
+        private readonly UnitGraphics _unitGraphics;
 
         public CharacterDetailsScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _screenService = game.Services.GetService<ScreenService>();
 
             _buttonList = new List<ButtonBase>();
@@ -35,6 +37,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 _uiContentStorage.GetMainFont());
             _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
                 _uiContentStorage.GetMainFont());
+
+            _unitGraphics = new UnitGraphics(_screenService.Selected, new Vector2(), gameObjectContentStorage);
 
             InitSlotAssignmentButtons(_screenService.Selected, _globeProvider.Globe.Player);
         }
@@ -61,6 +65,10 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
+
+            var unitGraphicsRect = GetCellRect(contentRect, col: 0, row: 0);
+            _unitGraphics.Root.Position = unitGraphicsRect.Center.ToVector2();
+            _unitGraphics.Draw(spriteBatch);
 
             _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
             _generalInfoPanel.Draw(spriteBatch);
@@ -112,8 +120,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 button.Update(ResolutionIndependentRenderer);
             }
+            
+            _unitGraphics.Update(gameTime);
         }
-
 
         private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
         {
