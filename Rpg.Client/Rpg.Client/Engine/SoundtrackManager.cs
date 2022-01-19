@@ -32,6 +32,11 @@ namespace Rpg.Client.Engine
             _random = new Random();
         }
 
+        internal void PlayIntroTrack()
+        {
+            ChangeState("intro");
+        }
+
         public string? CurrentTrackName => _currentSong?.Name;
 
         public bool IsInitialized { get; private set; }
@@ -87,6 +92,22 @@ namespace Rpg.Client.Engine
                 case null:
                     _currentSong = null;
                     MediaPlayer.Stop();
+                    break;
+
+                case "intro":
+                    if (_changeTrack)
+                    {
+                        _changeTrack = false;
+
+                        if (_uiContentStorage is not null)
+                        {
+                            MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Volume = MUSIC_VOLUME;
+                            _currentSong = _uiContentStorage.GetIntroSong();
+                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
+                        }
+                    }
+
                     break;
 
                 case "title":

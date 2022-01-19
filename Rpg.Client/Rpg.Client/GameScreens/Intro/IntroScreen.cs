@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
@@ -10,6 +11,7 @@ namespace Rpg.Client.GameScreens.Intro
 {
     internal sealed class IntroScreen : GameScreenBase
     {
+        private SpriteFont _font;
         private Texture2D[] _videoTextures;
         private const int FPS = 5;
         private const double DURATION = 1.0 / FPS;
@@ -19,7 +21,12 @@ namespace Rpg.Client.GameScreens.Intro
         {
             var uiContentStorage = game.Services.GetService<IUiContentStorage>();
 
+            _font = uiContentStorage.GetMainFont();
+
             _videoTextures = uiContentStorage.GetIntroVideo();
+
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            soundtrackManager.PlayIntroTrack();
         }
 
         private double _frameCounter;
@@ -38,17 +45,36 @@ namespace Rpg.Client.GameScreens.Intro
 
             spriteBatch.Draw(_videoTextures[_frameIndex], ResolutionIndependentRenderer.VirtualBounds, Color.White);
 
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+
+                    spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X + i,
+                        ResolutionIndependentRenderer.VirtualBounds.Bottom - 40 + j), Color.DarkGray);
+                }
+            }
+
+            spriteBatch.DrawString(_font, "Press [ESCAPE] to skip", new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 40), Color.White);
+
             spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+            }
+
             _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
             if (_frameCounter >= DURATION)
             {
                 _frameCounter -= DURATION;
 
-                if (_frameIndex < FRAMES)
+                if (_frameIndex < FRAMES - 1)
                 {
                     _frameIndex++;
                 }

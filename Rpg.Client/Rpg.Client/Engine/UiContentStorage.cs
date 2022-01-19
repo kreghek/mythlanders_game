@@ -30,6 +30,7 @@ namespace Rpg.Client.Engine
         private Song _victoryTrack;
         private Texture2D _buttonIndicatorsTexture;
         private Texture2D[] _introVideoTextures;
+        private Song _introTrack;
 
         public Texture2D GetButtonTexture()
         {
@@ -119,6 +120,8 @@ namespace Rpg.Client.Engine
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
             _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
 
+            _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
+
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
             
             _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
@@ -155,6 +158,11 @@ namespace Rpg.Client.Engine
         public IEnumerable<Song> GetMapSong()
         {
             return _mapTracks;
+        }
+
+        public Song GetIntroSong()
+        {
+            return _introTrack;
         }
 
         public IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome)
