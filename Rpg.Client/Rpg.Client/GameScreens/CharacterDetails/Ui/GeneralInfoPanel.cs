@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
-    internal class GeneralInfoPanel: PanelBase
+    internal class GeneralInfoPanel : PanelBase
     {
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 sb.Add($"{equipment.Scheme.Sid} ({equipment.Level} lvl)");
                 sb.Add($"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup");
             }
-            
+
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
                 var line = sb[statIndex];

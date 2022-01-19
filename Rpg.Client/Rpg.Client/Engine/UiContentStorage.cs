@@ -125,12 +125,12 @@ namespace Rpg.Client.Engine
             _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
 
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
-            
+
             _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
 
             var introVideoTextures = new List<Texture2D>(150);
             for (var i = 1; i <= 150; i++)
-            { 
+            {
                 var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
                 introVideoTextures.Add(texture);
             }

@@ -74,10 +74,10 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
             _generalInfoPanel.Draw(spriteBatch);
-            
+
             _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
             _skillsInfoPanel.Draw(spriteBatch);
-            
+
             _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
             _perkInfoPanel.Draw(spriteBatch);
 
@@ -122,7 +122,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 button.Update(ResolutionIndependentRenderer);
             }
-            
+
             _unitGraphics.Update(gameTime);
         }
 

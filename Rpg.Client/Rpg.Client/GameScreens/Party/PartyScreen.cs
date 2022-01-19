@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Party
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             DrawCharacters(spriteBatch: spriteBatch, contentRect: contentRect);
-            
+
             DrawInventory(spriteBatch, contentRect);
 
             spriteBatch.End();
@@ -82,7 +82,7 @@ namespace Rpg.Client.GameScreens.Party
 
                 var col = i % COL;
                 var row = i / COL;
-                
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     $"{resourceItem.Type} x {resourceItem.Amount}",
                     new Vector2(120 * col, (contentRect.Bottom - 60) + (row * 20)), Color.Wheat);
@@ -92,7 +92,7 @@ namespace Rpg.Client.GameScreens.Party
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            
+
             if (!_isInitialized)
             {
                 var characters = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
@@ -101,16 +101,16 @@ namespace Rpg.Client.GameScreens.Party
                     var resources = new CharacterPanelResources
                     (
                         buttonTexture: _uiContentStorage.GetButtonTexture(),
-                        buttonFont: _uiContentStorage.GetTitlesFont(), 
+                        buttonFont: _uiContentStorage.GetTitlesFont(),
                         indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
                         portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),
-                        nameFont: _uiContentStorage.GetTitlesFont(), 
+                        nameFont: _uiContentStorage.GetTitlesFont(),
                         mainFont: _uiContentStorage.GetMainFont()
                     );
-                    
+
                     var panel = new CharacterPanel(texture: _uiContentStorage.GetPanelTexture(), character: character, player: _globeProvider.Globe.Player, resources);
                     _characterPanels.Add(panel);
-                    
+
                     panel.SelectCharacter += Panel_SelectCharacter;
                 }
 
@@ -129,7 +129,7 @@ namespace Rpg.Client.GameScreens.Party
         {
             var screenService = Game.Services.GetService<ScreenService>();
             screenService.Selected = e.Character;
-            
+
             ScreenManager.ExecuteTransition(this, ScreenTransition.CharacterDetails);
         }
 

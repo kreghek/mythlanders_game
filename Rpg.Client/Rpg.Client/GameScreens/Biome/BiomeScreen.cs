@@ -263,7 +263,7 @@ namespace Rpg.Client.GameScreens.Biome
 
             return menuButtons;
         }
-        
+
         private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
         {
             return character.Equipments.Any(equipment =>
