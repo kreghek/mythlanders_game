@@ -9,16 +9,6 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Party.Ui
 {
-    internal sealed class SelectCharacterEventArgs : EventArgs
-    {
-        public SelectCharacterEventArgs(Unit character)
-        {
-            Character = character;
-        }
-
-        public Unit Character { get; }
-    }
-
     internal sealed class CharacterPanel : ControlBase
     {
         private readonly Unit _character;
@@ -27,15 +17,14 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
-        public CharacterPanel(Texture2D texture, Unit character, Player player, Texture2D buttonTexture,
-            SpriteFont buttonFont, Texture2D indicatorsTexture, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
+        public CharacterPanel(Texture2D texture, Unit character, Player player, CharacterPanelResources characterPanelResources) : base(texture)
         {
             _character = character;
-            _portraitTexture = portraitTexture;
-            _nameFont = nameFont;
-            _mainFont = mainFont;
+            _portraitTexture = characterPanelResources.PortraitTexture;
+            _nameFont = characterPanelResources.NameFont;
+            _mainFont = characterPanelResources.MainFont;
 
-            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont, indicatorsTexture);
+            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), characterPanelResources.ButtonTexture, characterPanelResources.ButtonFont, characterPanelResources.IndicatorsTexture);
             infoButton.OnClick += (_, _) =>
             {
                 SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));
@@ -101,6 +90,6 @@ namespace Rpg.Client.GameScreens.Party.Ui
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
-        public event EventHandler<SelectCharacterEventArgs> SelectCharacter;
+        public event EventHandler<SelectCharacterEventArgs>? SelectCharacter;
     }
 }

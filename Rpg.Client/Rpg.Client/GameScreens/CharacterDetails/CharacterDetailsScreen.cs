@@ -16,6 +16,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private readonly GlobeProvider _globeProvider;
         private readonly ScreenService _screenService;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly GeneralInfoPanel _generalInfoPanel;
+        private readonly SkillsInfoPanel _skillsInfoPanel;
+        private readonly PerkInfoPanel _perkInfoPanel;
 
         public CharacterDetailsScreen(EwarGame game) : base(game)
         {
@@ -25,6 +28,13 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             _buttonList = new List<ButtonBase>();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
+
+            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
 
             InitSlotAssignmentButtons(_screenService.Selected, _globeProvider.Globe.Player);
         }
@@ -52,72 +62,46 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            var _selectedCharacter = _screenService.Selected;
+            _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
+            _generalInfoPanel.Draw(spriteBatch);
+            
+            _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
+            _skillsInfoPanel.Draw(spriteBatch);
+            
+            _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
+            _perkInfoPanel.Draw(spriteBatch);
 
-            var unitName = _selectedCharacter.UnitScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            var sb = new List<string>
-            {
-                name,
-                string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
-                string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
-                    _selectedCharacter.ManaPoolSize),
-                string.Format(UiResource.CombatLevelTemplate, _selectedCharacter.Level),
-                string.Format(UiResource.CombatLevelUpTemplate, _selectedCharacter.LevelUpXpAmount)
-            };
-
-            foreach (var skill in _selectedCharacter.Skills)
-            {
-                var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
-                                    $"#Resource-{skill.Sid}";
-
-                sb.Add(skillNameText);
-                if (skill.ManaCost is not null)
-                {
-                    sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));
-                }
-
-                // TODO Display skill efficient - damages, durations, etc.
-            }
-
-            foreach (var perk in _selectedCharacter.Perks)
-            {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
-
-                var localizedDescription =
-                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
-            }
-
-            for (var statIndex = 0; statIndex < sb.Count; statIndex++)
-            {
-                var line = sb[statIndex];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
-            }
-
-            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
-            {
-                var button = _buttonList[buttonIndex];
-                button.Rect = new Rectangle(contentRect.Center.X,
-                    contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
-                button.Draw(spriteBatch);
-            }
-
-            var array = _globeProvider.Globe.Player.Inventory.ToArray();
-            for (var i = 0; i < array.Length; i++)
-            {
-                var resourceItem = array[i];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}",
-                    new Vector2(100, i * 20 + 100), Color.Wheat);
-            }
+            var actionButtonRect = GetCellRect(contentRect, col: 1, row: 1);
+            DrawActionButtons(spriteBatch: spriteBatch, actionButtonRect: actionButtonRect);
 
             spriteBatch.End();
+        }
+
+        private void DrawActionButtons(SpriteBatch spriteBatch, Rectangle actionButtonRect)
+        {
+            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
+            {
+                const int BUTTON_WIDTH = 100;
+                const int BUTTON_HEIGHT = 20;
+
+                var button = _buttonList[buttonIndex];
+                const int BUTTON_MARGIN = 5;
+                var offset = new Point(0, (BUTTON_HEIGHT + BUTTON_MARGIN) * buttonIndex);
+                var panelLocation = new Point(actionButtonRect.Center.X - BUTTON_WIDTH / 2, actionButtonRect.Top);
+                var buttonSize = new Point(BUTTON_WIDTH, BUTTON_HEIGHT);
+
+                button.Rect = new Rectangle(panelLocation + offset, buttonSize);
+                button.Draw(spriteBatch);
+            }
+        }
+
+        private static Rectangle GetCellRect(Rectangle contentRect, int col, int row)
+        {
+            var gridColumnWidth = contentRect.Width / 3;
+            var gridRowHeight = contentRect.Height / 2;
+            var position = new Point(contentRect.Left + gridColumnWidth * col, contentRect.Top + gridRowHeight * row);
+            var size = new Point(gridColumnWidth, gridRowHeight);
+            return new Rectangle(position, size);
         }
 
         protected override void UpdateContent(GameTime gameTime)

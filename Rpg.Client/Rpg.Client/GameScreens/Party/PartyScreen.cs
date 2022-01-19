@@ -97,16 +97,17 @@ namespace Rpg.Client.GameScreens.Party
             {
                 foreach (var character in _globeProvider.Globe.Player.GetAll())
                 {
-                    var panel = new CharacterPanel(
-                        texture: _uiContentStorage.GetPanelTexture(),
-                        character: character,
-                        player: _globeProvider.Globe.Player,
+                    var resources = new CharacterPanelResources
+                    (
                         buttonTexture: _uiContentStorage.GetButtonTexture(),
-                        buttonFont: _uiContentStorage.GetTitlesFont(),
+                        buttonFont: _uiContentStorage.GetTitlesFont(), 
                         indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
                         portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),
-                        nameFont: _uiContentStorage.GetTitlesFont(),
-                        mainFont: _uiContentStorage.GetMainFont());
+                        nameFont: _uiContentStorage.GetTitlesFont(), 
+                        mainFont: _uiContentStorage.GetMainFont()
+                    );
+                    
+                    var panel = new CharacterPanel(texture: _uiContentStorage.GetPanelTexture(), character: character, player: _globeProvider.Globe.Player, resources);
                     _characterPanels.Add(panel);
                     
                     panel.SelectCharacter += Panel_SelectCharacter;
