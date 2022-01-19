@@ -169,7 +169,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 // No combat - no rewards
                 return;
             }
-            
+
             // TODO Display icons
 
             DrawSummaryXpAwardLabel(

@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal class IndicatorTextButton: ButtonBase
+    internal class IndicatorTextButton : ButtonBase
     {
-        private readonly string _resourceSid;
         private readonly SpriteFont _font;
+        private readonly string _resourceSid;
         private readonly Texture2D _indicatorsTexture;
 
         public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font, Texture2D indicatorsTexture) : base(texture, Rectangle.Empty)

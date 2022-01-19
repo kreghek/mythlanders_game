@@ -7,10 +7,10 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed class CombatResultTitle: ControlBase
+    internal sealed class CombatResultTitle : ControlBase
     {
-        private readonly SpriteFont _titleFont;
         private readonly CombatResult _combatResult;
+        private readonly SpriteFont _titleFont;
 
         public CombatResultTitle(Texture2D texture, SpriteFont titleFont, CombatResult combatResult) : base(texture)
         {
@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             spriteBatch.DrawString(resultTitleFont, localizedCombatResultText, titlePosition,
                 Color.Wheat);
         }
-        
+
         private static string GetCombatResultLocalizedText(CombatResult combatResult)
         {
             return combatResult switch

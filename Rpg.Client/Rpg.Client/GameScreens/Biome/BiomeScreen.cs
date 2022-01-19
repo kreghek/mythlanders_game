@@ -31,6 +31,7 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
         private readonly IList<LocationGameObject> _locationObjectList;
@@ -46,7 +47,6 @@ namespace Rpg.Client.GameScreens.Biome
         private TextHint? _locationInfoHint;
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
-        private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
         {

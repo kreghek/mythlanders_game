@@ -45,6 +45,8 @@ namespace Rpg.Client.GameScreens.Event
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private EventNode _currentDialogNode;
 
+        private int _currentFragmentIndex;
+
         private bool _isInitialized;
 
         public EventScreen(EwarGame game) : base(game)
@@ -103,6 +105,11 @@ namespace Rpg.Client.GameScreens.Event
             _backgroundTexture.SetData(data);
         }
 
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            return ArraySegment<ButtonBase>.Empty;
+        }
+
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             if (!_isInitialized)
@@ -140,11 +147,6 @@ namespace Rpg.Client.GameScreens.Event
 
                 UpdateHud(gameTime);
             }
-        }
-
-        protected override IList<ButtonBase> CreateMenu()
-        {
-            return ArraySegment<ButtonBase>.Empty;
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -313,7 +315,8 @@ namespace Rpg.Client.GameScreens.Event
 
                 var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
-                    textFragment, _gameObjectContentStorage.GetUnitPortrains(), _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
+                    textFragment, _gameObjectContentStorage.GetUnitPortrains(),
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
                 _textFragments.Add(textFragmentControl);
             }
 
@@ -391,7 +394,5 @@ namespace Rpg.Client.GameScreens.Event
                 }
             }
         }
-
-        private int _currentFragmentIndex;
     }
 }

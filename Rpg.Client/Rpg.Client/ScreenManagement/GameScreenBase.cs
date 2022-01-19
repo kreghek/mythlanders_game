@@ -13,9 +13,7 @@ namespace Rpg.Client.ScreenManagement
     /// </summary>
     internal abstract class GameScreenBase : EwarRenderableBase, IScreen
     {
-        protected Camera2D Camera { get; }
         private readonly IList<IModalWindow> _modals;
-        protected ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
 
         public GameScreenBase(EwarGame game)
         {
@@ -31,6 +29,8 @@ namespace Rpg.Client.ScreenManagement
 
         public EwarGame Game { get; }
         public IScreenManager ScreenManager { get; }
+        protected Camera2D Camera { get; }
+        protected ResolutionIndependentRenderer ResolutionIndependentRenderer { get; }
 
         protected void AddModal(IModalWindow modal, bool isLate)
         {

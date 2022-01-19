@@ -13,7 +13,6 @@ namespace Rpg.Client.Engine
         IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome);
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonTexture();
-        Texture2D GetPanelTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Song GetDefeatSong();
@@ -26,6 +25,7 @@ namespace Rpg.Client.Engine
         Texture2D GetModalShadowTexture();
 
         Texture2D[] GetModalTopTextures();
+        Texture2D GetPanelTexture();
         Texture2D GetSpeechTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();

@@ -18,8 +18,8 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly string? _localizedSpeakerName;
         private readonly TextFragmentMessage _message;
         private readonly Texture2D _portraitsTexture;
-        private readonly SoundEffect _textSoundEffect;
         private readonly UnitName _speaker;
+        private readonly SoundEffect _textSoundEffect;
 
         public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
             Texture2D portraitsTexture, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) : base(texture)
@@ -32,6 +32,8 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _message = new TextFragmentMessage(texture, font, eventTextFragment, _textSoundEffect);
         }
 
+        public bool IsComplete => _message.IsComplete;
+
         public Vector2 CalculateSize()
         {
             var messageSize = _message.CalculateSize();
@@ -42,6 +44,11 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
             // TODO use margin
             return new Vector2(width, height) + Vector2.One * (2 * 4);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            _message.Update(gameTime);
         }
 
         protected override Color CalculateColor()
@@ -67,13 +74,6 @@ namespace Rpg.Client.GameScreens.Event.Ui
                 new Point(clientRect.Width, clientRect.Height));
             _message.Draw(spriteBatch);
         }
-
-        public void Update(GameTime gameTime)
-        {
-            _message.Update(gameTime);
-        }
-
-        public bool IsComplete => _message.IsComplete;
 
         private void DrawSpeaker(SpriteBatch spriteBatch, Vector2 position)
         {

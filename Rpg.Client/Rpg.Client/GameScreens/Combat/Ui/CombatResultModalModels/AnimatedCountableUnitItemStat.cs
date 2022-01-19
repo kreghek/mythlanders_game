@@ -9,8 +9,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
         private const int MINIMAL_COUNTER_SPEED = 2;
         private const int MINIMAL_COUNTER_THRESHOLD = 100;
 
-        private readonly int _amount;
-
         private readonly int _counterSpeed;
 
         private int _countedValue;
@@ -19,16 +17,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
         public AnimatedCountableUnitItemStat(CountableRewardStat item)
         {
-            _amount = item.Amount;
+            Amount = item.Amount;
             CurrentValue = item.StartValue;
 
             _counterSpeed = CalcCounterSpeed();
             Type = item.Type;
         }
 
-        public int CurrentValue { get; private set; }
+        public int Amount { get; }
 
-        public int Amount => _amount;
+        public int CurrentValue { get; private set; }
 
         public EquipmentItemType Type { get; }
 
@@ -39,7 +37,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
                 return;
             }
 
-            if (_amount == 0)
+            if (Amount == 0)
             {
                 _countingComplete = true;
                 return;
@@ -48,7 +46,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
             CurrentValue += _counterSpeed;
             _countedValue += _counterSpeed;
 
-            if (_countedValue >= _amount)
+            if (_countedValue >= Amount)
             {
                 _countingComplete = true;
             }
@@ -57,15 +55,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
         private int CalcCounterSpeed()
         {
             int counterSpeed;
-            if (Math.Abs(_amount) > MINIMAL_COUNTER_THRESHOLD)
+            if (Math.Abs(Amount) > MINIMAL_COUNTER_THRESHOLD)
             {
                 counterSpeed =
                     (int)Math.Max(
-                        Math.Round((float)_amount / MINIMAL_COUNTER_THRESHOLD, MidpointRounding.AwayFromZero), 1);
+                        Math.Round((float)Amount / MINIMAL_COUNTER_THRESHOLD, MidpointRounding.AwayFromZero), 1);
             }
             else
             {
-                counterSpeed = _amount switch
+                counterSpeed = Amount switch
                 {
                     > 0 => MINIMAL_COUNTER_SPEED,
                     < 0 => -MINIMAL_COUNTER_SPEED,
