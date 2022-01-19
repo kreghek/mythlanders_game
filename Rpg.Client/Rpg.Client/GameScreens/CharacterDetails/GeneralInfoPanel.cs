@@ -38,47 +38,11 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 string.Format(UiResource.CombatLevelTemplate, _character.Level),
                 string.Format(UiResource.CombatLevelUpTemplate, _character.LevelUpXpAmount)
             };
-            
-            for (var statIndex = 0; statIndex < sb.Count; statIndex++)
+
+            foreach (var equipment in _character.Equipments)
             {
-                var line = sb[statIndex];
-                spriteBatch.DrawString(_mainFont, line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
-            }
-        }
-    }
-    
-    internal class PerkInfoPanel: ControlBase
-    {
-        private readonly Unit _character;
-        private readonly SpriteFont _mainFont;
-
-        public PerkInfoPanel(Texture2D texture, Unit character, SpriteFont mainFont) : base(texture)
-        {
-            _character = character;
-            _mainFont = mainFont;
-        }
-
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-        {
-            var sb = new List<string>();
-            
-            foreach (var perk in _character.Perks)
-            {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
-
-                var localizedDescription =
-                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
+                sb.Add($"{equipment.Scheme.Sid} ({equipment.Level} lvl)");
+                sb.Add($"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup");
             }
             
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
