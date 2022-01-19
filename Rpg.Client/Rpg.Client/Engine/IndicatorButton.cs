@@ -7,16 +7,19 @@ namespace Rpg.Client.Engine
 {
     internal class IndicatorTextButton : ButtonBase
     {
-        private readonly string _resourceSid;
         private readonly SpriteFont _font;
+        private readonly string _resourceSid;
 
-        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font) : base(texture, Rectangle.Empty)
+        private float _counter;
+
+        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font) : base(texture,
+            Rectangle.Empty)
         {
             _resourceSid = resourceSid;
             _font = font;
         }
 
-        private float _counter;
+        public Func<bool> IndicatingSelector { get; set; }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
@@ -51,7 +54,5 @@ namespace Rpg.Client.Engine
 
             spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.SaddleBrown);
         }
-
-        public Func<bool> IndicatingSelector { get; set; }
     }
 }

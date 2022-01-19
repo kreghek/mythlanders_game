@@ -13,11 +13,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal class CombatRewardList : ControlBase
     {
         private const int MARGIN = 5;
-        private readonly SpriteFont _titleFont;
-        private readonly SpriteFont _textFont;
         private readonly Texture2D _rewardIconsTexture;
+        private readonly SpriteFont _textFont;
+        private readonly SpriteFont _titleFont;
 
-        private CombatItem _rewardItems;
+        private readonly CombatItem _rewardItems;
 
         public CombatRewardList(Texture2D texture,
             SpriteFont titleFont,
@@ -31,7 +31,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _rewardItems = combatItemsLocal;
         }
 
-        protected override Color CalculateColor() => Color.White;
+        public void Update()
+        {
+            _rewardItems.Update();
+        }
+
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
@@ -42,9 +50,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             const int TITLE_HEIGHT = 20;
 
-            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRect.Location.ToVector2(), Color.White);
+            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRect.Location.ToVector2(),
+                Color.White);
 
-            var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width, contentRect.Height - TITLE_HEIGHT);
+            var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width,
+                contentRect.Height - TITLE_HEIGHT);
             DrawRewardList(spriteBatch, _rewardItems.UnitItems.ToArray(), listRect);
         }
 
@@ -64,7 +74,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 var itemCellX = itemIndex % CELL_COLS;
                 var itemCellY = itemIndex / CELL_COLS;
 
-                var itemOffsetVector = new Vector2(itemCellX * (ITEM_WIDTH + MARGIN), (ITEM_HEIGHT + MARGIN) * itemCellY);
+                var itemOffsetVector =
+                    new Vector2(itemCellX * (ITEM_WIDTH + MARGIN), (ITEM_HEIGHT + MARGIN) * itemCellY);
 
                 var rewardItemPosition = contentRectangle.Location.ToVector2() + itemOffsetVector;
 
@@ -81,6 +92,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
+        private static int GetEquipmentSpriteIndex(EquipmentItemType equipmentItemType)
+        {
+            return (int)equipmentItemType;
+        }
+
         private static Rectangle GetEquipmentSpriteRect(EquipmentItemType equipmentItemType)
         {
             const int COLUMN_COUNT = 2;
@@ -92,16 +108,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var y = index / COLUMN_COUNT;
 
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-        }
-
-        private static int GetEquipmentSpriteIndex(EquipmentItemType equipmentItemType)
-        {
-            return (int)equipmentItemType;
-        }
-
-        public void Update()
-        {
-            _rewardItems.Update();
         }
     }
 }

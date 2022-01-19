@@ -12,10 +12,18 @@ namespace Rpg.Client.GameScreens.Event.Ui
     internal sealed class TextFragmentMessage : ControlBase
     {
         private readonly EventTextFragment _eventTextFragment;
-        private readonly SoundEffect _textSoundEffect;
         private readonly SpriteFont _font;
+        private readonly string _localizedText;
+        private readonly SoundEffect _textSoundEffect;
+        private readonly StringBuilder _textToPrintBuilder;
 
-        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) :
+        private double _characterCounter;
+        private SoundEffectInstance? _currentSound;
+        private double _delayCounter;
+        private int _index;
+
+        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
+            Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) :
             base(texture)
         {
             _font = font;
@@ -25,6 +33,8 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _textToPrintBuilder = new StringBuilder();
         }
 
+        public bool IsComplete { get; private set; }
+
         public Vector2 CalculateSize()
         {
             var localizedText = GetLocalizedText(_textToPrintBuilder.ToString());
@@ -32,30 +42,6 @@ namespace Rpg.Client.GameScreens.Event.Ui
             // TODO use margin
             return size + Vector2.One * (2 * 4);
         }
-
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
-        {
-            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(), clientRect.Location.ToVector2() + Vector2.UnitX * 2,
-                Color.SaddleBrown);
-        }
-
-        private static string GetLocalizedText(string text)
-        {
-            // The text in the event is localized from resources yet.
-            return text;
-        }
-
-        private double _characterCounter;
-        private readonly string _localizedText;
-        private readonly StringBuilder _textToPrintBuilder;
-        private int _index;
-        private double _delayCounter;
-        private SoundEffectInstance? _currentSound;
 
         public void Update(GameTime gameTime)
         {
@@ -88,6 +74,24 @@ namespace Rpg.Client.GameScreens.Event.Ui
             }
         }
 
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
+        {
+            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(),
+                clientRect.Location.ToVector2() + Vector2.UnitX * 2,
+                Color.SaddleBrown);
+        }
+
+        private static string GetLocalizedText(string text)
+        {
+            // The text in the event is localized from resources yet.
+            return text;
+        }
+
         private void PlayTextSound()
         {
             if (_currentSound is null || _currentSound.State == SoundState.Stopped)
@@ -97,7 +101,5 @@ namespace Rpg.Client.GameScreens.Event.Ui
                 _currentSound.Play();
             }
         }
-
-        public bool IsComplete { get; private set; }
     }
 }

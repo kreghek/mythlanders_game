@@ -9,8 +9,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal sealed class CombatResultTitle : ControlBase
     {
-        private readonly SpriteFont _titleFont;
         private readonly CombatResult _combatResult;
+        private readonly SpriteFont _titleFont;
 
         public CombatResultTitle(Texture2D texture, SpriteFont titleFont, CombatResult combatResult) : base(texture)
         {

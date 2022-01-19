@@ -24,15 +24,6 @@ namespace PlotConverter
             return node;
         }
 
-        private static EventNodeTextFragment ConvertExcelToJsonStorage(ExcelTextFragmentRow excelTextFragment)
-        {
-            return new EventNodeTextFragment
-            {
-                Speaker = excelTextFragment.Speaker,
-                Text = excelTextFragment.Text
-            };
-        }
-
         private static List<EventDto> ConventExcelRowsToObjectGraph(IReadOnlyCollection<ExcelEventRow> excelEventRows,
             IEnumerable<ExcelTextFragmentRow> excelRows)
         {
@@ -65,6 +56,15 @@ namespace PlotConverter
             }
 
             return eventDtoList;
+        }
+
+        private static EventNodeTextFragment ConvertExcelToJsonStorage(ExcelTextFragmentRow excelTextFragment)
+        {
+            return new EventNodeTextFragment
+            {
+                Speaker = excelTextFragment.Speaker,
+                Text = excelTextFragment.Text
+            };
         }
 
         private static void Main(string[] args)

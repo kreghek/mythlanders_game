@@ -31,6 +31,7 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
         private readonly IList<LocationGameObject> _locationObjectList;
@@ -46,7 +47,6 @@ namespace Rpg.Client.GameScreens.Biome
         private TextHint? _locationInfoHint;
         private GlobeNodeGameObject? _locationInHint;
         private bool _screenTransition;
-        private readonly GameSettings _gameSettings;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -86,6 +86,41 @@ namespace Rpg.Client.GameScreens.Biome
             var data = new[] { Color.Gray };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            var menuButtons = new List<ButtonBase>();
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                mapButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                };
+                menuButtons.Add(mapButton);
+
+                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                partyModalButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                };
+                menuButtons.Add(partyModalButton);
+
+                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                bestiaryButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
+                };
+                menuButtons.Add(bestiaryButton);
+            }
+
+            return menuButtons;
         }
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -211,41 +246,6 @@ namespace Rpg.Client.GameScreens.Biome
                     }
                 }
             }
-        }
-
-        protected override IList<ButtonBase> CreateMenu()
-        {
-            var menuButtons = new List<ButtonBase>();
-            if (_gameSettings.Mode == GameMode.Full)
-            {
-                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                mapButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                };
-                menuButtons.Add(mapButton);
-
-                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                partyModalButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
-                };
-                menuButtons.Add(partyModalButton);
-
-                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                bestiaryButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
-                };
-                menuButtons.Add(bestiaryButton);
-            }
-
-            return menuButtons;
         }
 
         private void AutoCombatDelegate(GlobeNode _)

@@ -32,6 +32,8 @@ namespace Rpg.Client.GameScreens
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
         private Texture2D _svarogSymbolTexture;
+
+        private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
 
         public Effect GetAllWhiteEffect()
@@ -233,7 +235,8 @@ namespace Rpg.Client.GameScreens
             _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
             _equipmentIcons = contentManager.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons");
 
-            _textSoundDict = new Dictionary<UnitName, SoundEffect> {
+            _textSoundDict = new Dictionary<UnitName, SoundEffect>
+            {
                 { UnitName.Environment, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Environment") },
                 { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
                 { UnitName.Hq, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hq") },
@@ -333,8 +336,6 @@ namespace Rpg.Client.GameScreens
 
             return _skillSoundDict[GameObjectSoundType.WolfBite];
         }
-
-        private IDictionary<UnitName, SoundEffect> _textSoundDict;
 
         internal SoundEffect GetTextSoundEffect(UnitName unitName)
         {

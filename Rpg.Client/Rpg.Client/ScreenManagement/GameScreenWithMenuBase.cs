@@ -12,9 +12,13 @@ namespace Rpg.Client.ScreenManagement
 {
     internal abstract class GameScreenWithMenuBase : GameScreenBase
     {
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
 
         private KeyboardState _lastKeyboardState;
+        private IList<ButtonBase>? _menuButtons;
+
+        private bool _menuCreated;
 
         protected GameScreenWithMenuBase(EwarGame game) : base(game)
         {
@@ -25,9 +29,32 @@ namespace Rpg.Client.ScreenManagement
             AddModal(_settingsModal, isLate: true);
         }
 
-        private bool _menuCreated;
-        private IList<ButtonBase>? _menuButtons;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        protected abstract IList<ButtonBase> CreateMenu();
+
+        protected override void DrawContent(SpriteBatch spriteBatch)
+        {
+            const int MENU_HEIGHT = 20;
+            if (_menuButtons is not null && _menuButtons.Any())
+            {
+                var menuRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location,
+                    new Point(ResolutionIndependentRenderer.VirtualBounds.Width, MENU_HEIGHT));
+
+                var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
+                    ResolutionIndependentRenderer.VirtualBounds.Location.Y + MENU_HEIGHT,
+                    ResolutionIndependentRenderer.VirtualBounds.Width,
+                    ResolutionIndependentRenderer.VirtualBounds.Height - MENU_HEIGHT);
+
+                DrawContentWithoutMenu(spriteBatch, contentRect);
+
+                DrawMenu(spriteBatch, menuRect, _menuButtons);
+            }
+            else
+            {
+                DrawContentWithoutMenu(spriteBatch, ResolutionIndependentRenderer.VirtualBounds);
+            }
+        }
+
+        protected abstract void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect);
 
         protected override void UpdateContent(GameTime gameTime)
         {
@@ -51,47 +78,6 @@ namespace Rpg.Client.ScreenManagement
             }
         }
 
-        protected abstract IList<ButtonBase> CreateMenu();
-
-        private void UpdateMenu()
-        {
-            if (_menuButtons is null || !_menuButtons.Any())
-            {
-                return;
-            }
-
-            foreach (var menuButton in _menuButtons)
-            {
-                menuButton.Update(_resolutionIndependentRenderer);
-            }
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch)
-        {
-            const int MENU_HEIGHT = 20;
-            if (_menuButtons is not null && _menuButtons.Any())
-            {
-                var menuRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location,
-                    new Point(ResolutionIndependentRenderer.VirtualBounds.Width, MENU_HEIGHT));
-
-
-                var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
-                    ResolutionIndependentRenderer.VirtualBounds.Location.Y + MENU_HEIGHT,
-                    ResolutionIndependentRenderer.VirtualBounds.Width,
-                    ResolutionIndependentRenderer.VirtualBounds.Height - MENU_HEIGHT);
-
-                DrawContentWithoutMenu(spriteBatch, contentRect);
-
-                DrawMenu(spriteBatch, menuRect, _menuButtons);
-            }
-            else
-            {
-                DrawContentWithoutMenu(spriteBatch, ResolutionIndependentRenderer.VirtualBounds);
-            }
-        }
-
-        protected abstract void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect);
-
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect, IList<ButtonBase> menuButtons)
         {
             spriteBatch.Begin(
@@ -112,6 +98,19 @@ namespace Rpg.Client.ScreenManagement
             }
 
             spriteBatch.End();
+        }
+
+        private void UpdateMenu()
+        {
+            if (_menuButtons is null || !_menuButtons.Any())
+            {
+                return;
+            }
+
+            foreach (var menuButton in _menuButtons)
+            {
+                menuButton.Update(_resolutionIndependentRenderer);
+            }
         }
     }
 }

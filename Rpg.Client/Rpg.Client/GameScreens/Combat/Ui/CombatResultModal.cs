@@ -17,13 +17,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly TextButton _closeButton;
         private readonly CombatRewards _combatRewards;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly IUiContentStorage _uiContentStorage;
-        private CombatItem? _combatItemsLocal;
 
         private readonly CombatResultTitle _title;
+        private readonly IUiContentStorage _uiContentStorage;
+        private CombatItem? _combatItemsLocal;
+        private CombatRewardList? _combatRewardList;
 
         private double _iterationCounter;
-        private CombatRewardList? _combatRewardList;
 
         public CombatResultModal(IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage,
@@ -124,7 +124,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-
         }
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
@@ -137,7 +136,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_combatRewardList is not null)
             {
-                _combatRewardList.Rect = new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
+                _combatRewardList.Rect =
+                    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
                 _combatRewardList.Draw(spriteBatch);
 
                 var biomeProgress =
