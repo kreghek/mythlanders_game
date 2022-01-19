@@ -15,6 +15,7 @@ namespace Rpg.Client.Engine
         private (BiomeType, Song)[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D? _buttonTexture;
+        private Texture2D? _panelTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
@@ -28,6 +29,9 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _buttonIndicatorsTexture;
+        private Texture2D[] _introVideoTextures;
+        private Song _introTrack;
 
         public Texture2D GetButtonTexture()
         {
@@ -36,7 +40,7 @@ namespace Rpg.Client.Engine
 
         public Texture2D GetPanelTexture()
         {
-            return _buttonTexture;
+            return _panelTexture;
         }
 
         public Texture2D GetSpeechTexture()
@@ -82,6 +86,7 @@ namespace Rpg.Client.Engine
         public void LoadContent(ContentManager contentManager)
         {
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
+            _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
             _mainFont = contentManager.Load<SpriteFont>("Fonts/Main");
             _titlesFont = contentManager.Load<SpriteFont>("Fonts/Titles");
@@ -117,7 +122,24 @@ namespace Rpg.Client.Engine
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
             _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
 
+            _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
+
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
+            
+            _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+
+            var introVideoTextures = new List<Texture2D>(150);
+            for (var i = 1; i <= 150; i++)
+            { 
+                var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
+                introVideoTextures.Add(texture);
+            }
+            _introVideoTextures = introVideoTextures.ToArray();
+        }
+
+        public Texture2D GetButtonIndicatorsTexture()
+        {
+            return _buttonIndicatorsTexture;
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)
@@ -140,6 +162,11 @@ namespace Rpg.Client.Engine
             return _mapTracks;
         }
 
+        public Song GetIntroSong()
+        {
+            return _introTrack;
+        }
+
         public IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome)
         {
             return _battleTracks.Where(x => x.Item1 == currentBiome).Select(x => x.Item2).ToList();
@@ -158,6 +185,11 @@ namespace Rpg.Client.Engine
         public Texture2D GetCombatPowerIconsTexture()
         {
             return _combatPowerIconTextres;
+        }
+
+        public Texture2D[] GetIntroVideo()
+        {
+            return _introVideoTextures;
         }
     }
 }

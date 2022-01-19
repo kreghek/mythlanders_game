@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
@@ -28,6 +25,10 @@ namespace Rpg.Client.GameComponents
             }
 
             var trackName = soundTrackManager.CurrentTrackName;
+            if (trackName is null)
+            {
+                return;
+            }
 
             var size = _font.MeasureString(trackName);
 

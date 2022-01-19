@@ -6,27 +6,43 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CharacterDetails.Ui;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
     internal sealed class CharacterDetailsScreen : GameScreenWithMenuBase
     {
+        private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
         private readonly GlobeProvider _globeProvider;
         private readonly ScreenService _screenService;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly GeneralInfoPanel _generalInfoPanel;
+        private readonly SkillsInfoPanel _skillsInfoPanel;
+        private readonly PerkInfoPanel _perkInfoPanel;
+        private readonly UnitGraphics _unitGraphics;
 
         public CharacterDetailsScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _screenService = game.Services.GetService<ScreenService>();
 
             _buttonList = new List<ButtonBase>();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
-            InitSlotAssignmentButtons(_screenService.Selected, _globeProvider.Globe.Player);
+            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+                _uiContentStorage.GetMainFont());
+
+            _unitGraphics = new UnitGraphics(_screenService.Selected, new Vector2(), gameObjectContentStorage);
+
+            InitActionButtons(_screenService.Selected, _globeProvider.Globe.Player);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -52,72 +68,50 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            var _selectedCharacter = _screenService.Selected;
+            var unitGraphicsRect = GetCellRect(contentRect, col: 0, row: 0);
+            _unitGraphics.Root.Position = unitGraphicsRect.Center.ToVector2();
+            _unitGraphics.Draw(spriteBatch);
 
-            var unitName = _selectedCharacter.UnitScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
+            _generalInfoPanel.Rect = GetCellRect(contentRect, col: 1, row: 0);
+            _generalInfoPanel.Draw(spriteBatch);
+            
+            _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
+            _skillsInfoPanel.Draw(spriteBatch);
+            
+            _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
+            _perkInfoPanel.Draw(spriteBatch);
 
-            var sb = new List<string>
-            {
-                name,
-                string.Format(UiResource.HitPointsLabelTemplate, _selectedCharacter.MaxHitPoints),
-                string.Format(UiResource.ManaLabelTemplate, _selectedCharacter.ManaPool,
-                    _selectedCharacter.ManaPoolSize),
-                string.Format(UiResource.CombatLevelTemplate, _selectedCharacter.Level),
-                string.Format(UiResource.CombatLevelUpTemplate, _selectedCharacter.LevelUpXpAmount)
-            };
-
-            foreach (var skill in _selectedCharacter.Skills)
-            {
-                var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
-                                    $"#Resource-{skill.Sid}";
-
-                sb.Add(skillNameText);
-                if (skill.ManaCost is not null)
-                {
-                    sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));
-                }
-
-                // TODO Display skill efficient - damages, durations, etc.
-            }
-
-            foreach (var perk in _selectedCharacter.Perks)
-            {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
-
-                var localizedDescription =
-                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
-            }
-
-            for (var statIndex = 0; statIndex < sb.Count; statIndex++)
-            {
-                var line = sb[statIndex];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), line,
-                    new Vector2(contentRect.Center.X, contentRect.Top + statIndex * 22), Color.White);
-            }
-
-            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
-            {
-                var button = _buttonList[buttonIndex];
-                button.Rect = new Rectangle(contentRect.Center.X,
-                    contentRect.Top + sb.Count * 22 + buttonIndex * 21, 100, 20);
-                button.Draw(spriteBatch);
-            }
-
-            var array = _globeProvider.Globe.Player.Inventory.ToArray();
-            for (var i = 0; i < array.Length; i++)
-            {
-                var resourceItem = array[i];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{resourceItem.Type} x {resourceItem.Amount}",
-                    new Vector2(100, i * 20 + 100), Color.Wheat);
-            }
+            var actionButtonRect = GetCellRect(contentRect, col: 1, row: 1);
+            DrawActionButtons(spriteBatch: spriteBatch, actionButtonRect: actionButtonRect);
 
             spriteBatch.End();
+        }
+
+        private void DrawActionButtons(SpriteBatch spriteBatch, Rectangle actionButtonRect)
+        {
+            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
+            {
+                const int BUTTON_WIDTH = 100;
+                const int BUTTON_HEIGHT = 20;
+
+                var button = _buttonList[buttonIndex];
+                const int BUTTON_MARGIN = GRID_CELL_MARGIN;
+                var offset = new Point(0, (BUTTON_HEIGHT + BUTTON_MARGIN) * buttonIndex);
+                var panelLocation = new Point(actionButtonRect.Center.X - BUTTON_WIDTH / 2, actionButtonRect.Top);
+                var buttonSize = new Point(BUTTON_WIDTH, BUTTON_HEIGHT);
+
+                button.Rect = new Rectangle(panelLocation + offset, buttonSize);
+                button.Draw(spriteBatch);
+            }
+        }
+
+        private static Rectangle GetCellRect(Rectangle contentRect, int col, int row)
+        {
+            var gridColumnWidth = contentRect.Width / 3;
+            var gridRowHeight = contentRect.Height / 2;
+            var position = new Point(contentRect.Left + gridColumnWidth * col, contentRect.Top + gridRowHeight * row);
+            var size = new Point(gridColumnWidth - GRID_CELL_MARGIN, gridRowHeight - GRID_CELL_MARGIN);
+            return new Rectangle(position, size);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -128,70 +122,27 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 button.Update(ResolutionIndependentRenderer);
             }
+            
+            _unitGraphics.Update(gameTime);
         }
 
-
-        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
-        {
-            if (_globeProvider.Globe.Player.Abilities.Contains(PlayerAbility.AvailableTanks))
-            {
-                return freeSlots;
-            }
-
-            // In the first biome the player can use only first 3 slots.
-            // There is no ability to split characters on tank line and dd+support.
-            return freeSlots.Where(x => !x.IsTankLine);
-        }
-
-        private bool GetIsCharacterInGroup(Unit selectedCharacter)
-        {
-            return _globeProvider.Globe.Player.Party.GetUnits().Contains(selectedCharacter);
-        }
-
-        private void InitSlotAssignmentButtons(Unit character, Player player)
+        private void InitActionButtons(Unit character, Player player)
         {
             _buttonList.Clear();
 
-            var isCharacterInGroup = GetIsCharacterInGroup(character);
-            if (isCharacterInGroup)
-            {
-                var reserveButton = new ResourceTextButton(
-                    nameof(UiResource.MoveToThePoolButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(),
-                    Rectangle.Empty);
-                _buttonList.Add(reserveButton);
-
-                reserveButton.OnClick += (_, _) =>
-                {
-                    player.MoveToPool(character);
-
-                    InitSlotAssignmentButtons(character, player);
-                };
-            }
-            else
-            {
-                var freeSlots = player.Party.GetFreeSlots();
-                var availableSlots = GetAvailableSlots(freeSlots);
-                foreach (var slot in availableSlots)
-                {
-                    var slotButton = new TextButton(slot.Index.ToString(),
-                        _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(),
-                        Rectangle.Empty);
-
-                    _buttonList.Add(slotButton);
-
-                    slotButton.OnClick += (_, _) =>
-                    {
-                        player.MoveToParty(character, slot.Index);
-
-                        InitSlotAssignmentButtons(character, player);
-                    };
-                }
-            }
-
             InitUpgradeButtons(character, player);
+
+            var slotButton = new TextButton("Formation",
+                        _uiContentStorage.GetButtonTexture(),
+                        _uiContentStorage.GetMainFont());
+
+            _buttonList.Add(slotButton);
+
+            slotButton.OnClick += (_, _) =>
+            {
+                var formationModal = new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
+                AddModal(formationModal, isLate: false);
+            };
         }
 
         private void InitUpgradeButtons(Unit character, Player player)
@@ -207,7 +158,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
                         character.LevelUpXpAmount;
                     character.LevelUp();
-                    InitSlotAssignmentButtons(character, player);
+                    InitActionButtons(character, player);
                 };
 
                 _buttonList.Add(levelUpButton);
@@ -226,7 +177,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     {
                         resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
                         equipment.LevelUp();
-                        InitSlotAssignmentButtons(character, player);
+                        InitActionButtons(character, player);
                     };
                     _buttonList.Add(levelUpButton);
                 }

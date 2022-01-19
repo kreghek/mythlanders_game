@@ -88,41 +88,6 @@ namespace Rpg.Client.GameScreens.Biome
             _backgroundTexture.SetData(data);
         }
 
-        protected override IList<ButtonBase> CreateMenu()
-        {
-            var menuButtons = new List<ButtonBase>();
-            if (_gameSettings.Mode == GameMode.Full)
-            {
-                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                mapButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                };
-                menuButtons.Add(mapButton);
-
-                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                partyModalButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
-                };
-                menuButtons.Add(partyModalButton);
-
-                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
-                bestiaryButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
-                };
-                menuButtons.Add(bestiaryButton);
-            }
-
-            return menuButtons;
-        }
-
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             _resolutionIndependenceRenderer.BeginDraw();
@@ -246,6 +211,64 @@ namespace Rpg.Client.GameScreens.Biome
                     }
                 }
             }
+        }
+
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            var menuButtons = new List<ButtonBase>();
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                mapButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+                };
+                menuButtons.Add(mapButton);
+
+                var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle), _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
+                partyModalButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                };
+                partyModalButton.IndicatingSelector = () =>
+                {
+                    foreach (var unit in _globe.Player.GetAll())
+                    {
+                        var readyToUpgrade = unit.LevelUpXpAmount <=
+                                             _globe.Player.Inventory
+                                                 .Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                                             IsAnyEquipmentToUpgrade(character: unit, player: _globe.Player);
+                        if (readyToUpgrade)
+                        {
+                            return readyToUpgrade;
+                        }
+                    }
+
+                    return false;
+                };
+                menuButtons.Add(partyModalButton);
+
+                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont());
+                bestiaryButton.OnClick += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
+                };
+                menuButtons.Add(bestiaryButton);
+            }
+
+            return menuButtons;
+        }
+        
+        private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
+        {
+            return character.Equipments.Any(equipment =>
+                equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
+                    resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
         private void AutoCombatDelegate(GlobeNode _)
