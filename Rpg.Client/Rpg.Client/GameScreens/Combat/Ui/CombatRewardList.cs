@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatRewardList: ControlBase
+    internal class CombatRewardList : ControlBase
     {
         private const int MARGIN = 5;
         private readonly SpriteFont _titleFont;
@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             const int TITLE_HEIGHT = 20;
-            
+
             spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRect.Location.ToVector2(), Color.White);
 
             var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width, contentRect.Height - TITLE_HEIGHT);
@@ -80,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     Color.Wheat);
             }
         }
-        
+
         private static Rectangle GetEquipmentSpriteRect(EquipmentItemType equipmentItemType)
         {
             const int COLUMN_COUNT = 2;
@@ -93,7 +93,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
-        
+
         private static int GetEquipmentSpriteIndex(EquipmentItemType equipmentItemType)
         {
             return (int)equipmentItemType;

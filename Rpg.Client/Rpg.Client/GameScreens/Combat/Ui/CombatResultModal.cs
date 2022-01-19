@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private const int MARGIN = 5;
-        
+
         private readonly TextButton _closeButton;
         private readonly CombatRewards _combatRewards;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -49,11 +49,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             _title.Rect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, 50));
             _title.Draw(spriteBatch);
-            
+
             var benefitsPosition = new Vector2(ContentRect.Location.X + MARGIN, _title.Rect.Bottom + MARGIN);
             var benefitsRect = new Rectangle(benefitsPosition.ToPoint(),
                 new Point(ContentRect.Width, ContentRect.Height - _title.Rect.Height - MARGIN));
-            
+
             switch (CombatResult)
             {
                 case CombatResult.Victory:
@@ -80,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var biomeProgress = new AnimatedProgressionUnitItemStat(_combatRewards.BiomeProgress);
             var unitRewards = _combatRewards.InventoryRewards.Select(x => new AnimatedRewardItem(x)).ToArray();
-            
+
             _combatItemsLocal = new CombatItem(biomeProgress, unitRewards);
             _combatRewardList = new CombatRewardList(_uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetTitlesFont(),
@@ -124,7 +124,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            
+
         }
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
@@ -139,13 +139,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 _combatRewardList.Rect = new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
                 _combatRewardList.Draw(spriteBatch);
-                
+
                 var biomeProgress =
                     string.Format(UiResource.CombatResultMonsterDangerIncreasedTemplate,
                         _combatItemsLocal.BiomeProgress.CurrentValue);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
                     new Vector2(benefitsRect.Center.X, _combatRewardList.Rect.Bottom + MARGIN),
-                    Color.Wheat);   
+                    Color.Wheat);
             }
         }
     }

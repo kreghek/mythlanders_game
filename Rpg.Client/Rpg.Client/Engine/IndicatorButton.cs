@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Engine
 {
-    internal class IndicatorTextButton: ButtonBase
+    internal class IndicatorTextButton : ButtonBase
     {
         private readonly string _resourceSid;
         private readonly SpriteFont _font;

@@ -48,7 +48,7 @@ namespace Rpg.Client.GameScreens.Upgrade
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             DrawCharacters(spriteBatch: spriteBatch, contentRect: contentRect);
-            
+
             DrawInventory(spriteBatch, contentRect);
 
             spriteBatch.End();
@@ -81,7 +81,7 @@ namespace Rpg.Client.GameScreens.Upgrade
 
                 var col = i % COL;
                 var row = i / COL;
-                
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     $"{resourceItem.Type} x {resourceItem.Amount}",
                     new Vector2(120 * col, (contentRect.Bottom - 60) + (row * 20)), Color.Wheat);
@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Upgrade
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            
+
             if (!_isInitialized)
             {
                 foreach (var character in _globeProvider.Globe.Player.GetAll())
@@ -106,7 +106,7 @@ namespace Rpg.Client.GameScreens.Upgrade
                         nameFont: _uiContentStorage.GetTitlesFont(),
                         mainFont: _uiContentStorage.GetMainFont());
                     _characterPanels.Add(panel);
-                    
+
                     panel.SelectCharacter += Panel_SelectCharacter;
                 }
 
@@ -125,7 +125,7 @@ namespace Rpg.Client.GameScreens.Upgrade
         {
             var screenService = Game.Services.GetService<ScreenService>();
             screenService.Selected = e.Character;
-            
+
             ScreenManager.ExecuteTransition(this, ScreenTransition.CharacterDetails);
         }
 

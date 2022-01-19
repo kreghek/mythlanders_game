@@ -552,15 +552,15 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 var sumSequenceLength = _globeNode.CombatSequence.Combats.Count +
                                        _globeNode.CombatSequence.CompletedCombats.Count;
-                
+
                 var completeCombatCount = _globeNode.CombatSequence.CompletedCombats.Count + 1;
 
                 var position = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5);
-                
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     string.Format(UiResource.CombatProgressTemplate, completeCombatCount, sumSequenceLength),
                     position, Color.White);
-                
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     string.Format(UiResource.MonsterDangerTemplate, _combat.CombatSource.Level),
                     position + new Vector2(0, 10), Color.White);

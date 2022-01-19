@@ -10,7 +10,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
-    internal sealed class CharacterDetailsScreen: GameScreenWithMenuBase
+    internal sealed class CharacterDetailsScreen : GameScreenWithMenuBase
     {
         private readonly IUiContentStorage _uiContentStorage;
         private readonly ScreenService _screenService;
@@ -21,11 +21,11 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _screenService = game.Services.GetService<ScreenService>();
-            
+
             _buttonList = new List<ButtonBase>();
-            
+
             _globeProvider = game.Services.GetService<GlobeProvider>();
-            
+
             InitSlotAssignmentButtons(_screenService.Selected, _globeProvider.Globe.Player);
         }
 
@@ -33,8 +33,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         {
             return _globeProvider.Globe.Player.Party.GetUnits().Contains(selectedCharacter);
         }
-        
-        
+
+
         private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
         {
             if (_globeProvider.Globe.Player.Abilities.Contains(PlayerAbility.AvailableTanks))
@@ -46,7 +46,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             // There is no ability to split characters on tank line and dd+support.
             return freeSlots.Where(x => !x.IsTankLine);
         }
-        
+
         private void InitSlotAssignmentButtons(Unit character, Player player)
         {
             _buttonList.Clear();
@@ -92,7 +92,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             InitUpgradeButtons(character, player);
         }
-        
+
         private void InitUpgradeButtons(Unit character, Player player)
         {
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            
+
             foreach (var button in _buttonList.ToArray())
             {
                 button.Update(ResolutionIndependentRenderer);

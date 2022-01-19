@@ -73,15 +73,15 @@ namespace Rpg.Client.ScreenManagement
             {
                 var menuRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location,
                     new Point(ResolutionIndependentRenderer.VirtualBounds.Width, MENU_HEIGHT));
-                
+
 
                 var contentRect = new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Location.X,
                     ResolutionIndependentRenderer.VirtualBounds.Location.Y + MENU_HEIGHT,
                     ResolutionIndependentRenderer.VirtualBounds.Width,
                     ResolutionIndependentRenderer.VirtualBounds.Height - MENU_HEIGHT);
-                
+
                 DrawContentWithoutMenu(spriteBatch, contentRect);
-                
+
                 DrawMenu(spriteBatch, menuRect, _menuButtons);
             }
             else
@@ -101,16 +101,16 @@ namespace Rpg.Client.ScreenManagement
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
-            
+
             for (var index = 0; index < menuButtons.Count; index++)
             {
                 var menuButton = menuButtons[index];
-                
+
                 menuButton.Rect = new Rectangle((5 + 100) * index, 0, 100, menuRect.Height);
-                
+
                 menuButton.Draw(spriteBatch);
             }
-            
+
             spriteBatch.End();
         }
     }
