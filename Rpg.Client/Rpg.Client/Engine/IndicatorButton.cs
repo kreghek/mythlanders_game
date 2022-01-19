@@ -9,26 +9,28 @@ namespace Rpg.Client.Engine
     {
         private readonly string _resourceSid;
         private readonly SpriteFont _font;
+        private readonly Texture2D _indicatorsTexture;
 
-        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font) : base(texture, Rectangle.Empty)
+        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font, Texture2D indicatorsTexture) : base(texture, Rectangle.Empty)
         {
             _resourceSid = resourceSid;
             _font = font;
+            _indicatorsTexture = indicatorsTexture;
         }
 
         private float _counter;
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
-            if (IndicatingSelector())
+            if (IndicatingSelector is not null && IndicatingSelector())
             {
-                _counter += 0.1f;
+                _counter += 0.05f;
                 if (_counter > 1)
                 {
                     _counter = 0;
                 }
 
-                var totalColor = Color.Lerp(color, Color.Red, _counter);
+                var totalColor = Color.Lerp(color, Color.LimeGreen, _counter);
 
                 base.DrawBackground(spriteBatch, totalColor);
             }
@@ -40,6 +42,16 @@ namespace Rpg.Client.Engine
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
+            if (IndicatingSelector is not null && IndicatingSelector())
+            {
+                const int INDICATOR_FRAME_COUNT = 2;
+                var index = (int)Math.Round(INDICATOR_FRAME_COUNT * _counter, MidpointRounding.AwayFromZero);
+                const int INDICATOR_SIZE = 16;
+                var sourceRect = new Rectangle(INDICATOR_SIZE * index, 0, INDICATOR_SIZE, INDICATOR_SIZE);
+                spriteBatch.Draw(_indicatorsTexture, new Rectangle(contentRect.Right - INDICATOR_SIZE, contentRect.Top, INDICATOR_SIZE, INDICATOR_SIZE),
+                    sourceRect, contentColor);
+            }
+
             var localizedTitle = UiResource.ResourceManager.GetString(_resourceSid) ?? _resourceSid;
 
             var (textWidth, textHeight) = _font.MeasureString(localizedTitle);
@@ -52,6 +64,6 @@ namespace Rpg.Client.Engine
             spriteBatch.DrawString(_font, localizedTitle, textPosition, Color.SaddleBrown);
         }
 
-        public Func<bool> IndicatingSelector { get; set; }
+        public Func<bool>? IndicatingSelector { get; set; }
     }
 }

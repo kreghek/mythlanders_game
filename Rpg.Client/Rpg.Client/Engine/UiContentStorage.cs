@@ -28,6 +28,7 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _buttonIndicatorsTexture;
 
         public Texture2D GetButtonTexture()
         {
@@ -118,6 +119,13 @@ namespace Rpg.Client.Engine
             _defeatTrack = contentManager.Load<Song>("Audio/Background/Defeat");
 
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
+            
+            _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+        }
+
+        public Texture2D GetButtonIndicatorsTexture()
+        {
+            return _buttonIndicatorsTexture;
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)

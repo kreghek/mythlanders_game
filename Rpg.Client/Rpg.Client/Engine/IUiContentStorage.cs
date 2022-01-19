@@ -32,5 +32,6 @@ namespace Rpg.Client.Engine
         Texture2D GetUnitPanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
+        Texture2D GetButtonIndicatorsTexture();
     }
 }

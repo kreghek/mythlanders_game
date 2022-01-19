@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -8,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Upgrade.Ui
+namespace Rpg.Client.GameScreens.Party.Ui
 {
     internal sealed class SelectCharacterEventArgs : EventArgs
     {
@@ -28,14 +27,15 @@ namespace Rpg.Client.GameScreens.Upgrade.Ui
         private readonly SpriteFont _nameFont;
         private readonly SpriteFont _mainFont;
 
-        public CharacterPanel(Texture2D texture, Unit character, Player player, Texture2D buttonTexture, SpriteFont buttonFont, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
+        public CharacterPanel(Texture2D texture, Unit character, Player player, Texture2D buttonTexture,
+            SpriteFont buttonFont, Texture2D indicatorsTexture, Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont) : base(texture)
         {
             _character = character;
             _portraitTexture = portraitTexture;
             _nameFont = nameFont;
             _mainFont = mainFont;
 
-            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont);
+            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), buttonTexture, buttonFont, indicatorsTexture);
             infoButton.OnClick += (_, _) =>
             {
                 SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));

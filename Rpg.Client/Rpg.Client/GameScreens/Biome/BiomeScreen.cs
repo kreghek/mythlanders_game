@@ -218,7 +218,7 @@ namespace Rpg.Client.GameScreens.Biome
             var menuButtons = new List<ButtonBase>();
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var mapButton = new TextButton(UiResource.BackToMapMenuButtonTitle,
+                var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
                     _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont());
                 mapButton.OnClick += (_, _) =>
@@ -227,15 +227,31 @@ namespace Rpg.Client.GameScreens.Biome
                 };
                 menuButtons.Add(mapButton);
 
-                var partyModalButton = new TextButton(UiResource.PartyButtonTitle, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
+                var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle), _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
                 partyModalButton.OnClick += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
                 };
+                partyModalButton.IndicatingSelector = () =>
+                {
+                    foreach (var unit in _globe.Player.GetAll())
+                    {
+                        var readyToUpgrade = unit.LevelUpXpAmount <=
+                                             _globe.Player.Inventory
+                                                 .Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                                             IsAnyEquipmentToUpgrade(character: unit, player: _globe.Player);
+                        if (readyToUpgrade)
+                        {
+                            return readyToUpgrade;
+                        }
+                    }
+
+                    return false;
+                };
                 menuButtons.Add(partyModalButton);
 
-                var bestiaryButton = new TextButton(UiResource.BestiaryButtonTitle,
+                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle),
                     _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont());
                 bestiaryButton.OnClick += (_, _) =>
@@ -246,6 +262,13 @@ namespace Rpg.Client.GameScreens.Biome
             }
 
             return menuButtons;
+        }
+        
+        private static bool IsAnyEquipmentToUpgrade(Unit character, Player player)
+        {
+            return character.Equipments.Any(equipment =>
+                equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
+                    resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
         private void AutoCombatDelegate(GlobeNode _)
