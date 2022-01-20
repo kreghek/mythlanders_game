@@ -282,4 +282,10 @@
   <data name="CharacterSkillsInfoTitle" xml:space="preserve">
     <value>Навыки</value>
   </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Построение</value>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Повысить</value>
+  </data>
 </root>

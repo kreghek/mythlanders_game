@@ -295,6 +295,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Formation.
+        /// </summary>
+        internal static string FormationButtonTitle {
+            get {
+                return ResourceManager.GetString("FormationButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HitPoints: {0}.
         /// </summary>
         internal static string HitPointsLabelTemplate {
@@ -336,6 +345,15 @@ namespace Rpg.Client {
         internal static string IsTrainingOnly {
             get {
                 return ResourceManager.GetString("IsTrainingOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level Up.
+        /// </summary>
+        internal static string LevelUpButtonTitle {
+            get {
+                return ResourceManager.GetString("LevelUpButtonTitle", resourceCulture);
             }
         }
         

@@ -130,7 +130,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             InitUpgradeButtons(character, player);
 
-            var slotButton = new TextButton("Formation",
+            var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont());
 
@@ -149,7 +149,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
             if (xpAmount >= character.LevelUpXpAmount)
             {
-                var levelUpButton = new TextButton("Level Up", _uiContentStorage.GetButtonTexture(),
+                var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle), _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
 
                 levelUpButton.OnClick += (_, _) =>

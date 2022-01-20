@@ -268,4 +268,11 @@
   <data name="CharacterSkillsInfoTitle" xml:space="preserve">
     <value>Skills</value>
   </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Formation</value>
+    <comment>Настройка построения отряда</comment>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Level Up</value>
+  </data>
 </root>
