@@ -17,14 +17,17 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
-        public CharacterPanel(Texture2D texture, Unit character, Player player, CharacterPanelResources characterPanelResources) : base(texture)
+        public CharacterPanel(Texture2D texture, Unit character, Player player,
+            CharacterPanelResources characterPanelResources) : base(texture)
         {
             _character = character;
             _portraitTexture = characterPanelResources.PortraitTexture;
             _nameFont = characterPanelResources.NameFont;
             _mainFont = characterPanelResources.MainFont;
 
-            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle), characterPanelResources.ButtonTexture, characterPanelResources.ButtonFont, characterPanelResources.IndicatorsTexture);
+            var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle),
+                characterPanelResources.ButtonTexture, characterPanelResources.ButtonFont,
+                characterPanelResources.IndicatorsTexture);
             infoButton.OnClick += (_, _) =>
             {
                 SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));

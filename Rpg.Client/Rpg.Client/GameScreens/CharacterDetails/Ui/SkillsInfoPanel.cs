@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
-    internal class SkillsInfoPanel: PanelBase
+    internal class SkillsInfoPanel : PanelBase
     {
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var sb = new List<string>();
-            
+
             foreach (var skill in _character.Skills)
             {
                 var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
@@ -40,7 +40,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
                 // TODO Display skill efficient - damages, durations, etc.
             }
-            
+
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
                 var line = sb[statIndex];

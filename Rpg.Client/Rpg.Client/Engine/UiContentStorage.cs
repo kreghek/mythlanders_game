@@ -14,24 +14,24 @@ namespace Rpg.Client.Engine
     {
         private (BiomeType, Song)[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
+        private Texture2D _buttonIndicatorsTexture;
         private Texture2D? _buttonTexture;
-        private Texture2D? _panelTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
+        private Song _introTrack;
+        private Texture2D[] _introVideoTextures;
         private SpriteFont _mainFont;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
         private Texture2D[] _modalTopTextures;
+        private Texture2D? _panelTexture;
         private Texture2D _speechTexture;
         private SpriteFont _titlesFont;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _buttonIndicatorsTexture;
-        private Texture2D[] _introVideoTextures;
-        private Song _introTrack;
         private Texture2D _modalsTopSymbolTexture;
 
         public Texture2D GetButtonTexture()
@@ -126,15 +126,16 @@ namespace Rpg.Client.Engine
             _introTrack = contentManager.Load<Song>("Audio/Intro/Intro");
 
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
-            
+
             _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
 
             var introVideoTextures = new List<Texture2D>(150);
             for (var i = 1; i <= 150; i++)
-            { 
+            {
                 var texture = contentManager.Load<Texture2D>($"Video/ezgif-frame-{i:000}");
                 introVideoTextures.Add(texture);
             }
+
             _introVideoTextures = introVideoTextures.ToArray();
 
             _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");

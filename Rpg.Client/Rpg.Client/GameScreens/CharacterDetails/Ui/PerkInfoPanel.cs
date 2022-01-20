@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.CharacterDetails
 {
-    internal class PerkInfoPanel: PanelBase
+    internal class PerkInfoPanel : PanelBase
     {
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var sb = new List<string>();
-            
+
             foreach (var perk in _character.Perks)
             {
                 var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
@@ -39,7 +39,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
                     sb.Add(localizedDescription);
                 }
             }
-            
+
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
                 var line = sb[statIndex];

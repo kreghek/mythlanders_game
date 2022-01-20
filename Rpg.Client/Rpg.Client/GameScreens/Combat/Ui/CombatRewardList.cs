@@ -14,10 +14,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private const int MARGIN = 5;
         private readonly Texture2D _rewardIconsTexture;
-        private readonly SpriteFont _textFont;
-        private readonly SpriteFont _titleFont;
 
         private readonly CombatItem _rewardItems;
+        private readonly SpriteFont _textFont;
+        private readonly SpriteFont _titleFont;
 
         public CombatRewardList(Texture2D texture,
             SpriteFont titleFont,

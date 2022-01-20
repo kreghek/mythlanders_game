@@ -14,34 +14,19 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
     {
         private const int TOP_MARGIN = 50;
         private readonly IList<ButtonBase> _buttonList;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly Unit _character;
         private readonly Player _player;
+        private readonly IUiContentStorage _uiContentStorage;
 
-        public FormationModal(IUiContentStorage uiContentStorage, Unit character, Player player, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage, resolutionIndependentRenderer)
+        public FormationModal(IUiContentStorage uiContentStorage, Unit character, Player player,
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+            resolutionIndependentRenderer)
         {
             _uiContentStorage = uiContentStorage;
             _character = character;
             _player = player;
 
             _buttonList = new List<ButtonBase>();
-        }
-
-        protected override void InitContent()
-        {
-            base.InitContent();
-
-            InitSlotAssignmentButtons(_character, _player);
-        }
-
-        protected override void UpdateContent(GameTime gameTime, ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
-        {
-            base.UpdateContent(gameTime, resolutionIndependenceRenderer);
-
-            foreach (var button in _buttonList.ToArray())
-            {
-                button.Update(resolutionIndependenceRenderer);
-            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -60,6 +45,36 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
                 button.Rect = new Rectangle(panelLocation + offset, buttonSize);
                 button.Draw(spriteBatch);
             }
+        }
+
+        protected override void InitContent()
+        {
+            base.InitContent();
+
+            InitSlotAssignmentButtons(_character, _player);
+        }
+
+        protected override void UpdateContent(GameTime gameTime,
+            ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
+        {
+            base.UpdateContent(gameTime, resolutionIndependenceRenderer);
+
+            foreach (var button in _buttonList.ToArray())
+            {
+                button.Update(resolutionIndependenceRenderer);
+            }
+        }
+
+        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
+        {
+            if (_player.Abilities.Contains(PlayerAbility.AvailableTanks))
+            {
+                return freeSlots;
+            }
+
+            // In the first biome the player can use only first 3 slots.
+            // There is no ability to split characters on tank line and dd+support.
+            return freeSlots.Where(x => x.IsTankLine);
         }
 
         private bool GetIsCharacterInGroup(Unit selectedCharacter)
@@ -107,18 +122,6 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
                     };
                 }
             }
-        }
-
-        private IEnumerable<GroupSlot> GetAvailableSlots(IEnumerable<GroupSlot> freeSlots)
-        {
-            if (_player.Abilities.Contains(PlayerAbility.AvailableTanks))
-            {
-                return freeSlots;
-            }
-
-            // In the first biome the player can use only first 3 slots.
-            // There is no ability to split characters on tank line and dd+support.
-            return freeSlots.Where(x => x.IsTankLine);
         }
     }
 }
