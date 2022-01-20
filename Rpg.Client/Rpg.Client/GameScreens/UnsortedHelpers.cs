@@ -11,22 +11,6 @@ namespace Rpg.Client.GameScreens
 {
     internal static class UnsortedHelpers
     {
-        public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
-        {
-            return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
-        }
-
-        public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)
-        {
-            switch (unitScheme.Name)
-            {
-                case UnitName.Berimir:
-                    return EquipmentItemType.Warrior;
-                default:
-                    return null;
-            }
-        }
-
         public static bool CheckIsDisabled(UnitName name, GlobalUnitEffect effect)
         {
             var mapping = GetCharacterDisablingMap();
@@ -49,6 +33,22 @@ namespace Rpg.Client.GameScreens
             {
                 new Tuple<UnitName, GlobeRule>(UnitName.Berimir, GlobeRule.DisableBerimir)
             };
+        }
+
+        public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
+        {
+            return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
+        }
+
+        public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)
+        {
+            switch (unitScheme.Name)
+            {
+                case UnitName.Berimir:
+                    return EquipmentItemType.Warrior;
+                default:
+                    return null;
+            }
         }
 
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,

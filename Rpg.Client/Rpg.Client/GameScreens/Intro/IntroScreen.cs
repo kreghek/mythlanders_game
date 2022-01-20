@@ -13,10 +13,10 @@ namespace Rpg.Client.GameScreens.Intro
         private const double DURATION = 1.0 / FPS;
         private const int FRAMES = 150;
         private readonly SpriteFont _font;
+        private readonly Texture2D[] _videoTextures;
 
         private double _frameCounter;
         private int _frameIndex;
-        private readonly Texture2D[] _videoTextures;
 
         public IntroScreen(EwarGame game) : base(game)
         {

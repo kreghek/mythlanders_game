@@ -25,6 +25,7 @@ namespace Rpg.Client.Engine
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
+        private Texture2D _modalsTopSymbolTexture;
         private Texture2D[] _modalTopTextures;
         private Texture2D? _panelTexture;
         private Texture2D _speechTexture;
@@ -32,7 +33,6 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _modalsTopSymbolTexture;
 
         public Texture2D GetButtonTexture()
         {

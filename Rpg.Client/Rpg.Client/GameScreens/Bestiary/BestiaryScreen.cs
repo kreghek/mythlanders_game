@@ -102,30 +102,6 @@ namespace Rpg.Client.GameScreens.Bestiary
             }
         }
 
-        private void InitializeMonsterButtons()
-        {
-            var monsterSchemes = _unitSchemeCatalog.AllMonsters;
-
-            _buttonList.Clear();
-
-            foreach (var monsterScheme in monsterSchemes)
-            {
-                if (!_player.KnownMonsters.Contains(monsterScheme))
-                {
-                    // This monster is unknown. So do not display it on the screen.
-                    continue;
-                }
-
-                var unitName = monsterScheme.Name;
-                var name = GameObjectHelper.GetLocalized(unitName);
-
-                var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle());
-                button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
-                _buttonList.Add(button);
-            }
-        }
-
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
         {
             var monster = new Unit(monsterScheme, monsterLevel);
@@ -159,6 +135,30 @@ namespace Rpg.Client.GameScreens.Bestiary
             }
 
             return sb;
+        }
+
+        private void InitializeMonsterButtons()
+        {
+            var monsterSchemes = _unitSchemeCatalog.AllMonsters;
+
+            _buttonList.Clear();
+
+            foreach (var monsterScheme in monsterSchemes)
+            {
+                if (!_player.KnownMonsters.Contains(monsterScheme))
+                {
+                    // This monster is unknown. So do not display it on the screen.
+                    continue;
+                }
+
+                var unitName = monsterScheme.Name;
+                var name = GameObjectHelper.GetLocalized(unitName);
+
+                var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle());
+                button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
+                _buttonList.Add(button);
+            }
         }
     }
 }

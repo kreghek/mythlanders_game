@@ -19,9 +19,9 @@ namespace Rpg.Client.GameScreens.Party.Ui
         public SpriteFont ButtonFont { get; }
 
         public Texture2D ButtonTexture { get; }
+        public Texture2D DisabledTexture { get; }
         public Texture2D IndicatorsTexture { get; }
         public SpriteFont MainFont { get; }
-        public Texture2D DisabledTexture { get; }
         public SpriteFont NameFont { get; }
         public Texture2D PortraitTexture { get; }
     }

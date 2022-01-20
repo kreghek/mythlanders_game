@@ -4,12 +4,11 @@ namespace Rpg.Client.Core.Perks
 {
     internal sealed class BossMonster : IPerk
     {
-        private readonly int _bossLevel;
-
         private const float HITPOINTS_BONUS = 3.5f;
         private const float ARMOR_BONUS = 2f;
 
         private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
+        private readonly int _bossLevel;
 
         public BossMonster(int bossLevel)
         {

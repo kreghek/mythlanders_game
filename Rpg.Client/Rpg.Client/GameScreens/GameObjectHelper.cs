@@ -20,11 +20,6 @@ namespace Rpg.Client.GameScreens
             return GetLocalizedInner(skillSid.ToString());
         }
 
-        public static string GetLocalizedDescription(IPerk perk)
-        {
-            return GetLocalizedInner($"{perk.GetType().Name}Description");
-        }
-
         public static string GetLocalized(GlobeNodeSid locationSid)
         {
             return GetLocalizedInner(locationSid.ToString());
@@ -43,6 +38,11 @@ namespace Rpg.Client.GameScreens
             }
 
             return GetLocalizedInner($"{equipmentType}Equipment");
+        }
+
+        public static string GetLocalizedDescription(IPerk perk)
+        {
+            return GetLocalizedInner($"{perk.GetType().Name}Description");
         }
 
         private static string GetLocalizedInner(string sid)

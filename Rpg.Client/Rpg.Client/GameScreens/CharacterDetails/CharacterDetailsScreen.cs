@@ -31,11 +31,14 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
-            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
+            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
-            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
-            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(),
+                screenService.Selected,
                 _uiContentStorage.GetMainFont());
 
             _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
@@ -149,7 +152,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
             if (xpAmount >= character.LevelUpXpAmount)
             {
-                var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle), _uiContentStorage.GetButtonTexture(),
+                var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle),
+                    _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
 
                 levelUpButton.OnClick += (_, _) =>
