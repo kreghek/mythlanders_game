@@ -6,16 +6,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class DecreaseDamageEffect : ModifiersEffect
     {
-        private readonly float _multiplier;
-
         public DecreaseDamageEffect(float multiplier)
         {
-            _multiplier = multiplier;
             Modifiers = new List<ModifierBase>
             {
                 new GivenDamageModifier
                 {
-                    DamageMultiplier = _multiplier
+                    DamageMultiplier = multiplier
                 }
             };
         }

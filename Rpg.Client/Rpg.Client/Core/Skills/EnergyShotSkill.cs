@@ -7,6 +7,8 @@ namespace Rpg.Client.Core.Skills
 {
     internal class EnergyShotSkill : SkillBase
     {
+        private const SkillSid SID = SkillSid.EnergyShot;
+
         public EnergyShotSkill() : this(false)
         {
         }
@@ -22,10 +24,11 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
                     return res;
@@ -33,7 +36,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.EnergyShot;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

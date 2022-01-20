@@ -23,11 +23,9 @@ namespace Rpg.Client.Core
 
             Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
 
-            var testEvents = CreateTestEvents();
-
             var plotEvents = CreatePlotEvents(serializedPlotString ?? string.Empty);
 
-            _events = testEvents.Concat(plotEvents).ToArray();
+            _events = plotEvents.ToArray();
         }
 
         private EventNode BuildEventNode(EventNodeStorageModel nodeStorageModel, EventPosition position,
@@ -124,31 +122,6 @@ namespace Rpg.Client.Core
 
                 yield return plotEvent;
             }
-        }
-
-        private static Event[] CreateTestEvents()
-        {
-            return Array.Empty<Event>();
-            //return new[]
-            //            {
-            //    CreateTestDialog(1, BiomeType.Slavic),
-            //    CreateTestDialog(2, BiomeType.Slavic),
-            //    CreateTestDialog(3, BiomeType.Slavic),
-            //    CreateTestDialog(4, BiomeType.Slavic),
-            //    CreateTestDialog(5, BiomeType.Slavic),
-            //    CreateTestDialog(6, BiomeType.Slavic),
-            //    CreateTestDialog(7, BiomeType.Slavic),
-            //    CreateTestDialog(8, BiomeType.Slavic),
-            //    CreateTestDialog(9, BiomeType.Slavic),
-            //    CreateTestDialog(10, BiomeType.Slavic),
-
-            //    CreateDependentTestEvent(1, "Тестовое событие 10", BiomeType.Slavic),
-
-            //    CreateMeetHerbalistDialog(),
-            //    CreateMeetArcherDialog(),
-            //    CreateMeetPriestDialog(),
-            //    CreateMeetMissionaryDialog()
-            //};
         }
 
         private static LocationInfo GetLocationInfo(string location)
