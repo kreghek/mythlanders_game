@@ -169,6 +169,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is preying.
+        /// </summary>
+        internal static string CharacterDeepPreyingTitleTemplate {
+            get {
+                return ResourceManager.GetString("CharacterDeepPreyingTitleTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Critical hit.
         /// </summary>
         internal static string CriticalHit {

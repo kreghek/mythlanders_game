@@ -304,6 +304,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} combats left.
+        /// </summary>
+        internal static string GlobalEffectDurationTemplate {
+            get {
+                return ResourceManager.GetString("GlobalEffectDurationTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HitPoints: {0}.
         /// </summary>
         internal static string HitPointsLabelTemplate {

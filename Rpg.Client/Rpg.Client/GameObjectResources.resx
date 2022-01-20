@@ -285,4 +285,7 @@
   <data name="BossMonsterDescription" xml:space="preserve">
     <value>This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor.</value><comment>Perk</comment>
   </data>
+  <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
+    <value>{0} is preying</value><comment>Global Effect</comment>
+  </data>
 </root>

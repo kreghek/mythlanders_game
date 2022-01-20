@@ -9,7 +9,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Bestiary
 {
-    internal sealed class BestiaryScreen : GameScreenBase
+    internal sealed class BestiaryScreen : GameScreenWithMenuBase
     {
         private readonly IList<ButtonBase> _buttonList;
 
@@ -37,7 +37,22 @@ namespace Rpg.Client.GameScreens.Bestiary
             _buttonList = new List<ButtonBase>();
         }
 
-        protected override void DrawContent(SpriteBatch spriteBatch)
+        protected override IList<ButtonBase> CreateMenu()
+        {
+            var backButton = new ResourceTextButton(
+                nameof(UiResource.BackButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
+            
+            backButton.OnClick += (_, _) =>
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+            };
+
+            return new[] { backButton };
+        }
+
+        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             _resolutionIndependentRenderer.BeginDraw();
             spriteBatch.Begin(
@@ -48,12 +63,10 @@ namespace Rpg.Client.GameScreens.Bestiary
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            var contentRect = _resolutionIndependentRenderer.VirtualBounds;
-
-            for (var characterIndex = 0; characterIndex < _buttonList.Count; characterIndex++)
+            for (var index = 0; index < _buttonList.Count; index++)
             {
-                var button = _buttonList[characterIndex];
-                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + characterIndex * 21, 100, 20);
+                var button = _buttonList[index];
+                button.Rect = new Rectangle(contentRect.Left, contentRect.Top + index * 21, 100, 20);
                 button.Draw(spriteBatch);
             }
 
@@ -76,37 +89,7 @@ namespace Rpg.Client.GameScreens.Bestiary
         {
             if (!_isInitialized)
             {
-                var monsterSchemes = _unitSchemeCatalog.AllMonsters;
-
-                _buttonList.Clear();
-
-                foreach (var monsterScheme in monsterSchemes)
-                {
-                    if (!_player.KnownMonsters.Contains(monsterScheme))
-                    {
-                        // This monster is unknown. So do not display it on the screen.
-                        continue;
-                    }
-
-                    var unitName = monsterScheme.Name;
-                    var name = GameObjectHelper.GetLocalized(unitName);
-
-                    var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(), new Rectangle());
-                    button.OnClick += (_, _) =>
-                    {
-                        _selectedMonster = monsterScheme;
-                    };
-                    _buttonList.Add(button);
-                }
-
-                var biomeButton = new TextButton("Back to the map", _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                biomeButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                };
-                _buttonList.Add(biomeButton);
+                InitializeMonsterButtons();
 
                 _isInitialized = true;
             }
@@ -116,6 +99,30 @@ namespace Rpg.Client.GameScreens.Bestiary
                 {
                     button.Update(_resolutionIndependentRenderer);
                 }
+            }
+        }
+
+        private void InitializeMonsterButtons()
+        {
+            var monsterSchemes = _unitSchemeCatalog.AllMonsters;
+
+            _buttonList.Clear();
+
+            foreach (var monsterScheme in monsterSchemes)
+            {
+                if (!_player.KnownMonsters.Contains(monsterScheme))
+                {
+                    // This monster is unknown. So do not display it on the screen.
+                    continue;
+                }
+
+                var unitName = monsterScheme.Name;
+                var name = GameObjectHelper.GetLocalized(unitName);
+
+                var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
+                    _uiContentStorage.GetMainFont(), new Rectangle());
+                button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
+                _buttonList.Add(button);
             }
         }
 

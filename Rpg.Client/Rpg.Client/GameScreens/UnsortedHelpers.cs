@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens
             return false;
         }
 
-        private static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
+        public static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
         {
             return new[]
             {

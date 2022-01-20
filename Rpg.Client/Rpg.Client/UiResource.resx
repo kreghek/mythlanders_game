@@ -275,4 +275,7 @@
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} combats left</value>
+  </data>
 </root>

@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.GameScreens;
+
 namespace Rpg.Client.Core.GlobalEvents
 {
     internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
@@ -13,15 +15,10 @@ namespace Rpg.Client.Core.GlobalEvents
         {
             _name = name;
 
-            if (_name is UnitName.Berimir)
-            {
-                _rule = GlobeRule.DisableBerimir;
-            }
-            else
-            {
-                Debug.Fail($"{name} is unknown character name.");
-                _rule = GlobeRule.DisableBerimir;
-            }
+            var mappings = UnsortedHelpers.GetCharacterDisablingMap();
+
+            var mapping = mappings.Single(x => x.Item1 == name);
+            _rule = mapping.Item2;
         }
 
         public IReadOnlyList<GlobeRule> GetRules()
@@ -31,7 +28,7 @@ namespace Rpg.Client.Core.GlobalEvents
 
         public bool IsActive => CombatsLeft > 0;
 
-        public string Title => $"{_name} is preying";
+        public string Title => string.Format(GameObjectResources.CharacterDeepPreyingTitleTemplate, _name);
         public int CombatsLeft { get; private set; } = 5;
 
         public void Update()

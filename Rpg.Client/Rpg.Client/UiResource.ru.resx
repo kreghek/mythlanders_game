@@ -288,4 +288,7 @@
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} боёв осталось</value>
+  </data>
 </root>

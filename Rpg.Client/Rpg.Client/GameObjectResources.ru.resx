@@ -285,4 +285,7 @@
   <data name="BossMonsterDescription" xml:space="preserve">
     <value>Перед вами Хозяин локации - самый сильный монстр в этой части мира. У него +250%HP и удвоенная защита.</value>
   </data>
+  <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
+    <value>{0} молится</value>
+  </data>
 </root>
