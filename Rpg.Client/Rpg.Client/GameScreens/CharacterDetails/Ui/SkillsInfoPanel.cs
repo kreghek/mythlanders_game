@@ -47,7 +47,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 var line = sb[statIndex];
                 spriteBatch.DrawString(_mainFont, line,
-                    new Vector2(contentRect.Left, contentRect.Top + statIndex * 22), Color.SaddleBrown);
+                    new Vector2(contentRect.Left, contentRect.Top + statIndex * 22), Color.Wheat);
             }
         }
     }
