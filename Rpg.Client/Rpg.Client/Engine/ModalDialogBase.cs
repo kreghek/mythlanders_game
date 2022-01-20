@@ -10,7 +10,7 @@ namespace Rpg.Client.Engine
     {
         Gears
     }
-    
+
     internal abstract class ModalDialogBase : IModalWindow
     {
         private const int CLOSE_BUTTON_SIZE = 16;
@@ -20,14 +20,16 @@ namespace Rpg.Client.Engine
         private const int MODAL_HEIGHT = 300;
         private const int MODAL_CONTENT_MARGIN = 9;
         private const int MODAL_HEADER_HEIGHT = 15;
+
+        private const int SYMBOL_SIZE = 64;
         private readonly Texture2D _backgroundBottomTexture;
 
         private readonly Texture2D _backgroundTopTexture;
-        private readonly Texture2D _topSymbolTexture;
         private readonly TextButton _closeButton;
         private readonly Rectangle _dialogRect;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly Texture2D _shadowTexture;
+        private readonly Texture2D _topSymbolTexture;
         public EventHandler? Closed;
 
         protected ModalDialogBase(IUiContentStorage uiContentStorage,
@@ -60,9 +62,9 @@ namespace Rpg.Client.Engine
 
         protected Rectangle ContentRect { get; }
 
-        protected abstract void DrawContent(SpriteBatch spriteBatch);
-
         protected virtual ModalTopSymbol? TopSymbol { get; }
+
+        protected abstract void DrawContent(SpriteBatch spriteBatch);
 
         protected virtual void InitContent()
         {
@@ -80,25 +82,6 @@ namespace Rpg.Client.Engine
         private void CloseButton_OnClick(object? sender, EventArgs e)
         {
             Close();
-        }
-
-        public bool IsVisible { get; private set; }
-
-        public void Close()
-        {
-            IsVisible = false;
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            DrawScreenShadow(spriteBatch);
-
-            DrawModalBorder(spriteBatch);
-
-            DrawContent(spriteBatch);
-
-            _closeButton.Draw(spriteBatch);
         }
 
         private void DrawModalBorder(SpriteBatch spriteBatch)
@@ -119,17 +102,12 @@ namespace Rpg.Client.Engine
             }
         }
 
-        private const int SYMBOL_SIZE = 64;
-        
-        private Rectangle GetSymbolRect(ModalTopSymbol symbol)
+        private void DrawScreenShadow(SpriteBatch spriteBatch)
         {
-            var index = GetOneBasedSymbolIndex(symbol);
-
-            const int COL_COUNT = 1;
-            var col = (index - 1) % COL_COUNT;
-            var row = (index - 1) / COL_COUNT;
-
-            return new Rectangle(SYMBOL_SIZE * col, SYMBOL_SIZE * row, SYMBOL_SIZE, SYMBOL_SIZE);
+            spriteBatch.Draw(_shadowTexture,
+                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth,
+                    _resolutionIndependentRenderer.VirtualHeight),
+                Color.White * 0.5f);
         }
 
         private int GetOneBasedSymbolIndex(ModalTopSymbol symbol)
@@ -141,12 +119,34 @@ namespace Rpg.Client.Engine
             };
         }
 
-        private void DrawScreenShadow(SpriteBatch spriteBatch)
+        private Rectangle GetSymbolRect(ModalTopSymbol symbol)
         {
-            spriteBatch.Draw(_shadowTexture,
-                new Rectangle(0, 0, _resolutionIndependentRenderer.VirtualWidth,
-                    _resolutionIndependentRenderer.VirtualHeight),
-                Color.White * 0.5f);
+            var index = GetOneBasedSymbolIndex(symbol);
+
+            const int COL_COUNT = 1;
+            var col = (index - 1) % COL_COUNT;
+            var row = (index - 1) / COL_COUNT;
+
+            return new Rectangle(SYMBOL_SIZE * col, SYMBOL_SIZE * row, SYMBOL_SIZE, SYMBOL_SIZE);
+        }
+
+        public bool IsVisible { get; private set; }
+
+        public void Close()
+        {
+            IsVisible = false;
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            DrawScreenShadow(spriteBatch);
+
+            DrawModalBorder(spriteBatch);
+
+            DrawContent(spriteBatch);
+
+            _closeButton.Draw(spriteBatch);
         }
 
         public void Show()

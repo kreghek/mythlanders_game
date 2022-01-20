@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.Skills
     internal class WideSlashSkill : SkillBase
     {
         private const SkillSid SID = SkillSid.WideSwordSlash;
-        
+
         public WideSlashSkill() : this(false)
         {
         }
@@ -25,7 +25,7 @@ namespace Rpg.Client.Core.Skills
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    
+
                     var res = new AttackEffect
                     {
                         DamageMultiplier = 0.5f * equipmentMultiplier,

@@ -8,19 +8,14 @@ namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
-        private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
-        {
-            var unit = new Unit(unitScheme, combatLevel);
-            return unit.Perks.OfType<TPerk>().Any();
-        }
-
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
             var availableMonsters = unitSchemeCatalog.AllMonsters
-                .Where(x => (!HasPerk<BossMonster>(x, combatLevel)) || (HasPerk<BossMonster>(x, combatLevel) && !biome.IsComplete &&
-                                                                        x.MinRequiredBiomeLevel is not null &&
-                                                                        x.MinRequiredBiomeLevel.Value <= biome.Level))
+                .Where(x => (!HasPerk<BossMonster>(x, combatLevel)) ||
+                            (HasPerk<BossMonster>(x, combatLevel) && !biome.IsComplete &&
+                             x.MinRequiredBiomeLevel is not null &&
+                             x.MinRequiredBiomeLevel.Value <= biome.Level))
                 .Where(x => x.Biome == biome.Type &&
                             ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) ||
                              x.LocationSids is null))
@@ -106,6 +101,12 @@ namespace Rpg.Client.Core
             // +1 because combat starts with zero.
             // But a unit's level have to starts with 1.
             return combatLevel + 1;
+        }
+
+        private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
+        {
+            var unit = new Unit(unitScheme, combatLevel);
+            return unit.Perks.OfType<TPerk>().Any();
         }
     }
 }

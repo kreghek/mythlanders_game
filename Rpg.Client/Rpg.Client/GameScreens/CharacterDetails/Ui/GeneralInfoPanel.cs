@@ -12,18 +12,19 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
 
-        public GeneralInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(texture, titleFont)
+        public GeneralInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
+            texture, titleFont)
         {
             _character = character;
             _mainFont = mainFont;
         }
 
+        protected override string TitleResourceId => nameof(UiResource.CharacterGeneralInfoTitle);
+
         protected override Color CalculateColor()
         {
             return Color.White;
         }
-
-        protected override string TitleResourceId => nameof(UiResource.CharacterGeneralInfoTitle);
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {

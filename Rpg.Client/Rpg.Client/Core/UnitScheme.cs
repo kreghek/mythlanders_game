@@ -60,6 +60,7 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(ARMOR_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
+
             return ARMOR_BASE;
         }
 
@@ -69,7 +70,7 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(DAMAGE_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-            
+
             return DAMAGE_BASE;
         }
 

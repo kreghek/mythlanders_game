@@ -12,7 +12,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
 
-        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(texture, titleFont)
+        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
+            texture, titleFont)
         {
             _character = character;
             _mainFont = mainFont;

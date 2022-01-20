@@ -364,6 +364,5 @@ namespace Rpg.Client.GameScreens
             Main,
             Closest
         }
-
     }
 }

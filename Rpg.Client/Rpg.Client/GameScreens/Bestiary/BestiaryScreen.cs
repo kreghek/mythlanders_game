@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                 nameof(UiResource.BackButtonTitle),
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont());
-            
+
             backButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
@@ -102,6 +102,41 @@ namespace Rpg.Client.GameScreens.Bestiary
             }
         }
 
+        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
+        {
+            var monster = new Unit(monsterScheme, monsterLevel);
+
+            var unitName = monsterScheme.Name;
+            var name = GameObjectHelper.GetLocalized(unitName);
+
+            var sb = new List<string>
+            {
+                name,
+                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
+                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
+                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
+            };
+
+            foreach (var perk in monster.Perks)
+            {
+                var localizedName = GameObjectHelper.GetLocalized(perk);
+                sb.Add(localizedName);
+
+                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
+
+                sb.Add(localizedDescription);
+            }
+
+            foreach (var skill in monster.Skills)
+            {
+                var localizedName = GameObjectHelper.GetLocalized(skill.Sid);
+
+                sb.Add(localizedName);
+            }
+
+            return sb;
+        }
+
         private void InitializeMonsterButtons()
         {
             var monsterSchemes = _unitSchemeCatalog.AllMonsters;
@@ -124,41 +159,6 @@ namespace Rpg.Client.GameScreens.Bestiary
                 button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
                 _buttonList.Add(button);
             }
-        }
-
-        private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
-        {
-            var monster = new Unit(monsterScheme, monsterLevel);
-
-            var unitName = monsterScheme.Name;
-            var name = GameObjectHelper.GetLocalized(unitName);
-
-            var sb = new List<string>
-            {
-                name,
-                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
-                string.Format(UiResource.DamageLabelTemplate, monster.Damage),
-                string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
-            };
-
-            foreach (var perk in monster.Perks)
-            {
-                var localizedName = GameObjectHelper.GetLocalized(perk);
-                sb.Add(localizedName);
-
-                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
-                
-                sb.Add(localizedDescription);
-            }
-
-            foreach (var skill in monster.Skills)
-            {
-                var localizedName = GameObjectHelper.GetLocalized(skill.Sid);
-
-                sb.Add(localizedName);
-            }
-
-            return sb;
         }
     }
 }

@@ -12,12 +12,12 @@ namespace Rpg.Client.GameScreens.Party.Ui
     internal sealed class CharacterPanel : ControlBase
     {
         private readonly Unit _character;
+
+        private readonly Texture2D _disabledTexture;
         private readonly ButtonBase _infoButton;
         private readonly SpriteFont _mainFont;
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
-
-        private readonly Texture2D _disabledTexture;
 
         public CharacterPanel(Texture2D texture, Unit character, Player player,
             CharacterPanelResources characterPanelResources) : base(texture)

@@ -22,7 +22,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             if (title is not null)
             {
                 var size = _titleFont.MeasureString(title);
-                spriteBatch.DrawString(_titleFont, title, new Vector2(contentRect.Center.X - size.X/2, contentRect.Center.Y), Color.Wheat);
+                spriteBatch.DrawString(_titleFont, title,
+                    new Vector2(contentRect.Center.X - size.X / 2, contentRect.Center.Y), Color.Wheat);
             }
 
             var contentRectInner = new Rectangle(contentRect.Left + 5, contentRect.Top + 5, contentRect.Width - 5 * 2,

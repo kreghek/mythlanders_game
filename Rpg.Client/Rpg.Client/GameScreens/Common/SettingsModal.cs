@@ -34,8 +34,6 @@ namespace Rpg.Client.GameScreens.Common
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
 
-        protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.Gears;
-
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
             IScreen currentScreen, bool isGameState = true) : base(uiContentStorage,
@@ -102,6 +100,8 @@ namespace Rpg.Client.GameScreens.Common
                 _buttons.Add(exitGameButton);
             }
         }
+
+        protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.Gears;
 
 
         protected override void DrawContent(SpriteBatch spriteBatch)

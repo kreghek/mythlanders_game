@@ -11,6 +11,30 @@ namespace Rpg.Client.GameScreens
 {
     internal static class UnsortedHelpers
     {
+        public static bool CheckIsDisabled(UnitName name, GlobalUnitEffect effect)
+        {
+            var mapping = GetCharacterDisablingMap();
+
+            foreach (var tuple in mapping)
+            {
+                if (name == tuple.Item1 && effect.Source.IsActive &&
+                    effect.Source.GetRules().Contains(tuple.Item2))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
+        {
+            return new[]
+            {
+                new Tuple<UnitName, GlobeRule>(UnitName.Berimir, GlobeRule.DisableBerimir)
+            };
+        }
+
         public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
         {
             return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
@@ -25,30 +49,6 @@ namespace Rpg.Client.GameScreens
                 default:
                     return null;
             }
-        }
-
-        public static bool CheckIsDisabled(UnitName name, GlobalUnitEffect effect)
-        {
-            var mapping = GetCharacterDisablingMap();
-
-            foreach (var tuple in mapping)
-            {
-                if (name == tuple.Item1 && effect.Source.IsActive &&
-                    effect.Source.GetRules().Contains(tuple.Item2))
-                {
-                    return true;
-                }   
-            }
-
-            return false;
-        }
-
-        public static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
-        {
-            return new[]
-            {
-                new Tuple<UnitName, GlobeRule>(UnitName.Berimir, GlobeRule.DisableBerimir)
-            };
         }
 
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
