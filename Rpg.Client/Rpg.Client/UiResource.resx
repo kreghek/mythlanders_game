@@ -259,4 +259,13 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+    <value>General Info</value>
+  </data>
+  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+    <value>Perks</value>
+  </data>
+  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+    <value>Skills</value>
+  </data>
 </root>

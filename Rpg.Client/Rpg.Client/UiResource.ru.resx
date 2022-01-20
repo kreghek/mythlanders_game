@@ -273,4 +273,13 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>
   </data>
+  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+    <value>Перки</value>
+  </data>
+  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+    <value>Навыки</value>
+  </data>
 </root>

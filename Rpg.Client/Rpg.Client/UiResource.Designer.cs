@@ -124,6 +124,33 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General Info.
+        /// </summary>
+        internal static string CharacterGeneralInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterGeneralInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perks.
+        /// </summary>
+        internal static string CharacterPerkInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterPerkInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skills.
+        /// </summary>
+        internal static string CharacterSkillsInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterSkillsInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat length:.
         /// </summary>
         internal static string CombatLengthLabel {

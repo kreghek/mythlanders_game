@@ -16,9 +16,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
         private readonly GeneralInfoPanel _generalInfoPanel;
-        private readonly GlobeProvider _globeProvider;
         private readonly PerkInfoPanel _perkInfoPanel;
-        private readonly ScreenService _screenService;
         private readonly SkillsInfoPanel _skillsInfoPanel;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
@@ -27,22 +25,22 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            _screenService = game.Services.GetService<ScreenService>();
+            var screenService = game.Services.GetService<ScreenService>();
 
             _buttonList = new List<ButtonBase>();
 
-            _globeProvider = game.Services.GetService<GlobeProvider>();
+            var globeProvider = game.Services.GetService<GlobeProvider>();
 
-            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
-            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),_uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
-            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _screenService.Selected,
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
 
-            _unitGraphics = new UnitGraphics(_screenService.Selected, new Vector2(), gameObjectContentStorage);
+            _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
 
-            InitActionButtons(_screenService.Selected, _globeProvider.Globe.Player);
+            InitActionButtons(screenService.Selected, globeProvider.Globe.Player);
         }
 
         protected override IList<ButtonBase> CreateMenu()
