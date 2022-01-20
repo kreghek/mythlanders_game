@@ -273,4 +273,16 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="BigMonster" xml:space="preserve">
+    <value>Большой</value>
+  </data>
+  <data name="BossMonster" xml:space="preserve">
+    <value>БОСС</value>
+  </data>
+  <data name="BigMonsterDescription" xml:space="preserve">
+    <value>Этот монстр большой, поэтому у него +50% к HP и удвоенная броня.</value>
+  </data>
+  <data name="BossMonsterDescription" xml:space="preserve">
+    <value>Перед вами Хозяин локации - самый сильный монстр в этой части мира. У него +250%HP и удвоенная защита.</value>
+  </data>
 </root>

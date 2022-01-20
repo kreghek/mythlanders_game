@@ -273,4 +273,16 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
   </data>
+  <data name="BigMonster" xml:space="preserve">
+    <value>Big monster</value><comment>Perk</comment>
+  </data>
+  <data name="BossMonster" xml:space="preserve">
+    <value>The BOSS</value><comment>Perk</comment>
+  </data>
+  <data name="BigMonsterDescription" xml:space="preserve">
+    <value>This monster is big so it has +50% HP and armor x 2.</value><comment>Perk</comment>
+  </data>
+  <data name="BossMonsterDescription" xml:space="preserve">
+    <value>This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor.</value><comment>Perk</comment>
+  </data>
 </root>

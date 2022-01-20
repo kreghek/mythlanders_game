@@ -13,14 +13,11 @@ namespace Rpg.Client.Core
         private const float SUPPORT_BASE = 2;
 
         private const float HERO_POWER_MULTIPLICATOR = 2.5f;
-        private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
         private const float POWER_BASE = 1f;
         private const float POWER_PER_LEVEL_BASE = 0.1f;
 
         public float ArmorBase => CalcArmor();
         public BiomeType Biome { get; init; }
-
-        public int? BossLevel { get; init; }
 
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }
@@ -31,8 +28,6 @@ namespace Rpg.Client.Core
         public float HitPointsBase => CalcHitPointsBase();
 
         public float HitPointsPerLevelBase => CalcHitPointsPerLevelBase();
-
-        public bool IsBig { get; init; }
 
         public bool IsMonster { get; init; }
 
@@ -65,13 +60,7 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(ARMOR_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            if (BossLevel is null)
-            {
-                return ARMOR_BASE;
-            }
-
-            return ARMOR_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return ARMOR_BASE;
         }
 
         private float CalcDamage()
@@ -80,13 +69,8 @@ namespace Rpg.Client.Core
             {
                 return (int)Math.Round(DAMAGE_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
-
-            if (BossLevel is null)
-            {
-                return DAMAGE_BASE;
-            }
-
-            return DAMAGE_BASE * BossLevel.Value;
+            
+            return DAMAGE_BASE;
         }
 
         private float CalcHitPointsBase()
@@ -96,12 +80,7 @@ namespace Rpg.Client.Core
                 return (float)Math.Round(HITPOINTS_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
 
-            if (BossLevel is null)
-            {
-                return HITPOINTS_BASE;
-            }
-
-            return HITPOINTS_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return HITPOINTS_BASE;
         }
 
         private float CalcHitPointsPerLevelBase()
@@ -112,12 +91,7 @@ namespace Rpg.Client.Core
                     MidpointRounding.AwayFromZero);
             }
 
-            if (BossLevel is null)
-            {
-                return HITPOINTS_PER_LEVEL_BASE;
-            }
-
-            return HITPOINTS_PER_LEVEL_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return HITPOINTS_PER_LEVEL_BASE;
         }
 
         private float CalcPower()
@@ -127,12 +101,7 @@ namespace Rpg.Client.Core
                 return POWER_BASE * HERO_POWER_MULTIPLICATOR;
             }
 
-            if (BossLevel is null)
-            {
-                return POWER_BASE;
-            }
-
-            return POWER_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return POWER_BASE;
         }
 
         private float CalcPowerPerLevel()
@@ -142,12 +111,7 @@ namespace Rpg.Client.Core
                 return POWER_PER_LEVEL_BASE * HERO_POWER_MULTIPLICATOR;
             }
 
-            if (BossLevel is null)
-            {
-                return POWER_PER_LEVEL_BASE;
-            }
-
-            return POWER_PER_LEVEL_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return POWER_PER_LEVEL_BASE;
         }
 
         private float CalcSupport()
@@ -157,12 +121,7 @@ namespace Rpg.Client.Core
                 return (int)Math.Round(SUPPORT_BASE * HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
             }
 
-            if (BossLevel is null)
-            {
-                return SUPPORT_BASE;
-            }
-
-            return SUPPORT_BASE * BOSS_POWER_MULTIPLICATOR * BossLevel.Value;
+            return SUPPORT_BASE;
         }
     }
 }

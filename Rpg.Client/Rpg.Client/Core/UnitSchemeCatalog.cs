@@ -331,11 +331,11 @@ namespace Rpg.Client.Core
                     Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.SkyTower },
 
-                    BossLevel = 2,
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
+                        new AddPerkUnitLevel(1, new BossMonster(2)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill())
@@ -384,11 +384,11 @@ namespace Rpg.Client.Core
                     Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.ScreamValey },
 
-                    BossLevel = 3,
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
+                        new AddPerkUnitLevel(1, new BossMonster(3)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill())
@@ -436,11 +436,11 @@ namespace Rpg.Client.Core
                     Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Labirinth },
 
-                    BossLevel = 4,
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
+                        new AddPerkUnitLevel(1, new BossMonster(4)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill())
@@ -507,13 +507,11 @@ namespace Rpg.Client.Core
                         { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
                     IsMonster = true,
-                    IsBig = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new BearBludgeonSkill()),
-                        new AddPerkUnitLevel(3, new ImprovedHitPoints()),
-                        new AddPerkUnitLevel(10, new ImprovedArmor())
+                        new AddPerkUnitLevel(1, new BigMonster())
                     },
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
@@ -547,12 +545,11 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
                     IsUnique = true,
                     IsMonster = true,
-                    IsBig = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
-                        new AddPerkUnitLevel(1, new ImprovedHitPoints()),
+                        new AddPerkUnitLevel(1, new BigMonster()),
                         new AddPerkUnitLevel(10, new CriticalHit())
                     },
 
@@ -686,12 +683,12 @@ namespace Rpg.Client.Core
                     Name = UnitName.KosheyTheImmortal,
                     Biome = biomeType,
 
-                    BossLevel = 1,
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
+                        new AddPerkUnitLevel(1, new BossMonster(1)),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
                         new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
@@ -712,10 +709,10 @@ namespace Rpg.Client.Core
                             Name = UnitName.KosheyTheImmortal2, // Dead-golem form
                             Biome = BiomeType.Slavic,
                             IsMonster = true,
-                            BossLevel = 1,
 
                             Levels = new IUnitLevelScheme[]
                             {
+                                new AddPerkUnitLevel(1, new BossMonster(1)),
                                 new AddSkillUnitLevel(1, new WideSlashSkill()), // Bite
                                 new AddSkillUnitLevel(1, new DefenseStanceSkill()), // Dead one hard to die
                                 new AddSkillUnitLevel(1, new HealSkill()) // Eat a flash
@@ -735,10 +732,10 @@ namespace Rpg.Client.Core
                                     Name = UnitName.KosheyTheImmortal3, // Gaint spiritual face
                                     Biome = BiomeType.Slavic,
                                     IsMonster = true,
-                                    BossLevel = 1,
 
                                     Levels = new IUnitLevelScheme[]
                                     {
+                                        new AddPerkUnitLevel(1, new BossMonster(1)),
                                         new AddSkillUnitLevel(1, new WispEnergySkill()), // Dark Wind
                                         new AddSkillUnitLevel(1, new DopeHerbSkill()), // Scary Eyes
                                         new AddSkillUnitLevel(1, new PowerUpSkill()) // 1000-years hate

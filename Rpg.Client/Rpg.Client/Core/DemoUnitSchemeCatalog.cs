@@ -233,7 +233,7 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Battleground },
                     IsUnique = true,
                     IsMonster = true,
-                    BossLevel = 1,
+                    //BossLevel = 1,
                     MinRequiredBiomeLevel = 5,
 
                     // SkillSets = new List<SkillSet>
