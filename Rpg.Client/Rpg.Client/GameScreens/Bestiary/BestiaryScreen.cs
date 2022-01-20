@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                 nameof(UiResource.BackButtonTitle),
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont());
-            
+
             backButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
@@ -147,7 +147,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                 sb.Add(localizedName);
 
                 var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
-                
+
                 sb.Add(localizedDescription);
             }
 

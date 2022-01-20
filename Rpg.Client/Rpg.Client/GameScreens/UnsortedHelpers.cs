@@ -37,7 +37,7 @@ namespace Rpg.Client.GameScreens
                     effect.Source.GetRules().Contains(tuple.Item2))
                 {
                     return true;
-                }   
+                }
             }
 
             return false;

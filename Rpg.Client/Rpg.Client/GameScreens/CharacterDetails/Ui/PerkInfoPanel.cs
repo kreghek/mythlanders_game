@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
         }
 
         protected override string TitleResourceId => nameof(UiResource.CharacterPerkInfoTitle);
-        
+
         protected override Color CalculateColor()
         {
             return Color.White;

@@ -10,7 +10,7 @@ namespace Rpg.Client.Engine
     {
         Gears
     }
-    
+
     internal abstract class ModalDialogBase : IModalWindow
     {
         private const int CLOSE_BUTTON_SIZE = 16;
@@ -120,7 +120,7 @@ namespace Rpg.Client.Engine
         }
 
         private const int SYMBOL_SIZE = 64;
-        
+
         private Rectangle GetSymbolRect(ModalTopSymbol symbol)
         {
             var index = GetOneBasedSymbolIndex(symbol);

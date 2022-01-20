@@ -33,7 +33,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
-            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),_uiContentStorage.GetTitlesFont(), screenService.Selected,
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());
             _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(), screenService.Selected,
                 _uiContentStorage.GetMainFont());

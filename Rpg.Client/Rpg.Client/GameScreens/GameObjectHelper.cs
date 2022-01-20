@@ -9,17 +9,17 @@ namespace Rpg.Client.GameScreens
         {
             return GetLocalizedInner(unitName.ToString());
         }
-        
+
         public static string GetLocalized(IPerk perk)
         {
             return GetLocalizedInner(perk.GetType().Name);
         }
-        
+
         public static string GetLocalized(SkillSid skillSid)
         {
             return GetLocalizedInner(skillSid.ToString());
         }
-        
+
         public static string GetLocalizedDescription(IPerk perk)
         {
             return GetLocalizedInner($"{perk.GetType().Name}Description");

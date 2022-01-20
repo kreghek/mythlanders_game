@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             const int HERO_GROUP_INFO_HEIGHT = 20 + MARGIN;
             const int BUTTONS_HEIGHT = 20 + MARGIN;
             const int IMAGE_HEIGHT = 64;
-            
+
             var imageRect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, IMAGE_HEIGHT));
             DrawLocationImage(spriteBatch, imageRect);
 
@@ -97,7 +97,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         private void DrawHeroGroupInfo(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             const int MARGIN = 5;
-            
+
             var playerPartyUnits = _globe.Player.Party.GetUnits().ToArray();
             for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
             {
@@ -245,7 +245,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x=>x.EnemyGroup.GetUnits()).Sum(x => x.XpReward);
+            var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x => x.EnemyGroup.GetUnits()).Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
