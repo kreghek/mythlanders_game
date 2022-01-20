@@ -52,12 +52,76 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            var textPosition = ContentRect.Location.ToVector2() + new Vector2(0, 16);
+            if (_nodeGameObject.GlobeNode.CombatSequence is null)
+            {
+                Debug.Fail("Combat sequence is required to be assigned.");
+                Close();
+                return;
+            }
+
+            const int MARGIN = 5;
+            const int HERO_GROUP_INFO_HEIGHT = 20 + MARGIN;
+            const int BUTTONS_HEIGHT = 20 + MARGIN;
+            const int IMAGE_HEIGHT = 64;
+            
+            var imageRect = new Rectangle(ContentRect.Location, new Point(ContentRect.Width, IMAGE_HEIGHT));
+            DrawLocationImage(spriteBatch, imageRect);
+
+            var shortInfoRect = new Rectangle(ContentRect.Left, imageRect.Bottom + MARGIN, ContentRect.Width,
+                ContentRect.Height - (IMAGE_HEIGHT + HERO_GROUP_INFO_HEIGHT + BUTTONS_HEIGHT + MARGIN * 2));
+            DrawCombatShortInfo(spriteBatch, shortInfoRect);
+
+            var heroGroupRect = new Rectangle(ContentRect.Left, shortInfoRect.Bottom + MARGIN, ContentRect.Width,
+                HERO_GROUP_INFO_HEIGHT);
+            DrawHeroGroupInfo(spriteBatch, heroGroupRect);
+
+            var buttonGroupRect = new Rectangle(ContentRect.Left, heroGroupRect.Bottom + MARGIN, ContentRect.Width,
+                BUTTONS_HEIGHT);
+            DrawButtons(spriteBatch, buttonGroupRect);
+        }
+
+        private void DrawButtons(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var sumButtonWidth = _buttons.Count * (100 + 5);
+            var startXPosition = contentRect.Center.X - sumButtonWidth / 2;
+
+            for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
+            {
+                var button = _buttons[buttonIndex];
+                button.Rect = new Rectangle(startXPosition + buttonIndex * (100 + 5), contentRect.Top,
+                    100, 20);
+                button.Draw(spriteBatch);
+            }
+        }
+
+        private void DrawHeroGroupInfo(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            const int MARGIN = 5;
+            
+            var playerPartyUnits = _globe.Player.Party.GetUnits().ToArray();
+            for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
+            {
+                var unit = playerPartyUnits[unitIndex];
+                var unitName = unit.UnitScheme.Name;
+                var name = GameObjectHelper.GetLocalized(unitName);
+                var position = new Vector2(contentRect.Left + unitIndex * (100 + MARGIN), contentRect.Top);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
+            }
+        }
+
+        private void DrawLocationImage(SpriteBatch spriteBatch, Rectangle imageRect)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void DrawCombatShortInfo(SpriteBatch spriteBatch, Rectangle contentRectangle)
+        {
+            var textPosition = contentRectangle.Location.ToVector2();
 
             var localizedName = GameObjectHelper.GetLocalized(_nodeGameObject.GlobeNode.Sid);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), localizedName,
-                textPosition + new Vector2(5, 15),
+            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), localizedName,
+                textPosition + new Vector2(5, 5),
                 Color.Wheat);
 
             var dialogMarkerText = _nodeGameObject.AvailableEvent is not null
@@ -75,13 +139,6 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             DisplayCombatRewards(spriteBatch, _nodeGameObject, textPosition, _nodeGameObject);
 
-            if (_nodeGameObject.GlobeNode.CombatSequence is null)
-            {
-                Debug.Fail("Combat sequence is required to be assigned.");
-                Close();
-                return;
-            }
-
             var monsterIndex = 0;
 
             var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.CombatSequence.Combats
@@ -97,27 +154,6 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                     textPosition + new Vector2(5, 65 + monsterIndex * 10), Color.Wheat);
 
                 monsterIndex++;
-            }
-
-            var sumButtonWidth = _buttons.Count * (100 + 5);
-            var startXPosition = ContentRect.Center.X - sumButtonWidth / 2;
-
-            var playerPartyUnits = _globe.Player.Party.GetUnits().ToArray();
-            for (var unitIndex = 0; unitIndex < playerPartyUnits.Length; unitIndex++)
-            {
-                var unit = playerPartyUnits[unitIndex];
-                var unitName = unit.UnitScheme.Name;
-                var name = GameObjectHelper.GetLocalized(unitName);
-                var position = new Vector2(startXPosition + unitIndex * (100 + 5), ContentRect.Bottom - (40 + 5));
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), name, position, Color.Wheat);
-            }
-
-            for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
-            {
-                var button = _buttons[buttonIndex];
-                button.Rect = new Rectangle(startXPosition + buttonIndex * (100 + 5), ContentRect.Bottom - (20 + 5),
-                    100, 20);
-                button.Draw(spriteBatch);
             }
         }
 
@@ -209,13 +245,13 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
+            var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x=>x.EnemyGroup.GetUnits()).Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
-                $"Xp Reward: {summaryXp}",
+                $"Xp: {summaryXp}",
                 toolTipPosition,
                 Color.Wheat);
         }

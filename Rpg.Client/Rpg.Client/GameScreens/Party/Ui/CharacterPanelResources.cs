@@ -5,7 +5,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
     internal class CharacterPanelResources
     {
         public CharacterPanelResources(Texture2D buttonTexture, SpriteFont buttonFont, Texture2D indicatorsTexture,
-            Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont)
+            Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont, Texture2D disabledTexture)
         {
             ButtonTexture = buttonTexture;
             ButtonFont = buttonFont;
@@ -13,6 +13,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
             PortraitTexture = portraitTexture;
             NameFont = nameFont;
             MainFont = mainFont;
+            DisabledTexture = disabledTexture;
         }
 
         public SpriteFont ButtonFont { get; }
@@ -20,6 +21,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
         public Texture2D ButtonTexture { get; }
         public Texture2D IndicatorsTexture { get; }
         public SpriteFont MainFont { get; }
+        public Texture2D DisabledTexture { get; }
         public SpriteFont NameFont { get; }
         public Texture2D PortraitTexture { get; }
     }

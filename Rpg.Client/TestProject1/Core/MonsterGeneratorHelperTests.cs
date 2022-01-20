@@ -4,7 +4,10 @@ using Moq;
 
 using NUnit.Framework;
 
-namespace Rpg.Client.Core.Tests
+using Rpg.Client.Core;
+using Rpg.Client.Core.Perks;
+
+namespace TestProject1.Core
 {
     [TestFixture]
     public class MonsterGeneratorHelperTests
@@ -30,14 +33,16 @@ namespace Rpg.Client.Core.Tests
 
             var bossUnitScheme = new UnitScheme
             {
-                BossLevel = 1,
                 MinRequiredBiomeLevel = 0,
-                LocationSids = new[] { GlobeNodeSid.Castle }
+                LocationSids = new[] { GlobeNodeSid.Castle },
+                Levels = new[]
+                {
+                    new AddPerkUnitLevel(1, new BossMonster(1))
+                }
             };
 
             var regularUnitScheme = new UnitScheme
             {
-                BossLevel = null,
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
 
@@ -78,14 +83,16 @@ namespace Rpg.Client.Core.Tests
 
             var bossUnitScheme = new UnitScheme
             {
-                BossLevel = 1,
                 MinRequiredBiomeLevel = 0,
-                LocationSids = new[] { GlobeNodeSid.Castle }
+                LocationSids = new[] { GlobeNodeSid.Castle },
+                Levels = new[]
+                {
+                    new AddPerkUnitLevel(1, new BossMonster(1))
+                }
             };
 
             var regularUnitScheme = new UnitScheme
             {
-                BossLevel = null,
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
 
@@ -123,7 +130,10 @@ namespace Rpg.Client.Core.Tests
             var bigUnitScheme = new UnitScheme
             {
                 LocationSids = new[] { GlobeNodeSid.Battleground },
-                IsBig = true
+                Levels = new[]
+                {
+                    new AddPerkUnitLevel(1, new BigMonster())
+                }
             };
 
             var regularUnitScheme = new UnitScheme

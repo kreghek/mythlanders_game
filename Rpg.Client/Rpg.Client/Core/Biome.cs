@@ -15,9 +15,9 @@ namespace Rpg.Client.Core
         public bool IsAvailable { get; set; }
 
         public bool IsComplete { get; set; }
-        public bool IsFinal { get; set; }
+        public bool IsFinal { get; init; }
 
-        public bool IsStart { get; set; }
+        public bool IsStart { get; init; }
 
         public int Level { get; set; }
 
@@ -26,6 +26,6 @@ namespace Rpg.Client.Core
         public IEnumerable<GlobeNode> Nodes { get; init; }
         public BiomeType Type { get; }
 
-        public BiomeType? UnlockBiome { get; internal set; }
+        public BiomeType? UnlockBiome { get; init; }
     }
 }

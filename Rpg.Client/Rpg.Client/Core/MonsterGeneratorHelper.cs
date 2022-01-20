@@ -2,27 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Core.Perks;
+
 namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
+        private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
+        {
+            var unit = new Unit(unitScheme, combatLevel);
+            return unit.Perks.OfType<TPerk>().Any();
+        }
+
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
             var availableMonsters = unitSchemeCatalog.AllMonsters
-                .Where(x => (x.BossLevel is null) || (x.BossLevel is not null && !biome.IsComplete &&
-                                                      x.MinRequiredBiomeLevel is not null &&
-                                                      x.MinRequiredBiomeLevel.Value <= biome.Level))
+                .Where(x => (!HasPerk<BossMonster>(x, combatLevel)) || (HasPerk<BossMonster>(x, combatLevel) && !biome.IsComplete &&
+                                                                        x.MinRequiredBiomeLevel is not null &&
+                                                                        x.MinRequiredBiomeLevel.Value <= biome.Level))
                 .Where(x => x.Biome == biome.Type &&
                             ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) ||
                              x.LocationSids is null))
                 .ToList();
 
-            if (availableMonsters.Any(x => x.BossLevel is not null))
+            if (availableMonsters.Any(x => HasPerk<BossMonster>(x, combatLevel)))
             {
                 // This location for a boss.
-                // Boss has higher priority so generate only one boss and ignore other units.
-                var bossScheme = availableMonsters.Single(x => x.BossLevel is not null);
+                // Boss has the highest priority so generate only one boss and ignore other units.
+                var bossScheme = availableMonsters.Single(x => HasPerk<BossMonster>(x, combatLevel));
                 var unit = new Unit(bossScheme, combatLevel);
                 return new[] { unit };
             }
@@ -37,7 +45,7 @@ namespace Rpg.Client.Core
             {
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
-                if (!scheme.IsBig)
+                if (!HasPerk<BossMonster>(scheme, combatLevel))
                 {
                     rolledUnits.Add(scheme);
 

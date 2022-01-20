@@ -32,6 +32,7 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _modalsTopSymbolTexture;
 
         public Texture2D GetButtonTexture()
         {
@@ -136,11 +137,23 @@ namespace Rpg.Client.Engine
             }
 
             _introVideoTextures = introVideoTextures.ToArray();
+
+            _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
         }
 
         public Texture2D GetButtonIndicatorsTexture()
         {
             return _buttonIndicatorsTexture;
+        }
+
+        public Texture2D GetModalTopSymbolTextures()
+        {
+            return _modalsTopSymbolTexture;
+        }
+
+        public Texture2D GetDisabledTexture()
+        {
+            return _modalShadowTexture;
         }
 
         public Texture2D GetBiomeBackground(BiomeType type)

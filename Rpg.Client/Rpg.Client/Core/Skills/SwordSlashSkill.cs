@@ -7,6 +7,8 @@ namespace Rpg.Client.Core.Skills
 {
     internal class SwordSlashSkill : SkillBase
     {
+        private const SkillSid SID = SkillSid.SwordSlash;
+        
         public SwordSlashSkill() : this(false)
         {
         }
@@ -22,10 +24,12 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1
+                        DamageMultiplier = 1 * equipmentMultiplier
                     };
 
                     return res;

@@ -259,4 +259,23 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+    <value>General Info</value>
+  </data>
+  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+    <value>Perks</value>
+  </data>
+  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+    <value>Skills</value>
+  </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Formation</value>
+    <comment>Настройка построения отряда</comment>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Level Up</value>
+  </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} combats left</value>
+  </data>
 </root>

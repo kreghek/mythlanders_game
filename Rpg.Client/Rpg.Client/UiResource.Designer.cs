@@ -124,6 +124,33 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General Info.
+        /// </summary>
+        internal static string CharacterGeneralInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterGeneralInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perks.
+        /// </summary>
+        internal static string CharacterPerkInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterPerkInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skills.
+        /// </summary>
+        internal static string CharacterSkillsInfoTitle {
+            get {
+                return ResourceManager.GetString("CharacterSkillsInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat length:.
         /// </summary>
         internal static string CombatLengthLabel {
@@ -268,6 +295,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Formation.
+        /// </summary>
+        internal static string FormationButtonTitle {
+            get {
+                return ResourceManager.GetString("FormationButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} combats left.
+        /// </summary>
+        internal static string GlobalEffectDurationTemplate {
+            get {
+                return ResourceManager.GetString("GlobalEffectDurationTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HitPoints: {0}.
         /// </summary>
         internal static string HitPointsLabelTemplate {
@@ -309,6 +354,15 @@ namespace Rpg.Client {
         internal static string IsTrainingOnly {
             get {
                 return ResourceManager.GetString("IsTrainingOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level Up.
+        /// </summary>
+        internal static string LevelUpButtonTitle {
+            get {
+                return ResourceManager.GetString("LevelUpButtonTitle", resourceCulture);
             }
         }
         

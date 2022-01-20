@@ -396,7 +396,7 @@ namespace Rpg.Client.GameScreens.Biome
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), globeEvent.Title,
                     position + new Vector2(0, i * 40), Color.White);
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{globeEvent.CombatsLeft} combats left",
+                    string.Format(UiResource.GlobalEffectDurationTemplate, globeEvent.CombatsLeft),
                     position + new Vector2(0, i * 40 + 20), Color.White);
             }
         }

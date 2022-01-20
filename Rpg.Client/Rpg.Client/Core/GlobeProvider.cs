@@ -490,7 +490,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void LoadPlayerResources(ResourceDto[] resources, IReadOnlyCollection<ResourceItem> inventory)
+        private static void LoadPlayerResources(ResourceDto?[]? resources, IReadOnlyCollection<ResourceItem> inventory)
         {
             if (resources is null)
             {
@@ -499,6 +499,11 @@ namespace Rpg.Client.Core
 
             foreach (var resourceDto in resources)
             {
+                if (resourceDto is null)
+                {
+                    continue;
+                }
+
                 var resource = inventory.Single(x => x.Type.ToString() == resourceDto.Type);
                 resource.Amount = resourceDto.Amount;
             }

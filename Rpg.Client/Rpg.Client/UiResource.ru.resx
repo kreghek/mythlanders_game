@@ -273,4 +273,22 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>
   </data>
+  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+    <value>Перки</value>
+  </data>
+  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+    <value>Навыки</value>
+  </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Построение</value>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Повысить</value>
+  </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} боёв осталось</value>
+  </data>
 </root>

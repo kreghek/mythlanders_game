@@ -1,4 +1,5 @@
 ﻿using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens
 {
@@ -7,6 +8,21 @@ namespace Rpg.Client.GameScreens
         public static string GetLocalized(UnitName unitName)
         {
             return GetLocalizedInner(unitName.ToString());
+        }
+        
+        public static string GetLocalized(IPerk perk)
+        {
+            return GetLocalizedInner(perk.GetType().Name);
+        }
+        
+        public static string GetLocalized(SkillSid skillSid)
+        {
+            return GetLocalizedInner(skillSid.ToString());
+        }
+        
+        public static string GetLocalizedDescription(IPerk perk)
+        {
+            return GetLocalizedInner($"{perk.GetType().Name}Description");
         }
 
         public static string GetLocalized(GlobeNodeSid locationSid)

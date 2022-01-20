@@ -12,11 +12,13 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
 
-        public SkillsInfoPanel(Texture2D texture, Unit character, SpriteFont mainFont) : base(texture)
+        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(texture, titleFont)
         {
             _character = character;
             _mainFont = mainFont;
         }
+
+        protected override string TitleResourceId => nameof(UiResource.CharacterSkillsInfoTitle);
 
         protected override Color CalculateColor()
         {
@@ -29,8 +31,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             foreach (var skill in _character.Skills)
             {
-                var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
-                                    $"#Resource-{skill.Sid}";
+                var skillNameText = GameObjectHelper.GetLocalized(skill.Sid);
 
                 sb.Add(skillNameText);
                 if (skill.ManaCost is not null)

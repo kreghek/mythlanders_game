@@ -179,16 +179,13 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Update();
         }
 
-        private static void AddMonstersFromCombatIntoKnownMonsters(IEnumerable<Unit> monsters,
+        private static void AddMonstersFromCombatIntoKnownMonsters(Unit monster,
             ICollection<UnitScheme> playerKnownMonsters)
         {
-            foreach (var monster in monsters)
+            var scheme = monster.UnitScheme;
+            if (playerKnownMonsters.All(x => x != scheme))
             {
-                var scheme = monster.UnitScheme;
-                if (playerKnownMonsters.All(x => x != scheme))
-                {
-                    playerKnownMonsters.Add(scheme);
-                }
+                playerKnownMonsters.Add(scheme);
             }
         }
 
@@ -260,6 +257,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
+            if (combatUnit.Unit.UnitScheme.IsMonster)
+            {
+                AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
+            }
+
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
@@ -1007,9 +1009,6 @@ namespace Rpg.Client.GameScreens.Combat
         private void ShowCombatResultModal(bool isVictory)
         {
             CombatResultModal combatResultModal;
-
-            AddMonstersFromCombatIntoKnownMonsters(_combat.CombatSource.EnemyGroup.GetUnits(),
-                _globe.Player.KnownMonsters);
 
             if (isVictory)
             {

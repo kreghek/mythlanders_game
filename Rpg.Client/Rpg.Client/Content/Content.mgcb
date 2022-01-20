@@ -2668,3 +2668,15 @@
 /processorParam:TextureFormat=Color
 /build:Video/ezgif-frame-150.jpg
 
+#begin Sprites/Ui/ModalHeaders.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Ui/ModalHeaders.png
+

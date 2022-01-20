@@ -19,7 +19,9 @@ namespace Rpg.Client.Core
         {
             if (min > max)
             {
-                throw new ArgumentException($"Максимальное значение {max} не может быть меньше минимального {min}.",
+                // ReSharper disable once LocalizableElement
+                // Exception's messages shouldn't be localized.
+                throw new ArgumentException($"Max value {max} can't be least min {min}.",
                     nameof(max));
             }
 
@@ -153,7 +155,9 @@ namespace Rpg.Client.Core
 
             if (list.Count < count)
             {
-                throw new ArgumentException("Требуемое количество должно быть не меньше размера списка.",
+                // ReSharper disable once LocalizableElement
+                // Exception's messages shouldn't be localized.
+                throw new ArgumentException($"The requested count {count} must be begger or equal that list length {list.Count}.",
                     nameof(count));
             }
 

@@ -31,7 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        public void Influence(CombatUnit unit)
+        public void Influence(CombatUnit? unit)
         {
             if (unit is null || !_unitEffects.ContainsKey(unit))
             {

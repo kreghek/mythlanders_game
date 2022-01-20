@@ -124,11 +124,56 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Big monster.
+        /// </summary>
+        internal static string BigMonster {
+            get {
+                return ResourceManager.GetString("BigMonster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This monster is big so it has +50% HP and armor x 2..
+        /// </summary>
+        internal static string BigMonsterDescription {
+            get {
+                return ResourceManager.GetString("BigMonsterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The BOSS.
+        /// </summary>
+        internal static string BossMonster {
+            get {
+                return ResourceManager.GetString("BossMonster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the Master of the location. The monster is the most powerfull in this part of the world. It has +250% HP and doubled armor..
+        /// </summary>
+        internal static string BossMonsterDescription {
+            get {
+                return ResourceManager.GetString("BossMonsterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grim Castle in the Rock.
         /// </summary>
         internal static string Castle {
             get {
                 return ResourceManager.GetString("Castle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is preying.
+        /// </summary>
+        internal static string CharacterDeepPreyingTitleTemplate {
+            get {
+                return ResourceManager.GetString("CharacterDeepPreyingTitleTemplate", resourceCulture);
             }
         }
         

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -23,6 +25,30 @@ namespace Rpg.Client.GameScreens
                 default:
                     return null;
             }
+        }
+
+        public static bool CheckIsDisabled(UnitName name, GlobalUnitEffect effect)
+        {
+            var mapping = GetCharacterDisablingMap();
+
+            foreach (var tuple in mapping)
+            {
+                if (name == tuple.Item1 && effect.Source.IsActive &&
+                    effect.Source.GetRules().Contains(tuple.Item2))
+                {
+                    return true;
+                }   
+            }
+
+            return false;
+        }
+
+        public static IReadOnlyCollection<Tuple<UnitName, GlobeRule>> GetCharacterDisablingMap()
+        {
+            return new[]
+            {
+                new Tuple<UnitName, GlobeRule>(UnitName.Berimir, GlobeRule.DisableBerimir)
+            };
         }
 
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
