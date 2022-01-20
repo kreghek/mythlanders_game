@@ -17,6 +17,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
+        private readonly Texture2D _disabledTexture;
+
         public CharacterPanel(Texture2D texture, Unit character, Player player,
             CharacterPanelResources characterPanelResources) : base(texture)
         {
@@ -40,6 +42,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
             };
 
             _infoButton = infoButton;
+
+            _disabledTexture = characterPanelResources.DisabledTexture;
         }
 
         public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -60,6 +64,25 @@ namespace Rpg.Client.GameScreens.Party.Ui
 
             spriteBatch.DrawString(_mainFont, string.Format(UiResource.CombatLevelTemplate, _character.Level),
                 contentRect.Location.ToVector2() + new Vector2(32 + 5, 10), Color.Black);
+
+            var isDisabled = CheckIsDisabled(_character);
+            if (isDisabled)
+            {
+                spriteBatch.Draw(_disabledTexture, contentRect, Color.White);
+            }
+        }
+
+        private static bool CheckIsDisabled(Unit character)
+        {
+            foreach (var effect in character.GlobalEffects)
+            {
+                if (UnsortedHelpers.CheckIsDisabled(character.UnitScheme.Name, effect))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void DrawInfoButton(SpriteBatch spriteBatch, Rectangle contentRect)

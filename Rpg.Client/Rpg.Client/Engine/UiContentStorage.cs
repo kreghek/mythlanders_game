@@ -151,6 +151,11 @@ namespace Rpg.Client.Engine
             return _modalsTopSymbolTexture;
         }
 
+        public Texture2D GetDisabledTexture()
+        {
+            return _modalShadowTexture;
+        }
+
         public Texture2D GetBiomeBackground(BiomeType type)
         {
             return _biomeBackgroundDict[type];

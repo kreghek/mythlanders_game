@@ -33,5 +33,6 @@ namespace Rpg.Client.Engine
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
         Texture2D GetModalTopSymbolTextures();
+        Texture2D GetDisabledTexture();
     }
 }

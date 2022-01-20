@@ -82,6 +82,7 @@ namespace Rpg.Client.GameScreens.Party
                         buttonFont: _uiContentStorage.GetTitlesFont(),
                         indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
                         portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),
+                        disabledTexture: _uiContentStorage.GetDisabledTexture(),
                         nameFont: _uiContentStorage.GetTitlesFont(),
                         mainFont: _uiContentStorage.GetMainFont()
                     );

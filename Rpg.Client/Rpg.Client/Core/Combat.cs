@@ -6,6 +6,7 @@ using System.Linq;
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core
 {
@@ -279,8 +280,7 @@ namespace Rpg.Client.Core
 
             foreach (var effect in unit.GlobalEffects)
             {
-                if (unit.UnitScheme.Name == UnitName.Berimir && effect.Source.IsActive &&
-                    effect.Source.GetRules().Contains(GlobeRule.DisableBerimir))
+                if (UnsortedHelpers.CheckIsDisabled(unit.UnitScheme.Name, effect))
                 {
                     return false;
                 }
