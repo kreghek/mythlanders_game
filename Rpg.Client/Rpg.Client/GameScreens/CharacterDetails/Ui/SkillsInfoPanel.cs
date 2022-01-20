@@ -31,8 +31,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             foreach (var skill in _character.Skills)
             {
-                var skillNameText = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString()) ??
-                                    $"#Resource-{skill.Sid}";
+                var skillNameText = GameObjectHelper.GetLocalized(skill.Sid);
 
                 sb.Add(skillNameText);
                 if (skill.ManaCost is not null)

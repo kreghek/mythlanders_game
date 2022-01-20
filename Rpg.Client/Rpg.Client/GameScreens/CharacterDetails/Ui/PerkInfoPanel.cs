@@ -31,15 +31,11 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
 
             foreach (var perk in _character.Perks)
             {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+                var localizedName = GameObjectHelper.GetLocalized(perk);
+                sb.Add(localizedName);
 
-                var localizedDescription =
-                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
+                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
+                sb.Add(localizedDescription);
             }
 
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)

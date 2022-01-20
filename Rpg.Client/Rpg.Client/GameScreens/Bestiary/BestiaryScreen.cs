@@ -143,22 +143,19 @@ namespace Rpg.Client.GameScreens.Bestiary
 
             foreach (var perk in monster.Perks)
             {
-                var localizedName = GameObjectResources.ResourceManager.GetString(perk.GetType().Name);
-                sb.Add(localizedName ?? $"[{perk.GetType().Name}]");
+                var localizedName = GameObjectHelper.GetLocalized(perk);
+                sb.Add(localizedName);
 
-                var localizedDescription =
-                    GameObjectResources.ResourceManager.GetString($"{perk.GetType().Name}Description");
-                if (localizedDescription is not null)
-                {
-                    sb.Add(localizedDescription);
-                }
+                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
+                
+                sb.Add(localizedDescription);
             }
 
             foreach (var skill in monster.Skills)
             {
-                var localizedName = GameObjectResources.ResourceManager.GetString(skill.Sid.ToString());
+                var localizedName = GameObjectHelper.GetLocalized(skill.Sid);
 
-                sb.Add(localizedName ?? $"[{skill.Sid}]");
+                sb.Add(localizedName);
             }
 
             return sb;

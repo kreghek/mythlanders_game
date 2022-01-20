@@ -209,13 +209,13 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
         {
-            var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
+            var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x=>x.EnemyGroup.GetUnits()).Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
-                $"Xp Reward: {summaryXp}",
+                $"Xp: {summaryXp}",
                 toolTipPosition,
                 Color.Wheat);
         }
