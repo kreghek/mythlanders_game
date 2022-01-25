@@ -14,12 +14,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal class CombatSkillPanel : ISkillPanelState
     {
-        private const int ICON_SIZE = 32;
+        private const int ICON_SIZE = 64;
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
         private const int SPRITE_SHEET_COLUMN_COUNT = 4;
-
         private readonly IDictionary<ButtonBase, CombatSkill> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
@@ -71,7 +70,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 return;
             }
 
-            var panelWidth = _buttons.Count * 32;
+            var panelWidth = _buttons.Count * SKILL_BUTTON_SIZE;
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
