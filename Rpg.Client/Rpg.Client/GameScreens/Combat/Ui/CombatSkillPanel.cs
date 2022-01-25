@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
-        private const int SPRITE_SHEET_COLUMN_COUNT = 4;
+        private const int SPRITE_SHEET_COLUMN_COUNT = 3;
         private readonly IDictionary<ButtonBase, CombatSkill> _buttonCombatPowerDict;
         private readonly IList<ButtonBase> _buttons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
@@ -185,24 +185,26 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SKILL_BUTTON_SIZE);
         }
 
-        private static int? GetIconIndex(SkillSid sid)
+        private static int? GetIconOneBasedIndex(SkillSid sid)
         {
             return sid switch
             {
-                SkillSid.SwordSlash => 0,
-                SkillSid.DefenseStance => 1,
+                SkillSid.SwordSlash => 1,
                 SkillSid.WideSwordSlash => 2,
-                SkillSid.SvarogBlastFurnace => 2,
-                SkillSid.EnergyShot => 3,
-                SkillSid.RapidEnergyShot => 3,
-                SkillSid.ArrowRain => 4,
-                SkillSid.ZduhachMight => 5,
-                SkillSid.Heal => 6,
-                SkillSid.ToxicHerbs => 9,
-                SkillSid.HealingSalve => 6,
-                SkillSid.DopeHerb => 7,
-                SkillSid.MassHeal => 8,
+                SkillSid.DefenseStance => 3,
+                SkillSid.SvarogBlastFurnace => 4,
 
+                SkillSid.EnergyShot => 5,
+                SkillSid.RapidEnergyShot => 6,
+                SkillSid.ArrowRain => 7,
+                SkillSid.ZduhachMight => 8,
+
+                SkillSid.HealingSalve => 9,
+                SkillSid.ToxicHerbs => 10,
+                SkillSid.DopeHerb => 11,
+                SkillSid.MassHeal => 12,
+
+                SkillSid.Heal => 9,
                 SkillSid.StaffHit => 12,
                 SkillSid.HealMantre => 13,
                 SkillSid.PathOf1000Firsts => 14,
@@ -218,11 +220,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private static Rectangle GetIconRect(SkillSid sid)
         {
-            var iconIndexNullable = GetIconIndex(sid);
+            var iconIndexNullable = GetIconOneBasedIndex(sid);
 
-            Debug.Assert(iconIndexNullable is not null, $"Don't forget add combat power in {nameof(GetIconIndex)}");
+            Debug.Assert(iconIndexNullable is not null, $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
 
-            var iconIndex = iconIndexNullable.GetValueOrDefault();
+            var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
 
             var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
             var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;

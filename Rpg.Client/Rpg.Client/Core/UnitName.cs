@@ -15,7 +15,7 @@
 
         Maosin,
         Ping,
-        MasterCheng,
+        Cheng,
 
         Kakhotep,
         Amun,

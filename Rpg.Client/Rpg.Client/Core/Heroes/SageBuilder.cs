@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.Heroes
                 DamageDealerRank = 0.0f,
                 SupportRank = 0.8f,
 
-                Name = UnitName.MasterCheng,
+                Name = UnitName.Cheng,
 
                 // SkillSets = new List<SkillSet>
                 // {
