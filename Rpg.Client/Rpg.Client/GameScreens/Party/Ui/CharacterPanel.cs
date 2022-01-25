@@ -105,7 +105,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private void DrawPortrait(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var portraitRect = UnsortedHelpers.GetUnitPortraitRect(_character.UnitScheme.Name);
-            spriteBatch.Draw(_portraitTexture, new Rectangle(contentRect.Location + new Point(5, 5), new Point(32, 32)), portraitRect,
+            spriteBatch.Draw(_portraitTexture, new Rectangle(contentRect.Location + new Point(5, 5), new Point(32, 32)),
+                portraitRect,
                 Color.White);
         }
 

@@ -222,7 +222,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var iconIndexNullable = GetIconOneBasedIndex(sid);
 
-            Debug.Assert(iconIndexNullable is not null, $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
+            Debug.Assert(iconIndexNullable is not null,
+                $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
 
             var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
 
