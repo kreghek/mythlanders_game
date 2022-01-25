@@ -2,108 +2,19 @@
 using System.Linq;
 
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Perks;
+using Rpg.Client.Core.Heroes;
 
 namespace Rpg.Client.Core
 {
     internal sealed class DemoUnitSchemeCatalog : IUnitSchemeCatalog
     {
-        private static readonly UnitScheme SwordsmanHero = new()
-        {
-            TankRank = 0.4f,
-            DamageDealerRank = 0.5f,
-            SupportRank = 0.1f,
-
-            Name = UnitName.Berimir,
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill(),
-            //             new DefenseStanceSkill(true),
-            //             new SvarogBlastFurnaceSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new BerimirGraphicsConfig()
-        };
-
-        private static readonly UnitScheme HerbalistHero = new()
-        {
-            TankRank = 0.0f,
-            DamageDealerRank = 0.0f,
-            SupportRank = 1.0f,
-
-            Name = UnitName.Rada,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new HealingSalveSkill(),
-            //             new DopeHerbSkill(true),
-            //             new MassHealSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
-        private static readonly UnitScheme ArcherHero = new()
-        {
-            TankRank = 0.0f,
-            DamageDealerRank = 0.75f,
-            SupportRank = 0.25f,
-
-            Name = UnitName.Hawk,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new ArrowRainSkill(true),
-            //             new DefenseStanceSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new HawkGraphicsConfig()
-        };
-
         public DemoUnitSchemeCatalog()
         {
             PlayerUnits = new[]
             {
-                SwordsmanHero,
-                ArcherHero,
-                HerbalistHero
+                new SwordsmanBuilder().Create(),
+                new ArcherBuilder().Create(),
+                new HerbalistBuilder().Create()
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();

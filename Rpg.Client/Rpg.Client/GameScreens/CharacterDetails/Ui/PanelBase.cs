@@ -23,7 +23,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             {
                 var size = _titleFont.MeasureString(title);
                 spriteBatch.DrawString(_titleFont, title,
-                    new Vector2(contentRect.Center.X - size.X / 2, contentRect.Center.Y), Color.Wheat);
+                    new Vector2(contentRect.Center.X - size.X / 2, contentRect.Top - size.Y / 2), Color.Wheat);
             }
 
             var contentRectInner = new Rectangle(contentRect.Left + 5, contentRect.Top + 5, contentRect.Width - 5 * 2,

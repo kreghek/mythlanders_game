@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
             DrawInfoButton(spriteBatch, contentRect);
 
             spriteBatch.DrawString(_mainFont, string.Format(UiResource.CombatLevelTemplate, _character.Level),
-                contentRect.Location.ToVector2() + new Vector2(32 + 5, 10), Color.Black);
+                contentRect.Location.ToVector2() + new Vector2(32 + 5 * 2, 20 + 10), Color.White);
 
             var isDisabled = CheckIsDisabled(_character);
             if (isDisabled)
@@ -89,7 +89,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
         {
             const int BUTTON_WIDTH = 100;
             const int BUTTON_HEIGHT = 20;
-            _infoButton.Rect = new Rectangle(contentRect.Center.X - BUTTON_WIDTH / 2, contentRect.Top + 64,
+            _infoButton.Rect = new Rectangle(contentRect.Center.X - BUTTON_WIDTH / 2, contentRect.Top + 64 + 10,
                 BUTTON_WIDTH, BUTTON_HEIGHT);
             _infoButton.Draw(spriteBatch);
         }
@@ -98,14 +98,14 @@ namespace Rpg.Client.GameScreens.Party.Ui
         {
             var unitName = _character.UnitScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);
-            spriteBatch.DrawString(_nameFont, name, contentRect.Location.ToVector2() + new Vector2(32 + 5, 0),
-                Color.Black);
+            spriteBatch.DrawString(_nameFont, name, contentRect.Location.ToVector2() + new Vector2(32 + 5 * 2, 10),
+                Color.White);
         }
 
         private void DrawPortrait(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             var portraitRect = UnsortedHelpers.GetUnitPortraitRect(_character.UnitScheme.Name);
-            spriteBatch.Draw(_portraitTexture, new Rectangle(contentRect.Location, new Point(32, 32)), portraitRect,
+            spriteBatch.Draw(_portraitTexture, new Rectangle(contentRect.Location + new Point(5, 5), new Point(32, 32)), portraitRect,
                 Color.White);
         }
 

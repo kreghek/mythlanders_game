@@ -43,6 +43,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.2" />
+    <PackageReference Include="Steamworks.NET.Standard.Windows.x64" Version="15.0.1.4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
