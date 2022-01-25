@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
+using Rpg.Client.Core.Heroes;
 using Rpg.Client.Core.Perks;
 using Rpg.Client.Core.Skills;
 
@@ -10,278 +10,20 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitSchemeCatalog : IUnitSchemeCatalog
     {
-        private static readonly UnitScheme SwordsmanHero = new()
-        {
-            TankRank = 0.4f,
-            DamageDealerRank = 0.5f,
-            SupportRank = 0.1f,
-
-            Name = UnitName.Berimir,
-
-            Levels = new IUnitLevelScheme[]
-            {
-                new AddSkillUnitLevel(1, new SwordSlashSkill()),
-                new AddSkillUnitLevel(2, new WideSlashSkill()),
-                new AddPerkUnitLevel(2, new ImprovedHitPoints()),
-                new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
-                new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
-            },
-
-            Equipments = new IEquipmentScheme[]
-            {
-                new WarriorGreatSword(),
-                new Mk2MediumPowerArmor()
-            },
-
-            UnitGraphicsConfig = new BerimirGraphicsConfig()
-        };
-
-        private static readonly UnitScheme MonkHero = new()
-        {
-            TankRank = 0.2f,
-            DamageDealerRank = 0.6f,
-            SupportRank = 0.2f,
-
-            Name = UnitName.Maosin,
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new StaffSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new StaffSkill(),
-            //             new DefenseStanceSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new StaffSkill(),
-            //             new DefenseStanceSkill(true),
-            //             new WideSlashSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new MaosinGraphicsConfig()
-        };
-
-        private static readonly UnitScheme SpearmanHero = new()
-        {
-            TankRank = 0.8f,
-            DamageDealerRank = 0.1f,
-            SupportRank = 0.1f,
-
-            Name = UnitName.Ping,
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill(),
-            //             new DefenseStanceSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill(),
-            //             new DefenseStanceSkill(true),
-            //             new WideSlashSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
-        public static readonly UnitScheme ScorpionHero = new()
-        {
-            TankRank = 0.1f,
-            DamageDealerRank = 0.8f,
-            SupportRank = 0.1f,
-
-            Name = UnitName.Amun,
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill(),
-            //             new DefenseStanceSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new SwordSlashSkill(),
-            //             new DefenseStanceSkill(true),
-            //             new WideSlashSkill(true)
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
-        public static readonly UnitScheme HerbalistHero = new()
-        {
-            TankRank = 0.0f,
-            DamageDealerRank = 0.0f,
-            SupportRank = 1.0f,
-
-            Name = UnitName.Rada,
-
-            Levels = new IUnitLevelScheme[]
-            {
-                new AddSkillUnitLevel(1, new HealingSalveSkill()),
-                new AddSkillUnitLevel(2, new ToxicHerbsSkill()),
-                new AddPerkUnitLevel(2, new CriticalHeal()),
-                new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
-                new AddSkillUnitLevel(4, new MassHealSkill(true))
-            },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
-        private static readonly UnitScheme ArcherHero = new()
-        {
-            TankRank = 0.0f,
-            DamageDealerRank = 0.75f,
-            SupportRank = 0.25f,
-
-            Name = UnitName.Hawk,
-
-            Levels = new IUnitLevelScheme[]
-            {
-                new AddSkillUnitLevel(1, new EnergyShotSkill()),
-                new AddSkillUnitLevel(2, new RapidBowShotSkill()),
-                new AddPerkUnitLevel(2, new CriticalHit()),
-                new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
-                new AddSkillUnitLevel(4, new DefenseStanceSkill(true))
-            },
-
-            Equipments = new IEquipmentScheme[]
-            {
-                new ArcherPulsarBow(),
-                new Mk3ScoutPowerArmor()
-            },
-
-            UnitGraphicsConfig = new HawkGraphicsConfig()
-        };
-
-        private static readonly UnitScheme PriestHero = new()
-        {
-            TankRank = 0.1f,
-            DamageDealerRank = 0.9f,
-            SupportRank = 0.0f,
-
-            Name = UnitName.Kakhotep,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new MassStunSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new BowShotSkill(),
-            //             new MassStunSkill(true),
-            //             new SwordSlashSkill(true) // Finger of the Anubis
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
-        private static readonly UnitScheme MissionaryHero = new()
-        {
-            TankRank = 0.2f,
-            DamageDealerRank = 0.0f,
-            SupportRank = 0.8f,
-
-            Name = UnitName.Cheng,
-
-            // SkillSets = new List<SkillSet>
-            // {
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new DopeHerbSkill()
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new DopeHerbSkill(),
-            //             new PowerUpSkill(true)
-            //         }
-            //     },
-            //     new SkillSet
-            //     {
-            //         Skills = new List<SkillBase>
-            //         {
-            //             new DopeHerbSkill(), // No violence, please
-            //             new PowerUpSkill(true), // Trust
-            //             new HealSkill(true) // God Merciful Touch
-            //         }
-            //     }
-            // },
-            UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
-        };
-
         public UnitSchemeCatalog()
         {
             PlayerUnits = new[]
             {
-                SwordsmanHero,
-                ArcherHero,
-                HerbalistHero,
+                new SwordsmanBuilder().Create(),
+                new ArcherBuilder().Create(),
+                new HerbalistBuilder().Create(),
 
-                MonkHero,
-                SpearmanHero,
-                MissionaryHero,
-
-                ScorpionHero,
-                PriestHero
+                new MonkBuilder().Create(),
+                new SpearmanBuilder().Create(),
+                new SageBuilder().Create(),
+                
+                new ScorpionBuilder().Create(),
+                new DarkPriestBuilder().Create()
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();

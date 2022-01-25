@@ -51,7 +51,7 @@ namespace Rpg.Client.Core
                     "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
                     "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
+                        unitSchemeCatalog.PlayerUnits[UnitName.MasterCheng]),
                     "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(

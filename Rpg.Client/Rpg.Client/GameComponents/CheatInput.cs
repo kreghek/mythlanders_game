@@ -135,7 +135,7 @@ namespace Rpg.Client.GameComponents
                 "herbalist" => unitSchemeCatalog.PlayerUnits[UnitName.Rada],
 
                 "monk" => unitSchemeCatalog.PlayerUnits[UnitName.Maosin],
-                "missionary" => unitSchemeCatalog.PlayerUnits[UnitName.Cheng],
+                "missionary" => unitSchemeCatalog.PlayerUnits[UnitName.MasterCheng],
 
                 "priest" => unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep],
 
