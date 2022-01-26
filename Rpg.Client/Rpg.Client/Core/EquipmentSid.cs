@@ -9,6 +9,11 @@ namespace Rpg.Client.Core
         SilverWindNecklace,
         EgyptianBookOfDeath,
         NanoMetalLongCloths,
-        ScarabeusKingLeg
+        ScarabeusKingLeg,
+        WomanShort,
+        HerbBag,
+        BookOfHerbs,
+        AsceticRobe,
+        SymbolOfGod
     }
 }

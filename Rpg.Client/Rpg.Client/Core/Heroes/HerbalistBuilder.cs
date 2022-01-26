@@ -1,3 +1,4 @@
+using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
 using Rpg.Client.Core.Perks;
 using Rpg.Client.Core.Skills;
@@ -24,6 +25,14 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
                     new AddSkillUnitLevel(4, new MassHealSkill(true))
                 },
+                
+                Equipments = new IEquipmentScheme[]
+                {
+                    new HerbBag(),
+                    new WomanShort(),
+                    new BookOfHerbs()
+                },
+                
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }

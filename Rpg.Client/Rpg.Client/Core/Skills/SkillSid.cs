@@ -30,5 +30,7 @@ namespace Rpg.Client.Core.Skills
         RapidEnergyShot,
         ToxicHerbs,
         MutantBearBludgeon,
+        GodNature,
+        MasterStaffHit
     }
 }

@@ -5,13 +5,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class StaffSkill : SkillBase
+    internal class MasterStaffHitSkill : SkillBase
     {
-        public StaffSkill() : this(false)
+        public MasterStaffHitSkill() : this(false)
         {
         }
 
-        public StaffSkill(bool costRequired) : base(new SkillVisualization
+        public MasterStaffHitSkill(bool costRequired) : base(new SkillVisualization
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.StaffHit
@@ -37,7 +37,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.StaffHit;
+        public override SkillSid Sid => SkillSid.MasterStaffHit;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
