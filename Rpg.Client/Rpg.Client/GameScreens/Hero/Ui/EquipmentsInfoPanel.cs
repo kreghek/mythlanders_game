@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
                     new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
                 _equipmentIcons.Add(equipmentIconButton);
-                
+
                 var skillNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
             }
         }

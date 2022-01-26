@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
-    internal sealed class EntityIconButton<T>: ButtonBase
+    internal sealed class EntityIconButton<T> : ButtonBase
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;

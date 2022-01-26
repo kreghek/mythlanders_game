@@ -148,7 +148,7 @@ namespace Rpg.Client.Engine
             _introVideoTextures = introVideoTextures.ToArray();
 
             _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
-            
+
             _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
             _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
         }

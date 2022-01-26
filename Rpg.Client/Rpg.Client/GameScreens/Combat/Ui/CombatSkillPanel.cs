@@ -96,7 +96,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), new Vector2(Rect.Location.X, Rect.Center.Y - 48/2), color);
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), new Vector2(Rect.Location.X, Rect.Center.Y - 48 / 2), color);
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)

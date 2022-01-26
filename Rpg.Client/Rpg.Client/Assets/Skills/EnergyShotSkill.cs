@@ -47,7 +47,7 @@ namespace Rpg.Client.Assets.Skills
             SoundEffectType = GameObjectSoundType.BowShot
         };
     }
-    
+
     internal class ToateAngerSkill : SkillBase
     {
         private const SkillSid SID = SkillSid.EnergyShot;

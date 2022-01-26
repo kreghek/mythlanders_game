@@ -26,14 +26,14 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
                     new AddSkillUnitLevel(4, new MassHealSkill(true))
                 },
-                
+
                 Equipments = new IEquipmentScheme[]
                 {
                     new HerbBag(),
                     new WomanShort(),
                     new BookOfHerbs()
                 },
-                
+
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }
