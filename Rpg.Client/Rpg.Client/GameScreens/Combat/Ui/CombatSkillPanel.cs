@@ -12,7 +12,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatSkillPanel : ISkillPanelState
+    internal class CombatSkillPanel : ControlBase, ISkillPanelState
     {
         private const int ICON_SIZE = 64;
         private const int BUTTON_PADDING = 5;
@@ -31,8 +31,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatSkill? _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer)
+        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(texture)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _buttons = new List<ButtonBase>();
@@ -63,18 +63,25 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        internal void Draw(SpriteBatch spriteBatch)
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             if (!IsEnabled)
             {
                 return;
             }
 
-            var panelWidth = _buttons.Count * SKILL_BUTTON_SIZE;
+            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = GetButtonRectangle(_resolutionIndependentRenderer, panelWidth, buttonIndex);
+                var buttonsRect =
+                    new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+                button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
                 button.Draw(spriteBatch);
 
                 var hotKey = (buttonIndex + 1).ToString();
@@ -85,6 +92,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
+        }
+
+        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), new Vector2(Rect.Location.X, Rect.Center.Y - 48/2), color);
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -172,15 +184,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             hintControl.Draw(spriteBatch);
         }
 
-        private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer,
-            int panelWidth, int buttonIndex)
+        private static Rectangle GetButtonRectangle(Rectangle buttonsRect, int buttonIndex)
         {
-            var panelMiddleX = panelWidth / 2;
             var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
-            var panelLeftX = resolutionIndependentRenderer.VirtualBounds.Center.X - panelMiddleX;
 
-            return new Rectangle(panelLeftX + buttonOffsetX,
-                resolutionIndependentRenderer.VirtualBounds.Bottom - SKILL_BUTTON_SIZE,
+            return new Rectangle(buttonsRect.X + buttonOffsetX,
+                buttonsRect.Y,
                 SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE);
         }
@@ -195,7 +204,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.SvarogBlastFurnace => 4,
 
                 SkillSid.EnergyShot => 5,
-                SkillSid.RapidEnergyShot => 6,
+                SkillSid.RapidShot => 6,
                 SkillSid.ArrowRain => 7,
                 SkillSid.ZduhachMight => 8,
 
@@ -209,7 +218,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.HealMantre => 13,
                 SkillSid.PathOf1000Firsts => 14,
 
-                SkillSid.DarkLight => 9,
+                SkillSid.DarkLighting => 9,
                 SkillSid.ParaliticChor => 10,
                 SkillSid.FingerOfAnubis => 11,
 
@@ -308,7 +317,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty,
+                var button = new CombatSkillButton(_uiContentStorage.GetSkillButtonTexture(), iconData, Rectangle.Empty,
                     card, this);
                 _buttons.Add(button);
                 _buttonCombatPowerDict[button] = card;

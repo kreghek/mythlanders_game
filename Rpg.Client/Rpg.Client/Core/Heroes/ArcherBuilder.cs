@@ -1,6 +1,7 @@
+using Rpg.Client.Assets.Perks;
+using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Perks;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Heroes
@@ -20,16 +21,17 @@ namespace Rpg.Client.Core.Heroes
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new EnergyShotSkill()),
-                    new AddSkillUnitLevel(2, new RapidBowShotSkill()),
+                    new AddSkillUnitLevel(2, new RapidShotSkill()),
                     new AddPerkUnitLevel(2, new CriticalHit()),
                     new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
-                    new AddSkillUnitLevel(4, new DefenseStanceSkill(true))
+                    new AddSkillUnitLevel(4, new ZduhachMightSkill(true))
                 },
 
                 Equipments = new IEquipmentScheme[]
                 {
                     new ArcherPulsarBow(),
-                    new Mk3ScoutPowerArmor()
+                    new Mk3ScoutPowerArmor(),
+                    new SilverNecklace()
                 },
 
                 UnitGraphicsConfig = new HawkGraphicsConfig()

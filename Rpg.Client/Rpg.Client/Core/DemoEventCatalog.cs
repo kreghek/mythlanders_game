@@ -48,9 +48,9 @@ namespace Rpg.Client.Core
                 optionAftermath = aftermath switch
                 {
                     "MeetArcher" =>
-                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
+                        new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.Heroes[UnitName.Hawk]),
                     "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
-                        _unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
+                        _unitSchemeCatalog.Heroes[UnitName.Rada]),
                     _ => optionAftermath
                 };
             }

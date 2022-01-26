@@ -4,8 +4,8 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Perks;
 
 namespace TestProject1.Core
 {

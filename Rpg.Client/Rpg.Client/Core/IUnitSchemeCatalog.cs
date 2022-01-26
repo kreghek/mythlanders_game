@@ -5,6 +5,6 @@ namespace Rpg.Client.Core
     internal interface IUnitSchemeCatalog
     {
         IReadOnlyCollection<UnitScheme> AllMonsters { get; }
-        IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+        IDictionary<UnitName, UnitScheme> Heroes { get; }
     }
 }

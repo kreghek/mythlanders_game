@@ -43,19 +43,19 @@ namespace Rpg.Client.Core
                 optionAftermath = aftermath switch
                 {
                     "MeetArcher" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.PlayerUnits[UnitName.Hawk]),
+                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Hawk]),
                     "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Rada]),
+                        unitSchemeCatalog.Heroes[UnitName.Rada]),
                     "MeetMonk" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.PlayerUnits[UnitName.Maosin]),
+                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Maosin]),
                     "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Ping]),
+                        unitSchemeCatalog.Heroes[UnitName.Ping]),
                     "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Cheng]),
+                        unitSchemeCatalog.Heroes[UnitName.Cheng]),
                     "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Amun]),
+                        unitSchemeCatalog.Heroes[UnitName.Amun]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep]),
+                        unitSchemeCatalog.Heroes[UnitName.Kakhotep]),
                     "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Berimir),
                     _ => optionAftermath
                 };

@@ -144,7 +144,7 @@ namespace Rpg.Client.GameScreens.Party
             var screenService = Game.Services.GetService<ScreenService>();
             screenService.Selected = e.Character;
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.CharacterDetails);
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Hero);
         }
     }
 }

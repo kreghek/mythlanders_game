@@ -6,6 +6,8 @@
         Warrior,
         Archer,
         Herbalist,
-        Priest
+        Priest,
+        Monk,
+        Spearman
     }
 }

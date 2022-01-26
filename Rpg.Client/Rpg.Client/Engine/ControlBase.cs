@@ -19,8 +19,8 @@ namespace Rpg.Client.Engine
 
             {
                 new(0, CORNER_SIZE, CORNER_SIZE, INNER_SIZE),
-                new(CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, CORNER_SIZE),
-                new(INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, CORNER_SIZE)
+                new(CORNER_SIZE, CORNER_SIZE, INNER_SIZE, INNER_SIZE),
+                new(INNER_SIZE + CORNER_SIZE, CORNER_SIZE, CORNER_SIZE, INNER_SIZE)
             },
 
             {

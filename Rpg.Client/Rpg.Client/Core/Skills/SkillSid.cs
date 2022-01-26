@@ -19,15 +19,21 @@ namespace Rpg.Client.Core.Skills
         VolkolakClaws,
         WideSwordSlash,
         ZduhachMight,
-        DarkLight,
+        DarkLighting,
+        MummificationTouch,
         ParaliticChor,
         FingerOfAnubis,
         WispEnergy,
         VolkolakWarriorEnergyBurst,
         HealMantre,
         PathOf1000Firsts,
-        RapidEnergyShot,
+        RapidShot,
         ToxicHerbs,
-        MutantBearBludgeon
+        MutantBearBludgeon,
+        GodNature,
+        MasterStaffHit,
+        PenetrationStrike,
+        StonePath,
+        DemonicTaunt
     }
 }

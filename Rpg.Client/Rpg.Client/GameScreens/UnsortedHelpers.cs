@@ -61,10 +61,10 @@ namespace Rpg.Client.GameScreens
 
             switch (equipmentItemType)
             {
-                case EquipmentItemType.Warrior: return unitSchemeCatalog.PlayerUnits[UnitName.Berimir];
-                case EquipmentItemType.Archer: return unitSchemeCatalog.PlayerUnits[UnitName.Hawk];
-                case EquipmentItemType.Herbalist: return unitSchemeCatalog.PlayerUnits[UnitName.Rada];
-                case EquipmentItemType.Priest: return unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep];
+                case EquipmentItemType.Warrior: return unitSchemeCatalog.Heroes[UnitName.Berimir];
+                case EquipmentItemType.Archer: return unitSchemeCatalog.Heroes[UnitName.Hawk];
+                case EquipmentItemType.Herbalist: return unitSchemeCatalog.Heroes[UnitName.Rada];
+                case EquipmentItemType.Priest: return unitSchemeCatalog.Heroes[UnitName.Kakhotep];
                 default:
                     Debug.Fail($"Unknown resource type {equipmentItemType}.");
                     return null;
