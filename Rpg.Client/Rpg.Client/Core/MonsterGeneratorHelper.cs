@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Core.Perks;
+using Rpg.Client.Assets.Perks;
 
 namespace Rpg.Client.Core
 {

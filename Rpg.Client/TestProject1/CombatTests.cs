@@ -6,6 +6,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 
