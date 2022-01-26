@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
                 new MonkBuilder().Create(),
                 new SpearmanBuilder().Create(),
                 new SageBuilder().Create(),
-                
+
                 new ScorpionBuilder().Create(),
                 new DarkPriestBuilder().Create()
             }.ToDictionary(scheme => scheme.Name, scheme => scheme);
