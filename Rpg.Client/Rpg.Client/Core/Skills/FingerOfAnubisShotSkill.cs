@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class RapidBowShotSkill : SkillBase
+    internal class FingerOfAnubisShotSkill : SkillBase
     {
-        public RapidBowShotSkill() : this(false)
-        {
-        }
+        private const SkillSid SID = SkillSid.FingerOfAnubis;
 
-        public RapidBowShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public FingerOfAnubisShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -23,12 +20,11 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SkillSid.RapidEnergyShot);
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier,
-                        Scatter = 0.5f
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
                     return res;
@@ -36,7 +32,7 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.RapidEnergyShot;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

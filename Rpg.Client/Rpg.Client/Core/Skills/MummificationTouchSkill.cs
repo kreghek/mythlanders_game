@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class SwordSlashSkill : SkillBase
+    internal class MummificationTouchSkill : SkillBase
     {
         private const SkillSid SID = SkillSid.SwordSlash;
 
-        public SwordSlashSkill() : this(false)
+        public MummificationTouchSkill() : this(false)
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public MummificationTouchSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -37,9 +37,12 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SID;
+        public override SkillSid Sid => SkillSid.MummificationTouch;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        public override int UsageCount => 3;
+
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,

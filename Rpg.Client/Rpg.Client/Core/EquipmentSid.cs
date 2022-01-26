@@ -14,6 +14,9 @@ namespace Rpg.Client.Core
         HerbBag,
         BookOfHerbs,
         AsceticRobe,
-        SymbolOfGod
+        SymbolOfGod,
+        EliteGuardsmanSpear,
+        JuggernautHeavyPowerArmor,
+        ChaoticNeuroInterface
     }
 }

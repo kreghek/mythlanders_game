@@ -47,15 +47,15 @@ namespace Rpg.Client.Core.Skills
         };
     }
     
-    internal class FingerOfAnubisShotSkill : SkillBase
+    internal class ToateAngerSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.FingerOfAnubis;
+        private const SkillSid SID = SkillSid.EnergyShot;
 
-        public FingerOfAnubisShotSkill() : this(false)
+        public ToateAngerSkill() : this(false)
         {
         }
 
-        public FingerOfAnubisShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ToateAngerSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

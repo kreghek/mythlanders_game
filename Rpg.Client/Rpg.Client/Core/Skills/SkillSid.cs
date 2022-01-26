@@ -27,10 +27,13 @@ namespace Rpg.Client.Core.Skills
         VolkolakWarriorEnergyBurst,
         HealMantre,
         PathOf1000Firsts,
-        RapidEnergyShot,
+        RapidShot,
         ToxicHerbs,
         MutantBearBludgeon,
         GodNature,
-        MasterStaffHit
+        MasterStaffHit,
+        PenetrationStrike,
+        StonePath,
+        DemonicTaunt
     }
 }

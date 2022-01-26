@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class SwordSlashSkill : SkillBase
+    internal class PenetrationStrikeSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSlash;
+        private const SkillSid SID = SkillSid.PenetrationStrike;
 
-        public SwordSlashSkill() : this(false)
+        public PenetrationStrikeSkill() : this(false)
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public PenetrationStrikeSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -40,6 +40,9 @@ namespace Rpg.Client.Core.Skills
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        public override int UsageCount => 3;
+
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,

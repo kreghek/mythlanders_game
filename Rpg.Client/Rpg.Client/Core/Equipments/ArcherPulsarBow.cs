@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.Equipments
         public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
 
         protected override SkillSid[] AffectedAttackingSkills =>
-            new[] { SkillSid.EnergyShot, SkillSid.RapidEnergyShot };
+            new[] { SkillSid.EnergyShot, SkillSid.RapidShot };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

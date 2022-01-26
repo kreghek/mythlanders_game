@@ -20,7 +20,7 @@ namespace Rpg.Client.Core.Heroes
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new EnergyShotSkill()),
-                    new AddSkillUnitLevel(2, new RapidBowShotSkill()),
+                    new AddSkillUnitLevel(2, new RapidShotSkill()),
                     new AddPerkUnitLevel(2, new CriticalHit()),
                     new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
                     new AddSkillUnitLevel(4, new ZduhachMightSkill(true))

@@ -5,31 +5,29 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class SwordSlashSkill : SkillBase
+    internal class RapidShotSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSlash;
-
-        public SwordSlashSkill() : this(false)
+        public RapidShotSkill() : this(false)
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new[]
+        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SkillSid.RapidShot);
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1 * equipmentMultiplier
+                        DamageMultiplier = 1f * equipmentMultiplier,
+                        Scatter = 0.5f
                     };
 
                     return res;
@@ -37,13 +35,14 @@ namespace Rpg.Client.Core.Skills
             }
         };
 
-        public override SkillSid Sid => SID;
+        public override SkillSid Sid => SkillSid.RapidShot;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Melee;
+        public override SkillType Type => SkillType.Range;
+
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            Type = SkillVisualizationStateType.Range,
+            SoundEffectType = GameObjectSoundType.BowShot
         };
     }
 }

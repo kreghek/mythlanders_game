@@ -7,6 +7,7 @@
         Archer,
         Herbalist,
         Priest,
-        Monk
+        Monk,
+        Spearman
     }
 }

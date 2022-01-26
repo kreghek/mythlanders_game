@@ -2,9 +2,9 @@ using System;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal sealed class BookOfHerbs : IEquipmentScheme
+    internal sealed class SymbolOfGod : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.BookOfHerbs;
+        public EquipmentSid Sid => EquipmentSid.SymbolOfGod;
 
         public string GetDescription()
         {
@@ -16,6 +16,6 @@ namespace Rpg.Client.Core.Equipments
             return 1 + level * 0.05f;
         }
 
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
+        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
     }
 }
