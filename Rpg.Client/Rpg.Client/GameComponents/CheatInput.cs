@@ -130,14 +130,14 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
-                "warrior" => unitSchemeCatalog.PlayerUnits[UnitName.Berimir],
-                "archer" => unitSchemeCatalog.PlayerUnits[UnitName.Hawk],
-                "herbalist" => unitSchemeCatalog.PlayerUnits[UnitName.Rada],
+                "warrior" => unitSchemeCatalog.Heroes[UnitName.Berimir],
+                "archer" => unitSchemeCatalog.Heroes[UnitName.Hawk],
+                "herbalist" => unitSchemeCatalog.Heroes[UnitName.Rada],
 
-                "monk" => unitSchemeCatalog.PlayerUnits[UnitName.Maosin],
-                "missionary" => unitSchemeCatalog.PlayerUnits[UnitName.Cheng],
+                "monk" => unitSchemeCatalog.Heroes[UnitName.Maosin],
+                "missionary" => unitSchemeCatalog.Heroes[UnitName.Cheng],
 
-                "priest" => unitSchemeCatalog.PlayerUnits[UnitName.Kakhotep],
+                "priest" => unitSchemeCatalog.Heroes[UnitName.Kakhotep],
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };

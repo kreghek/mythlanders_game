@@ -193,7 +193,7 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.PlayerUnits[UnitName.Berimir], level: 1)
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Berimir], level: 1)
                 {
                     IsPlayerControlled = true
                 }
@@ -454,7 +454,7 @@ namespace Rpg.Client.Core
             foreach (var unitDto in groupDto.Units)
             {
                 var unitName = (UnitName)Enum.Parse(typeof(UnitName), unitDto.SchemeSid);
-                var unitScheme = _unitSchemeCatalog.PlayerUnits[unitName];
+                var unitScheme = _unitSchemeCatalog.Heroes[unitName];
 
                 var unit = new Unit(unitScheme, unitDto.Level)
                 {

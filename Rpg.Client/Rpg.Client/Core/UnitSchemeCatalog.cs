@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
     {
         public UnitSchemeCatalog()
         {
-            PlayerUnits = new[]
+            Heroes = new[]
             {
                 new SwordsmanBuilder().Create(),
                 new ArcherBuilder().Create(),
@@ -492,7 +492,7 @@ namespace Rpg.Client.Core
             };
         }
 
-        public IDictionary<UnitName, UnitScheme> PlayerUnits { get; }
+        public IDictionary<UnitName, UnitScheme> Heroes { get; }
 
         public IReadOnlyCollection<UnitScheme> AllMonsters { get; }
     }
