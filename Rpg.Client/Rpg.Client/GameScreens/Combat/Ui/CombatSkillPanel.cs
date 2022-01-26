@@ -12,7 +12,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatSkillPanel : ISkillPanelState
+    internal class CombatSkillPanel : ControlBase, ISkillPanelState
     {
         private const int ICON_SIZE = 64;
         private const int BUTTON_PADDING = 5;
@@ -31,8 +31,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatSkill? _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer)
+        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(texture)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _buttons = new List<ButtonBase>();
@@ -63,7 +63,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        internal void Draw(SpriteBatch spriteBatch)
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             if (!IsEnabled)
             {
@@ -74,7 +79,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = GetButtonRectangle(_resolutionIndependentRenderer, panelWidth, buttonIndex);
+                button.Rect = GetButtonRectangle(_resolutionIndependentRenderer, panelWidth, Rect, buttonIndex);
                 button.Draw(spriteBatch);
 
                 var hotKey = (buttonIndex + 1).ToString();
@@ -85,6 +90,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
+        }
+
+        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), Rect.Location.ToVector2(), color);
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -173,9 +183,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer,
-            int panelWidth, int buttonIndex)
+            int panelWidth, Rectangle buttonRect, int buttonIndex)
         {
-            var panelMiddleX = panelWidth / 2;
+            var panelMiddleX = buttonRect.Center.X;
             var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
             var panelLeftX = resolutionIndependentRenderer.VirtualBounds.Center.X - panelMiddleX;
 

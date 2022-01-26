@@ -312,7 +312,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _resolutionIndependentRenderer);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage, _resolutionIndependentRenderer);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
             _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
@@ -660,6 +660,8 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 if (_combatSkillsPanel is not null)
                 {
+                    _combatSkillsPanel.Rect = new Rectangle(0, _resolutionIndependentRenderer.VirtualBounds.Bottom - 50,
+                        480, 50);
                     _combatSkillsPanel.Draw(spriteBatch);
                 }
 
