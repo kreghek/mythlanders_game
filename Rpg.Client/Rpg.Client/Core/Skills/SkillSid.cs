@@ -19,7 +19,8 @@ namespace Rpg.Client.Core.Skills
         VolkolakClaws,
         WideSwordSlash,
         ZduhachMight,
-        DarkLight,
+        DarkLighting,
+        MummificationTouch,
         ParaliticChor,
         FingerOfAnubis,
         WispEnergy,
@@ -28,6 +29,6 @@ namespace Rpg.Client.Core.Skills
         PathOf1000Firsts,
         RapidEnergyShot,
         ToxicHerbs,
-        MutantBearBludgeon
+        MutantBearBludgeon,
     }
 }

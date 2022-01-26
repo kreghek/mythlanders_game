@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class MassStunSkill : SkillBase
+    internal class ParaliticChoirSkill : SkillBase
     {
-        public MassStunSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ParaliticChoirSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal class DopeHerbSkill : SkillBase
+    internal class DarkLightingSkill : SkillBase
     {
-        public DopeHerbSkill() : this(false)
+        private const SkillSid SID = SkillSid.DarkLighting;
+
+        public DarkLightingSkill() : this(false)
         {
         }
 
-        public DopeHerbSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DarkLightingSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -22,24 +24,26 @@ namespace Rpg.Client.Core.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new StunEffect
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var res = new AttackEffect
                     {
-                        Duration = 1
+                        Actor = u,
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
-                    return effect;
+                    return res;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DopeHerb;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.MagicDust
+            Type = SkillVisualizationStateType.Range,
+            SoundEffectType = GameObjectSoundType.BowShot
         };
     }
 }

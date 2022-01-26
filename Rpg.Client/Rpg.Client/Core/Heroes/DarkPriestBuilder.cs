@@ -1,4 +1,7 @@
+using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
+using Rpg.Client.Core.Perks;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Heroes
 {
@@ -13,34 +16,23 @@ namespace Rpg.Client.Core.Heroes
                 SupportRank = 0.0f,
 
                 Name = UnitName.Kakhotep,
+                
+                Levels = new IUnitLevelScheme[]
+                {
+                    new AddSkillUnitLevel(1, new DarkLightingSkill()),
+                    new AddSkillUnitLevel(2, new MummificationTouchSkill()),
+                    new AddPerkUnitLevel(2, new Evasion()),
+                    new AddSkillUnitLevel(3, new ParaliticChoirSkill(true)),
+                    new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
+                },
+                
+                Equipments = new IEquipmentScheme[]
+                {
+                    new EgyptianBookOfDeath(),
+                    new NanoMetalLongCloths(),
+                    new ScarabeusKingLeg()
+                },
 
-                // SkillSets = new List<SkillSet>
-                // {
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new BowShotSkill()
-                //         }
-                //     },
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new BowShotSkill(),
-                //             new MassStunSkill(true)
-                //         }
-                //     },
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new BowShotSkill(),
-                //             new MassStunSkill(true),
-                //             new SwordSlashSkill(true) // Finger of the Anubis
-                //         }
-                //     }
-                // },
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }

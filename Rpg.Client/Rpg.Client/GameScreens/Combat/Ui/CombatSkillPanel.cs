@@ -218,7 +218,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 SkillSid.HealMantre => 13,
                 SkillSid.PathOf1000Firsts => 14,
 
-                SkillSid.DarkLight => 9,
+                SkillSid.DarkLighting => 9,
                 SkillSid.ParaliticChor => 10,
                 SkillSid.FingerOfAnubis => 11,
 

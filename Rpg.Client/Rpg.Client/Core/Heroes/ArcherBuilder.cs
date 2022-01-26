@@ -23,13 +23,14 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(2, new RapidBowShotSkill()),
                     new AddPerkUnitLevel(2, new CriticalHit()),
                     new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
-                    new AddSkillUnitLevel(4, new DefenseStanceSkill(true))
+                    new AddSkillUnitLevel(4, new ZduhachMightSkill(true))
                 },
 
                 Equipments = new IEquipmentScheme[]
                 {
                     new ArcherPulsarBow(),
-                    new Mk3ScoutPowerArmor()
+                    new Mk3ScoutPowerArmor(),
+                    new SilverNecklace()
                 },
 
                 UnitGraphicsConfig = new HawkGraphicsConfig()
