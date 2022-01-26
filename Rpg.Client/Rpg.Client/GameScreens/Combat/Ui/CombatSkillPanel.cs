@@ -75,11 +75,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 return;
             }
 
-            var panelWidth = _buttons.Count * SKILL_BUTTON_SIZE;
+            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                button.Rect = GetButtonRectangle(_resolutionIndependentRenderer, panelWidth, Rect, buttonIndex);
+                var buttonsRect =
+                    new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+                button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
                 button.Draw(spriteBatch);
 
                 var hotKey = (buttonIndex + 1).ToString();
@@ -94,7 +96,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), Rect.Location.ToVector2(), color);
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), new Vector2(Rect.Location.X, Rect.Center.Y - 48/2), color);
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -182,15 +184,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             hintControl.Draw(spriteBatch);
         }
 
-        private static Rectangle GetButtonRectangle(ResolutionIndependentRenderer resolutionIndependentRenderer,
-            int panelWidth, Rectangle buttonRect, int buttonIndex)
+        private static Rectangle GetButtonRectangle(Rectangle buttonsRect, int buttonIndex)
         {
-            var panelMiddleX = buttonRect.Center.X;
             var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
-            var panelLeftX = resolutionIndependentRenderer.VirtualBounds.Center.X - panelMiddleX;
 
-            return new Rectangle(panelLeftX + buttonOffsetX,
-                resolutionIndependentRenderer.VirtualBounds.Bottom - SKILL_BUTTON_SIZE,
+            return new Rectangle(buttonsRect.X + buttonOffsetX,
+                buttonsRect.Y,
                 SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE);
         }
