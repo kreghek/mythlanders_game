@@ -33,5 +33,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         }
 
         protected abstract void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect);
+
+        public virtual void Update(GameTime gameTime) { }
     }
 }

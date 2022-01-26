@@ -273,13 +273,13 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>
   </data>
-  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+  <data name="HeroGeneralInfoTitle" xml:space="preserve">
     <value>Общее</value>
   </data>
-  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+  <data name="HeroPerkInfoTitle" xml:space="preserve">
     <value>Перки</value>
   </data>
-  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+  <data name="HeroSkillsInfoTitle" xml:space="preserve">
     <value>Навыки</value>
   </data>
   <data name="FormationButtonTitle" xml:space="preserve">
@@ -290,5 +290,8 @@
   </data>
   <data name="GlobalEffectDurationTemplate" xml:space="preserve">
     <value>{0} боёв осталось</value>
+  </data>
+  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
+    <value>Экипировка</value>
   </data>
 </root>

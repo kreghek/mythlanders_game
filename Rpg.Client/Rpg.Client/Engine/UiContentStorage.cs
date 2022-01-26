@@ -34,6 +34,7 @@ namespace Rpg.Client.Engine
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
         private Texture2D _combatSkillPanelTextre;
+        private Texture2D _equipmentIconsTexture;
 
         public Texture2D GetButtonTexture()
         {
@@ -142,11 +143,18 @@ namespace Rpg.Client.Engine
             _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
             
             _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
+            //_equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
+            _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/CombatPowerIcons");
         }
 
         public Texture2D GetCombatSkillPanelTexture()
         {
             return _combatSkillPanelTextre;
+        }
+
+        public Texture2D GetEquipmentTextures()
+        {
+            return _equipmentIconsTexture;
         }
 
         public Texture2D GetButtonIndicatorsTexture()

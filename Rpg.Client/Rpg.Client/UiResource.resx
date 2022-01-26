@@ -259,13 +259,13 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
-  <data name="CharacterGeneralInfoTitle" xml:space="preserve">
+  <data name="HeroGeneralInfoTitle" xml:space="preserve">
     <value>General Info</value>
   </data>
-  <data name="CharacterPerkInfoTitle" xml:space="preserve">
+  <data name="HeroPerkInfoTitle" xml:space="preserve">
     <value>Perks</value>
   </data>
-  <data name="CharacterSkillsInfoTitle" xml:space="preserve">
+  <data name="HeroSkillsInfoTitle" xml:space="preserve">
     <value>Skills</value>
   </data>
   <data name="FormationButtonTitle" xml:space="preserve">
@@ -277,5 +277,8 @@
   </data>
   <data name="GlobalEffectDurationTemplate" xml:space="preserve">
     <value>{0} combats left</value>
+  </data>
+  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
+    <value>Equipment</value>
   </data>
 </root>

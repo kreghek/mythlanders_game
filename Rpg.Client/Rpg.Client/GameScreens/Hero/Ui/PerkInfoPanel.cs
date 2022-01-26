@@ -5,21 +5,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.GameScreens.CharacterDetails
+namespace Rpg.Client.GameScreens.CharacterDetails.Ui
 {
-    internal class SkillsInfoPanel : PanelBase
+    internal class PerkInfoPanel : PanelBase
     {
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
 
-        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
+        public PerkInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
             texture, titleFont)
         {
             _character = character;
             _mainFont = mainFont;
         }
 
-        protected override string TitleResourceId => nameof(UiResource.CharacterSkillsInfoTitle);
+        protected override string TitleResourceId => nameof(UiResource.HeroPerkInfoTitle);
 
         protected override Color CalculateColor()
         {
@@ -30,17 +30,13 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         {
             var sb = new List<string>();
 
-            foreach (var skill in _character.Skills)
+            foreach (var perk in _character.Perks)
             {
-                var skillNameText = GameObjectHelper.GetLocalized(skill.Sid);
+                var localizedName = GameObjectHelper.GetLocalized(perk);
+                sb.Add(localizedName);
 
-                sb.Add(skillNameText);
-                if (skill.ManaCost is not null)
-                {
-                    sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));
-                }
-
-                // TODO Display skill efficient - damages, durations, etc.
+                var localizedDescription = GameObjectHelper.GetLocalizedDescription(perk);
+                sb.Add(localizedDescription);
             }
 
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)

@@ -6,12 +6,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CharacterDetails;
 using Rpg.Client.GameScreens.CharacterDetails.Ui;
+using Rpg.Client.GameScreens.Hero.Ui;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.CharacterDetails
+namespace Rpg.Client.GameScreens.Hero
 {
-    internal sealed class CharacterDetailsScreen : GameScreenWithMenuBase
+    internal sealed class HeroScreen : GameScreenWithMenuBase
     {
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
@@ -20,8 +22,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         private readonly SkillsInfoPanel _skillsInfoPanel;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
+        private readonly EquipmentsInfoPanel _equipmentPanel;
 
-        public CharacterDetailsScreen(EwarGame game) : base(game)
+        public HeroScreen(EwarGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
@@ -40,6 +43,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
             _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(),
                 screenService.Selected,
                 _uiContentStorage.GetMainFont());
+            _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(), screenService.Selected, _uiContentStorage.GetMainFont(),
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures());
 
             _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
 
@@ -78,6 +84,9 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
             _skillsInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 0);
             _skillsInfoPanel.Draw(spriteBatch);
+
+            _equipmentPanel.Rect = GetCellRect(contentRect, col: 0, row: 1);
+            _equipmentPanel.Draw(spriteBatch);
 
             _perkInfoPanel.Rect = GetCellRect(contentRect, col: 2, row: 1);
             _perkInfoPanel.Draw(spriteBatch);

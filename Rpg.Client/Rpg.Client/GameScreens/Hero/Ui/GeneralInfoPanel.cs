@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
             _mainFont = mainFont;
         }
 
-        protected override string TitleResourceId => nameof(UiResource.CharacterGeneralInfoTitle);
+        protected override string TitleResourceId => nameof(UiResource.HeroGeneralInfoTitle);
 
         protected override Color CalculateColor()
         {

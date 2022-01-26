@@ -11,6 +11,6 @@
         Bestiary,
         EndGame,
         Credits,
-        CharacterDetails
+        Hero
     }
 }
