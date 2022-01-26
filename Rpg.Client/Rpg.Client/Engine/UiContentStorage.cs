@@ -16,10 +16,11 @@ namespace Rpg.Client.Engine
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private Texture2D? _buttonTexture;
-        private Texture2D _skillButtonTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
+        private Texture2D _combatSkillPanelTextre;
         private Song _defeatTrack;
+        private Texture2D _equipmentIconsTexture;
         private Song _introTrack;
         private Texture2D[] _introVideoTextures;
         private SpriteFont _mainFont;
@@ -29,13 +30,12 @@ namespace Rpg.Client.Engine
         private Texture2D _modalsTopSymbolTexture;
         private Texture2D[] _modalTopTextures;
         private Texture2D? _panelTexture;
+        private Texture2D _skillButtonTexture;
         private Texture2D _speechTexture;
         private SpriteFont _titlesFont;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _combatSkillPanelTextre;
-        private Texture2D _equipmentIconsTexture;
 
         public Texture2D GetButtonTexture()
         {

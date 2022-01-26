@@ -12,10 +12,11 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     internal sealed class EquipmentsInfoPanel : PanelBase
     {
         private const int ICON_SIZE = 64;
-        private readonly Unit _hero;
         private readonly IList<EntityIconButton<Equipment>> _equipmentIcons;
+        private readonly Unit _hero;
 
-        public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont, Texture2D controlTexture, Texture2D equipmentIconsTexture) : base(
+        public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
+            Texture2D controlTexture, Texture2D equipmentIconsTexture) : base(
             texture, titleFont)
         {
             _hero = hero;
@@ -51,21 +52,6 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private static Rectangle GetEquipmentIconRect(EquipmentSid schemeSid)
-        {
-            var index = GetEquipmentIconOneBasedIndex(schemeSid);
-            if (index is null)
-            {
-                return new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);
-            }
-
-            var zeroBasedIndex = index.Value - 1;
-            const int COL_COUNT = 3;
-            var col = zeroBasedIndex % COL_COUNT;
-            var row = zeroBasedIndex / COL_COUNT;
-            return new Rectangle(col * ICON_SIZE, row * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-        }
-
         private static int? GetEquipmentIconOneBasedIndex(EquipmentSid schemeSid)
         {
             return schemeSid switch
@@ -79,8 +65,23 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 EquipmentSid.HerbBag => 7,
                 EquipmentSid.WomanShort => 8,
                 EquipmentSid.BookOfHerbs => 9,
-                _ => null,
+                _ => null
             };
+        }
+
+        private static Rectangle GetEquipmentIconRect(EquipmentSid schemeSid)
+        {
+            var index = GetEquipmentIconOneBasedIndex(schemeSid);
+            if (index is null)
+            {
+                return new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);
+            }
+
+            var zeroBasedIndex = index.Value - 1;
+            const int COL_COUNT = 3;
+            var col = zeroBasedIndex % COL_COUNT;
+            var row = zeroBasedIndex / COL_COUNT;
+            return new Rectangle(col * ICON_SIZE, row * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
     }
 }

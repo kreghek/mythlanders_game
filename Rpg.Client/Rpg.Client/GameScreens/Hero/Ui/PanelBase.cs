@@ -16,6 +16,8 @@ namespace Rpg.Client.GameScreens.CharacterDetails
 
         protected abstract string TitleResourceId { get; }
 
+        public virtual void Update(GameTime gameTime) { }
+
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             var title = UiResource.ResourceManager.GetString(TitleResourceId);
@@ -33,7 +35,5 @@ namespace Rpg.Client.GameScreens.CharacterDetails
         }
 
         protected abstract void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect);
-
-        public virtual void Update(GameTime gameTime) { }
     }
 }

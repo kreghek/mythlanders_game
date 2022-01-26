@@ -16,9 +16,11 @@ namespace Rpg.Client.Engine
         Texture2D GetButtonTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
+        Texture2D GetCombatSkillPanelTexture();
         Song GetDefeatSong();
         Texture2D GetDisabledTexture();
         Texture2D GetEnvSpeechTexture();
+        Texture2D GetEquipmentTextures();
         Song GetIntroSong();
         Texture2D[] GetIntroVideo();
         SpriteFont GetMainFont();
@@ -28,14 +30,12 @@ namespace Rpg.Client.Engine
         Texture2D GetModalTopSymbolTextures();
         Texture2D[] GetModalTopTextures();
         Texture2D GetPanelTexture();
+        Texture2D GetSkillButtonTexture();
         Texture2D GetSpeechTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();
         Texture2D GetUnitPanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
-        Texture2D GetCombatSkillPanelTexture();
-        Texture2D GetEquipmentTextures();
-        Texture2D GetSkillButtonTexture();
     }
 }

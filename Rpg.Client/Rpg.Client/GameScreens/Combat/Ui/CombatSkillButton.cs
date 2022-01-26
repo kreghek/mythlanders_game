@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 spriteBatch.Draw(_texture, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
             }
 
-            base.DrawBackground(spriteBatch, color);
+            DrawBackground(spriteBatch, color);
         }
 
         protected override void UpdateContent()
