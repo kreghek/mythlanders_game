@@ -16,6 +16,7 @@ namespace Rpg.Client.Engine
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private Texture2D? _buttonTexture;
+        private Texture2D _skillButtonTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
         private Song _defeatTrack;
@@ -39,6 +40,11 @@ namespace Rpg.Client.Engine
         public Texture2D GetButtonTexture()
         {
             return _buttonTexture;
+        }
+
+        public Texture2D GetSkillButtonTexture()
+        {
+            return _skillButtonTexture;
         }
 
         public Texture2D GetPanelTexture()
@@ -89,6 +95,7 @@ namespace Rpg.Client.Engine
         public void LoadContent(ContentManager contentManager)
         {
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
+            _skillButtonTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillButton");
             _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
             _mainFont = contentManager.Load<SpriteFont>("Fonts/Main");
@@ -143,8 +150,7 @@ namespace Rpg.Client.Engine
             _modalsTopSymbolTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalHeaders");
             
             _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
-            //_equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
-            _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/CombatPowerIcons");
+            _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
         }
 
         public Texture2D GetCombatSkillPanelTexture()

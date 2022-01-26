@@ -317,7 +317,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(_uiContentStorage.GetButtonTexture(), iconData, Rectangle.Empty,
+                var button = new CombatSkillButton(_uiContentStorage.GetSkillButtonTexture(), iconData, Rectangle.Empty,
                     card, this);
                 _buttons.Add(button);
                 _buttonCombatPowerDict[button] = card;

@@ -36,5 +36,6 @@ namespace Rpg.Client.Engine
         void LoadContent(ContentManager contentManager);
         Texture2D GetCombatSkillPanelTexture();
         Texture2D GetEquipmentTextures();
+        Texture2D GetSkillButtonTexture();
     }
 }

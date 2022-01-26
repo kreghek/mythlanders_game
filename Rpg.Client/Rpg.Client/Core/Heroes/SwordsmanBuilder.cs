@@ -2,7 +2,6 @@ using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Heroes
 {
@@ -30,7 +29,8 @@ namespace Rpg.Client.Core.Heroes
                 Equipments = new IEquipmentScheme[]
                 {
                     new WarriorGreatSword(),
-                    new Mk2MediumPowerArmor()
+                    new Mk2MediumPowerArmor(),
+                    new WoodenHandSculpture()
                 },
 
                 UnitGraphicsConfig = new BerimirGraphicsConfig()

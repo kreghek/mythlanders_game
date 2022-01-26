@@ -17,6 +17,7 @@ namespace Rpg.Client.Core
         SymbolOfGod,
         EliteGuardsmanSpear,
         JuggernautHeavyPowerArmor,
-        ChaoticNeuroInterface
+        ChaoticNeuroInterface,
+        WoodenHandSculpture
     }
 }
