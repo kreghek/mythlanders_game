@@ -73,6 +73,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 IMAGE_WIDTH / 2, IMAGE_HEIGHT);
             var rightPartRect = new Rectangle(buttonsRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, IMAGE_WIDTH / 2,
                 IMAGE_HEIGHT);
+            
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
+                new Rectangle(leftPartRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, buttonsRect.Width, buttonsRect.Height),
+                new Rectangle(IMAGE_WIDTH / 2 - 1, 0, 2, IMAGE_HEIGHT),
+                color);
 
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
                 leftPartRect,
