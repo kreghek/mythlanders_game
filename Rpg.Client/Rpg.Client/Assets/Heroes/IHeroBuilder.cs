@@ -1,4 +1,6 @@
-namespace Rpg.Client.Core.Heroes
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Heroes
 {
     internal interface IHeroBuilder
     {

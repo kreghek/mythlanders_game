@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Heroes;
 
 namespace Rpg.Client.Core
 {

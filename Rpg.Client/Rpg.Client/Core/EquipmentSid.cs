@@ -18,6 +18,9 @@ namespace Rpg.Client.Core
         EliteGuardsmanSpear,
         JuggernautHeavyPowerArmor,
         ChaoticNeuroInterface,
-        WoodenHandSculpture
+        WoodenHandSculpture,
+        EmptinessInTheHand,
+        DeceptivelyLightRobe,
+        MagicAndMechanicalBox
     }
 }

@@ -1,43 +1,43 @@
+using Rpg.Client.Core;
 using Rpg.Client.Core.GraphicConfigs;
 
-namespace Rpg.Client.Core.Heroes
+namespace Rpg.Client.Assets.Heroes
 {
-    internal class SageBuilder : IHeroBuilder
+    internal class ScorpionBuilder : IHeroBuilder
     {
         public UnitScheme Create()
         {
             return new()
             {
-                TankRank = 0.2f,
-                DamageDealerRank = 0.0f,
-                SupportRank = 0.8f,
+                TankRank = 0.1f,
+                DamageDealerRank = 0.8f,
+                SupportRank = 0.1f,
 
-                Name = UnitName.Cheng,
-
+                Name = UnitName.Amun,
                 // SkillSets = new List<SkillSet>
                 // {
                 //     new SkillSet
                 //     {
                 //         Skills = new List<SkillBase>
                 //         {
-                //             new DopeHerbSkill()
+                //             new SwordSlashSkill()
                 //         }
                 //     },
                 //     new SkillSet
                 //     {
                 //         Skills = new List<SkillBase>
                 //         {
-                //             new DopeHerbSkill(),
-                //             new PowerUpSkill(true)
+                //             new SwordSlashSkill(),
+                //             new DefenseStanceSkill(true)
                 //         }
                 //     },
                 //     new SkillSet
                 //     {
                 //         Skills = new List<SkillBase>
                 //         {
-                //             new DopeHerbSkill(), // No violence, please
-                //             new PowerUpSkill(true), // Trust
-                //             new HealSkill(true) // God Merciful Touch
+                //             new SwordSlashSkill(),
+                //             new DefenseStanceSkill(true),
+                //             new WideSlashSkill(true)
                 //         }
                 //     }
                 // },

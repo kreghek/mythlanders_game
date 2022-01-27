@@ -1,10 +1,10 @@
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Heroes
+namespace Rpg.Client.Assets.Heroes
 {
     internal class ArcherBuilder : IHeroBuilder
     {

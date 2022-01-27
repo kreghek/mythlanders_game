@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Heroes;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
