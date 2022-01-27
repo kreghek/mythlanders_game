@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 using Rpg.Client.Core.Modifiers;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class HealEffect : InstantenousEffectBase
+    internal class PeriodicSupportAttackEffect : PeriodicEffectBase
     {
         public CombatUnit Actor { get; set; }
-        public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
-        public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
-        public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
-
         public float PowerMultiplier { get; init; }
 
         public float Scatter { get; init; } = 0.1f;
@@ -48,7 +42,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             var heal = CalculateHeal();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.RestoreHitPoints(rolledHeal);
+            Target.Unit.TakeDamage(Actor, rolledHeal);
         }
     }
 }

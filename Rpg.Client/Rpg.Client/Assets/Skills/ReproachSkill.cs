@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class WideSlashSkill : SkillBase
+    internal class ReproachSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.WideSwordSlash;
+        private const SkillSid SID = SkillSid.Reproach;
 
-        public WideSlashSkill() : this(false)
+        public ReproachSkill() : this(false)
         {
         }
 
-        public WideSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ReproachSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -27,9 +27,9 @@ namespace Rpg.Client.Assets.Skills
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
 
-                    var res = new AttackEffect
+                    var res = new PeriodicDamageEffect
                     {
-                        DamageMultiplier = 0.5f * equipmentMultiplier,
+                        PowerMultiplier = 0.5f * equipmentMultiplier,
                         Actor = u
                     };
 
