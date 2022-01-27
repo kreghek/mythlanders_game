@@ -312,8 +312,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage,
-                _resolutionIndependentRenderer);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage);
             _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
             _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
             _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;

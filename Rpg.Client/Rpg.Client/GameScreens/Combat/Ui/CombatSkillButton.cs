@@ -6,9 +6,8 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed class CombatSkillButton : ButtonBase
+    internal sealed class CombatSkillButton<T> : EntityButtonBase<T> where T: CombatSkill
     {
-        private readonly CombatSkill _card;
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
         private readonly ISkillPanelState _skillPanelState;
@@ -16,19 +15,18 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private float _counter;
 
-        public CombatSkillButton(Texture2D texture, IconData iconData, Rectangle rect, CombatSkill card,
-            ISkillPanelState skillPanelState) : base(texture, rect)
+        public CombatSkillButton(Texture2D texture, IconData iconData, T skill,
+            ISkillPanelState skillPanelState) : base(texture, skill)
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
             _texture = texture;
-            _card = card;
             _skillPanelState = skillPanelState;
         }
 
         protected override Color CalculateColor()
         {
-            if (_card == _skillPanelState.SelectedCard)
+            if (Entity == _skillPanelState.SelectedCard)
             {
                 return Color.Lerp(Color.White, Color.Cyan, _counter);
             }
