@@ -36,7 +36,7 @@ namespace Rpg.Client.Core.Skills
         StonePath,
         DemonicTaunt,
         Reproach, // укор в насилии
-        
+
         NoViolencePleaseSkill,
         FaithBoost // укрепление веры
     }

@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Equipments
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Priest;
     }
-    
+
     internal sealed class MagicAndMechanicalBox : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.MagicAndMechanicalBox;

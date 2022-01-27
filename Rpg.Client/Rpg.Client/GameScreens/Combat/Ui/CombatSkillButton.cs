@@ -6,7 +6,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed class CombatSkillButton<T> : EntityButtonBase<T> where T: CombatSkill
+    internal sealed class CombatSkillButton<T> : EntityButtonBase<T> where T : CombatSkill
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
