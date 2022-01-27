@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Party.Ui
 {
-    internal sealed class SelectCharacterEventArgs : EventArgs
+    internal sealed class SelectHeroEventArgs : EventArgs
     {
-        public SelectCharacterEventArgs(Unit character)
+        public SelectHeroEventArgs(Unit character)
         {
             Character = character;
         }

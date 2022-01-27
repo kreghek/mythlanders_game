@@ -16,7 +16,7 @@ namespace Rpg.Client.GameScreens.Party
         private const int CHARACTER_COUNT = 12;
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 128;
-        private readonly IList<CharacterPanel> _characterPanels;
+        private readonly IList<HeroPanel> _characterPanels;
         private readonly GameObjectContentStorage _gameObjectsContentStorage;
 
         private readonly GlobeProvider _globeProvider;
@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Party
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectsContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
-            _characterPanels = new List<CharacterPanel>();
+            _characterPanels = new List<HeroPanel>();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -76,7 +76,7 @@ namespace Rpg.Client.GameScreens.Party
                 var characters = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
                 foreach (var character in characters)
                 {
-                    var resources = new CharacterPanelResources
+                    var resources = new HeroPanelResources
                     (
                         buttonTexture: _uiContentStorage.GetButtonTexture(),
                         buttonFont: _uiContentStorage.GetTitlesFont(),
@@ -87,7 +87,7 @@ namespace Rpg.Client.GameScreens.Party
                         mainFont: _uiContentStorage.GetMainFont()
                     );
 
-                    var panel = new CharacterPanel(texture: _uiContentStorage.GetPanelTexture(), character: character,
+                    var panel = new HeroPanel(texture: _uiContentStorage.GetPanelTexture(), character: character,
                         player: _globeProvider.Globe.Player, resources);
                     _characterPanels.Add(panel);
 
@@ -139,7 +139,7 @@ namespace Rpg.Client.GameScreens.Party
             }
         }
 
-        private void Panel_SelectCharacter(object? sender, SelectCharacterEventArgs e)
+        private void Panel_SelectCharacter(object? sender, SelectHeroEventArgs e)
         {
             var screenService = Game.Services.GetService<ScreenService>();
             screenService.Selected = e.Character;

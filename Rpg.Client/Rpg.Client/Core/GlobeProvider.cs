@@ -362,6 +362,7 @@ namespace Rpg.Client.Core
                 if (equipment is null)
                 {
                     Debug.Fail($"{dto.Sid} is invalid equipment in the storage.");
+                    continue;
                 }
 
                 for (var i = 0; i < equipment.Level; i++)

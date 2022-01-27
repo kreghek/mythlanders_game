@@ -41,13 +41,6 @@ namespace Rpg.Client.GameScreens.CharacterDetails.Ui
                 string.Format(UiResource.CombatLevelUpTemplate, _character.LevelUpXpAmount)
             };
 
-            foreach (var equipment in _character.Equipments)
-            {
-                sb.Add($"{equipment.Scheme.Sid} ({equipment.Level} lvl)");
-                sb.Add(
-                    $"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup");
-            }
-
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)
             {
                 var line = sb[statIndex];

@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Party.Ui
 {
-    internal sealed class CharacterPanel : ControlBase
+    internal sealed class HeroPanel : ControlBase
     {
         private readonly Unit _character;
 
@@ -19,8 +19,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
-        public CharacterPanel(Texture2D texture, Unit character, Player player,
-            CharacterPanelResources characterPanelResources) : base(texture)
+        public HeroPanel(Texture2D texture, Unit character, Player player,
+            HeroPanelResources characterPanelResources) : base(texture)
         {
             _character = character;
             _portraitTexture = characterPanelResources.PortraitTexture;
@@ -32,7 +32,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
                 characterPanelResources.IndicatorsTexture);
             infoButton.OnClick += (_, _) =>
             {
-                SelectCharacter?.Invoke(this, new SelectCharacterEventArgs(character));
+                SelectCharacter?.Invoke(this, new SelectHeroEventArgs(character));
             };
             infoButton.IndicatingSelector = () =>
             {
@@ -117,6 +117,6 @@ namespace Rpg.Client.GameScreens.Party.Ui
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
-        public event EventHandler<SelectCharacterEventArgs>? SelectCharacter;
+        public event EventHandler<SelectHeroEventArgs>? SelectCharacter;
     }
 }

@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.GameScreens.Party.Ui
 {
-    internal class CharacterPanelResources
+    internal class HeroPanelResources
     {
-        public CharacterPanelResources(Texture2D buttonTexture, SpriteFont buttonFont, Texture2D indicatorsTexture,
+        public HeroPanelResources(Texture2D buttonTexture, SpriteFont buttonFont, Texture2D indicatorsTexture,
             Texture2D portraitTexture, SpriteFont nameFont, SpriteFont mainFont, Texture2D disabledTexture)
         {
             ButtonTexture = buttonTexture;

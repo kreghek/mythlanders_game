@@ -170,7 +170,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 Debug.Fail("Sender mustn't be null.");
             }
 
-            var entityButton = (EntityIconButton<CombatSkill>)sender;
+            var entityButton = (EntityButtonBase<CombatSkill>)sender;
             SelectedCard = entityButton.Entity;
         }
 
