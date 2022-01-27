@@ -1,6 +1,8 @@
+using Rpg.Client.Core;
+using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Equipments
+namespace Rpg.Client.Assets.Equipments
 {
     internal sealed class EliteGuardsmanSpear : SimpleAttackEquipmentBase
     {

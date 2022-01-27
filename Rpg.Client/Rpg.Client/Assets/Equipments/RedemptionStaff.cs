@@ -1,14 +1,16 @@
+using Rpg.Client.Core;
+using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Core.Equipments
+namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class HerbBag : SimpleAttackEquipmentBase
+    internal sealed class RedemptionStaff : SimpleAttackEquipmentBase
     {
-        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
+        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
 
         protected override SkillSid[] AffectedAttackingSkills =>
-            new[] { SkillSid.HealingSalve, SkillSid.ToxicHerbs };
+            new[] { SkillSid.StaffHit, SkillSid.MasterStaffHit };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

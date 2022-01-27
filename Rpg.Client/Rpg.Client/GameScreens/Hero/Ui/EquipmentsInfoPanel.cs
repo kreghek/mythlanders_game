@@ -66,7 +66,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         {
             return schemeSid switch
             {
-                EquipmentSid.WarriorGreatSword => 1,
+                EquipmentSid.CombatSword => 1,
                 EquipmentSid.Mk2MediumPowerArmor => 2,
                 EquipmentSid.WoodenHandSculpture => 3,
                 EquipmentSid.ArcherPulsarBow => 4,

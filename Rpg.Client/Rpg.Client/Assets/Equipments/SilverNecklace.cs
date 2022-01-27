@@ -1,8 +1,10 @@
 using System;
 
-namespace Rpg.Client.Core.Equipments
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class SilverNecklace : IEquipmentScheme
+    internal sealed class SilverWindNecklace : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.SilverWindNecklace;
 

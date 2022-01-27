@@ -1,10 +1,12 @@
 using System;
 
-namespace Rpg.Client.Core.Equipments
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class AsceticRobe : IEquipmentScheme
+    internal sealed class SymbolOfGod : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
+        public EquipmentSid Sid => EquipmentSid.SymbolOfGod;
 
         public string GetDescription()
         {

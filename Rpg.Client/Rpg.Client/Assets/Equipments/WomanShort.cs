@@ -1,10 +1,12 @@
 using System;
 
-namespace Rpg.Client.Core.Equipments
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class BookOfHerbs : IEquipmentScheme
+    internal sealed class WomanShort : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.BookOfHerbs;
+        public EquipmentSid Sid => EquipmentSid.WomanShort;
 
         public string GetDescription()
         {

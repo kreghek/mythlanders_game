@@ -1,10 +1,12 @@
 using System;
 
-namespace Rpg.Client.Core.Equipments
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class ChaoticNeuroInterface : IEquipmentScheme
+    internal sealed class JuggernautHeavyPowerArmor : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.ChaoticNeuroInterface;
+        public EquipmentSid Sid => EquipmentSid.JuggernautHeavyPowerArmor;
 
         public string GetDescription()
         {

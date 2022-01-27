@@ -288,4 +288,64 @@
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} молится</value>
   </data>
+  <data name="ArcherPulsarBow" xml:space="preserve">
+    <value>Импульсный лук</value>
+  </data>
+  <data name="AsceticRobe" xml:space="preserve">
+    <value>Роба аскета</value>
+  </data>
+  <data name="BookOfHerbs" xml:space="preserve">
+    <value>Книга трав</value>
+  </data>
+  <data name="ChaoticNeuroInterface" xml:space="preserve">
+    <value>Хаотический нейро-интерфейс</value>
+  </data>
+  <data name="DeceptivelyLightRobe" xml:space="preserve">
+    <value>Обманчиво лёгкая роба</value>
+  </data>
+  <data name="EgyptianBookOfDeath" xml:space="preserve">
+    <value>Египетская книга мертвых</value>
+  </data>
+  <data name="EliteGuardsmanSpear" xml:space="preserve">
+    <value>Копьё элитного защитника</value>
+  </data>
+  <data name="EmptinessInTheHand" xml:space="preserve">
+    <value>Пустота в руках</value>
+  </data>
+  <data name="HerbBag" xml:space="preserve">
+    <value>Сумка для трав</value>
+  </data>
+  <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
+    <value>Тяжелая силовая броня Джаггернаут</value>
+  </data>
+  <data name="Mk2MediumPowerArmor" xml:space="preserve">
+    <value>Mk2 средняя силовая броня</value>
+  </data>
+  <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
+    <value>Mk3 силовая броня разведчика</value>
+  </data>
+  <data name="NanoMetalLongCloths" xml:space="preserve">
+    <value>Одежды из нано-металла</value>
+  </data>
+  <data name="RedemptionStaff" xml:space="preserve">
+    <value>Посох Покаяния</value>
+  </data>
+  <data name="ScarabeusKingLeg" xml:space="preserve">
+    <value>Лапа Короля жука-скоробея</value>
+  </data>
+  <data name="SilverWindNecklace" xml:space="preserve">
+    <value>Серебрянное ожерелье ветра</value>
+  </data>
+  <data name="SymbolOfGod" xml:space="preserve">
+    <value>Символ Бога</value>
+  </data>
+  <data name="CombatSword" xml:space="preserve">
+    <value>Боевой меч</value>
+  </data>
+  <data name="WomanShort" xml:space="preserve">
+    <value>Женская рубаха</value>
+  </data>
+  <data name="WoodenHandSculpture" xml:space="preserve">
+    <value>Деревянная фигурка</value>
+  </data>
 </root>

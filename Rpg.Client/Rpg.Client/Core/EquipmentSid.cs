@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
     {
         ArcherPulsarBow,
         ArcherMk3ScoutPowerArmor,
-        WarriorGreatSword,
+        CombatSword,
         Mk2MediumPowerArmor,
         SilverWindNecklace,
         EgyptianBookOfDeath,

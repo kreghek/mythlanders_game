@@ -1,7 +1,7 @@
+using Rpg.Client.Assets.Equipments;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
@@ -31,7 +31,7 @@ namespace Rpg.Client.Assets.Heroes
                 {
                     new ArcherPulsarBow(),
                     new Mk3ScoutPowerArmor(),
-                    new SilverNecklace()
+                    new SilverWindNecklace()
                 },
 
                 UnitGraphicsConfig = new HawkGraphicsConfig()

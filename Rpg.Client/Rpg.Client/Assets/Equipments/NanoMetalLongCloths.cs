@@ -1,6 +1,8 @@
 using System;
 
-namespace Rpg.Client.Core.Equipments
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Equipments
 {
     internal sealed class NanoMetalLongCloths : IEquipmentScheme
     {
