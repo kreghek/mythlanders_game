@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -7,6 +8,8 @@ using System.Threading;
 using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
+
+using Steamworks;
 
 namespace Rpg.Client
 {
@@ -49,6 +52,11 @@ namespace Rpg.Client
             var defaultCulture = CultureInfo.GetCultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = defaultCulture;
             Thread.CurrentThread.CurrentUICulture = defaultCulture;
+
+            if (SteamAPI.Init())
+            {
+            }
+
 
             var logger = CreateLogging();
 
