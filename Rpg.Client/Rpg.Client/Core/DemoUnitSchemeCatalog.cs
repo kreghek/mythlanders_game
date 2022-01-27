@@ -10,12 +10,14 @@ namespace Rpg.Client.Core
     {
         public DemoUnitSchemeCatalog()
         {
-            Heroes = new[]
+            var heroes = new IHeroBuilder[]
             {
-                new SwordsmanBuilder().Create(),
-                new ArcherBuilder().Create(),
-                new HerbalistBuilder().Create()
-            }.ToDictionary(scheme => scheme.Name, scheme => scheme);
+                new SwordsmanBuilder(),
+                new ArcherBuilder(),
+                new HerbalistBuilder()
+            };
+
+            Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();
 
