@@ -576,9 +576,9 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to Rapid shot.
         /// </summary>
-        internal static string RapidEnergyShot {
+        internal static string RapidShot {
             get {
-                return ResourceManager.GetString("RapidEnergyShot", resourceCulture);
+                return ResourceManager.GetString("RapidShot", resourceCulture);
             }
         }
         

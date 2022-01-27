@@ -227,9 +227,11 @@
   </data>
   <data name="Rada" xml:space="preserve">
     <value>Rada The Old</value>
+    <comment>Hero</comment>
   </data>
-  <data name="RapidEnergyShot" xml:space="preserve">
+  <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
+    <comment>Skill</comment>
   </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>

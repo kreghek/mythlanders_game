@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -125,6 +126,7 @@ namespace Rpg.Client.GameScreens.Event
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
+
             if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) &&
                 !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
             {
@@ -305,6 +307,7 @@ namespace Rpg.Client.GameScreens.Event
         private void InitEventControls()
         {
             _textFragments.Clear();
+            _currentFragmentIndex = 0;
             foreach (var textFragment in _currentDialogNode.TextBlock.Fragments)
             {
                 var texture = _uiContentStorage.GetSpeechTexture();
@@ -376,8 +379,23 @@ namespace Rpg.Client.GameScreens.Event
 
         private void UpdateHud(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                if (_currentFragmentIndex < _textFragments.Count - 1 && !_textFragments[_currentFragmentIndex].IsComplete)
+                {
+                    foreach (var fragment in _textFragments)
+                    {
+                        fragment.MoveToCompletion();
+                    }
+
+                    _currentFragmentIndex = _textFragments.Count - 1;
+                }
+                return;
+            }
+
             var currentFragment = _textFragments[_currentFragmentIndex];
             currentFragment.Update(gameTime);
+
             if (currentFragment.IsComplete)
             {
                 if (_currentFragmentIndex < _textFragments.Count - 1)
