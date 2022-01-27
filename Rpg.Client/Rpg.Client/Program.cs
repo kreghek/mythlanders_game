@@ -57,7 +57,6 @@ namespace Rpg.Client
             {
             }
 
-
             var logger = CreateLogging();
 
             var gameMode = ReadGameMode();

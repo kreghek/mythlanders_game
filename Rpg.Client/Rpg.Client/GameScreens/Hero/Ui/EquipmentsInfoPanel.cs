@@ -47,18 +47,21 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             {
                 var equipmentButton = _equipmentIcons[index];
                 const int MARGIN = 5;
-                equipmentButton.Rect = new Rectangle(contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
+                equipmentButton.Rect = new Rectangle(
+                    contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
                     new Point(ICON_SIZE, ICON_SIZE));
                 equipmentButton.Draw(spriteBatch);
 
                 var equipment = equipmentButton.Entity;
                 var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
                 var entityInfoText = $"{entityNameText} ({equipment.Level} lvl)";
-                spriteBatch.DrawString(_mainFont, entityInfoText, equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
+                spriteBatch.DrawString(_mainFont, entityInfoText,
+                    equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
 
                 var upgradeInfoText =
                     $"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup";
-                spriteBatch.DrawString(_mainFont, upgradeInfoText, equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
+                spriteBatch.DrawString(_mainFont, upgradeInfoText,
+                    equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
             }
         }
 
