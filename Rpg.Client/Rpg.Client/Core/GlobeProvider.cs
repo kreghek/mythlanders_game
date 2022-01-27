@@ -357,7 +357,12 @@ namespace Rpg.Client.Core
 
             foreach (var dto in unitDtoEquipments)
             {
-                var equipment = unit.Equipments.Single(x => x.Scheme.Sid.ToString() == dto.Sid);
+                var equipment = unit.Equipments.SingleOrDefault(x => x.Scheme.Sid.ToString() == dto.Sid);
+
+                if (equipment is null)
+                {
+                    Debug.Fail($"{dto.Sid} is invalid equipment in the storage.");
+                }
 
                 for (var i = 0; i < equipment.Level; i++)
                 {
