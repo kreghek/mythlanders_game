@@ -17,7 +17,7 @@ namespace Rpg.Client.Core.Heroes
                 SupportRank = 0.1f,
 
                 Name = UnitName.Ping,
-                
+
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new PenetrationStrikeSkill()),
@@ -26,14 +26,14 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(3, new DemonicTauntSkill(true)),
                     new AddSkillUnitLevel(4, new ToateAngerSkill(true))
                 },
-                
+
                 Equipments = new IEquipmentScheme[]
                 {
                     new EliteGuardsmanSpear(),
                     new JuggernautHeavyPowerArmor(),
                     new ChaoticNeuroInterface()
                 },
-                
+
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }

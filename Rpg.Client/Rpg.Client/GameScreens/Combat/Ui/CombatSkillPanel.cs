@@ -68,6 +68,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return Color.White;
         }
 
+        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
+                new Vector2(Rect.Location.X, Rect.Center.Y - 48 / 2), color);
+        }
+
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             if (!IsEnabled)
@@ -92,11 +98,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
-        }
-
-        protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
-        {
-            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(), new Vector2(Rect.Location.X, Rect.Center.Y - 48/2), color);
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)

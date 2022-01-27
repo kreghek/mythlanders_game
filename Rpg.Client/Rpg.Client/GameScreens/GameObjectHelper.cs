@@ -9,7 +9,7 @@ namespace Rpg.Client.GameScreens
         {
             return GetLocalizedInner(unitName.ToString());
         }
-        
+
         public static string GetLocalized(EquipmentSid equipmentSid)
         {
             return GetLocalizedInner(equipmentSid.ToString());

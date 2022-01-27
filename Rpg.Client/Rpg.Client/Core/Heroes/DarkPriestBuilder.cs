@@ -17,7 +17,7 @@ namespace Rpg.Client.Core.Heroes
                 SupportRank = 0.0f,
 
                 Name = UnitName.Kakhotep,
-                
+
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new DarkLightingSkill()),
@@ -26,7 +26,7 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(3, new ParaliticChoirSkill(true)),
                     new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
                 },
-                
+
                 Equipments = new IEquipmentScheme[]
                 {
                     new EgyptianBookOfDeath(),

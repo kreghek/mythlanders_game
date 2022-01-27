@@ -17,7 +17,7 @@ namespace Rpg.Client.Core.Heroes
                 SupportRank = 0.2f,
 
                 Name = UnitName.Maosin,
-                
+
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new StaffHitSkill()),
@@ -26,14 +26,14 @@ namespace Rpg.Client.Core.Heroes
                     new AddSkillUnitLevel(3, new MasterStaffHitSkill(true)),
                     new AddSkillUnitLevel(4, new GodNatureSkill(true))
                 },
-                
+
                 Equipments = new IEquipmentScheme[]
                 {
                     new RedemptionStaff(),
                     new AsceticRobe(),
                     new SymbolOfGod()
                 },
-                
+
                 UnitGraphicsConfig = new MaosinGraphicsConfig()
             };
         }

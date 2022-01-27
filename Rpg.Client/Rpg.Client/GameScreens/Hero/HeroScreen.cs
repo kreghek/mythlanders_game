@@ -17,12 +17,12 @@ namespace Rpg.Client.GameScreens.Hero
     {
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
+        private readonly EquipmentsInfoPanel _equipmentPanel;
         private readonly GeneralInfoPanel _generalInfoPanel;
         private readonly PerkInfoPanel _perkInfoPanel;
         private readonly SkillsInfoPanel _skillsInfoPanel;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
-        private readonly EquipmentsInfoPanel _equipmentPanel;
 
         public HeroScreen(EwarGame game) : base(game)
         {
