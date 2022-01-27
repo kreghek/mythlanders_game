@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
     {
         ArcherPulsarBow,
         ArcherMk3ScoutPowerArmor,
-        WarriorGreatSword,
+        CombatSword,
         Mk2MediumPowerArmor,
         SilverWindNecklace,
         EgyptianBookOfDeath,
@@ -18,6 +18,9 @@ namespace Rpg.Client.Core
         EliteGuardsmanSpear,
         JuggernautHeavyPowerArmor,
         ChaoticNeuroInterface,
-        WoodenHandSculpture
+        WoodenHandSculpture,
+        EmptinessInTheHand,
+        DeceptivelyLightRobe,
+        MagicAndMechanicalBox
     }
 }

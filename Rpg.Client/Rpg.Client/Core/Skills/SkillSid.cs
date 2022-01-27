@@ -34,6 +34,10 @@ namespace Rpg.Client.Core.Skills
         MasterStaffHit,
         PenetrationStrike,
         StonePath,
-        DemonicTaunt
+        DemonicTaunt,
+        Reproach, // укор в насилии
+        
+        NoViolencePleaseSkill,
+        FaithBoost // укрепление веры
     }
 }

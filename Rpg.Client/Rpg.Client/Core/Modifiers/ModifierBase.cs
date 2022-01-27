@@ -20,12 +20,4 @@
 
         public abstract TValue Modify(TValue modifiedValue);
     }
-
-    internal enum ModifierType
-    {
-        GivenDamage,
-        TakenDamage,
-        GivenHeal,
-        TakenHeal
-    }
 }

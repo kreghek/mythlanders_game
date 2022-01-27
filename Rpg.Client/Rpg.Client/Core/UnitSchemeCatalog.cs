@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Heroes;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
@@ -13,19 +12,21 @@ namespace Rpg.Client.Core
     {
         public UnitSchemeCatalog()
         {
-            Heroes = new[]
+            var heroes = new IHeroBuilder[]
             {
-                new SwordsmanBuilder().Create(),
-                new ArcherBuilder().Create(),
-                new HerbalistBuilder().Create(),
+                new SwordsmanBuilder(),
+                new ArcherBuilder(),
+                new HerbalistBuilder(),
 
-                new MonkBuilder().Create(),
-                new SpearmanBuilder().Create(),
-                new SageBuilder().Create(),
+                new MonkBuilder(),
+                new SpearmanBuilder(),
+                new SageBuilder(),
 
-                new ScorpionBuilder().Create(),
-                new DarkPriestBuilder().Create()
-            }.ToDictionary(scheme => scheme.Name, scheme => scheme);
+                new ScorpionBuilder(),
+                new DarkPriestBuilder()
+            };
+
+            Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();
             var chineseMonsters = CreateChineseMonsters();

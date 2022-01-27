@@ -46,6 +46,11 @@ namespace Rpg.Client.GameScreens.Event.Ui
             return new Vector2(width, height) + Vector2.One * (2 * 4);
         }
 
+        public void MoveToCompletion()
+        {
+            _message.MoveToCompletion();
+        }
+
         public void Update(GameTime gameTime)
         {
             _message.Update(gameTime);

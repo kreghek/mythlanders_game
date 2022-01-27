@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.Heroes;
+using Rpg.Client.Assets.Perks;
+using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core.GraphicConfigs;
-using Rpg.Client.Core.Heroes;
 
 namespace Rpg.Client.Core
 {
@@ -10,12 +12,14 @@ namespace Rpg.Client.Core
     {
         public DemoUnitSchemeCatalog()
         {
-            Heroes = new[]
+            var heroes = new IHeroBuilder[]
             {
-                new SwordsmanBuilder().Create(),
-                new ArcherBuilder().Create(),
-                new HerbalistBuilder().Create()
-            }.ToDictionary(scheme => scheme.Name, scheme => scheme);
+                new SwordsmanBuilder(),
+                new ArcherBuilder(),
+                new HerbalistBuilder()
+            };
+
+            Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();
 
@@ -38,21 +42,12 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new SnakeBiteSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new SnakeBiteSkill()),
+                        new AddPerkUnitLevel(3, new Evasion())
+                    },
 
-                    // Perks = new[]
-                    // {
-                    //     new Evasion()
-                    // },
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
@@ -64,19 +59,15 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new WolfBiteSkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new WolfBiteSkill()),
+                        new AddPerkUnitLevel(3, new CriticalHit())
+                    },
+
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
                 new UnitScheme
@@ -87,26 +78,16 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Bear,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Battleground },
+                    LocationSids = new[]
+                        { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new BearBludgeonSkill()
-                    //         }
-                    //     }
-                    // },
-
-                    // Perks = new IPerk[]
-                    // {
-                    //     new ImprovedHitPoints(),
-                    //     new ImprovedArmor()
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BearBludgeonSkill()),
+                        new AddPerkUnitLevel(1, new BigMonster())
+                    },
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
@@ -118,47 +99,63 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.Pit, GlobeNodeSid.DeathPath },
+                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new WispEnergySkill()
-                    //         }
-                    //     }
-                    // },
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new WispEnergySkill())
+                    },
+
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
                 new UnitScheme
                 {
-                    TankRank = 0.3f,
-                    DamageDealerRank = 0.7f,
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.Volkolak,
+                    Name = UnitName.VolkolakWarrior,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Battleground },
+                    LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
                     IsUnique = true,
                     IsMonster = true,
-                    //BossLevel = 1,
-                    MinRequiredBiomeLevel = 5,
 
-                    // SkillSets = new List<SkillSet>
-                    // {
-                    //     new SkillSet
-                    //     {
-                    //         Skills = new List<SkillBase>
-                    //         {
-                    //             new VolkolakClawsSkill()
-                    //         }
-                    //     }
-                    // },
-                    UnitGraphicsConfig = new VolkolakGraphicsConfig()
-                }
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
+                        new AddPerkUnitLevel(1, new BigMonster()),
+                        new AddPerkUnitLevel(10, new CriticalHit())
+                    },
+
+                    UnitGraphicsConfig = new VolkolakWarriorGraphicsConfig(),
+
+                    SchemeAutoTransition = new UnitSchemeAutoTransition
+                    {
+                        HpShare = 0.5f,
+                        NextScheme = new UnitScheme
+                        {
+                            TankRank = 0.5f,
+                            DamageDealerRank = 0.5f,
+                            SupportRank = 0.0f,
+
+                            Name = UnitName.Volkolak,
+                            Biome = biomeType,
+                            IsUnique = true,
+                            IsMonster = true,
+
+                            Levels = new IUnitLevelScheme[]
+                            {
+                                new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
+                                new AddPerkUnitLevel(1, new ImprovedHitPoints()),
+                                new AddPerkUnitLevel(5, new Evasion()),
+                                new AddPerkUnitLevel(10, new CriticalHit())
+                            },
+
+                            UnitGraphicsConfig = new VolkolakGraphicsConfig()
+                        }
+                    }
+                },
             };
         }
 

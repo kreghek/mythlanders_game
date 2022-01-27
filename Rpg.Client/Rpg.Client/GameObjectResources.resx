@@ -227,9 +227,11 @@
   </data>
   <data name="Rada" xml:space="preserve">
     <value>Rada The Old</value>
+    <comment>Hero</comment>
   </data>
-  <data name="RapidEnergyShot" xml:space="preserve">
+  <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
+    <comment>Skill</comment>
   </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
@@ -287,5 +289,65 @@
   </data>
   <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
     <value>{0} is preying</value><comment>Global Effect</comment>
+  </data>
+  <data name="ArcherPulsarBow" xml:space="preserve">
+    <value>Pulsar bow</value><comment>Equipment</comment>
+  </data>
+  <data name="AsceticRobe" xml:space="preserve">
+    <value>Ascetic robe</value><comment>Equipment</comment>
+  </data>
+  <data name="BookOfHerbs" xml:space="preserve">
+    <value>The book of a herbs</value><comment>Equipment</comment>
+  </data>
+  <data name="ChaoticNeuroInterface" xml:space="preserve">
+    <value>Chaotic neuro-interface</value><comment>Equipment</comment>
+  </data>
+  <data name="DeceptivelyLightRobe" xml:space="preserve">
+    <value>Deceptively light robe</value><comment>Equipment</comment>
+  </data>
+  <data name="EgyptianBookOfDeath" xml:space="preserve">
+    <value>Egyptian Book of a dead</value><comment>Equipment</comment>
+  </data>
+  <data name="EliteGuardsmanSpear" xml:space="preserve">
+    <value>Elite guardsman's spear</value><comment>Equipment</comment>
+  </data>
+  <data name="EmptinessInTheHand" xml:space="preserve">
+    <value>Emptiness in the hand</value><comment>Equipment</comment>
+  </data>
+  <data name="HerbBag" xml:space="preserve">
+    <value>Herb bag</value><comment>Equipment</comment>
+  </data>
+  <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
+    <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
+  </data>
+  <data name="Mk2MediumPowerArmor" xml:space="preserve">
+    <value>Mk2 medium power armor</value><comment>Equipment</comment>
+  </data>
+  <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
+    <value>Mk3 scout power armor</value><comment>Equipment</comment>
+  </data>
+  <data name="NanoMetalLongCloths" xml:space="preserve">
+    <value>Nano-metal long cloths</value><comment>Equipment</comment>
+  </data>
+  <data name="RedemptionStaff" xml:space="preserve">
+    <value>Staff of Redemption</value><comment>Equipment</comment>
+  </data>
+  <data name="ScarabeusKingLeg" xml:space="preserve">
+    <value>Scarabeus King's Leg</value><comment>Equipment</comment>
+  </data>
+  <data name="SilverWindNecklace" xml:space="preserve">
+    <value>Silver wind necklace</value><comment>Equipment</comment>
+  </data>
+  <data name="SymbolOfGod" xml:space="preserve">
+    <value>Symbol of the God</value><comment>Equipment</comment>
+  </data>
+  <data name="CombatSword" xml:space="preserve">
+    <value>Combat sword</value><comment>Equipment</comment>
+  </data>
+  <data name="WomanShort" xml:space="preserve">
+    <value>Woman short</value><comment>Equipment</comment>
+  </data>
+  <data name="WoodenHandSculpture" xml:space="preserve">
+    <value>Wooden hand sculpture</value><comment>Equipment</comment>
   </data>
 </root>

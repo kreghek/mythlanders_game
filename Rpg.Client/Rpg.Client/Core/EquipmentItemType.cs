@@ -8,6 +8,7 @@
         Herbalist,
         Priest,
         Monk,
-        Spearman
+        Spearman,
+        Sage
     }
 }

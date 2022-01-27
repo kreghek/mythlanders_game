@@ -14,12 +14,14 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private const int ICON_SIZE = 64;
         private readonly IList<EntityIconButton<Equipment>> _equipmentIcons;
         private readonly Unit _hero;
+        private readonly SpriteFont _mainFont;
 
         public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
             Texture2D controlTexture, Texture2D equipmentIconsTexture) : base(
             texture, titleFont)
         {
             _hero = hero;
+            _mainFont = mainFont;
             _equipmentIcons = new List<EntityIconButton<Equipment>>();
             for (var index = 0; index < _hero.Equipments.Count; index++)
             {
@@ -29,8 +31,6 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
                     new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
                 _equipmentIcons.Add(equipmentIconButton);
-
-                var skillNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
             }
         }
 
@@ -46,9 +46,19 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             for (var index = 0; index < _equipmentIcons.Count; index++)
             {
                 var equipmentButton = _equipmentIcons[index];
-                equipmentButton.Rect = new Rectangle(contentRect.Location + new Point(index * (ICON_SIZE + 5), 0),
+                const int MARGIN = 5;
+                equipmentButton.Rect = new Rectangle(contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
                     new Point(ICON_SIZE, ICON_SIZE));
                 equipmentButton.Draw(spriteBatch);
+
+                var equipment = equipmentButton.Entity;
+                var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
+                var entityInfoText = $"{entityNameText} ({equipment.Level} lvl)";
+                spriteBatch.DrawString(_mainFont, entityInfoText, equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
+
+                var upgradeInfoText =
+                    $"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup";
+                spriteBatch.DrawString(_mainFont, upgradeInfoText, equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
             }
         }
 
@@ -56,7 +66,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         {
             return schemeSid switch
             {
-                EquipmentSid.WarriorGreatSword => 1,
+                EquipmentSid.CombatSword => 1,
                 EquipmentSid.Mk2MediumPowerArmor => 2,
                 EquipmentSid.WoodenHandSculpture => 3,
                 EquipmentSid.ArcherPulsarBow => 4,

@@ -19,24 +19,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
         private const int SPRITE_SHEET_COLUMN_COUNT = 3;
-        private readonly IDictionary<ButtonBase, CombatSkill> _buttonCombatPowerDict;
-        private readonly IList<ButtonBase> _buttons;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly IList<EntityButtonBase<CombatSkill>> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
         private SkillHint? _activeSkillHint;
         private KeyboardState _currentKeyboardState;
 
-        private ButtonBase? _hoverButton;
+        private EntityButtonBase<CombatSkill>? _hoverButton;
         private KeyboardState? _lastKeyboardState;
         private CombatSkill? _selectedCard;
         private CombatUnit? _unit;
 
-        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage,
-            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(texture)
+        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage) : base(texture)
         {
-            _resolutionIndependentRenderer = resolutionIndependentRenderer;
-            _buttons = new List<ButtonBase>();
-            _buttonCombatPowerDict = new Dictionary<ButtonBase, CombatSkill>();
+            _buttons = new List<EntityButtonBase<CombatSkill>>();
 
             _uiContentStorage = uiContentStorage;
 
@@ -70,8 +65,29 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
+            var buttonsRect = GetButtonsRect();
+
+            const int IMAGE_WIDTH = 480;
+            const int IMAGE_HEIGHT = 43;
+            var leftPartRect = new Rectangle(buttonsRect.Left - IMAGE_WIDTH / 2, Rect.Center.Y - IMAGE_HEIGHT / 2,
+                IMAGE_WIDTH / 2, IMAGE_HEIGHT);
+            var rightPartRect = new Rectangle(buttonsRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, IMAGE_WIDTH / 2,
+                IMAGE_HEIGHT);
+            
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
-                new Vector2(Rect.Location.X, Rect.Center.Y - 48 / 2), color);
+                new Rectangle(leftPartRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, buttonsRect.Width, buttonsRect.Height),
+                new Rectangle(IMAGE_WIDTH / 2 - 1, 0, 2, IMAGE_HEIGHT),
+                color);
+
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
+                leftPartRect,
+                new Rectangle(0, 0, IMAGE_WIDTH / 2, IMAGE_HEIGHT),
+                color);
+
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
+                rightPartRect,
+                new Rectangle(IMAGE_WIDTH / 2, 0, IMAGE_WIDTH / 2, IMAGE_HEIGHT),
+                color);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -81,12 +97,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 return;
             }
 
-            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+            var buttonsRect = GetButtonsRect();
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                var buttonsRect =
-                    new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+                
                 button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
                 button.Draw(spriteBatch);
 
@@ -98,6 +113,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
+        }
+
+        private Rectangle GetButtonsRect()
+        {
+            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+            var buttonsRect =
+                new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+            return buttonsRect;
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -121,8 +144,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 button.Update(resolutionIndependentRenderer);
 
-                var combatSkill = _buttonCombatPowerDict[button];
-                button.IsEnabled = combatSkill.IsAvailable;
+                button.IsEnabled = button.Entity.IsAvailable;
 
                 DetectMouseHoverOnButton(mouseRect, button);
             }
@@ -130,7 +152,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (_hoverButton is not null && _hoverButton != oldHoverButton && _unit is not null)
             {
                 _activeSkillHint = new SkillHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
-                    _buttonCombatPowerDict[_hoverButton], _unit);
+                    _hoverButton.Entity, _unit);
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
@@ -148,11 +170,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 Debug.Fail("Sender mustn't be null.");
             }
 
-            var combatPowerCard = _buttonCombatPowerDict[(ButtonBase)sender];
-            SelectedCard = combatPowerCard;
+            var entityButton = (EntityButtonBase<CombatSkill>)sender;
+            SelectedCard = entityButton.Entity;
         }
 
-        private void DetectMouseHoverOnButton(Rectangle mouseRect, ButtonBase button)
+        private void DetectMouseHoverOnButton(Rectangle mouseRect, EntityButtonBase<CombatSkill> button)
         {
             if (mouseRect.Intersects(button.Rect))
             {
@@ -299,7 +321,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private void RecreateButtons()
         {
             _buttons.Clear();
-            _buttonCombatPowerDict.Clear();
             SelectedCard = null;
 
             if (_unit is null)
@@ -318,10 +339,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var iconRect = GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(_uiContentStorage.GetSkillButtonTexture(), iconData, Rectangle.Empty,
+                var button = new CombatSkillButton<CombatSkill>(_uiContentStorage.GetSkillButtonTexture(), iconData,
                     card, this);
                 _buttons.Add(button);
-                _buttonCombatPowerDict[button] = card;
                 button.OnClick += CombatPowerButton_OnClick;
             }
         }

@@ -87,6 +87,8 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         protected override void UpdateContent(GameTime gameTime)
         {
+            base.UpdateContent(gameTime);
+
             if (!_isInitialized)
             {
                 InitializeMonsterButtons();

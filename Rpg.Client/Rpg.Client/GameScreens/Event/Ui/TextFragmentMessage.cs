@@ -43,8 +43,20 @@ namespace Rpg.Client.GameScreens.Event.Ui
             return size + Vector2.One * (2 * 4);
         }
 
+        public void MoveToCompletion()
+        {
+            IsComplete = true;
+            _textToPrintBuilder.Clear();
+            _textToPrintBuilder.Append(_localizedText);
+        }
+
         public void Update(GameTime gameTime)
         {
+            if (IsComplete)
+            {
+                return;
+            }
+
             var duration = _eventTextFragment.Speaker == UnitName.Environment ? 0.01f : 0.01f;
             if (_characterCounter <= duration)
             {
