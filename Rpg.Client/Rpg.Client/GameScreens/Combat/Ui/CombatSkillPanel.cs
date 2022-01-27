@@ -70,8 +70,22 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {
+            var buttonsRect = GetButtonsRect();
+
+            const int IMAGE_WIDTH = 480;
+            const int IMAGE_HEIGHT = 48;
+            var leftPartRect = new Rectangle(buttonsRect.Left - IMAGE_WIDTH / 2, Rect.Center.Y - IMAGE_HEIGHT / 2, IMAGE_WIDTH / 2, IMAGE_HEIGHT);
+            var rightPartRect = new Rectangle(buttonsRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, IMAGE_WIDTH / 2, IMAGE_HEIGHT);
+
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
-                new Vector2(Rect.Location.X, Rect.Center.Y - 48 / 2), color);
+                new Rectangle(0, 0, IMAGE_WIDTH / 2, IMAGE_HEIGHT),
+                leftPartRect,
+                color);
+
+            spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
+                new Rectangle(IMAGE_WIDTH / 2, 0, IMAGE_WIDTH / 2, IMAGE_HEIGHT),
+                rightPartRect,
+                color);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
@@ -81,12 +95,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 return;
             }
 
-            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+            var buttonsRect = GetButtonsRect();
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                var buttonsRect =
-                    new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+                
                 button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
                 button.Draw(spriteBatch);
 
@@ -98,6 +111,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
+        }
+
+        private Rectangle GetButtonsRect()
+        {
+            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+            var buttonsRect =
+                new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+            return buttonsRect;
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
