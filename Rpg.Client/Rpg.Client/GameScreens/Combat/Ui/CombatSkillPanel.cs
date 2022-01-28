@@ -239,11 +239,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 SkillSid.Heal => 9,
                 SkillSid.StaffHit => 12,
-                SkillSid.HealMantre => 13,
+                SkillSid.RestoreMantra => 13,
                 SkillSid.PathOf1000Firsts => 14,
 
                 SkillSid.DarkLighting => 9,
-                SkillSid.ParaliticChor => 10,
+                SkillSid.ParalyticChoir => 10,
                 SkillSid.FingerOfAnubis => 11,
 
                 SkillSid.PowerUp => 1,

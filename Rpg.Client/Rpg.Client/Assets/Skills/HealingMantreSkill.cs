@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class HealingMantreSkill : SkillBase
+    internal class RestoreMantraSkill : SkillBase
     {
-        public HealingMantreSkill() : this(false)
+        public RestoreMantraSkill() : this(false)
         {
         }
 
-        public HealingMantreSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public RestoreMantraSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.MassHeal;
+        public override SkillSid Sid => SkillSid.RestoreMantra;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 

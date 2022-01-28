@@ -6,9 +6,9 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ParaliticChoirSkill : SkillBase
+    internal class ParalyticChoirSkill : SkillBase
     {
-        public ParaliticChoirSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ParalyticChoirSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.ParaliticChor;
+        public override SkillSid Sid => SkillSid.ParalyticChoir;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

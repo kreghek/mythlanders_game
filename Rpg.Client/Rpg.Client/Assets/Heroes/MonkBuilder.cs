@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Heroes
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new StaffHitSkill()),
-                    new AddSkillUnitLevel(2, new HealingMantreSkill()),
+                    new AddSkillUnitLevel(2, new RestoreMantraSkill()),
                     new AddPerkUnitLevel(2, new Evasion()),
                     new AddSkillUnitLevel(3, new MasterStaffHitSkill(true)),
                     new AddSkillUnitLevel(4, new GodNatureSkill(true))
