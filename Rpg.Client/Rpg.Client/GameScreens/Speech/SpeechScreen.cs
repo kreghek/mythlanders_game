@@ -18,7 +18,38 @@ namespace Rpg.Client.GameScreens.Speech
 {
     internal class SpeechScreen : GameScreenWithMenuBase
     {
+        private const int BACKGROUND_LAYERS_COUNT = 3;
+        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
+
+        /// <summary>
+        /// Event screen has no background parallax.
+        /// </summary>
+        private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
+
+        private readonly Texture2D _backgroundTexture;
+
+        private readonly IList<ButtonBase> _buttons;
+        private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+        private readonly EventContext _dialogContext;
+        private readonly IDice _dice;
+        private readonly IEventCatalog _eventCatalog;
+        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly Globe _globe;
+        private readonly GlobeNode _globeNode;
+        private readonly GlobeProvider _globeProvider;
+        private readonly Random _random;
+
+        private readonly IList<TextFragment> _textFragments;
+        private readonly IUiContentStorage _uiContentStorage;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+
+        private double _counter;
+
+        private int _currentFragmentIndex;
+        private int _frameIndex;
+
+        private bool _isInitialized;
 
         public SpeechScreen(EwarGame game) : base(game)
         {
@@ -68,9 +99,6 @@ namespace Rpg.Client.GameScreens.Speech
             }
         }
 
-        private readonly IList<ButtonBase> _buttons;
-        private readonly EventContext _dialogContext;
-
         protected override IList<ButtonBase> CreateMenu()
         {
             return ArraySegment<ButtonBase>.Empty;
@@ -83,7 +111,134 @@ namespace Rpg.Client.GameScreens.Speech
             DrawHud(spriteBatch, contentRect);
         }
 
-        private readonly IList<TextFragment> _textFragments;
+        protected override void UpdateContent(GameTime gameTime)
+        {
+            base.UpdateContent(gameTime);
+
+            if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) &&
+                !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
+            {
+                _globe.Player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
+
+                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                    ResolutionIndependentRenderer, _globe.Player);
+                AddModal(tutorialModal, isLate: false);
+            }
+
+            if (!_isInitialized)
+            {
+                InitEventControls();
+
+                _isInitialized = true;
+            }
+            else
+            {
+                UpdateBackgroundObjects(gameTime);
+
+                UpdateHud(gameTime);
+
+                UpdateSpeaker(gameTime);
+            }
+        }
+
+        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+            int backgroundMaxOffset)
+        {
+            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
+            {
+                var xFloat = backgroundStartOffset + BG_CENTER_OFFSET_PERCENTAGE * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
+                var roundedX = (int)Math.Round(xFloat);
+                var position = new Vector2(roundedX, 0);
+
+                var position3d = new Vector3(position, 0);
+
+                var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
+                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
+
+                var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                             * Matrix.CreateScale(scaleVector);
+
+                spriteBatch.Begin(
+                    sortMode: SpriteSortMode.Deferred,
+                    blendState: BlendState.AlphaBlend,
+                    samplerState: SamplerState.PointClamp,
+                    depthStencilState: DepthStencilState.None,
+                    rasterizerState: RasterizerState.CullNone,
+                    transformMatrix: matrix);
+
+                spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+
+                if (i == 0 /*Cloud layer*/)
+                {
+                    foreach (var obj in _cloudLayerObjects)
+                    {
+                        obj.Draw(spriteBatch);
+                    }
+                }
+
+                spriteBatch.End();
+            }
+        }
+
+        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
+            int backgroundMaxOffset)
+        {
+            var xFloat = backgroundStartOffset +
+                         -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+            var roundedX = (int)Math.Round(xFloat);
+
+            var position = new Vector2(roundedX, 0);
+
+            var position3d = new Vector3(position, 0);
+
+            var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
+            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+
+            var matrix = Matrix.CreateTranslation(translationVector + position3d)
+                         * Matrix.CreateScale(scaleVector);
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: matrix);
+
+            spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Draw(spriteBatch);
+            }
+
+            spriteBatch.End();
+        }
+
+        private void DrawGameObjects(SpriteBatch spriteBatch)
+        {
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
+
+            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
+
+            const int BG_START_OFFSET = -100;
+            const int BG_MAX_OFFSET = 200;
+
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+
+            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: Camera.GetViewTransformationMatrix());
+            spriteBatch.Draw(_backgroundTexture, ResolutionIndependentRenderer.VirtualBounds,
+                Color.Lerp(Color.Transparent, Color.Black, 0.5f));
+            spriteBatch.End();
+        }
 
         private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
@@ -128,115 +283,6 @@ namespace Rpg.Client.GameScreens.Speech
             spriteBatch.End();
         }
 
-        private int _currentFragmentIndex;
-
-        private void DrawGameObjects(SpriteBatch spriteBatch)
-        {
-            var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
-
-            var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
-
-            const int BG_START_OFFSET = -100;
-            const int BG_MAX_OFFSET = 200;
-
-            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
-
-            spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: Camera.GetViewTransformationMatrix());
-            spriteBatch.Draw(_backgroundTexture, ResolutionIndependentRenderer.VirtualBounds,
-                Color.Lerp(Color.Transparent, Color.Black, 0.5f));
-            spriteBatch.End();
-        }
-
-        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-            int backgroundMaxOffset)
-        {
-            var xFloat = backgroundStartOffset +
-                         -1 * BG_CENTER_OFFSET_PERCENTAGE * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-            var roundedX = (int)Math.Round(xFloat);
-
-            var position = new Vector2(roundedX, 0);
-
-            var position3d = new Vector3(position, 0);
-
-            var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
-
-            var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                         * Matrix.CreateScale(scaleVector);
-
-            spriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
-
-            spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
-
-            foreach (var obj in _foregroundLayerObjects)
-            {
-                obj.Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-        }
-
-        private const int BACKGROUND_LAYERS_COUNT = 3;
-        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
-
-        /// <summary>
-        /// Event screen has no background parallax.
-        /// </summary>
-        private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
-
-        private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-            int backgroundMaxOffset)
-        {
-            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
-            {
-                var xFloat = backgroundStartOffset + BG_CENTER_OFFSET_PERCENTAGE * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                    BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
-                var roundedX = (int)Math.Round(xFloat);
-                var position = new Vector2(roundedX, 0);
-
-                var position3d = new Vector3(position, 0);
-
-                var worldTransformationMatrix = Camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
-
-                var matrix = Matrix.CreateTranslation(translationVector + position3d)
-                             * Matrix.CreateScale(scaleVector);
-
-                spriteBatch.Begin(
-                    sortMode: SpriteSortMode.Deferred,
-                    blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.PointClamp,
-                    depthStencilState: DepthStencilState.None,
-                    rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: matrix);
-
-                spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
-
-                if (i == 0 /*Cloud layer*/)
-                {
-                    foreach (var obj in _cloudLayerObjects)
-                    {
-                        obj.Draw(spriteBatch);
-                    }
-                }
-
-                spriteBatch.End();
-            }
-        }
-
         private void DrawSpeaker(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(
@@ -256,108 +302,6 @@ namespace Rpg.Client.GameScreens.Speech
                 Color.White);
 
             spriteBatch.End();
-        }
-
-        private double _counter;
-        private int _frameIndex;
-        private readonly Random _random;
-        private readonly GlobeProvider _globeProvider;
-        private readonly Globe _globe;
-        private readonly Texture2D _backgroundTexture;
-        private readonly GlobeNode _globeNode;
-        private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly IEventCatalog _eventCatalog;
-        private readonly IDice _dice;
-
-        private bool _isInitialized;
-
-        protected override void UpdateContent(GameTime gameTime)
-        {
-            base.UpdateContent(gameTime);
-
-            if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) &&
-                !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
-            {
-                _globe.Player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
-
-                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    ResolutionIndependentRenderer, _globe.Player);
-                AddModal(tutorialModal, isLate: false);
-            }
-
-            if (!_isInitialized)
-            {
-                InitEventControls();
-
-                _isInitialized = true;
-            }
-            else
-            {
-                UpdateBackgroundObjects(gameTime);
-
-                UpdateHud(gameTime);
-
-                UpdateSpeaker(gameTime);
-            }
-        }
-
-        private void UpdateHud(GameTime gameTime)
-        {
-            var maxFragmentIndex = _textFragments.Count - 1;
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                if (_currentFragmentIndex < maxFragmentIndex &&
-                    !_textFragments[_currentFragmentIndex].IsComplete)
-                {
-                    foreach (var fragment in _textFragments)
-                    {
-                        fragment.MoveToCompletion();
-                    }
-
-                    _currentFragmentIndex = maxFragmentIndex;
-                }
-
-                return;
-            }
-
-            var currentFragment = _textFragments[_currentFragmentIndex];
-            currentFragment.Update(gameTime);
-
-            if (currentFragment.IsComplete)
-            {
-                if (_currentFragmentIndex < maxFragmentIndex)
-                {
-                    //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                    {
-                        _currentFragmentIndex++;
-                    }
-                }
-            }
-
-            if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
-            {
-                foreach (var button in _buttons)
-                {
-                    button.Update(ResolutionIndependentRenderer);
-                }
-            }
-        }
-
-        private void UpdateBackgroundObjects(GameTime gameTime)
-        {
-            foreach (var obj in _foregroundLayerObjects)
-            {
-                obj.Update(gameTime);
-            }
-
-            foreach (var obj in _cloudLayerObjects)
-            {
-                obj.Update(gameTime);
-            }
         }
 
         private static string GetOptionLocalizedText(EventOption option)
@@ -421,6 +365,62 @@ namespace Rpg.Client.GameScreens.Speech
                 };
 
                 _buttons.Add(button);
+            }
+        }
+
+        private void UpdateBackgroundObjects(GameTime gameTime)
+        {
+            foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _cloudLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+        }
+
+        private void UpdateHud(GameTime gameTime)
+        {
+            var maxFragmentIndex = _textFragments.Count - 1;
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                if (_currentFragmentIndex < maxFragmentIndex &&
+                    !_textFragments[_currentFragmentIndex].IsComplete)
+                {
+                    foreach (var fragment in _textFragments)
+                    {
+                        fragment.MoveToCompletion();
+                    }
+
+                    _currentFragmentIndex = maxFragmentIndex;
+                }
+
+                return;
+            }
+
+            var currentFragment = _textFragments[_currentFragmentIndex];
+            currentFragment.Update(gameTime);
+
+            if (currentFragment.IsComplete)
+            {
+                if (_currentFragmentIndex < maxFragmentIndex)
+                {
+                    //TODO Make auto-move to next dialog. Make it disable in settings by default.
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        _currentFragmentIndex++;
+                    }
+                }
+            }
+
+            if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
+            {
+                foreach (var button in _buttons)
+                {
+                    button.Update(ResolutionIndependentRenderer);
+                }
             }
         }
 
