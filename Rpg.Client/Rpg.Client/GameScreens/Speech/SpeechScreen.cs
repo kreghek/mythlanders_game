@@ -16,20 +16,20 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Speech
 {
-    internal class SpeechScreen: GameScreenWithMenuBase
+    internal class SpeechScreen : GameScreenWithMenuBase
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         public SpeechScreen(EwarGame game) : base(game)
         {
             _random = new Random();
-            
+
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = _globeProvider.Globe;
-            
+
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            
+
             var combat = _globe.ActiveCombat ??
                          throw new InvalidOperationException(
                              $"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
@@ -39,19 +39,19 @@ namespace Rpg.Client.GameScreens.Speech
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
-            
+
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
-            
+
             var data = new[] { Color.White };
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
-            
+
             _buttons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
 
             _dialogContext = new EventContext(_globe);
-            
+
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Speech
                 soundtrackManager.PlayMapTrack();
             }
         }
-        
+
         private readonly IList<ButtonBase> _buttons;
         private readonly EventContext _dialogContext;
 
@@ -82,9 +82,9 @@ namespace Rpg.Client.GameScreens.Speech
             DrawSpeaker(spriteBatch);
             DrawHud(spriteBatch, contentRect);
         }
-        
+
         private readonly IList<TextFragment> _textFragments;
-        
+
         private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             spriteBatch.Begin(
@@ -96,7 +96,7 @@ namespace Rpg.Client.GameScreens.Speech
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             const int FACE_SIZE = 256;
-            
+
             if (_textFragments.Any())
             {
                 var textFragmentControl = _textFragments[_currentFragmentIndex];
@@ -113,7 +113,7 @@ namespace Rpg.Client.GameScreens.Speech
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
                 var optionsStartPosition = new Vector2(contentRectangle.Right - 150, contentRectangle.Bottom - 25);
-            
+
                 var index = 0;
                 foreach (var button in _buttons)
                 {
@@ -129,7 +129,7 @@ namespace Rpg.Client.GameScreens.Speech
         }
 
         private int _currentFragmentIndex;
-        
+
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
             var backgroundType = BackgroundHelper.GetBackgroundType(_globeNode.Sid);
@@ -153,7 +153,7 @@ namespace Rpg.Client.GameScreens.Speech
                 Color.Lerp(Color.Transparent, Color.Black, 0.5f));
             spriteBatch.End();
         }
-        
+
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -188,7 +188,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             spriteBatch.End();
         }
-        
+
         private const int BACKGROUND_LAYERS_COUNT = 3;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
@@ -196,7 +196,7 @@ namespace Rpg.Client.GameScreens.Speech
         /// Event screen has no background parallax.
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
-        
+
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -277,7 +277,7 @@ namespace Rpg.Client.GameScreens.Speech
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-            
+
             if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) &&
                 !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
             {
@@ -287,7 +287,7 @@ namespace Rpg.Client.GameScreens.Speech
                     ResolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
             }
-            
+
             if (!_isInitialized)
             {
                 InitEventControls();
@@ -299,11 +299,11 @@ namespace Rpg.Client.GameScreens.Speech
                 UpdateBackgroundObjects(gameTime);
 
                 UpdateHud(gameTime);
-                
+
                 UpdateSpeaker(gameTime);
             }
         }
-        
+
         private void UpdateHud(GameTime gameTime)
         {
             var maxFragmentIndex = _textFragments.Count - 1;
@@ -346,7 +346,7 @@ namespace Rpg.Client.GameScreens.Speech
                 }
             }
         }
-        
+
         private void UpdateBackgroundObjects(GameTime gameTime)
         {
             foreach (var obj in _foregroundLayerObjects)
@@ -359,12 +359,12 @@ namespace Rpg.Client.GameScreens.Speech
                 obj.Update(gameTime);
             }
         }
-        
+
         private static string GetOptionLocalizedText(EventOption option)
         {
             return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
         }
-        
+
         private void InitEventControls()
         {
             _textFragments.Clear();
@@ -428,7 +428,7 @@ namespace Rpg.Client.GameScreens.Speech
         {
             const int SPEAKER_FRAME_COUNT = 3;
             const double SPEAKER_FRAME_DURATION = 0.25;
-            
+
             var currentFragment = _textFragments[_currentFragmentIndex];
             if (!currentFragment.IsComplete)
             {
