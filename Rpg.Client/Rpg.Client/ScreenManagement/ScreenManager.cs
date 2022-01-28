@@ -13,6 +13,7 @@ using Rpg.Client.GameScreens.Event;
 using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
+using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
 
 namespace Rpg.Client.ScreenManagement
@@ -93,7 +94,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new EventScreen(_game),
+                ScreenTransition.Event => new SpeechScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),

@@ -145,8 +145,8 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                //var startScreen = new IntroScreen(this);
-                _screenManager.ActiveScreen = new SpeechScreen(this); //startScreen;
+                var startScreen = new IntroScreen(this);
+                _screenManager.ActiveScreen = startScreen;
             }
 
             _screenManager.Update(gameTime);
