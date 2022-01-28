@@ -100,19 +100,20 @@ namespace Rpg.Client.GameScreens.Speech
                 textFragmentControl.Draw(spriteBatch);
             }
 
-            // if (_currentFragmentIndex == _textFragments.Count - 1)
-            // {
-            //     var optionsStartPosition = new Vector2(textContentRect.X, lastBottomPosition.Y);
-            //
-            //     var index = 0;
-            //     foreach (var button in _buttons)
-            //     {
-            //         var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
-            //         var optionButtonSize = new Point(100, 25);
-            //         button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
-            //         button.Draw(spriteBatch);
-            //     }
-            // }
+            if (_currentFragmentIndex == _textFragments.Count - 1)
+            {
+                var optionsStartPosition = new Vector2(contentRectangle.Right - 150, contentRectangle.Bottom - 25);
+            
+                var index = 0;
+                foreach (var button in _buttons)
+                {
+                    var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
+                    var optionButtonSize = new Point(100, 20);
+                    button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
+                    button.Draw(spriteBatch);
+                    index++;
+                }
+            }
 
             spriteBatch.End();
         }
