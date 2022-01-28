@@ -56,6 +56,16 @@ namespace Rpg.Client.GameScreens.Speech
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
+
+            var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
+            if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
+            {
+                soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
+            }
+            else
+            {
+                soundtrackManager.PlayMapTrack();
+            }
         }
         
         private readonly IList<ButtonBase> _buttons;
@@ -100,7 +110,7 @@ namespace Rpg.Client.GameScreens.Speech
                 textFragmentControl.Draw(spriteBatch);
             }
 
-            if (_currentFragmentIndex == _textFragments.Count - 1)
+            if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
                 var optionsStartPosition = new Vector2(contentRectangle.Right - 150, contentRectangle.Bottom - 25);
             
@@ -296,9 +306,10 @@ namespace Rpg.Client.GameScreens.Speech
         
         private void UpdateHud(GameTime gameTime)
         {
+            var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if (_currentFragmentIndex < _textFragments.Count - 1 &&
+                if (_currentFragmentIndex < maxFragmentIndex &&
                     !_textFragments[_currentFragmentIndex].IsComplete)
                 {
                     foreach (var fragment in _textFragments)
@@ -306,7 +317,7 @@ namespace Rpg.Client.GameScreens.Speech
                         fragment.MoveToCompletion();
                     }
 
-                    _currentFragmentIndex = _textFragments.Count - 1;
+                    _currentFragmentIndex = maxFragmentIndex;
                 }
 
                 return;
@@ -317,17 +328,17 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (currentFragment.IsComplete)
             {
-                if (_currentFragmentIndex < _textFragments.Count - 1)
+                if (_currentFragmentIndex < maxFragmentIndex)
                 {
                     //TODO Make auto-move to next dialog. Make it disable in settings by default.
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         _currentFragmentIndex++;
                     }
                 }
             }
 
-            if (_currentFragmentIndex == _textFragments.Count - 1)
+            if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
             {
                 foreach (var button in _buttons)
                 {
