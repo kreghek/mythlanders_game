@@ -33,10 +33,6 @@ namespace Rpg.Client.GameScreens.Speech
             var combat = _globe.ActiveCombat ??
                          throw new InvalidOperationException(
                              $"{nameof(_globe.ActiveCombat)} can't be null in this screen.");
-            _currentDialogNode = _globe.CurrentEventNode ??
-                                 throw new InvalidOperationException(
-                                     "The screen was started before CurrentEventNode was assigned.");
-            
 
             _globeNode = combat.Node;
 
@@ -96,9 +92,10 @@ namespace Rpg.Client.GameScreens.Speech
                 var textFragmentControl = _textFragments[_currentFragmentIndex];
 
                 var textFragmentSize = textFragmentControl.CalculateSize();
-                
+
+                const int SPEECH_MARGIN = 50;
                 textFragmentControl.Rect = new Rectangle(
-                    new Point(FACE_SIZE, contentRectangle.Bottom - (int)textFragmentSize.Y),
+                    new Point(FACE_SIZE, contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
             }
@@ -119,9 +116,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             spriteBatch.End();
         }
-        
-        private const int TEXT_MARGIN = 10;
-        
+
         private int _currentFragmentIndex;
         
         private void DrawGameObjects(SpriteBatch spriteBatch)
@@ -187,7 +182,7 @@ namespace Rpg.Client.GameScreens.Speech
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
         /// <summary>
-        /// Event screen has no background paralax.
+        /// Event screen has no background parallax.
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
         
@@ -267,7 +262,6 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly IDice _dice;
 
         private bool _isInitialized;
-        private EventNode _currentDialogNode;
 
         protected override void UpdateContent(GameTime gameTime)
         {
@@ -324,7 +318,11 @@ namespace Rpg.Client.GameScreens.Speech
             {
                 if (_currentFragmentIndex < _textFragments.Count - 1)
                 {
-                    _currentFragmentIndex++;
+                    //TODO Make auto-move to next dialog. Make it disable in settings by default.
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    {
+                        _currentFragmentIndex++;
+                    }
                 }
             }
 
@@ -406,7 +404,6 @@ namespace Rpg.Client.GameScreens.Speech
                     }
                     else
                     {
-                        _currentDialogNode = option.Next;
                         _isInitialized = false;
                     }
                 };
@@ -417,17 +414,28 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void UpdateSpeaker(GameTime gameTime)
         {
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > 0.25)
+            const int SPEAKER_FRAME_COUNT = 3;
+            const double SPEAKER_FRAME_DURATION = 0.25;
+            
+            var currentFragment = _textFragments[_currentFragmentIndex];
+            if (!currentFragment.IsComplete)
             {
-                _frameIndex = _random.Next(3);
-                if (_frameIndex > 2)
-                {
-                    _frameIndex = 0;
-                }
+                _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                _counter = 0;
+                if (_counter > SPEAKER_FRAME_DURATION)
+                {
+                    _frameIndex = _random.Next(SPEAKER_FRAME_COUNT);
+                    if (_frameIndex > SPEAKER_FRAME_COUNT - 1)
+                    {
+                        _frameIndex = 0;
+                    }
+
+                    _counter = 0;
+                }
+            }
+            else
+            {
+                _frameIndex = 0;
             }
         }
     }
