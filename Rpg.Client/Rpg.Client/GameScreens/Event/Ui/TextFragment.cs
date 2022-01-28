@@ -22,7 +22,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly SoundEffect _textSoundEffect;
 
         public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
-            Texture2D portraitsTexture, Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) : base(texture)
+            Texture2D portraitsTexture, SoundEffect textSoundEffect) : base(texture)
         {
             _font = font;
             _portraitsTexture = portraitsTexture;
@@ -37,7 +37,8 @@ namespace Rpg.Client.GameScreens.Event.Ui
         public Vector2 CalculateSize()
         {
             var messageSize = _message.CalculateSize();
-            var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+            //var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
+            var portraitSize = new Vector2(0, 0);
 
             var width = Math.Max(messageSize.X, portraitSize.X);
             var height = Math.Max(messageSize.Y, portraitSize.Y);
@@ -69,10 +70,10 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            if (_speaker != UnitName.Environment)
-            {
-                DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
-            }
+            // if (_speaker != UnitName.Environment)
+            // {
+            //     DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
+            // }
 
             var textPosition = clientRect.Location.ToVector2() + Vector2.UnitX * PORTRAIT_SIZE;
             _message.Rect = new Rectangle(textPosition.ToPoint(),
