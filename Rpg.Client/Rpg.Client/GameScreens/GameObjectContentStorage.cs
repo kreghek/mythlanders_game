@@ -35,6 +35,7 @@ namespace Rpg.Client.GameScreens
 
         private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
+        private Texture2D _characterFaceTexture;
 
         public Effect GetAllWhiteEffect()
         {
@@ -243,6 +244,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
+            _characterFaceTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace");
+
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
                 var imagePath = Path.Combine("Sprites", "GameObjects", "CombatBackgrounds", biomeType.ToString(),
@@ -363,6 +366,11 @@ namespace Rpg.Client.GameScreens
             Far,
             Main,
             Closest
+        }
+
+        public Texture2D GetCharacterFaceTexture()
+        {
+            return _characterFaceTexture;
         }
     }
 }

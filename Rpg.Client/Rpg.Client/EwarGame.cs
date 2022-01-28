@@ -11,6 +11,7 @@ using Rpg.Client.GameComponents;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Intro;
+using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
 using Rpg.Client.ScreenManagement;
 

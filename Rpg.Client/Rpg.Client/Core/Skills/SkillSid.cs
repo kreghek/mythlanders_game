@@ -21,11 +21,11 @@ namespace Rpg.Client.Core.Skills
         ZduhachMight,
         DarkLighting,
         MummificationTouch,
-        ParaliticChor,
+        ParalyticChoir,
         FingerOfAnubis,
         WispEnergy,
         VolkolakWarriorEnergyBurst,
-        HealMantre,
+        RestoreMantra,
         PathOf1000Firsts,
         RapidShot,
         ToxicHerbs,
@@ -36,8 +36,8 @@ namespace Rpg.Client.Core.Skills
         StonePath,
         DemonicTaunt,
         Reproach, // укор в насилии
-
         NoViolencePleaseSkill,
-        FaithBoost // укрепление веры
+        FaithBoost, // укрепление веры
+        AskedNoViolence
     }
 }

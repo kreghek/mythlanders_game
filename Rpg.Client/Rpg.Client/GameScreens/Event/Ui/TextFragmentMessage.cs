@@ -37,8 +37,9 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         public Vector2 CalculateSize()
         {
-            var localizedText = GetLocalizedText(_textToPrintBuilder.ToString());
-            var size = _font.MeasureString(localizedText);
+            // var localizedText = GetLocalizedText(_textToPrintBuilder.ToString());
+            // var size = _font.MeasureString(localizedText);
+            var size = _font.MeasureString(_localizedText);
             // TODO use margin
             return size + Vector2.One * (2 * 4);
         }

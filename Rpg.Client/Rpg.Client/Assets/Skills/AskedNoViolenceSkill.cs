@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class AskedNoViolenceSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.FingerOfAnubis;
+        private const SkillSid SID = SkillSid.AskedNoViolence;
 
         public AskedNoViolenceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {

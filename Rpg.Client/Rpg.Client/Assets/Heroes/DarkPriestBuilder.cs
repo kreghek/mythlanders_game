@@ -23,7 +23,7 @@ namespace Rpg.Client.Assets.Heroes
                     new AddSkillUnitLevel(1, new DarkLightingSkill()),
                     new AddSkillUnitLevel(2, new MummificationTouchSkill()),
                     new AddPerkUnitLevel(2, new Evasion()),
-                    new AddSkillUnitLevel(3, new ParaliticChoirSkill(true)),
+                    new AddSkillUnitLevel(3, new ParalyticChoirSkill(true)),
                     new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
                 },
 
