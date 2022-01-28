@@ -4,12 +4,11 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicDamageEffect : PeriodicEffectBase
     {
+        public CombatUnit Actor { get; set; }
         public float PowerMultiplier { get; init; }
 
         public float Scatter { get; init; } = 0.1f;
         public int SourceDamage { get; set; }
-        
-        public CombatUnit Actor { get; set; }
 
         public MinMax<int> CalculateDamage()
         {

@@ -155,7 +155,7 @@ namespace Rpg.Client.Core
                             UnitGraphicsConfig = new VolkolakGraphicsConfig()
                         }
                     }
-                },
+                }
             };
         }
 

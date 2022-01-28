@@ -73,9 +73,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 IMAGE_WIDTH / 2, IMAGE_HEIGHT);
             var rightPartRect = new Rectangle(buttonsRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, IMAGE_WIDTH / 2,
                 IMAGE_HEIGHT);
-            
+
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
-                new Rectangle(leftPartRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, buttonsRect.Width, buttonsRect.Height),
+                new Rectangle(leftPartRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, buttonsRect.Width,
+                    buttonsRect.Height),
                 new Rectangle(IMAGE_WIDTH / 2 - 1, 0, 2, IMAGE_HEIGHT),
                 color);
 
@@ -101,7 +102,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
-                
+
                 button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
                 button.Draw(spriteBatch);
 
@@ -113,14 +114,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 DrawHoverCombatSkillInfo(_hoverButton, _activeSkillHint, spriteBatch);
             }
-        }
-
-        private Rectangle GetButtonsRect()
-        {
-            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
-            var buttonsRect =
-                new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
-            return buttonsRect;
         }
 
         internal void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -215,6 +208,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 buttonsRect.Y,
                 SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE);
+        }
+
+        private Rectangle GetButtonsRect()
+        {
+            var allButtonWidth = _buttons.Count * (SKILL_BUTTON_SIZE + BUTTON_MARGIN);
+            var buttonsRect =
+                new Rectangle(Rect.Center.X - allButtonWidth / 2, Rect.Y, allButtonWidth, Rect.Height);
+            return buttonsRect;
         }
 
         private static int? GetIconOneBasedIndex(SkillSid sid)

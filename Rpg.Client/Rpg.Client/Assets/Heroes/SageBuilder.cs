@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Heroes
                 SupportRank = 0.7f,
 
                 Name = UnitName.Cheng,
-                
+
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new ReproachSkill()),

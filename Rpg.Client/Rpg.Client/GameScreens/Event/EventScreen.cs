@@ -381,7 +381,8 @@ namespace Rpg.Client.GameScreens.Event
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if (_currentFragmentIndex < _textFragments.Count - 1 && !_textFragments[_currentFragmentIndex].IsComplete)
+                if (_currentFragmentIndex < _textFragments.Count - 1 &&
+                    !_textFragments[_currentFragmentIndex].IsComplete)
                 {
                     foreach (var fragment in _textFragments)
                     {
@@ -390,6 +391,7 @@ namespace Rpg.Client.GameScreens.Event
 
                     _currentFragmentIndex = _textFragments.Count - 1;
                 }
+
                 return;
             }
 
