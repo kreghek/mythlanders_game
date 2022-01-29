@@ -14,6 +14,7 @@ namespace Rpg.Client.GameScreens
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
+        private Texture2D _characterFaceTexture;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
@@ -35,11 +36,15 @@ namespace Rpg.Client.GameScreens
 
         private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
-        private Texture2D _characterFaceTexture;
 
         public Effect GetAllWhiteEffect()
         {
             return _allWhiteEffect;
+        }
+
+        public Texture2D GetCharacterFaceTexture()
+        {
+            return _characterFaceTexture;
         }
 
         public Texture2D GetSymbolSprite()
@@ -366,11 +371,6 @@ namespace Rpg.Client.GameScreens
             Far,
             Main,
             Closest
-        }
-
-        public Texture2D GetCharacterFaceTexture()
-        {
-            return _characterFaceTexture;
         }
     }
 }
