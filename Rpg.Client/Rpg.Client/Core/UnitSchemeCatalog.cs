@@ -23,7 +23,8 @@ namespace Rpg.Client.Core
                 new SageBuilder(),
 
                 new ScorpionBuilder(),
-                new DarkPriestBuilder()
+                new DarkPriestBuilder(),
+                new LiberatorBuilder()
             };
 
             Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);

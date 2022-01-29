@@ -9,6 +9,7 @@
         Priest,
         Monk,
         Spearman,
-        Sage
+        Sage,
+        Liberator
     }
 }

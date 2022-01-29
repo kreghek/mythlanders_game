@@ -164,7 +164,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
 
             var entityButton = (EntityButtonBase<CombatSkill>)sender;
-            SelectedCard = entityButton.Entity;
+            SelectedSkill = entityButton.Entity;
         }
 
         private void DetectMouseHoverOnButton(Rectangle mouseRect, EntityButtonBase<CombatSkill> button)
@@ -322,11 +322,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private void RecreateButtons()
         {
             _buttons.Clear();
-            SelectedCard = null;
+            SelectedSkill = null;
 
             if (_unit is null)
             {
-                SelectedCard = null;
+                SelectedSkill = null;
                 return;
                 //throw new InvalidOperationException("Unit required to be initialized before.");
             }
@@ -347,7 +347,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        public CombatSkill? SelectedCard
+        public CombatSkill? SelectedSkill
         {
             get => _selectedCard;
             set

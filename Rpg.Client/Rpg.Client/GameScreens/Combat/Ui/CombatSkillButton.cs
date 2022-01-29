@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override Color CalculateColor()
         {
-            if (Entity == _skillPanelState.SelectedCard)
+            if (Entity == _skillPanelState.SelectedSkill)
             {
                 return Color.Lerp(Color.White, Color.Cyan, _counter);
             }

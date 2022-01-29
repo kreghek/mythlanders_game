@@ -38,6 +38,10 @@ namespace Rpg.Client.Core.Skills
         Reproach, // укор в насилии
         NoViolencePleaseSkill,
         FaithBoost, // укрепление веры
-        AskedNoViolence
+        AskedNoViolence,
+        Motivation,
+        FightAgainstMaster,
+        BraveHearts,
+        Liberation
     }
 }
