@@ -5,6 +5,7 @@
         SlavicDarkThicket,
         SlavicBattleground,
         SlavicSwamp,
+        SlavicDestroyedVillage,
 
         ChineseMonastery
     }

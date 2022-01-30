@@ -16,7 +16,8 @@ namespace Rpg.Client.GameScreens.Title
         private const int BUTTON_HEIGHT = 40;
 
         private const int BUTTON_WIDTH = 200;
-        private readonly List<ButtonBase> _continueGameButtons;
+        private readonly IList<ButtonBase> _continueGameButtons;
+        private readonly IList<ButtonBase> _pageButtons;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GlobeProvider _globeProvider;
@@ -31,6 +32,8 @@ namespace Rpg.Client.GameScreens.Title
             IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _continueGameButtons = new List<ButtonBase>();
+            _pageButtons = new List<ButtonBase>();
+
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _globeProvider = globeProvider;
             _dice = dice;
@@ -42,22 +45,82 @@ namespace Rpg.Client.GameScreens.Title
             CreateButtonOnEachSave(uiContentStorage);
 
             CreateNewGameButton(uiContentStorage);
+
+            CreatePageButtons(uiContentStorage);
+        }
+
+        private void CreatePageButtons(IUiContentStorage uiContentStorage)
+        {
+            var saveCount = _globeProvider.GetSaves().Count();
+            var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
+
+            if (saveCount > PAGE_SIZE)
+            {
+                var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                upButton.OnClick += (_, _) =>
+                {
+
+                    if (_pageIndex > 0)
+                    {
+                        _pageIndex--;
+                    }
+
+                    _continueGameButtons.Clear();
+
+                    CreateButtonOnEachSave(uiContentStorage);
+
+                    CreateNewGameButton(uiContentStorage);
+                };
+
+                _pageButtons.Add(upButton);
+
+                var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                downButton.OnClick += (_, _) =>
+                {
+                    if (_pageIndex < pageCount - 1)
+                    {
+                        _pageIndex++;
+                    }
+
+                    _continueGameButtons.Clear();
+
+                    CreateButtonOnEachSave(uiContentStorage);
+
+                    CreateNewGameButton(uiContentStorage);
+                };
+
+                _pageButtons.Add(downButton);
+            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            var index = 0;
-            foreach (var button in _continueGameButtons)
+            for (var index = 0; index < _continueGameButtons.Count; index++)
             {
+                var button = _continueGameButtons[index];
                 button.Rect = new Rectangle(
-                    _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
-                    150 + index * (BUTTON_HEIGHT + 10),
+                    ContentRect.Center.X - BUTTON_WIDTH / 2,
+                    ContentRect.Top + 20 + index * (BUTTON_HEIGHT + 10),
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);
-
-                index++;
             }
+
+            var upButton = _pageButtons[0];
+            upButton.Rect = new Rectangle(
+                ContentRect.Right - (20 + 5),
+                ContentRect.Top + 20,
+                20,
+                20);
+            upButton.Draw(spriteBatch);
+
+            var downButton = _pageButtons[1];
+            downButton.Rect = new Rectangle(
+                ContentRect.Right - (20 + 5),
+                ContentRect.Bottom - 20,
+                20,
+                20);
+            downButton.Draw(spriteBatch);
         }
 
         protected override void UpdateContent(GameTime gameTime,
@@ -69,11 +132,20 @@ namespace Rpg.Client.GameScreens.Title
             {
                 button.Update(_resolutionIndependentRenderer);
             }
+
+            foreach (var button in _pageButtons)
+            {
+                button.Update(_resolutionIndependentRenderer);
+            }
         }
+
+        private int _pageIndex = 0;
+
+        private const int PAGE_SIZE = 3;
 
         private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
         {
-            var saves = _globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).ToArray();
+            var saves = _globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).Skip(_pageIndex * PAGE_SIZE).Take(PAGE_SIZE).ToArray();
 
             foreach (var saveInfo in saves)
             {

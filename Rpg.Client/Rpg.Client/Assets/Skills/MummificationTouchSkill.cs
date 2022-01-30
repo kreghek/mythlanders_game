@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class MummificationTouchSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSlash;
+        private const SkillSid SID = SkillSid.MummificationTouch;
 
         public MummificationTouchSkill() : this(false)
         {
@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.MummificationTouch;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 

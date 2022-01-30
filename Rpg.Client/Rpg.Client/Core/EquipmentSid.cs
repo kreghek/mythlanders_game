@@ -21,6 +21,9 @@ namespace Rpg.Client.Core
         WoodenHandSculpture,
         EmptinessInTheHand,
         DeceptivelyLightRobe,
-        MagicAndMechanicalBox
+        MagicAndMechanicalBox,
+        VoiceModulator,
+        HiddenExoskeleton,
+        NewLawCodexOfFreedom
     }
 }

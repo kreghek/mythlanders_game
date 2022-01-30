@@ -10,7 +10,7 @@
         Battleground = 104,
         DeathPath = 105,
         Mines = 106,
-        Hermitage = 107,
+        DestroyedVillage = 107,
         Castle = 108,
 
         Monastery = 201,

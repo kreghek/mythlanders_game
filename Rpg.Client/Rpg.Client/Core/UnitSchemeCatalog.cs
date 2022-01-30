@@ -23,7 +23,8 @@ namespace Rpg.Client.Core
                 new SageBuilder(),
 
                 new ScorpionBuilder(),
-                new DarkPriestBuilder()
+                new DarkPriestBuilder(),
+                new LiberatorBuilder()
             };
 
             Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);
@@ -333,7 +334,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Hermitage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
