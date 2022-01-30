@@ -113,6 +113,10 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
+                    BackgroundType.SlavicDestroyedVillage, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.DestroyedVillage)
+                },
+
+                {
                     BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, GlobeNodeSid.Monastery)
                 }
             };

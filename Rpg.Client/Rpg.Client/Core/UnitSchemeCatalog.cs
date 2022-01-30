@@ -334,7 +334,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Korgorush,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Hermitage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
