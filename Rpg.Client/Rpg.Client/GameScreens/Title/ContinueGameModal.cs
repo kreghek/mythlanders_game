@@ -16,15 +16,19 @@ namespace Rpg.Client.GameScreens.Title
         private const int BUTTON_HEIGHT = 40;
 
         private const int BUTTON_WIDTH = 200;
+
+        private const int PAGE_SIZE = 3;
         private readonly IList<ButtonBase> _continueGameButtons;
-        private readonly IList<ButtonBase> _pageButtons;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GlobeProvider _globeProvider;
+        private readonly IList<ButtonBase> _pageButtons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IScreen _screen;
         private readonly IScreenManager _screenManager;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+
+        private int _pageIndex;
 
         public ContinueGameModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
@@ -47,50 +51,6 @@ namespace Rpg.Client.GameScreens.Title
             CreateNewGameButton(uiContentStorage);
 
             CreatePageButtons(uiContentStorage);
-        }
-
-        private void CreatePageButtons(IUiContentStorage uiContentStorage)
-        {
-            var saveCount = _globeProvider.GetSaves().Count();
-            var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
-
-            if (saveCount > PAGE_SIZE)
-            {
-                var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-                upButton.OnClick += (_, _) =>
-                {
-
-                    if (_pageIndex > 0)
-                    {
-                        _pageIndex--;
-                    }
-
-                    _continueGameButtons.Clear();
-
-                    CreateButtonOnEachSave(uiContentStorage);
-
-                    CreateNewGameButton(uiContentStorage);
-                };
-
-                _pageButtons.Add(upButton);
-
-                var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-                downButton.OnClick += (_, _) =>
-                {
-                    if (_pageIndex < pageCount - 1)
-                    {
-                        _pageIndex++;
-                    }
-
-                    _continueGameButtons.Clear();
-
-                    CreateButtonOnEachSave(uiContentStorage);
-
-                    CreateNewGameButton(uiContentStorage);
-                };
-
-                _pageButtons.Add(downButton);
-            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -139,13 +99,10 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private int _pageIndex = 0;
-
-        private const int PAGE_SIZE = 3;
-
         private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
         {
-            var saves = _globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).Skip(_pageIndex * PAGE_SIZE).Take(PAGE_SIZE).ToArray();
+            var saves = _globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).Skip(_pageIndex * PAGE_SIZE)
+                .Take(PAGE_SIZE).ToArray();
 
             foreach (var saveInfo in saves)
             {
@@ -170,6 +127,50 @@ namespace Rpg.Client.GameScreens.Title
                 uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
             newGameButton.OnClick += StartButton_OnClick;
             _continueGameButtons.Add(newGameButton);
+        }
+
+        private void CreatePageButtons(IUiContentStorage uiContentStorage)
+        {
+            var saveCount = _globeProvider.GetSaves().Count();
+            var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
+
+            if (saveCount > PAGE_SIZE)
+            {
+                var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                upButton.OnClick += (_, _) =>
+                {
+                    if (_pageIndex > 0)
+                    {
+                        _pageIndex--;
+                    }
+
+                    _continueGameButtons.Clear();
+
+                    CreateButtonOnEachSave(uiContentStorage);
+
+                    CreateNewGameButton(uiContentStorage);
+                };
+
+                _pageButtons.Add(upButton);
+
+                var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(),
+                    uiContentStorage.GetMainFont());
+                downButton.OnClick += (_, _) =>
+                {
+                    if (_pageIndex < pageCount - 1)
+                    {
+                        _pageIndex++;
+                    }
+
+                    _continueGameButtons.Clear();
+
+                    CreateButtonOnEachSave(uiContentStorage);
+
+                    CreateNewGameButton(uiContentStorage);
+                };
+
+                _pageButtons.Add(downButton);
+            }
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)
