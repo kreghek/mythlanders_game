@@ -317,6 +317,18 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
+        public void Surrender()
+        {
+            var playerCombatUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled).ToArray();
+            foreach (var combatUnit in playerCombatUnits)
+            {
+                combatUnit.Unit.TakeDamage(playerCombatUnits.First(), 10000);
+                Update();
+            }
+
+            IsCurrentStepCompleted = true;
+        }
+
         private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
         {
             switch (skill.TargetType)

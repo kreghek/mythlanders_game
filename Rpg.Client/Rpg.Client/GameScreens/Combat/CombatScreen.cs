@@ -39,6 +39,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
+        private readonly ButtonBase _escapeButton;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
@@ -111,6 +112,13 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             _screenShaker = new ScreenShaker();
+
+            _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(), new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)), Rectangle.Empty);
+            _escapeButton.OnClick += (_, _) =>
+            {
+                _combat.Surrender();
+                _combatFinishedVictory = false;
+            };
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -124,7 +132,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             DrawGameObjects(spriteBatch);
 
-            DrawHud(spriteBatch);
+            DrawHud(spriteBatch, contentRectangle);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -159,6 +167,8 @@ namespace Rpg.Client.GameScreens.Combat
                 }
 
                 _screenShaker.Update(gameTime);
+
+                _escapeButton.Update(ResolutionIndependentRenderer);
             }
 
             HandleBackgrounds();
@@ -647,7 +657,7 @@ namespace Rpg.Client.GameScreens.Combat
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
         }
 
-        private void DrawHud(SpriteBatch spriteBatch)
+        private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -659,13 +669,13 @@ namespace Rpg.Client.GameScreens.Combat
             if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 DrawCobatSkillsPanel(spriteBatch);
-                InteractionButtons(spriteBatch);
+                DrawInteractionButtons(spriteBatch);
+                DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
             {
                 DrawUnitStatePanels(spriteBatch);
-
                 DrawCombatSequenceProgress(spriteBatch);
             }
             catch
@@ -676,12 +686,18 @@ namespace Rpg.Client.GameScreens.Combat
             spriteBatch.End();
         }
 
+        private void DrawEscapeButton(SpriteBatch spriteBatch, Rectangle contentRectangle)
+        {
+            _escapeButton.Rect = new Rectangle(contentRectangle.Left + 200, contentRectangle.Top, 32, 32);
+            _escapeButton.Draw(spriteBatch);
+        }
+
         private void DrawUnitStatePanels(SpriteBatch spriteBatch)
         {
             _unitStatePanelController?.Draw(spriteBatch);
         }
 
-        private void InteractionButtons(SpriteBatch spriteBatch)
+        private void DrawInteractionButtons(SpriteBatch spriteBatch)
         {
             foreach (var button in _interactionButtons)
             {
