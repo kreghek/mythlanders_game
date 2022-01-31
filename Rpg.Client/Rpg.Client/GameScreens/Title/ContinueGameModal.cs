@@ -66,21 +66,24 @@ namespace Rpg.Client.GameScreens.Title
                 button.Draw(spriteBatch);
             }
 
-            var upButton = _pageButtons[0];
-            upButton.Rect = new Rectangle(
-                ContentRect.Right - (20 + 5),
-                ContentRect.Top + 20,
-                20,
-                20);
-            upButton.Draw(spriteBatch);
+            if (_pageButtons.Any())
+            {
+                var upButton = _pageButtons[0];
+                upButton.Rect = new Rectangle(
+                    ContentRect.Right - (20 + 5),
+                    ContentRect.Top + 20,
+                    20,
+                    20);
+                upButton.Draw(spriteBatch);
 
-            var downButton = _pageButtons[1];
-            downButton.Rect = new Rectangle(
-                ContentRect.Right - (20 + 5),
-                ContentRect.Bottom - 20,
-                20,
-                20);
-            downButton.Draw(spriteBatch);
+                var downButton = _pageButtons[1];
+                downButton.Rect = new Rectangle(
+                    ContentRect.Right - (20 + 5),
+                    ContentRect.Bottom - 20,
+                    20,
+                    20);
+                downButton.Draw(spriteBatch);
+            }
         }
 
         protected override void UpdateContent(GameTime gameTime,
