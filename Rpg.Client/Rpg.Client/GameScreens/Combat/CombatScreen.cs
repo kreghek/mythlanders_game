@@ -103,9 +103,9 @@ namespace Rpg.Client.GameScreens.Combat
 
             _unitPredefinedPositions = new[]
             {
-                new Vector2(300, 300),
-                new Vector2(350, 250),
-                new Vector2(350, 350),
+                new Vector2(320, 300),
+                new Vector2(290, 250),
+                new Vector2(290, 350),
                 new Vector2(200, 250),
                 new Vector2(200, 350),
                 new Vector2(150, 300)
