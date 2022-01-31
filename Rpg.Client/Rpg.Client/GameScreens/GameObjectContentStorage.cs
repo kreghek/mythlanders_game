@@ -113,7 +113,8 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
-                    BackgroundType.SlavicDestroyedVillage, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.DestroyedVillage)
+                    BackgroundType.SlavicDestroyedVillage,
+                    LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.DestroyedVillage)
                 },
 
                 {
