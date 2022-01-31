@@ -134,46 +134,49 @@ namespace Rpg.Client.GameScreens.Title
 
         private void CreatePageButtons(IUiContentStorage uiContentStorage)
         {
-            var saveCount = _globeProvider.GetSaves().Count();
+            var saveCount = _globeProvider.GetSaves().Count;
+            if (saveCount <= PAGE_SIZE)
+            {
+                return;
+            }
+            
             var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
 
-            if (saveCount > PAGE_SIZE)
+            var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            upButton.OnClick += (_, _) =>
             {
-                var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
-                upButton.OnClick += (_, _) =>
+                if (_pageIndex > 0)
                 {
-                    if (_pageIndex > 0)
-                    {
-                        _pageIndex--;
-                    }
+                    _pageIndex--;
+                }
 
-                    _continueGameButtons.Clear();
+                RefreshGameStartButtons(uiContentStorage);
+            };
 
-                    CreateButtonOnEachSave(uiContentStorage);
+            _pageButtons.Add(upButton);
 
-                    CreateNewGameButton(uiContentStorage);
-                };
-
-                _pageButtons.Add(upButton);
-
-                var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(),
-                    uiContentStorage.GetMainFont());
-                downButton.OnClick += (_, _) =>
+            var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(),
+                uiContentStorage.GetMainFont());
+            downButton.OnClick += (_, _) =>
+            {
+                if (_pageIndex < pageCount - 1)
                 {
-                    if (_pageIndex < pageCount - 1)
-                    {
-                        _pageIndex++;
-                    }
+                    _pageIndex++;
+                }
 
-                    _continueGameButtons.Clear();
+                RefreshGameStartButtons(uiContentStorage);
+            };
 
-                    CreateButtonOnEachSave(uiContentStorage);
+            _pageButtons.Add(downButton);
+        }
 
-                    CreateNewGameButton(uiContentStorage);
-                };
+        private void RefreshGameStartButtons(IUiContentStorage uiContentStorage)
+        {
+            _continueGameButtons.Clear();
 
-                _pageButtons.Add(downButton);
-            }
+            CreateButtonOnEachSave(uiContentStorage);
+
+            CreateNewGameButton(uiContentStorage);
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)
