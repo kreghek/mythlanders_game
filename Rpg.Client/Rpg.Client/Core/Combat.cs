@@ -121,6 +121,18 @@ namespace Rpg.Client.Core
             CompleteStep();
         }
 
+        public void Surrender()
+        {
+            var playerCombatUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled).ToArray();
+            foreach (var combatUnit in playerCombatUnits)
+            {
+                combatUnit.Unit.TakeDamage(playerCombatUnits.First(), 10000);
+                Update();
+            }
+
+            IsCurrentStepCompleted = true;
+        }
+
         public void UseSkill(ISkill skill, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
@@ -314,18 +326,6 @@ namespace Rpg.Client.Core
 
         private void CompleteStep()
         {
-            IsCurrentStepCompleted = true;
-        }
-
-        public void Surrender()
-        {
-            var playerCombatUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled).ToArray();
-            foreach (var combatUnit in playerCombatUnits)
-            {
-                combatUnit.Unit.TakeDamage(playerCombatUnits.First(), 10000);
-                Update();
-            }
-
             IsCurrentStepCompleted = true;
         }
 

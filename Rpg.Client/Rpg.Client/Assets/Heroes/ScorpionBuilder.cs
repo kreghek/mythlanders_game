@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Heroes
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new SwordSlashSkill()),
+                    new AddSkillUnitLevel(1, new SwordSlashSkill())
                 },
 
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
