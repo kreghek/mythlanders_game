@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class EnergyShotSkill : SkillBase
+    internal class ToateAngerSkill : SkillBase
     {
         private const SkillSid SID = SkillSid.EnergyShot;
 
-        public EnergyShotSkill() : this(false)
+        public ToateAngerSkill() : this(false)
         {
         }
 
-        public EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ToateAngerSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

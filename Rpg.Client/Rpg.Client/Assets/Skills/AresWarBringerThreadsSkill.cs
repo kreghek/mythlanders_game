@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -6,15 +6,9 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class EnergyShotSkill : SkillBase
+    internal class AresWarBringerThreadsSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.EnergyShot;
-
-        public EnergyShotSkill() : this(false)
-        {
-        }
-
-        public EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public AresWarBringerThreadsSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -22,14 +16,13 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
-                        Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier
+                        DamageMultiplier = 1.5f,
+                        Actor = u
                     };
 
                     return res;
@@ -37,14 +30,14 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SID;
+        public override SkillSid Sid => SkillSid.AresWarBringerThreadsSkill;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.BowShot
+            Type = SkillVisualizationStateType.MassRange,
+            SoundEffectType = GameObjectSoundType.FireDamage
         };
     }
 }

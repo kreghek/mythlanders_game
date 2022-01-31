@@ -1,3 +1,4 @@
+using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
 using Rpg.Client.Core.GraphicConfigs;
 
@@ -14,33 +15,12 @@ namespace Rpg.Client.Assets.Heroes
                 SupportRank = 0.1f,
 
                 Name = UnitName.Amun,
-                // SkillSets = new List<SkillSet>
-                // {
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new SwordSlashSkill()
-                //         }
-                //     },
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new SwordSlashSkill(),
-                //             new DefenseStanceSkill(true)
-                //         }
-                //     },
-                //     new SkillSet
-                //     {
-                //         Skills = new List<SkillBase>
-                //         {
-                //             new SwordSlashSkill(),
-                //             new DefenseStanceSkill(true),
-                //             new WideSlashSkill(true)
-                //         }
-                //     }
-                // },
+                
+                Levels = new IUnitLevelScheme[]
+                {
+                    new AddSkillUnitLevel(1, new SwordSlashSkill()),
+                },
+                    
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }

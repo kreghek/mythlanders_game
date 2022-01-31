@@ -24,6 +24,9 @@ namespace Rpg.Client.Core
         MagicAndMechanicalBox,
         VoiceModulator,
         HiddenExoskeleton,
-        NewLawCodexOfFreedom
+        NewLawCodexOfFreedom,
+        EmberGladius,
+        Mk2MediumPowerArmor2,
+        BrokenAresSculpture
     }
 }

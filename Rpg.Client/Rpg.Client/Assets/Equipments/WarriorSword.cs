@@ -19,4 +19,20 @@ namespace Rpg.Client.Assets.Equipments
             return GameObjectResources.Aspid;
         }
     }
+    
+    internal sealed class EmberGladius : SimpleAttackEquipmentBase
+    {
+        public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;
+        public override EquipmentSid Sid => EquipmentSid.EmberGladius;
+
+        protected override SkillSid[] AffectedAttackingSkills =>
+            new[] { SkillSid.SwordSwing, SkillSid.AresWarBringerThreadsSkill };
+
+        protected override float MultiplicatorByLevel => 0.5f;
+
+        public override string GetDescription()
+        {
+            return GameObjectResources.Aspid;
+        }
+    }
 }

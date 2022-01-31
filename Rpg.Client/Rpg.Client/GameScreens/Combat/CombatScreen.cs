@@ -38,7 +38,8 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
-        private readonly IList<ButtonBase> _hudButtons;
+        private readonly IList<ButtonBase> _interactionButtons;
+        private readonly ButtonBase _escapeButton;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ScreenShaker _screenShaker;
         private readonly IUiContentStorage _uiContentStorage;
@@ -60,7 +61,7 @@ namespace Rpg.Client.GameScreens.Combat
 
 
         private bool _interactButtonClicked;
-        private UnitPanelController? _unitPanelController;
+        private UnitStatePanelController? _unitStatePanelController;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -81,7 +82,7 @@ namespace Rpg.Client.GameScreens.Combat
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
             _bulletObjects = new List<IInteractionDelivery>();
-            _hudButtons = new List<ButtonBase>();
+            _interactionButtons = new List<ButtonBase>();
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
@@ -102,15 +103,22 @@ namespace Rpg.Client.GameScreens.Combat
 
             _unitPredefinedPositions = new[]
             {
-                new Vector2(300, 300),
-                new Vector2(350, 250),
-                new Vector2(350, 350),
+                new Vector2(320, 300),
+                new Vector2(290, 250),
+                new Vector2(290, 350),
                 new Vector2(200, 250),
                 new Vector2(200, 350),
                 new Vector2(150, 300)
             };
 
             _screenShaker = new ScreenShaker();
+
+            _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(), new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)), Rectangle.Empty);
+            _escapeButton.OnClick += (_, _) =>
+            {
+                _combat.Surrender();
+                _combatFinishedVictory = false;
+            };
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -124,7 +132,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             DrawGameObjects(spriteBatch);
 
-            DrawHud(spriteBatch);
+            DrawHud(spriteBatch, contentRectangle);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -159,6 +167,8 @@ namespace Rpg.Client.GameScreens.Combat
                 }
 
                 _screenShaker.Update(gameTime);
+
+                _escapeButton.Update(ResolutionIndependentRenderer);
             }
 
             HandleBackgrounds();
@@ -224,7 +234,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
         {
-            _hudButtons.Clear();
+            _interactionButtons.Clear();
             _combatSkillsPanel = null;
 
             _combatFinishedVictory = e.Victory;
@@ -326,7 +336,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
-            _unitPanelController = new UnitPanelController(_resolutionIndependentRenderer, _combat,
+            _unitStatePanelController = new UnitStatePanelController(_resolutionIndependentRenderer, _combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 
@@ -647,7 +657,7 @@ namespace Rpg.Client.GameScreens.Combat
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
         }
 
-        private void DrawHud(SpriteBatch spriteBatch)
+        private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -658,27 +668,14 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
-                if (_combatSkillsPanel is not null)
-                {
-                    const int COMBAT_SKILLS_PANEL_WIDTH = 480;
-                    const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
-                    _combatSkillsPanel.Rect = new Rectangle(
-                        _resolutionIndependentRenderer.VirtualBounds.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
-                        _resolutionIndependentRenderer.VirtualBounds.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
-                        COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
-                    _combatSkillsPanel.Draw(spriteBatch);
-                }
-
-                foreach (var button in _hudButtons)
-                {
-                    button.Draw(spriteBatch);
-                }
+                DrawCobatSkillsPanel(spriteBatch);
+                DrawInteractionButtons(spriteBatch);
+                DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
             {
-                _unitPanelController?.Draw(spriteBatch);
-
+                DrawUnitStatePanels(spriteBatch);
                 DrawCombatSequenceProgress(spriteBatch);
             }
             catch
@@ -687,6 +684,39 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             spriteBatch.End();
+        }
+
+        private void DrawEscapeButton(SpriteBatch spriteBatch, Rectangle contentRectangle)
+        {
+            _escapeButton.Rect = new Rectangle(contentRectangle.Left + 200, contentRectangle.Top, 32, 32);
+            _escapeButton.Draw(spriteBatch);
+        }
+
+        private void DrawUnitStatePanels(SpriteBatch spriteBatch)
+        {
+            _unitStatePanelController?.Draw(spriteBatch);
+        }
+
+        private void DrawInteractionButtons(SpriteBatch spriteBatch)
+        {
+            foreach (var button in _interactionButtons)
+            {
+                button.Draw(spriteBatch);
+            }
+        }
+
+        private void DrawCobatSkillsPanel(SpriteBatch spriteBatch)
+        {
+            if (_combatSkillsPanel is not null)
+            {
+                const int COMBAT_SKILLS_PANEL_WIDTH = 480;
+                const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
+                _combatSkillsPanel.Rect = new Rectangle(
+                    _resolutionIndependentRenderer.VirtualBounds.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
+                    _resolutionIndependentRenderer.VirtualBounds.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
+                    COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
+                _combatSkillsPanel.Draw(spriteBatch);
+            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -702,14 +732,6 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 gameObject.Draw(spriteBatch);
             }
-        }
-
-        private Unit? GetUnitByEquipmentOrNull(Player? player, EquipmentItemType? equipmentItemType)
-        {
-            var targetUnitScheme =
-                UnsortedHelpers.GetPlayerPersonSchemeByEquipmentType(_unitSchemeCatalog, equipmentItemType);
-            var targetUnit = player.GetAll().SingleOrDefault(x => x.UnitScheme == targetUnitScheme);
-            return targetUnit;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
@@ -766,7 +788,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             if (!_interactButtonClicked)
             {
-                var skillButtonFixedList = _hudButtons.ToArray();
+                var skillButtonFixedList = _interactionButtons.ToArray();
                 foreach (var button in skillButtonFixedList)
                 {
                     button.Update(_resolutionIndependentRenderer);
@@ -897,12 +919,12 @@ namespace Rpg.Client.GameScreens.Combat
                     return;
                 }
 
-                _hudButtons.Clear();
+                _interactionButtons.Clear();
                 _interactButtonClicked = true;
                 _combat.UseSkill(skillCard.Skill, target.CombatUnit);
             };
 
-            _hudButtons.Add(interactButton);
+            _interactionButtons.Add(interactButton);
         }
 
         private static float NormalizePercentage(float value)
@@ -918,7 +940,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void RefreshHudButtons(CombatSkill? skillCard)
         {
             _interactButtonClicked = false;
-            _hudButtons.Clear();
+            _interactionButtons.Clear();
 
             if (skillCard is null)
             {
