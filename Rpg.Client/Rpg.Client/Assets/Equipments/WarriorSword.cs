@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Equipments
             return GameObjectResources.Aspid;
         }
     }
-    
+
     internal sealed class EmberGladius : SimpleAttackEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;

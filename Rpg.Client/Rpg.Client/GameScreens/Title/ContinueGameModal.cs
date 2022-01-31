@@ -139,7 +139,7 @@ namespace Rpg.Client.GameScreens.Title
             {
                 return;
             }
-            
+
             var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
 
             var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
