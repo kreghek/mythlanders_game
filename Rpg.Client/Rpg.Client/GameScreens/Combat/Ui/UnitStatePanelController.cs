@@ -8,7 +8,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal sealed class UnitPanelController
+    internal sealed class UnitStatePanelController
     {
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 48;
@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public UnitPanelController(
+        public UnitStatePanelController(
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
