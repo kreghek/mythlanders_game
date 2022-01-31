@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class EnergyShotSkill : SkillBase
+    internal class JavelinThrowSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.EnergyShot;
+        private const SkillSid SID = SkillSid.JavelinThrow;
 
-        public EnergyShotSkill() : this(false)
+        public JavelinThrowSkill() : this(false)
         {
         }
 
-        public EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public JavelinThrowSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

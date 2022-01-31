@@ -10,6 +10,7 @@
         Monk,
         Spearman,
         Sage,
-        Liberator
+        Liberator,
+        Legionnaire
     }
 }

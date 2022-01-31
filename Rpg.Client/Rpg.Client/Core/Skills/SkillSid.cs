@@ -42,6 +42,9 @@ namespace Rpg.Client.Core.Skills
         Motivation,
         FightAgainstMaster,
         BraveHearts,
-        Liberation
+        Liberation,
+        SwordSwing,
+        JavelinThrow,
+        AresWarBringerThreadsSkill
     }
 }
