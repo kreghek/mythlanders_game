@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
@@ -44,13 +45,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (unit.IsPlayerControlled)
                 {
-                    var panelY = contentRectangle.Top + playerIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
+                    var panelY = contentRectangle.Top +
+                                 playerIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
                     panelPosition = new Vector2(0, panelY);
                     playerIndex++;
                 }
                 else
                 {
-                    var panelY = contentRectangle.Top + monsterIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
+                    var panelY = contentRectangle.Top +
+                                 monsterIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
                     panelPosition = new Vector2(contentRectangle.Width - PANEL_WIDTH,
                         panelY);
                     monsterIndex++;
@@ -77,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, Core.Unit unit)
+        private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
         {
             //var manaPosition = panelPosition + new Vector2(55, 40);
             //var manaPoolValue = Math.Min((float)unit.ManaPool, unit.ManaPoolSize);
@@ -90,12 +93,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             //    manaPosition, Color.Black);
         }
 
-        private static bool HasMana(Core.Unit unit)
+        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset)
         {
-            return unit.IsPlayerControlled && unit.HasSkillsWithCost;
+            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + backgroundOffset,
+                new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
+                Color.White);
         }
 
-        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Vector2 panelPosition, Core.Unit unit, Vector2 backgroundOffset)
+        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit,
+            Vector2 backgroundOffset)
         {
             var hpPosition = panelPosition + backgroundOffset + new Vector2(46, 22);
             var hpPercentage = (float)unit.HitPoints / unit.MaxHitPoints;
@@ -107,7 +113,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 hpPosition, Color.Black);
         }
 
-        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Core.Unit unit)
+        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
         {
             var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
             var unitNamePosition = panelPosition + new Vector2(55, 3);
@@ -115,9 +121,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 unitName, unitNamePosition, Color.White);
         }
 
-        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Core.Unit unit)
+        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
         {
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition, new Rectangle(0, 83, 42, 32), Color.White);
+            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition, new Rectangle(0, 83, 42, 32),
+                Color.White);
 
             var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
             var portraitPosition = panelPosition + new Vector2(7, 0);
@@ -126,11 +133,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 Color.White);
         }
 
-        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset)
+        private static bool HasMana(Unit unit)
         {
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + backgroundOffset,
-                                new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
-                                Color.White);
+            return unit.IsPlayerControlled && unit.HasSkillsWithCost;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -12,9 +13,9 @@ namespace Rpg.Client.ScreenManagement
 {
     internal abstract class GameScreenWithMenuBase : GameScreenBase
     {
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
+        private readonly IUiContentStorage _uiContentStorage;
 
         private KeyboardState _lastKeyboardState;
         private IList<ButtonBase>? _menuButtons;
@@ -32,9 +33,9 @@ namespace Rpg.Client.ScreenManagement
             CreateSettingsButton = true;
         }
 
-        protected abstract IList<ButtonBase> CreateMenu();
-
         public bool CreateSettingsButton { get; set; }
+
+        protected abstract IList<ButtonBase> CreateMenu();
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
@@ -82,7 +83,8 @@ namespace Rpg.Client.ScreenManagement
 
                 if (CreateSettingsButton)
                 {
-                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle),
+                        _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
                     settingsButton.OnClick += SettingsButton_OnClick;
                     _menuButtons.Add(settingsButton);
                 }
@@ -93,11 +95,6 @@ namespace Rpg.Client.ScreenManagement
             {
                 UpdateMenu();
             }
-        }
-
-        private void SettingsButton_OnClick(object? sender, System.EventArgs e)
-        {
-            DisplaySettingsModal();
         }
 
         private void DisplaySettingsModal()
@@ -125,6 +122,11 @@ namespace Rpg.Client.ScreenManagement
             }
 
             spriteBatch.End();
+        }
+
+        private void SettingsButton_OnClick(object? sender, EventArgs e)
+        {
+            DisplaySettingsModal();
         }
 
         private void UpdateMenu()

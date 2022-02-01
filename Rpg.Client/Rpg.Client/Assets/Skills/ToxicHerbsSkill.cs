@@ -34,7 +34,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new AttackEffect()
+                    var effect = new AttackEffect
                     {
                         Actor = u,
                         DamageMultiplier = 0.3f

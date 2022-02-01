@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.Heroes
                     new AddSkillUnitLevel(2, new PoisonedSpearSkill()),
                     new AddPerkUnitLevel(2, new CriticalHit()),
                     new AddSkillUnitLevel(3, new SuperNaturalAgilitySkill(true)),
-                    new AddSkillUnitLevel(4, new SunburstSkill(true)),
+                    new AddSkillUnitLevel(4, new SunburstSkill(true))
                 },
 
                 Equipments = new IEquipmentScheme[]
