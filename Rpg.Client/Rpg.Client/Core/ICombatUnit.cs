@@ -1,3 +1,5 @@
+using System;
+
 namespace Rpg.Client.Core
 {
     internal interface ICombatUnit
@@ -5,5 +7,7 @@ namespace Rpg.Client.Core
         Unit Unit { get; }
 
         void ChangeState(CombatUnitState targetState);
+        
+        event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
     }
 }

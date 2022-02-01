@@ -5,6 +5,16 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
+    internal sealed class VoiceCombatUnit: ICombatUnit
+    {
+        public Unit Unit { get; }
+        public void ChangeState(CombatUnitState targetState)
+        {
+        }
+
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+    }
+
     internal sealed class CombatUnit : ICombatUnit
     {
         public CombatUnit(Unit unit, GroupSlot slot)
@@ -69,7 +79,7 @@ namespace Rpg.Client.Core
 
         public Unit Unit { get; }
 
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
 

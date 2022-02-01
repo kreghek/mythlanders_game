@@ -12,24 +12,23 @@ namespace Rpg.Client.Core
 {
     internal class VoiceCombat: ICombat
     {
-        private readonly IList<CombatUnit> _allUnitList;
-        private readonly Group _playerGroup;
-        private readonly IList<CombatUnit> _unitQueue;
-        private CombatUnit? _currentUnit;
+        private readonly VoiceCombatUnit _playerUnit;
+        private readonly VoiceCombatUnit _enemyUnit;
+        private readonly IList<ICombatUnit> _allUnitList;
+        private readonly IList<ICombatUnit> _unitQueue;
+        private ICombatUnit? _currentUnit;
 
         private int _round;
 
-        public VoiceCombat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biome, IDice dice,
-            bool isAutoplay)
+        public VoiceCombat(VoiceCombatUnit playerUnit, VoiceCombatUnit enemyUnit, GlobeNode node, Biome biome, IDice dice)
         {
-            _playerGroup = playerGroup;
+            _playerUnit = playerUnit;
+            _enemyUnit = enemyUnit;
             Node = node;
-            CombatSource = combat;
             Biome = biome;
             Dice = dice;
-            IsAutoplay = isAutoplay;
-            _unitQueue = new List<CombatUnit>();
-            _allUnitList = new List<CombatUnit>();
+            _unitQueue = new List<ICombatUnit>();
+            _allUnitList = new List<ICombatUnit>();
             EffectProcessor = new EffectProcessor(this);
             ModifiersProcessor = new ModifiersProcessor();
         }
@@ -38,7 +37,7 @@ namespace Rpg.Client.Core
 
         public Biome Biome { get; }
 
-        public CombatUnit? CurrentUnit
+        public ICombatUnit? CurrentUnit
         {
             get => _currentUnit;
             private set
@@ -79,7 +78,7 @@ namespace Rpg.Client.Core
 
         public GlobeNode Node { get; }
 
-        public IEnumerable<CombatUnit> Units => _allUnitList.ToArray();
+        public IEnumerable<ICombatUnit> Units => _allUnitList.ToArray();
 
         internal CombatSource CombatSource { get; }
 
@@ -133,7 +132,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        public void UseSkill(ISkill skill, CombatUnit targetUnit)
+        public void UseSkill(ISkill skill, ICombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -171,41 +170,11 @@ namespace Rpg.Client.Core
         {
             _allUnitList.Clear();
 
-            foreach (var slot in _playerGroup.Slots)
-            {
-                if (slot.Unit is null)
-                {
-                    continue;
-                }
-
-                var unit = slot.Unit;
-                var isAvailable = CheckUnitIsAvailable(slot.Unit);
-
-                if (!isAvailable)
-                {
-                    continue;
-                }
-
-                var combatUnit = new CombatUnit(unit, slot);
-                _allUnitList.Add(combatUnit);
-                CombatUnitEntered?.Invoke(this, combatUnit);
-            }
-
-            foreach (var slot in CombatSource.EnemyGroup.Slots)
-            {
-                if (slot.Unit is null)
-                {
-                    continue;
-                }
-
-                var unit = slot.Unit;
-
-                // Monster has no dead ones on start of the combat.
-
-                var combatUnit = new CombatUnit(unit, slot);
-                _allUnitList.Add(combatUnit);
-                CombatUnitEntered?.Invoke(this, combatUnit);
-            }
+            _allUnitList.Add(_playerUnit);
+            CombatUnitEntered?.Invoke(this, _playerUnit);
+            
+            _allUnitList.Add(_enemyUnit);
+            CombatUnitEntered?.Invoke(this, _enemyUnit);
 
             foreach (var combatUnit in _allUnitList)
             {
@@ -311,7 +280,7 @@ namespace Rpg.Client.Core
             EffectProcessor.Influence(e.NewUnit);
         }
 
-        private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
+        private void Combat_CombatUnitReadyIsToControl(object? sender, ICombatUnit e)
         {
             if (!e.Unit.IsPlayerControlled || IsAutoplay)
             {
@@ -329,7 +298,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
+        private IReadOnlyList<ICombatUnit> GetAvailableTargets(ISkill skill)
         {
             switch (skill.TargetType)
             {
@@ -337,16 +306,6 @@ namespace Rpg.Client.Core
                     {
                         if (skill.Type == SkillType.Melee)
                         {
-                            var unitsInTankPosition = Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
-                                    !x.Unit.IsDead && x.IsInTankLine)
-                                .ToList();
-
-                            if (unitsInTankPosition.Any())
-                            {
-                                return unitsInTankPosition;
-                            }
-
                             return Units.Where(x =>
                                     CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                                 .ToList();
@@ -442,21 +401,21 @@ namespace Rpg.Client.Core
             }
         }
 
-        internal event EventHandler<CombatUnit>? CombatUnitRemoved;
+        internal event EventHandler<ICombatUnit>? CombatUnitRemoved;
 
         internal event EventHandler<UnitChangedEventArgs>? ActiveCombatUnitChanged;
 
         internal event EventHandler<CombatFinishEventArgs>? Finish;
 
-        internal event EventHandler<CombatUnit>? CombatUnitEntered;
+        internal event EventHandler<ICombatUnit>? CombatUnitEntered;
 
-        internal event EventHandler<CombatUnit>? UnitDied;
+        internal event EventHandler<ICombatUnit>? UnitDied;
 
         internal event EventHandler<CombatUnit>? UnitHasBeenDamaged;
 
-        internal event EventHandler<CombatUnit>? UnitPassedTurn;
+        internal event EventHandler<ICombatUnit>? UnitPassedTurn;
 
-        internal event EventHandler<CombatUnit>? CombatUnitIsReadyToControl;
+        internal event EventHandler<ICombatUnit>? CombatUnitIsReadyToControl;
 
         /// <summary>
         /// Event bus for combat object interactions.

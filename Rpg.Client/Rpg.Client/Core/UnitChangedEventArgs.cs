@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal class UnitChangedEventArgs : EventArgs
     {
-        public CombatUnit? NewUnit { get; init; }
-        public CombatUnit? OldUnit { get; init; }
+        public ICombatUnit? NewUnit { get; init; }
+        public ICombatUnit? OldUnit { get; init; }
     }
 }
