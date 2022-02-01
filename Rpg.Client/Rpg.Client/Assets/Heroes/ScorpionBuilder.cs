@@ -26,7 +26,7 @@ namespace Rpg.Client.Assets.Heroes
                     new AddSkillUnitLevel(3, new SuperNaturalAgilitySkill(true)),
                     new AddSkillUnitLevel(4, new SunburstSkill(true)),
                 },
-                
+
                 Equipments = new IEquipmentScheme[]
                 {
                     new TribalEquipment(),

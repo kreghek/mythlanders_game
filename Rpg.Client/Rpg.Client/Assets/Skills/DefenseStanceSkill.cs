@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.Skills
             SoundEffectType = GameObjectSoundType.Defence
         };
     }
-    
+
     internal class SuperNaturalAgilitySkill : SkillBase
     {
         public SuperNaturalAgilitySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
