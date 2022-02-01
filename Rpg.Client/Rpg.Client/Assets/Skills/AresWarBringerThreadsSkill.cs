@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.AresWarBringerThreadsSkill;
+        public override SkillSid Sid => SkillSid.AresWarBringerThreads;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

@@ -11,6 +11,7 @@
         Spearman,
         Sage,
         Liberator,
-        Legionnaire
+        Legionnaire,
+        Scorpion
     }
 }

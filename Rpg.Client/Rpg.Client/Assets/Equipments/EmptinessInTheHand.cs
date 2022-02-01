@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Equipments
         public override EquipmentSid Sid => EquipmentSid.EmptinessInTheHand;
 
         protected override SkillSid[] AffectedAttackingSkills =>
-            new[] { SkillSid.NoViolencePleaseSkill, SkillSid.Reproach };
+            new[] { SkillSid.NoViolencePlease, SkillSid.Reproach };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

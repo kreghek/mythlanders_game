@@ -6,11 +6,9 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class AskedNoViolenceSkill : SkillBase
+    internal class SunburstSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.AskedNoViolence;
-
-        public AskedNoViolenceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SunburstSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -18,14 +16,13 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
-                        Actor = u,
-                        DamageMultiplier = 1.5f * equipmentMultiplier
+                        DamageMultiplier = 1.5f,
+                        Actor = u
                     };
 
                     return res;
@@ -33,14 +30,14 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SID;
+        public override SkillSid Sid => SkillSid.Sunburst;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.EnergoShot
+            Type = SkillVisualizationStateType.MassRange,
+            SoundEffectType = GameObjectSoundType.FireDamage
         };
     }
 }

@@ -36,7 +36,7 @@ namespace Rpg.Client.Core.Skills
         StonePath,
         DemonicTaunt,
         Reproach, // укор в насилии
-        NoViolencePleaseSkill,
+        NoViolencePlease,
         FaithBoost, // укрепление веры
         AskedNoViolence,
         Motivation,
@@ -45,6 +45,9 @@ namespace Rpg.Client.Core.Skills
         Liberation,
         SwordSwing,
         JavelinThrow,
-        AresWarBringerThreadsSkill
+        AresWarBringerThreads,
+        PoisonedSpear,
+        SuperNaturalAgility,
+        Sunburst
     }
 }
