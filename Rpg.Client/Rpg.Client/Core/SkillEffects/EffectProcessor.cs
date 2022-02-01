@@ -8,17 +8,17 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class EffectProcessor
     {
-        private readonly Combat _combat;
+        private readonly ICombat _combat;
 
-        private readonly IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
+        private readonly IDictionary<ICombatUnit, IList<EffectBase>> _unitEffects;
 
-        public EffectProcessor(Combat combat)
+        public EffectProcessor(ICombat combat)
         {
             _combat = combat;
-            _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
+            _unitEffects = new Dictionary<ICombatUnit, IList<EffectBase>>();
         }
 
-        public void Impose(IEnumerable<EffectRule>? influences, CombatUnit self, CombatUnit? target)
+        public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit self, ICombatUnit? target)
         {
             if (influences is null)
             {
@@ -31,7 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        public void Influence(CombatUnit? unit)
+        public void Influence(ICombatUnit? unit)
         {
             if (unit is null || !_unitEffects.ContainsKey(unit))
             {
@@ -66,7 +66,7 @@ namespace Rpg.Client.Core.SkillEffects
             _unitEffects[e.Unit].Add(e.Effect);
         }
 
-        private void ImposeByCreator(EffectCreator creator, CombatUnit self, CombatUnit target)
+        private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target)
         {
             var effect = creator.Create(self, _combat);
 
@@ -76,7 +76,7 @@ namespace Rpg.Client.Core.SkillEffects
             effect.Impose(target);
         }
 
-        private void ImposeSingleRule(EffectRule influence, CombatUnit self, CombatUnit? target)
+        private void ImposeSingleRule(EffectRule influence, ICombatUnit self, ICombatUnit? target)
         {
             switch (influence.Direction)
             {

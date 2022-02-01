@@ -38,7 +38,7 @@ namespace Rpg.Client.Core
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
         }
 
-        internal void ChangeState(CombatUnitState targetState)
+        public void ChangeState(CombatUnitState targetState)
         {
             State = targetState;
         }

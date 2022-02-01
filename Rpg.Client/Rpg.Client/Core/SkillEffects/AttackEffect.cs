@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class AttackEffect : InstantenousEffectBase
     {
-        public CombatUnit Actor { get; set; }
+        public ICombatUnit Actor { get; set; }
 
         public float DamageMultiplier { get; init; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();

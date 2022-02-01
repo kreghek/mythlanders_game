@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
+﻿using System.Collections.Generic;
 
 namespace Rpg.Client.Core.Modifiers
 {
     internal class ModifiersProcessor
     {
-        private readonly IDictionary<CombatUnit, ICollection<ModifierBase>> _unitModifiers =
-            new Dictionary<CombatUnit, ICollection<ModifierBase>>();
+        private readonly IDictionary<ICombatUnit, ICollection<ModifierBase>> _unitModifiers =
+            new Dictionary<ICombatUnit, ICollection<ModifierBase>>();
 
-        public TValue Modify<TValue>(CombatUnit target, TValue value, ModifierType modifierType)
+        public TValue Modify<TValue>(ICombatUnit target, TValue value, ModifierType modifierType)
         {
             if (!_unitModifiers.ContainsKey(target))
             {
@@ -25,7 +23,7 @@ namespace Rpg.Client.Core.Modifiers
             return modifiedValue;
         }
 
-        public void RegisterModifier(CombatUnit target, ModifierBase modifier)
+        public void RegisterModifier(ICombatUnit target, ModifierBase modifier)
         {
             if (!_unitModifiers.ContainsKey(target))
             {
@@ -35,7 +33,7 @@ namespace Rpg.Client.Core.Modifiers
             _unitModifiers[target].Add(modifier);
         }
 
-        public void RemoveModifier(CombatUnit target, ModifierBase modifier)
+        public void RemoveModifier(ICombatUnit target, ModifierBase modifier)
         {
             if (!_unitModifiers.ContainsKey(target))
             {

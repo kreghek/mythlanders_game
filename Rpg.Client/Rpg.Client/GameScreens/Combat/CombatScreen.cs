@@ -736,7 +736,7 @@ namespace Rpg.Client.GameScreens.Combat
             _unitStatePanelController?.Draw(spriteBatch);
         }
 
-        private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
+        private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.CombatUnit == combatUnit);
         }

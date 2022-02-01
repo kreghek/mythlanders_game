@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class Combat: ICombat
+    internal class VoiceCombat: ICombat
     {
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
@@ -19,7 +19,7 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public Combat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biome, IDice dice,
+        public VoiceCombat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biome, IDice dice,
             bool isAutoplay)
         {
             _playerGroup = playerGroup;
@@ -133,7 +133,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        public void UseSkill(ISkill skill, ICombatUnit targetUnit)
+        public void UseSkill(ISkill skill, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
