@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.NoViolencePleaseSkill;
+        public override SkillSid Sid => SkillSid.NoViolencePlease;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

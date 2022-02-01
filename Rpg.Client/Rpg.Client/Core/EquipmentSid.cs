@@ -27,6 +27,9 @@ namespace Rpg.Client.Core
         NewLawCodexOfFreedom,
         EmberGladius,
         Mk2MediumPowerArmor2,
-        BrokenAresSculpture
+        BrokenAresSculpture,
+        TribalEquipment,
+        FireResistBlackArmor,
+        GreenTattoo
     }
 }

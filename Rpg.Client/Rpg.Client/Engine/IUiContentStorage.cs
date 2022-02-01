@@ -34,7 +34,7 @@ namespace Rpg.Client.Engine
         Texture2D GetSpeechTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();
-        Texture2D GetUnitPanelTexture();
+        Texture2D GetUnitStatePanelTexture();
         Song GetVictorySong();
         void LoadContent(ContentManager contentManager);
     }

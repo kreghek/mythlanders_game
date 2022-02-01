@@ -103,12 +103,12 @@ namespace Rpg.Client.GameScreens.Combat
 
             _unitPredefinedPositions = new[]
             {
-                new Vector2(320, 300),
-                new Vector2(290, 250),
-                new Vector2(290, 350),
-                new Vector2(200, 250),
-                new Vector2(200, 350),
-                new Vector2(150, 300)
+                new Vector2(335, 300),
+                new Vector2(305, 250),
+                new Vector2(305, 350),
+                new Vector2(215, 250),
+                new Vector2(215, 350),
+                new Vector2(165, 300)
             };
 
             _screenShaker = new ScreenShaker();
@@ -116,11 +116,13 @@ namespace Rpg.Client.GameScreens.Combat
             _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(),
                 new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)),
                 Rectangle.Empty);
-            _escapeButton.OnClick += (_, _) =>
-            {
-                _combat.Surrender();
-                _combatFinishedVictory = false;
-            };
+            _escapeButton.OnClick += EscapeButton_OnClick;
+        }
+
+        private void EscapeButton_OnClick(object? sender, EventArgs e)
+        {
+            _combat.Surrender();
+            _combatFinishedVictory = false;
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -560,15 +562,15 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawCobatSkillsPanel(SpriteBatch spriteBatch)
+        private void DrawCombatSkillsPanel(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             if (_combatSkillsPanel is not null)
             {
                 const int COMBAT_SKILLS_PANEL_WIDTH = 480;
                 const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
                 _combatSkillsPanel.Rect = new Rectangle(
-                    _resolutionIndependentRenderer.VirtualBounds.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
-                    _resolutionIndependentRenderer.VirtualBounds.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
+                    contentRectangle.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
+                    contentRectangle.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
                     COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
                 _combatSkillsPanel.Draw(spriteBatch);
             }
@@ -690,14 +692,14 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
-                DrawCobatSkillsPanel(spriteBatch);
+                DrawCombatSkillsPanel(spriteBatch, contentRectangle);
                 DrawInteractionButtons(spriteBatch);
                 DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
             {
-                DrawUnitStatePanels(spriteBatch);
+                DrawUnitStatePanels(spriteBatch, contentRectangle);
                 DrawCombatSequenceProgress(spriteBatch);
             }
             catch
@@ -731,9 +733,9 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawUnitStatePanels(SpriteBatch spriteBatch)
+        private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
-            _unitStatePanelController?.Draw(spriteBatch);
+            _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)

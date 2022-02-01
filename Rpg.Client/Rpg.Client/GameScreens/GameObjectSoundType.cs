@@ -3,7 +3,7 @@
     internal enum GameObjectSoundType
     {
         SwordSlash,
-        BowShot,
+        EnergoShot,
         Heal,
         MagicDust,
         EgyptianDarkMagic,

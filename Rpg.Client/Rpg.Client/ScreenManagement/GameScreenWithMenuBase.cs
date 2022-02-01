@@ -12,6 +12,7 @@ namespace Rpg.Client.ScreenManagement
 {
     internal abstract class GameScreenWithMenuBase : GameScreenBase
     {
+        private readonly IUiContentStorage _uiContentStorage;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
 
@@ -22,14 +23,18 @@ namespace Rpg.Client.ScreenManagement
 
         protected GameScreenWithMenuBase(EwarGame game) : base(game)
         {
-            var uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _settingsModal = new SettingsModal(uiContentStorage, _resolutionIndependentRenderer, Game, this);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
+
+            CreateSettingsButton = true;
         }
 
         protected abstract IList<ButtonBase> CreateMenu();
+
+        public bool CreateSettingsButton { get; set; }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
@@ -62,7 +67,7 @@ namespace Rpg.Client.ScreenManagement
 
             if (_lastKeyboardState.IsKeyDown(Keys.F12) && keyboardState.IsKeyUp(Keys.F12))
             {
-                _settingsModal.Show();
+                DisplaySettingsModal();
             }
 
             _lastKeyboardState = keyboardState;
@@ -70,12 +75,34 @@ namespace Rpg.Client.ScreenManagement
             if (!_menuCreated)
             {
                 _menuButtons = CreateMenu();
+                if (!_menuButtons.Any())
+                {
+                    _menuButtons = new List<ButtonBase>();
+                }
+
+                if (CreateSettingsButton)
+                {
+                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+                    settingsButton.OnClick += SettingsButton_OnClick;
+                    _menuButtons.Add(settingsButton);
+                }
+
                 _menuCreated = true;
             }
             else
             {
                 UpdateMenu();
             }
+        }
+
+        private void SettingsButton_OnClick(object? sender, System.EventArgs e)
+        {
+            DisplaySettingsModal();
+        }
+
+        private void DisplaySettingsModal()
+        {
+            _settingsModal.Show();
         }
 
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect, IList<ButtonBase> menuButtons)

@@ -133,7 +133,7 @@ namespace Rpg.Client.GameScreens
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/ShieldEffect3")
                 },
                 {
-                    GameObjectSoundType.BowShot,
+                    GameObjectSoundType.EnergoShot,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
                 },
                 {
