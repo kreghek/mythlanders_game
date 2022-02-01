@@ -116,11 +116,13 @@ namespace Rpg.Client.GameScreens.Combat
             _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(),
                 new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)),
                 Rectangle.Empty);
-            _escapeButton.OnClick += (_, _) =>
-            {
-                _combat.Surrender();
-                _combatFinishedVictory = false;
-            };
+            _escapeButton.OnClick += EscapeButton_OnClick;
+        }
+
+        private void EscapeButton_OnClick(object? sender, EventArgs e)
+        {
+            _combat.Surrender();
+            _combatFinishedVictory = false;
         }
 
         protected override IList<ButtonBase> CreateMenu()
