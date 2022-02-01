@@ -15,12 +15,12 @@ namespace Rpg.Client.Assets.Heroes
                 SupportRank = 0.1f,
 
                 Name = UnitName.Amun,
-                
+
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new SwordSlashSkill()),
+                    new AddSkillUnitLevel(1, new SwordSlashSkill())
                 },
-                    
+
                 UnitGraphicsConfig = new GenericCharacterGraphicsConfig()
             };
         }

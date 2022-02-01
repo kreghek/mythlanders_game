@@ -25,7 +25,7 @@ namespace Rpg.Client.Core
                 new ScorpionBuilder(),
                 new DarkPriestBuilder(),
                 new LiberatorBuilder(),
-                
+
                 new LegionnaireBuilder()
             };
 
