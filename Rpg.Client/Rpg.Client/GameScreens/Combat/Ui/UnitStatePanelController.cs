@@ -15,7 +15,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BAR_WIDTH = 70;
         private readonly Core.Combat _activeCombat;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
 
         public UnitStatePanelController(
@@ -24,13 +23,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {
-            _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _activeCombat = activeCombat;
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             var unitList = _activeCombat.Units.ToArray();
 
@@ -45,14 +43,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (unit.IsPlayerControlled)
                 {
-                    var panelY = playerIndex * (PANEL_HEIGHT + 20);
+                    var panelY = contentRectangle.Top + playerIndex * (PANEL_HEIGHT + 20);
                     panelPosition = new Vector2(0, panelY);
                     playerIndex++;
                 }
                 else
                 {
-                    var panelY = monsterIndex * (PANEL_HEIGHT + 20);
-                    panelPosition = new Vector2(_resolutionIndependentRenderer.VirtualWidth - PANEL_WIDTH,
+                    var panelY = contentRectangle.Top + monsterIndex * (PANEL_HEIGHT + 20);
+                    panelPosition = new Vector2(contentRectangle.Width - PANEL_WIDTH,
                         panelY);
                     monsterIndex++;
                 }
