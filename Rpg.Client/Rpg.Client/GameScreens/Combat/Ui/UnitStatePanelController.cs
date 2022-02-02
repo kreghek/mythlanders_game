@@ -31,7 +31,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
-        private enum Side { 
+        private enum Side
+        {
             Left,
             Right
         }
@@ -117,7 +118,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var hpPercentage = (float)unit.HitPoints / unit.MaxHitPoints;
             var hpSourceRect = new Rectangle(0, 49, (int)(hpPercentage * BAR_WIDTH), 20);
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White, 
+            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White,
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
 
             var text = $"{unit.HitPoints}/{unit.MaxHitPoints}";
