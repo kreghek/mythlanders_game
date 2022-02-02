@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -14,6 +15,7 @@ namespace Rpg.Client.ScreenManagement
     {
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
+        private readonly IUiContentStorage _uiContentStorage;
 
         private KeyboardState _lastKeyboardState;
         private IList<ButtonBase>? _menuButtons;
@@ -22,12 +24,16 @@ namespace Rpg.Client.ScreenManagement
 
         protected GameScreenWithMenuBase(EwarGame game) : base(game)
         {
-            var uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _settingsModal = new SettingsModal(uiContentStorage, _resolutionIndependentRenderer, Game, this);
+            _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this);
             AddModal(_settingsModal, isLate: true);
+
+            CreateSettingsButton = true;
         }
+
+        public bool CreateSettingsButton { get; set; }
 
         protected abstract IList<ButtonBase> CreateMenu();
 
@@ -62,7 +68,7 @@ namespace Rpg.Client.ScreenManagement
 
             if (_lastKeyboardState.IsKeyDown(Keys.F12) && keyboardState.IsKeyUp(Keys.F12))
             {
-                _settingsModal.Show();
+                DisplaySettingsModal();
             }
 
             _lastKeyboardState = keyboardState;
@@ -70,12 +76,30 @@ namespace Rpg.Client.ScreenManagement
             if (!_menuCreated)
             {
                 _menuButtons = CreateMenu();
+                if (!_menuButtons.Any())
+                {
+                    _menuButtons = new List<ButtonBase>();
+                }
+
+                if (CreateSettingsButton)
+                {
+                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle),
+                        _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+                    settingsButton.OnClick += SettingsButton_OnClick;
+                    _menuButtons.Add(settingsButton);
+                }
+
                 _menuCreated = true;
             }
             else
             {
                 UpdateMenu();
             }
+        }
+
+        private void DisplaySettingsModal()
+        {
+            _settingsModal.Show();
         }
 
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect, IList<ButtonBase> menuButtons)
@@ -98,6 +122,11 @@ namespace Rpg.Client.ScreenManagement
             }
 
             spriteBatch.End();
+        }
+
+        private void SettingsButton_OnClick(object? sender, EventArgs e)
+        {
+            DisplaySettingsModal();
         }
 
         private void UpdateMenu()

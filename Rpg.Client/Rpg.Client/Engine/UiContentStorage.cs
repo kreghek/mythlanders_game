@@ -188,7 +188,7 @@ namespace Rpg.Client.Engine
             return _titleTrack;
         }
 
-        public Texture2D GetUnitPanelTexture()
+        public Texture2D GetUnitStatePanelTexture()
         {
             return _unitPanelTexture;
         }

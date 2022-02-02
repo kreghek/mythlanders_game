@@ -31,14 +31,23 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        public void Influence(ICombatUnit? unit)
+        public void Influence(ICombatUnit? combatUnit)
         {
-            if (unit is null || !_unitEffects.ContainsKey(unit))
+            if (combatUnit is null || !_unitEffects.ContainsKey(combatUnit))
             {
                 return;
             }
 
-            var effects = new List<EffectBase>(_unitEffects[unit]);
+            if (combatUnit.Unit.IsDead)
+            {
+                if (_unitEffects.ContainsKey(combatUnit))
+                {
+                    _unitEffects.Remove(combatUnit);
+                    return;
+                }
+            }
+
+            var effects = new List<EffectBase>(_unitEffects[combatUnit]);
 
             foreach (var effect in effects)
             {
