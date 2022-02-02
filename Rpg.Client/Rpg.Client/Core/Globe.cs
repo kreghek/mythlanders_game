@@ -26,6 +26,7 @@ namespace Rpg.Client.Core
         }
 
         public Combat? ActiveCombat { get; set; }
+        public VoiceCombat? ActiveVoiceCombat { get; set; }
 
         public IReadOnlyCollection<Biome> Biomes { get; }
 

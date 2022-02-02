@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
     internal interface ICombatUnit
     {
         Unit Unit { get; }
+        
+        IReadOnlyList<CombatSkill> CombatCards { get; }
 
         void ChangeState(CombatUnitState targetState);
         

@@ -14,9 +14,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
-        private readonly CombatUnit _unit;
+        private readonly ICombatUnit _unit;
 
-        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, CombatUnit unit) : base(texture)
+        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit) : base(texture)
         {
             _font = font;
             _skill = skill;

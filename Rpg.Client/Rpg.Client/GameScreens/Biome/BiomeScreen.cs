@@ -288,7 +288,11 @@ namespace Rpg.Client.GameScreens.Biome
             var combatSource = globeNode.CombatSequence.Combats.First();
             var availableEvent = _hoverNodeGameObject.AvailableEvent;
 
-            _globe.ActiveCombat = new VoiceCombat(_globe.Player.Party, globeNode,
+            var playerUnit = new VoiceCombatUnit(_globe.Player.Party.GetUnits().First());
+            var enemyUnit = new VoiceCombatUnit(combatSource.EnemyGroup.GetUnits().First());
+            _globe.ActiveVoiceCombat = new VoiceCombat(playerUnit, enemyUnit, globeNode, _biome, _dice);
+            
+            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, globeNode,
                 combatSource, _biome, _dice, isAutoplay: autoCombat);
 
             if (availableEvent is not null)

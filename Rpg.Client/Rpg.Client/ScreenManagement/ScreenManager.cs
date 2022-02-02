@@ -95,7 +95,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => new SpeechScreen(_game),
-                ScreenTransition.Combat => new CombatScreen(_game),
+                ScreenTransition.Combat => new VoiceCombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

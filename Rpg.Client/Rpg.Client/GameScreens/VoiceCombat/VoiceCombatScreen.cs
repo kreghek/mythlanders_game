@@ -252,7 +252,7 @@ namespace Rpg.Client.GameScreens.Combat
                 oldView.IsActive = false;
             }
 
-            _combatSkillsPanel.Unit = null;
+            _combatSkillsPanel.CombatUnit = null;
             _combatSkillsPanel.SelectedSkill = null;
             _combatSkillsPanel.IsEnabled = false;
         }
@@ -269,18 +269,18 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_UnitEntered(object? sender, CombatUnit combatUnit)
         {
-            if (combatUnit.Unit.UnitScheme.IsMonster)
-            {
-                AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
-            }
-
-            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
-            var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
-            _gameObjects.Add(gameObject);
-            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed += CombatUnit_Healed;
-            combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+            // if (combatUnit.Unit.UnitScheme.IsMonster)
+            // {
+            //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
+            // }
+            //
+            // var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
+            // var gameObject =
+            //     new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
+            // _gameObjects.Add(gameObject);
+            // combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+            // combatUnit.HasBeenHealed += CombatUnit_Healed;
+            // combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
         }
 
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
@@ -316,7 +316,7 @@ namespace Rpg.Client.GameScreens.Combat
             var selectedUnit = e;
 
             _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = selectedUnit;
+            _combatSkillsPanel.CombatUnit = selectedUnit;
             _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards.First();
             var unitGameObject = GetUnitGameObject(e);
             unitGameObject.IsActive = true;
@@ -560,7 +560,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawCobatSkillsPanel(SpriteBatch spriteBatch)
+        private void DrawCombatSkillsPanel(SpriteBatch spriteBatch)
         {
             if (_combatSkillsPanel is not null)
             {
@@ -665,15 +665,15 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
 
-            DrawBullets(spriteBatch);
-
-            DrawUnits(spriteBatch);
-
-            foreach (var bullet in _bulletObjects)
-            {
-                bullet.Draw(spriteBatch);
-            }
-
+            // DrawBullets(spriteBatch);
+            //
+            // DrawUnits(spriteBatch);
+            //
+            // foreach (var bullet in _bulletObjects)
+            // {
+            //     bullet.Draw(spriteBatch);
+            // }
+            //
             spriteBatch.End();
 
             DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
@@ -690,20 +690,47 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (_combat.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
-                DrawCobatSkillsPanel(spriteBatch);
+                DrawCombatSkillsPanel(spriteBatch);
                 DrawInteractionButtons(spriteBatch);
                 DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
             {
-                DrawUnitStatePanels(spriteBatch);
+                DrawUnitStatePanels(spriteBatch, contentRectangle);
                 DrawCombatSequenceProgress(spriteBatch);
+                DrawSpeaker(spriteBatch);
             }
             catch
             {
                 // TODO Fix NRE in the end of the combat with more professional way 
             }
+
+            spriteBatch.End();
+        }
+        
+        private double _counter;
+
+        private int _currentFragmentIndex;
+        private int _frameIndex;
+        
+        private void DrawSpeaker(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: Camera.GetViewTransformationMatrix());
+
+            var col = _frameIndex % 2;
+            var row = _frameIndex / 2;
+
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(),
+                new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - 256, 256, 256),
+                new Rectangle(col * 256, row * 256, 256, 256),
+                Color.White);
 
             spriteBatch.End();
         }
@@ -731,9 +758,9 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawUnitStatePanels(SpriteBatch spriteBatch)
+        private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
-            _unitStatePanelController?.Draw(spriteBatch);
+            _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
         }
 
         private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)

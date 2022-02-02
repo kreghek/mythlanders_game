@@ -27,7 +27,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private EntityButtonBase<CombatSkill>? _hoverButton;
         private KeyboardState? _lastKeyboardState;
         private CombatSkill? _selectedCard;
-        private CombatUnit? _unit;
+        private ICombatUnit? _unit;
 
         public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage) : base(texture)
         {
@@ -40,7 +40,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public bool IsEnabled { get; set; }
 
-        public CombatUnit? Unit
+        public ICombatUnit? CombatUnit
         {
             get => _unit;
             set

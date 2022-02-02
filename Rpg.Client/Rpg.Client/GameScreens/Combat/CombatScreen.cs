@@ -248,7 +248,7 @@ namespace Rpg.Client.GameScreens.Combat
                 oldView.IsActive = false;
             }
 
-            _combatSkillsPanel.Unit = null;
+            _combatSkillsPanel.CombatUnit = null;
             _combatSkillsPanel.SelectedSkill = null;
             _combatSkillsPanel.IsEnabled = false;
         }
@@ -312,7 +312,7 @@ namespace Rpg.Client.GameScreens.Combat
             var selectedUnit = e;
 
             _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = selectedUnit;
+            _combatSkillsPanel.CombatUnit = selectedUnit;
             _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards.First();
             var unitGameObject = GetUnitGameObject(e);
             unitGameObject.IsActive = true;
