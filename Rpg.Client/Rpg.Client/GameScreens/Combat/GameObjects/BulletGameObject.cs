@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
@@ -77,6 +79,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 var t = _counter / DURATION_SECONDS;
                 _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
                 _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
+                _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }
             else
             {
