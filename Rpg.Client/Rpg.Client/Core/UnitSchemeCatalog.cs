@@ -28,7 +28,7 @@ namespace Rpg.Client.Core
                 new LiberatorBuilder(),
 
                 new LegionnaireBuilder(),
-                new AmazonBuilder(),
+                new AmazonFactory(),
                 new EngeneerBuilder()
             };
 
