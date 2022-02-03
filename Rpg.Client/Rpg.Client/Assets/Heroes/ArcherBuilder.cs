@@ -6,38 +6,35 @@ using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class ArcherBuilder : IHeroBuilder
+    internal class ArcherBuilder : HeroFactoryBase
     {
-        public UnitName UnitName { get; }
+        public override UnitName UnitName => UnitName.Hawk;
 
-        public UnitScheme Create(IBalanceTable balanceTable)
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new()
-            {
-                TankRank = 0.0f,
-                DamageDealerRank = 0.75f,
-                SupportRank = 0.25f,
+            return new HawkGraphicsConfig();
+        }
 
-                Name = UnitName.Hawk,
+        protected override IEquipmentScheme[] GetEquipment()
+        {
+            return new IEquipmentScheme[]
+                {
+                    new ArcherPulsarBow(),
+                    new Mk3ScoutPowerArmor(),
+                    new SilverWindNecklace()
+                };
+        }
 
-                Levels = new IUnitLevelScheme[]
+        protected override IUnitLevelScheme[] GetLevels()
+        {
+            return new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new EnergyShotSkill()),
                     new AddSkillUnitLevel(2, new RapidShotSkill()),
                     new AddPerkUnitLevel(2, new CriticalHit()),
                     new AddSkillUnitLevel(3, new ArrowRainSkill(true)),
                     new AddSkillUnitLevel(4, new ZduhachMightSkill(true))
-                },
-
-                Equipments = new IEquipmentScheme[]
-                {
-                    new ArcherPulsarBow(),
-                    new Mk3ScoutPowerArmor(),
-                    new SilverWindNecklace()
-                },
-
-                UnitGraphicsConfig = new HawkGraphicsConfig()
-            };
+                };
         }
     }
 }
