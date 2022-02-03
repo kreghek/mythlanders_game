@@ -15,9 +15,16 @@ namespace BalanceGenerator
 
             balanceTable.SetTable(new Dictionary<UnitName, BalanceTableRecord>());
             var results = new List<ItemrationResult>();
+
+            var globeNode = new GlobeNode() { Sid = GlobeNodeSid.Thicket };
+            var dice = new LinearDice();
+            var biome = new Biome(1, BiomeType.Slavic);
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
+
             for (var i = 0; i < 10; i++)
             {
-                var result = Iteration(balanceTable);
+                var combatSource = CreateCombatSource(globeNode, biome, dice, unitSchemeCatalog);
+                var result = PlayIteration(balanceTable, globeNode, biome, dice, combatSource);
                 results.Add(result);
             }
 
@@ -27,7 +34,24 @@ namespace BalanceGenerator
             }
         }
 
-        private static ItemrationResult Iteration(DynamicBalanceTable balanceTable)
+        private static CombatSource CreateCombatSource(GlobeNode globeNode, Biome biome, LinearDice dice, UnitSchemeCatalog unitSchemeCatalog)
+        {
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+
+            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog);
+            for (var i = 0; i < monsters.Count; i++)
+            {
+                var monster = monsters[i];
+                combatSource.EnemyGroup.Slots[i].Unit = monster;
+            }
+
+            return combatSource;
+        }
+
+        private static ItemrationResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode, Biome biome, IDice dice, CombatSource combatSource)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
@@ -36,19 +60,8 @@ namespace BalanceGenerator
 
             playerGroup.Slots[0].Unit = new Unit(playerUnitScheme, 1) { IsPlayerControlled = true };
 
-            var globeNode = new GlobeNode();
-
-            var monsterScheme = unitSchemeCatalog.AllMonsters.First(x => x.Name == UnitName.GreyWolf);
-            var combatSource = new CombatSource
-            {
-                EnemyGroup = new Group()
-            };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterScheme, 1) { IsPlayerControlled = false };
-
-            var dice = new LinearDice();
-
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, biome, dice,
+                isAutoplay: true);
 
             combat.Initialize();
 
@@ -67,12 +80,19 @@ namespace BalanceGenerator
             {
                 combat.Update();
 
-                var attacker = combat.CurrentUnit.Unit;
+                /*var attacker = combat.CurrentUnit.Unit;
                 var skill = attacker.Skills[0];
                 var target = combat.AliveUnits.Single(x => x.Unit != attacker);
                 var targetSourceHitPoints = target.Unit.HitPoints;
 
-                combat.UseSkill(skill, target);
+                combat.UseSkill(skill, target);*/
+
+                if (roundIndex > 10)
+                {
+                    // Fuse against infinite combats.
+                    roundIndex = int.MaxValue;
+                    break;
+                }
             } while (!combat.Finished);
 
             return new ItemrationResult
