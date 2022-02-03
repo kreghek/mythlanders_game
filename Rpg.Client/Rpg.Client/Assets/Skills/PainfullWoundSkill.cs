@@ -6,27 +6,33 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ToxicHerbsSkill : SkillBase
+    internal class PainfullWoundSkill : SkillBase
     {
-        public ToxicHerbsSkill() : base(PredefinedVisualization, costRequired: false)
+        private const SkillSid SID = SkillSid.PainfullWound;
+
+        public PainfullWoundSkill() : this(false)
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new[]
+        public PainfullWoundSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        {
+        }
+
+        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicSupportAttackEffect
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var res = new AttackEffect
                     {
                         Actor = u,
-                        SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.3f
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
-                    return effect;
+                    return res;
                 })
             },
             new EffectRule
@@ -34,18 +40,20 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new AttackEffect
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var res = new PeriodicDamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 0.3f
+                        PowerMultiplier = 1f * equipmentMultiplier,
+                        Duration = 3
                     };
 
-                    return effect;
+                    return res;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.ToxicHerbs;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

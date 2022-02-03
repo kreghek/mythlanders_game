@@ -8,6 +8,8 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class RapidShotSkill : SkillBase
     {
+        private const SkillSid SID = SkillSid.RapidShot;
+
         public RapidShotSkill() : this(false)
         {
         }
@@ -23,7 +25,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SkillSid.RapidShot);
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
                         Actor = u,
@@ -36,7 +38,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.RapidShot;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

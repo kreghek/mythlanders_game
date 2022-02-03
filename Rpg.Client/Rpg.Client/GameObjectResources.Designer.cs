@@ -385,15 +385,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Heal.
-        /// </summary>
-        internal static string Heal {
-            get {
-                return ResourceManager.GetString("Heal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Healing salve.
         /// </summary>
         internal static string HealingSalve {
@@ -493,15 +484,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mass heal.
-        /// </summary>
-        internal static string MassHeal {
-            get {
-                return ResourceManager.GetString("MassHeal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Mines.
         /// </summary>
         internal static string Mines {
@@ -552,15 +534,6 @@ namespace Rpg.Client {
         internal static string Pit {
             get {
                 return ResourceManager.GetString("Pit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Power up.
-        /// </summary>
-        internal static string PowerUp {
-            get {
-                return ResourceManager.GetString("PowerUp", resourceCulture);
             }
         }
         
@@ -660,6 +633,15 @@ namespace Rpg.Client {
         internal static string Thicket {
             get {
                 return ResourceManager.GetString("Thicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toxic gas.
+        /// </summary>
+        internal static string ToxicGas {
+            get {
+                return ResourceManager.GetString("ToxicGas", resourceCulture);
             }
         }
         

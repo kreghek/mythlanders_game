@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BalanceConverter": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\PROJECTS\\ewar\\Rpg.Client\\Rpg.Client\\Resources"
+    }
+  }
+}
