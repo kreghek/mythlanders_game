@@ -23,7 +23,8 @@ namespace Rpg.Client.Assets.Skills
                     {
                         Actor = u,
                         SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.3f
+                        PowerMultiplier = 0.3f,
+                        Duration = 3
                     };
 
                     return effect;

@@ -304,6 +304,11 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
+            if (e.Unit.IsDead)
+            {
+                return;
+            }
+
             var selectedUnit = e;
 
             _combatSkillsPanel.IsEnabled = true;

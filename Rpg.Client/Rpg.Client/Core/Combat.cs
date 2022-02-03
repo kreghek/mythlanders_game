@@ -58,13 +58,21 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 ActiveCombatUnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
-                if (!IsCurrentStepCompleted)
+                if (_currentUnit.Unit.IsDead)
                 {
-                    CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
+                    Update();
                 }
                 else
                 {
-                    Update();
+
+                    if (!IsCurrentStepCompleted)
+                    {
+                        CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
+                    }
+                    else
+                    {
+                        Update();
+                    }
                 }
             }
         }

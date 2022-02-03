@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions;
@@ -213,6 +214,148 @@ namespace TestProject1
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().NotBe(0).And.BeLessThan(targetHitPointsDiff);
+        }
+
+        [Test]
+        public void UseSkill_PeriodicDamageDefeatMonster_NotThrowException()
+        {
+            // ARRANGE
+
+            var hugePeriodicDamageRule = new List<EffectRule>()
+            {
+                new EffectRule{
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new Rpg.Client.Core.SkillEffects.EffectCreator(u=>{
+                        return new Rpg.Client.Core.SkillEffects.PeriodicDamageEffect{
+                            Duration = 1,
+                            PowerMultiplier = 10000,
+                            SourceDamage = 1,
+                            Actor = u
+                        };
+                    })
+                }
+            };
+
+            var playerGroup = new Group();
+            var unitScheme = new UnitScheme
+            {
+                DamageDealerRank = 1,
+                Levels = new[]
+                {
+                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill => skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy))
+                }
+            };
+
+            var monsterUnitScheme = new UnitScheme
+            {
+            };
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
+
+            var globeNode = new GlobeNode();
+
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
+
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
+                isAutoplay: false);
+
+            combat.Initialize();
+            combat.Update();
+            combat.ActionGenerated += (_, args) =>
+            {
+                args.Action();
+            };
+
+            // ACT
+            var attacker = combat.CurrentUnit.Unit;
+            var skill = attacker.Skills.First();
+            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var targetSourceHitPoints = target.Unit.HitPoints;
+
+            combat.UseSkill(skill, target);
+
+            var targetCurrentHitPoints = target.Unit.HitPoints;
+            combat.Update();
+
+            // ASSERT
+            target.Unit.IsDead.Should().BeTrue();
+        }
+
+        [Test]
+        public void UseSkill_PeriodicSupportDamageDefeatMonster_NotThrowException()
+        {
+            // ARRANGE
+
+            var hugePeriodicDamageRule = new List<EffectRule>()
+            {
+                new EffectRule{
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new Rpg.Client.Core.SkillEffects.EffectCreator(u=>{
+                        return new Rpg.Client.Core.SkillEffects.PeriodicSupportAttackEffect{
+                            Duration = 1,
+                            PowerMultiplier = 10000,
+                            SourceSupport = 1,
+                            Actor = u
+                        };
+                    })
+                }
+            };
+
+            var playerGroup = new Group();
+            var unitScheme = new UnitScheme
+            {
+                SupportRank = 1,
+                Levels = new[]
+                {
+                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill => skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy))
+                }
+            };
+
+            var monsterUnitScheme = new UnitScheme
+            {
+            };
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
+
+            var globeNode = new GlobeNode();
+
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
+
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
+                isAutoplay: false);
+
+            combat.Initialize();
+            combat.Update();
+            combat.ActionGenerated += (_, args) =>
+            {
+                args.Action();
+            };
+
+            // ACT
+            var attacker = combat.CurrentUnit.Unit;
+            var skill = attacker.Skills.First();
+            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var targetSourceHitPoints = target.Unit.HitPoints;
+
+            combat.UseSkill(skill, target);
+
+            var targetCurrentHitPoints = target.Unit.HitPoints;
+            combat.Update();
+
+            // ASSERT
+            target.Unit.IsDead.Should().BeTrue();
         }
     }
 }

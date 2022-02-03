@@ -1,9 +1,10 @@
-using System;
 using System.Linq;
 
 using FluentAssertions;
 
 using NUnit.Framework;
+
+using Rpg.Client.Assets;
 
 namespace Rpg.Client.Core.Tests
 {
@@ -16,7 +17,8 @@ namespace Rpg.Client.Core.Tests
         {
             // ARRANGE
 
-            var unitSchemeCatalog = new UnitSchemeCatalog();
+            var balanceTable = new BalanceTable();
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
             // ACT
 
