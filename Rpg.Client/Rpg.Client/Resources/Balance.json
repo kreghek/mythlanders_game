@@ -1,0 +1,20 @@
+[
+  {
+    "Sid": "Berimir",
+    "SupportRank": 0.1,
+    "TankRank": 0.5,
+    "DamageDealerRank": 0.4
+  },
+  {
+    "Sid": "Hawk",
+    "SupportRank": 0,
+    "TankRank": 0.7,
+    "DamageDealerRank": 0.3
+  },
+  {
+    "Sid": "Rada",
+    "SupportRank": 1,
+    "TankRank": 0,
+    "DamageDealerRank": 0
+  }
+]

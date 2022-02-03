@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Heroes
                 DamageDealerRank = 0.75f,
                 SupportRank = 0.25f,
 
-                Name = UnitName.Hawk,
+                Name = UnitName.Diana,
 
                 Levels = new IUnitLevelScheme[]
                 {
