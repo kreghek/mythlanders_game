@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitSchemeCatalog : IUnitSchemeCatalog
     {
-        public UnitSchemeCatalog()
+        public UnitSchemeCatalog(IBalanceTable balanceTable)
         {
             var heroes = new IHeroBuilder[]
             {
@@ -31,8 +31,6 @@ namespace Rpg.Client.Core
                 new AmazonFactory(),
                 new EngeneerBuilder()
             };
-
-            var balanceTable = new BalanceTable();
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 

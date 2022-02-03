@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverter", "Balance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverterTests", "BalanceConverterTests\BalanceConverterTests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceGenerator", "BalanceGenerator\BalanceGenerator.csproj", "{D7BECACC-2D72-4EAD-982A-041905D79A7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A36287C0-D98D-452C-86E1-98D45673914F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7BECACC-2D72-4EAD-982A-041905D79A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
