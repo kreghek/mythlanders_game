@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class DefenseStanceSkill : SkillBase
+    internal sealed class WarCrySkill : SkillBase
     {
-        public DefenseStanceSkill() : this(false)
+        public WarCrySkill() : this(false)
         {
         }
 
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public WarCrySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -20,24 +20,27 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
+                Direction = SkillDirection.AllFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
+                    var effect = new IncreaseAttackEffect(u.Unit.Support)
+                    {
+                        Duration = 3
+                    };
 
                     return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
-        public override SkillTargetType TargetType => SkillTargetType.Self;
-        public override SkillType Type => SkillType.None;
+        public override SkillSid Sid => SkillSid.WarCry;
+        public override SkillTargetType TargetType => SkillTargetType.Friendly;
+        public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.Defence
+            SoundEffectType = GameObjectSoundType.MagicDust
         };
     }
 }

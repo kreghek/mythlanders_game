@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class RapidShotSkill : SkillBase
+    internal class PipeBludgeonSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.RapidShot;
+        private const SkillSid SID = SkillSid.PipeBludgeon;
 
-        public RapidShotSkill() : this(false)
+        public PipeBludgeonSkill() : this(false)
         {
         }
 
-        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public PipeBludgeonSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Range;
+        public override SkillType Type => SkillType.Melee;
 
         private static SkillVisualization PredefinedVisualization => new()
         {

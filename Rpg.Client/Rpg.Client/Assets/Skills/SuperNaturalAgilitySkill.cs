@@ -6,13 +6,9 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class DefenseStanceSkill : SkillBase
+    internal class SuperNaturalAgilitySkill : SkillBase
     {
-        public DefenseStanceSkill() : this(false)
-        {
-        }
-
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SuperNaturalAgilitySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -23,14 +19,14 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Self,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 5 };
 
                     return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
+        public override SkillSid Sid => SkillSid.SuperNaturalAgility;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

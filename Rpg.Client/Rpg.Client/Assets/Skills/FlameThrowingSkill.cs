@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class RapidShotSkill : SkillBase
+    internal class FlameThrowingSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.RapidShot;
+        private const SkillSid SID = SkillSid.FlameThrowing;
 
-        public RapidShotSkill() : this(false)
+        public FlameThrowingSkill() : this(false)
         {
         }
 
-        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public FlameThrowingSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -22,15 +22,31 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.AllEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier,
-                        Scatter = 0.5f
+                        DamageMultiplier = 0.3f * equipmentMultiplier
+                    };
+
+                    return res;
+                })
+            },
+
+            new EffectRule
+            {
+                Direction = SkillDirection.AllEnemy,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var res = new PeriodicDamageEffect
+                    {
+                        Actor = u,
+                        PowerMultiplier = 0.2f * equipmentMultiplier,
+                        Duration = 3
                     };
 
                     return res;

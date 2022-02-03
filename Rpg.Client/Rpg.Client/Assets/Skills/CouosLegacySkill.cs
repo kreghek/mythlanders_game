@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class DefenseStanceSkill : SkillBase
+    internal class CouosLegacySkill : SkillBase
     {
-        public DefenseStanceSkill() : this(false)
+        public CouosLegacySkill() : this(false)
         {
         }
 
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public CouosLegacySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -20,17 +20,17 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
+                Direction = SkillDirection.AllFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.95f) { Duration = 3 };
 
                     return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
+        public override SkillSid Sid => SkillSid.CouosLegacy;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

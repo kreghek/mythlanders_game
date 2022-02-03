@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class RapidShotSkill : SkillBase
+    internal class TribeDefenderSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.RapidShot;
+        private const SkillSid SID = SkillSid.TribeDefender;
 
-        public RapidShotSkill() : this(false)
+        public TribeDefenderSkill() : this(false)
         {
         }
 
-        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public TribeDefenderSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -29,8 +29,7 @@ namespace Rpg.Client.Assets.Skills
                     var res = new AttackEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier,
-                        Scatter = 0.5f
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
                     return res;

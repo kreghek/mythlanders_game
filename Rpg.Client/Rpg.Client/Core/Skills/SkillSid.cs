@@ -48,6 +48,14 @@ namespace Rpg.Client.Core.Skills
         AresWarBringerThreads,
         PoisonedSpear,
         SuperNaturalAgility,
-        Sunburst
+        Sunburst,
+        FlameThrowing,
+        PipeBludgeon,
+        Demountage,
+        CouosLegacy, // Наследие Койоса защищет от монстров при помощи знаний
+        PainfullWound,
+        ShotOfHate,
+        WarCry,
+        TribeDefender
     }
 }

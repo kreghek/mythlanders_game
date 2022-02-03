@@ -26,7 +26,9 @@ namespace Rpg.Client.Core
                 new DarkPriestBuilder(),
                 new LiberatorBuilder(),
 
-                new LegionnaireBuilder()
+                new LegionnaireBuilder(),
+                new AmazonBuilder(),
+                new EngeneerBuilder()
             };
 
             Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);

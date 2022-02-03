@@ -6,15 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class RapidShotSkill : SkillBase
+    internal class DemountageSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.RapidShot;
-
-        public RapidShotSkill() : this(false)
+        public DemountageSkill() : this(false)
         {
         }
 
-        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DemountageSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -25,27 +23,24 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new AttackEffect
+                    var effect = new StunEffect
                     {
-                        Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier,
-                        Scatter = 0.5f
+                        Duration = 3
                     };
 
-                    return res;
+                    return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SID;
+        public override SkillSid Sid => SkillSid.Demountage;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.EnergoShot
+            Type = SkillVisualizationStateType.Support,
+            SoundEffectType = GameObjectSoundType.MagicDust
         };
     }
 }
