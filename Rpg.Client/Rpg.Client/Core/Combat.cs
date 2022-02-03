@@ -241,12 +241,15 @@ namespace Rpg.Client.Core
             if (!NextUnit())
             {
                 StartRound();
+                NextRoundStarted?.Invoke(this, EventArgs.Empty);
             }
 
             IsCurrentStepCompleted = false;
 
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
+
+        public event EventHandler? NextRoundStarted;
 
         private void Ai()
         {

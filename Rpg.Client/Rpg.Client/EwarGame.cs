@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
@@ -212,7 +213,7 @@ namespace Rpg.Client
 
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var unitSchemeCatalog = new UnitSchemeCatalog();
+                var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
                 var biomeGenerator = new BiomeGenerator();

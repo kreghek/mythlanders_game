@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets;
@@ -12,10 +13,21 @@ namespace BalanceGenerator
         {
             var balanceTable = new DynamicBalanceTable();
 
-            Iteration(balanceTable);
+            balanceTable.SetTable(new Dictionary<UnitName, BalanceTableRecord>());
+            var results = new List<ItemrationResult>();
+            for (var i = 0; i < 10; i++)
+            {
+                var result = Iteration(balanceTable);
+                results.Add(result);
+            }
+
+            foreach (var item in results)
+            {
+                Console.WriteLine(item.RoundCount);
+            }
         }
 
-        private static void Iteration(DynamicBalanceTable balanceTable)
+        private static ItemrationResult Iteration(DynamicBalanceTable balanceTable)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
@@ -45,10 +57,15 @@ namespace BalanceGenerator
                 args.Action();
             };
 
+            var roundIndex = 1;
+            combat.NextRoundStarted += (_, _) =>
+            {
+                roundIndex++;
+            };
+
             do
             {
                 combat.Update();
-
 
                 var attacker = combat.CurrentUnit.Unit;
                 var skill = attacker.Skills[0];
@@ -57,11 +74,27 @@ namespace BalanceGenerator
 
                 combat.UseSkill(skill, target);
             } while (!combat.Finished);
+
+            return new ItemrationResult
+            {
+                RoundCount = roundIndex
+            };
+        }
+
+        internal sealed class ItemrationResult
+        {
+            public int RoundCount { get; init; }
         }
 
         internal sealed class DynamicBalanceTable : IBalanceTable
         {
             private IDictionary<UnitName, BalanceTableRecord> _balanceDictionary;
+            private readonly BalanceTable _balanceTable;
+
+            public DynamicBalanceTable()
+            {
+                _balanceTable = new BalanceTable();
+            }
 
             public void SetTable(IDictionary<UnitName, BalanceTableRecord> balanceDictionary)
             {
@@ -70,7 +103,14 @@ namespace BalanceGenerator
 
             public BalanceTableRecord GetRecord(UnitName unitName)
             {
-                return _balanceDictionary[unitName];
+                if (_balanceDictionary.TryGetValue(unitName, out var record))
+                {
+                    return record;
+                }
+                else
+                {
+                    return _balanceTable.GetRecord(unitName);
+                }
             }
         }
     }
