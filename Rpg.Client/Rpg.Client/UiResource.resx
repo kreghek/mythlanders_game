@@ -146,6 +146,12 @@
   <data name="CombatLevelTemplate" xml:space="preserve">
     <value>Combat level: {0}</value>
   </data>
+  <data name="CombatLevelUpTemplate" xml:space="preserve">
+    <value>{0} xp to level up</value>
+  </data>
+  <data name="CombatProgressTemplate" xml:space="preserve">
+    <value>Combat progress: {0}/{1}</value>
+  </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Defeat!</value>
     <comment>Выводится в результатах боя при проигрыше боя.</comment>
@@ -153,6 +159,9 @@
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Items found:</value>
     <comment>Подпись для списка найденных предметов  результате победы.</comment>
+  </data>
+  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
+    <value>Monster danger decreased to {0} (on -50%)</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Monster danger increased to {0}</value>
@@ -184,6 +193,25 @@
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Exit game</value>
   </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Formation</value>
+    <comment>Настройка построения отряда</comment>
+  </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} combats left</value>
+  </data>
+  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
+  <data name="HeroGeneralInfoTitle" xml:space="preserve">
+    <value>General Info</value>
+  </data>
+  <data name="HeroPerkInfoTitle" xml:space="preserve">
+    <value>Perks</value>
+  </data>
+  <data name="HeroSkillsInfoTitle" xml:space="preserve">
+    <value>Skills</value>
+  </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">
     <value>HitPoints: {0}</value>
   </data>
@@ -195,9 +223,15 @@
     <value>Skip!</value>
     <comment>Когда юнит пропускает ход</comment>
   </data>
+  <data name="InfoButtonTitle" xml:space="preserve">
+    <value>Info</value>
+  </data>
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Is training only</value>
     <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Level Up</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
@@ -210,6 +244,9 @@
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
+  </data>
+  <data name="MonsterDangerTemplate" xml:space="preserve">
+    <value>Danger of the monsters: {0}</value>
   </data>
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>lvl</value>
@@ -232,6 +269,9 @@
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
   </data>
+  <data name="SurrenderButtonTitle" xml:space="preserve">
+    <value>Surrender</value>
+  </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
     <value>Switch fullscreen</value>
   </data>
@@ -243,42 +283,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="CombatLevelUpTemplate" xml:space="preserve">
-    <value>{0} xp to level up</value>
-  </data>
-  <data name="CombatProgressTemplate" xml:space="preserve">
-    <value>Combat progress: {0}/{1}</value>
-  </data>
-  <data name="MonsterDangerTemplate" xml:space="preserve">
-    <value>Danger of the monsters: {0}</value>
-  </data>
-  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
-    <value>Monster danger decreased to {0} (on -50%)</value>
-  </data>
-  <data name="InfoButtonTitle" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="HeroGeneralInfoTitle" xml:space="preserve">
-    <value>General Info</value>
-  </data>
-  <data name="HeroPerkInfoTitle" xml:space="preserve">
-    <value>Perks</value>
-  </data>
-  <data name="HeroSkillsInfoTitle" xml:space="preserve">
-    <value>Skills</value>
-  </data>
-  <data name="FormationButtonTitle" xml:space="preserve">
-    <value>Formation</value>
-    <comment>Настройка построения отряда</comment>
-  </data>
-  <data name="LevelUpButtonTitle" xml:space="preserve">
-    <value>Level Up</value>
-  </data>
-  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
-    <value>{0} combats left</value>
-  </data>
-  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
-    <value>Equipment</value>
   </data>
 </root>

@@ -31,7 +31,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
-        private readonly ButtonBase _escapeButton;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -112,16 +111,14 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             _screenShaker = new ScreenShaker();
-
-            _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(),
-                new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)),
-                Rectangle.Empty);
-            _escapeButton.OnClick += EscapeButton_OnClick;
         }
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            return ArraySegment<ButtonBase>.Empty;
+            var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            surrenderButton.OnClick += EscapeButton_OnClick;
+
+            return new[] { surrenderButton };
         }
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -165,8 +162,6 @@ namespace Rpg.Client.GameScreens.Combat
                 }
 
                 _screenShaker.Update(gameTime);
-
-                _escapeButton.Update(ResolutionIndependentRenderer);
             }
 
             HandleBackgrounds();
@@ -591,12 +586,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawEscapeButton(SpriteBatch spriteBatch, Rectangle contentRectangle)
-        {
-            _escapeButton.Rect = new Rectangle(contentRectangle.Left + 200, contentRectangle.Top, 32, 32);
-            _escapeButton.Draw(spriteBatch);
-        }
-
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -688,7 +677,6 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 DrawCombatSkillsPanel(spriteBatch, contentRectangle);
                 DrawInteractionButtons(spriteBatch);
-                DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
