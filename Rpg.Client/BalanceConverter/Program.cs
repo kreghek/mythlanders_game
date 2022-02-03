@@ -6,9 +6,9 @@ using System.Text.Unicode;
 
 namespace BalanceConverter
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var excelUnitRows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
             var unitRows = RowConverter.Convert(excelUnitRows);
@@ -18,7 +18,8 @@ namespace BalanceConverter
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true,
                 IgnoreNullValues = true,
-                Converters ={
+                Converters =
+                {
                     new JsonStringEnumConverter()
                 }
             });

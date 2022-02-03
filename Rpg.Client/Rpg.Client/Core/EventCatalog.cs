@@ -6,6 +6,9 @@
         {
         }
 
-        protected override string GetPlotResourceName() => nameof(PlotResources.MainPlot);
+        protected override string GetPlotResourceName()
+        {
+            return nameof(PlotResources.MainPlot);
+        }
     }
 }

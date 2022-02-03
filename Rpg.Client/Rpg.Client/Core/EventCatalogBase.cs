@@ -12,10 +12,6 @@ namespace Rpg.Client.Core
     {
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        public IEnumerable<Event> Events { get; }
-
-        protected abstract string GetPlotResourceName();
-
         public EventCatalogBase(IUnitSchemeCatalog unitSchemeCatalog)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
@@ -37,8 +33,10 @@ namespace Rpg.Client.Core
             Events = events.ToArray();
         }
 
+        protected abstract string GetPlotResourceName();
+
         private static void AssignEventParents(IReadOnlyCollection<Event> events,
-           IEnumerable<EventStorageModel> eventStorageModelList)
+            IEnumerable<EventStorageModel> eventStorageModelList)
         {
             foreach (var eventStorageModel in eventStorageModelList)
             {
@@ -125,6 +123,8 @@ namespace Rpg.Client.Core
         {
             return eventStorageModel.Sid.StartsWith("Main");
         }
+
+        public IEnumerable<Event> Events { get; }
 
         private sealed record LocationInfo
         {

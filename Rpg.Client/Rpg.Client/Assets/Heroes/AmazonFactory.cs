@@ -12,23 +12,23 @@ namespace Rpg.Client.Assets.Heroes
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
-                {
-                    new ArcherPulsarBow2(),
-                    new Mk3ScoutPowerArmor2(),
-                    new OldShiningGem()
-                };
+            {
+                new ArcherPulsarBow2(),
+                new Mk3ScoutPowerArmor2(),
+                new OldShiningGem()
+            };
         }
 
         protected override IUnitLevelScheme[] GetLevels()
         {
             return new IUnitLevelScheme[]
-                {
-                    new AddSkillUnitLevel(1, new ShotOfHateSkill()),
-                    new AddSkillUnitLevel(2, new PainfullWoundSkill()),
-                    new AddPerkUnitLevel(2, new CriticalHit()),
-                    new AddSkillUnitLevel(3, new WarCrySkill(true)),
-                    new AddSkillUnitLevel(4, new TribeDefenderSkill(true))
-                };
+            {
+                new AddSkillUnitLevel(1, new ShotOfHateSkill()),
+                new AddSkillUnitLevel(2, new PainfullWoundSkill()),
+                new AddPerkUnitLevel(2, new CriticalHit()),
+                new AddSkillUnitLevel(3, new WarCrySkill(true)),
+                new AddSkillUnitLevel(4, new TribeDefenderSkill(true))
+            };
         }
     }
 }

@@ -64,7 +64,6 @@ namespace Rpg.Client.Core
                 }
                 else
                 {
-
                     if (!IsCurrentStepCompleted)
                     {
                         CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
@@ -256,8 +255,6 @@ namespace Rpg.Client.Core
 
             CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
         }
-
-        public event EventHandler? NextRoundStarted;
 
         private void Ai()
         {
@@ -452,6 +449,8 @@ namespace Rpg.Client.Core
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }
         }
+
+        public event EventHandler? NextRoundStarted;
 
         internal event EventHandler<CombatUnit>? CombatUnitRemoved;
 

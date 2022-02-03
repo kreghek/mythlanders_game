@@ -115,7 +115,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle),
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
             surrenderButton.OnClick += EscapeButton_OnClick;
 
             return new[] { surrenderButton };

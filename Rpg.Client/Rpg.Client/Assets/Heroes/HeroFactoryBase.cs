@@ -5,6 +5,14 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal abstract class HeroFactoryBase : IHeroBuilder
     {
+        protected abstract IEquipmentScheme[] GetEquipment();
+
+        protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new GenericCharacterGraphicsConfig();
+        }
+
+        protected abstract IUnitLevelScheme[] GetLevels();
         public abstract UnitName UnitName { get; }
 
         public UnitScheme Create(IBalanceTable balanceTable)
@@ -25,15 +33,6 @@ namespace Rpg.Client.Assets.Heroes
 
                 UnitGraphicsConfig = GetGraphicsConfig()
             };
-        }
-
-        protected abstract IEquipmentScheme[] GetEquipment();
-
-        protected abstract IUnitLevelScheme[] GetLevels();
-
-        protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new GenericCharacterGraphicsConfig();
         }
     }
 }

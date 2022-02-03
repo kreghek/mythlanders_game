@@ -13,7 +13,8 @@ namespace Rpg.Client.Assets
 {
     internal class BalanceTable : IBalanceTable
     {
-        Dictionary<UnitName, BalanceTableRecord> _dict;
+        private readonly Dictionary<UnitName, BalanceTableRecord> _dict;
+
         public BalanceTable()
         {
             _dict = new Dictionary<UnitName, BalanceTableRecord>();
@@ -32,7 +33,8 @@ namespace Rpg.Client.Assets
                     Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                     WriteIndented = true,
                     IgnoreNullValues = true,
-                    Converters ={
+                    Converters =
+                    {
                         new JsonStringEnumConverter()
                     }
                 });
@@ -46,7 +48,6 @@ namespace Rpg.Client.Assets
             {
                 throw new Exception();
             }
-
         }
 
         public BalanceTableRecord GetRecord(UnitName unitName)

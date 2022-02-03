@@ -12,23 +12,23 @@ namespace Rpg.Client.Assets.Heroes
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
-                {
-                    new HerbBag(),
-                    new WomanShort(),
-                    new BookOfHerbs()
-                };
+            {
+                new HerbBag(),
+                new WomanShort(),
+                new BookOfHerbs()
+            };
         }
 
         protected override IUnitLevelScheme[] GetLevels()
         {
             return new IUnitLevelScheme[]
-                {
-                    new AddSkillUnitLevel(1, new HealingSalveSkill()),
-                    new AddSkillUnitLevel(2, new ToxicGasSkill()),
-                    new AddPerkUnitLevel(2, new CriticalHeal()),
-                    new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
-                    new AddSkillUnitLevel(4, new MassHealSkill(true))
-                };
+            {
+                new AddSkillUnitLevel(1, new HealingSalveSkill()),
+                new AddSkillUnitLevel(2, new ToxicGasSkill()),
+                new AddPerkUnitLevel(2, new CriticalHeal()),
+                new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
+                new AddSkillUnitLevel(4, new MassHealSkill(true))
+            };
         }
     }
 }

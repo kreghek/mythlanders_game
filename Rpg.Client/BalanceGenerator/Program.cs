@@ -7,16 +7,35 @@ using Rpg.Client.Core;
 
 namespace BalanceGenerator
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static CombatSource CreateCombatSource(GlobeNode globeNode, Biome biome, LinearDice dice,
+            UnitSchemeCatalog unitSchemeCatalog)
+        {
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+
+            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog);
+            for (var i = 0; i < monsters.Count; i++)
+            {
+                var monster = monsters[i];
+                combatSource.EnemyGroup.Slots[i].Unit = monster;
+            }
+
+            return combatSource;
+        }
+
+        private static void Main(string[] args)
         {
             var balanceTable = new DynamicBalanceTable();
 
             balanceTable.SetTable(new Dictionary<UnitName, BalanceTableRecord>());
             var results = new List<ItemrationResult>();
 
-            var globeNode = new GlobeNode() { Sid = GlobeNodeSid.Thicket };
+            var globeNode = new GlobeNode
+                { Sid = GlobeNodeSid.Thicket };
             var dice = new LinearDice();
             var biome = new Biome(1, BiomeType.Slavic);
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
@@ -34,24 +53,8 @@ namespace BalanceGenerator
             }
         }
 
-        private static CombatSource CreateCombatSource(GlobeNode globeNode, Biome biome, LinearDice dice, UnitSchemeCatalog unitSchemeCatalog)
-        {
-            var combatSource = new CombatSource
-            {
-                EnemyGroup = new Group()
-            };
-
-            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog);
-            for (var i = 0; i < monsters.Count; i++)
-            {
-                var monster = monsters[i];
-                combatSource.EnemyGroup.Slots[i].Unit = monster;
-            }
-
-            return combatSource;
-        }
-
-        private static ItemrationResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode, Biome biome, IDice dice, CombatSource combatSource)
+        private static ItemrationResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode,
+            Biome biome, IDice dice, CombatSource combatSource)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
@@ -108,8 +111,8 @@ namespace BalanceGenerator
 
         internal sealed class DynamicBalanceTable : IBalanceTable
         {
-            private IDictionary<UnitName, BalanceTableRecord> _balanceDictionary;
             private readonly BalanceTable _balanceTable;
+            private IDictionary<UnitName, BalanceTableRecord> _balanceDictionary;
 
             public DynamicBalanceTable()
             {
@@ -127,10 +130,8 @@ namespace BalanceGenerator
                 {
                     return record;
                 }
-                else
-                {
-                    return _balanceTable.GetRecord(unitName);
-                }
+
+                return _balanceTable.GetRecord(unitName);
             }
         }
     }
