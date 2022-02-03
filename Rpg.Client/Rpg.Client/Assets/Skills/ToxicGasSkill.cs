@@ -6,9 +6,9 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ToxicHerbsSkill : SkillBase
+    internal class ToxicGasSkill : SkillBase
     {
-        public ToxicHerbsSkill() : base(PredefinedVisualization, costRequired: false)
+        public ToxicGasSkill() : base(PredefinedVisualization, costRequired: false)
         {
         }
 
@@ -46,7 +46,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.ToxicHerbs;
+        public override SkillSid Sid => SkillSid.ToxicGas;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

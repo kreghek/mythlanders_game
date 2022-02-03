@@ -5,7 +5,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class HerbalistBuilder : HeroFactoryBase
+    internal class HerbalistFactory : HeroFactoryBase
     {
         public override UnitName UnitName => UnitName.Rada;
 
@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
                 {
                     new AddSkillUnitLevel(1, new HealingSalveSkill()),
-                    new AddSkillUnitLevel(2, new ToxicHerbsSkill()),
+                    new AddSkillUnitLevel(2, new ToxicGasSkill()),
                     new AddPerkUnitLevel(2, new CriticalHeal()),
                     new AddSkillUnitLevel(3, new DopeHerbSkill(true)),
                     new AddSkillUnitLevel(4, new MassHealSkill(true))

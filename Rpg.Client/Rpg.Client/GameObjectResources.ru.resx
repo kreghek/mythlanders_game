@@ -123,8 +123,17 @@
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Сломанные стрелы</value>
   </data>
+  <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
+    <value>Mk3 силовая броня разведчика</value>
+  </data>
+  <data name="ArcherPulsarBow" xml:space="preserve">
+    <value>Импульсный лук</value>
+  </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
+  </data>
+  <data name="AsceticRobe" xml:space="preserve">
+    <value>Роба аскета</value>
   </data>
   <data name="Aspid" xml:space="preserve">
     <value>Аспид</value>
@@ -138,8 +147,32 @@
   <data name="Berimir" xml:space="preserve">
     <value>Беримир</value>
   </data>
+  <data name="BigMonster" xml:space="preserve">
+    <value>Большой</value>
+  </data>
+  <data name="BigMonsterDescription" xml:space="preserve">
+    <value>Этот монстр большой, поэтому у него +50% к HP и удвоенная броня.</value>
+  </data>
+  <data name="BookOfHerbs" xml:space="preserve">
+    <value>Книга трав</value>
+  </data>
+  <data name="BossMonster" xml:space="preserve">
+    <value>БОСС</value>
+  </data>
+  <data name="BossMonsterDescription" xml:space="preserve">
+    <value>Перед вами Хозяин локации - самый сильный монстр в этой части мира. У него +250%HP и удвоенная защита.</value>
+  </data>
   <data name="Castle" xml:space="preserve">
     <value>Мрачная Твердыня в Скале</value>
+  </data>
+  <data name="ChaoticNeuroInterface" xml:space="preserve">
+    <value>Хаотический нейро-интерфейс</value>
+  </data>
+  <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
+    <value>{0} молится</value>
+  </data>
+  <data name="CombatSword" xml:space="preserve">
+    <value>Боевой меч</value>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
@@ -153,11 +186,23 @@
   <data name="DeathPath" xml:space="preserve">
     <value>Тропа смерти</value>
   </data>
+  <data name="DeceptivelyLightRobe" xml:space="preserve">
+    <value>Обманчиво лёгкая роба</value>
+  </data>
   <data name="DefenseStance" xml:space="preserve">
     <value>Защитная стойка</value>
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
+  </data>
+  <data name="EgyptianBookOfDeath" xml:space="preserve">
+    <value>Египетская книга мертвых</value>
+  </data>
+  <data name="EliteGuardsmanSpear" xml:space="preserve">
+    <value>Копьё элитного защитника</value>
+  </data>
+  <data name="EmptinessInTheHand" xml:space="preserve">
+    <value>Пустота в руках</value>
   </data>
   <data name="EnergyShot" xml:space="preserve">
     <value>Энерго-выстрел</value>
@@ -180,14 +225,14 @@
   <data name="Hawk" xml:space="preserve">
     <value>Сокол</value>
   </data>
-  <data name="Heal" xml:space="preserve">
-    <value>Лечение</value>
-  </data>
   <data name="HealingSalve" xml:space="preserve">
     <value>Целебная мазь</value>
   </data>
   <data name="HerbalistEquipment" xml:space="preserve">
     <value>Дикие травы</value>
+  </data>
+  <data name="HerbBag" xml:space="preserve">
+    <value>Сумка для трав</value>
   </data>
   <data name="Hermitage" xml:space="preserve">
     <value>Покинутый скит</value>
@@ -207,14 +252,20 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
   </data>
+  <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
+    <value>Тяжелая силовая броня Джаггернаут</value>
+  </data>
   <data name="Maosin" xml:space="preserve">
     <value>Мяосин</value>
   </data>
-  <data name="MassHeal" xml:space="preserve">
-    <value>Массовое исцеление</value>
-  </data>
   <data name="Mines" xml:space="preserve">
     <value>Рудники</value>
+  </data>
+  <data name="Mk2MediumPowerArmor" xml:space="preserve">
+    <value>Mk2 средняя силовая броня</value>
+  </data>
+  <data name="NanoMetalLongCloths" xml:space="preserve">
+    <value>Одежды из нано-металла</value>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Старик</value>
@@ -225,14 +276,20 @@
   <data name="Pit" xml:space="preserve">
     <value>Яма</value>
   </data>
-  <data name="PowerUp" xml:space="preserve">
-    <value>Усиление</value>
-  </data>
   <data name="Rada" xml:space="preserve">
     <value>Старая Рада</value>
   </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Быстрый выстрел</value>
+  </data>
+  <data name="RedemptionStaff" xml:space="preserve">
+    <value>Посох Покаяния</value>
+  </data>
+  <data name="ScarabeusKingLeg" xml:space="preserve">
+    <value>Лапа Короля жука-скоробея</value>
+  </data>
+  <data name="SilverWindNecklace" xml:space="preserve">
+    <value>Серебрянное ожерелье ветра</value>
   </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>
@@ -246,8 +303,14 @@
   <data name="SwordSlash" xml:space="preserve">
     <value>Рубящий удар мечом</value>
   </data>
+  <data name="SymbolOfGod" xml:space="preserve">
+    <value>Символ Бога</value>
+  </data>
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>
+  </data>
+  <data name="ToxicGas" xml:space="preserve">
+    <value>Токсичный газ</value>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>
@@ -270,82 +333,13 @@
   <data name="Wisp" xml:space="preserve">
     <value>Блуждающий огонёк</value>
   </data>
-  <data name="ZduhachMight" xml:space="preserve">
-    <value>Мощь великого Здухача</value>
-  </data>
-  <data name="BigMonster" xml:space="preserve">
-    <value>Большой</value>
-  </data>
-  <data name="BossMonster" xml:space="preserve">
-    <value>БОСС</value>
-  </data>
-  <data name="BigMonsterDescription" xml:space="preserve">
-    <value>Этот монстр большой, поэтому у него +50% к HP и удвоенная броня.</value>
-  </data>
-  <data name="BossMonsterDescription" xml:space="preserve">
-    <value>Перед вами Хозяин локации - самый сильный монстр в этой части мира. У него +250%HP и удвоенная защита.</value>
-  </data>
-  <data name="CharacterDeepPreyingTitleTemplate" xml:space="preserve">
-    <value>{0} молится</value>
-  </data>
-  <data name="ArcherPulsarBow" xml:space="preserve">
-    <value>Импульсный лук</value>
-  </data>
-  <data name="AsceticRobe" xml:space="preserve">
-    <value>Роба аскета</value>
-  </data>
-  <data name="BookOfHerbs" xml:space="preserve">
-    <value>Книга трав</value>
-  </data>
-  <data name="ChaoticNeuroInterface" xml:space="preserve">
-    <value>Хаотический нейро-интерфейс</value>
-  </data>
-  <data name="DeceptivelyLightRobe" xml:space="preserve">
-    <value>Обманчиво лёгкая роба</value>
-  </data>
-  <data name="EgyptianBookOfDeath" xml:space="preserve">
-    <value>Египетская книга мертвых</value>
-  </data>
-  <data name="EliteGuardsmanSpear" xml:space="preserve">
-    <value>Копьё элитного защитника</value>
-  </data>
-  <data name="EmptinessInTheHand" xml:space="preserve">
-    <value>Пустота в руках</value>
-  </data>
-  <data name="HerbBag" xml:space="preserve">
-    <value>Сумка для трав</value>
-  </data>
-  <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
-    <value>Тяжелая силовая броня Джаггернаут</value>
-  </data>
-  <data name="Mk2MediumPowerArmor" xml:space="preserve">
-    <value>Mk2 средняя силовая броня</value>
-  </data>
-  <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
-    <value>Mk3 силовая броня разведчика</value>
-  </data>
-  <data name="NanoMetalLongCloths" xml:space="preserve">
-    <value>Одежды из нано-металла</value>
-  </data>
-  <data name="RedemptionStaff" xml:space="preserve">
-    <value>Посох Покаяния</value>
-  </data>
-  <data name="ScarabeusKingLeg" xml:space="preserve">
-    <value>Лапа Короля жука-скоробея</value>
-  </data>
-  <data name="SilverWindNecklace" xml:space="preserve">
-    <value>Серебрянное ожерелье ветра</value>
-  </data>
-  <data name="SymbolOfGod" xml:space="preserve">
-    <value>Символ Бога</value>
-  </data>
-  <data name="CombatSword" xml:space="preserve">
-    <value>Боевой меч</value>
-  </data>
   <data name="WomanShort" xml:space="preserve">
     <value>Женская рубаха</value>
   </data>
   <data name="WoodenHandSculpture" xml:space="preserve">
     <value>Деревянная фигурка</value>
+  </data>
+  <data name="ZduhachMight" xml:space="preserve">
+    <value>Мощь великого Здухача</value>
   </data>
 </root>

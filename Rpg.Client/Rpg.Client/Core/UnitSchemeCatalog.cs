@@ -16,8 +16,8 @@ namespace Rpg.Client.Core
             var heroes = new IHeroBuilder[]
             {
                 new SwordsmanBuilder(),
-                new ArcherBuilder(),
-                new HerbalistBuilder(),
+                new ArcherFactory(),
+                new HerbalistFactory(),
 
                 new MonkBuilder(),
                 new SpearmanBuilder(),

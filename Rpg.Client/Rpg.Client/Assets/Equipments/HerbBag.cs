@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Equipments
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
 
         protected override SkillSid[] AffectedAttackingSkills =>
-            new[] { SkillSid.HealingSalve, SkillSid.ToxicHerbs };
+            new[] { SkillSid.HealingSalve, SkillSid.ToxicGas };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

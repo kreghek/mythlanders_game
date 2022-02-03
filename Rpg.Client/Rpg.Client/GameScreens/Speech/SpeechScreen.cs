@@ -114,16 +114,7 @@ namespace Rpg.Client.GameScreens.Speech
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-
-            if (!_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial) &&
-                !_globe.Player.HasAbility(PlayerAbility.SkipTutorials) && !_globe.CurrentEvent?.IsGameStart == true)
-            {
-                _globe.Player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
-
-                var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
-                    ResolutionIndependentRenderer, _globe.Player);
-                AddModal(tutorialModal, isLate: false);
-            }
+            CheckTutorial();
 
             if (!_isInitialized)
             {
@@ -139,6 +130,30 @@ namespace Rpg.Client.GameScreens.Speech
 
                 UpdateSpeaker(gameTime);
             }
+        }
+
+        private void CheckTutorial()
+        {
+            if (_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
+            {
+                return;
+            }
+
+            if (!_globe.CurrentEvent?.IsGameStart != true)
+            {
+                return;
+            }
+
+            if (_globe.Player.HasAbility(PlayerAbility.ReadEventTutorial))
+            {
+                return;
+            }
+
+            _globe.Player.AddPlayerAbility(PlayerAbility.ReadEventTutorial);
+
+            var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
+                ResolutionIndependentRenderer, _globe.Player);
+            AddModal(tutorialModal, isLate: false);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,

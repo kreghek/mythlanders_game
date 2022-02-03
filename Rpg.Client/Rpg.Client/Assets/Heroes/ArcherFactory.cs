@@ -6,7 +6,7 @@ using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class ArcherBuilder : HeroFactoryBase
+    internal class ArcherFactory : HeroFactoryBase
     {
         public override UnitName UnitName => UnitName.Hawk;
 
