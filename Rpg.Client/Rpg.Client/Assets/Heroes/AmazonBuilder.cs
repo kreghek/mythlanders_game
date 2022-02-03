@@ -8,15 +8,19 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class AmazonBuilder : IHeroBuilder
     {
-        public UnitScheme Create()
+        public UnitName UnitName => UnitName.Diana;
+
+        public UnitScheme Create(IBalanceTable balanceTable)
         {
+            var record = balanceTable.GetRecord(UnitName);
+
             return new()
             {
-                TankRank = 0.0f,
-                DamageDealerRank = 0.75f,
-                SupportRank = 0.25f,
+                TankRank = record.TankRank,
+                DamageDealerRank = record.DamageDealerRank,
+                SupportRank = record.SupportRank,
 
-                Name = UnitName.Diana,
+                Name = UnitName,
 
                 Levels = new IUnitLevelScheme[]
                 {

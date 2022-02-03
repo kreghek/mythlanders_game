@@ -8,7 +8,9 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class LiberatorBuilder : IHeroBuilder
     {
-        public UnitScheme Create()
+        public UnitName UnitName { get; }
+
+        public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new()
             {

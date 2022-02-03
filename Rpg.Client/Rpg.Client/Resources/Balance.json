@@ -8,13 +8,19 @@
   {
     "Sid": "Hawk",
     "SupportRank": 0,
-    "TankRank": 0.7,
-    "DamageDealerRank": 0.3
+    "TankRank": 0.3,
+    "DamageDealerRank": 0.7
   },
   {
     "Sid": "Rada",
     "SupportRank": 1,
     "TankRank": 0,
     "DamageDealerRank": 0
+  },
+  {
+    "Sid": "Diana",
+    "SupportRank": 0.2,
+    "TankRank": 0,
+    "DamageDealerRank": 0.8
   }
 ]
