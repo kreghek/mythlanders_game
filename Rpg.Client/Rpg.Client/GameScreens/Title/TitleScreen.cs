@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -105,15 +104,20 @@ namespace Rpg.Client.GameScreens.Title
             };
             _buttons.Add(exitGameButton);
 
-            var lastHeroes = GetLastHeroes(_globeProvider);
-            _showcaseUnits = _dice.RollFromList(lastHeroes, 3).ToArray();
+            _showcaseUnits = GetShowcaseHeroes();
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
         }
 
-        private UnitName[] GetLastHeroes(GlobeProvider globeProvider)
+        private UnitName[] GetShowcaseHeroes()
+        {
+            var lastHeroes = GetLastHeroes(_globeProvider);
+            return _dice.RollFromList(lastHeroes, 3).ToArray();
+        }
+
+        private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
         {
             var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
 
