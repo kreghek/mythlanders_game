@@ -487,7 +487,8 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
+        private static void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog,
+            Player player)
         {
             player.KnownMonsters.Clear();
 

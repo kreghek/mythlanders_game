@@ -74,7 +74,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 IMAGE_HEIGHT);
 
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
-                new Rectangle(leftPartRect.Right, leftPartRect.Top, rightPartRect.Left - leftPartRect.Right, leftPartRect.Height),
+                new Rectangle(leftPartRect.Right, leftPartRect.Top, rightPartRect.Left - leftPartRect.Right,
+                    leftPartRect.Height),
                 new Rectangle(IMAGE_WIDTH / 2 - 1, 0, 2, IMAGE_HEIGHT),
                 color);
 

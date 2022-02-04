@@ -95,7 +95,9 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => _gameSettings.Mode == GameMode.Full ? new SpeechScreen(_game) : new EventScreen(_game),
+                ScreenTransition.Event => _gameSettings.Mode == GameMode.Full
+                    ? new SpeechScreen(_game)
+                    : new EventScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
