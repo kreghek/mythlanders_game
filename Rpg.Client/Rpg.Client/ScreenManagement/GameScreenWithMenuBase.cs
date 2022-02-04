@@ -75,11 +75,7 @@ namespace Rpg.Client.ScreenManagement
 
             if (!_menuCreated)
             {
-                _menuButtons = CreateMenu();
-                if (!_menuButtons.Any())
-                {
-                    _menuButtons = new List<ButtonBase>();
-                }
+                _menuButtons = CreateMenu().ToList();
 
                 if (CreateSettingsButton)
                 {

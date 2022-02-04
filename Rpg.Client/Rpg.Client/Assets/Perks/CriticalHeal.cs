@@ -4,7 +4,7 @@ namespace Rpg.Client.Assets.Perks
 {
     internal class CriticalHeal : IPerk
     {
-        public int ModifyDamage(int sourceDamage, IDice dice)
+        public int ModifyHeal(int sourceDamage, IDice dice)
         {
             const int PROBABILITY = 25;
             var roll = dice.RollD100();

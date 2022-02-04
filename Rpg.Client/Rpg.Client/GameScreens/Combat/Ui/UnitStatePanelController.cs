@@ -15,6 +15,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int PANEL_HEIGHT = 48;
         private const int BAR_WIDTH = 118;
         private const int PANEL_BACKGROUND_VERTICAL_OFFSET = 12;
+        private const int MARGIN = 10;
         private readonly Core.Combat _activeCombat;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
@@ -43,99 +44,154 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var unit = combatUnit.Unit;
 
-                if (unit.IsPlayerControlled)
+                var side = unit.IsPlayerControlled ? Side.Left : Side.Right;
+
+                if (side == Side.Left)
                 {
                     var panelY = contentRectangle.Top +
-                                 playerIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
+                                 playerIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + MARGIN);
                     panelPosition = new Vector2(0, panelY);
                     playerIndex++;
                 }
                 else
                 {
                     var panelY = contentRectangle.Top +
-                                 monsterIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + 20);
-                    panelPosition = new Vector2(contentRectangle.Width - PANEL_WIDTH,
+                                 monsterIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + MARGIN);
+                    panelPosition = new Vector2(contentRectangle.Right - PANEL_WIDTH,
                         panelY);
                     monsterIndex++;
                 }
 
                 var backgroundOffset = new Vector2(0, PANEL_BACKGROUND_VERTICAL_OFFSET);
 
-                DrawUnitHitPointsBar(spriteBatch, panelPosition, unit, backgroundOffset);
+                DrawUnitHitPointsBar(spriteBatch, panelPosition, unit, backgroundOffset, side, contentRectangle);
 
-                DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset);
+                DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
 
-                DrawUnitPortrait(spriteBatch, panelPosition, unit);
+                DrawUnitPortrait(spriteBatch, panelPosition, unit, side, contentRectangle);
 
-                DrawUnitName(spriteBatch, panelPosition, unit);
+                DrawUnitName(spriteBatch, panelPosition, unit, side, contentRectangle);
 
                 if (HasMana(unit))
                 {
                     DrawManaBar(spriteBatch, panelPosition, unit);
                 }
-
-                //var statText = $"Dmg:{unit.Damage} Ar:{unit.Armor}";
-                //spriteBatch.DrawString(_uiContentStorage.GetMainFont(), statText, panelPosition + new Vector2(55, 50),
-                //    Color.Gray);
             }
         }
 
         private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
         {
-            //var manaPosition = panelPosition + new Vector2(55, 40);
-            //var manaPoolValue = Math.Min((float)unit.ManaPool, unit.ManaPoolSize);
-            //var manaPercentage = manaPoolValue / unit.ManaPoolSize;
-            //var manaSourceRect = new Rectangle(0, 62, (int)(manaPercentage * BAR_WIDTH), 11);
-            //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), manaPosition, manaSourceRect,
-            //    Color.Lerp(Color.Transparent, Color.White, 0.75f));
+            var manaPosition = panelPosition + new Vector2(46, 0);
 
-            //spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ManaPool}/{unit.ManaPoolSize}",
-            //    manaPosition, Color.Black);
+            var manaPointCount = Math.Min(8, unit.ManaPool);
+
+            var manaSourceRect = new Rectangle(0, 72, 3, 10);
+            for (var i = 0; i < manaPointCount; i++)
+            {
+                spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(),
+                    manaPosition + new Vector2((3 + 2) * i + 3, 17),
+                    manaSourceRect,
+                    Color.White);
+            }
         }
 
-        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset)
+        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset,
+            Side side)
         {
+            var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+
             spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + backgroundOffset,
                 new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
-                Color.White);
+                Color.White,
+                rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
         }
 
         private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit,
-            Vector2 backgroundOffset)
+            Vector2 backgroundOffset, Side side, Rectangle contentRectangle)
         {
-            var hpPosition = panelPosition + backgroundOffset + new Vector2(46, 22);
+            var hpPosition = panelPosition + backgroundOffset +
+                             (side == Side.Left ? new Vector2(46, 22) : new Vector2(26, 22));
             var hpPercentage = (float)unit.HitPoints / unit.MaxHitPoints;
             var hpSourceRect = new Rectangle(0, 49, (int)(hpPercentage * BAR_WIDTH), 20);
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect,
-                Color.Lerp(Color.Transparent, Color.White, 1f));
+            var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White,
+                rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
 
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.HitPoints}/{unit.MaxHitPoints}",
-                hpPosition, Color.Black);
+            var text = $"{unit.HitPoints}/{unit.MaxHitPoints}";
+            if (side == Side.Left)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
+                    Color.Black);
+            }
+            else
+            {
+                var textSize = _uiContentStorage.GetMainFont().MeasureString(text);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.Black);
+            }
         }
 
-        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
+        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side,
+            Rectangle contentRectangle)
         {
             var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
-            var unitNamePosition = panelPosition + new Vector2(55, 3);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                unitName, unitNamePosition, Color.White);
+
+            if (side == Side.Left)
+            {
+                var unitNamePosition = panelPosition + new Vector2(46, 0);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+            }
+            else
+            {
+                var textSize = _uiContentStorage.GetMainFont().MeasureString(unitName);
+
+                var unitNamePosition = panelPosition + new Vector2(146 - textSize.X, 0);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+            }
         }
 
-        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
+        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side,
+            Rectangle contentRectangle)
         {
-            spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition, new Rectangle(0, 83, 42, 32),
-                Color.White);
+            if (side == Side.Left)
+            {
+                spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition,
+                    new Rectangle(0, 83, 42, 32),
+                    Color.White);
 
-            var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
-            var portraitPosition = panelPosition + new Vector2(7, 0);
-            var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
-            spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
-                Color.White);
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
+                var portraitPosition = panelPosition + new Vector2(7, 0);
+                var portraitDestRect = new Rectangle(portraitPosition.ToPoint(), new Point(32, 32));
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect, portraitSourceRect,
+                    Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
+                    new Rectangle(0, 83, 42, 32),
+                    Color.White);
+
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
+                var portraitPosition = panelPosition + new Vector2(7, 0);
+                var portraitDestRect = portraitPosition;
+                var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
+                    portraitSourceRect,
+                    Color.White,
+                    rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
+            }
         }
 
         private static bool HasMana(Unit unit)
         {
             return unit.IsPlayerControlled && unit.HasSkillsWithCost;
+        }
+
+        private enum Side
+        {
+            Left,
+            Right
         }
     }
 }

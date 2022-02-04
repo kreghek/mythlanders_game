@@ -12,6 +12,8 @@
         Sage,
         Liberator,
         Legionnaire,
-        Scorpion
+        Scorpion,
+        Engineer,
+        Amazon
     }
 }

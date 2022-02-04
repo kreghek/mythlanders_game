@@ -71,9 +71,11 @@ namespace PlotConverter
         {
             var outputPath = args[0];
 
+            var isDemo = args.Length > 1 && args[1] == "Demo";
+
             const string SOURCE_EVENTS_EXCEL = "Ewar - Plot.xlsx";
-            var excelEventRows = ReadEventsFromExcel(SOURCE_EVENTS_EXCEL);
-            var excelTextFragmentsRows = ReadTextFragmentsFromExcel(SOURCE_EVENTS_EXCEL);
+            var excelEventRows = ReadEventsFromExcel(SOURCE_EVENTS_EXCEL, isDemo);
+            var excelTextFragmentsRows = ReadTextFragmentsFromExcel(SOURCE_EVENTS_EXCEL, isDemo);
 
             var eventDtoList = ConventExcelRowsToObjectGraph(excelEventRows, excelTextFragmentsRows);
 
@@ -86,10 +88,12 @@ namespace PlotConverter
 
             // Run with argument which contains full path to Rpg.Client/Resources directory
 
-            var outputRuFileName = Path.Combine(outputPath, "Plot-ru.txt");
+            var fileNameTemplate = "Plot-{0}" + (isDemo ? "-demo" : string.Empty) + ".txt";
+
+            var outputRuFileName = Path.Combine(outputPath, string.Format(fileNameTemplate, "ru"));
             File.WriteAllLines(outputRuFileName, new[] { serialized });
 
-            var outputEnFileName = Path.Combine(outputPath, "Plot-en.txt");
+            var outputEnFileName = Path.Combine(outputPath, string.Format(fileNameTemplate, "en"));
             File.WriteAllLines(outputEnFileName, new[] { serialized });
         }
 
@@ -100,7 +104,7 @@ namespace PlotConverter
             return sids;
         }
 
-        private static List<ExcelEventRow> ReadEventsFromExcel(string filePath)
+        private static List<ExcelEventRow> ReadEventsFromExcel(string filePath, bool isDemo)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -112,7 +116,7 @@ namespace PlotConverter
             using var reader = ExcelReaderFactory.CreateReader(stream);
             var result = reader.AsDataSet();
 
-            var plotTable = result.Tables["Events"];
+            var plotTable = result.Tables["Events" + (isDemo ? " Demo" : string.Empty)];
 
             // ReSharper disable once PossibleNullReferenceException
             // See docs. Returns a collection or empty collection.
@@ -145,7 +149,7 @@ namespace PlotConverter
             return excelRows;
         }
 
-        private static IEnumerable<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath)
+        private static IEnumerable<ExcelTextFragmentRow> ReadTextFragmentsFromExcel(string filePath, bool isDemo)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -157,7 +161,7 @@ namespace PlotConverter
             using var reader = ExcelReaderFactory.CreateReader(stream);
             var result = reader.AsDataSet();
 
-            var plotTable = result.Tables["Texts"];
+            var plotTable = result.Tables["Texts" + (isDemo ? " Demo" : string.Empty)];
 
             // ReSharper disable once PossibleNullReferenceException
             // See docs. Returns a collection or empty collection.

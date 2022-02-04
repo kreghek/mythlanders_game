@@ -484,6 +484,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Surrender.
+        /// </summary>
+        internal static string SurrenderButtonTitle {
+            get {
+                return ResourceManager.GetString("SurrenderButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Switch fullscreen.
         /// </summary>
         internal static string SwitchFullScreenButtonTitle {

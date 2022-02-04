@@ -30,6 +30,12 @@ namespace Rpg.Client.Core
         BrokenAresSculpture,
         TribalEquipment,
         FireResistBlackArmor,
-        GreenTattoo
+        GreenTattoo,
+        FlameThrower,
+        HeavyCooperHandmadeArmor,
+        ScintificTableOfMaterials,
+        ArcherPulsarBow2,
+        ArcherMk3ScoutPowerArmor2,
+        OldShiningGem
     }
 }

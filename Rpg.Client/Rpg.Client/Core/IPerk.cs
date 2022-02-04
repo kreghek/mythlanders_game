@@ -11,9 +11,14 @@ namespace Rpg.Client.Core
             return false;
         }
 
-        int ModifyDamage(int sourceDamage, IDice dice)
+        int ModifyDamage(int sourceValue, IDice dice)
         {
-            return sourceDamage;
+            return sourceValue;
+        }
+
+        int ModifyHeal(int sourceValue, IDice dice)
+        {
+            return sourceValue;
         }
     }
 }

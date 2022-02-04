@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+        <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+        <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+    <None Update="Balance.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>balanceConverterTests</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Rpg.Client\Rpg.Client.csproj" />
+    </ItemGroup>
+
+</Project>

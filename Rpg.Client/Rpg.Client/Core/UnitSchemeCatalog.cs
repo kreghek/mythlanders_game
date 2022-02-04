@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
@@ -10,13 +11,13 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitSchemeCatalog : IUnitSchemeCatalog
     {
-        public UnitSchemeCatalog()
+        public UnitSchemeCatalog(IBalanceTable balanceTable)
         {
             var heroes = new IHeroBuilder[]
             {
                 new SwordsmanBuilder(),
-                new ArcherBuilder(),
-                new HerbalistBuilder(),
+                new ArcherFactory(),
+                new HerbalistFactory(),
 
                 new MonkBuilder(),
                 new SpearmanBuilder(),
@@ -26,10 +27,12 @@ namespace Rpg.Client.Core
                 new DarkPriestBuilder(),
                 new LiberatorBuilder(),
 
-                new LegionnaireBuilder()
+                new LegionnaireBuilder(),
+                new AmazonFactory(),
+                new EngeneerBuilder()
             };
 
-            Heroes = heroes.Select(x => x.Create()).ToDictionary(scheme => scheme.Name, scheme => scheme);
+            Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters();
             var chineseMonsters = CreateChineseMonsters();

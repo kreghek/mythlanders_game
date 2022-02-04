@@ -58,13 +58,20 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 ActiveCombatUnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
-                if (!IsCurrentStepCompleted)
+                if (_currentUnit.Unit.IsDead)
                 {
-                    CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
+                    Update();
                 }
                 else
                 {
-                    Update();
+                    if (!IsCurrentStepCompleted)
+                    {
+                        CombatUnitIsReadyToControl?.Invoke(this, _currentUnit);
+                    }
+                    else
+                    {
+                        Update();
+                    }
                 }
             }
         }
@@ -241,6 +248,7 @@ namespace Rpg.Client.Core
             if (!NextUnit())
             {
                 StartRound();
+                NextRoundStarted?.Invoke(this, EventArgs.Empty);
             }
 
             IsCurrentStepCompleted = false;
@@ -441,6 +449,8 @@ namespace Rpg.Client.Core
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }
         }
+
+        public event EventHandler? NextRoundStarted;
 
         internal event EventHandler<CombatUnit>? CombatUnitRemoved;
 

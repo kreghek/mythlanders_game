@@ -150,11 +150,20 @@
   <data name="CombatLevelTemplate" xml:space="preserve">
     <value>Боевой опыт: {0}</value>
   </data>
+  <data name="CombatLevelUpTemplate" xml:space="preserve">
+    <value>{0} ед. опыта для повышения уровня</value>
+  </data>
+  <data name="CombatProgressTemplate" xml:space="preserve">
+    <value>Прогресс сражения: {0}/{1}</value>
+  </data>
   <data name="CombatResultDefeatText" xml:space="preserve">
     <value>Поражение!</value>
   </data>
   <data name="CombatResultItemsFoundLabel" xml:space="preserve">
     <value>Найдены предметы:</value>
+  </data>
+  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
+    <value>Опасность монстров уменьшена до {0} (на -50%)</value>
   </data>
   <data name="CombatResultMonsterDangerIncreasedTemplate" xml:space="preserve">
     <value>Опасность монстров выросла до {0}</value>
@@ -201,6 +210,24 @@
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Выйти из игры</value>
   </data>
+  <data name="FormationButtonTitle" xml:space="preserve">
+    <value>Построение</value>
+  </data>
+  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
+    <value>{0} боёв осталось</value>
+  </data>
+  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
+    <value>Экипировка</value>
+  </data>
+  <data name="HeroGeneralInfoTitle" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="HeroPerkInfoTitle" xml:space="preserve">
+    <value>Перки</value>
+  </data>
+  <data name="HeroSkillsInfoTitle" xml:space="preserve">
+    <value>Навыки</value>
+  </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">
     <value>Хитопонты: {0}</value>
   </data>
@@ -210,8 +237,14 @@
   <data name="IndicatorSkipTurn" xml:space="preserve">
     <value>Пропуск!</value>
   </data>
+  <data name="InfoButtonTitle" xml:space="preserve">
+    <value>Инфо</value>
+  </data>
   <data name="IsTrainingOnly" xml:space="preserve">
     <value>Для тренировки</value>
+  </data>
+  <data name="LevelUpButtonTitle" xml:space="preserve">
+    <value>Повысить</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
@@ -224,6 +257,9 @@
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
+  </data>
+  <data name="MonsterDangerTemplate" xml:space="preserve">
+    <value>Опасность: {0}</value>
   </data>
   <data name="MonsterLevelShortText" xml:space="preserve">
     <value>ур.</value>
@@ -246,6 +282,9 @@
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>Новая игра</value>
   </data>
+  <data name="SurrenderButtonTitle" xml:space="preserve">
+    <value>Сдаться</value>
+  </data>
   <data name="SwitchFullScreenButtonTitle" xml:space="preserve">
     <value>Полный экран</value>
   </data>
@@ -257,41 +296,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="CombatLevelUpTemplate" xml:space="preserve">
-    <value>{0} ед. опыта для повышения уровня</value>
-  </data>
-  <data name="CombatProgressTemplate" xml:space="preserve">
-    <value>Прогресс сражения: {0}/{1}</value>
-  </data>
-  <data name="MonsterDangerTemplate" xml:space="preserve">
-    <value>Опасность: {0}</value>
-  </data>
-  <data name="CombatResultMonsterDangerDecreasedTemplate" xml:space="preserve">
-    <value>Опасность монстров уменьшена до {0} (на -50%)</value>
-  </data>
-  <data name="InfoButtonTitle" xml:space="preserve">
-    <value>Инфо</value>
-  </data>
-  <data name="HeroGeneralInfoTitle" xml:space="preserve">
-    <value>Общее</value>
-  </data>
-  <data name="HeroPerkInfoTitle" xml:space="preserve">
-    <value>Перки</value>
-  </data>
-  <data name="HeroSkillsInfoTitle" xml:space="preserve">
-    <value>Навыки</value>
-  </data>
-  <data name="FormationButtonTitle" xml:space="preserve">
-    <value>Построение</value>
-  </data>
-  <data name="LevelUpButtonTitle" xml:space="preserve">
-    <value>Повысить</value>
-  </data>
-  <data name="GlobalEffectDurationTemplate" xml:space="preserve">
-    <value>{0} боёв осталось</value>
-  </data>
-  <data name="HeroEquipmentInfoTitle" xml:space="preserve">
-    <value>Экипировка</value>
   </data>
 </root>

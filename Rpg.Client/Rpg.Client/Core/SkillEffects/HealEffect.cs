@@ -47,8 +47,16 @@ namespace Rpg.Client.Core.SkillEffects
         protected override void InfluenceAction()
         {
             var heal = CalculateHeal();
-            var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.RestoreHitPoints(rolledHeal);
+            var rolledValue = Combat.Dice.Roll(heal.Min, heal.Max);
+
+            var accumulatedValue = rolledValue;
+            foreach (var perk in Actor.Unit.Perks)
+            {
+                var modifiedDamage = perk.ModifyHeal(accumulatedValue, Combat.Dice);
+                accumulatedValue = modifiedDamage;
+            }
+
+            Target.Unit.RestoreHitPoints(rolledValue);
         }
     }
 }
