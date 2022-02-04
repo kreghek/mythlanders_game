@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -27,6 +28,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly UnitName[] _showcaseUnits;
         private readonly SettingsModal _settingsModal;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -103,9 +105,33 @@ namespace Rpg.Client.GameScreens.Title
             };
             _buttons.Add(exitGameButton);
 
+            var lastHeroes = GetLastHeroes(_globeProvider);
+            _showcaseUnits = _dice.RollFromList(lastHeroes, 3).ToArray();
+
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
+        }
+
+        private UnitName[] GetLastHeroes(GlobeProvider globeProvider)
+        {
+            var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
+
+            if (lastSave is null)
+            {
+                return new[] { UnitName.Berimir };
+            }
+            else
+            {
+                var saveData = globeProvider.GetStoredData(lastSave.FileName);
+
+                var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
+                var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
+
+                var allUnits = activeUnits.Union(poolUnits);
+                var unitNames = allUnits.Select(x => Enum.Parse<UnitName>(x)).ToArray();
+                return unitNames;
+            }
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -130,7 +156,15 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawHeroes(SpriteBatch spriteBatch, Rectangle heroesRect)
         {
-            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(), new Vector2(heroesRect.Center.X - 64 / 2, heroesRect.Bottom - 64), new Rectangle(0, 0, 64, 64), Color.White);
+            for (var i = 0; i < _showcaseUnits.Length; i++)
+            {
+                var heroSid = _showcaseUnits[i];
+
+                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 64);
+                spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
+                    heroPosition,
+                    new Rectangle(0, 0, 64, 64), Color.White);
+            }
         }
 
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect)

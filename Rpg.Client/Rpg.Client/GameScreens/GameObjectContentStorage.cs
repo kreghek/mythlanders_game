@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens
             return _allWhiteEffect;
         }
 
-        public Texture2D GetCharacterFaceTexture()
+        public Texture2D GetCharacterFaceTexture(UnitName heroSid)
         {
             return _characterFaceTexture;
         }
