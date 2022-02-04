@@ -99,7 +99,7 @@ namespace Rpg.Client.Core
             return saves;
         }
 
-        public void LoadGlobe(string saveName)
+        public SaveDto GetStoredData(string saveName)
         {
             var storageFile = Path.Combine(_storagePath, saveName);
 
@@ -111,6 +111,13 @@ namespace Rpg.Client.Core
             {
                 throw new InvalidOperationException("Error during loading the last save.");
             }
+
+            return saveDataDto;
+        }
+
+        public void LoadGlobe(string saveName)
+        {
+            var saveDataDto = GetStoredData(saveName);
 
             var progressDto = saveDataDto.Progress;
 
@@ -480,7 +487,7 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
+        private static void LoadPlayerKnownMonsters(PlayerDto playerDto, IUnitSchemeCatalog unitSchemeCatalog, Player player)
         {
             player.KnownMonsters.Clear();
 
@@ -525,7 +532,7 @@ namespace Rpg.Client.Core
             public DateTime UpdateTime { get; init; }
         }
 
-        private class SaveDto
+        internal class SaveDto
         {
             public string Name { get; init; }
             public ProgressDto Progress { get; init; }

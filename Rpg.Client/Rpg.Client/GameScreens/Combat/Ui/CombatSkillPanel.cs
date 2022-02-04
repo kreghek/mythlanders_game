@@ -18,7 +18,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
-        private const int SPRITE_SHEET_COLUMN_COUNT = 3;
         private readonly IList<EntityButtonBase<CombatSkill>> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
         private SkillHint? _activeSkillHint;
@@ -75,8 +74,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 IMAGE_HEIGHT);
 
             spriteBatch.Draw(_uiContentStorage.GetCombatSkillPanelTexture(),
-                new Rectangle(leftPartRect.Right, Rect.Center.Y - IMAGE_HEIGHT / 2, buttonsRect.Width,
-                    buttonsRect.Height),
+                new Rectangle(leftPartRect.Right, leftPartRect.Top, rightPartRect.Left - leftPartRect.Right, leftPartRect.Height),
                 new Rectangle(IMAGE_WIDTH / 2 - 1, 0, 2, IMAGE_HEIGHT),
                 color);
 
@@ -218,55 +216,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return buttonsRect;
         }
 
-        private static int? GetIconOneBasedIndex(SkillSid sid)
-        {
-            return sid switch
-            {
-                SkillSid.SwordSlash => 1,
-                SkillSid.WideSwordSlash => 2,
-                SkillSid.DefenseStance => 3,
-                SkillSid.SvarogBlastFurnace => 4,
-
-                SkillSid.EnergyShot => 5,
-                SkillSid.RapidShot => 6,
-                SkillSid.ArrowRain => 7,
-                SkillSid.ZduhachMight => 8,
-
-                SkillSid.HealingSalve => 9,
-                SkillSid.ToxicGas => 10,
-                SkillSid.DopeHerb => 11,
-                SkillSid.MassHeal => 12,
-
-                SkillSid.Heal => 9,
-                SkillSid.StaffHit => 12,
-                SkillSid.RestoreMantra => 13,
-                SkillSid.PathOf1000Firsts => 14,
-
-                SkillSid.DarkLighting => 9,
-                SkillSid.ParalyticChoir => 10,
-                SkillSid.FingerOfAnubis => 11,
-
-                SkillSid.PowerUp => 1,
-                _ => null
-            };
-        }
-
-        private static Rectangle GetIconRect(SkillSid sid)
-        {
-            var iconIndexNullable = GetIconOneBasedIndex(sid);
-
-            Debug.Assert(iconIndexNullable is not null,
-                $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
-
-            var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
-
-            var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
-            var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;
-            var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-
-            return rect;
-        }
-
         private bool IsKeyPressed(Keys key)
         {
             if (_lastKeyboardState is null)
@@ -338,7 +287,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             foreach (var card in _unit.CombatCards)
             {
-                var iconRect = GetIconRect(card.Skill.Sid);
+                var iconRect = UnsortedHelpers.GetIconRect(card.Skill.Sid);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
                 var button = new CombatSkillButton<CombatSkill>(_uiContentStorage.GetSkillButtonTexture(), iconData,
                     card, this);

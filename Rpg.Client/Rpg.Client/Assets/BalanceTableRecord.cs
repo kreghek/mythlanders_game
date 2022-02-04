@@ -8,5 +8,7 @@ namespace Rpg.Client.Assets
         public UnitName Sid { get; init; }
         public float SupportRank { get; init; }
         public float TankRank { get; init; }
+        public bool Type { get; init; }
+        public bool Demo { get; init; }
     }
 }

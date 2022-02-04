@@ -441,7 +441,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void UpdateSpeaker(GameTime gameTime)
         {
-            const int SPEAKER_FRAME_COUNT = 3;
+            const int SPEAKER_FRAME_COUNT = 4;
             const double SPEAKER_FRAME_DURATION = 0.25;
 
             var currentFragment = _textFragments[_currentFragmentIndex];
