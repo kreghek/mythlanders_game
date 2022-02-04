@@ -29,6 +29,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public TitleScreen(EwarGame game)
@@ -49,6 +50,7 @@ namespace Rpg.Client.GameScreens.Title
             soundtrackManager.PlayTitleTrack();
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             var buttonTexture = _uiContentStorage.GetButtonTexture();
             _font = _uiContentStorage.GetMainFont();
@@ -117,12 +119,28 @@ namespace Rpg.Client.GameScreens.Title
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
+            var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            DrawHeroes(spriteBatch, heroesRect);
+
+            var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y, ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            DrawMenu(spriteBatch, menuRect);
+
+            spriteBatch.End();
+        }
+
+        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle heroesRect)
+        {
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(), new Vector2(heroesRect.Center.X - 64 / 2, heroesRect.Bottom - 64), new Rectangle(0, 0, 64, 64), Color.White);
+        }
+
+        private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect)
+        {
             if (_gameSettings.Mode == GameMode.Demo)
             {
                 spriteBatch.DrawString(_font, "Demo",
                     new Vector2(
-                        _resolutionIndependentRenderer.VirtualBounds.Center.X,
-                        110),
+                        menuRect.Center.X,
+                        menuRect.Top + 10),
                     Color.White);
             }
 
@@ -130,16 +148,14 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
-                    150 + index * 50,
+                    menuRect.X - BUTTON_WIDTH / 2,
+                    menuRect.Top + 50 + index * 50,
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);
 
                 index++;
             }
-
-            spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)

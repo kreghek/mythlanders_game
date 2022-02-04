@@ -44,7 +44,9 @@ namespace BalanceConverter
                     Sid = row[0] as string,
                     TankRank = GetFloatValue(row[1]),
                     DamageDealerRank = GetFloatValue(row[2]),
-                    SupportRank = GetFloatValue(row[3])
+                    SupportRank = GetFloatValue(row[3]),
+                    Type = row[4] as string,
+                    Demo = row[5] as string
                 };
 
                 excelRows.Add(excelRow);

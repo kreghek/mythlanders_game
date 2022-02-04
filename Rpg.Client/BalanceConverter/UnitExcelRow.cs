@@ -8,5 +8,8 @@
         public float SupportRank { get; init; }
 
         public float TankRank { get; init; }
+
+        public string Type { get; init; }
+        public string Demo { get; init; }
     }
 }
