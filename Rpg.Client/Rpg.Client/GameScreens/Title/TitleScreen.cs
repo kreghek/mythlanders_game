@@ -22,7 +22,6 @@ namespace Rpg.Client.GameScreens.Title
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
-        private readonly SpriteFont _font;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -54,11 +53,11 @@ namespace Rpg.Client.GameScreens.Title
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             var buttonTexture = _uiContentStorage.GetButtonTexture();
-            _font = _uiContentStorage.GetMainFont();
+            var buttonFont = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
-            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, _font);
+            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, buttonFont);
             if (loadGameButton is not null)
             {
                 _buttons.Add(loadGameButton);
@@ -68,7 +67,7 @@ namespace Rpg.Client.GameScreens.Title
                 var startButton = new ResourceTextButton(
                     nameof(UiResource.StartNewGameButtonTitle),
                     buttonTexture,
-                    _font,
+                    buttonFont,
                     Rectangle.Empty);
                 startButton.OnClick += StartButton_OnClick;
 
@@ -78,7 +77,7 @@ namespace Rpg.Client.GameScreens.Title
             var settingsButton = new ResourceTextButton(
                 nameof(UiResource.SettingsButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty);
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
@@ -86,7 +85,7 @@ namespace Rpg.Client.GameScreens.Title
             var creditsButton = new ResourceTextButton(
                 nameof(UiResource.CreditsButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty
             );
             creditsButton.OnClick += CreditsButton_OnClick;
@@ -95,7 +94,7 @@ namespace Rpg.Client.GameScreens.Title
             var exitGameButton = new ResourceTextButton(
                 nameof(UiResource.ExitGameButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty
             );
             exitGameButton.OnClick += (_, _) =>
@@ -125,6 +124,8 @@ namespace Rpg.Client.GameScreens.Title
             var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
+            
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "这是什么", new Vector2(0,0), Color.White);
 
             var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
                 ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
@@ -192,7 +193,7 @@ namespace Rpg.Client.GameScreens.Title
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
-                spriteBatch.DrawString(_font, "Demo",
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
                     new Vector2(
                         menuRect.Center.X,
                         menuRect.Top + 10),
