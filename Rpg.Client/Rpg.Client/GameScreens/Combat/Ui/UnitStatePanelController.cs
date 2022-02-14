@@ -137,15 +137,34 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var text = $"{unit.HitPoints}/{unit.MaxHitPoints}";
             if (side == Side.Left)
             {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0) + new Vector2(xOffset, yOffset),
+                            Color.Black);
+                    }
+                }
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
-                    Color.Black);
+                    Color.LightCyan);
             }
             else
             {
                 var textSize = _uiContentStorage.GetMainFont().MeasureString(text);
 
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
+                            hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(xOffset, yOffset),
+                            Color.Black);
+                    }
+                }
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
-                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.Black);
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
             }
         }
 

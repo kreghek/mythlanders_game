@@ -196,7 +196,7 @@
     <value>Продолжить игру</value>
   </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
-    <value>Кредиты</value>
+    <value>Разработчики</value>
   </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>

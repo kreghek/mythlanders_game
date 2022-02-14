@@ -15,6 +15,7 @@ namespace Rpg.Client.Engine
         private (BiomeType, Song)[] _battleTracks;
         private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
+        private Texture2D _logoTexture;
         private Texture2D? _buttonTexture;
         private SpriteFont _combatIndicatorFont;
         private Texture2D _combatPowerIconTextres;
@@ -92,8 +93,14 @@ namespace Rpg.Client.Engine
             return _modalShadowTexture ?? throw new InvalidOperationException();
         }
 
+        public Texture2D GetLogoTexture()
+        {
+            return _logoTexture;
+        }
+
         public void LoadContent(ContentManager contentManager)
         {
+            _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _skillButtonTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillButton");
             _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
@@ -126,7 +133,8 @@ namespace Rpg.Client.Engine
             {
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese"))
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese02"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
