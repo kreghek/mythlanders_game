@@ -181,10 +181,10 @@ namespace Rpg.Client.GameScreens.Title
             {
                 var heroSid = _showcaseUnits[i];
 
-                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 64);
+                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 256);
                 spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
                     heroPosition,
-                    new Rectangle(0, 0, 64, 64), Color.White);
+                    new Rectangle(0, 0, 256, 256), Color.White);
             }
         }
 
@@ -203,8 +203,8 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    menuRect.X - BUTTON_WIDTH / 2,
-                    menuRect.Top + 50 + index * 50,
+                    menuRect.Center.X - BUTTON_WIDTH / 2,
+                    menuRect.Top + 50 + index * (BUTTON_HEIGHT + 5),
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);
@@ -235,7 +235,15 @@ namespace Rpg.Client.GameScreens.Title
         private UnitName[] GetShowcaseHeroes()
         {
             var lastHeroes = GetLastHeroes(_globeProvider);
-            return _dice.RollFromList(lastHeroes, 3).ToArray();
+
+            if (lastHeroes.Count() > 3)
+            {
+                return _dice.RollFromList(lastHeroes, 3).ToArray();
+            }
+            else
+            {
+                return lastHeroes;
+            }
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)
