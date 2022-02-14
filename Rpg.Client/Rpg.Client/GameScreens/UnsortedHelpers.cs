@@ -52,6 +52,25 @@ namespace Rpg.Client.GameScreens
             }
         }
 
+        public static Rectangle GetIconRect(SkillSid sid)
+        {
+            const int SPRITE_SHEET_COLUMN_COUNT = 3;
+            const int ICON_SIZE = 64;
+
+            var iconIndexNullable = GetIconOneBasedIndex(sid);
+
+            Debug.Assert(iconIndexNullable is not null,
+                $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
+
+            var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
+
+            var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
+            var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;
+            var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
+
+            return rect;
+        }
+
         public static UnitScheme? GetPlayerPersonSchemeByEquipmentType(IUnitSchemeCatalog unitSchemeCatalog,
             EquipmentItemType? equipmentItemType)
         {
@@ -84,25 +103,6 @@ namespace Rpg.Client.GameScreens
             var y = indexZeroBased / COLUMN_COUNT;
 
             return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
-        }
-
-        private static int GetUnitPortraitOneBasedIndex(UnitName unitName)
-        {
-            return unitName switch
-            {
-                UnitName.Hq => 1,
-                UnitName.Berimir => 2,
-                UnitName.Hawk => 3,
-                UnitName.Rada => 4,
-                UnitName.Maosin => 5,
-                UnitName.Oldman => 6,
-                UnitName.Aspid => 7,
-                UnitName.GreyWolf => 8,
-                UnitName.Bear => 9,
-                UnitName.Wisp => 10,
-                UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
-                _ => 12
-            };
         }
 
         private static int? GetIconOneBasedIndex(SkillSid sid)
@@ -138,23 +138,23 @@ namespace Rpg.Client.GameScreens
             };
         }
 
-        public static Rectangle GetIconRect(SkillSid sid)
+        private static int GetUnitPortraitOneBasedIndex(UnitName unitName)
         {
-            const int SPRITE_SHEET_COLUMN_COUNT = 3;
-            const int ICON_SIZE = 64;
-
-            var iconIndexNullable = GetIconOneBasedIndex(sid);
-
-            Debug.Assert(iconIndexNullable is not null,
-                $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
-
-            var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
-
-            var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
-            var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;
-            var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
-
-            return rect;
+            return unitName switch
+            {
+                UnitName.Hq => 1,
+                UnitName.Berimir => 2,
+                UnitName.Hawk => 3,
+                UnitName.Rada => 4,
+                UnitName.Maosin => 5,
+                UnitName.Oldman => 6,
+                UnitName.Aspid => 7,
+                UnitName.GreyWolf => 8,
+                UnitName.Bear => 9,
+                UnitName.Wisp => 10,
+                UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
+                _ => 12
+            };
         }
     }
 }

@@ -23,14 +23,14 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly SpriteFont _font;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-        private readonly UnitName[] _showcaseUnits;
         private readonly SettingsModal _settingsModal;
+        private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public TitleScreen(EwarGame game)
@@ -111,33 +111,6 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
-        private UnitName[] GetShowcaseHeroes()
-        {
-            var lastHeroes = GetLastHeroes(_globeProvider);
-            return _dice.RollFromList(lastHeroes, 3).ToArray();
-        }
-
-        private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
-        {
-            var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
-
-            if (lastSave is null)
-            {
-                return new[] { UnitName.Berimir };
-            }
-            else
-            {
-                var saveData = globeProvider.GetStoredData(lastSave.FileName);
-
-                var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
-                var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
-
-                var allUnits = activeUnits.Union(poolUnits);
-                var unitNames = allUnits.Select(x => Enum.Parse<UnitName>(x)).ToArray();
-                return unitNames;
-            }
-        }
-
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             _resolutionIndependentRenderer.BeginDraw();
@@ -149,51 +122,15 @@ namespace Rpg.Client.GameScreens.Title
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
+                ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
 
-            var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y, ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
+                ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawMenu(spriteBatch, menuRect);
 
             spriteBatch.End();
-        }
-
-        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle heroesRect)
-        {
-            for (var i = 0; i < _showcaseUnits.Length; i++)
-            {
-                var heroSid = _showcaseUnits[i];
-
-                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 64);
-                spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
-                    heroPosition,
-                    new Rectangle(0, 0, 64, 64), Color.White);
-            }
-        }
-
-        private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect)
-        {
-            if (_gameSettings.Mode == GameMode.Demo)
-            {
-                spriteBatch.DrawString(_font, "Demo",
-                    new Vector2(
-                        menuRect.Center.X,
-                        menuRect.Top + 10),
-                    Color.White);
-            }
-
-            var index = 0;
-            foreach (var button in _buttons)
-            {
-                button.Rect = new Rectangle(
-                    menuRect.X - BUTTON_WIDTH / 2,
-                    menuRect.Top + 50 + index * 50,
-                    BUTTON_WIDTH,
-                    BUTTON_HEIGHT);
-                button.Draw(spriteBatch);
-
-                index++;
-            }
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -236,6 +173,69 @@ namespace Rpg.Client.GameScreens.Title
         private void CreditsButton_OnClick(object? sender, EventArgs e)
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
+        }
+
+        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle heroesRect)
+        {
+            for (var i = 0; i < _showcaseUnits.Length; i++)
+            {
+                var heroSid = _showcaseUnits[i];
+
+                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 64);
+                spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
+                    heroPosition,
+                    new Rectangle(0, 0, 64, 64), Color.White);
+            }
+        }
+
+        private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect)
+        {
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                spriteBatch.DrawString(_font, "Demo",
+                    new Vector2(
+                        menuRect.Center.X,
+                        menuRect.Top + 10),
+                    Color.White);
+            }
+
+            var index = 0;
+            foreach (var button in _buttons)
+            {
+                button.Rect = new Rectangle(
+                    menuRect.X - BUTTON_WIDTH / 2,
+                    menuRect.Top + 50 + index * 50,
+                    BUTTON_WIDTH,
+                    BUTTON_HEIGHT);
+                button.Draw(spriteBatch);
+
+                index++;
+            }
+        }
+
+        private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
+        {
+            var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
+
+            if (lastSave is null)
+            {
+                return new[] { UnitName.Berimir };
+            }
+
+            var saveData = globeProvider.GetStoredData(lastSave.FileName);
+
+            var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
+            var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
+
+            var allUnits = activeUnits.Union(poolUnits);
+            var unitNames = allUnits.Select(x => Enum.Parse<UnitName>(x)).ToArray();
+            return unitNames;
+        }
+
+        private UnitName[] GetShowcaseHeroes()
+        {
+            var lastHeroes = GetLastHeroes(_globeProvider);
+            return _dice.RollFromList(lastHeroes, 3).ToArray();
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)
