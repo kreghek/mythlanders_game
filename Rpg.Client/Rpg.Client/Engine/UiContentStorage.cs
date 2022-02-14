@@ -133,7 +133,8 @@ namespace Rpg.Client.Engine
             {
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese"))
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese02"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
