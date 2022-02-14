@@ -125,8 +125,6 @@ namespace Rpg.Client.GameScreens.Title
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
             
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "这是什么", new Vector2(0,0), Color.White);
-
             var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128, ResolutionIndependentRenderer.VirtualWidth, 64);
             DrawLogo(spriteBatch, logoRect);
 
