@@ -335,7 +335,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
-            _unitStatePanelController = new UnitStatePanelController(_resolutionIndependentRenderer, _combat,
+            _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 
