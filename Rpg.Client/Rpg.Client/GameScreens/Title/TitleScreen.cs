@@ -126,11 +126,21 @@ namespace Rpg.Client.GameScreens.Title
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
 
+            var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128, ResolutionIndependentRenderer.VirtualWidth, 64);
+            DrawLogo(spriteBatch, logoRect);
+
             var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
                 ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawMenu(spriteBatch, menuRect);
 
             spriteBatch.End();
+        }
+
+        private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
+                new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
+                Color.White);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -175,27 +185,28 @@ namespace Rpg.Client.GameScreens.Title
             ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
         }
 
-        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle heroesRect)
+        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            for (var i = 0; i < _showcaseUnits.Length; i++)
+            var offsets = new[] { Vector2.Zero, new Vector2(1, -1), new Vector2(-1, -1) };
+            for (var i = _showcaseUnits.Length - 1; i >= 0; i--)
             {
                 var heroSid = _showcaseUnits[i];
 
-                var heroPosition = new Vector2(heroesRect.Width / _showcaseUnits.Length * i, heroesRect.Bottom - 256);
+                var heroPosition = new Vector2(contentRect.Center.X - 256/2, contentRect.Bottom - 256) + new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
                 spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
                     heroPosition,
                     new Rectangle(0, 0, 256, 256), Color.White);
             }
         }
 
-        private void DrawMenu(SpriteBatch spriteBatch, Rectangle menuRect)
+        private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
                 spriteBatch.DrawString(_font, "Demo",
                     new Vector2(
-                        menuRect.Center.X,
-                        menuRect.Top + 10),
+                        contentRect.Center.X,
+                        contentRect.Top + 10),
                     Color.White);
             }
 
@@ -203,8 +214,8 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var button in _buttons)
             {
                 button.Rect = new Rectangle(
-                    menuRect.Center.X - BUTTON_WIDTH / 2,
-                    menuRect.Top + 50 + index * (BUTTON_HEIGHT + 5),
+                    contentRect.Center.X - BUTTON_WIDTH / 2,
+                    contentRect.Top + 50 + index * (BUTTON_HEIGHT + 5),
                     BUTTON_WIDTH,
                     BUTTON_HEIGHT);
                 button.Draw(spriteBatch);
