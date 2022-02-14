@@ -311,7 +311,8 @@ namespace Rpg.Client.GameScreens.Speech
             var col = _frameIndex % 2;
             var row = _frameIndex / 2;
 
-            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(),
+            var currentFragment = _globe.CurrentEventNode.TextBlock.Fragments[_currentFragmentIndex];
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(currentFragment.Speaker),
                 new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - 256, 256, 256),
                 new Rectangle(col * 256, row * 256, 256, 256),
                 Color.White);
@@ -336,9 +337,11 @@ namespace Rpg.Client.GameScreens.Speech
                     texture = _uiContentStorage.GetEnvSpeechTexture();
                 }
 
-                var textFragmentControl = new TextFragment(texture,
+                var textFragmentControl = new TextFragment(
+                    texture,
                     _uiContentStorage.GetTitlesFont(),
-                    textFragment, _gameObjectContentStorage.GetUnitPortrains(),
+                    textFragment,
+                    _gameObjectContentStorage.GetUnitPortrains(),
                     _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
                 _textFragments.Add(textFragmentControl);
             }
