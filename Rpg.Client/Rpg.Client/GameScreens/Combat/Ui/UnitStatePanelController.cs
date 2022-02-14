@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
@@ -86,7 +87,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             for (var index = 0; index < effects.Length; index++)
             {
                 var effect = effects[index];
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{effect.GetType()}", panelPosition + new Vector2(0, index * 10), Color.Aqua);
+
+                if (effect is PeriodicEffectBase periodicEffect)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{periodicEffect.GetType()} {periodicEffect.Duration} turns",
+                        panelPosition + new Vector2(0, index * 10), Color.Aqua);
+                }
             }
         }
 
