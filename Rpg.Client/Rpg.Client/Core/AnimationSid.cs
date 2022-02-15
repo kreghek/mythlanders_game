@@ -12,6 +12,7 @@
         Skill4,
         Ult,
         Wound,
-        Death
+        Death,
+        ShapeShift
     }
 }

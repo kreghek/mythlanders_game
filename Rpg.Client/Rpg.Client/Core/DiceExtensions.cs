@@ -158,7 +158,7 @@ namespace Rpg.Client.Core
                 // ReSharper disable once LocalizableElement
                 // Exception's messages shouldn't be localized.
                 throw new ArgumentException(
-                    $"The requested count {count} must be begger or equal that list length {list.Count}.",
+                    $"The requested count {count} must be bigger or equal that list length {list.Count}.",
                     nameof(count));
             }
 

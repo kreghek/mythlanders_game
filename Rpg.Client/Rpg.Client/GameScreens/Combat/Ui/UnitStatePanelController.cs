@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
@@ -20,9 +21,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public UnitStatePanelController(
-            ResolutionIndependentRenderer resolutionIndependentRenderer,
-            Core.Combat activeCombat,
+        public UnitStatePanelController(Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {
@@ -64,17 +63,35 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var backgroundOffset = new Vector2(0, PANEL_BACKGROUND_VERTICAL_OFFSET);
 
-                DrawUnitHitPointsBar(spriteBatch, panelPosition, unit, backgroundOffset, side, contentRectangle);
+                DrawUnitHitPointsBar(spriteBatch, panelPosition, unit, backgroundOffset, side);
 
                 DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
 
-                DrawUnitPortrait(spriteBatch, panelPosition, unit, side, contentRectangle);
+                DrawUnitPortrait(spriteBatch, panelPosition, unit, side);
 
-                DrawUnitName(spriteBatch, panelPosition, unit, side, contentRectangle);
+                DrawUnitName(spriteBatch, panelPosition, unit, side);
 
                 if (HasMana(unit))
                 {
                     DrawManaBar(spriteBatch, panelPosition, unit);
+                }
+
+                DrawEffects(spriteBatch, panelPosition, combatUnit);
+            }
+        }
+
+        private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
+        {
+            var effects = _activeCombat.EffectProcessor.GetCurrentEffect(combatUnit).ToArray();
+
+            for (var index = 0; index < effects.Length; index++)
+            {
+                var effect = effects[index];
+
+                if (effect is PeriodicEffectBase periodicEffect)
+                {
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{periodicEffect.GetType()} {periodicEffect.Duration} turns",
+                        panelPosition + new Vector2(0, index * 10), Color.Aqua);
                 }
             }
         }
@@ -107,7 +124,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         }
 
         private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit,
-            Vector2 backgroundOffset, Side side, Rectangle contentRectangle)
+            Vector2 backgroundOffset, Side side)
         {
             var hpPosition = panelPosition + backgroundOffset +
                              (side == Side.Left ? new Vector2(46, 22) : new Vector2(26, 22));
@@ -120,20 +137,38 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var text = $"{unit.HitPoints}/{unit.MaxHitPoints}";
             if (side == Side.Left)
             {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0) + new Vector2(xOffset, yOffset),
+                            Color.Black);
+                    }
+                }
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
-                    Color.Black);
+                    Color.LightCyan);
             }
             else
             {
                 var textSize = _uiContentStorage.GetMainFont().MeasureString(text);
 
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
+                            hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(xOffset, yOffset),
+                            Color.Black);
+                    }
+                }
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
-                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.Black);
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
             }
         }
 
-        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side,
-            Rectangle contentRectangle)
+        private void DrawUnitName(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side)
         {
             var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
 
@@ -151,8 +186,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side,
-            Rectangle contentRectangle)
+        private void DrawUnitPortrait(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, Side side)
         {
             if (side == Side.Left)
             {

@@ -23,11 +23,13 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly SpriteFont _font;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
+        private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
@@ -49,6 +51,7 @@ namespace Rpg.Client.GameScreens.Title
             soundtrackManager.PlayTitleTrack();
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
+            _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             var buttonTexture = _uiContentStorage.GetButtonTexture();
             _font = _uiContentStorage.GetMainFont();
@@ -101,6 +104,8 @@ namespace Rpg.Client.GameScreens.Title
             };
             _buttons.Add(exitGameButton);
 
+            _showcaseUnits = GetShowcaseHeroes();
+
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
@@ -117,29 +122,25 @@ namespace Rpg.Client.GameScreens.Title
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_gameSettings.Mode == GameMode.Demo)
-            {
-                spriteBatch.DrawString(_font, "Demo",
-                    new Vector2(
-                        _resolutionIndependentRenderer.VirtualBounds.Center.X,
-                        110),
-                    Color.White);
-            }
+            var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
+                ResolutionIndependentRenderer.VirtualHeight / 2);
+            DrawHeroes(spriteBatch, heroesRect);
 
-            var index = 0;
-            foreach (var button in _buttons)
-            {
-                button.Rect = new Rectangle(
-                    _resolutionIndependentRenderer.VirtualBounds.Center.X - BUTTON_WIDTH / 2,
-                    150 + index * 50,
-                    BUTTON_WIDTH,
-                    BUTTON_HEIGHT);
-                button.Draw(spriteBatch);
+            var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128, ResolutionIndependentRenderer.VirtualWidth, 64);
+            DrawLogo(spriteBatch, logoRect);
 
-                index++;
-            }
+            var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
+                ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
+            DrawMenu(spriteBatch, menuRect);
 
             spriteBatch.End();
+        }
+
+        private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
+                new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
+                Color.White);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -182,6 +183,78 @@ namespace Rpg.Client.GameScreens.Title
         private void CreditsButton_OnClick(object? sender, EventArgs e)
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
+        }
+
+        private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            var offsets = new[] { Vector2.Zero, new Vector2(1, -1), new Vector2(-1, -1) };
+            for (var i = _showcaseUnits.Length - 1; i >= 0; i--)
+            {
+                var heroSid = _showcaseUnits[i];
+
+                var heroPosition = new Vector2(contentRect.Center.X - 256/2, contentRect.Bottom - 256) + new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
+                spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
+                    heroPosition,
+                    new Rectangle(0, 0, 256, 256), Color.White);
+            }
+        }
+
+        private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                spriteBatch.DrawString(_font, "Demo",
+                    new Vector2(
+                        contentRect.Center.X,
+                        contentRect.Top + 10),
+                    Color.White);
+            }
+
+            var index = 0;
+            foreach (var button in _buttons)
+            {
+                button.Rect = new Rectangle(
+                    contentRect.Center.X - BUTTON_WIDTH / 2,
+                    contentRect.Top + 50 + index * (BUTTON_HEIGHT + 5),
+                    BUTTON_WIDTH,
+                    BUTTON_HEIGHT);
+                button.Draw(spriteBatch);
+
+                index++;
+            }
+        }
+
+        private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
+        {
+            var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
+
+            if (lastSave is null)
+            {
+                return new[] { UnitName.Berimir };
+            }
+
+            var saveData = globeProvider.GetStoredData(lastSave.FileName);
+
+            var activeUnits = saveData.Progress.Player.Group.Units.Select(x => x.SchemeSid);
+            var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
+
+            var allUnits = activeUnits.Union(poolUnits);
+            var unitNames = allUnits.Select(x => Enum.Parse<UnitName>(x)).ToArray();
+            return unitNames;
+        }
+
+        private UnitName[] GetShowcaseHeroes()
+        {
+            var lastHeroes = GetLastHeroes(_globeProvider);
+
+            if (lastHeroes.Count() > 3)
+            {
+                return _dice.RollFromList(lastHeroes, 3).ToArray();
+            }
+            else
+            {
+                return lastHeroes;
+            }
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)

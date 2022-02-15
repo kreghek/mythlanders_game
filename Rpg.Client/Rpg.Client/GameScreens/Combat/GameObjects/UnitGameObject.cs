@@ -20,10 +20,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
+        private readonly AnimationManager _animationManager;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage,
-            Camera2D camera, ScreenShaker screenShaker)
+            Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
@@ -34,6 +35,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
             _screenShaker = screenShaker;
+            _animationManager = animationManager;
 
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
@@ -447,8 +449,14 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         {
-            _graphics.SwitchSourceUnit(CombatUnit.Unit);
-            AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
+            var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
+            AddStateEngine(new ShapeShiftState(_graphics, shapeShiftBlocker));
+
+            shapeShiftBlocker.Released += (_, _) =>
+            {
+                _graphics.SwitchSourceUnit(CombatUnit.Unit);
+                AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
+            };
         }
 
         public event EventHandler? SkillAnimationCompleted;

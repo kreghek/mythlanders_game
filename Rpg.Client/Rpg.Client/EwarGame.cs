@@ -12,8 +12,6 @@ using Rpg.Client.GameComponents;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Intro;
-using Rpg.Client.GameScreens.Speech;
-using Rpg.Client.GameScreens.Title;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
@@ -63,7 +61,7 @@ namespace Rpg.Client
 
             Services.AddService(_logger);
 
-            _screenManager = new ScreenManager(this);
+            _screenManager = new ScreenManager(this, _gameSettings);
 
             RegisterServices(_screenManager);
 

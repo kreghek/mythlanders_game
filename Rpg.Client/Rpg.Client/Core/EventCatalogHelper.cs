@@ -13,11 +13,8 @@ namespace Rpg.Client.Core
             string? aftermath,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
-            var startStorageFragments = nodeStorageModel.Fragments.Take(5).ToArray();
-            var innerStorageFragments = nodeStorageModel.Fragments.Skip(5).ToArray();
-
             var fragments = new List<EventTextFragment>();
-            foreach (var fragmentStorageModel in startStorageFragments)
+            foreach (var fragmentStorageModel in nodeStorageModel.Fragments)
             {
                 fragments.Add(new EventTextFragment
                 {
@@ -26,16 +23,33 @@ namespace Rpg.Client.Core
                 });
             }
 
-            var innerFragments = new List<EventTextFragment>();
-            foreach (var fragmentStorageModel in innerStorageFragments)
-            {
-                innerFragments.Add(new EventTextFragment
-                {
-                    Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
-                    Speaker = ParseSpeaker(fragmentStorageModel)
-                });
-            }
+            var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
+            EventOption option;
+
+            option = new EventOption
+            {
+                TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                IsEnd = true,
+                Aftermath = optionAftermath
+            };
+
+            return new EventNode
+            {
+                CombatPosition = position,
+                Options = new[]
+                {
+                    option
+                },
+                TextBlock = new EventTextBlock
+                {
+                    Fragments = fragments
+                }
+            };
+        }
+
+        private static IOptionAftermath? CreateAftermath(string? aftermath, IUnitSchemeCatalog unitSchemeCatalog)
+        {
             IOptionAftermath? optionAftermath = null;
             if (aftermath is not null)
             {
@@ -60,55 +74,7 @@ namespace Rpg.Client.Core
                 };
             }
 
-            EventOption option;
-
-            if (innerStorageFragments.Any())
-            {
-                option = new EventOption
-                {
-                    TextSid = "Continue",
-                    IsEnd = false,
-                    Next = new EventNode
-                    {
-                        CombatPosition = position,
-                        Options = new[]
-                        {
-                            new EventOption
-                            {
-                                TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                                IsEnd = true,
-                                Aftermath = optionAftermath
-                            }
-                        },
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = innerFragments
-                        }
-                    }
-                };
-            }
-            else
-            {
-                option = new EventOption
-                {
-                    TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                    IsEnd = true,
-                    Aftermath = optionAftermath
-                };
-            }
-
-            return new EventNode
-            {
-                CombatPosition = position,
-                Options = new[]
-                {
-                    option
-                },
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = fragments
-                }
-            };
+            return optionAftermath;
         }
 
         private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStorageModel)

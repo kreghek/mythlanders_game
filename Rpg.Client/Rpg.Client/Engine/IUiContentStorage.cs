@@ -23,6 +23,7 @@ namespace Rpg.Client.Engine
         Texture2D GetEquipmentTextures();
         Song GetIntroSong();
         Texture2D[] GetIntroVideo();
+        Texture2D GetLogoTexture();
         SpriteFont GetMainFont();
         IEnumerable<Song> GetMapSong();
         Texture2D[] GetModalBottomTextures();

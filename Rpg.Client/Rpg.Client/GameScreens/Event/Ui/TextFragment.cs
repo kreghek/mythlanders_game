@@ -34,11 +34,12 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         public bool IsComplete => _message.IsComplete;
 
+        public bool UsePortrait { get; set; }
+
         public Vector2 CalculateSize()
         {
             var messageSize = _message.CalculateSize();
-            //var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
-            var portraitSize = new Vector2(0, 0);
+            var portraitSize = UsePortrait ? new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE) : Vector2.Zero;
 
             var width = Math.Max(messageSize.X, portraitSize.X);
             var height = Math.Max(messageSize.Y, portraitSize.Y);
@@ -70,10 +71,10 @@ namespace Rpg.Client.GameScreens.Event.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            // if (_speaker != UnitName.Environment)
-            // {
-            //     DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
-            // }
+            if (_speaker != UnitName.Environment && UsePortrait)
+            {
+                DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
+            }
 
             var textPosition = clientRect.Location.ToVector2() + Vector2.UnitX * PORTRAIT_SIZE;
             _message.Rect = new Rectangle(textPosition.ToPoint(),

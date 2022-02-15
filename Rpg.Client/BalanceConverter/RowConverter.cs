@@ -13,6 +13,8 @@ namespace BalanceConverter
             return unitExcelRows.Select(x => new UnitRow
             {
                 Sid = Enum.Parse<UnitName>(x.Sid),
+                Type = string.Equals(x.Type, "hero", StringComparison.InvariantCultureIgnoreCase),
+                Demo = string.Equals(x.Type, "demo", StringComparison.InvariantCultureIgnoreCase),
                 TankRank = x.TankRank,
                 DamageDealerRank = x.DamageDealerRank,
                 SupportRank = x.SupportRank

@@ -268,7 +268,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
+                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker, _animationManager);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.HasBeenHealed += CombatUnit_Healed;
@@ -335,7 +335,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
-            _unitStatePanelController = new UnitStatePanelController(_resolutionIndependentRenderer, _combat,
+            _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 

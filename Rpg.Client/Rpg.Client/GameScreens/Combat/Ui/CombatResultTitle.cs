@@ -34,9 +34,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var resultTitleFont = _titleFont;
             var resultTitleSize = resultTitleFont.MeasureString(localizedCombatResultText);
 
-            const int MARGIN = 5;
-            var titlePosition = new Vector2(contentRect.Center.X, contentRect.Top + MARGIN) -
-                                new Vector2(resultTitleSize.X / 2, 0);
+            var titlePosition = new Vector2(contentRect.Center.X, contentRect.Center.Y) -
+                                new Vector2(resultTitleSize.X / 2, resultTitleSize.Y / 2);
 
             spriteBatch.DrawString(resultTitleFont, localizedCombatResultText, titlePosition,
                 Color.Wheat);

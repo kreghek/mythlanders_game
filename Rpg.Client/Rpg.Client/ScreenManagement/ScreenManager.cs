@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
 using Rpg.Client.GameScreens.Biome;
-using Rpg.Client.GameScreens.CharacterDetails;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
@@ -22,14 +21,16 @@ namespace Rpg.Client.ScreenManagement
     {
         private const double TRANSITION_DURATION = 1;
         private readonly EwarGame _game;
+        private readonly GameSettings _gameSettings;
         private readonly Texture2D _transitionTexture;
         private bool _screenChanged;
 
         private double? _transitionCounter;
 
-        public ScreenManager(EwarGame game)
+        public ScreenManager(EwarGame game, GameSettings gameSettings)
         {
             _game = game;
+            _gameSettings = gameSettings;
             var colors = new[] { Color.Black };
             _transitionTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _transitionTexture.SetData(colors);
@@ -94,7 +95,9 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new SpeechScreen(_game),
+                ScreenTransition.Event => _gameSettings.Mode == GameMode.Full
+                    ? new SpeechScreen(_game)
+                    : new EventScreen(_game),
                 ScreenTransition.Combat => new VoiceCombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
