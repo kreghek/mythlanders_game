@@ -15,5 +15,10 @@
         public float Speed { get; }
 
         public int StartFrame { get; }
+
+        public double GetDuration()
+        {
+            return 1 / Speed * Frames;
+        }
     }
 }

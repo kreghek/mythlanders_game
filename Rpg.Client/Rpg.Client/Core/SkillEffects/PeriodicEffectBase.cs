@@ -20,7 +20,7 @@ namespace Rpg.Client.Core.SkillEffects
                 }
 
                 _value = value;
-                if (_value == 0)
+                if (_value <= 0)
                 {
                     Dispel();
                 }

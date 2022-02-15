@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,17 +14,18 @@ namespace Rpg.Client.Engine
     internal sealed class UiContentStorage : IUiContentStorage
     {
         private (BiomeType, Song)[] _battleTracks;
-        private Dictionary<BiomeType, Texture2D> _biomeBackgroundDict;
+        private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
+        private Texture2D _logoTexture;
         private Texture2D? _buttonTexture;
-        private SpriteFont _combatIndicatorFont;
+        private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatPowerIconTextres;
         private Texture2D _combatSkillPanelTextre;
         private Song _defeatTrack;
         private Texture2D _equipmentIconsTexture;
         private Song _introTrack;
         private Texture2D[] _introVideoTextures;
-        private SpriteFont _mainFont;
+        private IDictionary<string, SpriteFont> _mainFonts;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
         private Texture2D _modalShadowTexture;
@@ -32,10 +34,16 @@ namespace Rpg.Client.Engine
         private Texture2D? _panelTexture;
         private Texture2D _skillButtonTexture;
         private Texture2D _speechTexture;
-        private SpriteFont _titlesFont;
+        private IDictionary<string, SpriteFont> _titlesFonts;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _cursonTextures;
+
+        public Texture2D GetCursorsTexture()
+        {
+            return _cursonTextures;
+        }
 
         public Texture2D GetButtonTexture()
         {
@@ -64,17 +72,58 @@ namespace Rpg.Client.Engine
 
         public SpriteFont GetMainFont()
         {
-            return _mainFont;
+            var key = GetLanguageKey();
+            var spriteFont = GetSpriteFont(_mainFonts, key);
+            return spriteFont;
+        }
+
+        private static SpriteFont GetSpriteFont(IDictionary<string,SpriteFont> fontDict, string languageKey)
+        {
+            return fontDict[languageKey];
+        }
+
+        private static string GetLanguageKey()
+        {
+            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "ru",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "ru";
+            }
+
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "en",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "en";
+            }
+
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "zh",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "zh";
+            }
+
+            throw new Exception();
         }
 
         public SpriteFont GetTitlesFont()
         {
-            return _titlesFont;
+            var key = GetLanguageKey();
+            var spriteFont = GetSpriteFont(_titlesFonts, key);
+            return spriteFont;
         }
 
         public SpriteFont GetCombatIndicatorFont()
         {
-            return _combatIndicatorFont;
+            var key = GetLanguageKey();
+            var spriteFont = GetSpriteFont(_combatIndicatorFonts, key);
+            return spriteFont;
         }
 
         public Texture2D[] GetModalBottomTextures()
@@ -92,15 +141,36 @@ namespace Rpg.Client.Engine
             return _modalShadowTexture ?? throw new InvalidOperationException();
         }
 
+        public Texture2D GetLogoTexture()
+        {
+            return _logoTexture;
+        }
+
         public void LoadContent(ContentManager contentManager)
         {
+            _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _skillButtonTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillButton");
             _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
             _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
-            _mainFont = contentManager.Load<SpriteFont>("Fonts/Main");
-            _titlesFont = contentManager.Load<SpriteFont>("Fonts/Titles");
-            _combatIndicatorFont = contentManager.Load<SpriteFont>("Fonts/CombatIndicator");
+            _mainFonts = new Dictionary<string, SpriteFont>
+            {
+                { "en", contentManager.Load<SpriteFont>("Fonts/Main") },
+                { "ru", contentManager.Load<SpriteFont>("Fonts/Main") },
+                { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") },
+            };
+            _titlesFonts = new Dictionary<string, SpriteFont>
+            {
+                { "en", contentManager.Load<SpriteFont>("Fonts/Titles") },
+                { "ru", contentManager.Load<SpriteFont>("Fonts/Titles") },
+                { "zh", contentManager.Load<SpriteFont>("Fonts/TitlesChinese") },
+            };
+            _combatIndicatorFonts = new Dictionary<string, SpriteFont>
+            {
+                {"en", contentManager.Load<SpriteFont>("Fonts/CombatIndicator")},
+                {"ru", contentManager.Load<SpriteFont>("Fonts/CombatIndicator")},
+                {"zh", contentManager.Load<SpriteFont>("Fonts/CombatIndicatorChinese")},
+            };
 
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
             _modalTopTextures = new[] { contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogBackgroundTop1") };
@@ -126,7 +196,8 @@ namespace Rpg.Client.Engine
             {
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
                 (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese"))
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese02"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
@@ -151,6 +222,8 @@ namespace Rpg.Client.Engine
 
             _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
             _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
+
+            _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
         }
 
         public Texture2D GetCombatSkillPanelTexture()

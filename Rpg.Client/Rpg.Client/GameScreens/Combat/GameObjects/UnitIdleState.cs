@@ -34,7 +34,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public void Update(GameTime gameTime)
         {
-            // TODO Run idle animation
+            // Looped idle animation was started in constructor.
         }
     }
 }

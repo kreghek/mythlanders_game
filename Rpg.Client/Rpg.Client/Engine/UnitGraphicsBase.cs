@@ -60,6 +60,11 @@ namespace Rpg.Client.Engine
             _animationSid = sid;
         }
 
+        public AnimationInfo GetAnimationInfo(AnimationSid sid)
+        {
+            return _animationInfos[sid];
+        }
+
         public void SwitchSourceUnit(Unit unit)
         {
             InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);

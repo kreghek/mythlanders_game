@@ -144,6 +144,9 @@
 могут повлиять на
 текущий бой, отдельных персонажей или партию.</value>
   </data>
+  <data name="CloseButtonTitle" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
   <data name="CombatLengthLabel" xml:space="preserve">
     <value>Длительность сражения:</value>
   </data>
@@ -196,7 +199,7 @@
     <value>Продолжить игру</value>
   </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
-    <value>Кредиты</value>
+    <value>Разработчики</value>
   </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>

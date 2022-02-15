@@ -268,7 +268,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker);
+                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker, _animationManager);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.HasBeenHealed += CombatUnit_Healed;
@@ -335,8 +335,10 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
-            _unitStatePanelController = new UnitStatePanelController(_resolutionIndependentRenderer, _combat,
-                _uiContentStorage, _gameObjectContentStorage);
+            var settigs = Game.Services.GetService<GameSettings>();
+            // TODO Remove then effects would be developed.
+            _unitStatePanelController = new UnitStatePanelController(_combat,
+                _uiContentStorage, _gameObjectContentStorage, settigs.Mode == GameMode.Full);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -813,7 +815,7 @@ namespace Rpg.Client.GameScreens.Combat
                     var unlockedLocationIndex = nodeIndex + 1;
                     var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
 
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == unlockedLocationSid);
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
                     if (unlockedNode is not null)
                     {
                         unlockedNode.IsAvailable = true;

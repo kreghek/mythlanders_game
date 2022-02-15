@@ -41,6 +41,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zIndex)
         {
+            for (var x = -1; x <= 1; x++)
+            {
+                for (var y = -1; y <= 1; y++)
+                {
+                    spriteBatch.DrawString(_font, GetText(), _position + new Vector2(x, y), Color.DarkCyan);
+                }
+            }
+
             spriteBatch.DrawString(_font, GetText(), _position, GetColor());
         }
 

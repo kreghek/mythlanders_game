@@ -17,12 +17,14 @@ namespace Rpg.Client.Engine
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
+        Texture2D GetCursorsTexture();
         Song GetDefeatSong();
         Texture2D GetDisabledTexture();
         Texture2D GetEnvSpeechTexture();
         Texture2D GetEquipmentTextures();
         Song GetIntroSong();
         Texture2D[] GetIntroVideo();
+        Texture2D GetLogoTexture();
         SpriteFont GetMainFont();
         IEnumerable<Song> GetMapSong();
         Texture2D[] GetModalBottomTextures();

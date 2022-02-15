@@ -18,6 +18,16 @@ namespace Rpg.Client.Core.SkillEffects
             _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
         }
 
+        public IEnumerable<EffectBase> GetCurrentEffect(CombatUnit combatUnit)
+        {
+            if (!_unitEffects.TryGetValue(combatUnit, out var effects))
+            {
+                return ArraySegment<EffectBase>.Empty;
+            }
+
+            return effects.ToArray();
+        }
+
         public void Impose(IEnumerable<EffectRule>? influences, CombatUnit self, CombatUnit? target)
         {
             if (influences is null)

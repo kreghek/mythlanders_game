@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Assets;
 using Rpg.Client.Core;
@@ -138,6 +139,8 @@ namespace Rpg.Client
                 AddDevelopmentComponents(_spriteBatch, uiContentStorage);
             }
 #endif
+
+            Mouse.SetCursor(MouseCursor.FromTexture2D(uiContentStorage.GetCursorsTexture(), 1, 1));
         }
 
         protected override void Update(GameTime gameTime)

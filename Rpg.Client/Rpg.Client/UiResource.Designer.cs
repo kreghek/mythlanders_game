@@ -124,6 +124,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string CloseButtonTitle {
+            get {
+                return ResourceManager.GetString("CloseButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Combat length:.
         /// </summary>
         internal static string CombatLengthLabel {

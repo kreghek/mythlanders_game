@@ -320,6 +320,7 @@ namespace Rpg.Client.GameScreens.Event
                     _uiContentStorage.GetMainFont(),
                     textFragment, _gameObjectContentStorage.GetUnitPortrains(),
                     _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
+                textFragmentControl.UsePortrait = true;
                 _textFragments.Add(textFragmentControl);
             }
 

@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private const int MARGIN = 5;
 
-        private readonly TextButton _closeButton;
+        private readonly ButtonBase _closeButton;
         private readonly CombatRewards _combatRewards;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
@@ -35,8 +35,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _gameObjectContentStorage = gameObjectContentStorage;
             _combatRewards = combatRewards;
             CombatResult = combatResult;
-            _closeButton = new TextButton("Close", _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle), _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
             _closeButton.OnClick += CloseButton_OnClick;
 
             _title = new CombatResultTitle(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetTitlesFont(),
