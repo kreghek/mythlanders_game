@@ -6,6 +6,8 @@
         {
         }
 
+        protected override bool SplitIntoPages => false;
+
         protected override string GetPlotResourceName()
         {
             return nameof(PlotResources.MainPlot);
