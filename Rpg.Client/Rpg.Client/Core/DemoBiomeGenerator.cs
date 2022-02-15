@@ -50,6 +50,21 @@ namespace Rpg.Client.Core
             return demoLocationsDict[biomeType][nodeIndex];
         }
 
+        private static GlobeNodeSid? GetUnlockNodeSid(int nodeIndex, BiomeType biomeType)
+        {
+            var demoLocationsDict = new Dictionary<BiomeType, GlobeNodeSid[]>
+            {
+                { BiomeType.Slavic, new[]{ GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp } }
+            };
+
+            if (nodeIndex == 3)
+            {
+                return null;
+            }
+
+            return demoLocationsDict[biomeType][nodeIndex + 1];
+        }
+
         private static bool GetStartAvailability(int nodeIndex)
         {
             return nodeIndex == 0;
@@ -69,7 +84,8 @@ namespace Rpg.Client.Core
                         {
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
                             Sid = GetNodeSid(x, BiomeType.Slavic),
-                            IsAvailable = GetStartAvailability(x)
+                            IsAvailable = GetStartAvailability(x),
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic)
                         }
                     ).ToArray(),
                     UnlockBiome = BiomeType.Chinese,

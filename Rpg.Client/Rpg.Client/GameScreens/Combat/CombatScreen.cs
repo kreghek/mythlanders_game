@@ -813,7 +813,7 @@ namespace Rpg.Client.GameScreens.Combat
                     var unlockedLocationIndex = nodeIndex + 1;
                     var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
 
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == unlockedLocationSid);
+                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
                     if (unlockedNode is not null)
                     {
                         unlockedNode.IsAvailable = true;
