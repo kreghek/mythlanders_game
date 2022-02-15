@@ -335,8 +335,10 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
+            var settigs = Game.Services.GetService<GameSettings>();
+            // TODO Remove then effects would be developed.
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage);
+                _uiContentStorage, _gameObjectContentStorage, settigs.Mode == GameMode.Full);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)

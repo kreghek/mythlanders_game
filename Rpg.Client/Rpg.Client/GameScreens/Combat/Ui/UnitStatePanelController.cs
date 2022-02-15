@@ -19,15 +19,18 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int MARGIN = 10;
         private readonly Core.Combat _activeCombat;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly bool _tempShowEffects;
         private readonly IUiContentStorage _uiContentStorage;
 
         public UnitStatePanelController(Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
-            GameObjectContentStorage gameObjectContentStorage)
+            GameObjectContentStorage gameObjectContentStorage,
+            bool tempShowEffects)
         {
             _activeCombat = activeCombat;
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
+            _tempShowEffects = tempShowEffects;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -76,7 +79,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     DrawManaBar(spriteBatch, panelPosition, unit);
                 }
 
-                DrawEffects(spriteBatch, panelPosition, combatUnit);
+                if (_tempShowEffects)
+                {
+                    DrawEffects(spriteBatch, panelPosition, combatUnit);
+                }
             }
         }
 

@@ -41,7 +41,8 @@ namespace Rpg.Client.Assets.Skills
                     var effect = new PeriodicHealEffect
                     {
                         SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.2f
+                        PowerMultiplier = 0.2f,
+                        Duration = 2
                     };
 
                     return effect;
