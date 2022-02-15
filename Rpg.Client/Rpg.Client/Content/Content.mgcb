@@ -272,12 +272,26 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/CombatIndicator.spritefont
 
-#begin Fonts/Main.spritefont
+#begin Fonts/CombatIndicatorChinese.spritefont
 /importer:FontDescriptionImporter
 /processor:LocalizedFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
+/build:Fonts/CombatIndicatorChinese.spritefont
+
+#begin Fonts/Main.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
 /build:Fonts/Main.spritefont
+
+#begin Fonts/MainChinese.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/MainChinese.spritefont
 
 #begin Fonts/Titles.spritefont
 /importer:FontDescriptionImporter
@@ -285,6 +299,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Titles.spritefont
+
+#begin Fonts/TitlesChinese.spritefont
+/importer:FontDescriptionImporter
+/processor:LocalizedFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/TitlesChinese.spritefont
 
 #begin Sprites/GameObjects/Clouds.png
 /importer:TextureImporter
