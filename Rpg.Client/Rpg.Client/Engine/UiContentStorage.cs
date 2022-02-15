@@ -38,6 +38,12 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _cursonTextures;
+
+        public Texture2D GetCursorsTexture()
+        {
+            return _cursonTextures;
+        }
 
         public Texture2D GetButtonTexture()
         {
@@ -216,6 +222,8 @@ namespace Rpg.Client.Engine
 
             _combatSkillPanelTextre = contentManager.Load<Texture2D>("Sprites/Ui/CombatSkillsPanel");
             _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
+
+            _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
         }
 
         public Texture2D GetCombatSkillPanelTexture()

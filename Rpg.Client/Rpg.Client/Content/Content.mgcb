@@ -895,6 +895,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Ui/CombatSkillsPanel.png
 
+#begin Sprites/Ui/Cursors.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Ui/Cursors.png
+
 #begin Sprites/Ui/EquipmentIcons.png
 /importer:TextureImporter
 /processor:TextureProcessor
