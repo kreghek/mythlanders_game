@@ -62,7 +62,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -82,7 +82,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     LocationSids = new[]
-                        { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
+                        { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -102,7 +102,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DeathPath },
+                    LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.VolkolakWarrior,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
+                    LocationSids = new[] { GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
 

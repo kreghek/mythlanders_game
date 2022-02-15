@@ -184,6 +184,10 @@
       <value>Defense stance</value>
     <comment>Skill</comment>
   </data>
+  <data name="DestroyedVillage" xml:space="preserve">
+    <value>Destroyed village</value>
+    <comment>Location</comment>
+  </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
     <comment>Skill</comment>

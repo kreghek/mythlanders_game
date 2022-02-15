@@ -192,6 +192,9 @@
   <data name="DefenseStance" xml:space="preserve">
     <value>Защитная стойка</value>
   </data>
+  <data name="DestroyedVillage" xml:space="preserve">
+    <value>Раззоренный скит</value>
+  </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
   </data>

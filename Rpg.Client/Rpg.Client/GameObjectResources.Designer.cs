@@ -286,6 +286,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destroyed village.
+        /// </summary>
+        internal static string DestroyedVillage {
+            get {
+                return ResourceManager.GetString("DestroyedVillage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dope herb.
         /// </summary>
         internal static string DopeHerb {
