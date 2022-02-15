@@ -40,11 +40,14 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomType)
+        private static GlobeNodeSid GetNodeSid(int nodeIndex, BiomeType biomeType)
         {
-            var sidIndex = (int)biomType + nodeIndex + 1;
-            var sid = (GlobeNodeSid)sidIndex;
-            return sid;
+            var demoLocationsDict = new Dictionary<BiomeType, GlobeNodeSid[]>
+            {
+                { BiomeType.Slavic, new[]{ GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp } }
+            };
+
+            return demoLocationsDict[biomeType][nodeIndex];
         }
 
         private static bool GetStartAvailability(int nodeIndex)
