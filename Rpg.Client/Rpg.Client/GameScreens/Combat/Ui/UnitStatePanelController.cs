@@ -96,7 +96,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (effect is PeriodicEffectBase periodicEffect)
                 {
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{periodicEffect.GetType()} {periodicEffect.Duration} turns",
+                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                        $"{periodicEffect.GetType()} {periodicEffect.Duration} turns",
                         panelPosition + new Vector2(0, index * 10), Color.Aqua);
                 }
             }
@@ -143,11 +144,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var text = $"{unit.HitPoints}/{unit.MaxHitPoints}";
             if (side == Side.Left)
             {
-                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                for (var xOffset = -1; xOffset <= 1; xOffset++)
                 {
-                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    for (var yOffset = -1; yOffset <= 1; yOffset++)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0) + new Vector2(xOffset, yOffset),
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
+                            hpPosition + new Vector2(3, 0) + new Vector2(xOffset, yOffset),
                             Color.Black);
                     }
                 }
@@ -159,12 +161,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var textSize = _uiContentStorage.GetMainFont().MeasureString(text);
 
-                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                for (var xOffset = -1; xOffset <= 1; xOffset++)
                 {
-                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    for (var yOffset = -1; yOffset <= 1; yOffset++)
                     {
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
-                            hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(xOffset, yOffset),
+                            hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) +
+                            new Vector2(xOffset, yOffset),
                             Color.Black);
                     }
                 }

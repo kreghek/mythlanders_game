@@ -30,6 +30,8 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly IList<ButtonBase> _buttons;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+
+        private readonly EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -38,6 +40,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
+        private readonly Player _player;
         private readonly Random _random;
 
         private readonly IList<TextFragment> _textFragments;
@@ -50,9 +53,6 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
-
-        private readonly EventNode _currentEventNode;
-        private readonly Player _player;
 
         public SpeechScreen(EwarGame game) : base(game)
         {

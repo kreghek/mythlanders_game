@@ -7,10 +7,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal class ShapeShiftState : IUnitStateEngine
     {
-        private double _counter;
+        private readonly double _duration;
         private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _shapeShiftBlocker;
-        private readonly double _duration;
+        private double _counter;
 
         public ShapeShiftState(UnitGraphics graphics, AnimationBlocker shapeShiftBlocker)
         {

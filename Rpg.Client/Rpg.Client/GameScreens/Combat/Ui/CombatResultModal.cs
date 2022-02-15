@@ -35,7 +35,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _gameObjectContentStorage = gameObjectContentStorage;
             _combatRewards = combatRewards;
             CombatResult = combatResult;
-            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle), _uiContentStorage.GetButtonTexture(),
+            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont());
             _closeButton.OnClick += CloseButton_OnClick;
 

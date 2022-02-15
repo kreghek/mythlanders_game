@@ -268,7 +268,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker, _animationManager);
+                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
+                    _animationManager);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
             combatUnit.HasBeenHealed += CombatUnit_Healed;
@@ -815,7 +816,8 @@ namespace Rpg.Client.GameScreens.Combat
                     var unlockedLocationIndex = nodeIndex + 1;
                     var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
 
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
+                    var unlockedNode =
+                        _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
                     if (unlockedNode is not null)
                     {
                         unlockedNode.IsAvailable = true;

@@ -5,6 +5,8 @@ namespace Rpg.Client.Core
 {
     internal sealed class BiomeGenerator : IBiomeGenerator
     {
+        private const int BIOME_NODE_COUNT = 8;
+
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -47,9 +49,15 @@ namespace Rpg.Client.Core
             return sid;
         }
 
+        private static bool GetStartAvailability(int nodeIndex)
+        {
+            return nodeIndex == 0;
+        }
+
         private static GlobeNodeSid? GetUnlockNodeSid(int nodeIndex, BiomeType biomType)
         {
-            if ((nodeIndex == BIOME_NODE_COUNT - 1 && biomType != BiomeType.Cosmos) || (nodeIndex == 2 && biomType == BiomeType.Cosmos))
+            if ((nodeIndex == BIOME_NODE_COUNT - 1 && biomType != BiomeType.Cosmos) ||
+                (nodeIndex == 2 && biomType == BiomeType.Cosmos))
             {
                 return null;
             }
@@ -59,13 +67,6 @@ namespace Rpg.Client.Core
             var sidToUnlock = (GlobeNodeSid)nextSidIndex;
             return sidToUnlock;
         }
-
-        private static bool GetStartAvailability(int nodeIndex)
-        {
-            return nodeIndex == 0;
-        }
-
-        private const int BIOME_NODE_COUNT = 8;
 
         public IReadOnlyList<Biome> Generate()
         {

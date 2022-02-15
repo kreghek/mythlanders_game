@@ -16,15 +16,16 @@ namespace Rpg.Client.Engine
         private (BiomeType, Song)[] _battleTracks;
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
-        private Texture2D _logoTexture;
         private Texture2D? _buttonTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatPowerIconTextres;
         private Texture2D _combatSkillPanelTextre;
+        private Texture2D _cursonTextures;
         private Song _defeatTrack;
         private Texture2D _equipmentIconsTexture;
         private Song _introTrack;
         private Texture2D[] _introVideoTextures;
+        private Texture2D _logoTexture;
         private IDictionary<string, SpriteFont> _mainFonts;
         private Song[] _mapTracks;
         private Texture2D[] _modalBottomTextures;
@@ -38,7 +39,41 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _cursonTextures;
+
+        private static string GetLanguageKey()
+        {
+            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "ru",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "ru";
+            }
+
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "en",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "en";
+            }
+
+            if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "zh",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return "zh";
+            }
+
+            throw new Exception();
+        }
+
+        private static SpriteFont GetSpriteFont(IDictionary<string, SpriteFont> fontDict, string languageKey)
+        {
+            return fontDict[languageKey];
+        }
 
         public Texture2D GetCursorsTexture()
         {
@@ -75,41 +110,6 @@ namespace Rpg.Client.Engine
             var key = GetLanguageKey();
             var spriteFont = GetSpriteFont(_mainFonts, key);
             return spriteFont;
-        }
-
-        private static SpriteFont GetSpriteFont(IDictionary<string, SpriteFont> fontDict, string languageKey)
-        {
-            return fontDict[languageKey];
-        }
-
-        private static string GetLanguageKey()
-        {
-            var currentLanguage = Thread.CurrentThread.CurrentUICulture;
-            if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "ru",
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "ru";
-            }
-
-            if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "en";
-            }
-
-            if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "zh",
-                StringComparison.InvariantCultureIgnoreCase))
-            {
-                return "zh";
-            }
-
-            throw new Exception();
         }
 
         public SpriteFont GetTitlesFont()
@@ -157,19 +157,19 @@ namespace Rpg.Client.Engine
             {
                 { "en", contentManager.Load<SpriteFont>("Fonts/Main") },
                 { "ru", contentManager.Load<SpriteFont>("Fonts/Main") },
-                { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") },
+                { "zh", contentManager.Load<SpriteFont>("Fonts/MainChinese") }
             };
             _titlesFonts = new Dictionary<string, SpriteFont>
             {
                 { "en", contentManager.Load<SpriteFont>("Fonts/Titles") },
                 { "ru", contentManager.Load<SpriteFont>("Fonts/Titles") },
-                { "zh", contentManager.Load<SpriteFont>("Fonts/TitlesChinese") },
+                { "zh", contentManager.Load<SpriteFont>("Fonts/TitlesChinese") }
             };
             _combatIndicatorFonts = new Dictionary<string, SpriteFont>
             {
-                {"en", contentManager.Load<SpriteFont>("Fonts/CombatIndicator")},
-                {"ru", contentManager.Load<SpriteFont>("Fonts/CombatIndicator")},
-                {"zh", contentManager.Load<SpriteFont>("Fonts/CombatIndicatorChinese")},
+                { "en", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
+                { "ru", contentManager.Load<SpriteFont>("Fonts/CombatIndicator") },
+                { "zh", contentManager.Load<SpriteFont>("Fonts/CombatIndicatorChinese") }
             };
 
             _modalShadowTexture = contentManager.Load<Texture2D>("Sprites/Ui/ModalDialogShadow");
