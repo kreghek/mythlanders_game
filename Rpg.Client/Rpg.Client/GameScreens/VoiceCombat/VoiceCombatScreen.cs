@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
@@ -17,7 +18,7 @@ using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.Combat
+namespace Rpg.Client.GameScreens.VoiceCombat
 {
     internal class VoiceCombatScreen : GameScreenWithMenuBase
     {
@@ -31,7 +32,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
-        private readonly ButtonBase _escapeButton;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -71,6 +71,7 @@ namespace Rpg.Client.GameScreens.Combat
             _camera = Game.Services.GetService<Camera2D>();
 
             _globe = _globeProvider.Globe;
+            _currentEventNode = _globe.CurrentEventNode ?? throw new InvalidOperationException();
 
             _combat = _globe.ActiveCombat ??
                       throw new InvalidOperationException(
@@ -112,15 +113,6 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             _screenShaker = new ScreenShaker();
-
-            _escapeButton = new IconButton(_uiContentStorage.GetButtonTexture(),
-                new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), new Rectangle(0, 0, 64, 64)),
-                Rectangle.Empty);
-            _escapeButton.OnClick += (_, _) =>
-            {
-                _combat.Surrender();
-                _combatFinishedVictory = false;
-            };
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -169,8 +161,6 @@ namespace Rpg.Client.GameScreens.Combat
                 }
 
                 _screenShaker.Update(gameTime);
-
-                _escapeButton.Update(ResolutionIndependentRenderer);
             }
 
             HandleBackgrounds();
@@ -189,16 +179,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             _combat.Update();
-        }
-
-        private static void AddMonstersFromCombatIntoKnownMonsters(Unit monster,
-            ICollection<UnitScheme> playerKnownMonsters)
-        {
-            var scheme = monster.UnitScheme;
-            if (playerKnownMonsters.All(x => x != scheme))
-            {
-                playerKnownMonsters.Add(scheme);
-            }
         }
 
         private static void ApplyCombatReward(IReadOnlyCollection<CombatRewardsItem> xpItems, Player player)
@@ -338,7 +318,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.Initialize();
             _combat.Update();
 
-            _unitStatePanelController = new UnitStatePanelController(_resolutionIndependentRenderer, _combat,
+            _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
 
@@ -595,12 +575,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawEscapeButton(SpriteBatch spriteBatch, Rectangle contentRectangle)
-        {
-            _escapeButton.Rect = new Rectangle(contentRectangle.Left + 200, contentRectangle.Top, 32, 32);
-            _escapeButton.Draw(spriteBatch);
-        }
-
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -692,7 +666,6 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 DrawCombatSkillsPanel(spriteBatch);
                 DrawInteractionButtons(spriteBatch);
-                DrawEscapeButton(spriteBatch, contentRectangle);
             }
 
             try
@@ -713,7 +686,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         private int _currentFragmentIndex;
         private int _frameIndex;
-        
+        private readonly EventNode _currentEventNode;
+
         private void DrawSpeaker(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(
@@ -727,7 +701,8 @@ namespace Rpg.Client.GameScreens.Combat
             var col = _frameIndex % 2;
             var row = _frameIndex / 2;
 
-            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(),
+            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(currentFragment.Speaker),
                 new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - 256, 256, 256),
                 new Rectangle(col * 256, row * 256, 256, 256),
                 Color.White);
