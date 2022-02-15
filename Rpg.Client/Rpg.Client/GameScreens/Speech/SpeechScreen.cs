@@ -50,7 +50,7 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
-        
+
         private readonly EventNode _currentEventNode;
         private readonly Player _player;
 
@@ -60,7 +60,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = _globeProvider.Globe;
-            
+
             _currentEventNode = _globe.CurrentEventNode ?? throw new InvalidOperationException();
             _player = _globe.Player ?? throw new InvalidOperationException();
 

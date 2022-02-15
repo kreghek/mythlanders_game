@@ -124,7 +124,7 @@ namespace Rpg.Client.GameScreens.Title
             var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
-            
+
             var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128, ResolutionIndependentRenderer.VirtualWidth, 64);
             DrawLogo(spriteBatch, logoRect);
 
@@ -191,7 +191,7 @@ namespace Rpg.Client.GameScreens.Title
             {
                 var heroSid = _showcaseUnits[i];
 
-                var heroPosition = new Vector2(contentRect.Center.X - 256/2, contentRect.Bottom - 256) + new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
+                var heroPosition = new Vector2(contentRect.Center.X - 256 / 2, contentRect.Bottom - 256) + new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
                 spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
                     heroPosition,
                     new Rectangle(0, 0, 256, 256), Color.White);

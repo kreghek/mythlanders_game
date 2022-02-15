@@ -77,7 +77,7 @@ namespace Rpg.Client.Engine
             return spriteFont;
         }
 
-        private static SpriteFont GetSpriteFont(IDictionary<string,SpriteFont> fontDict, string languageKey)
+        private static SpriteFont GetSpriteFont(IDictionary<string, SpriteFont> fontDict, string languageKey)
         {
             return fontDict[languageKey];
         }
