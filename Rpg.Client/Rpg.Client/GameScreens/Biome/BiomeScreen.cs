@@ -91,42 +91,43 @@ namespace Rpg.Client.GameScreens.Biome
         protected override IList<ButtonBase> CreateMenu()
         {
             var menuButtons = new List<ButtonBase>();
-            if (_gameSettings.Mode == GameMode.Full)
-            {
-                var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
+
+            var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
                     _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont());
-                mapButton.OnClick += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-                };
-                menuButtons.Add(mapButton);
+            mapButton.OnClick += (_, _) =>
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
+            };
+            menuButtons.Add(mapButton);
 
-                var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
-                partyModalButton.OnClick += (_, _) =>
+            var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
+            partyModalButton.OnClick += (_, _) =>
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+            };
+            partyModalButton.IndicatingSelector = () =>
+            {
+                foreach (var unit in _globe.Player.GetAll())
                 {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
-                };
-                partyModalButton.IndicatingSelector = () =>
-                {
-                    foreach (var unit in _globe.Player.GetAll())
+                    var readyToUpgrade = unit.LevelUpXpAmount <=
+                                         _globe.Player.Inventory
+                                             .Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                                         IsAnyEquipmentToUpgrade(character: unit, player: _globe.Player);
+                    if (readyToUpgrade)
                     {
-                        var readyToUpgrade = unit.LevelUpXpAmount <=
-                                             _globe.Player.Inventory
-                                                 .Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
-                                             IsAnyEquipmentToUpgrade(character: unit, player: _globe.Player);
-                        if (readyToUpgrade)
-                        {
-                            return readyToUpgrade;
-                        }
+                        return readyToUpgrade;
                     }
+                }
 
-                    return false;
-                };
-                menuButtons.Add(partyModalButton);
+                return false;
+            };
+            menuButtons.Add(partyModalButton);
 
+            if (_gameSettings.Mode == GameMode.Full)
+            {
                 var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle),
                     _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont());
