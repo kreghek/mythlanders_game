@@ -171,7 +171,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 }
 
                 var t = _counter / DURATION_SECONDS;
-                _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t) + Vector2.UnitY * (float)Math.Sin(t * Math.PI * 2) * 256;
+                _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t) +
+                                     Vector2.UnitY * (float)Math.Sin(t * Math.PI * 2) * 256;
                 _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
                 _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }

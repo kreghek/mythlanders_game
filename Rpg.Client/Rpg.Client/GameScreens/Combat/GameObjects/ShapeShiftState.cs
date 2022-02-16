@@ -10,11 +10,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private readonly double _duration;
         private readonly UnitGraphics _graphics;
-        private readonly SoundEffectInstance _soundEffectInstance;
         private readonly AnimationBlocker _shapeShiftBlocker;
+        private readonly SoundEffectInstance _soundEffectInstance;
         private double _counter;
 
-        public ShapeShiftState(UnitGraphics graphics, Microsoft.Xna.Framework.Audio.SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
+        public ShapeShiftState(UnitGraphics graphics,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
         {
             _graphics = graphics;
             _soundEffectInstance = soundEffectInstance;

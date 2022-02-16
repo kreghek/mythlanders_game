@@ -213,7 +213,10 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
                 { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
                 { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") },
-                { UnitName.VolkolakWarrior, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WolfWarriorShapeShift") },
+                {
+                    UnitName.VolkolakWarrior,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WolfWarriorShapeShift")
+                },
                 { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
             };
 

@@ -15,13 +15,16 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly EventTextFragment _eventTextFragment;
         private readonly SpriteFont _font;
         private readonly string _localizedText;
+        private readonly Random _random;
         private readonly SoundEffect _textSoundEffect;
         private readonly StringBuilder _textToPrintBuilder;
-        private readonly Random _random;
-        private double _textCharCounter;
         private SoundEffectInstance? _currentSound;
         private double _delayCounter;
+
+        private int _delayUsed;
         private int _index;
+        private double _soundDelayCounter;
+        private double _textCharCounter;
 
         public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
             SoundEffect textSoundEffect) :
@@ -89,6 +92,24 @@ namespace Rpg.Client.GameScreens.Event.Ui
             }
         }
 
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
+        {
+            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(),
+                clientRect.Location.ToVector2() + Vector2.UnitX * 2,
+                Color.SaddleBrown);
+        }
+
+        private static string GetLocalizedText(string text)
+        {
+            // The text in the event is localized from resources yet.
+            return text;
+        }
+
         private void HandleTextSound(GameTime gameTime)
         {
             if (_soundDelayCounter > 0)
@@ -118,27 +139,6 @@ namespace Rpg.Client.GameScreens.Event.Ui
                 }
             }
         }
-
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
-        {
-            spriteBatch.DrawString(_font, _textToPrintBuilder.ToString(),
-                clientRect.Location.ToVector2() + Vector2.UnitX * 2,
-                Color.SaddleBrown);
-        }
-
-        private static string GetLocalizedText(string text)
-        {
-            // The text in the event is localized from resources yet.
-            return text;
-        }
-
-        private int _delayUsed;
-        private double _soundDelayCounter;
 
 
         private void PlayTextSound()

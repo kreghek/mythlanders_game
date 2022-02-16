@@ -34,7 +34,6 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
-        private readonly GameSettings _settings;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -43,6 +42,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeProvider _globeProvider;
         private readonly Player _player;
         private readonly Random _random;
+        private readonly GameSettings _settings;
 
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
