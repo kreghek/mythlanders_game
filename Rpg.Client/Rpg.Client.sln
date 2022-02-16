@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "TestProject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverter", "BalanceConverter\BalanceConverter.csproj", "{2C79B30E-EEAD-46C2-ABAF-776F12AB2B29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverterTests", "BalanceConverterTests\BalanceConverterTests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverter.Tests", "BalanceConverter.Tests\BalanceConverter.Tests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceGenerator", "BalanceGenerator\BalanceGenerator.csproj", "{D7BECACC-2D72-4EAD-982A-041905D79A7E}"
 EndProject
