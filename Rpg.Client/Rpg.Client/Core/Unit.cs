@@ -168,9 +168,10 @@ namespace Rpg.Client.Core
 
                     if (currentHpShare <= transformShare)
                     {
+                        var sourceScheme = UnitScheme;
                         UnitScheme = autoTransition.NextScheme;
                         InitStats(UnitScheme);
-                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs());
+                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
                     }
                 }
             }
