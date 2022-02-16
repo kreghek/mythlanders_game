@@ -247,6 +247,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64 + 32),
                             _gameObjectContentStorage, bulletBlocker);
                     }
+                    else if (skill.Sid == SkillSid.ToxicGas)
+                    {
+                        singleBullet = new GasBomb(Position - Vector2.UnitY * (64), target.Position,
+                            _gameObjectContentStorage,
+                            bulletBlocker);
+                    }
                     else
                     {
                         singleBullet = new BulletGameObject(Position - Vector2.UnitY * (64), target.Position,

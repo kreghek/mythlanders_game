@@ -246,6 +246,11 @@ namespace Rpg.Client.GameScreens.Title
 
         private UnitName[] GetShowcaseHeroes()
         {
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                return new[] { UnitName.Berimir, UnitName.Hawk, UnitName.Rada };
+            }
+
             var lastHeroes = GetLastHeroes(_globeProvider);
 
             if (lastHeroes.Count() > 3)
