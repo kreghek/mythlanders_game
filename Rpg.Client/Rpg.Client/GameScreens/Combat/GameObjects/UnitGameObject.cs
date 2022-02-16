@@ -456,6 +456,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         {
             var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
+            var deathSound = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name);
             AddStateEngine(new ShapeShiftState(_graphics, shapeShiftBlocker));
 
             shapeShiftBlocker.Released += (_, _) =>
