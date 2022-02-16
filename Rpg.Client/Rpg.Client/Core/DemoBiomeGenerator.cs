@@ -44,17 +44,36 @@ namespace Rpg.Client.Core
         {
             var demoLocationsDict = new Dictionary<BiomeType, GlobeNodeSid[]>
             {
-                { BiomeType.Slavic, new[]{ GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp } }
+                {
+                    BiomeType.Slavic,
+                    new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                        GlobeNodeSid.Swamp
+                    }
+                }
             };
 
             return demoLocationsDict[biomeType][nodeIndex];
+        }
+
+        private static bool GetStartAvailability(int nodeIndex)
+        {
+            return nodeIndex == 0;
         }
 
         private static GlobeNodeSid? GetUnlockNodeSid(int nodeIndex, BiomeType biomeType)
         {
             var demoLocationsDict = new Dictionary<BiomeType, GlobeNodeSid[]>
             {
-                { BiomeType.Slavic, new[]{ GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp } }
+                {
+                    BiomeType.Slavic,
+                    new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                        GlobeNodeSid.Swamp
+                    }
+                }
             };
 
             if (nodeIndex == 3)
@@ -63,11 +82,6 @@ namespace Rpg.Client.Core
             }
 
             return demoLocationsDict[biomeType][nodeIndex + 1];
-        }
-
-        private static bool GetStartAvailability(int nodeIndex)
-        {
-            return nodeIndex == 0;
         }
 
         public IReadOnlyList<Biome> Generate()

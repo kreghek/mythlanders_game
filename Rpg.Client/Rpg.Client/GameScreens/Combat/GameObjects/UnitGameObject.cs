@@ -15,12 +15,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     internal class UnitGameObject : EwarRenderableBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
+        private readonly AnimationManager _animationManager;
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
-        private readonly AnimationManager _animationManager;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage,

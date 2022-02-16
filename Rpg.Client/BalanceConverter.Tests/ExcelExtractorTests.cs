@@ -16,7 +16,7 @@ namespace BalanceConverter.Tests
         {
             // ACT
 
-            var rows = BalanceConverter.ExcelExtractor.ReadUnitsFromExcel(BalanceConverter.ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var rows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
 
             // ASSERT
 

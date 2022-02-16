@@ -93,8 +93,8 @@ namespace Rpg.Client.GameScreens.Biome
             var menuButtons = new List<ButtonBase>();
 
             var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
             mapButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map);

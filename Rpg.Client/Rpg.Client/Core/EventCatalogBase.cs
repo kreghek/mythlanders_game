@@ -12,8 +12,6 @@ namespace Rpg.Client.Core
     {
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        protected abstract bool SplitIntoPages { get; }
-
         public EventCatalogBase(IUnitSchemeCatalog unitSchemeCatalog)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
@@ -34,6 +32,8 @@ namespace Rpg.Client.Core
 
             Events = events.ToArray();
         }
+
+        protected abstract bool SplitIntoPages { get; }
 
         protected abstract string GetPlotResourceName();
 

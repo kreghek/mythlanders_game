@@ -48,6 +48,11 @@ namespace Rpg.Client.Engine
             Root.Draw(spriteBatch);
         }
 
+        public AnimationInfo GetAnimationInfo(AnimationSid sid)
+        {
+            return _animationInfos[sid];
+        }
+
         public void PlayAnimation(AnimationSid sid)
         {
             if (sid == _animationSid)
@@ -58,11 +63,6 @@ namespace Rpg.Client.Engine
             _frameCounter = 0;
             _frameIndex = 0;
             _animationSid = sid;
-        }
-
-        public AnimationInfo GetAnimationInfo(AnimationSid sid)
-        {
-            return _animationInfos[sid];
         }
 
         public void SwitchSourceUnit(Unit unit)

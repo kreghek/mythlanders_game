@@ -42,8 +42,8 @@ namespace Rpg.Client.Core
                     CombatPosition = position,
                     Options = new[]
                     {
-                    option
-                },
+                        option
+                    },
                     TextBlock = new EventTextBlock
                     {
                         Fragments = fragments
@@ -90,13 +90,13 @@ namespace Rpg.Client.Core
                             CombatPosition = position,
                             Options = new[]
                             {
-                            new EventOption
-                            {
-                                TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                                IsEnd = true,
-                                Aftermath = optionAftermath
-                            }
-                        },
+                                new EventOption
+                                {
+                                    TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                                    IsEnd = true,
+                                    Aftermath = optionAftermath
+                                }
+                            },
                             TextBlock = new EventTextBlock
                             {
                                 Fragments = innerFragments
@@ -119,8 +119,8 @@ namespace Rpg.Client.Core
                     CombatPosition = position,
                     Options = new[]
                     {
-                    option
-                },
+                        option
+                    },
                     TextBlock = new EventTextBlock
                     {
                         Fragments = fragments
