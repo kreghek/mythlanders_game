@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
 
-namespace TestProject1.Core
+namespace Rpg.Client.Tests.Core
 {
     [TestFixture]
     public class MonsterGeneratorHelperTests

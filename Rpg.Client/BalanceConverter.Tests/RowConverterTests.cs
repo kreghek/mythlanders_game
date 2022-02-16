@@ -6,7 +6,7 @@ using FluentAssertions;
 
 using NUnit.Framework;
 
-namespace BalanceConverterTests
+namespace BalanceConverter.Tests
 {
     public class RowConverterTests
     {
@@ -15,11 +15,11 @@ namespace BalanceConverterTests
         {
             // ARRANGE
 
-            var excelRows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var excelRows = BalanceConverter.ExcelExtractor.ReadUnitsFromExcel(BalanceConverter.ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
 
             // ACT
 
-            var rows = RowConverter.Convert(excelRows);
+            var rows = BalanceConverter.RowConverter.Convert(excelRows);
 
             // ASSERT
 

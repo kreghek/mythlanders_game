@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
-namespace TestProject1.Core
+namespace Rpg.Client.Tests.Core
 {
     public class EventCatalogHelperTests
     {

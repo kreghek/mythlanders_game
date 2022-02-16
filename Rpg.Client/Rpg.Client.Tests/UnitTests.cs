@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 
-namespace TestProject1
+namespace Rpg.Client.Tests
 {
     [TestFixture]
     public class UnitTests
