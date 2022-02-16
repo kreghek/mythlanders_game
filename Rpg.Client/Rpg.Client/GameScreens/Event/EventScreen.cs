@@ -34,6 +34,7 @@ namespace Rpg.Client.GameScreens.Event
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
+        private readonly GameSettings _settings;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -82,6 +83,8 @@ namespace Rpg.Client.GameScreens.Event
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
+
+            _settings = game.Services.GetService<GameSettings>();
 
             _buttons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
@@ -319,8 +322,10 @@ namespace Rpg.Client.GameScreens.Event
                 var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
                     textFragment, _gameObjectContentStorage.GetUnitPortrains(),
-                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
-                textFragmentControl.UsePortrait = true;
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker))
+                {
+                    UsePortrait = true
+                };
                 _textFragments.Add(textFragmentControl);
             }
 
@@ -351,7 +356,11 @@ namespace Rpg.Client.GameScreens.Event
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreCurrentGlobe();
+
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                     }
                     else

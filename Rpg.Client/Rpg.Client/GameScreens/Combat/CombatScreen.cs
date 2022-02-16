@@ -33,6 +33,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
+        private readonly GameSettings _settings;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -99,6 +100,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
+
+            _settings = game.Services.GetService<GameSettings>();
 
             _unitPredefinedPositions = new[]
             {
@@ -382,7 +385,10 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
 
-                            _globeProvider.StoreCurrentGlobe();
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                         else
                         {
@@ -408,7 +414,11 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreCurrentGlobe();
+
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                         else
                         {
