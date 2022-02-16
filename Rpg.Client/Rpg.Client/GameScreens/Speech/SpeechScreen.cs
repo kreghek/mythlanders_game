@@ -34,6 +34,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
+        private readonly GameSettings _settings;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -93,6 +94,8 @@ namespace Rpg.Client.GameScreens.Speech
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
+
+            _settings = game.Services.GetService<GameSettings>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
@@ -379,7 +382,11 @@ namespace Rpg.Client.GameScreens.Speech
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreCurrentGlobe();
+
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                     }
                     else
