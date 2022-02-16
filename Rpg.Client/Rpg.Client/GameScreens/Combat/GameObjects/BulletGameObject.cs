@@ -140,7 +140,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
 
             _graphics.Draw(spriteBatch);
-            
+
             if (_counter2 > 0)
             {
                 _particleSystem.Draw(spriteBatch);
