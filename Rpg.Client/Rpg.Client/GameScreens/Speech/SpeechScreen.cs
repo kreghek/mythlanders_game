@@ -30,6 +30,8 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly IList<ButtonBase> _buttons;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+
+        private readonly EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -38,7 +40,9 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
+        private readonly Player _player;
         private readonly Random _random;
+        private readonly GameSettings _settings;
 
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
@@ -50,9 +54,6 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
-        
-        private readonly EventNode _currentEventNode;
-        private readonly Player _player;
 
         public SpeechScreen(EwarGame game) : base(game)
         {
@@ -60,7 +61,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = _globeProvider.Globe;
-            
+
             _currentEventNode = _globe.CurrentEventNode ?? throw new InvalidOperationException();
             _player = _globe.Player ?? throw new InvalidOperationException();
 
@@ -93,6 +94,8 @@ namespace Rpg.Client.GameScreens.Speech
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
+
+            _settings = game.Services.GetService<GameSettings>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
@@ -379,7 +382,11 @@ namespace Rpg.Client.GameScreens.Speech
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreCurrentGlobe();
+
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                     }
                     else

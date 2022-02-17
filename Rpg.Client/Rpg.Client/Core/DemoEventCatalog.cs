@@ -6,6 +6,8 @@
         {
         }
 
+        protected override bool SplitIntoPages => true;
+
         protected override string GetPlotResourceName()
         {
             return nameof(PlotResources.MainPlot) + "Demo";

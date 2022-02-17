@@ -33,6 +33,8 @@ namespace Rpg.Client.Core
             Events = events.ToArray();
         }
 
+        protected abstract bool SplitIntoPages { get; }
+
         protected abstract string GetPlotResourceName();
 
         private static void AssignEventParents(IReadOnlyCollection<Event> events,
@@ -64,10 +66,12 @@ namespace Rpg.Client.Core
 
                 var beforeEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.BeforeCombatNode,
                     EventPosition.BeforeCombat,
-                    eventStorageModel.BeforeCombatAftermath, _unitSchemeCatalog);
+                    eventStorageModel.BeforeCombatAftermath, _unitSchemeCatalog,
+                    SplitIntoPages);
                 var afterEventNode = EventCatalogHelper.BuildEventNode(eventStorageModel.AfterCombatNode,
                     EventPosition.AfterCombat,
-                    eventStorageModel.AfterCombatAftermath, unitSchemeCatalog: _unitSchemeCatalog);
+                    eventStorageModel.AfterCombatAftermath, unitSchemeCatalog: _unitSchemeCatalog,
+                    SplitIntoPages);
 
                 // System marker used to load saved game. Read it as identifier.
                 var systemMarker = GetSystemEventMarker(eventStorageModel);

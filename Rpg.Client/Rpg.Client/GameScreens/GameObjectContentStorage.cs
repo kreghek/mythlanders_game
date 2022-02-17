@@ -87,15 +87,13 @@ namespace Rpg.Client.GameScreens
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.GreyWolf, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf") },
-                { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
-                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
-                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
-                {
-                    UnitName.VolkolakWarrior,
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak")
-                },
-                { UnitName.Volkolak, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak") }
+                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
+                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
+                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
+                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
+                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -213,6 +211,10 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
                 { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
                 { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") },
+                {
+                    UnitName.VolkolakWarrior,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WolfWarriorShapeShift")
+                },
                 { UnitName.Volkolak, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") }
             };
 
@@ -273,6 +275,12 @@ namespace Rpg.Client.GameScreens
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
             }
+        }
+
+        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         internal Texture2D GetBiomeClouds()

@@ -287,6 +287,15 @@ namespace Rpg.Client.GameScreens.Common
                 "en",
                 StringComparison.InvariantCultureIgnoreCase))
             {
+                var newCulture = CultureInfo.GetCultureInfo("zh");
+                Thread.CurrentThread.CurrentCulture = newCulture;
+                Thread.CurrentThread.CurrentUICulture = newCulture;
+            }
+            else if (string.Equals(
+                currentLanguage.TwoLetterISOLanguageName,
+                "zh",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
                 var newCulture = CultureInfo.GetCultureInfo("ru-RU");
                 Thread.CurrentThread.CurrentCulture = newCulture;
                 Thread.CurrentThread.CurrentUICulture = newCulture;

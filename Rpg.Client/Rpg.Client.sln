@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotConverter", "PlotConverter\PlotConverter.csproj", "{28BD3E04-5310-40ED-928A-1D91EE26A8B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "TestProject1\TestProject1.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client.Tests", "Rpg.Client.Tests\Rpg.Client.Tests.csproj", "{2DB303DC-804C-4B09-B980-8D25AF699675}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverter", "BalanceConverter\BalanceConverter.csproj", "{2C79B30E-EEAD-46C2-ABAF-776F12AB2B29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverterTests", "BalanceConverterTests\BalanceConverterTests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceConverter.Tests", "BalanceConverter.Tests\BalanceConverter.Tests.csproj", "{A36287C0-D98D-452C-86E1-98D45673914F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceGenerator", "BalanceGenerator\BalanceGenerator.csproj", "{D7BECACC-2D72-4EAD-982A-041905D79A7E}"
 EndProject

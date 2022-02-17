@@ -41,6 +41,7 @@ namespace Rpg.Client.GameScreens.Event
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly GameSettings _settings;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
@@ -82,6 +83,8 @@ namespace Rpg.Client.GameScreens.Event
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
+
+            _settings = game.Services.GetService<GameSettings>();
 
             _buttons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
@@ -319,8 +322,10 @@ namespace Rpg.Client.GameScreens.Event
                 var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
                     textFragment, _gameObjectContentStorage.GetUnitPortrains(),
-                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
-                textFragmentControl.UsePortrait = true;
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker))
+                {
+                    UsePortrait = true
+                };
                 _textFragments.Add(textFragmentControl);
             }
 
@@ -351,7 +356,11 @@ namespace Rpg.Client.GameScreens.Event
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-                            _globeProvider.StoreCurrentGlobe();
+
+                            if (_settings.Mode == GameMode.Full)
+                            {
+                                _globeProvider.StoreCurrentGlobe();
+                            }
                         }
                     }
                     else

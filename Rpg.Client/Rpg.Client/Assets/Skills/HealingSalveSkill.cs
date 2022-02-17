@@ -25,8 +25,24 @@ namespace Rpg.Client.Assets.Skills
                 {
                     var effect = new HealEffect
                     {
+                        Actor = u,
                         SourceSupport = u.Unit.Support,
                         PowerMultiplier = 0.3f
+                    };
+
+                    return effect;
+                })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new PeriodicHealEffect
+                    {
+                        SourceSupport = u.Unit.Support,
+                        PowerMultiplier = 0.2f,
+                        Duration = 2
                     };
 
                     return effect;

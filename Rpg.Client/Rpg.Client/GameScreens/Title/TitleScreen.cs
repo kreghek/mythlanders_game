@@ -22,7 +22,6 @@ namespace Rpg.Client.GameScreens.Title
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
-        private readonly SpriteFont _font;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -54,11 +53,11 @@ namespace Rpg.Client.GameScreens.Title
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
             var buttonTexture = _uiContentStorage.GetButtonTexture();
-            _font = _uiContentStorage.GetMainFont();
+            var buttonFont = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
-            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, _font);
+            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, buttonFont);
             if (loadGameButton is not null)
             {
                 _buttons.Add(loadGameButton);
@@ -68,7 +67,7 @@ namespace Rpg.Client.GameScreens.Title
                 var startButton = new ResourceTextButton(
                     nameof(UiResource.StartNewGameButtonTitle),
                     buttonTexture,
-                    _font,
+                    buttonFont,
                     Rectangle.Empty);
                 startButton.OnClick += StartButton_OnClick;
 
@@ -78,7 +77,7 @@ namespace Rpg.Client.GameScreens.Title
             var settingsButton = new ResourceTextButton(
                 nameof(UiResource.SettingsButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty);
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
@@ -86,7 +85,7 @@ namespace Rpg.Client.GameScreens.Title
             var creditsButton = new ResourceTextButton(
                 nameof(UiResource.CreditsButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty
             );
             creditsButton.OnClick += CreditsButton_OnClick;
@@ -95,7 +94,7 @@ namespace Rpg.Client.GameScreens.Title
             var exitGameButton = new ResourceTextButton(
                 nameof(UiResource.ExitGameButtonTitle),
                 buttonTexture,
-                _font,
+                buttonFont,
                 Rectangle.Empty
             );
             exitGameButton.OnClick += (_, _) =>
@@ -126,7 +125,8 @@ namespace Rpg.Client.GameScreens.Title
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
 
-            var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128, ResolutionIndependentRenderer.VirtualWidth, 64);
+            var logoRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y - 128,
+                ResolutionIndependentRenderer.VirtualWidth, 64);
             DrawLogo(spriteBatch, logoRect);
 
             var menuRect = new Rectangle(0, ResolutionIndependentRenderer.VirtualBounds.Center.Y,
@@ -134,13 +134,6 @@ namespace Rpg.Client.GameScreens.Title
             DrawMenu(spriteBatch, menuRect);
 
             spriteBatch.End();
-        }
-
-        private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
-                new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
-                Color.White);
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -192,18 +185,26 @@ namespace Rpg.Client.GameScreens.Title
             {
                 var heroSid = _showcaseUnits[i];
 
-                var heroPosition = new Vector2(contentRect.Center.X - 256/2, contentRect.Bottom - 256) + new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
+                var heroPosition = new Vector2(contentRect.Center.X - 256 / 2, contentRect.Bottom - 256) +
+                                   new Vector2(128 * offsets[i].X, 24 * offsets[i].Y);
                 spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(heroSid),
                     heroPosition,
                     new Rectangle(0, 0, 256, 256), Color.White);
             }
         }
 
+        private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
+            spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
+                new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
+                Color.White);
+        }
+
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
-                spriteBatch.DrawString(_font, "Demo",
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
                     new Vector2(
                         contentRect.Center.X,
                         contentRect.Top + 10),
@@ -245,16 +246,19 @@ namespace Rpg.Client.GameScreens.Title
 
         private UnitName[] GetShowcaseHeroes()
         {
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                return new[] { UnitName.Berimir, UnitName.Hawk, UnitName.Rada };
+            }
+
             var lastHeroes = GetLastHeroes(_globeProvider);
 
             if (lastHeroes.Count() > 3)
             {
                 return _dice.RollFromList(lastHeroes, 3).ToArray();
             }
-            else
-            {
-                return lastHeroes;
-            }
+
+            return lastHeroes;
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)

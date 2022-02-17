@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 using Microsoft.Xna.Framework;
@@ -14,16 +15,19 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly EventTextFragment _eventTextFragment;
         private readonly SpriteFont _font;
         private readonly string _localizedText;
+        private readonly Random _random;
         private readonly SoundEffect _textSoundEffect;
         private readonly StringBuilder _textToPrintBuilder;
-
-        private double _characterCounter;
         private SoundEffectInstance? _currentSound;
         private double _delayCounter;
+
+        private int _delayUsed;
         private int _index;
+        private double _soundDelayCounter;
+        private double _textCharCounter;
 
         public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
-            Microsoft.Xna.Framework.Audio.SoundEffect textSoundEffect) :
+            SoundEffect textSoundEffect) :
             base(texture)
         {
             _font = font;
@@ -31,6 +35,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _textSoundEffect = textSoundEffect;
             _localizedText = GetLocalizedText(_eventTextFragment.Text);
             _textToPrintBuilder = new StringBuilder();
+            _random = new Random();
         }
 
         public bool IsComplete { get; private set; }
@@ -59,18 +64,18 @@ namespace Rpg.Client.GameScreens.Event.Ui
             }
 
             var duration = _eventTextFragment.Speaker == UnitName.Environment ? 0.01f : 0.01f;
-            if (_characterCounter <= duration)
+            if (_textCharCounter <= duration)
             {
-                _characterCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                _textCharCounter += gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
                 if (_index < _localizedText.Length - 1)
                 {
-                    PlayTextSound();
+                    HandleTextSound(gameTime);
 
                     _textToPrintBuilder.Append(_localizedText[_index]);
-                    _characterCounter = 0;
+                    _textCharCounter = 0;
                     _index++;
                 }
                 else
@@ -104,6 +109,37 @@ namespace Rpg.Client.GameScreens.Event.Ui
             // The text in the event is localized from resources yet.
             return text;
         }
+
+        private void HandleTextSound(GameTime gameTime)
+        {
+            if (_soundDelayCounter > 0)
+            {
+                _soundDelayCounter -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                if (_delayUsed < 2)
+                {
+                    var delayRoll = _random.NextDouble();
+                    if (delayRoll < 0.95)
+                    {
+                        PlayTextSound();
+                        _delayUsed = 0;
+                    }
+                    else
+                    {
+                        _delayUsed++;
+                        _soundDelayCounter = _textSoundEffect.Duration.TotalSeconds / 2;
+                    }
+                }
+                else
+                {
+                    PlayTextSound();
+                    _delayUsed = 0;
+                }
+            }
+        }
+
 
         private void PlayTextSound()
         {

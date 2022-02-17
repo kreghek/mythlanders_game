@@ -26,7 +26,7 @@
         }
       ]
     },
-    "GoalDescription": "Добраться до болот и выжить.",
+    "GoalDescription": "Идти на звук боя.",
     "Location": "Thicket",
     "Name": "Начальная зачистка",
     "Sid": "MainSlavic1"
@@ -84,7 +84,7 @@
       ]
     },
     "GoalDescription": "На болотах найти специалиста\nпо поиску корней всех зол.",
-    "Location": "Swamp",
+    "Location": "Battleground",
     "Name": "Ты - один из немногих",
     "Sid": "MainSlavic2"
   },
@@ -143,7 +143,7 @@
       ]
     },
     "GoalDescription": "В Яме разговорить колдуна.\nРасспросить про корень зла.",
-    "Location": "Pit",
+    "Location": "DestroyedVillage",
     "Name": "Мудрость трав",
     "Sid": "MainSlavic3"
   }

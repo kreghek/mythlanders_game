@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -7,14 +8,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal class ShapeShiftState : IUnitStateEngine
     {
-        private double _counter;
+        private readonly double _duration;
         private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _shapeShiftBlocker;
-        private readonly double _duration;
+        private readonly SoundEffectInstance _soundEffectInstance;
+        private double _counter;
 
-        public ShapeShiftState(UnitGraphics graphics, AnimationBlocker shapeShiftBlocker)
+        public ShapeShiftState(UnitGraphics graphics,
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
         {
             _graphics = graphics;
+            _soundEffectInstance = soundEffectInstance;
             _shapeShiftBlocker = shapeShiftBlocker;
             _duration = graphics.GetAnimationInfo(AnimationSid.ShapeShift).GetDuration();
         }
@@ -38,6 +42,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             if (_counter == 0)
             {
                 _graphics.PlayAnimation(AnimationSid.ShapeShift);
+                _soundEffectInstance.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
