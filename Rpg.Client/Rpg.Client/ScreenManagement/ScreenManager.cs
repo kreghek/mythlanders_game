@@ -99,7 +99,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Event => _gameSettings.Mode == GameMode.Full
                     ? new SpeechScreen(_game)
                     : new EventScreen(_game),
-                ScreenTransition.Combat => new VoiceCombatScreen(_game),
+                ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
