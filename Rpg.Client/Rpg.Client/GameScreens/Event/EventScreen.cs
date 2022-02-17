@@ -34,7 +34,6 @@ namespace Rpg.Client.GameScreens.Event
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
-        private readonly GameSettings _settings;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -42,6 +41,7 @@ namespace Rpg.Client.GameScreens.Event
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly GameSettings _settings;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;

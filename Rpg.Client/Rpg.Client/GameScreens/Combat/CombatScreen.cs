@@ -33,7 +33,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
-        private readonly GameSettings _settings;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -42,6 +41,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<ButtonBase> _interactionButtons;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ScreenShaker _screenShaker;
+        private readonly GameSettings _settings;
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly Vector2[] _unitPredefinedPositions;
