@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,8 +11,17 @@ namespace BalanceConverter
     {
         private static void Main(string[] args)
         {
-            var excelUnitRows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var excelUnitRows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
             var unitRows = RowConverter.Convert(excelUnitRows);
+            
+            var excelBasicRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
+            var basics = RowConverter.ConvertToUnitBasic(excelBasicRows);
+
+            var balancedata = new BalanceData
+            {
+                UnitBasics = basics,
+                UnitRows = unitRows.ToArray()
+            };
 
             var serialized = JsonSerializer.Serialize(unitRows, new JsonSerializerOptions
             {

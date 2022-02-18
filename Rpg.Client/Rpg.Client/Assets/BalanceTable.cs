@@ -15,14 +15,16 @@ namespace Rpg.Client.Assets
     {
         private readonly Dictionary<UnitName, BalanceTableRecord> _dict;
 
+        private readonly CommonUnitBasics _unitBasics;
+
         public BalanceTable()
         {
             _dict = new Dictionary<UnitName, BalanceTableRecord>();
 
             var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_NAME = "Rpg.Client.Resources.Balance.json";
+            const string UNIT_BALANCE_RESOURCE_NAME = "Rpg.Client.Resources.Balance.json";
 
-            using var stream = assembly.GetManifestResourceStream(RESOURCE_NAME);
+            using var stream = assembly.GetManifestResourceStream(UNIT_BALANCE_RESOURCE_NAME);
             if (stream is not null)
             {
                 using var reader = new StreamReader(stream);

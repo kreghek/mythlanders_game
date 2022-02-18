@@ -15,11 +15,11 @@ namespace BalanceConverter.Tests
         {
             // ARRANGE
 
-            var excelRows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var excelRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
 
             // ACT
 
-            var rows = RowConverter.Convert(excelRows);
+            var rows = RowConverter.ConvertToUnitBasic(excelRows);
 
             // ASSERT
 
