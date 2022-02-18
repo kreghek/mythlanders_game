@@ -7,6 +7,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -41,7 +42,7 @@ namespace Rpg.Client.Tests
             };
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
@@ -52,7 +53,7 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme();
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
 
             playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
@@ -115,7 +116,7 @@ namespace Rpg.Client.Tests
             };
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 SupportRank = 1,
                 Levels = new[]
@@ -126,7 +127,7 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme();
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
 
             playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
@@ -171,7 +172,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
@@ -221,7 +222,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
@@ -230,7 +231,7 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new[]
                 {
@@ -296,7 +297,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
@@ -305,7 +306,7 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new[]
                 {

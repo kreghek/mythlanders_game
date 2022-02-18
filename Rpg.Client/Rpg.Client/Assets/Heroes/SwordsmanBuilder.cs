@@ -35,6 +35,6 @@ namespace Rpg.Client.Assets.Heroes
             return new BerimirGraphicsConfig();
         }
 
-        public override UnitName UnitName => UnitName.Berimir;
+        public override UnitName HeroName => UnitName.Berimir;
     }
 }

@@ -54,5 +54,10 @@ namespace Rpg.Client.Assets
         {
             return _dict[unitName];
         }
+
+        public CommonUnitBasics GetCommonUnitBasics()
+        {
+            return new CommonUnitBasics();
+        }
     }
 }

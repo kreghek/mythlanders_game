@@ -4,7 +4,7 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal interface IHeroBuilder
     {
-        UnitName UnitName { get; }
+        UnitName HeroName { get; }
         UnitScheme Create(IBalanceTable balanceTable);
     }
 }

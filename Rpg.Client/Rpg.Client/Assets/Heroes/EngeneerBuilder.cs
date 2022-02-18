@@ -8,11 +8,11 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class EngeneerBuilder : IHeroBuilder
     {
-        public UnitName UnitName { get; }
+        public UnitName HeroName { get; }
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
-            return new()
+            return new(balanceTable.GetCommonUnitBasics())
             {
                 TankRank = 0.25f,
                 DamageDealerRank = 0.5f,
