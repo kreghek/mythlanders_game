@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets
                 using var reader = new StreamReader(stream);
                 var result = reader.ReadToEnd();
 
-                var list = JsonSerializer.Deserialize<BalanceTableRecord[]>(result, new JsonSerializerOptions
+                var balanceData = JsonSerializer.Deserialize<BalanceData>(result, new JsonSerializerOptions
                 {
                     Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                     WriteIndented = true,
@@ -41,7 +41,11 @@ namespace Rpg.Client.Assets
                     }
                 });
 
-                foreach (var item in list)
+                _unitBasics = balanceData.UnitBasics;
+
+                var unitRows = balanceData.UnitRows;
+
+                foreach (var item in unitRows)
                 {
                     _dict.Add(item.Sid, item);
                 }
