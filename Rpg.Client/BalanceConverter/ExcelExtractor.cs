@@ -14,7 +14,7 @@ namespace BalanceConverter
 
         public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
         {
-            return ReadRowsFromExcelInner(filePath, sheetName, row =>
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, row =>
             {
                 return new UnitExcelRow
                 {
@@ -30,7 +30,7 @@ namespace BalanceConverter
         
         public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
         {
-            return ReadRowsFromExcelInner(filePath, sheetName, row =>
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
             {
                 return new UnitBasicRow
                 {
@@ -40,7 +40,11 @@ namespace BalanceConverter
             });
         }
         
-        private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(string filePath, string sheetName, Func<DataRow, TRow> mapper)
+        private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(
+            string filePath,
+            string sheetName,
+            bool firstRowIsHeader,
+            Func<DataRow, TRow> mapper)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -62,7 +66,7 @@ namespace BalanceConverter
 
             foreach (DataRow row in rows)
             {
-                if (!isFirst)
+                if (!isFirst && firstRowIsHeader)
                 {
                     isFirst = true;
                     continue;
