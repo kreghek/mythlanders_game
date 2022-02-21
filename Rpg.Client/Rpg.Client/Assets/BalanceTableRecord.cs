@@ -9,10 +9,4 @@ namespace Rpg.Client.Assets
         public float SupportRank { get; init; }
         public float TankRank { get; init; }
     }
-
-    internal sealed class BalanceData
-    {
-        public BalanceTableRecord[] UnitRecords { get; init; }
-        public CommonUnitBasics UnitBasics { get; init; }
-    }
 }

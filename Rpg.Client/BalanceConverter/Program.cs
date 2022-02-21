@@ -17,13 +17,13 @@ namespace BalanceConverter
             var excelBasicRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
             var basics = RowConverter.ConvertToUnitBasic(excelBasicRows);
 
-            var balancedata = new BalanceData
+            var balanceData = new BalanceData
             {
                 UnitBasics = basics,
                 UnitRows = unitRows.ToArray()
             };
 
-            var serialized = JsonSerializer.Serialize(unitRows, new JsonSerializerOptions
+            var serialized = JsonSerializer.Serialize(balanceData, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true,

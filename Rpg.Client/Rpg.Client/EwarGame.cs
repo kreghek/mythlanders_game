@@ -22,7 +22,7 @@ namespace Rpg.Client
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
-
+        
         private ResolutionIndependentRenderer _resolutionIndependence;
         private ScreenManager? _screenManager;
 
