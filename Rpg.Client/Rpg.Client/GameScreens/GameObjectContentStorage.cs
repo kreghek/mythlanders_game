@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
-        private Texture2D _characterFaceTexture;
+        private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
@@ -44,7 +44,12 @@ namespace Rpg.Client.GameScreens
 
         public Texture2D GetCharacterFaceTexture(UnitName heroSid)
         {
-            return _characterFaceTexture;
+            if (_heroFaceTextureDict.TryGetValue(heroSid, out var texture))
+            {
+                return texture;
+            }
+
+            return _heroFaceTextureDict[UnitName.Undefined];
         }
 
         public Texture2D GetSymbolSprite()
@@ -256,7 +261,12 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
-            _characterFaceTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace");
+            _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/RadaFace") }
+            };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
