@@ -187,11 +187,14 @@
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
+  <data name="DamageEffectRuleText" xml:space="preserve">
+    <value>Damage: {0} - {1} to {2}</value>
+  </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Exit game</value>
@@ -202,6 +205,12 @@
   </data>
   <data name="GlobalEffectDurationTemplate" xml:space="preserve">
     <value>{0} combats left</value>
+  </data>
+  <data name="HealEffectRuleText" xml:space="preserve">
+    <value>Heal: {0} - {1} to {2}</value>
+  </data>
+  <data name="HealOverTimeEffectRuleText" xml:space="preserve">
+    <value>Heal over time: {0} - {1} during {2} to {3}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
     <value>Equipment</value>
@@ -265,6 +274,14 @@
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Short</value>
+  </data>
+  <data name="SkillDirectionSelfText" xml:space="preserve">
+    <value>self</value>
+    <comment>Дательный падеж</comment>
+  </data>
+  <data name="SkillDirectionTargetText" xml:space="preserve">
+    <value>target</value>
+    <comment>Дательный падеж</comment>
   </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>

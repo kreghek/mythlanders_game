@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class AttackEffect : InstantenousEffectBase
+    internal class DamageEffect : InstantenousEffectBase
     {
         public CombatUnit Actor { get; set; }
 

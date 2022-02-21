@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
@@ -15,12 +15,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
         private readonly CombatUnit _unit;
+        private readonly ISkillEffectDrawer[] _effectDrawers;
 
         public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, CombatUnit unit) : base(texture)
         {
             _font = font;
             _skill = skill;
             _unit = unit;
+
+            _effectDrawers = new ISkillEffectDrawer[] {
+                new DamageEffectDrawer(font),
+                new HealEffectDrawer(font),
+                new HealOverTimeEffectDrawer(font)
+            };
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
@@ -31,8 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-            var skillNameText = GameObjectResources.ResourceManager.GetString(combatPower.Skill.Sid.ToString()) ??
-                                $"#Resource-{combatPower.Skill.Sid}";
+            var skillNameText = GameObjectHelper.GetLocalized(combatPower.Skill.Sid);
             spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
                 color);
 
@@ -54,7 +60,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 
-                if (effectToDisplay is AttackEffect attackEffect)
+                foreach (var effectDrawer in _effectDrawers)
+                {
+                    if (effectDrawer.Draw(spriteBatch, effectToDisplay, rule, rulePosition))
+                    {
+                        break;
+                    }
+                }
+
+
+                /*if (effectToDisplay is DamageEffect attackEffect)
                 {
                     var damage = attackEffect.CalculateDamage();
 
@@ -89,7 +104,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         $"Power up: {increaseAttackEffect.Duration} turns up to {50}% damage",
                         rulePosition,
                         color);
-                }
+                }*/
             }
         }
     }
