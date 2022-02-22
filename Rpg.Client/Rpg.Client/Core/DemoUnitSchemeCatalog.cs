@@ -73,7 +73,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                
+
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
@@ -95,7 +95,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                
+
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
@@ -114,7 +114,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
-                
+
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,

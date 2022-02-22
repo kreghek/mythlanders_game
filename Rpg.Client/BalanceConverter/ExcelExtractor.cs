@@ -27,7 +27,7 @@ namespace BalanceConverter
                 };
             });
         }
-        
+
         public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
         {
             return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
@@ -39,7 +39,7 @@ namespace BalanceConverter
                 };
             });
         }
-        
+
         private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(
             string filePath,
             string sheetName,

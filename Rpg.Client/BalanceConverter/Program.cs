@@ -13,7 +13,7 @@ namespace BalanceConverter
         {
             var excelUnitRows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
             var unitRows = RowConverter.Convert(excelUnitRows);
-            
+
             var excelBasicRows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
             var basics = RowConverter.ConvertToUnitBasic(excelBasicRows);
 
