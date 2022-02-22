@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
@@ -31,7 +30,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new PeriodicHealEffectDrawer(font),
                 new StunEffectDrawer(font),
                 new IncreaseDamageEffectDrawer(font),
-                new DecreaseDamageEffectDrawer(font)
+                new DecreaseDamageEffectDrawer(font),
+                new LifeDrawEffectDrawer(font)
             };
         }
 
@@ -51,7 +51,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (combatPower.Skill.ManaCost is not null)
             {
                 var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
-                spriteBatch.DrawString(_font, $"Cost: {combatPower.Skill.ManaCost}",
+                spriteBatch.DrawString(_font, string.Format(UiResource.SkillManaCostTemplate, combatPower.Skill.ManaCost),
                     manaCostPosition, manaCostColor);
             }
 

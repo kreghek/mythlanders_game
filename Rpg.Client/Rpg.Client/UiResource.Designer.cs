@@ -421,6 +421,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draw {0} - {1} hp from {2}.
+        /// </summary>
+        internal static string LifeDrawEffectRuleText {
+            get {
+                return ResourceManager.GetString("LifeDrawEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Long.
         /// </summary>
         internal static string LongCombatSequenceText {
@@ -552,6 +561,15 @@ namespace Rpg.Client {
         internal static string SkillDirectionTargetText {
             get {
                 return ResourceManager.GetString("SkillDirectionTargetText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required {0} psy-energy.
+        /// </summary>
+        internal static string SkillManaCostTemplate {
+            get {
+                return ResourceManager.GetString("SkillManaCostTemplate", resourceCulture);
             }
         }
         

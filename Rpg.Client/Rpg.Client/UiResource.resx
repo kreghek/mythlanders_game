@@ -313,8 +313,14 @@
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
     <value>Increase damage of {1} on {0} on {3} turns</value>
   </data>
+  <data name="LifeDrawEffectRuleText" xml:space="preserve">
+    <value>Draw {0} - {1} hp from {2}</value>
+  </data>
   <data name="PeriodicDamageEffectRuleText" xml:space="preserve">
     <value>Damage: {0} - {1} to {2} during {3} turns</value>
+  </data>
+  <data name="SkillManaCostTemplate" xml:space="preserve">
+    <value>Required {0} psy-energy</value>
   </data>
   <data name="StunEffectRuleText" xml:space="preserve">
     <value>Stun to {1} on {0}</value>
