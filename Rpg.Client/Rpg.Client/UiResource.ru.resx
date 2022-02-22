@@ -315,4 +315,7 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
+    <value>всем противникам</value>
+  </data>
 </root>

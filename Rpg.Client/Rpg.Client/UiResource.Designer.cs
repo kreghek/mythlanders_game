@@ -502,6 +502,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all enemies.
+        /// </summary>
+        internal static string SkillDirectionAllEnemiesText {
+            get {
+                return ResourceManager.GetString("SkillDirectionAllEnemiesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to self.
         /// </summary>
         internal static string SkillDirectionSelfText {

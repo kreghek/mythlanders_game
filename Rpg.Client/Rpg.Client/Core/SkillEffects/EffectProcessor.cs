@@ -107,7 +107,7 @@ namespace Rpg.Client.Core.SkillEffects
 
                     break;
 
-                case SkillDirection.AllEnemy:
+                case SkillDirection.AllEnemies:
                     foreach (var unit in _combat.AliveUnits.Where(x =>
                         x.Unit.IsPlayerControlled != self.Unit.IsPlayerControlled))
                     {
