@@ -25,11 +25,75 @@
       "Type": false
     },
     {
+      "DamageDealerRank": 0.6,
+      "Demo": false,
+      "Sid": "Maosin",
+      "SupportRank": 0.2,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Ping",
+      "SupportRank": 0.1,
+      "TankRank": 0.8,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Cheng",
+      "SupportRank": 0.7,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.9,
+      "Demo": false,
+      "Sid": "Kakhotep",
+      "SupportRank": 0,
+      "TankRank": 0.1,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.8,
+      "Demo": false,
+      "Sid": "Amun",
+      "SupportRank": 0.1,
+      "TankRank": 0.1,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.1,
+      "Demo": false,
+      "Sid": "Nubiti",
+      "SupportRank": 0.7,
+      "TankRank": 0.2,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.4,
+      "Demo": false,
+      "Sid": "Leonidas",
+      "SupportRank": 0.1,
+      "TankRank": 0.5,
+      "Type": false
+    },
+    {
       "DamageDealerRank": 0.8,
       "Demo": false,
       "Sid": "Diana",
       "SupportRank": 0.2,
       "TankRank": 0,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.5,
+      "Demo": false,
+      "Sid": "Geron",
+      "SupportRank": 0.15,
+      "TankRank": 0.35,
       "Type": false
     }
   ],
