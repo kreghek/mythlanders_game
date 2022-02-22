@@ -84,10 +84,11 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
-                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
-                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") },
-                { UnitName.Maosin, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Monk") }
+                { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
+                { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
+                { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
+                { UnitName.Maosin, LoadHeroTexture(contentManager, "Monk") },
+                { UnitName.Ping, LoadHeroTexture(contentManager, "Spearman") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -285,6 +286,12 @@ namespace Rpg.Client.GameScreens
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
             }
+        }
+
+        private static Texture2D LoadHeroTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "PlayerUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         internal Texture2D GetBiomeClouds()
