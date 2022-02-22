@@ -13,23 +13,23 @@ namespace Rpg.Client.Core
     {
         public UnitSchemeCatalog(IBalanceTable balanceTable)
         {
-            var heroes = new IHeroBuilder[]
+            var heroes = new IHeroFactory[]
             {
-                new SwordsmanBuilder(),
+                new SwordsmanFactory(),
                 new ArcherFactory(),
                 new HerbalistFactory(),
 
-                new MonkBuilder(),
-                new SpearmanBuilder(),
-                new SageBuilder(),
+                new MonkFactory(),
+                new SpearmanFactory(),
+                new SageFactory(),
 
-                new ScorpionBuilder(),
-                new DarkPriestBuilder(),
+                new ScorpionFactory(),
+                new PriestFactory(),
                 new LiberatorFactory(),
 
                 new LegionnaireFactory(),
                 new AmazonFactory(),
-                new EngeneerBuilder()
+                new EngineerFactory()
             };
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);

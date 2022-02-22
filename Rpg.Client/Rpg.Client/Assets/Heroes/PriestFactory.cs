@@ -5,15 +5,15 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class SageBuilder : HeroFactoryBase
+    internal class PriestFactory : HeroFactoryBase
     {
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
             {
-                new EmptinessInTheHand(),
-                new DeceptivelyLightRobe(),
-                new MagicAndMechanicalBox()
+                new EgyptianBookOfDeath(),
+                new NanoMetalLongCloths(),
+                new ScarabeusKingLeg()
             };
         }
 
@@ -21,14 +21,14 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new ReproachSkill()),
-                new AddSkillUnitLevel(2, new NoViolencePleaseSkill()),
+                new AddSkillUnitLevel(1, new DarkLightingSkill()),
+                new AddSkillUnitLevel(2, new MummificationTouchSkill()),
                 new AddPerkUnitLevel(2, new Evasion()),
-                new AddSkillUnitLevel(3, new FaithBoostSkill(true)),
-                new AddSkillUnitLevel(4, new AskedNoViolenceSkill(true))
+                new AddSkillUnitLevel(3, new ParalyticChoirSkill(true)),
+                new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
             };
         }
 
-        public override UnitName HeroName => UnitName.Cheng;
+        public override UnitName HeroName => UnitName.Kakhotep;
     }
 }

@@ -5,7 +5,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class SpearmanBuilder : HeroFactoryBase
+    internal class SpearmanFactory : HeroFactoryBase
     {
         protected override IEquipmentScheme[] GetEquipment()
         {

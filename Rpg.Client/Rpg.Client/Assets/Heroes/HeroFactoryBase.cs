@@ -3,7 +3,7 @@ using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal abstract class HeroFactoryBase : IHeroBuilder
+    internal abstract class HeroFactoryBase : IHeroFactory
     {
         protected abstract IEquipmentScheme[] GetEquipment();
 

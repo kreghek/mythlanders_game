@@ -13,9 +13,9 @@ namespace Rpg.Client.Core
     {
         public DemoUnitSchemeCatalog()
         {
-            var heroes = new IHeroBuilder[]
+            var heroes = new IHeroFactory[]
             {
-                new SwordsmanBuilder(),
+                new SwordsmanFactory(),
                 new ArcherFactory(),
                 new HerbalistFactory()
             };

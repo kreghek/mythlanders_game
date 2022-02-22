@@ -6,7 +6,7 @@ using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class MonkBuilder : HeroFactoryBase
+    internal class MonkFactory : HeroFactoryBase
     {
         protected override IEquipmentScheme[] GetEquipment()
         {
