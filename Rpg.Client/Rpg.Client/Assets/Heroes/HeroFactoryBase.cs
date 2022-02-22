@@ -1,5 +1,5 @@
-﻿using Rpg.Client.Core;
-using Rpg.Client.Core.GraphicConfigs;
+﻿using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {

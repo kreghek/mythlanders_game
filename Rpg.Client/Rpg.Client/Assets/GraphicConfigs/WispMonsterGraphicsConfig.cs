@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Rpg.Client.Core.GraphicConfigs
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.GraphicConfigs
 {
     internal sealed class WispMonsterGraphicsConfig : UnitGraphicsConfigBase
     {

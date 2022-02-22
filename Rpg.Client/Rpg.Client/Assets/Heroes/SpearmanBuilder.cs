@@ -1,4 +1,5 @@
 using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
@@ -29,6 +30,11 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(3, new DemonicTauntSkill(true)),
                 new AddSkillUnitLevel(4, new ToateAngerSkill(true))
             };
+        }
+
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new SpearmanGraphicsConfig();
         }
     }
 }
