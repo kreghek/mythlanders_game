@@ -56,7 +56,8 @@ namespace Rpg.Client.Core
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.ARMOR_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (int)Math.Round(_unitBasics.ARMOR_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                    MidpointRounding.AwayFromZero);
             }
 
             return _unitBasics.ARMOR_BASE;
@@ -66,7 +67,8 @@ namespace Rpg.Client.Core
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.DAMAGE_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (int)Math.Round(_unitBasics.DAMAGE_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                    MidpointRounding.AwayFromZero);
             }
 
             return _unitBasics.DAMAGE_BASE;
@@ -76,7 +78,8 @@ namespace Rpg.Client.Core
         {
             if (!IsMonster)
             {
-                return (float)Math.Round(_unitBasics.HITPOINTS_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (float)Math.Round(_unitBasics.HITPOINTS_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                    MidpointRounding.AwayFromZero);
             }
 
             return _unitBasics.HITPOINTS_BASE;
@@ -117,7 +120,8 @@ namespace Rpg.Client.Core
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.SUPPORT_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR, MidpointRounding.AwayFromZero);
+                return (int)Math.Round(_unitBasics.SUPPORT_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                    MidpointRounding.AwayFromZero);
             }
 
             return _unitBasics.SUPPORT_BASE;

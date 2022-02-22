@@ -101,7 +101,8 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             var heal = periodicHealEffect.CalculateHeal();
 
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.HealOverTimeEffectRuleText, heal.Min, heal.Max, periodicHealEffect.Duration, periodicHealEffect.Target),
+                string.Format(UiResource.HealOverTimeEffectRuleText, heal.Min, heal.Max, periodicHealEffect.Duration,
+                    periodicHealEffect.Target),
                 position, Color.Wheat);
 
             return true;

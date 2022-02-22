@@ -7,6 +7,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class LegionnaireFactory : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Leonidas;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -28,7 +30,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new AresWarBringerThreadsSkill(true))
             };
         }
-
-        public override UnitName HeroName => UnitName.Leonidas;
     }
 }

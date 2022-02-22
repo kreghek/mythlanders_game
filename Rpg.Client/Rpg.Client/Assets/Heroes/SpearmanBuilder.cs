@@ -7,6 +7,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class SpearmanFactory : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Ping;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -28,7 +30,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new ToateAngerSkill(true))
             };
         }
-
-        public override UnitName HeroName => UnitName.Ping;
     }
 }

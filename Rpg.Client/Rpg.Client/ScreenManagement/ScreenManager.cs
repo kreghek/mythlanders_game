@@ -49,6 +49,20 @@ namespace Rpg.Client.ScreenManagement
             DrawTransition(spriteBatch);
         }
 
+        public void InitStartScreen()
+        {
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var startScreen = new IntroScreen(_game);
+                ActiveScreen = startScreen;
+            }
+            else
+            {
+                var startScreen = new TitleScreen(_game);
+                ActiveScreen = startScreen;
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             if (ActiveScreen is null)
@@ -84,20 +98,6 @@ namespace Rpg.Client.ScreenManagement
                     _transitionCounter = null;
                     _screenChanged = false;
                 }
-            }
-        }
-
-        public void InitStartScreen()
-        {
-            if (_gameSettings.Mode == GameMode.Full)
-            {
-                var startScreen = new IntroScreen(_game);
-                ActiveScreen = startScreen;
-            }
-            else
-            {
-                var startScreen = new TitleScreen(_game);
-                ActiveScreen = startScreen;
             }
         }
 

@@ -7,6 +7,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class SageFactory : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Cheng;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -28,7 +30,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new AskedNoViolenceSkill(true))
             };
         }
-
-        public override UnitName HeroName => UnitName.Cheng;
     }
 }
