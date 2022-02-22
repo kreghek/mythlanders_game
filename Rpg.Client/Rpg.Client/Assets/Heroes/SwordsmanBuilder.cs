@@ -8,6 +8,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class SwordsmanBuilder : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Berimir;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -16,6 +18,11 @@ namespace Rpg.Client.Assets.Heroes
                 new Mk2MediumPowerArmor(),
                 new WoodenHandSculpture()
             };
+        }
+
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new BerimirGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()
@@ -29,12 +36,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
             };
         }
-
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new BerimirGraphicsConfig();
-        }
-
-        public override UnitName HeroName => UnitName.Berimir;
     }
 }

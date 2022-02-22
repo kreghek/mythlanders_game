@@ -12,10 +12,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal class SkillHint : HintBase
     {
+        private readonly ISkillEffectDrawer[] _effectDrawers;
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
         private readonly CombatUnit _unit;
-        private readonly ISkillEffectDrawer[] _effectDrawers;
 
         public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, CombatUnit unit) : base(texture)
         {
@@ -23,7 +23,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _skill = skill;
             _unit = unit;
 
-            _effectDrawers = new ISkillEffectDrawer[] {
+            _effectDrawers = new ISkillEffectDrawer[]
+            {
                 new DamageEffectDrawer(font),
                 new HealEffectDrawer(font),
                 new HealOverTimeEffectDrawer(font)
@@ -67,7 +68,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         break;
                     }
                 }
-
 
                 /*if (effectToDisplay is DamageEffect attackEffect)
                 {

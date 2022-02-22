@@ -14,13 +14,13 @@ namespace Rpg.Client.GameScreens
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
-        private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private Texture2D _equipmentIcons;
         private SpriteFont _font;
+        private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
 
@@ -287,12 +287,6 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
-        {
-            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
-            return contentManager.Load<Texture2D>(path);
-        }
-
         internal Texture2D GetBiomeClouds()
         {
             return _biomClouds;
@@ -386,6 +380,12 @@ namespace Rpg.Client.GameScreens
         internal Texture2D GetUnitShadow()
         {
             return _shadowTexture;
+        }
+
+        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         private enum BackgroundLayerType

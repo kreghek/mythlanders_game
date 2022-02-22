@@ -30,9 +30,12 @@ namespace BalanceConverter
                 DAMAGE_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.DAMAGE_BASE)).Value,
                 SUPPORT_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.SUPPORT_BASE)).Value,
                 HITPOINTS_BASE = (int)unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HITPOINTS_BASE)).Value,
-                POWER_PER_LEVEL_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.POWER_PER_LEVEL_BASE)).Value,
-                HITPOINTS_PER_LEVEL_BASE = (int)unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HITPOINTS_PER_LEVEL_BASE)).Value,
-                HERO_POWER_MULTIPLICATOR = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HERO_POWER_MULTIPLICATOR)).Value
+                POWER_PER_LEVEL_BASE =
+                    unitExcelRows.Single(x => x.Key == nameof(UnitBasics.POWER_PER_LEVEL_BASE)).Value,
+                HITPOINTS_PER_LEVEL_BASE =
+                    (int)unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HITPOINTS_PER_LEVEL_BASE)).Value,
+                HERO_POWER_MULTIPLICATOR =
+                    unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HERO_POWER_MULTIPLICATOR)).Value
             };
         }
     }

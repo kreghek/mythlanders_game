@@ -7,6 +7,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class ScorpionBuilder : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Amun;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -28,7 +30,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new SunburstSkill(true))
             };
         }
-
-        public override UnitName HeroName => UnitName.Amun;
     }
 }

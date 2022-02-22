@@ -8,6 +8,8 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class MonkBuilder : HeroFactoryBase
     {
+        public override UnitName HeroName => UnitName.Maosin;
+
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
@@ -16,6 +18,11 @@ namespace Rpg.Client.Assets.Heroes
                 new AsceticRobe(),
                 new SymbolOfGod()
             };
+        }
+
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new MaosinGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()
@@ -29,12 +36,5 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(4, new GodNatureSkill(true))
             };
         }
-
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new MaosinGraphicsConfig();
-        }
-
-        public override UnitName HeroName => UnitName.Maosin;
     }
 }

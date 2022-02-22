@@ -12,6 +12,18 @@ namespace BalanceConverter
     {
         public const string SOURCE_EVENTS_EXCEL = "Balance.xlsx";
 
+        public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
+        {
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
+            {
+                return new UnitBasicRow
+                {
+                    Key = row[0] as string,
+                    Value = GetFloatValue(row[1])
+                };
+            });
+        }
+
         public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
         {
             return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, row =>
@@ -28,16 +40,9 @@ namespace BalanceConverter
             });
         }
 
-        public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
+        private static float GetFloatValue(object rowValue)
         {
-            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
-            {
-                return new UnitBasicRow
-                {
-                    Key = row[0] as string,
-                    Value = GetFloatValue(row[1])
-                };
-            });
+            return (float)((double?)rowValue).GetValueOrDefault();
         }
 
         private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(
@@ -78,11 +83,6 @@ namespace BalanceConverter
             }
 
             return excelRows;
-        }
-
-        private static float GetFloatValue(object rowValue)
-        {
-            return (float)((double?)rowValue).GetValueOrDefault();
         }
     }
 }
