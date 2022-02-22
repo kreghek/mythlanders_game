@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs
 {
-    internal sealed class BerimirGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SpearmanGraphicsConfig : UnitGraphicsConfigBase
     {
-        public BerimirGraphicsConfig()
+        public SpearmanGraphicsConfig()
         {
             Animations = new Dictionary<AnimationSid, AnimationInfo>
             {
                 { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { AnimationSid.Defense, new AnimationInfo(startFrame: 16, frames: 1, speed: 0) },
+                { AnimationSid.Defense, new AnimationInfo(startFrame: 39, frames: 1, speed: 0) },
                 {
                     AnimationSid.MoveForward, new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
                 },
