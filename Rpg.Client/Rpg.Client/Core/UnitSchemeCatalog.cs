@@ -25,30 +25,30 @@ namespace Rpg.Client.Core
 
                 new ScorpionBuilder(),
                 new DarkPriestBuilder(),
-                new LiberatorBuilder(),
+                new LiberatorFactory(),
 
-                new LegionnaireBuilder(),
+                new LegionnaireFactory(),
                 new AmazonFactory(),
                 new EngeneerBuilder()
             };
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
-            var slavicMonsters = CreateSlavicMonsters();
-            var chineseMonsters = CreateChineseMonsters();
-            var egyptianMonsters = CreateEgyptianMonsters();
-            var greekMonsters = CreateGreekMonsters();
+            var slavicMonsters = CreateSlavicMonsters(balanceTable);
+            var chineseMonsters = CreateChineseMonsters(balanceTable);
+            var egyptianMonsters = CreateEgyptianMonsters(balanceTable);
+            var greekMonsters = CreateGreekMonsters(balanceTable);
 
             AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters)
                 .ToArray();
         }
 
-        private static IEnumerable<UnitScheme> CreateChineseMonsters()
+        private static IEnumerable<UnitScheme> CreateChineseMonsters(IBalanceTable balanceTable)
         {
             var biomeType = BiomeType.Chinese;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -71,7 +71,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -96,12 +96,12 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateEgyptianMonsters()
+        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
         {
             var biomeType = BiomeType.Egyptian;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -124,7 +124,7 @@ namespace Rpg.Client.Core
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
 
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -149,12 +149,12 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateGreekMonsters()
+        private static IEnumerable<UnitScheme> CreateGreekMonsters(IBalanceTable balanceTable)
         {
             var biomeType = BiomeType.Greek;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -176,7 +176,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -201,12 +201,12 @@ namespace Rpg.Client.Core
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateSlavicMonsters()
+        private static IEnumerable<UnitScheme> CreateSlavicMonsters(IBalanceTable balanceTable)
         {
             var biomeType = BiomeType.Slavic;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -226,7 +226,7 @@ namespace Rpg.Client.Core
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -245,7 +245,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -266,7 +266,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -284,7 +284,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -308,7 +308,7 @@ namespace Rpg.Client.Core
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {
                         HpShare = 0.5f,
-                        NextScheme = new UnitScheme
+                        NextScheme = new UnitScheme(balanceTable.GetCommonUnitBasics())
                         {
                             TankRank = 0.5f,
                             DamageDealerRank = 0.5f,
@@ -331,7 +331,7 @@ namespace Rpg.Client.Core
                         }
                     }
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -349,7 +349,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -367,7 +367,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -387,7 +387,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 1.0f,
                     DamageDealerRank = 0.0f,
@@ -405,7 +405,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -424,7 +424,7 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.3f,
                     DamageDealerRank = 0.5f,
@@ -450,7 +450,7 @@ namespace Rpg.Client.Core
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {
                         HpShare = 0.6f,
-                        NextScheme = new UnitScheme
+                        NextScheme = new UnitScheme(balanceTable.GetCommonUnitBasics())
                         {
                             TankRank = 0.0f,
                             DamageDealerRank = 1.0f,
@@ -473,7 +473,7 @@ namespace Rpg.Client.Core
                             SchemeAutoTransition = new UnitSchemeAutoTransition
                             {
                                 HpShare = 0.3f,
-                                NextScheme = new UnitScheme
+                                NextScheme = new UnitScheme(balanceTable.GetCommonUnitBasics())
                                 {
                                     TankRank = 0.0f,
                                     DamageDealerRank = 1.0f,

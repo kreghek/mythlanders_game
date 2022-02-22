@@ -661,6 +661,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Aspid.png
 
+#begin Sprites/GameObjects/MonsterUnits/Stryga.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/Stryga.png
+
 #begin Sprites/GameObjects/MonsterUnits/Bear.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -756,6 +768,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/SwordsmanFace.png
+
+#begin Sprites/GameObjects/PlayerUnits/HerbalistFace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/HerbalistFace.png
 
 #begin Sprites/GameObjects/PlayerUnits/Warrior.png
 /importer:TextureImporter

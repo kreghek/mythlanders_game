@@ -12,7 +12,6 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
-using Rpg.Client.GameScreens.Intro;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
@@ -23,7 +22,7 @@ namespace Rpg.Client
         private readonly GraphicsDeviceManager _graphics;
         private readonly ILogger<EwarGame> _logger;
         private Camera2D _camera;
-
+        
         private ResolutionIndependentRenderer _resolutionIndependence;
         private ScreenManager? _screenManager;
 
@@ -147,8 +146,7 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new IntroScreen(this);
-                _screenManager.ActiveScreen = startScreen;
+                _screenManager.InitStartScreen();
             }
 
             _screenManager.Update(gameTime);

@@ -1,26 +1,46 @@
-[
-  {
-    "Sid": "Berimir",
-    "SupportRank": 0.1,
-    "TankRank": 0.5,
-    "DamageDealerRank": 0.4
-  },
-  {
-    "Sid": "Hawk",
-    "SupportRank": 0,
-    "TankRank": 0.3,
-    "DamageDealerRank": 0.7
-  },
-  {
-    "Sid": "Rada",
-    "SupportRank": 1,
-    "TankRank": 0,
-    "DamageDealerRank": 0
-  },
-  {
-    "Sid": "Diana",
-    "SupportRank": 0.2,
-    "TankRank": 0,
-    "DamageDealerRank": 0.8
+{
+  "UnitRows": [
+    {
+      "DamageDealerRank": 0.4,
+      "Demo": false,
+      "Sid": "Berimir",
+      "SupportRank": 0.1,
+      "TankRank": 0.5,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.7,
+      "Demo": false,
+      "Sid": "Hawk",
+      "SupportRank": 0,
+      "TankRank": 0.3,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0,
+      "Demo": false,
+      "Sid": "Rada",
+      "SupportRank": 1,
+      "TankRank": 0,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.8,
+      "Demo": false,
+      "Sid": "Diana",
+      "SupportRank": 0.2,
+      "TankRank": 0,
+      "Type": false
+    }
+  ],
+  "UnitBasics": {
+    "HITPOINTS_BASE": 40,
+    "HITPOINTS_PER_LEVEL_BASE": 4,
+    "ARMOR_BASE": 0.5,
+    "DAMAGE_BASE": 5,
+    "SUPPORT_BASE": 2,
+    "HERO_POWER_MULTIPLICATOR": 2.5,
+    "POWER_BASE": 1,
+    "POWER_PER_LEVEL_BASE": 0.1
   }
-]
+}

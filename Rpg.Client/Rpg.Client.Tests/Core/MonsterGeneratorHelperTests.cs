@@ -4,6 +4,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
 
@@ -31,7 +32,7 @@ namespace Rpg.Client.Tests.Core
                 IsComplete = true
             };
 
-            var bossUnitScheme = new UnitScheme
+            var bossUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 MinRequiredBiomeLevel = 0,
                 LocationSids = new[] { GlobeNodeSid.Castle },
@@ -41,7 +42,7 @@ namespace Rpg.Client.Tests.Core
                 }
             };
 
-            var regularUnitScheme = new UnitScheme
+            var regularUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
@@ -81,7 +82,7 @@ namespace Rpg.Client.Tests.Core
                 IsComplete = false
             };
 
-            var bossUnitScheme = new UnitScheme
+            var bossUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 MinRequiredBiomeLevel = 0,
                 LocationSids = new[] { GlobeNodeSid.Castle },
@@ -91,7 +92,7 @@ namespace Rpg.Client.Tests.Core
                 }
             };
 
-            var regularUnitScheme = new UnitScheme
+            var regularUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 LocationSids = new[] { GlobeNodeSid.Castle }
             };
@@ -127,7 +128,7 @@ namespace Rpg.Client.Tests.Core
 
             var biome = new Biome(minLevel: default, type: default);
 
-            var bigUnitScheme = new UnitScheme
+            var bigUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 LocationSids = new[] { GlobeNodeSid.Battleground },
                 Levels = new[]
@@ -136,7 +137,7 @@ namespace Rpg.Client.Tests.Core
                 }
             };
 
-            var regularUnitScheme = new UnitScheme
+            var regularUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 LocationSids = new[] { GlobeNodeSid.Battleground }
             };

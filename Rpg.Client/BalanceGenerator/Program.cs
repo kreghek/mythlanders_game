@@ -133,6 +133,11 @@ namespace BalanceGenerator
 
                 return _balanceTable.GetRecord(unitName);
             }
+
+            public CommonUnitBasics GetCommonUnitBasics()
+            {
+                return new CommonUnitBasics();
+            }
         }
     }
 }

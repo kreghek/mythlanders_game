@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Skills
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         Actor = u,
                         DamageMultiplier = 1f * equipmentMultiplier
@@ -60,7 +60,7 @@ namespace Rpg.Client.Assets.Skills
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         Actor = u,
                         DamageMultiplier = 1f * equipmentMultiplier

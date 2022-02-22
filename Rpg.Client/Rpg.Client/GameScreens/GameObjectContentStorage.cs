@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomClouds;
-        private Texture2D _characterFaceTexture;
+        private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
@@ -44,7 +44,12 @@ namespace Rpg.Client.GameScreens
 
         public Texture2D GetCharacterFaceTexture(UnitName heroSid)
         {
-            return _characterFaceTexture;
+            if (_heroFaceTextureDict.TryGetValue(heroSid, out var texture))
+            {
+                return texture;
+            }
+
+            return _heroFaceTextureDict[UnitName.Undefined];
         }
 
         public Texture2D GetSymbolSprite()
@@ -87,15 +92,13 @@ namespace Rpg.Client.GameScreens
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.GreyWolf, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf") },
-                { UnitName.Aspid, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Aspid") },
-                { UnitName.Wisp, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wisp") },
-                { UnitName.Bear, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Bear") },
-                {
-                    UnitName.VolkolakWarrior,
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak")
-                },
-                { UnitName.Volkolak, contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Volkolak") }
+                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
+                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
+                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
+                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
+                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -258,7 +261,12 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
-            _characterFaceTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace");
+            _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }
+            };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
@@ -277,6 +285,12 @@ namespace Rpg.Client.GameScreens
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
             }
+        }
+
+        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         internal Texture2D GetBiomeClouds()

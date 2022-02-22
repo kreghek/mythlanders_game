@@ -6,6 +6,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 
@@ -19,7 +20,7 @@ namespace Rpg.Client.Tests
         {
             // ARRANGE
 
-            var scheme = new UnitScheme
+            var scheme = new UnitScheme(new CommonUnitBasics())
             {
                 Equipments = new[]
                 {
@@ -46,7 +47,7 @@ namespace Rpg.Client.Tests
             var skill = Mock.Of<ISkill>(x => x.Sid == SkillSid.SwordSlash);
             var improvedSkill = Mock.Of<ISkill>();
 
-            var scheme = new UnitScheme
+            var scheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new IUnitLevelScheme[]
                 {
@@ -72,7 +73,7 @@ namespace Rpg.Client.Tests
             var skill = Mock.Of<ISkill>();
             var perk = Mock.Of<IPerk>();
 
-            var scheme = new UnitScheme
+            var scheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new IUnitLevelScheme[]
                 {
@@ -98,7 +99,7 @@ namespace Rpg.Client.Tests
 
             var skill = Mock.Of<ISkill>();
 
-            var scheme = new UnitScheme
+            var scheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new[]
                 {
@@ -122,7 +123,7 @@ namespace Rpg.Client.Tests
 
             var skill = Mock.Of<ISkill>();
 
-            var scheme = new UnitScheme
+            var scheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new[]
                 {
@@ -144,9 +145,9 @@ namespace Rpg.Client.Tests
         {
             // ARRANGE
 
-            var nextScheme = new UnitScheme();
+            var nextScheme = new UnitScheme(new CommonUnitBasics());
 
-            var sourceScheme = new UnitScheme
+            var sourceScheme = new UnitScheme(new CommonUnitBasics())
             {
                 SchemeAutoTransition = new UnitSchemeAutoTransition
                 {
@@ -177,9 +178,9 @@ namespace Rpg.Client.Tests
         {
             // ARRANGE
 
-            var nextScheme = new UnitScheme();
+            var nextScheme = new UnitScheme(new CommonUnitBasics());
 
-            var sourceScheme = new UnitScheme
+            var sourceScheme = new UnitScheme(new CommonUnitBasics())
             {
                 SchemeAutoTransition = new UnitSchemeAutoTransition
                 {

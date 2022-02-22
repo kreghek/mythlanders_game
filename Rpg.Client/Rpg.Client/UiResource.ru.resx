@@ -201,6 +201,9 @@
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Разработчики</value>
   </data>
+  <data name="DamageEffectRuleText" xml:space="preserve">
+    <value>Наносит {0} - {1} урона {2}</value>
+  </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
   </data>
@@ -218,6 +221,12 @@
   </data>
   <data name="GlobalEffectDurationTemplate" xml:space="preserve">
     <value>{0} боёв осталось</value>
+  </data>
+  <data name="HealEffectRuleText" xml:space="preserve">
+    <value>Лечит {0} - {1} хп {2}</value>
+  </data>
+  <data name="HealOverTimeEffectRuleText" xml:space="preserve">
+    <value>Лечит {0} - {1} хп в течении {2} {3}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
     <value>Экипировка</value>
@@ -278,6 +287,12 @@
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
+  </data>
+  <data name="SkillDirectionSelfText" xml:space="preserve">
+    <value>себе</value>
+  </data>
+  <data name="SkillDirectionTargetText" xml:space="preserve">
+    <value>цели</value>
   </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>

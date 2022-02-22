@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -11,11 +12,43 @@ namespace BalanceConverter
     {
         public const string SOURCE_EVENTS_EXCEL = "Balance.xlsx";
 
-        public static IReadOnlyCollection<UnitExcelRow> ReadUnitsFromExcel(string filePath, string sheetName)
+        public static IReadOnlyCollection<UnitExcelRow> ReadUnitsRolesFromExcel(string filePath, string sheetName)
+        {
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: true, row =>
+            {
+                return new UnitExcelRow
+                {
+                    Sid = row[0] as string,
+                    TankRank = GetFloatValue(row[1]),
+                    DamageDealerRank = GetFloatValue(row[2]),
+                    SupportRank = GetFloatValue(row[3]),
+                    Type = row[4] as string,
+                    Demo = row[5] as string
+                };
+            });
+        }
+        
+        public static IReadOnlyCollection<UnitBasicRow> ReadUnitsBasicsFromExcel(string filePath, string sheetName)
+        {
+            return ReadRowsFromExcelInner(filePath, sheetName, firstRowIsHeader: false, row =>
+            {
+                return new UnitBasicRow
+                {
+                    Key = row[0] as string,
+                    Value = GetFloatValue(row[1])
+                };
+            });
+        }
+        
+        private static IReadOnlyCollection<TRow> ReadRowsFromExcelInner<TRow>(
+            string filePath,
+            string sheetName,
+            bool firstRowIsHeader,
+            Func<DataRow, TRow> mapper)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            var excelRows = new List<UnitExcelRow>();
+            var excelRows = new List<TRow>();
             using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
             // Auto-detect format, supports:
             //  - Binary Excel files (2.0-2003 format; *.xls)
@@ -33,21 +66,13 @@ namespace BalanceConverter
 
             foreach (DataRow row in rows)
             {
-                if (!isFirst)
+                if (!isFirst && firstRowIsHeader)
                 {
                     isFirst = true;
                     continue;
                 }
 
-                var excelRow = new UnitExcelRow
-                {
-                    Sid = row[0] as string,
-                    TankRank = GetFloatValue(row[1]),
-                    DamageDealerRank = GetFloatValue(row[2]),
-                    SupportRank = GetFloatValue(row[3]),
-                    Type = row[4] as string,
-                    Demo = row[5] as string
-                };
+                var excelRow = mapper(row);
 
                 excelRows.Add(excelRow);
             }

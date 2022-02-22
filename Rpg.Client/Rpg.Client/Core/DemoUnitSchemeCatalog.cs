@@ -24,17 +24,17 @@ namespace Rpg.Client.Core
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
-            var slavicMonsters = CreateSlavicMonsters();
+            var slavicMonsters = CreateSlavicMonsters(balanceTable);
 
             AllMonsters = slavicMonsters.ToArray();
         }
 
-        private static IEnumerable<UnitScheme> CreateSlavicMonsters()
+        private static IEnumerable<UnitScheme> CreateSlavicMonsters(BalanceTable balanceTable)
         {
             var biomeType = BiomeType.Slavic;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -54,7 +54,7 @@ namespace Rpg.Client.Core
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -73,7 +73,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -94,7 +95,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -112,7 +114,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
-                new UnitScheme
+                
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -136,7 +139,7 @@ namespace Rpg.Client.Core
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {
                         HpShare = 0.5f,
-                        NextScheme = new UnitScheme
+                        NextScheme = new UnitScheme(balanceTable.GetCommonUnitBasics())
                         {
                             TankRank = 0.5f,
                             DamageDealerRank = 0.5f,
