@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 }
             }
 
-            spriteBatch.DrawString(_font, GetText(), _position, GetColor());
+            spriteBatch.DrawString(_font, GetText(), _position, GetColor(), 0, new Vector2(0.5f, 0.5f), 1f, SpriteEffects.None, -1);
         }
 
         protected abstract Color GetColor();
