@@ -19,7 +19,7 @@ namespace Rpg.Client {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class UiResource {
@@ -268,6 +268,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Increase damage of {1}% on {0} on {3} turns.
+        /// </summary>
+        internal static string DecreaseDamageEffectRuleText {
+            get {
+                return ResourceManager.GetString("DecreaseDamageEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventTutorialText {
@@ -313,15 +322,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Heal over time: {0} - {1} during {2} to {3}.
-        /// </summary>
-        internal static string HealOverTimeEffectRuleText {
-            get {
-                return ResourceManager.GetString("HealOverTimeEffectRuleText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string HeroEquipmentInfoTitle {
@@ -363,6 +363,15 @@ namespace Rpg.Client {
         internal static string HitPointsLabelTemplate {
             get {
                 return ResourceManager.GetString("HitPointsLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase damage of {1} on {0} on {3} turns.
+        /// </summary>
+        internal static string IncreaseDamageEffectRuleText {
+            get {
+                return ResourceManager.GetString("IncreaseDamageEffectRuleText", resourceCulture);
             }
         }
         
@@ -484,6 +493,24 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Damage: {0} - {1} to {2} during {3} turns.
+        /// </summary>
+        internal static string PeriodicDamageEffectRuleText {
+            get {
+                return ResourceManager.GetString("PeriodicDamageEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heal over time: {0} - {1} during {2} to {3}.
+        /// </summary>
+        internal static string PeriodicHealEffectRuleText {
+            get {
+                return ResourceManager.GetString("PeriodicHealEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsButtonTitle {
@@ -543,6 +570,15 @@ namespace Rpg.Client {
         internal static string StartNewGameButtonTitle {
             get {
                 return ResourceManager.GetString("StartNewGameButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stun to {1} on {0}.
+        /// </summary>
+        internal static string StunEffectRuleText {
+            get {
+                return ResourceManager.GetString("StunEffectRuleText", resourceCulture);
             }
         }
         

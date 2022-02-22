@@ -15,9 +15,11 @@ namespace Rpg.Client.Core.SkillEffects
                     DamageMultiplier = multiplier
                 }
             };
+            Multiplier = multiplier;
         }
 
         public override IEnumerable<ModifierBase> Modifiers { get; }
+        public float Multiplier { get; }
 
         protected override void AfterDispel()
         {

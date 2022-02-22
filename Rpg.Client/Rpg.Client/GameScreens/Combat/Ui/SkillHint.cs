@@ -26,8 +26,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _effectDrawers = new ISkillEffectDrawer[]
             {
                 new DamageEffectDrawer(font),
+                new PeriodicDamageEffectDrawer(font),
                 new HealEffectDrawer(font),
-                new HealOverTimeEffectDrawer(font)
+                new PeriodicHealEffectDrawer(font),
+                new StunEffectDrawer(font),
+                new IncreaseDamageEffectDrawer(font),
+                new DecreaseDamageEffectDrawer(font)
             };
         }
 
@@ -68,43 +72,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         break;
                     }
                 }
-
-                /*if (effectToDisplay is DamageEffect attackEffect)
-                {
-                    var damage = attackEffect.CalculateDamage();
-
-                    spriteBatch.DrawString(_font,
-                        $"Damage: {damage.Min} - {damage.Max} to {rule.Direction}",
-                        rulePosition, color);
-                }
-                else if (effectToDisplay is HealEffect healEffect)
-                {
-                    var heal = healEffect.CalculateHeal();
-                    spriteBatch.DrawString(_font,
-                        $"Heal: {heal.Min} - {heal.Max}", rulePosition, color);
-                }
-                else if (effectToDisplay is PeriodicHealEffect periodicHealEffect)
-                {
-                    var heal = periodicHealEffect.CalculateHeal();
-                    spriteBatch.DrawString(_font,
-                        $"Heal over time: {heal.Min} - {heal.Max}",
-                        rulePosition,
-                        color);
-                }
-                else if (effectToDisplay is StunEffect stunEffect)
-                {
-                    spriteBatch.DrawString(_font,
-                        $"Stun: {stunEffect.Duration} turns",
-                        rulePosition,
-                        color);
-                }
-                else if (effectToDisplay is IncreaseAttackEffect increaseAttackEffect)
-                {
-                    spriteBatch.DrawString(_font,
-                        $"Power up: {increaseAttackEffect.Duration} turns up to {50}% damage",
-                        rulePosition,
-                        color);
-                }*/
             }
         }
     }

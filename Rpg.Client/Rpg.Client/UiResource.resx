@@ -209,7 +209,7 @@
   <data name="HealEffectRuleText" xml:space="preserve">
     <value>Heal: {0} - {1} to {2}</value>
   </data>
-  <data name="HealOverTimeEffectRuleText" xml:space="preserve">
+  <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Heal over time: {0} - {1} during {2} to {3}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
@@ -306,5 +306,17 @@
   </data>
   <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
     <value>all enemies</value>
+  </data>
+  <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Increase damage of {1}% on {0} on {3} turns</value>
+  </data>
+  <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Increase damage of {1} on {0} on {3} turns</value>
+  </data>
+  <data name="PeriodicDamageEffectRuleText" xml:space="preserve">
+    <value>Damage: {0} - {1} to {2} during {3} turns</value>
+  </data>
+  <data name="StunEffectRuleText" xml:space="preserve">
+    <value>Stun to {1} on {0}</value>
   </data>
 </root>
