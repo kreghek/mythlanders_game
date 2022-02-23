@@ -6,35 +6,39 @@ using Rpg.Client.Engine;
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal abstract class TextIndicatorBase : EwarRenderableBase
-
     {
+        private const float LIFETIME_SECONDS = 2;
+
         private readonly SpriteFont _font;
-        private readonly Vector2 _speed;
-        private int _lifetime;
+        private float _lifetimeCounter;
         private Vector2 _position;
+        private readonly Vector2 _targetPosition;
 
         public TextIndicatorBase(Vector2 startPosition, SpriteFont font)
         {
-            _position = startPosition;
+            _position = startPosition + Vector2.UnitY * -64;
+            _targetPosition = _position + Vector2.UnitY * -64;
             _font = font;
-            _lifetime = 2000;
-            _speed = new(0, 10f / 1000f);
+            _lifetimeCounter = LIFETIME_SECONDS;
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (_lifetime <= 0)
+            if (_lifetimeCounter <= 0)
             {
                 Parent?.RemoveChild(this);
 
                 return;
             }
 
-            var elapsed = gameTime.ElapsedGameTime.Milliseconds;
+            var elapsedSec = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _lifetimeCounter -= elapsedSec;
 
-            _position += _speed * elapsed;
+            var t = 1 - _lifetimeCounter / LIFETIME_SECONDS;
 
-            _lifetime -= elapsed;
+            _position = Vector2.Lerp(_position, _targetPosition, t);
+
+            
 
             base.Update(gameTime);
         }
@@ -49,7 +53,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 }
             }
 
-            spriteBatch.DrawString(_font, GetText(), _position, GetColor(), 0, new Vector2(0.5f, 0.5f), 1f, SpriteEffects.None, -1);
+            spriteBatch.DrawString(_font, GetText(), _position, GetColor());
         }
 
         protected abstract Color GetColor();
