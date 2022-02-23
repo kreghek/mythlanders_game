@@ -104,7 +104,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -126,11 +126,12 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
+                    MinRequiredBiomeLevel = 5,
 
                     Levels = new IUnitLevelScheme[]
                     {
+                        new AddPerkUnitLevel(1, new BossMonster(1)),
                         new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
-                        new AddPerkUnitLevel(1, new BigMonster()),
                         new AddPerkUnitLevel(10, new CriticalHit())
                     },
 
@@ -152,6 +153,7 @@ namespace Rpg.Client.Core
 
                             Levels = new IUnitLevelScheme[]
                             {
+                                new AddPerkUnitLevel(1, new BossMonster(1)),
                                 new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
                                 new AddPerkUnitLevel(1, new ImprovedHitPoints()),
                                 new AddPerkUnitLevel(5, new Evasion()),
