@@ -207,6 +207,9 @@
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
   </data>
+  <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+  </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
 
@@ -243,6 +246,9 @@
   <data name="HitPointsLabelTemplate" xml:space="preserve">
     <value>Хитопонты: {0}</value>
   </data>
+  <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Увеличивает урон на +{0}% по {2} на {1} ходов</value>
+  </data>
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Уклонение!</value>
   </data>
@@ -257,6 +263,9 @@
   </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
+  </data>
+  <data name="LifeDrawEffectRuleText" xml:space="preserve">
+    <value>Похищает {0} - {1} хп у {2}</value>
   </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Долгий</value>
@@ -282,11 +291,20 @@
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Группа</value>
   </data>
+  <data name="PeriodicDamageEffectRuleText" xml:space="preserve">
+    <value>Урон {0} - {1}  {2} в течении {3} ходов</value>
+  </data>
+  <data name="PeriodicHealEffectRuleText" xml:space="preserve">
+    <value>Лечение {0} - {1} {2} в течении {3}</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
+  </data>
+  <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
+    <value>всем противникам</value>
   </data>
   <data name="SkillDirectionSelfText" xml:space="preserve">
     <value>себе</value>
@@ -294,11 +312,17 @@
   <data name="SkillDirectionTargetText" xml:space="preserve">
     <value>цели</value>
   </data>
+  <data name="SkillManaCostTemplate" xml:space="preserve">
+    <value>Требуется {0} пси-энергии</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Пропустить обучение</value>
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>Новая игра</value>
+  </data>
+  <data name="StunEffectRuleText" xml:space="preserve">
+    <value>Оглушение {1} на {0} ходов</value>
   </data>
   <data name="SurrenderButtonTitle" xml:space="preserve">
     <value>Сдаться</value>
@@ -314,8 +338,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
-    <value>всем противникам</value>
   </data>
 </root>

@@ -40,7 +40,9 @@ namespace Rpg.Client.Core
             {
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
-                if (!HasPerk<BossMonster>(scheme, combatLevel))
+                var isRegularMonster = !HasPerk<BossMonster>(scheme, combatLevel);
+
+                if (isRegularMonster)
                 {
                     rolledUnits.Add(scheme);
 

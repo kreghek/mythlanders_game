@@ -23,10 +23,11 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             }
 
             var heal = periodicHealEffect.CalculateHeal();
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
 
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.PeriodicHealEffectRuleText, heal.Min, heal.Max, periodicHealEffect.Duration,
-                    periodicHealEffect.Target),
+                string.Format(UiResource.PeriodicHealEffectRuleText, heal.Min, heal.Max,
+                    ruleDirectionText, periodicHealEffect.Duration),
                 position, Color.Wheat);
 
             return true;

@@ -22,9 +22,11 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
                 return false;
             }
 
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
+
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.DecreaseDamageEffectRuleText, decreaseDamageEffect.Multiplier * 100, decreaseDamageEffect.Duration,
-                    decreaseDamageEffect.Target),
+                    ruleDirectionText),
                 position, Color.Wheat);
 
             return true;

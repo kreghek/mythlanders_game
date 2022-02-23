@@ -23,10 +23,11 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             }
 
             var damage = lifeDrawEffect.CalculateDamage();
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
 
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.LifeDrawEffectRuleText, damage.Min, damage.Max,
-                    lifeDrawEffect.Target),
+                    ruleDirectionText),
                 position, Color.Wheat);
 
             return true;

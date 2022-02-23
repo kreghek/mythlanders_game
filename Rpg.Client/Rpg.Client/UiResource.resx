@@ -210,7 +210,7 @@
     <value>Heal: {0} - {1} to {2}</value>
   </data>
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
-    <value>Heal over time: {0} - {1} during {2} to {3}</value>
+    <value>Heal over time: {0} - {1} during {3} to {2}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
     <value>Equipment</value>
@@ -308,10 +308,12 @@
     <value>all enemies</value>
   </data>
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Increase damage of {1}% on {0} on {3} turns</value>
+    <value>Decrease damage on {0}% of {2} on {1} turns</value>
+    <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
+                    decreaseDamageEffect.Target</comment>
   </data>
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Increase damage of {1} on {0} on {3} turns</value>
+    <value>Increase damage on +{0} of {2} on {1} turns</value>
   </data>
   <data name="LifeDrawEffectRuleText" xml:space="preserve">
     <value>Draw {0} - {1} hp from {2}</value>

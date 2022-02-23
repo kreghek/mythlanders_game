@@ -268,7 +268,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increase damage of {1}% on {0} on {3} turns.
+        ///   Looks up a localized string similar to Decrease damage on {0}% of {2} on {1} turns.
         /// </summary>
         internal static string DecreaseDamageEffectRuleText {
             get {
@@ -367,7 +367,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increase damage of {1} on {0} on {3} turns.
+        ///   Looks up a localized string similar to Increase damage on +{0} of {2} on {1} turns.
         /// </summary>
         internal static string IncreaseDamageEffectRuleText {
             get {
@@ -511,7 +511,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Heal over time: {0} - {1} during {2} to {3}.
+        ///   Looks up a localized string similar to Heal over time: {0} - {1} during {3} to {2}.
         /// </summary>
         internal static string PeriodicHealEffectRuleText {
             get {

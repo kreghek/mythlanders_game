@@ -24,8 +24,10 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var heal = healEffect.CalculateHeal();
 
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
+
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.HealEffectRuleText, heal.Min, heal.Max, rule.Direction),
+                string.Format(UiResource.HealEffectRuleText, heal.Min, heal.Max, ruleDirectionText),
                 position, Color.Wheat);
 
             return true;
