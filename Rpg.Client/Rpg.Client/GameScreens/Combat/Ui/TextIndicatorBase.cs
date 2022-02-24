@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             _position = Vector2.Lerp(_position, _targetPosition, t);
 
-            
+
 
             base.Update(gameTime);
         }
