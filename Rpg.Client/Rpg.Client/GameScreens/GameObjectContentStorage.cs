@@ -288,12 +288,6 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        private static Texture2D LoadHeroTexture(ContentManager contentManager, string spriteName)
-        {
-            var path = Path.Combine("Sprites", "GameObjects", "PlayerUnits", spriteName);
-            return contentManager.Load<Texture2D>(path);
-        }
-
         internal Texture2D GetBiomeClouds()
         {
             return _biomeClouds;
@@ -387,6 +381,12 @@ namespace Rpg.Client.GameScreens
         internal Texture2D GetUnitShadow()
         {
             return _shadowTexture;
+        }
+
+        private static Texture2D LoadHeroTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "PlayerUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)

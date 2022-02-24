@@ -25,7 +25,8 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
 
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.IncreaseDamageEffectRuleText, increaseDamageEffect.Bonus, increaseDamageEffect.Duration,
+                string.Format(UiResource.IncreaseDamageEffectRuleText, increaseDamageEffect.Bonus,
+                    increaseDamageEffect.Duration,
                     ruleDirectionText),
                 position, Color.Wheat);
 

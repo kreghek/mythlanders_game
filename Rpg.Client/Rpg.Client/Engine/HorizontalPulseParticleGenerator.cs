@@ -41,7 +41,8 @@ namespace Rpg.Client.Engine
             var size = (float)_random.NextDouble() * 2.5f;
             var ttl = 1200 + _random.Next(20);
 
-            return new PulseItemParticle(texture, new Rectangle(0, 64 + 32, 32, 32), startPosition, targetPosition, velocity,
+            return new PulseItemParticle(texture, new Rectangle(0, 64 + 32, 32, 32), startPosition, targetPosition,
+                velocity,
                 angle, angularVelocity, color, size, ttl);
         }
 
@@ -91,7 +92,8 @@ namespace Rpg.Client.Engine
             var size = (float)_random.NextDouble() * 0.5f;
             var ttl = 1200 + _random.Next(20);
 
-            return new PulseItemParticle(texture, new Rectangle(0, 64 + 32, 32, 32), startPosition, targetPosition, velocity,
+            return new PulseItemParticle(texture, new Rectangle(0, 64 + 32, 32, 32), startPosition, targetPosition,
+                velocity,
                 angle, angularVelocity, color, size, ttl);
         }
 

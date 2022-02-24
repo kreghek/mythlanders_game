@@ -20,6 +20,11 @@ namespace Rpg.Client.Assets.Heroes
             };
         }
 
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new SpearmanGraphicsConfig();
+        }
+
         protected override IUnitLevelScheme[] GetLevels()
         {
             return new IUnitLevelScheme[]
@@ -30,11 +35,6 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(3, new DemonicTauntSkill(true)),
                 new AddSkillUnitLevel(4, new ToateAngerSkill(true))
             };
-        }
-
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new SpearmanGraphicsConfig();
         }
     }
 }

@@ -51,7 +51,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (combatPower.Skill.ManaCost is not null)
             {
                 var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
-                spriteBatch.DrawString(_font, string.Format(UiResource.SkillManaCostTemplate, combatPower.Skill.ManaCost),
+                spriteBatch.DrawString(_font,
+                    string.Format(UiResource.SkillManaCostTemplate, combatPower.Skill.ManaCost),
                     manaCostPosition, manaCostColor);
             }
 

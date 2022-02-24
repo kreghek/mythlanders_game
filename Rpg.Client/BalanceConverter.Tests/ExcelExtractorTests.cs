@@ -7,11 +7,11 @@ namespace BalanceConverter.Tests
     public class ExcelExtractorTests
     {
         [Test]
-        public void ReadUnitsRolesFromExcel_ExcelHasRows_ReturnsNotEmptyList()
+        public void ReadUnitsBasicsFromExcel_ExcelHasRows_ReturnsNotEmptyList()
         {
             // ACT
 
-            var rows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var rows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
 
             // ASSERT
 
@@ -19,11 +19,11 @@ namespace BalanceConverter.Tests
         }
 
         [Test]
-        public void ReadUnitsBasicsFromExcel_ExcelHasRows_ReturnsNotEmptyList()
+        public void ReadUnitsRolesFromExcel_ExcelHasRows_ReturnsNotEmptyList()
         {
             // ACT
 
-            var rows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
+            var rows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
 
             // ASSERT
 
