@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs
 {
-    internal sealed class BerimirGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SwordsmanGraphicsConfig : UnitGraphicsConfigBase
     {
-        public BerimirGraphicsConfig()
+        public SwordsmanGraphicsConfig()
         {
             Animations = new Dictionary<AnimationSid, AnimationInfo>
             {

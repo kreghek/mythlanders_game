@@ -40,7 +40,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (!IsEnabled)
             {
-                spriteBatch.Draw(_texture, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
+                spriteBatch.Draw(_icon, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
             }
 
             DrawBackground(spriteBatch, color);

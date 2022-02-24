@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new BerimirGraphicsConfig();
+            return new SwordsmanGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()
