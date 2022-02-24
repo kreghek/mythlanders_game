@@ -32,6 +32,9 @@ namespace Rpg.Client.GameScreens.Title
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
+        private readonly ParticleSystem _particleSystem;
+        private readonly ParticleSystem _particleSystem2;
+
         public TitleScreen(EwarGame game)
             : base(game)
         {
@@ -105,6 +108,12 @@ namespace Rpg.Client.GameScreens.Title
 
             _showcaseUnits = GetShowcaseHeroes();
 
+            var generator = new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            _particleSystem = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
+
+            var generator2 = new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            _particleSystem2 = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator2);
+
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
@@ -142,6 +151,9 @@ namespace Rpg.Client.GameScreens.Title
             {
                 button.Update(_resolutionIndependentRenderer);
             }
+
+            _particleSystem.Update(gameTime);
+            _particleSystem2.Update(gameTime);
         }
 
         private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
@@ -195,6 +207,14 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            _particleSystem2.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 80));
+
+            _particleSystem2.Draw(spriteBatch);
+
+            _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
+
+            _particleSystem.Draw(spriteBatch);
+
             spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
                 new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
                 Color.White);
