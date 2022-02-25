@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.CharacterDetails;
-using Rpg.Client.GameScreens.CharacterDetails.Ui;
 using Rpg.Client.GameScreens.Hero.Ui;
 using Rpg.Client.ScreenManagement;
 
@@ -29,10 +27,9 @@ namespace Rpg.Client.GameScreens.Hero
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             var screenService = game.Services.GetService<ScreenService>();
+            var globeProvider = game.Services.GetService<GlobeProvider>();
 
             _buttonList = new List<ButtonBase>();
-
-            var globeProvider = game.Services.GetService<GlobeProvider>();
 
             _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
                 _uiContentStorage.GetTitlesFont(), screenService.Selected,
@@ -45,7 +42,7 @@ namespace Rpg.Client.GameScreens.Hero
                 _uiContentStorage.GetMainFont());
             _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
                 _uiContentStorage.GetTitlesFont(), screenService.Selected, _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures());
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(),_uiContentStorage.GetPanelTexture(),globeProvider.Globe.Player, ResolutionIndependentRenderer);
 
             _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
 
@@ -176,24 +173,24 @@ namespace Rpg.Client.GameScreens.Hero
                 _buttonList.Add(levelUpButton);
             }
 
-            foreach (var equipment in character.Equipments)
-            {
-                var resourceItem = player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
-                var equipmentResourceAmount = resourceItem.Amount;
-                if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
-                {
-                    var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level + 1}",
-                        _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                    levelUpButton.OnClick += (_, _) =>
-                    {
-                        resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
-                        equipment.LevelUp();
-                        InitActionButtons(character, player);
-                    };
-                    _buttonList.Add(levelUpButton);
-                }
-            }
+            // foreach (var equipment in character.Equipments)
+            // {
+            //     var resourceItem = player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
+            //     var equipmentResourceAmount = resourceItem.Amount;
+            //     if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
+            //     {
+            //         var levelUpButton = new TextButton($"Upgrade {equipment.Scheme.Sid} to level {equipment.Level + 1}",
+            //             _uiContentStorage.GetButtonTexture(),
+            //             _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            //         levelUpButton.OnClick += (_, _) =>
+            //         {
+            //             resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
+            //             equipment.LevelUp();
+            //             InitActionButtons(character, player);
+            //         };
+            //         _buttonList.Add(levelUpButton);
+            //     }
+            // }
         }
     }
 }

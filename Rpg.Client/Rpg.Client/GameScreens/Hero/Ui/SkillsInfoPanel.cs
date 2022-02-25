@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.GameScreens.CharacterDetails;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
