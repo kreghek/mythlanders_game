@@ -53,12 +53,11 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.PeriodicDamageEffectRuleText, damage.Min, damage.Max, ruleDirectionText, attackEffect.Duration),
+                string.Format(UiResource.PeriodicDamageEffectRuleText, damage.Min, damage.Max, ruleDirectionText,
+                    attackEffect.Duration),
                 position, Color.Wheat);
 
             return true;
         }
     }
-
-
 }

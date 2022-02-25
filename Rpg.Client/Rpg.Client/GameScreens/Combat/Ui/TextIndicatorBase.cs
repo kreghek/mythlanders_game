@@ -10,9 +10,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const float LIFETIME_SECONDS = 2;
 
         private readonly SpriteFont _font;
+        private readonly Vector2 _targetPosition;
         private float _lifetimeCounter;
         private Vector2 _position;
-        private readonly Vector2 _targetPosition;
 
         public TextIndicatorBase(Vector2 startPosition, SpriteFont font)
         {
@@ -37,8 +37,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var t = 1 - _lifetimeCounter / LIFETIME_SECONDS;
 
             _position = Vector2.Lerp(_position, _targetPosition, t);
-
-            
 
             base.Update(gameTime);
         }

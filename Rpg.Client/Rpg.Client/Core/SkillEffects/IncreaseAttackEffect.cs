@@ -18,7 +18,8 @@ namespace Rpg.Client.Core.SkillEffects
             Bonus = bonus;
         }
 
-        public override IEnumerable<ModifierBase> Modifiers { get; }
         public int Bonus { get; }
+
+        public override IEnumerable<ModifierBase> Modifiers { get; }
     }
 }

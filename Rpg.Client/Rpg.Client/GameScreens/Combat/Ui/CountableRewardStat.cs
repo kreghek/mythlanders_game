@@ -1,5 +1,4 @@
-﻿
-using Rpg.Client.Core;
+﻿using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {

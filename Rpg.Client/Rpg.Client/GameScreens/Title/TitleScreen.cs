@@ -26,14 +26,14 @@ namespace Rpg.Client.GameScreens.Title
         private readonly GameSettings _gameSettings;
 
         private readonly GlobeProvider _globeProvider;
+
+        private readonly ParticleSystem _particleSystem;
+        private readonly ParticleSystem _particleSystem2;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-
-        private readonly ParticleSystem _particleSystem;
-        private readonly ParticleSystem _particleSystem2;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -108,11 +108,15 @@ namespace Rpg.Client.GameScreens.Title
 
             _showcaseUnits = GetShowcaseHeroes();
 
-            var generator = new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
-            _particleSystem = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
+            var generator =
+                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            _particleSystem =
+                new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
 
-            var generator2 = new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
-            _particleSystem2 = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator2);
+            var generator2 =
+                new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            _particleSystem2 = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(),
+                generator2);
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
