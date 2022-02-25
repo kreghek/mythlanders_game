@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Hero
                 _uiContentStorage.GetMainFont());
             _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
                 _uiContentStorage.GetTitlesFont(), screenService.Selected, _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(),_uiContentStorage.GetPanelTexture(),globeProvider.Globe.Player, ResolutionIndependentRenderer);
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(), _uiContentStorage.GetButtonTexture(), globeProvider.Globe.Player, ResolutionIndependentRenderer);
 
             _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
 
@@ -104,6 +104,8 @@ namespace Rpg.Client.GameScreens.Hero
             }
 
             _unitGraphics.Update(gameTime);
+
+            _equipmentPanel.Update(gameTime);
         }
 
         private void DrawActionButtons(SpriteBatch spriteBatch, Rectangle actionButtonRect)

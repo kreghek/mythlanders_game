@@ -14,9 +14,11 @@ namespace Rpg.Client.Engine
             _text = text;
         }
 
+        public string Text => _text;
+
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
-            spriteBatch.DrawString(_font, _text,
+            spriteBatch.DrawString(_font, Text,
                 contentRect.Location.ToVector2() + new Vector2(5, 15),
                 Color.Wheat);
         }

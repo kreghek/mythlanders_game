@@ -116,7 +116,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
             if (_equipmentHint is not null)
             {
-                _equipmentHint.Rect = new Rectangle(mouse.Position, new Point(100, 50));
+                var textSize = _mainFont.MeasureString(_equipmentHint.Text);
+                _equipmentHint.Rect = new Rectangle(mouse.Position - new Point(5, (int)textSize.Y + 20), (textSize + new Vector2(10, 15) * 2).ToPoint());
             }
         }
 
@@ -138,7 +139,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 string.Format(UiResource.EquipmentResourceRequipmentTemplate, resourceName, requiredResourceCount);
             
             _equipmentHint = new TextHint(_hintTexture, _mainFont, 
-                $"{equipmentNameText}{Environment.NewLine}{upgradeInfoText}{String.Empty}{equipmentDescriptionText}");
+                $"{equipmentNameText}{Environment.NewLine}{Environment.NewLine}{upgradeInfoText}{Environment.NewLine}{Environment.NewLine}{equipmentDescriptionText}");
         }
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
