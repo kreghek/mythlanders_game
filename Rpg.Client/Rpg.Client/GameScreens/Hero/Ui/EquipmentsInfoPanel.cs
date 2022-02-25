@@ -16,6 +16,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     internal sealed class EquipmentsInfoPanel : PanelBase
     {
         private const int ICON_SIZE = 64;
+        private const int MARGIN = 5;
+
         private readonly IList<EntityIconButton<Equipment>> _equipmentButtons;
         private readonly SpriteFont _mainFont;
         private readonly Texture2D _hintTexture;
@@ -156,7 +158,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             for (var index = 0; index < _equipmentButtons.Count; index++)
             {
                 var equipmentButton = _equipmentButtons[index];
-                const int MARGIN = 5;
+                
                 equipmentButton.Rect = new Rectangle(
                     contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
                     new Point(ICON_SIZE, ICON_SIZE));

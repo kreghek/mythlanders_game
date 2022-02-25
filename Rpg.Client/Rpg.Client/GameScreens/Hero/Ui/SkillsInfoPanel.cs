@@ -4,19 +4,41 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal sealed class SkillsInfoPanel : PanelBase
     {
-        private readonly Unit _character;
+        private const int ICON_SIZE = 64;
+        private const int MARGIN = 5;
+
+        private readonly IList<EntityIconButton<ISkill>> _skillList;
         private readonly SpriteFont _mainFont;
 
-        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
+        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, Texture2D controlTexture, Texture2D skillIconsTexture, SpriteFont mainFont) : base(
             texture, titleFont)
         {
-            _character = character;
+            _skillList = new List<EntityIconButton<ISkill>>();
+            for (var index = 0; index < hero.Skills.Count; index++)
+            {
+                var skill = hero.Skills[index];
+
+                var iconRect = UnsortedHelpers.GetIconRect(skill.Sid);
+                var iconData = new IconData(skillIconsTexture, iconRect);
+
+                var skillIconButton = new EntityIconButton<ISkill>(controlTexture, iconData, skill);
+                _skillList.Add(skillIconButton);
+
+                skillIconButton.OnClick += SkillIconButton_OnClick;
+            }
             _mainFont = mainFont;
+        }
+
+        private void SkillIconButton_OnClick(object? sender, System.EventArgs e)
+        {
+            
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroSkillsInfoTitle);
@@ -28,26 +50,25 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            var sb = new List<string>();
-
-            foreach (var skill in _character.Skills)
+            for (var index = 0; index < _skillList.Count; index++)
             {
-                var skillNameText = GameObjectHelper.GetLocalized(skill.Sid);
+                var skillButton = _skillList[index];
+                
+                skillButton.Rect = new Rectangle(
+                    contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
+                    new Point(ICON_SIZE, ICON_SIZE));
+                skillButton.Draw(spriteBatch);
 
-                sb.Add(skillNameText);
-                if (skill.ManaCost is not null)
+                var skillNameText = GameObjectHelper.GetLocalized(skillButton.Entity.Sid);
+                spriteBatch.DrawString(_mainFont, skillNameText,
+                    skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
+
+                if (skillButton.Entity.ManaCost is not null)
                 {
-                    sb.Add(string.Format(UiResource.ManaCostLabelTemplate, skill.ManaCost));
+                    var manaCostText = string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.ManaCost);
+                    spriteBatch.DrawString(_mainFont, manaCostText,
+                        skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
                 }
-
-                // TODO Display skill efficient - damages, durations, etc.
-            }
-
-            for (var statIndex = 0; statIndex < sb.Count; statIndex++)
-            {
-                var line = sb[statIndex];
-                spriteBatch.DrawString(_mainFont, line,
-                    new Vector2(contentRect.Left, contentRect.Top + statIndex * 22), Color.Wheat);
             }
         }
     }
