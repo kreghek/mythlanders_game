@@ -334,6 +334,6 @@
     <value>Upgrade is available!</value>
   </data>
   <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
-    <value>{0}x{1} to upgrade</value>
+    <value>{0} x {1} to upgrade</value>
   </data>
 </root>

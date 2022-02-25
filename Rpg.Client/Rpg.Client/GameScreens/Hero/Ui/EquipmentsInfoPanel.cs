@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -117,7 +118,9 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             if (_equipmentHint is not null)
             {
                 var textSize = _mainFont.MeasureString(_equipmentHint.Text);
-                _equipmentHint.Rect = new Rectangle(mouse.Position - new Point(5, (int)textSize.Y + 20), (textSize + new Vector2(10, 15) * 2).ToPoint());
+                var marginVector = new Vector2(10, 15) * 2;
+                var position = mouse.Position - new Point(5, (int)(textSize.Y + marginVector.Y));
+                _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());
             }
         }
 
@@ -137,9 +140,15 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var requiredResourceCount = equipment.RequiredResourceAmountToLevelUp;
             var upgradeInfoText =
                 string.Format(UiResource.EquipmentResourceRequipmentTemplate, resourceName, requiredResourceCount);
-            
-            _equipmentHint = new TextHint(_hintTexture, _mainFont, 
-                $"{equipmentNameText}{Environment.NewLine}{Environment.NewLine}{upgradeInfoText}{Environment.NewLine}{Environment.NewLine}{equipmentDescriptionText}");
+
+            var sb = new StringBuilder();
+            sb.AppendLine(equipmentNameText);
+            sb.AppendLine(Environment.NewLine);
+            sb.AppendLine(upgradeInfoText);
+            sb.AppendLine(Environment.NewLine);
+            sb.AppendLine(equipmentDescriptionText);
+
+            _equipmentHint = new TextHint(_hintTexture, _mainFont, sb.ToString());
         }
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)

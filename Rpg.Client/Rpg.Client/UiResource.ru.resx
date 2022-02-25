@@ -346,6 +346,6 @@
     <value>Доступно улучшение!</value>
   </data>
   <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
-    <value>{0}x{1} для улучшения</value>
+    <value>{0} x {1} для улучшения</value>
   </data>
 </root>

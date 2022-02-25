@@ -277,7 +277,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}x{1} to upgrade.
+        ///   Looks up a localized string similar to {0} x {1} to upgrade.
         /// </summary>
         internal static string EquipmentResourceRequipmentTemplate {
             get {
