@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
@@ -467,5 +468,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public event EventHandler? SkillAnimationCompleted;
+
+        public int? GetCurrentIndicatorIndex()
+        {
+            var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
+
+            if (currentIndicatorCount == 0)
+            {
+                return null;
+            }
+
+            return currentIndicatorCount - 1;
+        }
     }
 }

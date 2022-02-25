@@ -474,9 +474,18 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
+        }
+
+        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
+        {
+            var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
+            var nextIndex = currentIndex + 1;
+            return nextIndex;
         }
 
         private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
@@ -487,7 +496,9 @@ namespace Rpg.Client.GameScreens.Combat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+            
+            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }
