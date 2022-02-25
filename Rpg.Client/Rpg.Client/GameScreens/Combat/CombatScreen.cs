@@ -476,16 +476,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+            var damageIndicator =
+                new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
-        }
-
-        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
-        {
-            var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
-            var nextIndex = currentIndex + 1;
-            return nextIndex;
         }
 
         private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
@@ -498,7 +492,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+            var damageIndicator =
+                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -751,6 +746,13 @@ namespace Rpg.Client.GameScreens.Combat
         {
             _combat.Surrender();
             _combatFinishedVictory = false;
+        }
+
+        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
+        {
+            var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
+            var nextIndex = currentIndex + 1;
+            return nextIndex;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)

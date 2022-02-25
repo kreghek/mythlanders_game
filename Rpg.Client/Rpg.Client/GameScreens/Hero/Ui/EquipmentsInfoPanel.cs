@@ -19,15 +19,16 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private const int MARGIN = 5;
 
         private readonly IList<EntityIconButton<Equipment>> _equipmentButtons;
-        private readonly SpriteFont _mainFont;
         private readonly Texture2D _hintTexture;
+        private readonly SpriteFont _mainFont;
         private readonly Player _player;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private TextHint? _equipmentHint;
         private Equipment? _equipmentUnderHint;
 
         public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
-            Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(
+            Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player,
+            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(
             texture, titleFont)
         {
             _mainFont = mainFont;
@@ -48,30 +49,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private void EquipmentIconButton_OnClick(object? sender, EventArgs e)
-        {
-            if (sender is null)
-            {
-                Debug.Fail("Sender must be assigned. Use handler only for instantiated classes, not on static ones.");
-                return;
-            }
-
-            var equipment = ((EntityIconButton<Equipment>)sender).Entity;
-            var resourceItem = _player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
-
-
-            resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
-            equipment.LevelUp();
-            ClearEquipmentHint();
-            CreateHint(equipment);
-        }
-
         protected override string TitleResourceId => nameof(UiResource.HeroEquipmentInfoTitle);
-
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
 
         public override void Update(GameTime gameTime)
         {
@@ -89,68 +67,9 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private void HandleEquipmentHint()
+        protected override Color CalculateColor()
         {
-            var mouse = Mouse.GetState();
-            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
-            Equipment? currentEquipment = null;
-            foreach (var equipmentButton in _equipmentButtons)
-            {
-                if (equipmentButton.Rect.Contains(mouseRect))
-                {
-                    currentEquipment = equipmentButton.Entity;
-
-                    if (_equipmentUnderHint is null)
-                    {
-                        CreateHint(equipmentButton.Entity);
-                    }
-
-                    if (_equipmentUnderHint != equipmentButton.Entity)
-                    {
-                        CreateHint(equipmentButton.Entity);
-                    }
-                }
-            }
-
-            if (currentEquipment is null)
-            {
-                ClearEquipmentHint();
-            }
-
-            if (_equipmentHint is not null)
-            {
-                var textSize = _mainFont.MeasureString(_equipmentHint.Text);
-                var marginVector = new Vector2(10, 15) * 2;
-                var position = mouse.Position - new Point(5, (int)(textSize.Y + marginVector.Y));
-                _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());
-            }
-        }
-
-        private void ClearEquipmentHint()
-        {
-            _equipmentUnderHint = null;
-            _equipmentHint = null;
-        }
-
-        private void CreateHint(Equipment equipment)
-        {
-            _equipmentUnderHint = equipment;
-
-            var equipmentNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
-            var equipmentDescriptionText = GameObjectHelper.GetLocalizedDescription(equipment.Scheme.Sid);
-            var resourceName = GameObjectHelper.GetLocalized(equipment.Scheme.RequiredResourceToLevelUp);
-            var requiredResourceCount = equipment.RequiredResourceAmountToLevelUp;
-            var upgradeInfoText =
-                string.Format(UiResource.EquipmentResourceRequipmentTemplate, resourceName, requiredResourceCount);
-
-            var sb = new StringBuilder();
-            sb.AppendLine(equipmentNameText);
-            sb.AppendLine(Environment.NewLine);
-            sb.AppendLine(upgradeInfoText);
-            sb.AppendLine(Environment.NewLine);
-            sb.AppendLine(equipmentDescriptionText);
-
-            _equipmentHint = new TextHint(_hintTexture, _mainFont, sb.ToString());
+            return Color.White;
         }
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -189,6 +108,50 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             return equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp;
         }
 
+        private void ClearEquipmentHint()
+        {
+            _equipmentUnderHint = null;
+            _equipmentHint = null;
+        }
+
+        private void CreateHint(Equipment equipment)
+        {
+            _equipmentUnderHint = equipment;
+
+            var equipmentNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
+            var equipmentDescriptionText = GameObjectHelper.GetLocalizedDescription(equipment.Scheme.Sid);
+            var resourceName = GameObjectHelper.GetLocalized(equipment.Scheme.RequiredResourceToLevelUp);
+            var requiredResourceCount = equipment.RequiredResourceAmountToLevelUp;
+            var upgradeInfoText =
+                string.Format(UiResource.EquipmentResourceRequipmentTemplate, resourceName, requiredResourceCount);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(equipmentNameText);
+            sb.AppendLine(Environment.NewLine);
+            sb.AppendLine(upgradeInfoText);
+            sb.AppendLine(Environment.NewLine);
+            sb.AppendLine(equipmentDescriptionText);
+
+            _equipmentHint = new TextHint(_hintTexture, _mainFont, sb.ToString());
+        }
+
+        private void EquipmentIconButton_OnClick(object? sender, EventArgs e)
+        {
+            if (sender is null)
+            {
+                Debug.Fail("Sender must be assigned. Use handler only for instantiated classes, not on static ones.");
+                return;
+            }
+
+            var equipment = ((EntityIconButton<Equipment>)sender).Entity;
+            var resourceItem = _player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
+
+            resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
+            equipment.LevelUp();
+            ClearEquipmentHint();
+            CreateHint(equipment);
+        }
+
         private static int? GetEquipmentIconOneBasedIndex(EquipmentSid schemeSid)
         {
             return schemeSid switch
@@ -219,6 +182,43 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var col = zeroBasedIndex % COL_COUNT;
             var row = zeroBasedIndex / COL_COUNT;
             return new Rectangle(col * ICON_SIZE, row * ICON_SIZE, ICON_SIZE, ICON_SIZE);
+        }
+
+        private void HandleEquipmentHint()
+        {
+            var mouse = Mouse.GetState();
+            var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
+            Equipment? currentEquipment = null;
+            foreach (var equipmentButton in _equipmentButtons)
+            {
+                if (equipmentButton.Rect.Contains(mouseRect))
+                {
+                    currentEquipment = equipmentButton.Entity;
+
+                    if (_equipmentUnderHint is null)
+                    {
+                        CreateHint(equipmentButton.Entity);
+                    }
+
+                    if (_equipmentUnderHint != equipmentButton.Entity)
+                    {
+                        CreateHint(equipmentButton.Entity);
+                    }
+                }
+            }
+
+            if (currentEquipment is null)
+            {
+                ClearEquipmentHint();
+            }
+
+            if (_equipmentHint is not null)
+            {
+                var textSize = _mainFont.MeasureString(_equipmentHint.Text);
+                var marginVector = new Vector2(10, 15) * 2;
+                var position = mouse.Position - new Point(5, (int)(textSize.Y + marginVector.Y));
+                _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());
+            }
         }
     }
 }

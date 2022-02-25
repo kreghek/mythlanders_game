@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -13,11 +14,12 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     {
         private const int ICON_SIZE = 64;
         private const int MARGIN = 5;
-
-        private readonly IList<EntityIconButton<ISkill>> _skillList;
         private readonly SpriteFont _mainFont;
 
-        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, Texture2D controlTexture, Texture2D skillIconsTexture, SpriteFont mainFont) : base(
+        private readonly IList<EntityIconButton<ISkill>> _skillList;
+
+        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, Texture2D controlTexture,
+            Texture2D skillIconsTexture, SpriteFont mainFont) : base(
             texture, titleFont)
         {
             _skillList = new List<EntityIconButton<ISkill>>();
@@ -33,12 +35,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
                 skillIconButton.OnClick += SkillIconButton_OnClick;
             }
+
             _mainFont = mainFont;
-        }
-
-        private void SkillIconButton_OnClick(object? sender, System.EventArgs e)
-        {
-
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroSkillsInfoTitle);
@@ -70,6 +68,10 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                         skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }
             }
+        }
+
+        private void SkillIconButton_OnClick(object? sender, EventArgs e)
+        {
         }
     }
 }

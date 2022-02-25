@@ -61,6 +61,18 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             return corpse;
         }
 
+        public int? GetCurrentIndicatorIndex()
+        {
+            var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
+
+            if (currentIndicatorCount == 0)
+            {
+                return null;
+            }
+
+            return currentIndicatorCount - 1;
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -468,17 +480,5 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public event EventHandler? SkillAnimationCompleted;
-
-        public int? GetCurrentIndicatorIndex()
-        {
-            var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
-
-            if (currentIndicatorCount == 0)
-            {
-                return null;
-            }
-
-            return currentIndicatorCount - 1;
-        }
     }
 }
