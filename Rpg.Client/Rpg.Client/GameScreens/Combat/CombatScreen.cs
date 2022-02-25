@@ -39,7 +39,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly ScreenShaker _screenShaker;
         private readonly GameSettings _settings;
         private readonly IUiContentStorage _uiContentStorage;
@@ -89,8 +88,6 @@ namespace Rpg.Client.GameScreens.Combat
             _animationManager = game.Services.GetService<AnimationManager>();
             _dice = Game.Services.GetService<IDice>();
 
-            _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
@@ -122,12 +119,12 @@ namespace Rpg.Client.GameScreens.Combat
                 _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
             surrenderButton.OnClick += EscapeButton_OnClick;
 
-            return new[] { surrenderButton };
+            return new ButtonBase[] { surrenderButton };
         }
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
-            _resolutionIndependentRenderer.BeginDraw();
+            ResolutionIndependentRenderer.BeginDraw();
 
             DrawGameObjects(spriteBatch);
 
@@ -143,7 +140,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 _globe.Player.AddPlayerAbility(PlayerAbility.ReadCombatTutorial);
                 var tutorialModal = new TutorialModal(new CombatTutorialPageDrawer(_uiContentStorage),
-                    _uiContentStorage, _resolutionIndependentRenderer, _globe.Player);
+                    _uiContentStorage, ResolutionIndependentRenderer, _globe.Player);
                 AddModal(tutorialModal, isLate: false);
             }
 
@@ -254,7 +251,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
-            e.UnscribeHandlers();
+            e.UnsubscribeHandlers();
 
             var unitGameObject = GetUnitGameObject(e);
 
@@ -579,7 +576,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 var completeCombatCount = _globeNode.CombatSequence.CompletedCombats.Count + 1;
 
-                var position = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5);
+                var position = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X, 5);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     string.Format(UiResource.CombatProgressTemplate, completeCombatCount, sumSequenceLength),
@@ -762,7 +759,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
             else
             {
-                var width = _resolutionIndependentRenderer.VirtualWidth;
+                var width = ResolutionIndependentRenderer.VirtualWidth;
                 // Move from right edge.
                 var xMirror = width - predefinedPosition.X;
                 calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
@@ -774,8 +771,8 @@ namespace Rpg.Client.GameScreens.Combat
         private void HandleBackgrounds()
         {
             var mouse = Mouse.GetState();
-            var mouseRir = _resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
-            var screenCenterX = _resolutionIndependentRenderer.VirtualBounds.Center.X;
+            var mouseRir = ResolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
+            var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
             var rawPercentage = (mouseRir.X - screenCenterX) / screenCenterX;
             _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
         }
@@ -802,10 +799,10 @@ namespace Rpg.Client.GameScreens.Combat
                 var skillButtonFixedList = _interactionButtons.ToArray();
                 foreach (var button in skillButtonFixedList)
                 {
-                    button.Update(_resolutionIndependentRenderer);
+                    button.Update(ResolutionIndependentRenderer);
                 }
 
-                _combatSkillsPanel?.Update(_resolutionIndependentRenderer);
+                _combatSkillsPanel?.Update(ResolutionIndependentRenderer);
             }
         }
 
@@ -1068,7 +1065,7 @@ namespace Rpg.Client.GameScreens.Combat
                     combatResultModal = new CombatResultModal(
                         _uiContentStorage,
                         _gameObjectContentStorage,
-                        _resolutionIndependentRenderer,
+                        ResolutionIndependentRenderer,
                         CombatResult.Victory,
                         xpItems);
                 }
@@ -1077,7 +1074,7 @@ namespace Rpg.Client.GameScreens.Combat
                     combatResultModal = new CombatResultModal(
                         _uiContentStorage,
                         _gameObjectContentStorage,
-                        _resolutionIndependentRenderer,
+                        ResolutionIndependentRenderer,
                         CombatResult.NextCombat,
                         new CombatRewards
                         {
@@ -1096,7 +1093,7 @@ namespace Rpg.Client.GameScreens.Combat
                 combatResultModal = new CombatResultModal(
                     _uiContentStorage,
                     _gameObjectContentStorage,
-                    _resolutionIndependentRenderer,
+                    ResolutionIndependentRenderer,
                     CombatResult.Defeat,
                     new CombatRewards
                     {

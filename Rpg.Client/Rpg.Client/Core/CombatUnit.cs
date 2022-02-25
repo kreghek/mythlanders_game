@@ -29,9 +29,9 @@ namespace Rpg.Client.Core
 
         public bool IsInTankLine { get; }
 
-        public CombatUnitState State { get; internal set; }
+        public CombatUnitState State { get; private set; }
 
-        public void UnscribeHandlers()
+        public void UnsubscribeHandlers()
         {
             Unit.HasBeenDamaged -= Unit_HasBeenDamaged;
             Unit.HasBeenHealed -= Unit_BeenHealed;
