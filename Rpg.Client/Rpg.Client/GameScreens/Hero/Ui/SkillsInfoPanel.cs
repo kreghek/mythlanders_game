@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         private void SkillIconButton_OnClick(object? sender, System.EventArgs e)
         {
-            
+
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroSkillsInfoTitle);
@@ -53,7 +53,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             for (var index = 0; index < _skillList.Count; index++)
             {
                 var skillButton = _skillList[index];
-                
+
                 skillButton.Rect = new Rectangle(
                     contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
                     new Point(ICON_SIZE, ICON_SIZE));

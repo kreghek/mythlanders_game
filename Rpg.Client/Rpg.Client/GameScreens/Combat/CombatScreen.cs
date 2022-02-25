@@ -497,7 +497,7 @@ namespace Rpg.Client.GameScreens.Combat
             var position = unitGameObject.Position;
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
-            
+
             var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);

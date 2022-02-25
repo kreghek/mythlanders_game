@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
                     new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
                 _equipmentButtons.Add(equipmentIconButton);
-                
+
                 equipmentIconButton.OnClick += EquipmentIconButton_OnClick;
             }
         }
@@ -58,8 +58,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
             var equipment = ((EntityIconButton<Equipment>)sender).Entity;
             var resourceItem = _player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
-            
-            
+
+
             resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
             equipment.LevelUp();
             ClearEquipmentHint();
@@ -84,7 +84,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipment = equipmentButton.Entity;
 
                 equipmentButton.IsEnabled = CheckUpgradeIsAvailable(equipment);
-                
+
                 equipmentButton.Update(_resolutionIndependentRenderer);
             }
         }
@@ -135,7 +135,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private void CreateHint(Equipment equipment)
         {
             _equipmentUnderHint = equipment;
-            
+
             var equipmentNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
             var equipmentDescriptionText = GameObjectHelper.GetLocalizedDescription(equipment.Scheme.Sid);
             var resourceName = GameObjectHelper.GetLocalized(equipment.Scheme.RequiredResourceToLevelUp);
@@ -158,7 +158,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             for (var index = 0; index < _equipmentButtons.Count; index++)
             {
                 var equipmentButton = _equipmentButtons[index];
-                
+
                 equipmentButton.Rect = new Rectangle(
                     contentRect.Location + new Point(MARGIN, MARGIN + index * (ICON_SIZE + MARGIN)),
                     new Point(ICON_SIZE, ICON_SIZE));
