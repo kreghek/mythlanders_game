@@ -277,6 +277,33 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}x{1} to upgrade.
+        /// </summary>
+        internal static string EquipmentResourceRequipmentTemplate {
+            get {
+                return ResourceManager.GetString("EquipmentResourceRequipmentTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1} lvl).
+        /// </summary>
+        internal static string EquipmentTitleTemplate {
+            get {
+                return ResourceManager.GetString("EquipmentTitleTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade is available!.
+        /// </summary>
+        internal static string EquipmentUpgradeMarkerText {
+            get {
+                return ResourceManager.GetString("EquipmentUpgradeMarkerText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string EventTutorialText {

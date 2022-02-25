@@ -339,4 +339,13 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="EquipmentTitleTemplate" xml:space="preserve">
+    <value>{0} ({1} ур.)</value>
+  </data>
+  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
+    <value>Доступно улучшение!</value>
+  </data>
+  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
+    <value>{0}x{1} для улучшения</value>
+  </data>
 </root>

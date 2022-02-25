@@ -56,5 +56,10 @@ namespace Rpg.Client.GameScreens
             var name = rm.GetString(sid) ?? sid;
             return name;
         }
+
+        public static string GetLocalizedDescription(EquipmentSid equipmentSid)
+        {
+            return GetLocalizedInner($"{equipmentSid}Description");
+        }
     }
 }

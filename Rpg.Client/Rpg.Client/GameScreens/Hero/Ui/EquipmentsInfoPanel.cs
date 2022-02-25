@@ -16,7 +16,6 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     {
         private const int ICON_SIZE = 64;
         private readonly IList<EntityIconButton<Equipment>> _equipmentButtons;
-        private readonly Unit _hero;
         private readonly SpriteFont _mainFont;
         private readonly Texture2D _hintTexture;
         private readonly Player _player;
@@ -28,15 +27,14 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(
             texture, titleFont)
         {
-            _hero = hero;
             _mainFont = mainFont;
             _hintTexture = hintTexture;
             _player = player;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _equipmentButtons = new List<EntityIconButton<Equipment>>();
-            for (var index = 0; index < _hero.Equipments.Count; index++)
+            for (var index = 0; index < hero.Equipments.Count; index++)
             {
-                var equipment = _hero.Equipments[index];
+                var equipment = hero.Equipments[index];
                 var equipmentIconRect = GetEquipmentIconRect(equipment.Scheme.Sid);
 
                 var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
@@ -81,16 +79,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             foreach (var equipmentButton in _equipmentButtons)
             {
                 var equipment = equipmentButton.Entity;
-                var resourceItem = _player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
-                var equipmentResourceAmount = resourceItem.Amount;
-                if (equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp)
-                {
-                    equipmentButton.IsEnabled = true;
-                }
-                else
-                {
-                    equipmentButton.IsEnabled = false;
-                }
+
+                equipmentButton.IsEnabled = CheckUpgradeIsAvailable(equipment);
                 
                 equipmentButton.Update(_resolutionIndependentRenderer);
             }
@@ -140,12 +130,15 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         {
             _equipmentUnderHint = equipment;
             
-            var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
-            var entityInfoText = $"{entityNameText} ({equipment.Level} lvl)";
+            var equipmentNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
+            var equipmentDescriptionText = GameObjectHelper.GetLocalizedDescription(equipment.Scheme.Sid);
+            var resourceName = GameObjectHelper.GetLocalized(equipment.Scheme.RequiredResourceToLevelUp);
+            var requiredResourceCount = equipment.RequiredResourceAmountToLevelUp;
             var upgradeInfoText =
-                $"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup";
+                string.Format(UiResource.EquipmentResourceRequipmentTemplate, resourceName, requiredResourceCount);
             
-            _equipmentHint = new TextHint(_hintTexture, _mainFont, $"{entityInfoText}{Environment.NewLine}{upgradeInfoText}");
+            _equipmentHint = new TextHint(_hintTexture, _mainFont, 
+                $"{equipmentNameText}{Environment.NewLine}{upgradeInfoText}{String.Empty}{equipmentDescriptionText}");
         }
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -161,17 +154,27 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
                 var equipment = equipmentButton.Entity;
                 var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
-                var entityInfoText = $"{entityNameText} ({equipment.Level} lvl)";
+                var entityInfoText = string.Format(UiResource.EquipmentTitleTemplate, entityNameText, equipment.Level);
                 spriteBatch.DrawString(_mainFont, entityInfoText,
                     equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
 
-                var upgradeInfoText =
-                    $"{equipment.Scheme.RequiredResourceToLevelUp}x{equipment.RequiredResourceAmountToLevelUp} to levelup";
-                spriteBatch.DrawString(_mainFont, upgradeInfoText,
-                    equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
+                var upgradeIsAvailable = CheckUpgradeIsAvailable(equipment);
+                if (upgradeIsAvailable)
+                {
+                    var upgradeInfoText = UiResource.EquipmentUpgradeMarkerText;
+                    spriteBatch.DrawString(_mainFont, upgradeInfoText,
+                        equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
+                }
             }
 
             _equipmentHint?.Draw(spriteBatch);
+        }
+
+        private bool CheckUpgradeIsAvailable(Equipment equipment)
+        {
+            var resourceItem = _player.Inventory.Single(x => x.Type == equipment.Scheme.RequiredResourceToLevelUp);
+            var equipmentResourceAmount = resourceItem.Amount;
+            return equipmentResourceAmount >= equipment.RequiredResourceAmountToLevelUp;
         }
 
         private static int? GetEquipmentIconOneBasedIndex(EquipmentSid schemeSid)

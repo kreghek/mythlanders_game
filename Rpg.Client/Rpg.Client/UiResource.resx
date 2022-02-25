@@ -327,4 +327,13 @@
   <data name="StunEffectRuleText" xml:space="preserve">
     <value>Stun to {1} on {0}</value>
   </data>
+  <data name="EquipmentTitleTemplate" xml:space="preserve">
+    <value>{0} ({1} lvl)</value>
+  </data>
+  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
+    <value>Upgrade is available!</value>
+  </data>
+  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
+    <value>{0}x{1} to upgrade</value>
+  </data>
 </root>
