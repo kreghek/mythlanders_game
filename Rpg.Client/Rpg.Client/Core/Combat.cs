@@ -448,6 +448,11 @@ namespace Rpg.Client.Core
                 UnitDied?.Invoke(this, combatUnit);
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }
+
+            if (unit == CurrentUnit?.Unit)
+            {
+                CompleteStep();
+            }
         }
 
         public event EventHandler? NextRoundStarted;

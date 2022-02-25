@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 {
                     var manaCostText = string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.ManaCost);
                     spriteBatch.DrawString(_mainFont, manaCostText,
-                        skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
+                        skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }
             }
         }

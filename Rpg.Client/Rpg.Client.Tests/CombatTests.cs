@@ -19,7 +19,7 @@ namespace Rpg.Client.Tests
     public class CombatTests
     {
         [Test]
-        public void UseSkill_PeriodicDamageDefeatMonster_NotThrowException()
+        public void UseSkill_PeriodicDamageDefeatsMonster_NotThrowException()
         {
             // ARRANGE
 
@@ -69,6 +69,13 @@ namespace Rpg.Client.Tests
 
             var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
                 isAutoplay: false);
+            using var monitor = combat.Monitor();
+
+            var finishEventWasRaised = false;
+            combat.Finish += (_, _) =>
+            {
+                finishEventWasRaised = true;
+            };
 
             combat.Initialize();
             combat.Update();
@@ -90,6 +97,7 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             target.Unit.IsDead.Should().BeTrue();
+            finishEventWasRaised.Should().BeTrue();
         }
 
         [Test]

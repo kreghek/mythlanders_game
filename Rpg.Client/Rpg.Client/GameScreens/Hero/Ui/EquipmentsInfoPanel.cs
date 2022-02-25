@@ -175,7 +175,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 {
                     var upgradeInfoText = UiResource.EquipmentUpgradeMarkerText;
                     spriteBatch.DrawString(_mainFont, upgradeInfoText,
-                        equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Wheat);
+                        equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }
             }
 
