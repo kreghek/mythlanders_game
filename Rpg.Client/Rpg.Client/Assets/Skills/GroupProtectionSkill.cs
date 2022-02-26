@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class DefenseStanceSkill : SkillBase
+    internal class GroupProtectionSkill : SkillBase
     {
-        public DefenseStanceSkill() : this(false)
+        public GroupProtectionSkill() : this(false)
         {
         }
 
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public GroupProtectionSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
+                Direction = SkillDirection.AllFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
+        public override SkillSid Sid => SkillSid.GroupProtection;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

@@ -37,7 +37,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.FireDamage
+            SoundEffectType = GameObjectSoundType.FireDamage,
+            AnimationSid = Core.AnimationSid.Skill4
         };
     }
 }
