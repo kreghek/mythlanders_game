@@ -12,22 +12,36 @@ namespace Rpg.Client.Core
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = slot.Index;
             IsInTankLine = slot.IsTankLine;
-            var skillContext = new CombatSkillContext(this);
 
-            var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
+            _skillContext = new CombatSkillContext(this);
 
-            CombatCards = cards;
+            CombatCards = Array.Empty<CombatSkill>();
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
-        public IEnumerable<CombatSkill> CombatCards { get; }
+        public IReadOnlyList<CombatSkill> CombatCards { get; private set; }
 
         public int Index { get; }
 
         public bool IsInTankLine { get; }
+
+        private readonly CombatSkillContext _skillContext;
+
+        public void RollCombatSkills(IDice dice)
+        {
+            var list = new List<CombatSkill>();
+            for (var i = 0; i < 4; i++)
+            {
+                var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
+                var skillCard = new CombatSkill(rolledSkill, _skillContext);
+                list.Add(skillCard);
+            }
+
+            CombatCards = list;
+        }
 
         public CombatUnitState State { get; private set; }
 
