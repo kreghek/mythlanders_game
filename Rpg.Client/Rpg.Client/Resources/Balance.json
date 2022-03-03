@@ -1,4 +1,14 @@
 {
+  "UnitBasics": {
+    "ARMOR_BASE": 0.5,
+    "DAMAGE_BASE": 5,
+    "HERO_POWER_MULTIPLICATOR": 2.5,
+    "HITPOINTS_BASE": 32,
+    "HITPOINTS_PER_LEVEL_BASE": 8,
+    "POWER_BASE": 1,
+    "POWER_PER_LEVEL_BASE": 0.1,
+    "SUPPORT_BASE": 2
+  },
   "UnitRows": [
     {
       "DamageDealerRank": 0.4,
@@ -96,15 +106,5 @@
       "TankRank": 0.35,
       "Type": false
     }
-  ],
-  "UnitBasics": {
-    "HITPOINTS_BASE": 40,
-    "HITPOINTS_PER_LEVEL_BASE": 4,
-    "ARMOR_BASE": 0.5,
-    "DAMAGE_BASE": 5,
-    "SUPPORT_BASE": 2,
-    "HERO_POWER_MULTIPLICATOR": 2.5,
-    "POWER_BASE": 1,
-    "POWER_PER_LEVEL_BASE": 0.1
-  }
+  ]
 }
