@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using Rpg.Client.Core;
 
@@ -23,20 +24,23 @@ namespace BalanceConverter
 
         public static UnitBasics ConvertToUnitBasic(IEnumerable<UnitBasicRow> unitExcelRows)
         {
-            return new UnitBasics
+            var basics = new UnitBasics();
+
+            var properties = typeof(UnitBasics).GetProperties();
+            foreach (var property in properties)
             {
-                ARMOR_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.ARMOR_BASE)).Value,
-                POWER_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.POWER_BASE)).Value,
-                DAMAGE_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.DAMAGE_BASE)).Value,
-                SUPPORT_BASE = unitExcelRows.Single(x => x.Key == nameof(UnitBasics.SUPPORT_BASE)).Value,
-                HITPOINTS_BASE = (int)unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HITPOINTS_BASE)).Value,
-                POWER_PER_LEVEL_BASE =
-                    unitExcelRows.Single(x => x.Key == nameof(UnitBasics.POWER_PER_LEVEL_BASE)).Value,
-                HITPOINTS_PER_LEVEL_BASE =
-                    (int)unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HITPOINTS_PER_LEVEL_BASE)).Value,
-                HERO_POWER_MULTIPLICATOR =
-                    unitExcelRows.Single(x => x.Key == nameof(UnitBasics.HERO_POWER_MULTIPLICATOR)).Value
-            };
+                var row = unitExcelRows.Single(x => x.Key == property.Name);
+                if (property.PropertyType == typeof(int))
+                {
+                    property.SetValue(basics, (int)row.Value);
+                }
+                else
+                {
+                    property.SetValue(basics, row.Value);
+                }
+            }
+
+            return basics;
         }
     }
 }

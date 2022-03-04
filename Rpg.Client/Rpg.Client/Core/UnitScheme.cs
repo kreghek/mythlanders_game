@@ -52,79 +52,81 @@ namespace Rpg.Client.Core
 
         public UnitGraphicsConfigBase? UnitGraphicsConfig { get; init; }
 
+        internal CommonUnitBasics UnitBasics => _unitBasics;
+
         private float CalcArmor()
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.ARMOR_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                return (int)Math.Round(UnitBasics.ARMOR_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR,
                     MidpointRounding.AwayFromZero);
             }
 
-            return _unitBasics.ARMOR_BASE;
+            return UnitBasics.ARMOR_BASE;
         }
 
         private float CalcDamage()
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.DAMAGE_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                return (int)Math.Round(UnitBasics.DAMAGE_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR,
                     MidpointRounding.AwayFromZero);
             }
 
-            return _unitBasics.DAMAGE_BASE;
+            return UnitBasics.DAMAGE_BASE;
         }
 
         private float CalcHitPointsBase()
         {
             if (!IsMonster)
             {
-                return (float)Math.Round(_unitBasics.HITPOINTS_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                return (float)Math.Round(UnitBasics.HITPOINTS_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR,
                     MidpointRounding.AwayFromZero);
             }
 
-            return _unitBasics.HITPOINTS_BASE;
+            return UnitBasics.HITPOINTS_BASE;
         }
 
         private float CalcHitPointsPerLevelBase()
         {
             if (!IsMonster)
             {
-                return (float)Math.Round(_unitBasics.HITPOINTS_PER_LEVEL_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                return (float)Math.Round(UnitBasics.HITPOINTS_PER_LEVEL_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR,
                     MidpointRounding.AwayFromZero);
             }
 
-            return _unitBasics.HITPOINTS_PER_LEVEL_BASE;
+            return UnitBasics.HITPOINTS_PER_LEVEL_BASE;
         }
 
         private float CalcPower()
         {
             if (!IsMonster)
             {
-                return _unitBasics.POWER_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR;
+                return UnitBasics.POWER_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR;
             }
 
-            return _unitBasics.POWER_BASE;
+            return UnitBasics.POWER_BASE;
         }
 
         private float CalcPowerPerLevel()
         {
             if (!IsMonster)
             {
-                return _unitBasics.POWER_PER_LEVEL_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR;
+                return UnitBasics.POWER_PER_LEVEL_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR;
             }
 
-            return _unitBasics.POWER_PER_LEVEL_BASE;
+            return UnitBasics.POWER_PER_LEVEL_BASE;
         }
 
         private float CalcSupport()
         {
             if (!IsMonster)
             {
-                return (int)Math.Round(_unitBasics.SUPPORT_BASE * _unitBasics.HERO_POWER_MULTIPLICATOR,
+                return (int)Math.Round(UnitBasics.SUPPORT_BASE * UnitBasics.HERO_POWER_MULTIPLICATOR,
                     MidpointRounding.AwayFromZero);
             }
 
-            return _unitBasics.SUPPORT_BASE;
+            return UnitBasics.SUPPORT_BASE;
         }
     }
 }
