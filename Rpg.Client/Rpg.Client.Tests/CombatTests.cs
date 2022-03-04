@@ -19,6 +19,58 @@ namespace Rpg.Client.Tests
     public class CombatTests
     {
         [Test]
+        public void Balance_VolkolakDealsNonZeroDamage()
+        {
+            // ARRANGE
+
+            var demoUnitCatalog = new DemoUnitSchemeCatalog();
+
+            var playerGroup = new Group();
+            var unitScheme = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
+                .SchemeAutoTransition.NextScheme;
+
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 5) { IsPlayerControlled = true };
+
+            var globeNode = new GlobeNode();
+
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
+
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
+                isAutoplay: false);
+            using var monitor = combat.Monitor();
+
+            combat.Initialize();
+            combat.Update();
+            combat.ActionGenerated += (_, args) =>
+            {
+                args.Action();
+            };
+
+            // ACT
+            var attacker = combat.CurrentUnit.Unit;
+            var skill = attacker.Skills.First();
+            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var takenDamageMount = 0;
+            target.HasTakenDamage += (_, e) =>
+            {
+                takenDamageMount = e.Amount;
+            };
+
+            combat.UseSkill(skill, target);
+
+            // ASSERT
+            takenDamageMount.Should().BeGreaterThan(0);
+        }
+
+        [Test]
         public void UseSkill_PeriodicDamageDefeatsMonster_NotThrowException()
         {
             // ARRANGE
@@ -372,57 +424,6 @@ namespace Rpg.Client.Tests
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().NotBe(0).And.BeLessThan(targetHitPointsDiff);
-        }
-
-        [Test]
-        public void Balance_VolkolakDealsNonZeroDamage()
-        {
-            // ARRANGE
-
-            var demoUnitCatalog = new DemoUnitSchemeCatalog();
-
-            var playerGroup = new Group();
-            var unitScheme = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior).SchemeAutoTransition.NextScheme;
-
-            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
-
-            playerGroup.Slots[0].Unit = new Unit(unitScheme, 5) { IsPlayerControlled = true };
-
-            var globeNode = new GlobeNode();
-
-            var combatSource = new CombatSource
-            {
-                EnemyGroup = new Group()
-            };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
-
-            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
-
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
-            using var monitor = combat.Monitor();
-
-            combat.Initialize();
-            combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                args.Action();
-            };
-
-            // ACT
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills.First();
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
-            var takenDamageMount = 0;
-            target.HasTakenDamage += (_, e) =>
-            {
-                takenDamageMount = e.Amount;
-            };
-
-            combat.UseSkill(skill, target);
-
-            // ASSERT
-            takenDamageMount.Should().BeGreaterThan(0);
         }
     }
 }

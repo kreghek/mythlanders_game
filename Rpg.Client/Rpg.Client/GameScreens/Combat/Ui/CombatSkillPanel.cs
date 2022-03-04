@@ -184,7 +184,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var marginOffset = new Vector2(0, 2);
             var textOffset = new Vector2(textSize.X / 2, textSize.Y);
             var selectedOffset = isSelected ? new Vector2(0, SKILL_SELECTION_OFFSET) : Vector2.Zero;
-            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - (textOffset + marginOffset + selectedOffset);
+            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) -
+                                 (textOffset + marginOffset + selectedOffset);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
         }
 
