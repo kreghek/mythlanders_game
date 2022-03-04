@@ -6,7 +6,7 @@
     "HITPOINTS_BASE": 32,
     "HITPOINTS_PER_LEVEL_BASE": 8,
     "POWER_BASE": 1,
-    "POWER_PER_LEVEL_BASE": 0.1,
+    "POWER_PER_LEVEL_BASE": 0.25,
     "SUPPORT_BASE": 2
   },
   "UnitRows": [
