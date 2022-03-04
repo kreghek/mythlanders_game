@@ -18,6 +18,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BUTTON_PADDING = 5;
         private const int BUTTON_MARGIN = 5;
         private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
+        private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
+
         private readonly IList<EntityButtonBase<CombatSkill>> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
         private SkillHint? _activeSkillHint;
@@ -25,7 +27,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private EntityButtonBase<CombatSkill>? _hoverButton;
         private KeyboardState? _lastKeyboardState;
-        private CombatSkill? _selectedCard;
+        private CombatSkill? _selectedSkill;
         private CombatUnit? _unit;
 
         public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage) : base(texture)
@@ -101,12 +103,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
             {
                 var button = _buttons[buttonIndex];
+                var isSelected = SelectedSkill == button.Entity;
 
-                button.Rect = GetButtonRectangle(buttonsRect, buttonIndex);
+                button.Rect = GetButtonRectangle(buttonsRect, buttonIndex, isSelected);
                 button.Draw(spriteBatch);
 
                 var hotKey = (buttonIndex + 1).ToString();
-                DrawHotkey(spriteBatch, hotKey, button);
+                DrawHotkey(spriteBatch, hotKey, button, isSelected);
             }
 
             if (_hoverButton is not null && _activeSkillHint is not null)
@@ -174,9 +177,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ControlBase button)
+        private void DrawHotkey(SpriteBatch spriteBatch, string hotKey, ControlBase button, bool isSelected)
         {
-            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - new Vector2(0, 15);
+            var font = _uiContentStorage.GetMainFont();
+            var textSize = font.MeasureString(hotKey);
+            var marginOffset = new Vector2(0, 2);
+            var textOffset = new Vector2(textSize.X / 2, textSize.Y);
+            var selectedOffset = isSelected ? new Vector2(0, SKILL_SELECTION_OFFSET) : Vector2.Zero;
+            var hotkeyPosition = new Vector2(button.Rect.Center.X, button.Rect.Top) - (textOffset + marginOffset + selectedOffset);
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), hotKey, hotkeyPosition, Color.Wheat);
         }
 
@@ -199,12 +207,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             hintControl.Draw(spriteBatch);
         }
 
-        private static Rectangle GetButtonRectangle(Rectangle buttonsRect, int buttonIndex)
+        private static Rectangle GetButtonRectangle(Rectangle buttonsRect, int buttonIndex, bool isSelected)
         {
             var buttonOffsetX = (SKILL_BUTTON_SIZE + BUTTON_MARGIN) * buttonIndex;
+            var buttonOffsetY = isSelected ? -SKILL_BUTTON_SIZE / 8 : 0;
 
             return new Rectangle(buttonsRect.X + buttonOffsetX,
-                buttonsRect.Y,
+                buttonsRect.Y + buttonOffsetY,
                 SKILL_BUTTON_SIZE,
                 SKILL_BUTTON_SIZE);
         }
@@ -299,7 +308,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public CombatSkill? SelectedSkill
         {
-            get => _selectedCard;
+            get => _selectedSkill;
             set
             {
                 // Comment this block because monsters can transforms into other unit (See scheme auto transition).
@@ -309,12 +318,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     return;
                 }*/
 
-                _selectedCard = value;
+                _selectedSkill = value;
 
-                CardSelected?.Invoke(this, _selectedCard);
+                SkillSelected?.Invoke(this, _selectedSkill);
             }
         }
 
-        public event EventHandler<CombatSkill?>? CardSelected;
+        public event EventHandler<CombatSkill?>? SkillSelected;
     }
 }
