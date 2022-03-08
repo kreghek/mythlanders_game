@@ -323,7 +323,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void CombatInitialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage);
-            _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
+            _combatSkillsPanel.SkillSelected += CombatSkillsPanel_CardSelected;
             _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
             _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
             _combat.CombatUnitEntered += Combat_UnitEntered;
@@ -476,16 +476,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+            var damageIndicator =
+                new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
-        }
-
-        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
-        {
-            var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
-            var nextIndex = currentIndex + 1;
-            return nextIndex;
         }
 
         private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
@@ -497,8 +491,9 @@ namespace Rpg.Client.GameScreens.Combat
             var position = unitGameObject.Position;
 
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
-            
-            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+            var damageIndicator =
+                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -751,6 +746,13 @@ namespace Rpg.Client.GameScreens.Combat
         {
             _combat.Surrender();
             _combatFinishedVictory = false;
+        }
+
+        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
+        {
+            var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
+            var nextIndex = currentIndex + 1;
+            return nextIndex;
         }
 
         private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)

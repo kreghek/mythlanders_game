@@ -50,16 +50,16 @@ namespace Rpg.Client.GameScreens
             return GetLocalizedInner($"{perk.GetType().Name}Description");
         }
 
+        public static string GetLocalizedDescription(EquipmentSid equipmentSid)
+        {
+            return GetLocalizedInner($"{equipmentSid}Description");
+        }
+
         private static string GetLocalizedInner(string sid)
         {
             var rm = GameObjectResources.ResourceManager;
             var name = rm.GetString(sid) ?? sid;
             return name;
-        }
-
-        public static string GetLocalizedDescription(EquipmentSid equipmentSid)
-        {
-            return GetLocalizedInner($"{equipmentSid}Description");
         }
     }
 }

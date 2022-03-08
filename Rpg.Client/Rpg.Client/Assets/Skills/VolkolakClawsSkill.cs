@@ -26,7 +26,7 @@ namespace Rpg.Client.Assets.Skills
                 {
                     var res = new LifeDrawEffect
                     {
-                        DamageMultiplier = 0.3f,
+                        DamageMultiplier = 0.5f,
                         Actor = u
                     };
 

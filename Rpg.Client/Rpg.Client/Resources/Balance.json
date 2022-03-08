@@ -1,4 +1,21 @@
 {
+  "UnitBasics": {
+    "ARMOR_BASE": 0.5,
+    "DAMAGE_BASE": 5,
+    "HERO_POWER_MULTIPLICATOR": 2.5,
+    "HITPOINTS_BASE": 32,
+    "HITPOINTS_PER_LEVEL_BASE": 8,
+    "POWER_BASE": 1,
+    "POWER_PER_LEVEL_BASE": 0.25,
+    "SUPPORT_BASE": 2,
+    "BASE_MANA_POOL_SIZE": 3,
+    "MANA_PER_LEVEL": 1,
+    "COMBAT_RESTORE_SHARE": 1,
+    "LEVEL_BASE": 2,
+    "LEVEL_MULTIPLICATOR": 100,
+    "OVERPOWER_BASE": 2,
+    "MINIMAL_LEVEL_WITH_MANA": 2
+  },
   "UnitRows": [
     {
       "DamageDealerRank": 0.4,
@@ -96,15 +113,5 @@
       "TankRank": 0.35,
       "Type": false
     }
-  ],
-  "UnitBasics": {
-    "HITPOINTS_BASE": 40,
-    "HITPOINTS_PER_LEVEL_BASE": 4,
-    "ARMOR_BASE": 0.5,
-    "DAMAGE_BASE": 5,
-    "SUPPORT_BASE": 2,
-    "HERO_POWER_MULTIPLICATOR": 2.5,
-    "POWER_BASE": 1,
-    "POWER_PER_LEVEL_BASE": 0.1
-  }
+  ]
 }

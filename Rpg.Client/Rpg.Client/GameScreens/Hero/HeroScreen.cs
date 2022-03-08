@@ -47,7 +47,8 @@ namespace Rpg.Client.GameScreens.Hero
 
             _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
                 _uiContentStorage.GetTitlesFont(), screenService.Selected, _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(), _uiContentStorage.GetButtonTexture(), globeProvider.Globe.Player, ResolutionIndependentRenderer);
+                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(),
+                _uiContentStorage.GetButtonTexture(), globeProvider.Globe.Player, ResolutionIndependentRenderer);
 
             _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
 

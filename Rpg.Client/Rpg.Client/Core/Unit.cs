@@ -8,15 +8,6 @@ namespace Rpg.Client.Core
 {
     internal sealed class Unit
     {
-        private const int BASE_MANA_POOL_SIZE = 3;
-        private const int MANA_PER_LEVEL = 1;
-        private const float COMBAT_RESTORE_SHARE = 1.0f;
-
-        private const int LEVEL_BASE = 2;
-        private const int LEVEL_MULTIPLICATOR = 100;
-
-        private const float OVERPOWER_BASE = 2;
-        private const int MINIMAL_LEVEL_WITH_MANA = 2;
         private readonly List<GlobalUnitEffect> _globalEffects;
 
         private float _armorBonus;
@@ -64,10 +55,10 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; init; }
 
         public int Level { get; private set; }
-        public int LevelUpXpAmount => (int)Math.Pow(LEVEL_BASE, Level) * LEVEL_MULTIPLICATOR;
+        public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) * UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
-        public int ManaPoolSize => BASE_MANA_POOL_SIZE + (Level - 1) * MANA_PER_LEVEL;
+        public int ManaPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE + (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
 
@@ -130,7 +121,7 @@ namespace Rpg.Client.Core
 
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(MaxHitPoints * COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
+            var hpBonus = (int)Math.Round(MaxHitPoints * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
 
             HitPoints += hpBonus;
 
@@ -230,10 +221,10 @@ namespace Rpg.Client.Core
 
         private float CalcOverpower()
         {
-            var startPoolSize = ManaPool - (BASE_MANA_POOL_SIZE + MANA_PER_LEVEL * MINIMAL_LEVEL_WITH_MANA);
+            var startPoolSize = ManaPool - (UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE + UnitScheme.UnitBasics.MANA_PER_LEVEL * UnitScheme.UnitBasics.MINIMAL_LEVEL_WITH_MANA);
             if (startPoolSize > 0)
             {
-                return (float)Math.Log(startPoolSize, OVERPOWER_BASE);
+                return (float)Math.Log(startPoolSize, UnitScheme.UnitBasics.OVERPOWER_BASE);
             }
 
             // Monsters and low-level heroes has no overpower.
