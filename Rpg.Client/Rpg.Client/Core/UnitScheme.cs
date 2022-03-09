@@ -7,11 +7,9 @@ namespace Rpg.Client.Core
 {
     internal sealed class UnitScheme
     {
-        private readonly CommonUnitBasics _unitBasics;
-
         public UnitScheme(CommonUnitBasics unitBasics)
         {
-            _unitBasics = unitBasics;
+            UnitBasics = unitBasics;
         }
 
         public float ArmorBase => CalcArmor();
@@ -52,7 +50,7 @@ namespace Rpg.Client.Core
 
         public UnitGraphicsConfigBase? UnitGraphicsConfig { get; init; }
 
-        internal CommonUnitBasics UnitBasics => _unitBasics;
+        internal CommonUnitBasics UnitBasics { get; }
 
         private float CalcArmor()
         {

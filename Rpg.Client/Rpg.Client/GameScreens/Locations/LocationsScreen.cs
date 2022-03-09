@@ -35,9 +35,9 @@ namespace Rpg.Client.GameScreens.Locations
         private bool _isNodeModelsCreated;
 
         private TextHint? _locationInfoHint;
-        private bool _screenTransition;
 
-        private IList<LocationInfoPanel> _locationInfoPanels;
+        private readonly IList<LocationInfoPanel> _locationInfoPanels;
+        private bool _screenTransition;
 
         public LocationsScreen(EwarGame game) : base(game)
         {
@@ -171,7 +171,10 @@ namespace Rpg.Client.GameScreens.Locations
                                 continue;
                             }
 
-                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer, biome, node, _globe, _unitSchemeCatalog);
+                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(),
+                                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+                                _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer, biome, node, _globe,
+                                _unitSchemeCatalog);
                             _locationInfoPanels.Add(locationPanel);
                             locationPanel.Selected += (_, _) =>
                             {

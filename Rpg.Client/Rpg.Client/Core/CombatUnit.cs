@@ -7,6 +7,8 @@ namespace Rpg.Client.Core
 {
     internal sealed class CombatUnit : ICombatUnit
     {
+        private readonly CombatSkillContext _skillContext;
+
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
@@ -31,21 +33,6 @@ namespace Rpg.Client.Core
         public int Index { get; }
 
         public bool IsInTankLine { get; }
-
-        private readonly CombatSkillContext _skillContext;
-
-        public void RollCombatSkills(IDice dice)
-        {
-            var list = new List<CombatSkill>();
-            for (var i = 0; i < 4; i++)
-            {
-                var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
-                var skillCard = new CombatSkill(rolledSkill, _skillContext);
-                list.Add(skillCard);
-            }
-
-            CombatCards = list;
-        }
 
         public CombatUnitState State { get; private set; }
 
@@ -83,6 +70,19 @@ namespace Rpg.Client.Core
                 Direction = HitPointsChangeDirection.Negative
             };
             HasTakenDamage?.Invoke(this, args);
+        }
+
+        public void RollCombatSkills(IDice dice)
+        {
+            var list = new List<CombatSkill>();
+            for (var i = 0; i < 4; i++)
+            {
+                var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
+                var skillCard = new CombatSkill(rolledSkill, _skillContext);
+                list.Add(skillCard);
+            }
+
+            CombatCards = list;
         }
 
         public Unit Unit { get; }
