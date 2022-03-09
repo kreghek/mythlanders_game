@@ -21,13 +21,12 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)
         {
+            // https://clintbellanger.net/articles/isometric_math/
             const int TILE_WIDTH_HALF = CELL_SIZE / 2;
             const int TILE_HEIGHT_HALF = CELL_SIZE / 2 / 2;
 
             var screenX = cellX * TILE_WIDTH_HALF - cellY * TILE_WIDTH_HALF;
             var screenY = cellX * TILE_HEIGHT_HALF + cellY * TILE_HEIGHT_HALF;
-
-
 
             var cellPosition = new Vector2(screenX, screenY);
             _position = cellPosition + centerNodePosition;
