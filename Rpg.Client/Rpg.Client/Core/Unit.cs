@@ -55,10 +55,14 @@ namespace Rpg.Client.Core
         public bool IsPlayerControlled { get; init; }
 
         public int Level { get; private set; }
-        public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) * UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
+
+        public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) *
+                                      UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
         public int ManaPool { get; set; }
-        public int ManaPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE + (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
+
+        public int ManaPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+                                   (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
 
@@ -121,7 +125,8 @@ namespace Rpg.Client.Core
 
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(MaxHitPoints * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE, MidpointRounding.ToEven);
+            var hpBonus = (int)Math.Round(MaxHitPoints * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
+                MidpointRounding.ToEven);
 
             HitPoints += hpBonus;
 
@@ -221,7 +226,9 @@ namespace Rpg.Client.Core
 
         private float CalcOverpower()
         {
-            var startPoolSize = ManaPool - (UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE + UnitScheme.UnitBasics.MANA_PER_LEVEL * UnitScheme.UnitBasics.MINIMAL_LEVEL_WITH_MANA);
+            var startPoolSize = ManaPool - (UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+                                            UnitScheme.UnitBasics.MANA_PER_LEVEL *
+                                            UnitScheme.UnitBasics.MINIMAL_LEVEL_WITH_MANA);
             if (startPoolSize > 0)
             {
                 return (float)Math.Log(startPoolSize, UnitScheme.UnitBasics.OVERPOWER_BASE);

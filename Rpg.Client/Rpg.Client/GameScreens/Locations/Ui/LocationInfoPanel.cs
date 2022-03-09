@@ -9,15 +9,17 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Locations.Ui
 {
-    internal sealed class LocationInfoPanel: ControlBase
+    internal sealed class LocationInfoPanel : ControlBase
     {
+        private readonly Core.Biome _biome;
+
+        private readonly ButtonBase _combatButton;
+        private readonly Globe _globe;
+        private readonly GlobeNode _globeNode;
         private readonly GlobeNodeSid _nodeSid;
         private readonly Texture2D _panelTexture;
-        private readonly SpriteFont _textFont;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
-        private readonly Core.Biome _biome;
-        private readonly GlobeNode _globeNode;
-        private readonly Globe _globe;
+        private readonly SpriteFont _textFont;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         public int PanelIndex { get; }
         private readonly ButtonBase _combatButton;
@@ -37,7 +39,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             PanelIndex = panelIndex;
             _combatButton =
                 new ResourceTextButton(nameof(UiResource.ToTheCombatButtonTitle), buttonTexture, buttonFont);
-            _combatButton.OnClick += (_, _) => Selected?.Invoke(this, EventArgs.Empty);
+            
         }
 
         public void Update(GameTime gameTime)
@@ -45,8 +47,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             _combatButton.Update(_resolutionIndependentRenderer);
         }
 
-        public event EventHandler? Selected;
-
+        public event EventHandler Selected;
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -56,7 +57,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
         {
             _combatButton.Rect = new Rectangle(contentRect.Left + 5, contentRect.Bottom - 25 - 5,
                 contentRect.Width - 5 * 2, 20);
-            
+
             _combatButton.Draw(spriteBatch);
 
             var locationName = GameObjectHelper.GetLocalized(_nodeSid);
@@ -64,8 +65,9 @@ namespace Rpg.Client.GameScreens.Locations.Ui
 
             DrawBiomeLevel(spriteBatch, contentRect, _biome, _textFont);
         }
-        
-        private static void DrawBiomeLevel(SpriteBatch spriteBatch, Rectangle contentRect, Core.Biome biome, SpriteFont font)
+
+        private static void DrawBiomeLevel(SpriteBatch spriteBatch, Rectangle contentRect, Core.Biome biome,
+            SpriteFont font)
         {
             var biomeLevelText = $"{UiResource.BiomeLevelText}: {biome.Level}";
             var textSize = font.MeasureString(biomeLevelText);
@@ -77,7 +79,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             spriteBatch.DrawString(font, biomeLevelText,
                 biomeLevelTextPosition, Color.White);
         }
-        
+
         private string GetCombatRewards(GlobeNode node)
         {
             if (node.CombatSequence is null)
@@ -118,5 +120,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
 
             return $"{UiResource.XpRewardText}: {summaryXp}";
         }
+
+        public event EventHandler Selected;
     }
 }

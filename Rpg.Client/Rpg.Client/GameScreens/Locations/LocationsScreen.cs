@@ -35,9 +35,9 @@ namespace Rpg.Client.GameScreens.Locations
         private bool _isNodeModelsCreated;
 
         private TextHint? _locationInfoHint;
-        private bool _screenTransition;
 
-        private IList<LocationInfoPanel> _locationInfoPanels;
+        private readonly IList<LocationInfoPanel> _locationInfoPanels;
+        private bool _screenTransition;
 
         public LocationsScreen(EwarGame game) : base(game)
         {
@@ -188,8 +188,6 @@ namespace Rpg.Client.GameScreens.Locations
                                     _resolutionIndependenceRenderer, _unitSchemeCatalog);
                                 AddModal(combatModal, isLate: false);
                             };
-
-                            panelIndex++;
                         }   
                     }
 
