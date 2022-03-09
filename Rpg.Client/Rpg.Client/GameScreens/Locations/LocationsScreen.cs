@@ -171,7 +171,7 @@ namespace Rpg.Client.GameScreens.Locations
                                 continue;
                             }
 
-                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer,biome, node, _globe, _unitSchemeCatalog);
+                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer, biome, node, _globe, _unitSchemeCatalog);
                             _locationInfoPanels.Add(locationPanel);
                             locationPanel.Selected += (_, _) =>
                             {
@@ -187,7 +187,7 @@ namespace Rpg.Client.GameScreens.Locations
                                     _resolutionIndependenceRenderer, _unitSchemeCatalog);
                                 AddModal(combatModal, isLate: false);
                             };
-                        }   
+                        }
                     }
 
                     _isNodeModelsCreated = true;

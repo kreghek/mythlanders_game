@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Locations.Ui
 {
-    internal sealed class LocationInfoPanel: ControlBase
+    internal sealed class LocationInfoPanel : ControlBase
     {
         private readonly GlobeNodeSid _nodeSid;
         private readonly Texture2D _panelTexture;
@@ -37,7 +37,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
 
             _combatButton =
                 new ResourceTextButton(nameof(UiResource.ToTheCombatButtonTitle), buttonTexture, buttonFont);
-            
+
         }
 
         public void Update(GameTime gameTime)
@@ -55,12 +55,12 @@ namespace Rpg.Client.GameScreens.Locations.Ui
         {
             _combatButton.Rect = new Rectangle(contentRect.Left + 5, contentRect.Bottom - 25 - 5,
                 contentRect.Width - 5 * 2, 20);
-            
+
             _combatButton.Draw(spriteBatch);
 
             DrawBiomeLevel(spriteBatch, contentRect, _biome, _textFont);
         }
-        
+
         private static void DrawBiomeLevel(SpriteBatch spriteBatch, Rectangle contentRect, Core.Biome biome, SpriteFont font)
         {
             var biomeLevelText = $"{UiResource.BiomeLevelText}: {biome.Level}";
@@ -73,7 +73,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             spriteBatch.DrawString(font, biomeLevelText,
                 biomeLevelTextPosition, Color.White);
         }
-        
+
         private string GetCombatRewards(GlobeNode node)
         {
             if (node.CombatSequence is null)
