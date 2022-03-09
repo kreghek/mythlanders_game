@@ -162,6 +162,7 @@ namespace Rpg.Client.GameScreens.Locations
             {
                 if (!_isNodeModelsCreated)
                 {
+                    var panelIndex = 0;
                     foreach (var biome in _globe.Biomes)
                     {
                         foreach (var node in biome.Nodes)
@@ -171,7 +172,7 @@ namespace Rpg.Client.GameScreens.Locations
                                 continue;
                             }
 
-                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer,biome, node, _globe, _unitSchemeCatalog);
+                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer,biome, node, _globe, _unitSchemeCatalog, panelIndex);
                             _locationInfoPanels.Add(locationPanel);
                             locationPanel.Selected += (_, _) =>
                             {
@@ -187,6 +188,8 @@ namespace Rpg.Client.GameScreens.Locations
                                     _resolutionIndependenceRenderer, _unitSchemeCatalog);
                                 AddModal(combatModal, isLate: false);
                             };
+
+                            panelIndex++;
                         }   
                     }
 
@@ -293,8 +296,24 @@ namespace Rpg.Client.GameScreens.Locations
 
         private void DrawLocationInfoPanels(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            const int PANEL_WIDTH = 128;
+            const int PANEL_HEIGHT = 64;
+            const int MARGIN = 5;
+            const int MAX_COLUMNS = 3;
+
+            const int MAX_PANELS_WIDTH = MAX_COLUMNS * (PANEL_WIDTH + MARGIN);
+            const int EFFECTS_HEIGHT = 100;
+            var maxPanelClientRect = new Rectangle(MARGIN, EFFECTS_HEIGHT,
+                contentRect.Width - MARGIN * 2,
+                contentRect.Height - EFFECTS_HEIGHT - MARGIN * 2);
+
+            var firstPanelX = maxPanelClientRect.Width / 2 - MAX_PANELS_WIDTH / 2;
+
             foreach (var panel in _locationInfoPanels)
             {
+                var col = panel.PanelIndex % 2;
+                var row = panel.PanelIndex / 2;
+                panel.Rect = new Rectangle(firstPanelX + col * PANEL_WIDTH, maxPanelClientRect.Top + row * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);    
                 panel.Draw(spriteBatch);
             }
         }

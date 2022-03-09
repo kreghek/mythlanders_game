@@ -19,12 +19,12 @@ namespace Rpg.Client.GameScreens.Locations.Ui
         private readonly GlobeNode _globeNode;
         private readonly Globe _globe;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-
+        public int PanelIndex { get; }
         private readonly ButtonBase _combatButton;
 
         public LocationInfoPanel(GlobeNodeSid nodeSid, Texture2D panelTexture, Texture2D buttonTexture, SpriteFont buttonFont, SpriteFont textFont,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
-            Core.Biome biome, GlobeNode globeNode, Globe globe, IUnitSchemeCatalog unitSchemeCatalog) : base(panelTexture)
+            Core.Biome biome, GlobeNode globeNode, Globe globe, IUnitSchemeCatalog unitSchemeCatalog, int panelIndex) : base(panelTexture)
         {
             _nodeSid = nodeSid;
             _panelTexture = panelTexture;
@@ -34,10 +34,10 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             _globeNode = globeNode;
             _globe = globe;
             _unitSchemeCatalog = unitSchemeCatalog;
-
+            PanelIndex = panelIndex;
             _combatButton =
                 new ResourceTextButton(nameof(UiResource.ToTheCombatButtonTitle), buttonTexture, buttonFont);
-            
+            _combatButton.OnClick += (_, _) => Selected?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(GameTime gameTime)
@@ -45,7 +45,8 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             _combatButton.Update(_resolutionIndependentRenderer);
         }
 
-        public event EventHandler Selected;
+        public event EventHandler? Selected;
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -58,6 +59,9 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             
             _combatButton.Draw(spriteBatch);
 
+            var locationName = GameObjectHelper.GetLocalized(_nodeSid);
+            spriteBatch.DrawString(_textFont, locationName, contentRect.Location.ToVector2(), Color.Wheat);
+
             DrawBiomeLevel(spriteBatch, contentRect, _biome, _textFont);
         }
         
@@ -67,7 +71,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             var textSize = font.MeasureString(biomeLevelText);
             const int BIOME_LEVEL_TOP_MARGIN = 5;
             var biomeLevelTextPosition = new Vector2(
-                contentRect.Width * 0.5f - textSize.X * 0.5f,
+                contentRect.Left + contentRect.Width * 0.5f - textSize.X * 0.5f,
                 contentRect.Top + BIOME_LEVEL_TOP_MARGIN);
 
             spriteBatch.DrawString(font, biomeLevelText,
