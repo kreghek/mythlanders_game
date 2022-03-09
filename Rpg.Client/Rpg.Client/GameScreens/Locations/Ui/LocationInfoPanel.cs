@@ -22,7 +22,6 @@ namespace Rpg.Client.GameScreens.Locations.Ui
         private readonly SpriteFont _textFont;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         public int PanelIndex { get; }
-        private readonly ButtonBase _combatButton;
 
         public LocationInfoPanel(GlobeNodeSid nodeSid, Texture2D panelTexture, Texture2D buttonTexture, SpriteFont buttonFont, SpriteFont textFont,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
@@ -39,7 +38,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             PanelIndex = panelIndex;
             _combatButton =
                 new ResourceTextButton(nameof(UiResource.ToTheCombatButtonTitle), buttonTexture, buttonFont);
-            
+            _combatButton.OnClick += (_, _) => Selected?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(GameTime gameTime)
@@ -47,7 +46,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             _combatButton.Update(_resolutionIndependentRenderer);
         }
 
-        public event EventHandler Selected;
+        public event EventHandler? Selected;
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -120,7 +119,5 @@ namespace Rpg.Client.GameScreens.Locations.Ui
 
             return $"{UiResource.XpRewardText}: {summaryXp}";
         }
-
-        public event EventHandler Selected;
     }
 }
