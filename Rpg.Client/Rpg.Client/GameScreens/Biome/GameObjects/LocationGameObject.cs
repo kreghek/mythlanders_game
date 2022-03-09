@@ -16,11 +16,20 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
         private readonly Vector2 _position;
         private readonly Texture2D _texture;
 
+        private const int CELL_SIZE = 256;
+
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)
         {
-            var cellPosition = new Vector2(cellX * 256 * 0.5f - 128 - (cellY * (256 / 2)),
-                cellY * 128 + cellX * 128 * 0.5f - 64 - (cellY * (128 / 2)));
+            const int TILE_WIDTH_HALF = CELL_SIZE / 2;
+            const int TILE_HEIGHT_HALF = CELL_SIZE / 2 / 2;
+
+            var screenX = cellX * TILE_WIDTH_HALF - cellY * TILE_WIDTH_HALF;
+            var screenY = cellX * TILE_HEIGHT_HALF + cellY * TILE_HEIGHT_HALF;
+
+
+
+            var cellPosition = new Vector2(screenX, screenY);
             _position = cellPosition + centerNodePosition;
             _texture = gameObjectContentStorage.GetLocationTextures(nodeSid);
             _gameObjectContentStorage = gameObjectContentStorage;
@@ -68,51 +77,113 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
 
         private void Configure(GlobeNodeSid nodeSid, Vector2 graphicObjectPosition)
         {
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition,
-                rowIndex: 0,
-                origin: new Vector2(0.5f, 0.5f),
-                _gameObjectContentStorage));
-
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition + new Vector2(-16, -16),
-                rowIndex: 1,
-                origin: new Vector2(0.5f, 1f),
-                _gameObjectContentStorage));
-
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition + new Vector2(-8, -2),
-                rowIndex: 1,
-                origin: new Vector2(0.5f, 1f),
-                _gameObjectContentStorage)
+            switch (nodeSid)
             {
-                AnimationSpeedFactor = 1.1f
-            });
+                case GlobeNodeSid.Thicket:
 
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition + new Vector2(6, 4),
-                rowIndex: 1,
-                origin: new Vector2(0.5f, 1f),
-                _gameObjectContentStorage)
-            {
-                AnimationSpeedFactor = 0.90f
-            });
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition,
+                        rowIndex: 0,
+                        origin: new Vector2(0.5f, 0.5f),
+                        _gameObjectContentStorage));
 
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition + new Vector2(-12, 14),
-                rowIndex: 1,
-                origin: new Vector2(0.5f, 1f),
-                _gameObjectContentStorage)
-            {
-                AnimationSpeedFactor = 1.3f
-            });
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-16, -16),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage));
 
-            _objects.Add(new SingleGameObject(
-                graphicObjectPosition + new Vector2(-20, 24),
-                rowIndex: 2,
-                origin: new Vector2(0.5f, 0.5f),
-                _gameObjectContentStorage,
-                isLandscape: true));
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-8, -2),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage)
+                    {
+                        AnimationSpeedFactor = 1.1f
+                    });
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(6, 4),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage)
+                    {
+                        AnimationSpeedFactor = 0.90f
+                    });
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-12, 14),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage)
+                    {
+                        AnimationSpeedFactor = 1.3f
+                    });
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-20, 24),
+                        rowIndex: 2,
+                        origin: new Vector2(0.5f, 0.5f),
+                        _gameObjectContentStorage,
+                        isLandscape: true));
+
+                    break;
+
+                case GlobeNodeSid.Battleground:
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(20, 20),
+                        rowIndex: 3,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage));
+
+                    break;
+
+                case GlobeNodeSid.DestroyedVillage:
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-20, 24),
+                        rowIndex: 5,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage));
+
+                    break;
+
+                case GlobeNodeSid.Swamp:
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-16, -16),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage));
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(6, 4),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage)
+                    {
+                        AnimationSpeedFactor = 0.90f
+                    });
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition + new Vector2(-12, 14),
+                        rowIndex: 1,
+                        origin: new Vector2(0.5f, 1f),
+                        _gameObjectContentStorage)
+                    {
+                        AnimationSpeedFactor = 1.3f
+                    });
+
+                    _objects.Add(new SingleGameObject(
+                        graphicObjectPosition,
+                        rowIndex: 4,
+                        origin: new Vector2(0.5f, 0.5f),
+                        _gameObjectContentStorage,
+                        isLandscape: true));
+
+                    break;
+            }
         }
     }
 }

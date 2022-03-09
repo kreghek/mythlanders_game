@@ -108,7 +108,7 @@ namespace Rpg.Client.ScreenManagement
             {
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
-                ScreenTransition.Biome => new LocationsScreen(_game),
+                ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => _gameSettings.Mode == GameMode.Full

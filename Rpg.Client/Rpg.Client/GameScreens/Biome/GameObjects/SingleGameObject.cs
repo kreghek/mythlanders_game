@@ -8,7 +8,6 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
     {
         private const double FRAMERATE = 1f / 4;
         private const int FRAME_COUNT = 4;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private readonly int _rowIndex;
         private readonly Sprite _sprite;
@@ -19,9 +18,8 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
             GameObjectContentStorage gameObjectContentStorage, bool isLandscape = false)
         {
             _rowIndex = rowIndex;
-            _gameObjectContentStorage = gameObjectContentStorage;
             IsLandscape = isLandscape;
-            _sprite = new Sprite(_gameObjectContentStorage.GetLocationObjectTextures())
+            _sprite = new Sprite(gameObjectContentStorage.GetLocationObjectTextures())
             {
                 Position = position,
                 SourceRectangle = new Rectangle(_frameIndex * 128, _rowIndex * 128, 128, 128),
