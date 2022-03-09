@@ -11,12 +11,11 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
 {
     internal sealed class LocationGameObject
     {
+        private const int CELL_SIZE = 256;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<SingleGameObject> _objects = new List<SingleGameObject>();
         private readonly Vector2 _position;
         private readonly Texture2D _texture;
-
-        private const int CELL_SIZE = 256;
 
         public LocationGameObject(int cellX, int cellY, Vector2 centerNodePosition, GlobeNodeSid nodeSid,
             GameObjectContentStorage gameObjectContentStorage, GlobeNode node)

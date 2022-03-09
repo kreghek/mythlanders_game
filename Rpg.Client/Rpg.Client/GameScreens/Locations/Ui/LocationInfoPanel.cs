@@ -21,11 +21,12 @@ namespace Rpg.Client.GameScreens.Locations.Ui
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SpriteFont _textFont;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        public int PanelIndex { get; }
 
-        public LocationInfoPanel(GlobeNodeSid nodeSid, Texture2D panelTexture, Texture2D buttonTexture, SpriteFont buttonFont, SpriteFont textFont,
+        public LocationInfoPanel(GlobeNodeSid nodeSid, Texture2D panelTexture, Texture2D buttonTexture,
+            SpriteFont buttonFont, SpriteFont textFont,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
-            Core.Biome biome, GlobeNode globeNode, Globe globe, IUnitSchemeCatalog unitSchemeCatalog, int panelIndex) : base(panelTexture)
+            Core.Biome biome, GlobeNode globeNode, Globe globe, IUnitSchemeCatalog unitSchemeCatalog, int panelIndex) :
+            base(panelTexture)
         {
             _nodeSid = nodeSid;
             _panelTexture = panelTexture;
@@ -41,12 +42,13 @@ namespace Rpg.Client.GameScreens.Locations.Ui
             _combatButton.OnClick += (_, _) => Selected?.Invoke(this, EventArgs.Empty);
         }
 
+        public int PanelIndex { get; }
+
         public void Update(GameTime gameTime)
         {
             _combatButton.Update(_resolutionIndependentRenderer);
         }
 
-        public event EventHandler? Selected;
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -119,5 +121,7 @@ namespace Rpg.Client.GameScreens.Locations.Ui
 
             return $"{UiResource.XpRewardText}: {summaryXp}";
         }
+
+        public event EventHandler? Selected;
     }
 }

@@ -27,6 +27,8 @@ namespace Rpg.Client.GameScreens.Locations
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
+        private readonly IList<LocationInfoPanel> _locationInfoPanels;
+
         private readonly Random _random;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -35,8 +37,6 @@ namespace Rpg.Client.GameScreens.Locations
         private bool _isNodeModelsCreated;
 
         private TextHint? _locationInfoHint;
-
-        private readonly IList<LocationInfoPanel> _locationInfoPanels;
         private bool _screenTransition;
 
         public LocationsScreen(EwarGame game) : base(game)
@@ -172,7 +172,10 @@ namespace Rpg.Client.GameScreens.Locations
                                 continue;
                             }
 
-                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(), _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer, biome, node, _globe, _unitSchemeCatalog, panelIndex);
+                            var locationPanel = new LocationInfoPanel(node.Sid, _uiContentStorage.GetPanelTexture(),
+                                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+                                _uiContentStorage.GetMainFont(), ResolutionIndependentRenderer, biome, node, _globe,
+                                _unitSchemeCatalog, panelIndex);
                             _locationInfoPanels.Add(locationPanel);
                             locationPanel.Selected += (_, _) =>
                             {
@@ -311,7 +314,8 @@ namespace Rpg.Client.GameScreens.Locations
             {
                 var col = panel.PanelIndex % 2;
                 var row = panel.PanelIndex / 2;
-                panel.Rect = new Rectangle(firstPanelX + col * PANEL_WIDTH, maxPanelClientRect.Top + row * PANEL_HEIGHT, PANEL_WIDTH, PANEL_HEIGHT);
+                panel.Rect = new Rectangle(firstPanelX + col * PANEL_WIDTH, maxPanelClientRect.Top + row * PANEL_HEIGHT,
+                    PANEL_WIDTH, PANEL_HEIGHT);
                 panel.Draw(spriteBatch);
             }
         }
