@@ -11,6 +11,7 @@ using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Event;
 using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
+using Rpg.Client.GameScreens.Locations;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
 using Rpg.Client.GameScreens.Speech;
@@ -107,7 +108,7 @@ namespace Rpg.Client.ScreenManagement
             {
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
-                ScreenTransition.Biome => new BiomeScreen(_game),
+                ScreenTransition.Biome => new LocationsScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => _gameSettings.Mode == GameMode.Full
