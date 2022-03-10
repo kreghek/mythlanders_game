@@ -10,7 +10,7 @@ namespace Rpg.Client.GameScreens.EndGame
 {
     internal sealed class EndGameScreen : GameScreenBase
     {
-        private readonly TextButton _backButton;
+        private readonly ButtonBase _backButton;
         private readonly Camera2D _camera;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -21,7 +21,9 @@ namespace Rpg.Client.GameScreens.EndGame
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _backButton = new TextButton("Back", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
+            _backButton = new ResourceTextButton(nameof(UiResource.CompleteGameButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(),
                 Rectangle.Empty);
             _backButton.OnClick += (_, _) =>
             {
@@ -40,7 +42,7 @@ namespace Rpg.Client.GameScreens.EndGame
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
             var font = _uiContentStorage.GetTitlesFont();
-            var endMessage = $"Это конец демо. Поздравляем!{Environment.NewLine}Спасибо за внимание!";
+            var endMessage = string.Format(UiResource.EndOfGameMessage, Environment.NewLine);
             var messageSize = font.MeasureString(endMessage);
             var position = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() - (messageSize / 2);
             

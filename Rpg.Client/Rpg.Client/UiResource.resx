@@ -336,4 +336,10 @@
   <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
     <value>{0} x {1} to upgrade</value>
   </data>
+  <data name="CompleteGameButtonTitle" xml:space="preserve">
+    <value>Complete the game</value>
+  </data>
+  <data name="EndOfGameMessage" xml:space="preserve">
+    <value>This is end of the game. Congratulations!{0}Thank you for attention</value>
+  </data>
 </root>
