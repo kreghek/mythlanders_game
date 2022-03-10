@@ -238,15 +238,27 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            if (e.OldUnit != null)
+            var oldUnit = e.OldUnit;
+            DropSelection(oldUnit);
+
+            if (_combatSkillsPanel is not null)
             {
-                var oldView = GetUnitGameObject(e.OldUnit);
-                oldView.IsActive = false;
+                _combatSkillsPanel.Unit = null;
+                _combatSkillsPanel.SelectedSkill = null;
+                _combatSkillsPanel.IsEnabled = false;
+            }
+        }
+
+        private void DropSelection(CombatUnit? combatUnit)
+        {
+            if (combatUnit is null || combatUnit.Unit.IsDead)
+            {
+                // There is no game object of this unit in the scene.
+                return;
             }
 
-            _combatSkillsPanel.Unit = null;
-            _combatSkillsPanel.SelectedSkill = null;
-            _combatSkillsPanel.IsEnabled = false;
+            var oldCombatUnitGameObject = GetUnitGameObject(combatUnit);
+            oldCombatUnitGameObject.IsActive = false;
         }
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
