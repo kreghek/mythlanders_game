@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
@@ -21,9 +23,9 @@ namespace Rpg.Client.GameScreens.EndGame
 
             _backButton = new TextButton("Back", _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
                 Rectangle.Empty);
-            _backButton.OnClick += (s, e) =>
+            _backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
             };
         }
 
@@ -36,10 +38,21 @@ namespace Rpg.Client.GameScreens.EndGame
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), "Happy end! Or not?", new Vector2(100, 100),
-                Color.White);
 
-            _backButton.Rect = new Rectangle(100, 150, 100, 20);
+            var font = _uiContentStorage.GetTitlesFont();
+            var endMessage = $"Это конец демо. Поздравляем!{Environment.NewLine}Спасибо за внимание!";
+            var messageSize = font.MeasureString(endMessage);
+            var position = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() - (messageSize / 2);
+            
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), endMessage, position, Color.Wheat);
+
+            const int BUTTON_WIDTH = 100;
+            const int BUTTON_HEIGHT = 20;
+            var buttonPosition = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() -
+                                 Vector2.UnitY * (messageSize.Y / 2 - 10 - BUTTON_HEIGHT) -
+                                 Vector2.UnitX * BUTTON_WIDTH / 2;
+
+            _backButton.Rect = new Rectangle(buttonPosition.ToPoint(), new Point(BUTTON_WIDTH, BUTTON_HEIGHT));
             _backButton.Draw(spriteBatch);
             spriteBatch.End();
         }
