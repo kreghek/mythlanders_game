@@ -4,7 +4,7 @@ namespace Rpg.Client.Core
 {
     internal interface IBiomeGenerator
     {
-        IReadOnlyList<Biome> Generate();
         void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes);
+        IReadOnlyList<Biome> Generate();
     }
 }

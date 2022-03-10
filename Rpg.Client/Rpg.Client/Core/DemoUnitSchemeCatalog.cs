@@ -62,7 +62,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                        GlobeNodeSid.Swamp
+                    },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]

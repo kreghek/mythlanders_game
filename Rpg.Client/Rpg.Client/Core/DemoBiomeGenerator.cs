@@ -16,6 +16,21 @@ namespace Rpg.Client.Core
             _unitSchemeCatalog = unitSchemeCatalog;
         }
 
+        private static int[] GetCombatSequenceLength(int level)
+        {
+            return level switch
+            {
+                0 => new[] { 1, 1, 1 },
+                1 => new[] { 1, 1, 3 },
+                2 => new[] { 1, 1, 3, 3 },
+                > 3 and <= 4 => new[] { 1, 3, 3, 5 },
+                > 5 and <= 7 => new[] { 3, 3, 3, 5 },
+                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
+                > 10 => new[] { 3, 5, 5 },
+                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
+            };
+        }
+
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -95,6 +110,34 @@ namespace Rpg.Client.Core
             return demoLocationsDict[biomeType][nodeIndex + 1];
         }
 
+        private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
+            IList<GlobeNode> availableNodes)
+        {
+            const int COMBAT_UNDER_ATTACK_COUNT = 3;
+            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Swamp;
+
+            var nodeList = new List<(GlobeNode, bool)>(3);
+            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
+            int targetCount;
+            if (biome.Level >= 5 && bossLocation is not null && !biome.IsComplete)
+            {
+                nodeList.Add(new(bossLocation, true));
+                targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
+            }
+            else
+            {
+                targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT);
+            }
+
+            var regularLocations = dice.RollFromList(availableNodes, targetCount);
+            foreach (var location in regularLocations)
+            {
+                nodeList.Add(new(location, false));
+            }
+
+            return nodeList.ToArray();
+        }
+
         public IReadOnlyList<Biome> Generate()
         {
             const int BIOME_NODE_COUNT = 4;
@@ -149,7 +192,8 @@ namespace Rpg.Client.Core
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
                         var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog).ToArray();
+                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog)
+                            .ToArray();
 
                         var combat = new CombatSource
                         {
@@ -179,48 +223,6 @@ namespace Rpg.Client.Core
                     combatLevelAdditional++;
                 }
             }
-        }
-
-        private static int[] GetCombatSequenceLength(int level)
-        {
-            return level switch
-            {
-                0 => new[] { 1, 1, 1 },
-                1 => new[] { 1, 1, 3 },
-                2 => new[] { 1, 1, 3, 3 },
-                > 3 and <= 4 => new[] { 1, 3, 3, 5 },
-                > 5 and <= 7 => new[] { 3, 3, 3, 5 },
-                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
-                > 10 => new[] { 3, 5, 5 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
-            };
-        }
-
-        private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice, IList<GlobeNode> availableNodes)
-        {
-            const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Swamp;
-
-            var nodeList = new List<(GlobeNode, bool)>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
-            int targetCount;
-            if (biome.Level >= 5 && bossLocation is not null && !biome.IsComplete)
-            {
-                nodeList.Add(new(bossLocation, true));
-                targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
-            }
-            else
-            {
-                targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT);
-            }
-
-            var regularLocations = dice.RollFromList(availableNodes, targetCount);
-            foreach (var location in regularLocations)
-            {
-                nodeList.Add(new(location, false));
-            }
-
-            return nodeList.ToArray();
         }
     }
 }

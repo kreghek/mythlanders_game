@@ -128,6 +128,15 @@ namespace Rpg.Client.Core
             }
         }
 
+        private static void ClearNodeStates(Biome biome)
+        {
+            foreach (var node in biome.Nodes)
+            {
+                node.CombatSequence = null;
+                node.AssignedEvent = null;
+            }
+        }
+
 
         private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes)
         {
@@ -138,37 +147,6 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
             }
-        }
-
-        private void RefreshBiomeStates(IEnumerable<Biome> biomes)
-        {
-            foreach (var biome in biomes)
-            {
-                ClearNodeStates(biome);
-
-                UnlockNextBiomeIfComplete(biome);
-            }
-        }
-
-        private static void ClearNodeStates(Biome biome)
-        {
-            foreach (var node in biome.Nodes)
-            {
-                node.CombatSequence = null;
-                node.AssignedEvent = null;
-            }
-        }
-
-        private void UnlockNextBiomeIfComplete(Biome biome)
-        {
-            if (!biome.IsComplete || biome.UnlockBiome is null)
-            {
-                return;
-            }
-
-            var unlockedBiome = Biomes.Single(x => x.Type == biome.UnlockBiome);
-
-            unlockedBiome.IsAvailable = true;
         }
 
         private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)
@@ -194,6 +172,28 @@ namespace Rpg.Client.Core
             }
 
             return true;
+        }
+
+        private void RefreshBiomeStates(IEnumerable<Biome> biomes)
+        {
+            foreach (var biome in biomes)
+            {
+                ClearNodeStates(biome);
+
+                UnlockNextBiomeIfComplete(biome);
+            }
+        }
+
+        private void UnlockNextBiomeIfComplete(Biome biome)
+        {
+            if (!biome.IsComplete || biome.UnlockBiome is null)
+            {
+                return;
+            }
+
+            var unlockedBiome = Biomes.Single(x => x.Type == biome.UnlockBiome);
+
+            unlockedBiome.IsAvailable = true;
         }
 
         private void UpdateGlobeEvents()

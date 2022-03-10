@@ -80,7 +80,8 @@ namespace Rpg.Client.Core
                 return 1;
             }
 
-            var availableMinMonsterCount = predefinedMinMonsterCount; //Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
+            var availableMinMonsterCount =
+                predefinedMinMonsterCount; //Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
             return availableMinMonsterCount;
         }
 

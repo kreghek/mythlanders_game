@@ -249,18 +249,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DropSelection(CombatUnit? combatUnit)
-        {
-            if (combatUnit is null || combatUnit.Unit.IsDead)
-            {
-                // There is no game object of this unit in the scene.
-                return;
-            }
-
-            var oldCombatUnitGameObject = GetUnitGameObject(combatUnit);
-            oldCombatUnitGameObject.IsActive = false;
-        }
-
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
             e.UnsubscribeHandlers();
@@ -752,6 +740,18 @@ namespace Rpg.Client.GameScreens.Combat
         private void DrawUnitStatePanels(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
+        }
+
+        private void DropSelection(CombatUnit? combatUnit)
+        {
+            if (combatUnit is null || combatUnit.Unit.IsDead)
+            {
+                // There is no game object of this unit in the scene.
+                return;
+            }
+
+            var oldCombatUnitGameObject = GetUnitGameObject(combatUnit);
+            oldCombatUnitGameObject.IsActive = false;
         }
 
         private void EscapeButton_OnClick(object? sender, EventArgs e)
