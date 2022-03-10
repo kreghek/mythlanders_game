@@ -146,6 +146,15 @@ namespace Rpg.Client.GameScreens.Title
                 ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawMenu(spriteBatch, menuRect);
 
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
+                    new Vector2(
+                        ResolutionIndependentRenderer.VirtualBounds.Right - 100,
+                        ResolutionIndependentRenderer.VirtualBounds.Top + 10),
+                    Color.White);
+            }
+
             spriteBatch.End();
         }
 
@@ -226,15 +235,6 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (_gameSettings.Mode == GameMode.Demo)
-            {
-                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
-                    new Vector2(
-                        contentRect.Center.X,
-                        contentRect.Top + 10),
-                    Color.White);
-            }
-
             var index = 0;
             foreach (var button in _buttons)
             {

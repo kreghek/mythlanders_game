@@ -757,6 +757,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/Monk.png
 
+#begin Sprites/GameObjects/PlayerUnits/ArcherFace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/ArcherFace.png
+
 #begin Sprites/GameObjects/PlayerUnits/SwordsmanFace.png
 /importer:TextureImporter
 /processor:TextureProcessor

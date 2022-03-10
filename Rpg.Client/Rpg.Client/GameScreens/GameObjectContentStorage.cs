@@ -266,6 +266,7 @@ namespace Rpg.Client.GameScreens
             {
                 { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
                 { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }
             };
 
