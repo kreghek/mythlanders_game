@@ -81,8 +81,7 @@ namespace Rpg.Client.Core
             }
 
             var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            var monsterCount = availableMinMonsterCount;
-            return monsterCount;
+            return availableMinMonsterCount;
         }
 
         private static int[] GetPredefinedMonsterCounts(int biomeLevel)

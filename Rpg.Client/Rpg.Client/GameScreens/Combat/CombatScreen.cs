@@ -832,10 +832,6 @@ namespace Rpg.Client.GameScreens.Combat
                         _combat.Biome.Level++;
                     }
 
-                    var nodeIndex = (int)_globeNode.Sid;
-                    var unlockedLocationIndex = nodeIndex + 1;
-                    var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
-
                     var unlockedNode =
                         _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
                     if (unlockedNode is not null)
