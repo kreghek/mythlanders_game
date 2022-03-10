@@ -15,7 +15,7 @@ namespace Rpg.Client.Core
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
         }
-        
+
         private static EquipmentItemType? GetEquipmentItem(int nodeIndex, BiomeType biomType)
         {
             switch (biomType)
@@ -120,7 +120,7 @@ namespace Rpg.Client.Core
                 }
             };
         }
-        
+
         public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes)
         {
             foreach (var biome in biomes)
@@ -180,7 +180,7 @@ namespace Rpg.Client.Core
                 }
             }
         }
-        
+
         private static int[] GetCombatSequenceLength(int level)
         {
             return level switch
@@ -195,7 +195,7 @@ namespace Rpg.Client.Core
                 _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
             };
         }
-        
+
         private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice, IList<GlobeNode> availableNodes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;

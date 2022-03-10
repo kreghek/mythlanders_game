@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens.EndGame
             var endMessage = string.Format(UiResource.EndOfGameMessage, Environment.NewLine);
             var messageSize = font.MeasureString(endMessage);
             var position = _resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() - (messageSize / 2);
-            
+
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), endMessage, position, Color.Wheat);
 
             const int BUTTON_WIDTH = 100;

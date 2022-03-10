@@ -68,7 +68,7 @@ namespace Rpg.Client.GameScreens.Credits
             _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * TEXT_SPEED;
 
             _backButton.Update(_resolutionIndependentRenderer);
-            
+
             if (_textPosition <= -(size.Y + DELAY_SECONDS * TEXT_SPEED))
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
