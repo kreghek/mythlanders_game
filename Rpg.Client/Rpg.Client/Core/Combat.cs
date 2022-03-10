@@ -396,8 +396,13 @@ namespace Rpg.Client.Core
                 return false;
             }
 
-            _unitQueue.RemoveAt(0);
-            return _unitQueue.Count != 0;
+            // Check last unit dead yet by periodic effect.
+            if (_unitQueue.Any())
+            {
+                _unitQueue.RemoveAt(0);
+            }
+
+            return _unitQueue.Any();
         }
 
         private void StartRound()

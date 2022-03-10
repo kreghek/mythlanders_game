@@ -232,6 +232,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complete the game.
+        /// </summary>
+        internal static string CompleteGameButtonTitle {
+            get {
+                return ResourceManager.GetString("CompleteGameButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Continue game.
         /// </summary>
         internal static string ContinueGameButtonTitle {
@@ -273,6 +282,15 @@ namespace Rpg.Client {
         internal static string DecreaseDamageEffectRuleText {
             get {
                 return ResourceManager.GetString("DecreaseDamageEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is end of the game. Congratulations!{0}Thank you for attention.
+        /// </summary>
+        internal static string EndOfGameMessage {
+            get {
+                return ResourceManager.GetString("EndOfGameMessage", resourceCulture);
             }
         }
         

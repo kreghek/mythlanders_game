@@ -42,7 +42,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -62,7 +62,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket },
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -83,7 +83,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     LocationSids = new[]
-                        { GlobeNodeSid.Battleground },
+                        { GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
 
