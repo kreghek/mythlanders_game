@@ -38,8 +38,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             else
             {
                 spriteBatch.Draw(unitMarkerTexture,
-                    new Rectangle(Rect.X + 8, Rect.Bottom - 32 + 8, 128 - 16, 32 - 8), 
-                    new Rectangle(0, 32, 128, 32), 
+                    new Rectangle(Rect.X + 8, Rect.Bottom - 32 + 8, 128 - 16, 32 - 8),
+                    new Rectangle(0, 32, 128, 32),
                     new Color(Color.White, 0.25f));
             }
         }
