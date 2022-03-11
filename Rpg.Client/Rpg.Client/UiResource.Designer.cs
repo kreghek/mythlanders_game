@@ -592,6 +592,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to all ally.
+        /// </summary>
+        internal static string SkillDirectionAllFriendlyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionAllFriendlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to self.
         /// </summary>
         internal static string SkillDirectionSelfText {

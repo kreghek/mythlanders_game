@@ -16,6 +16,8 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
                     return UiResource.SkillDirectionSelfText;
                 case SkillDirection.AllEnemies:
                     return UiResource.SkillDirectionAllEnemiesText;
+                case SkillDirection.AllFriendly:
+                    return UiResource.SkillDirectionAllFriendlyText;
                 default:
                     throw new ArgumentException($"{direction} is not known direction value.");
             }
