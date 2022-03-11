@@ -40,9 +40,11 @@ namespace Rpg.Client.Core.SkillEffects
 
         protected override void InfluenceAction()
         {
-            var heal = CalculateRoundDamage();
-            var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.TakeDamage(Actor, rolledHeal);
+            var damageRange = CalculateRoundDamage();
+            var rolledDamage = Combat.Dice.Roll(damageRange.Min, damageRange.Max);
+            Target.Unit.TakeDamage(Actor, rolledDamage);
+
+            base.InfluenceAction();
         }
     }
 }

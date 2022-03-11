@@ -19,7 +19,7 @@ namespace Rpg.Client.Tests
     public class CombatTests
     {
         [Test]
-        public void Balance_VolkolakDealsNonZeroDamage()
+        public void DemoBalance_VolkolakDealsNonZeroDamage()
         {
             // ARRANGE
 
@@ -48,6 +48,7 @@ namespace Rpg.Client.Tests
             using var monitor = combat.Monitor();
 
             combat.Initialize();
+
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
@@ -67,7 +68,7 @@ namespace Rpg.Client.Tests
             combat.UseSkill(skill, target);
 
             // ASSERT
-            takenDamageMount.Should().BeGreaterThan(0);
+            takenDamageMount.Should().BeGreaterThan(2);
         }
 
         [Test]
@@ -224,6 +225,80 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             target.Unit.IsDead.Should().BeTrue();
+        }
+
+        [Test]
+        public void UseSkill_PeriodicSupportDamageWith1Round_EffectDespelled()
+        {
+            // ARRANGE
+
+            var hugePeriodicDamageRule = new List<EffectRule>
+            {
+                new EffectRule
+                {
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new EffectCreator(u =>
+                    {
+                        return new PeriodicSupportAttackEffect
+                        {
+                            Duration = 1,
+                            PowerMultiplier = 1,
+                            SourceSupport = 1,
+                            Actor = u
+                        };
+                    })
+                }
+            };
+
+            var playerGroup = new Group();
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
+            {
+                SupportRank = 1,
+                Levels = new[]
+                {
+                    new AddSkillUnitLevel(1,
+                        Mock.Of<ISkill>(skill =>
+                            skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy))
+                }
+            };
+
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
+
+            var globeNode = new GlobeNode();
+
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
+
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
+                isAutoplay: false);
+
+            combat.Initialize();
+            combat.Update();
+            combat.ActionGenerated += (_, args) =>
+            {
+                args.Action();
+            };
+
+            // ACT
+            var attacker = combat.CurrentUnit.Unit;
+            var skill = attacker.Skills.First();
+            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var targetSourceHitPoints = target.Unit.HitPoints;
+
+            combat.UseSkill(skill, target);
+
+            var targetCurrentHitPoints = target.Unit.HitPoints;
+            combat.Update();
+
+            // ASSERT
+            
         }
 
         [Test]

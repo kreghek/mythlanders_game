@@ -49,11 +49,26 @@ namespace Rpg.Client.Core.SkillEffects
             var damage = CalculateDamage();
             var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
 
-            Debug.Assert(Target is not null);
-            var result = Target.Unit.TakeDamage(Actor, rolledDamage);
+            var accumulatedDamage = rolledDamage;
+            foreach (var perk in Actor.Unit.Perks)
+            {
+                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, Combat.Dice);
+                accumulatedDamage = modifiedDamage;
+            }
 
-            Debug.Assert(result.ValueFinal is not null);
-            Actor.Unit.RestoreHitPoints(result.ValueFinal.Value);
+            Debug.Assert(Target is not null);
+            var hpToSteal = Target.Unit.TakeDamage(Actor, accumulatedDamage);
+
+            Debug.Assert(hpToSteal.ValueFinal is not null);
+
+            var accumulatedhpToSteal = hpToSteal.ValueFinal.Value;
+            foreach (var perk in Actor.Unit.Perks)
+            {
+                var modifiedHeal = perk.ModifyHeal(accumulatedhpToSteal, Combat.Dice);
+                accumulatedhpToSteal = modifiedHeal;
+            }
+
+            Actor.Unit.RestoreHitPoints(accumulatedhpToSteal);
         }
     }
 }

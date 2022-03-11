@@ -295,7 +295,7 @@
     <value>Урон {0} - {1}  {2} в течении {3} ходов</value>
   </data>
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
-    <value>Лечение {0} - {1} {2} в течении {3}</value>
+    <value>Лечение {0} - {1} {2} в течении {3} ходов</value>
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
