@@ -113,9 +113,9 @@ namespace Rpg.Client.GameScreens.Title
             _particleSystem =
                 new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
 
-            _pulseParticleSystems = new ParticleSystem[] { 
+            _pulseParticleSystems = new ParticleSystem[] {
                 CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() + new Vector2(0, 80)),
-                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() 
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
                 + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 60)),
                 CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
                 - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50)),
@@ -169,7 +169,7 @@ namespace Rpg.Client.GameScreens.Title
 
             var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
                 ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
-            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(),socialPosition, Color.White);
+            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
 
             spriteBatch.End();
         }
