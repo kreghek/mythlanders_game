@@ -35,7 +35,7 @@ namespace BalanceGenerator
             var results = new List<ItemrationResult>();
 
             var globeNode = new GlobeNode
-            { Sid = GlobeNodeSid.Thicket };
+                { Sid = GlobeNodeSid.Thicket };
             var dice = new LinearDice();
             var biome = new Biome(1, BiomeType.Slavic);
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);

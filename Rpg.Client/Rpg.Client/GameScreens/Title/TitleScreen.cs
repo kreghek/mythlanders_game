@@ -113,26 +113,20 @@ namespace Rpg.Client.GameScreens.Title
             _particleSystem =
                 new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
 
-            _pulseParticleSystems = new ParticleSystem[] {
-                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() + new Vector2(0, 80)),
+            _pulseParticleSystems = new[]
+            {
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() +
+                                          new Vector2(0, 80)),
                 CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
-                + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 60)),
+                                          + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) +
+                                          new Vector2(0, 60)),
                 CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
-                - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50)),
+                    - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50))
             };
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
-        }
-
-        private ParticleSystem CreatePulseParticleSystem(Vector2 position)
-        {
-            var generator =
-                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
-            var particleSystem = new ParticleSystem(position, generator);
-
-            return particleSystem;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -215,6 +209,15 @@ namespace Rpg.Client.GameScreens.Title
             };
 
             return loadGameButton;
+        }
+
+        private ParticleSystem CreatePulseParticleSystem(Vector2 position)
+        {
+            var generator =
+                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            var particleSystem = new ParticleSystem(position, generator);
+
+            return particleSystem;
         }
 
         private void CreditsButton_OnClick(object? sender, EventArgs e)

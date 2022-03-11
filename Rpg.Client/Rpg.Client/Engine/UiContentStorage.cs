@@ -34,12 +34,12 @@ namespace Rpg.Client.Engine
         private Texture2D[] _modalTopTextures;
         private Texture2D? _panelTexture;
         private Texture2D _skillButtonTexture;
+        private Texture2D _socialTexture;
         private Texture2D _speechTexture;
         private IDictionary<string, SpriteFont> _titlesFonts;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _socialTexture;
 
         private static string GetLanguageKey()
         {
