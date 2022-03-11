@@ -13,7 +13,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         public int SourceSupport { get; set; }
 
-        public MinMax<int> CalculateHeal()
+        public MinMax<int> CalculateRoundDamage()
         {
             var absoluteSupport = SourceSupport * PowerMultiplier;
             var min = absoluteSupport - Scatter * absoluteSupport;
@@ -23,8 +23,8 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 if (Target != null)
                 {
-                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
-                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
+                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
+                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
                 }
             }
 
@@ -40,7 +40,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         protected override void InfluenceAction()
         {
-            var heal = CalculateHeal();
+            var heal = CalculateRoundDamage();
             var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
             Target.Unit.TakeDamage(Actor, rolledHeal);
         }

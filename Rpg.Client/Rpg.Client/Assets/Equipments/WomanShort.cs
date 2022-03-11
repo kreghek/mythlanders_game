@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments
 
         float IEquipmentScheme.GetHitPointsMultiplier(int level)
         {
-            return 1 + level * 0.05f;
+            return 1 + level * 0.1f;
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
