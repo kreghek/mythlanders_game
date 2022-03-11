@@ -936,10 +936,10 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
         {
+            var buttonPosition = target.Position - new Vector2(64, 64);
             var interactButton = new UnitButton(
-                _uiContentStorage.GetButtonTexture(),
-                new Rectangle((target.Position - new Vector2(64, 128)).ToPoint(),
-                    new Point(128, 128)),
+                _uiContentStorage.GetPanelTexture(),
+                new Rectangle(buttonPosition.ToPoint(), new Point(128, 64)),
                 _gameObjectContentStorage);
 
             interactButton.OnClick += (s, e) =>

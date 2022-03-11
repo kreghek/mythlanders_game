@@ -89,6 +89,11 @@ namespace Rpg.Client.Engine
                 resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
             var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
 
+            return IsMouseOver(mouseRect);
+        }
+
+        protected virtual bool IsMouseOver(Rectangle mouseRect)
+        {
             return Rect.Intersects(mouseRect);
         }
 
