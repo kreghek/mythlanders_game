@@ -21,8 +21,8 @@ namespace Rpg.Client.Core
             return level switch
             {
                 0 => new[] { 1, 1, 1 },
-                1 => new[] { 1, 1, 3 },
-                2 => new[] { 1, 1, 3, 3 },
+                1 => new[] { 3, 3, 3 },
+                2 => new[] { 1, 3, 3, 3 },
                 > 3 and <= 4 => new[] { 1, 3, 3, 5 },
                 > 5 and <= 7 => new[] { 3, 3, 3, 5 },
                 > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },

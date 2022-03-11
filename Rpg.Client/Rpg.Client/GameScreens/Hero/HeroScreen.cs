@@ -15,10 +15,12 @@ namespace Rpg.Client.GameScreens.Hero
     {
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
-        private readonly EquipmentsInfoPanel _equipmentPanel;
-        private readonly GeneralInfoPanel _generalInfoPanel;
-        private readonly PerkInfoPanel _perkInfoPanel;
-        private readonly SkillsInfoPanel _skillsInfoPanel;
+        private readonly Unit _hero;
+        private EquipmentsInfoPanel _equipmentPanel;
+        private GeneralInfoPanel _generalInfoPanel;
+        private PerkInfoPanel _perkInfoPanel;
+        private readonly Player? _player;
+        private SkillsInfoPanel _skillsInfoPanel;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
 
@@ -31,28 +33,47 @@ namespace Rpg.Client.GameScreens.Hero
 
             _buttonList = new List<ButtonBase>();
 
+            _hero = screenService.Selected;
+            _player = globeProvider.Globe.Player!;
+
+            _unitGraphics = new UnitGraphics(_hero,
+                new Vector2(),
+                gameObjectContentStorage);
+
+            InitContent();
+        }
+
+        private void InitContent()
+        {
             _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(), screenService.Selected,
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
                 _uiContentStorage.GetMainFont());
 
             _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(), screenService.Selected,
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetCombatPowerIconsTexture(),
                 _uiContentStorage.GetMainFont());
 
-            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(), _uiContentStorage.GetTitlesFont(),
-                screenService.Selected,
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
                 _uiContentStorage.GetMainFont());
 
             _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(), screenService.Selected, _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetEquipmentTextures(),
-                _uiContentStorage.GetButtonTexture(), globeProvider.Globe.Player, ResolutionIndependentRenderer);
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
+                _uiContentStorage.GetMainFont(),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetEquipmentTextures(),
+                _uiContentStorage.GetButtonTexture(),
+                _player,
+                ResolutionIndependentRenderer);
 
-            _unitGraphics = new UnitGraphics(screenService.Selected, new Vector2(), gameObjectContentStorage);
-
-            InitActionButtons(screenService.Selected, globeProvider.Globe.Player);
+            InitActionButtons(_hero,
+                _player);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -147,18 +168,18 @@ namespace Rpg.Client.GameScreens.Hero
 
             InitUpgradeButtons(character, player);
 
-            var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+            //var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
+            //    _uiContentStorage.GetButtonTexture(),
+            //    _uiContentStorage.GetMainFont());
 
-            _buttonList.Add(slotButton);
+            //_buttonList.Add(slotButton);
 
-            slotButton.OnClick += (_, _) =>
-            {
-                var formationModal =
-                    new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
-                AddModal(formationModal, isLate: false);
-            };
+            //slotButton.OnClick += (_, _) =>
+            //{
+            //    var formationModal =
+            //        new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
+            //    AddModal(formationModal, isLate: false);
+            //};
         }
 
         private void InitUpgradeButtons(Unit character, Player player)
@@ -175,7 +196,8 @@ namespace Rpg.Client.GameScreens.Hero
                     player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
                         character.LevelUpXpAmount;
                     character.LevelUp();
-                    InitActionButtons(character, player);
+
+                    InitContent();
                 };
 
                 _buttonList.Add(levelUpButton);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +24,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             texture, titleFont)
         {
             _skillList = new List<EntityIconButton<ISkill>>();
-            for (var index = 0; index < hero.Skills.Count; index++)
+            for (var index = 0; index < hero.Skills.Take(3).Count(); index++)
             {
                 var skill = hero.Skills[index];
 
