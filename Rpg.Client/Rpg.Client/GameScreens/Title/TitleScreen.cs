@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly GlobeProvider _globeProvider;
 
         private readonly ParticleSystem _particleSystem;
-        private readonly ParticleSystem _particleSystem2;
+        private readonly ParticleSystem[] _pulseParticleSystems;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly UnitName[] _showcaseUnits;
@@ -109,18 +109,30 @@ namespace Rpg.Client.GameScreens.Title
             _showcaseUnits = GetShowcaseHeroes();
 
             var generator =
-                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+                new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
             _particleSystem =
                 new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
 
-            var generator2 =
-                new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
-            _particleSystem2 = new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(),
-                generator2);
+            _pulseParticleSystems = new ParticleSystem[] { 
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() + new Vector2(0, 80)),
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() 
+                + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 60)),
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
+                - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50)),
+            };
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
+        }
+
+        private ParticleSystem CreatePulseParticleSystem(Vector2 position)
+        {
+            var generator =
+                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            var particleSystem = new ParticleSystem(position, generator);
+
+            return particleSystem;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -155,8 +167,8 @@ namespace Rpg.Client.GameScreens.Title
                     Color.White);
             }
 
-            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 256,
-                ResolutionIndependentRenderer.VirtualBounds.Bottom - 256);
+            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
             spriteBatch.Draw(_uiContentStorage.GetSocialTexture(),socialPosition, Color.White);
 
             spriteBatch.End();
@@ -170,7 +182,10 @@ namespace Rpg.Client.GameScreens.Title
             }
 
             _particleSystem.Update(gameTime);
-            _particleSystem2.Update(gameTime);
+            foreach (var particleSystem in _pulseParticleSystems)
+            {
+                particleSystem.Update(gameTime);
+            }
         }
 
         private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
@@ -224,9 +239,10 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            _particleSystem2.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 80));
-
-            _particleSystem2.Draw(spriteBatch);
+            foreach (var particleSystem in _pulseParticleSystems)
+            {
+                particleSystem.Draw(spriteBatch);
+            }
 
             _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
 
