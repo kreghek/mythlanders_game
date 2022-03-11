@@ -274,7 +274,7 @@
     <value>Цена: {0}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Мана: {0}/{1}</value>
+    <value>Пси-энергия: {0}/{1}</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>

@@ -249,10 +249,10 @@
     <value>Long</value>
   </data>
   <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Mana cost: {0}</value>
+    <value>Psy-energy cost: {0}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Mana: {0}/{1}</value>
+    <value>Psy-energy: {0}/{1}</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
