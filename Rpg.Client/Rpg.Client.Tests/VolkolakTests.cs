@@ -11,6 +11,5 @@ namespace Rpg.Client.Tests
     [TestFixture]
     public class VolkolakTests
     {
-
     }
 }

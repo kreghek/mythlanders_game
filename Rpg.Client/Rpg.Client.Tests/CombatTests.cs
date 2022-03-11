@@ -298,7 +298,6 @@ namespace Rpg.Client.Tests
             combat.Update();
 
             // ASSERT
-
         }
 
         [Test]
