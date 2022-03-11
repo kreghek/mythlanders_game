@@ -155,6 +155,10 @@ namespace Rpg.Client.GameScreens.Title
                     Color.White);
             }
 
+            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 256,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 256);
+            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(),socialPosition, Color.White);
+
             spriteBatch.End();
         }
 
