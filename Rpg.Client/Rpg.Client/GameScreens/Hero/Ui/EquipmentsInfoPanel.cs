@@ -191,7 +191,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var mouse = Mouse.GetState();
             var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
             Equipment? currentEquipment = null;
-            
+
             foreach (var equipmentButton in _equipmentButtons)
             {
                 if (equipmentButton.Rect.Contains(mouseRect))
