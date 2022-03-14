@@ -24,8 +24,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private readonly Player _player;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private TextHint? _equipmentHint;
-        private EntityIconButton<Equipment> _equipmntButtonUnderHint;
         private Equipment? _equipmentUnderHint;
+        private EntityIconButton<Equipment> _equipmntButtonUnderHint;
 
         public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
             Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player,
@@ -219,7 +219,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             {
                 var textSize = _mainFont.MeasureString(_equipmentHint.Text);
                 var marginVector = new Vector2(10, 15) * 2;
-                var position = _equipmntButtonUnderHint.Rect.Location - new Point(5, (int)(textSize.Y + marginVector.Y));
+                var position = _equipmntButtonUnderHint.Rect.Location -
+                               new Point(5, (int)(textSize.Y + marginVector.Y));
                 _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());
             }
         }

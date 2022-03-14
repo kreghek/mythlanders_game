@@ -86,7 +86,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var localizedName = GameObjectHelper.GetLocalized(item.Equipment.Type);
 
-                spriteBatch.DrawString(_textFont, $"{localizedName}{Environment.NewLine}x{item.Equipment.CurrentValue} (+{item.Equipment.Amount})",
+                spriteBatch.DrawString(_textFont,
+                    $"{localizedName}{Environment.NewLine}x{item.Equipment.CurrentValue} (+{item.Equipment.Amount})",
                     rewardItemPosition + new Vector2(32 + MARGIN, 0),
                     Color.Wheat);
             }

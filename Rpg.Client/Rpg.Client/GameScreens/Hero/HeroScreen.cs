@@ -16,13 +16,13 @@ namespace Rpg.Client.GameScreens.Hero
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
         private readonly Unit _hero;
+        private readonly Player? _player;
+        private readonly IUiContentStorage _uiContentStorage;
+        private readonly UnitGraphics _unitGraphics;
         private EquipmentsInfoPanel _equipmentPanel;
         private GeneralInfoPanel _generalInfoPanel;
         private PerkInfoPanel _perkInfoPanel;
-        private readonly Player? _player;
         private SkillsInfoPanel _skillsInfoPanel;
-        private readonly IUiContentStorage _uiContentStorage;
-        private readonly UnitGraphics _unitGraphics;
 
         public HeroScreen(EwarGame game) : base(game)
         {
@@ -41,39 +41,6 @@ namespace Rpg.Client.GameScreens.Hero
                 gameObjectContentStorage);
 
             InitContent();
-        }
-
-        private void InitContent()
-        {
-            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetMainFont());
-
-            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetCombatPowerIconsTexture(),
-                _uiContentStorage.GetMainFont());
-
-            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetMainFont());
-
-            _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetEquipmentTextures(),
-                _uiContentStorage.GetButtonTexture(),
-                _player,
-                ResolutionIndependentRenderer);
-
-            InitActionButtons(_hero,
-                _player);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -180,6 +147,39 @@ namespace Rpg.Client.GameScreens.Hero
             //        new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
             //    AddModal(formationModal, isLate: false);
             //};
+        }
+
+        private void InitContent()
+        {
+            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
+                _uiContentStorage.GetMainFont());
+
+            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetCombatPowerIconsTexture(),
+                _uiContentStorage.GetMainFont());
+
+            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
+                _uiContentStorage.GetMainFont());
+
+            _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
+                _uiContentStorage.GetTitlesFont(),
+                _hero,
+                _uiContentStorage.GetMainFont(),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetEquipmentTextures(),
+                _uiContentStorage.GetButtonTexture(),
+                _player,
+                ResolutionIndependentRenderer);
+
+            InitActionButtons(_hero,
+                _player);
         }
 
         private void InitUpgradeButtons(Unit character, Player player)
