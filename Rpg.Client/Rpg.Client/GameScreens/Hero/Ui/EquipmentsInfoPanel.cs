@@ -24,6 +24,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private readonly Player _player;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private TextHint? _equipmentHint;
+        private EntityIconButton<Equipment> _equipmntButtonUnderHint;
         private Equipment? _equipmentUnderHint;
 
         public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
@@ -114,7 +115,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _equipmentHint = null;
         }
 
-        private void CreateHint(Equipment equipment)
+        private void CreateHint(EntityIconButton<Equipment> equipmentButton, Equipment equipment)
         {
             _equipmentUnderHint = equipment;
 
@@ -133,6 +134,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             sb.AppendLine(equipmentDescriptionText);
 
             _equipmentHint = new TextHint(_hintTexture, _mainFont, sb.ToString());
+            _equipmntButtonUnderHint = equipmentButton;
         }
 
         private void EquipmentIconButton_OnClick(object? sender, EventArgs e)
@@ -149,7 +151,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             resourceItem.Amount -= equipment.RequiredResourceAmountToLevelUp;
             equipment.LevelUp();
             ClearEquipmentHint();
-            CreateHint(equipment);
+            CreateHint((EntityIconButton<Equipment>)sender, equipment);
         }
 
         private static int? GetEquipmentIconOneBasedIndex(EquipmentSid schemeSid)
@@ -189,6 +191,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var mouse = Mouse.GetState();
             var mouseRect = new Rectangle(mouse.Position, new Point(1, 1));
             Equipment? currentEquipment = null;
+            
             foreach (var equipmentButton in _equipmentButtons)
             {
                 if (equipmentButton.Rect.Contains(mouseRect))
@@ -197,12 +200,12 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
                     if (_equipmentUnderHint is null)
                     {
-                        CreateHint(equipmentButton.Entity);
+                        CreateHint(equipmentButton, equipmentButton.Entity);
                     }
 
                     if (_equipmentUnderHint != equipmentButton.Entity)
                     {
-                        CreateHint(equipmentButton.Entity);
+                        CreateHint(equipmentButton, equipmentButton.Entity);
                     }
                 }
             }
@@ -216,7 +219,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             {
                 var textSize = _mainFont.MeasureString(_equipmentHint.Text);
                 var marginVector = new Vector2(10, 15) * 2;
-                var position = mouse.Position - new Point(5, (int)(textSize.Y + marginVector.Y));
+                var position = _equipmntButtonUnderHint.Rect.Location - new Point(5, (int)(textSize.Y + marginVector.Y));
                 _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());
             }
         }

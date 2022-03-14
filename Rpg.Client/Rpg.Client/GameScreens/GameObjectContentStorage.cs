@@ -197,9 +197,9 @@ namespace Rpg.Client.GameScreens
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
             {
-                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
                 { UnitName.Maosin, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Ping, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },

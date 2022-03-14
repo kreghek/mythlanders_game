@@ -484,7 +484,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mana cost: {0}.
+        ///   Looks up a localized string similar to Psy-energy cost: {0}.
         /// </summary>
         internal static string ManaCostLabelTemplate {
             get {
@@ -493,7 +493,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mana: {0}/{1}.
+        ///   Looks up a localized string similar to Psy-energy: {0}/{1}.
         /// </summary>
         internal static string ManaLabelTemplate {
             get {
@@ -588,6 +588,15 @@ namespace Rpg.Client {
         internal static string SkillDirectionAllEnemiesText {
             get {
                 return ResourceManager.GetString("SkillDirectionAllEnemiesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to all ally.
+        /// </summary>
+        internal static string SkillDirectionAllFriendlyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionAllFriendlyText", resourceCulture);
             }
         }
         

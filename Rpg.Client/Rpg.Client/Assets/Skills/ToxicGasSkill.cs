@@ -29,20 +29,6 @@ namespace Rpg.Client.Assets.Skills
 
                     return effect;
                 })
-            },
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 0.3f
-                    };
-
-                    return effect;
-                })
             }
         };
 

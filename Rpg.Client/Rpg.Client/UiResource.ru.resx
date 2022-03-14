@@ -195,6 +195,9 @@
 6. Если персонажи игрока проигрывают, то уровень биома снижается на 50%.
 Все монстры становятся слабее. Но и до босса придётся идти дольше.</value>
   </data>
+  <data name="CompleteGameButtonTitle" xml:space="preserve">
+    <value>Завершить игру</value>
+  </data>
   <data name="ContinueGameButtonTitle" xml:space="preserve">
     <value>Продолжить игру</value>
   </data>
@@ -209,6 +212,18 @@
   </data>
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
     <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="EndOfGameMessage" xml:space="preserve">
+    <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
+  </data>
+  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
+    <value>{0} x {1} для улучшения</value>
+  </data>
+  <data name="EquipmentTitleTemplate" xml:space="preserve">
+    <value>{0} ({1} ур.)</value>
+  </data>
+  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
+    <value>Доступно улучшение!</value>
   </data>
   <data name="EventTutorialText" xml:space="preserve">
     <value>В игре произошло событие.
@@ -229,7 +244,7 @@
     <value>Лечит {0} - {1} хп {2}</value>
   </data>
   <data name="HealOverTimeEffectRuleText" xml:space="preserve">
-    <value>Лечит {0} - {1} хп в течении {2} {3}</value>
+    <value>Лечит {0} - {1} хп в течении {2} ходов {3}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
     <value>Экипировка</value>
@@ -274,7 +289,7 @@
     <value>Цена: {0}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Мана: {0}/{1}</value>
+    <value>Пси-энергия: {0}/{1}</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
@@ -305,6 +320,9 @@
   </data>
   <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
     <value>всем противникам</value>
+  </data>
+  <data name="SkillDirectionAllFriendlyText" xml:space="preserve">
+    <value>всех союзников</value>
   </data>
   <data name="SkillDirectionSelfText" xml:space="preserve">
     <value>себе</value>
@@ -338,20 +356,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="EquipmentTitleTemplate" xml:space="preserve">
-    <value>{0} ({1} ур.)</value>
-  </data>
-  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
-    <value>Доступно улучшение!</value>
-  </data>
-  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
-    <value>{0} x {1} для улучшения</value>
-  </data>
-  <data name="CompleteGameButtonTitle" xml:space="preserve">
-    <value>Завершить игру</value>
-  </data>
-  <data name="EndOfGameMessage" xml:space="preserve">
-    <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
   </data>
 </root>
