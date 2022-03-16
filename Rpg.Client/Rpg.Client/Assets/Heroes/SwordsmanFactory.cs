@@ -30,9 +30,10 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new SwordSlashSkill()),
+                new AddSkillUnitLevel(1, new DefenseStanceSkill()),
                 new AddSkillUnitLevel(2, new WideSlashSkill()),
                 new AddPerkUnitLevel(2, new ImprovedHitPoints()),
-                new AddSkillUnitLevel(3, new DefenseStanceSkill(true)),
+                new AddSkillUnitLevel(3, new GroupProtectionSkill(true)),
                 new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
             };
         }

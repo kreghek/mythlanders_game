@@ -56,6 +56,7 @@ namespace Rpg.Client.Core.Skills
         PainfullWound,
         ShotOfHate,
         WarCry,
-        TribeDefender
+        TribeDefender,
+        GroupProtection
     }
 }
