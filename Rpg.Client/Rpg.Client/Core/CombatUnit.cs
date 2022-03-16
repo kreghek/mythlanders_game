@@ -17,11 +17,7 @@ namespace Rpg.Client.Core
 
             _skillContext = new CombatSkillContext(this);
 
-            var skillContext = new CombatSkillContext(this);
-
-            var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
-
-            CombatCards = cards;
+            CombatCards = Array.Empty<CombatSkill>();
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;

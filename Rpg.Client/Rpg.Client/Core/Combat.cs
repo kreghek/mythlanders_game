@@ -253,7 +253,9 @@ namespace Rpg.Client.Core
 
             IsCurrentStepCompleted = false;
 
-            CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            var currentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            currentUnit?.RollCombatSkills(Dice);
+            CurrentUnit = currentUnit;
         }
 
         private void Ai()
