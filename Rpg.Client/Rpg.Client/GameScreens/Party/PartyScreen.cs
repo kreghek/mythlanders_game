@@ -127,10 +127,10 @@ namespace Rpg.Client.GameScreens.Party
             const int COL = 5;
             var resources = _globeProvider.Globe.Player.Inventory
                 //TODO Demo fix
-                .Where(x=>x.Type == EquipmentItemType.ExpiriencePoints ||
-                x.Type == EquipmentItemType.Warrior ||
-                x.Type == EquipmentItemType.Archer ||
-                x.Type == EquipmentItemType.Herbalist)
+                .Where(x => x.Type == EquipmentItemType.ExpiriencePoints ||
+                            x.Type == EquipmentItemType.Warrior ||
+                            x.Type == EquipmentItemType.Archer ||
+                            x.Type == EquipmentItemType.Herbalist)
                 .ToArray();
 
             for (var i = 0; i < resources.Length; i++)
