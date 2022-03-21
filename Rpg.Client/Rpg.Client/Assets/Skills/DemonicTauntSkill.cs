@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Skills
             {
                 //TODO Make taunt effect
                 Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
 

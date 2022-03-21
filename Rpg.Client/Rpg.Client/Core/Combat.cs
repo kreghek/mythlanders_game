@@ -140,7 +140,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        public void UseSkill(ISkill skill, CombatUnit targetUnit)
+        public void UseSkill(ISkill skill, CombatSkillEnv env, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -159,7 +159,7 @@ namespace Rpg.Client.Core
 
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
+                EffectProcessor.Impose(skill.Rules, env, CurrentUnit, targetUnit);
                 CompleteStep();
             };
 
@@ -283,7 +283,11 @@ namespace Rpg.Client.Core
 
                 var targetPlayerObject = dice.RollFromList(possibleTargetList);
 
-                UseSkill(skill, targetPlayerObject);
+                var env = new CombatSkillEnv { 
+                    Efficient = CombatSkillEfficient.Normal
+                };
+
+                UseSkill(skill, env, targetPlayerObject);
 
                 return;
             }

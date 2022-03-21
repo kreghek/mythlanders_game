@@ -81,7 +81,7 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator(u =>
+                    EffectCreator = new EffectCreator((unit, end) =>
                     {
                         return new PeriodicDamageEffect
                         {

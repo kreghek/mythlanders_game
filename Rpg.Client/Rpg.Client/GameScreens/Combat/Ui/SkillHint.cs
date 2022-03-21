@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var rule = skillRules[ruleIndex];
                 var effectCreator = rule.EffectCreator;
-                var effectToDisplay = effectCreator.Create(_unit);
+                var effectToDisplay = effectCreator.Create(_unit, combatPower.Env);
 
                 var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 

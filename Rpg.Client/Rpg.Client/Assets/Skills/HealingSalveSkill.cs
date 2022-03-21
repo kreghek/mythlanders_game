@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var effect = new HealEffect
                     {
@@ -36,7 +36,7 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var effect = new PeriodicHealEffect
                     {

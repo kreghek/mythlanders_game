@@ -74,7 +74,13 @@ namespace Rpg.Client.Core
             for (var i = 0; i < 4; i++)
             {
                 var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
-                var skillCard = new CombatSkill(rolledSkill, _skillContext);
+                var rolledEnv = new CombatSkillEnv
+                {
+                    Cost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                    Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>())
+                };
+
+                var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
                 list.Add(skillCard);
             }
 

@@ -23,13 +23,14 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier
+                        DamageMultiplier = 1f * equipmentMultiplier,
+                        Env = env,
                     };
 
                     return res;

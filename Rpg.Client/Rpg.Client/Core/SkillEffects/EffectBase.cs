@@ -27,8 +27,13 @@ namespace Rpg.Client.Core.SkillEffects
                 return;
             }
 
+            var env = new CombatSkillEnv
+            {
+                Efficient = CombatSkillEfficient.Normal
+            };
+
             IsImposed = false;
-            Combat.EffectProcessor.Impose(DispelRules, Target, null);
+            Combat.EffectProcessor.Impose(DispelRules, env, Target, null);
             Dispelled?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterDispel();
         }
@@ -37,11 +42,11 @@ namespace Rpg.Client.Core.SkillEffects
         /// Наложение.
         /// </summary>
         /// <param name="target"></param>
-        public void Impose(CombatUnit target)
+        public void Impose(CombatUnit target, CombatSkillEnv env)
         {
             Target = target;
             IsImposed = true;
-            Combat.EffectProcessor.Impose(ImposeRules, Target, null);
+            Combat.EffectProcessor.Impose(ImposeRules, env, Target, null);
             Imposed?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterImpose();
         }
@@ -59,7 +64,12 @@ namespace Rpg.Client.Core.SkillEffects
 
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
-            Combat.EffectProcessor.Impose(InfluenceRules, Target, null);
+
+            var env = new CombatSkillEnv { 
+                Efficient = CombatSkillEfficient.Normal
+            };
+
+            Combat.EffectProcessor.Impose(InfluenceRules, env, Target, null);
         }
 
         protected virtual void AfterDispel()

@@ -21,12 +21,13 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var res = new DamageEffect
                     {
                         DamageMultiplier = 0.5f,
-                        Actor = u
+                        Actor = u,
+                        Env = env,
                     };
 
                     return res;

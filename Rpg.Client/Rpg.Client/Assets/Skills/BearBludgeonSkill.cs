@@ -17,12 +17,13 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1.0f
+                        DamageMultiplier = 1.0f,
+                        Env = env,
                     };
 
                     return res;
@@ -31,7 +32,7 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator((u, env) =>
                 {
                     var res = new StunEffect
                     {
