@@ -43,7 +43,7 @@ namespace Rpg.Client.Core
         {
             get
             {
-                var manaDependentSkills = Skills.Where(x => x.ManaCost is not null);
+                var manaDependentSkills = Skills.Where(x => x.CombatEnergyCost is not null);
                 return manaDependentSkills.Any();
             }
         }

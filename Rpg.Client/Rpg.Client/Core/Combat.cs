@@ -152,9 +152,9 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            if (skill.ManaCost is not null)
+            if (skill.CombatEnergyCost is not null)
             {
-                CurrentUnit.Unit.ManaPool -= skill.ManaCost.Value;
+                CurrentUnit.Unit.ManaPool -= skill.CombatEnergyCost.Value;
             }
 
             Action action = () =>
@@ -267,7 +267,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToList();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.CombatEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
                 var skill = dice.RollFromList(skillsOpenList, 1).Single();

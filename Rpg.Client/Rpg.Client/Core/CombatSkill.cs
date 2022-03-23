@@ -15,20 +15,20 @@ namespace Rpg.Client.Core
             _combatSkillContext = combatSkillContext ?? throw new ArgumentNullException(nameof(combatSkillContext));
         }
 
-        public bool IsAvailable => CheckMana();
+        public bool IsAvailable => IsCombatEnergyEnough();
 
         public ISkill Skill { get; }
         public CombatSkillEnv Env { get; }
 
-        private bool CheckMana()
+        private bool IsCombatEnergyEnough()
         {
-            if (Skill.ManaCost is null)
+            if (Skill.CombatEnergyCost is null)
             {
                 return true;
             }
 
-            var currentMana = _combatSkillContext.GetMana();
-            return currentMana >= Skill.ManaCost;
+            var currentCombatEnergy = _combatSkillContext.GetCombatEnergy();
+            return currentCombatEnergy >= Skill.CombatEnergyCost;
         }
     }
 

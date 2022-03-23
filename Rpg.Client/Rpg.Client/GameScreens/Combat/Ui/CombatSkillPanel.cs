@@ -151,6 +151,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
+                // Do nothing because hint of this button is created yet.
             }
             else
             {
