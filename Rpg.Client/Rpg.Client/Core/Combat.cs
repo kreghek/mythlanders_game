@@ -140,7 +140,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        public void UseSkill(ISkill skill, CombatSkillEnv env, CombatUnit targetUnit)
+        public void UseSkill(CombatSkill skill, CombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -152,14 +152,17 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            if (skill.CombatEnergyCost is not null)
-            {
-                CurrentUnit.Unit.ManaPool -= skill.CombatEnergyCost.Value;
-            }
-
+            
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Rules, env, CurrentUnit, targetUnit);
+                EffectProcessor.Impose(skill.Skill.Rules, skill.Env, CurrentUnit, targetUnit);
+
+                CurrentUnit.RedEnergyPool -= skill.RedEnergyCost;
+                CurrentUnit.GreenEnergyPool -= skill.GreenEnergyCost;
+
+                CurrentUnit.RedEnergyPool += skill.RedEnergyRegen;
+                CurrentUnit.GreenEnergyPool += skill.GreenEnergyRegen;
+
                 CompleteStep();
             };
 
@@ -167,7 +170,7 @@ namespace Rpg.Client.Core
             (
                 action,
                 CurrentUnit,
-                skill,
+                skill.Skill,
                 targetUnit
             );
 
@@ -267,7 +270,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.CombatEnergyCost is null).ToList();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseRedEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
                 var skill = dice.RollFromList(skillsOpenList, 1).Single();
@@ -283,11 +286,14 @@ namespace Rpg.Client.Core
 
                 var targetPlayerObject = dice.RollFromList(possibleTargetList);
 
-                var env = new CombatSkillEnv { 
+                var env = new CombatSkillEnv
+                {
                     Efficient = CombatSkillEfficient.Normal
                 };
 
-                UseSkill(skill, env, targetPlayerObject);
+                var combatSkill = new CombatSkill(skill, env, new CombatSkillContext(CurrentUnit));
+
+                UseSkill(combatSkill, targetPlayerObject);
 
                 return;
             }
@@ -437,10 +443,10 @@ namespace Rpg.Client.Core
             {
                 var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
 
-                foreach (var unitToRestoreMana in playerUnits)
-                {
-                    unitToRestoreMana.Unit.RestoreManaPoint();
-                }
+                //foreach (var unitToRestoreMana in playerUnits)
+                //{
+                //    unitToRestoreMana.Unit.RestoreManaPoint();
+                //}
             }
 
             var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x.Unit == unit);

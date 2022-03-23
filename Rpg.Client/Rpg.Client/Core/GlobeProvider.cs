@@ -203,6 +203,14 @@ namespace Rpg.Client.Core
                 new Unit(_unitSchemeCatalog.Heroes[UnitName.Berimir], level: 1)
                 {
                     IsPlayerControlled = true
+                },
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Thar], level: 1)
+                {
+                    IsPlayerControlled = true
+                },
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Dull], level: 1)
+                {
+                    IsPlayerControlled = true
                 }
             };
         }
@@ -273,7 +281,7 @@ namespace Rpg.Client.Core
                     SchemeSid = unit.UnitScheme.Name.ToString(),
                     Hp = unit.HitPoints,
                     Level = unit.Level,
-                    ManaPool = unit.ManaPool,
+                    //ManaPool = unit.ManaPool,
                     Equipments = GetCharacterEquipmentToSave(unit)
                 });
 
@@ -476,10 +484,10 @@ namespace Rpg.Client.Core
 
                 LoadCharacterEquipments(unit, unitDto.Equipments);
 
-                if (unitDto.ManaPool is not null)
-                {
-                    unit.ManaPool = Math.Min(unitDto.ManaPool.Value, unit.ManaPoolSize);
-                }
+                //if (unitDto.ManaPool is not null)
+                //{
+                //    unit.ManaPool = Math.Min(unitDto.ManaPool.Value, unit.RedEnergyPoolSize);
+                //}
 
                 units.Add(unit);
             }

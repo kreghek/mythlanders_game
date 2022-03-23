@@ -9,6 +9,9 @@
         /// </summary>
         Environment,
 
+        Thar,
+        Dull,
+
         Berimir,
         Hawk,
         Rada,

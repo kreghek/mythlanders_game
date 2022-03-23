@@ -14,6 +14,8 @@ namespace Rpg.Client.Core
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = slot.Index;
             IsInTankLine = slot.IsTankLine;
+            RedEnergyPool = unit.RedEnergyPoolSize;
+            GreenEnergyPool = unit.GreenEnergyPoolSize;
 
             _skillContext = new CombatSkillContext(this);
 
@@ -29,6 +31,10 @@ namespace Rpg.Client.Core
         public int Index { get; }
 
         public bool IsInTankLine { get; }
+
+        public int RedEnergyPool { get; set; }
+
+        public int GreenEnergyPool { get; set; }
 
         public CombatUnitState State { get; private set; }
 
@@ -76,8 +82,11 @@ namespace Rpg.Client.Core
                 var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
                 var rolledEnv = new CombatSkillEnv
                 {
-                    Cost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                    Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>())
+                    RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                    GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                    Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
+                    RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                    GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
                 };
 
                 var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);

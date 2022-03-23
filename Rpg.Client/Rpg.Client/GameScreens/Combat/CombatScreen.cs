@@ -951,7 +951,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 _interactionButtons.Clear();
                 _interactButtonClicked = true;
-                _combat.UseSkill(skillCard.Skill, skillCard.Env, target.CombatUnit);
+                _combat.UseSkill(skillCard, target.CombatUnit);
             };
 
             _interactionButtons.Add(interactButton);

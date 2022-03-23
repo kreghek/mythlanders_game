@@ -17,18 +17,24 @@ namespace Rpg.Client.Core
 
         public bool IsAvailable => IsCombatEnergyEnough();
 
-        public int EnergyCost => GetEnergyCost();
+        public int RedEnergyCost => GetEnergyCost(Env.RedCost, Skill.BaseRedEnergyCost);
+        
+        public int GreenEnergyCost => GetEnergyCost(Env.GreenCost, Skill.BaseGreenEnergyCost);
 
-        private int GetEnergyCost()
+        public int RedEnergyRegen => GetEnergyCost(Env.RedRegen, Skill.BaseRedEnergyCost / 2);
+
+        public int GreenEnergyRegen => GetEnergyCost(Env.GreenRegen, Skill.BaseGreenEnergyCost / 2);
+
+        private static int GetEnergyCost(CombatSkillCost combatSkillCost, int? baseEnergyCost)
         {
-            if (Skill.CombatEnergyCost is null)
+            if (baseEnergyCost is null)
             {
                 return 0;
             }
 
-            var coef = GetEnergyCoef(Env.Cost);
+            var coef = GetEnergyCoef(combatSkillCost);
 
-            return (int)Math.Round(Skill.CombatEnergyCost.Value * coef, MidpointRounding.AwayFromZero);
+            return (int)Math.Round(baseEnergyCost.Value * coef, MidpointRounding.AwayFromZero);
         }
 
         private static float GetEnergyCoef(CombatSkillCost costEnv)
@@ -48,14 +54,20 @@ namespace Rpg.Client.Core
 
         private bool IsCombatEnergyEnough()
         {
-            var currentCombatEnergy = _combatSkillContext.GetCombatEnergy();
-            return currentCombatEnergy >= EnergyCost;
+            var currentRedCombatEnergy = _combatSkillContext.GetRedCombatEnergy();
+            var currentGreenCombatEnergy = _combatSkillContext.GetRedCombatEnergy();
+            var redIsEnough = currentRedCombatEnergy >= RedEnergyCost;
+            var greenIsEnough = currentGreenCombatEnergy >= GreenEnergyCost;
+            return redIsEnough && greenIsEnough;
         }
     }
 
     internal class CombatSkillEnv
     { 
-        public CombatSkillCost Cost { get; set; }
+        public CombatSkillCost RedCost { get; set; }
+        public CombatSkillCost GreenCost { get; set; }
+        public CombatSkillCost RedRegen { get; set; }
+        public CombatSkillCost GreenRegen { get; set; }
         public CombatSkillEfficient Efficient { get; set; }
     }
 

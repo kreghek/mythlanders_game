@@ -16,11 +16,14 @@ namespace Rpg.Client.Core.Skills
         {
             if (costRequired)
             {
-                CombatEnergyCost = BASE_MANA_COST;
+                BaseRedEnergyCost = BASE_MANA_COST;
+                BaseGreenEnergyCost = BASE_MANA_COST;
             }
         }
 
-        public int? CombatEnergyCost { get; }
+        public int? BaseRedEnergyCost { get; }
+        public int? BaseGreenEnergyCost { get; }
+
 
         public abstract IEnumerable<EffectRule> Rules { get; }
 

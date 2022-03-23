@@ -66,7 +66,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var backgroundOffset = new Vector2(0, PANEL_BACKGROUND_VERTICAL_OFFSET);
 
-                DrawUnitHitPointsBar(spriteBatch, panelPosition, unit, backgroundOffset, side);
+                DrawUnitHitPointsBar(spriteBatch, unit, panelPosition, backgroundOffset, side);
 
                 DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
 
@@ -76,7 +76,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (HasMana(unit))
                 {
-                    DrawManaBar(spriteBatch, panelPosition, unit);
+                    DrawManaBar(spriteBatch, panelPosition, unit, combatUnit);
                 }
 
                 if (_tempShowEffects)
@@ -103,24 +103,31 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit)
+        private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit, CombatUnit combatUnit)
         {
             var manaPosition = panelPosition + new Vector2(46, 0);
 
-            var manaPointCount = Math.Min(8, unit.ManaPool);
+            //var manaPointCount = Math.Min(8, unit.ManaPool);
 
-            var manaSourceRect = new Rectangle(0, 72, 3, 10);
-            for (var i = 0; i < manaPointCount; i++)
-            {
-                spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(),
-                    manaPosition + new Vector2((3 + 2) * i + 3, 17),
-                    manaSourceRect,
-                    Color.White);
-            }
+            //var manaSourceRect = new Rectangle(0, 72, 3, 10);
+            //for (var i = 0; i < manaPointCount; i++)
+            //{
+            //    spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(),
+            //        manaPosition + new Vector2((3 + 2) * i + 3, 17),
+            //        manaSourceRect,
+            //        Color.White);
+            //}
+
+            var text = $"{combatUnit.RedEnergyPool}/{unit.RedEnergyPoolSize}";
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, panelPosition + new Vector2(3, 0),
+                    Color.LightCyan);
+
+            var text2 = $"{combatUnit.GreenEnergyPool}/{unit.GreenEnergyPoolSize}";
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text2, panelPosition + new Vector2(3, 0 + 7),
+                    Color.LightCyan);
         }
 
-        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset,
-            Side side)
+        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset, Side side)
         {
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
@@ -130,7 +137,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
         }
 
-        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Vector2 panelPosition, Unit unit,
+        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Unit unit, Vector2 panelPosition,
             Vector2 backgroundOffset, Side side)
         {
             var hpPosition = panelPosition + backgroundOffset +

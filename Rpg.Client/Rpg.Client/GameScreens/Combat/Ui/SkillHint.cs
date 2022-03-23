@@ -49,15 +49,20 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 color);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.EnergyCost > 0)
+            if (combatPower.RedEnergyCost > 0 || combatPower.GreenEnergyCost > 0)
             {
-                var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
+                var redManaCostColor = combatPower.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,
-                    string.Format(UiResource.SkillManaCostTemplate, combatPower.Skill.CombatEnergyCost),
-                    manaCostPosition, manaCostColor);
+                    string.Format(UiResource.SkillManaCostTemplate, combatPower.RedEnergyCost) + " +" + string.Format(UiResource.SkillManaCostTemplate, combatPower.RedEnergyRegen),
+                    manaCostPosition, redManaCostColor);
+
+                var greenManaCostColor = combatPower.IsAvailable ? color : Color.Red;
+                spriteBatch.DrawString(_font,
+                    string.Format(UiResource.SkillManaCostTemplate, combatPower.GreenEnergyCost) + " +" + string.Format(UiResource.SkillManaCostTemplate, combatPower.GreenEnergyRegen),
+                    manaCostPosition + Vector2.UnitY * 10, greenManaCostColor);
             }
 
-            var ruleBlockPosition = manaCostPosition + new Vector2(0, 10);
+            var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
             var skillRules = combatPower.Skill.Rules.ToArray();
             for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
             {

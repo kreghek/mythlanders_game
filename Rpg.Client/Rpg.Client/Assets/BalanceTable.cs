@@ -63,7 +63,7 @@ namespace Rpg.Client.Assets
 
         public CommonUnitBasics GetCommonUnitBasics()
         {
-            return new CommonUnitBasics();
+            return _unitBasics;
         }
     }
 }
