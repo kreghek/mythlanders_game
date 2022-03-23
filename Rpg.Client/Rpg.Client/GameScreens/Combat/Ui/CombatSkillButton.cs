@@ -26,24 +26,27 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override Color CalculateColor()
         {
-            if (Entity == _skillPanelState.SelectedSkill)
+            if (Entity != _skillPanelState.SelectedSkill)
             {
-                return Color.Lerp(Color.White, Color.Cyan, _counter);
+                return base.CalculateColor();
             }
 
-            return base.CalculateColor();
+            return Color.Lerp(Color.White, Color.Cyan, _counter);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {
-            spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-
-            if (!IsEnabled)
+            if (IsEnabled)
             {
-                spriteBatch.Draw(_icon, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
+                spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+                DrawBackground(spriteBatch, color);    
             }
-
-            DrawBackground(spriteBatch, color);
+            else
+            {
+                var disabledColor = Color.Lerp(color, Color.Red, 0.5f + _counter * 0.5f);
+                spriteBatch.Draw(_icon, contentRect, _iconRect, disabledColor);
+                DrawBackground(spriteBatch, disabledColor);
+            }
         }
 
         protected override void UpdateContent()
