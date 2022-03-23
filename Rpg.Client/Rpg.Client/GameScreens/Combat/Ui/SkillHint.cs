@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 color);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.Skill.CombatEnergyCost is not null)
+            if (combatPower.EnergyCost > 0)
             {
                 var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,

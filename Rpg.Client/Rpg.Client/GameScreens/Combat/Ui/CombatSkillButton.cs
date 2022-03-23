@@ -10,8 +10,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
+        private readonly T _skill;
         private readonly ISkillPanelState _skillPanelState;
-        private readonly Texture2D _texture;
 
         private float _counter;
 
@@ -20,7 +20,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
-            _texture = texture;
+            _skill = skill;
             _skillPanelState = skillPanelState;
         }
 
@@ -51,6 +51,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void UpdateContent()
         {
+            IsEnabled = _skill.IsAvailable;
+            
             base.UpdateContent();
 
             _counter += 0.005f;

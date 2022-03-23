@@ -139,8 +139,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 button.Update(resolutionIndependentRenderer);
 
-                button.IsEnabled = button.Entity.IsAvailable;
-
                 DetectMouseHoverOnButton(mouseRect, button);
             }
 

@@ -17,18 +17,39 @@ namespace Rpg.Client.Core
 
         public bool IsAvailable => IsCombatEnergyEnough();
 
+        public int EnergyCost => GetEnergyCost();
+
+        private int GetEnergyCost()
+        {
+            if (Skill.CombatEnergyCost is null)
+            {
+                return 0;
+            }
+
+            var coef = GetEnergyCoef(Env.Cost);
+
+            return (int)Math.Round(Skill.CombatEnergyCost.Value * coef, MidpointRounding.AwayFromZero);
+        }
+
+        private static float GetEnergyCoef(CombatSkillCost costEnv)
+        {
+            switch (costEnv)
+            {
+                case CombatSkillCost.Free: return 0;
+                case CombatSkillCost.Low: return 0.5f;
+                case CombatSkillCost.Normal: return 1;
+                case CombatSkillCost.High: return 2;
+                default: throw new Exception();
+            }
+        }
+
         public ISkill Skill { get; }
         public CombatSkillEnv Env { get; }
 
         private bool IsCombatEnergyEnough()
         {
-            if (Skill.CombatEnergyCost is null)
-            {
-                return true;
-            }
-
             var currentCombatEnergy = _combatSkillContext.GetCombatEnergy();
-            return currentCombatEnergy >= Skill.CombatEnergyCost;
+            return currentCombatEnergy >= EnergyCost;
         }
     }
 
