@@ -334,7 +334,6 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
-            _combat.Update();
 
             var settigs = Game.Services.GetService<GameSettings>();
             // TODO Remove then effects would be developed.

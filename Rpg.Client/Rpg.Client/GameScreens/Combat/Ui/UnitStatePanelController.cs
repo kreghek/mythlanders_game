@@ -74,6 +74,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 DrawUnitName(spriteBatch, panelPosition, unit, side);
 
+                DrawTargets(spriteBatch, panelPosition, combatUnit);
+
                 if (HasMana(unit))
                 {
                     DrawManaBar(spriteBatch, panelPosition, unit, combatUnit);
@@ -83,6 +85,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 {
                     DrawEffects(spriteBatch, panelPosition, combatUnit);
                 }
+            }
+        }
+
+        private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
+        {
+            if (combatUnit.Target is not null)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatUnit.Target.Unit.UnitScheme.Name.ToString(), panelPosition + new Vector2(-30, 0),
+                        Color.LightCyan);
             }
         }
 

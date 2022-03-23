@@ -26,6 +26,10 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
+        public CombatUnit? Target { get; set; }
+
+        public CombatSkill? TargetSkill { get; set; }
+
         public IReadOnlyList<CombatSkill> CombatCards { get; private set; }
 
         public int Index { get; }

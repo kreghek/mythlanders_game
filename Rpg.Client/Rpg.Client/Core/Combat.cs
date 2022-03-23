@@ -227,6 +227,10 @@ namespace Rpg.Client.Core
             CombatUnitIsReadyToControl += Combat_CombatUnitReadyIsToControl;
 
             IsCurrentStepCompleted = true;
+
+            Update();
+
+            AssignCpuTargetUnits();
         }
 
         internal void Update()
@@ -273,27 +277,34 @@ namespace Rpg.Client.Core
             var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseRedEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
-                var skill = dice.RollFromList(skillsOpenList, 1).Single();
-                skillsOpenList.Remove(skill);
-
-                var possibleTargetList = GetAvailableTargets(skill);
-
-                if (!possibleTargetList.Any())
+                if (CurrentUnit.Target is null || CurrentUnit.TargetSkill is null)
                 {
-                    continue;
-                    // There are no targets. Try another skill.
+                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                    skillsOpenList.Remove(skill);
+
+                    var possibleTargetList = GetAvailableTargets(skill, CurrentUnit);
+
+                    if (!possibleTargetList.Any())
+                    {
+                        continue;
+                        // There are no targets. Try another skill.
+                    }
+
+                    var targetUnit = dice.RollFromList(possibleTargetList);
+
+                    var env = new CombatSkillEnv
+                    {
+                        Efficient = CombatSkillEfficient.Normal
+                    };
+
+                    var combatSkill = new CombatSkill(skill, env, new CombatSkillContext(CurrentUnit));
+
+                    UseSkill(combatSkill, targetUnit);
                 }
-
-                var targetPlayerObject = dice.RollFromList(possibleTargetList);
-
-                var env = new CombatSkillEnv
+                else
                 {
-                    Efficient = CombatSkillEfficient.Normal
-                };
-
-                var combatSkill = new CombatSkill(skill, env, new CombatSkillContext(CurrentUnit));
-
-                UseSkill(combatSkill, targetPlayerObject);
+                    UseSkill(CurrentUnit.TargetSkill, CurrentUnit.Target);
+                }
 
                 return;
             }
@@ -349,7 +360,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
+        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill, CombatUnit unit)
         {
             switch (skill.TargetType)
             {
@@ -358,7 +369,7 @@ namespace Rpg.Client.Core
                         if (skill.Type == SkillType.Melee)
                         {
                             var unitsInTankPosition = Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
+                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
                                     !x.Unit.IsDead && x.IsInTankLine)
                                 .ToList();
 
@@ -368,24 +379,24 @@ namespace Rpg.Client.Core
                             }
 
                             return Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                                 .ToList();
                         }
 
                         return Units.Where(x =>
-                                CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
 
                 case SkillTargetType.Friendly:
                     {
                         return Units.Where(x =>
-                                CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
 
                 case SkillTargetType.Self:
-                    return new[] { CurrentUnit };
+                    return new[] { unit };
 
                 default:
                     // There is a skill with unknown target. So we can't form the target list.
@@ -429,7 +440,38 @@ namespace Rpg.Client.Core
                 }
             }
 
+            AssignCpuTargetUnits();
+
             _round++;
+        }
+
+        private void AssignCpuTargetUnits()
+        {
+            var dice = GetDice();
+            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
+            {
+                cpuUnit.RollCombatSkills(dice);
+                var skillsOpenList = cpuUnit.CombatCards.ToList();
+                while (skillsOpenList.Any())
+                {
+
+                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                    skillsOpenList.Remove(skill);
+
+                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
+
+                    if (!possibleTargetList.Any())
+                    {
+                        continue;
+                        // There are no targets. Try another skill.
+                    }
+
+                    var targetUnit = dice.RollFromList(possibleTargetList);
+                    cpuUnit.Target = targetUnit;
+
+                    cpuUnit.TargetSkill = skill;
+                }
+            }
         }
 
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
