@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Skills
                     {
                         Actor = u,
                         DamageMultiplier = 1f * equipmentMultiplier,
-                        Env = env,
+                        Efficient = env.Efficient
                     };
 
                     return res;

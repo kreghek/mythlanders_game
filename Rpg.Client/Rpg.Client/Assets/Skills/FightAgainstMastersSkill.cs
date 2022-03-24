@@ -6,15 +6,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class FightAgainsMastersSkill : SkillBase
+    internal class FightAgainstMastersSkill : SkillBase
     {
         private const SkillSid SID = SkillSid.FightAgainstMaster;
 
-        public FightAgainsMastersSkill() : this(false)
+        public FightAgainstMastersSkill() : this(false)
         {
         }
 
-        public FightAgainsMastersSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public FightAgainstMastersSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator((u, env) =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.5f, env.Efficient) { Duration = 1 };
 
                     return effect;
                 })

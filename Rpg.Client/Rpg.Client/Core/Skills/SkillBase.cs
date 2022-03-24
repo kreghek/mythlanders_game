@@ -6,6 +6,8 @@ namespace Rpg.Client.Core.Skills
     {
         public const int BASE_MANA_COST = 3;
 
+        protected const int BASE_WEIGHT = 5;
+
         protected SkillBase(SkillVisualization visualization)
         {
             UsageCount = 1;
@@ -36,5 +38,6 @@ namespace Rpg.Client.Core.Skills
         public virtual int UsageCount { get; }
 
         public SkillVisualization Visualization { get; }
+        public virtual int Weight => BASE_WEIGHT;
     }
 }

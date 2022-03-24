@@ -12,5 +12,6 @@ namespace Rpg.Client.Core.Skills
         SkillType Type { get; }
         int UsageCount { get; }
         SkillVisualization Visualization { get; }
+        int Weight { get; }
     }
 }

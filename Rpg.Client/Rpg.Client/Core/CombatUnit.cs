@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal sealed class CombatUnit : ICombatUnit
@@ -78,12 +80,14 @@ namespace Rpg.Client.Core
             HasTakenDamage?.Invoke(this, args);
         }
 
+        private readonly IList<ISkill> _openSkills = new List<ISkill>();
+
         public void RollCombatSkills(IDice dice)
         {
             var list = new List<CombatSkill>();
             for (var i = 0; i < 4; i++)
             {
-                var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
+                var rolledSkill = RollSkillFromList(dice);
                 var rolledEnv = new CombatSkillEnv
                 {
                     RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
@@ -98,6 +102,31 @@ namespace Rpg.Client.Core
             }
 
             CombatCards = list;
+        }
+
+        private ISkill RollSkillFromList(IDice dice)
+        {
+            if (!_openSkills.Any())
+            {
+                FillOpenSkillList();
+            }
+
+            var rolledSkillIndex = dice.RollArrayIndex(_openSkills);
+            var rolledSkill = _openSkills[rolledSkillIndex];
+            _openSkills.RemoveAt(rolledSkillIndex);
+            
+            return rolledSkill;
+        }
+
+        private void FillOpenSkillList()
+        {
+            foreach (var skill in Unit.Skills)
+            {
+                for (int i = 0; i < skill.Weight; i++)
+                {
+                    _openSkills.Add(skill);   
+                }
+            }
         }
 
         public Unit Unit { get; }

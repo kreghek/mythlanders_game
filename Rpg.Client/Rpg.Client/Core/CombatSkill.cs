@@ -39,14 +39,14 @@ namespace Rpg.Client.Core
 
         private static float GetEnergyCoef(CombatSkillCost costEnv)
         {
-            switch (costEnv)
+            return costEnv switch
             {
-                case CombatSkillCost.Free: return 0;
-                case CombatSkillCost.Low: return 0.5f;
-                case CombatSkillCost.Normal: return 1;
-                case CombatSkillCost.High: return 2;
-                default: throw new Exception();
-            }
+                CombatSkillCost.Free => 0,
+                CombatSkillCost.Low => 0.5f,
+                CombatSkillCost.Normal => 1,
+                CombatSkillCost.High => 2,
+                _ => throw new Exception()
+            };
         }
 
         public ISkill Skill { get; }
@@ -60,30 +60,5 @@ namespace Rpg.Client.Core
             var greenIsEnough = currentGreenCombatEnergy >= GreenEnergyCost;
             return redIsEnough && greenIsEnough;
         }
-    }
-
-    internal class CombatSkillEnv
-    { 
-        public CombatSkillCost RedCost { get; set; }
-        public CombatSkillCost GreenCost { get; set; }
-        public CombatSkillCost RedRegen { get; set; }
-        public CombatSkillCost GreenRegen { get; set; }
-        public CombatSkillEfficient Efficient { get; set; }
-    }
-
-    internal enum CombatSkillCost
-    { 
-        Free,
-        Low,
-        Normal,
-        High
-    }
-
-    internal enum CombatSkillEfficient
-    {
-        Zero,
-        Low,
-        Normal,
-        High
     }
 }

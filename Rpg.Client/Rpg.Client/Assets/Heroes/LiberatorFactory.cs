@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new MotivationSkill()),
-                new AddSkillUnitLevel(2, new FightAgainsMastersSkill()),
+                new AddSkillUnitLevel(2, new FightAgainstMastersSkill()),
                 new AddPerkUnitLevel(2, new Evasion()),
                 new AddSkillUnitLevel(3, new BraveHeartsSkill(true)),
                 new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
