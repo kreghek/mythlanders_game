@@ -342,7 +342,7 @@ namespace Rpg.Client.Tests
                     {
                         return new DecreaseDamageEffect(multiplier: 0f, CombatSkillEfficient.Normal)
                         {
-                            Duration = 2
+                            Duration = 1
                         };
                     })
                 }
@@ -390,10 +390,13 @@ namespace Rpg.Client.Tests
             combat.UseSkill(skill, target);
 
             var targetCurrentHitPoints = target.Unit.HitPoints;
+            // Update combat will move turn to next unit in the queue.
+            // It will invoke Ai-turn.
+            // Ai will cast defence on yourself. 
             combat.Update();
 
             // ACT 2
-            combat.Update();
+            //combat.Update();
 
             // ACT 3
             var attacker3 = combat.CurrentUnit;
