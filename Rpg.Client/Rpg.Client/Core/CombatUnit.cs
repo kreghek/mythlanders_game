@@ -96,30 +96,39 @@ namespace Rpg.Client.Core
                 else
                 {
                     var rolledSkill = RollSkillFromList(dice);
-                    var rolledEnv = new CombatSkillEnv
-                    {
-                        RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                        GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                        Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
-                        RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                        GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                    };
 
-                    var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
-                    list.Add(skillCard);   
+                    if (rolledSkill is not null)
+                    {
+                        var rolledEnv = new CombatSkillEnv
+                        {
+                            RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                            GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                            Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
+                            RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                            GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                        };
+
+                        var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
+                        list.Add(skillCard);
+                    }
                 }
             }
 
             CombatCards = list;
         }
 
-        private ISkill RollSkillFromList(IDice dice)
+        private ISkill? RollSkillFromList(IDice dice)
         {
+            if (!Unit.Skills.Any())
+            {
+                return null;
+            }
+
             if (!_openSkills.Any())
             {
                 FillOpenSkillList();
             }
-
+            
             var rolledSkillIndex = dice.RollArrayIndex(_openSkills);
             var rolledSkill = _openSkills[rolledSkillIndex];
             _openSkills.RemoveAt(rolledSkillIndex);
@@ -131,7 +140,8 @@ namespace Rpg.Client.Core
         {
             foreach (var skill in Unit.Skills)
             {
-                for (int i = 0; i < skill.Weight; i++)
+                var weightFuse = skill.Weight > 0 ? skill.Weight : 1;
+                for (int i = 0; i < weightFuse; i++)
                 {
                     _openSkills.Add(skill);   
                 }
