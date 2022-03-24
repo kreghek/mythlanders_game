@@ -45,6 +45,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
             var skillNameText = GameObjectHelper.GetLocalized(combatPower.Skill.Sid);
+            if (_skill.IsLocked is not null)
+            {
+                skillNameText += $" (locked {_skill.IsLocked})";
+            }
+
             spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
                 color);
 

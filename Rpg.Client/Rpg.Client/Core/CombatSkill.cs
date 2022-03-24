@@ -60,5 +60,7 @@ namespace Rpg.Client.Core
             var greenIsEnough = currentGreenCombatEnergy >= GreenEnergyCost;
             return redIsEnough && greenIsEnough;
         }
+
+        public int? IsLocked { get; set; }
     }
 }

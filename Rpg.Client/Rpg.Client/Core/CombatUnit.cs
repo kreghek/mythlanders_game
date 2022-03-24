@@ -87,18 +87,27 @@ namespace Rpg.Client.Core
             var list = new List<CombatSkill>();
             for (var i = 0; i < 4; i++)
             {
-                var rolledSkill = RollSkillFromList(dice);
-                var rolledEnv = new CombatSkillEnv
+                var currentSkill = CombatCards.Any() ? CombatCards[i] : null;
+                if (currentSkill is not null && currentSkill.IsLocked.GetValueOrDefault() > 0)
                 {
-                    RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                    GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                    Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
-                    RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                    GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                };
+                    currentSkill.IsLocked--;
+                    list.Add(currentSkill);
+                }
+                else
+                {
+                    var rolledSkill = RollSkillFromList(dice);
+                    var rolledEnv = new CombatSkillEnv
+                    {
+                        RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                        GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                        Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
+                        RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                        GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
+                    };
 
-                var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
-                list.Add(skillCard);
+                    var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
+                    list.Add(skillCard);   
+                }
             }
 
             CombatCards = list;
