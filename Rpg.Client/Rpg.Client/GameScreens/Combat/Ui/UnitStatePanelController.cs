@@ -129,11 +129,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             //        Color.White);
             //}
 
-            var text = $"{combatUnit.RedEnergyPool}/{unit.RedEnergyPoolSize}";
+            var text = $"R{combatUnit.RedEnergyPool}/{unit.RedEnergyPoolSize}";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, panelPosition + new Vector2(3, 0),
                     Color.LightCyan);
 
-            var text2 = $"{combatUnit.GreenEnergyPool}/{unit.GreenEnergyPoolSize}";
+            var text2 = $"G{combatUnit.GreenEnergyPool}/{unit.GreenEnergyPoolSize}";
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text2, panelPosition + new Vector2(3, 0 + 7),
                     Color.LightCyan);
         }

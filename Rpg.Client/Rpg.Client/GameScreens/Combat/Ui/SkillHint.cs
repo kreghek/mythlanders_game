@@ -58,12 +58,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var redManaCostColor = combatPower.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,
-                    string.Format(UiResource.SkillManaCostTemplate, combatPower.RedEnergyCost) + " +" + string.Format(UiResource.SkillManaCostTemplate, combatPower.RedEnergyRegen),
+                    $"R {combatPower.RedEnergyCost} +{combatPower.RedEnergyRegen}",
                     manaCostPosition, redManaCostColor);
 
                 var greenManaCostColor = combatPower.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,
-                    string.Format(UiResource.SkillManaCostTemplate, combatPower.GreenEnergyCost) + " +" + string.Format(UiResource.SkillManaCostTemplate, combatPower.GreenEnergyRegen),
+                    $"G {combatPower.GreenEnergyCost} +{combatPower.GreenEnergyRegen}",
                     manaCostPosition + Vector2.UnitY * 10, greenManaCostColor);
             }
 
