@@ -9,12 +9,13 @@ namespace Rpg.Client.Core.SkillEffects
     internal class EffectProcessor
     {
         private readonly Combat _combat;
-
+        private readonly IDice _dice;
         private readonly IDictionary<CombatUnit, IList<EffectBase>> _unitEffects;
 
-        public EffectProcessor(Combat combat)
+        public EffectProcessor(Combat combat, IDice dice)
         {
             _combat = combat;
+            _dice = dice;
             _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
         }
 
@@ -148,16 +149,16 @@ namespace Rpg.Client.Core.SkillEffects
 
                     break;
 
-                // case SkillDirection.RandomEnemy:
-                //     {
-                //         var unit = dice.RollFromList(_combat.AliveUnits
-                //             .Where(x => x.Unit.IsPlayerControlled != self.Unit.IsPlayerControlled).ToList());
-                //
-                //         ImposeByCreator(influence.EffectCreator, self, unit);
-                //     }
-                //
-                //     break;
-                //
+                case SkillDirection.RandomEnemy:
+                    {
+                        var unit = _dice.RollFromList(_combat.AliveUnits
+                            .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
+
+                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                    }
+
+                    break;
+
                 // case SkillDirection.RandomFriendly:
                 //     {
                 //         var unit = dice.RollFromList(_combat.AliveUnits

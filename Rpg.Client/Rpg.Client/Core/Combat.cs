@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
             IsAutoplay = isAutoplay;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
-            EffectProcessor = new EffectProcessor(this);
+            EffectProcessor = new EffectProcessor(this, dice);
             ModifiersProcessor = new ModifiersProcessor();
         }
 

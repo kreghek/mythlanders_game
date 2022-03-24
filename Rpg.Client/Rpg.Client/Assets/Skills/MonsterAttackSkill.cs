@@ -27,7 +27,8 @@ namespace Rpg.Client.Assets.Skills
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1
+                        DamageMultiplier = 1,
+                        Efficient = env.Efficient
                     };
 
                     return res;

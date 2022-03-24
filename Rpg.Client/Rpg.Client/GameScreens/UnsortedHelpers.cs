@@ -110,6 +110,9 @@ namespace Rpg.Client.GameScreens
             return sid switch
             {
                 SkillSid.SwordSlash => 1,
+                SkillSid.SwordSlashRandom => 1,
+                SkillSid.SwordSlashDefensive => 1,
+                SkillSid.SwordSlashInaccurate => 1,
                 SkillSid.WideSwordSlash => 2,
                 SkillSid.DefenseStance => 3,
                 SkillSid.SvarogBlastFurnace => 4,
