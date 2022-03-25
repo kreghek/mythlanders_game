@@ -22,12 +22,12 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.AllEnemy,
+                Direction = SkillDirection.AllEnemies,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
 
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         DamageMultiplier = 0.5f * equipmentMultiplier,
                         Actor = u
@@ -44,6 +44,7 @@ namespace Rpg.Client.Assets.Skills
 
         private static SkillVisualization PredefinedVisualization => new()
         {
+            AnimationSid = Core.AnimationSid.Skill2,
             Type = SkillVisualizationStateType.MassMelee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };

@@ -13,14 +13,14 @@ namespace Rpg.Client.GameScreens
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
-        private Texture2D _biomClouds;
-        private Texture2D _characterFaceTexture;
+        private Texture2D _biomeClouds;
         private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
         private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
         private Texture2D _combatUnitMarkers;
         private Dictionary<UnitName, SoundEffect> _deathSoundDict;
         private Texture2D _equipmentIcons;
         private SpriteFont _font;
+        private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
         private Texture2D _locationObjectTextures;
         private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
 
@@ -44,7 +44,12 @@ namespace Rpg.Client.GameScreens
 
         public Texture2D GetCharacterFaceTexture(UnitName heroSid)
         {
-            return _characterFaceTexture;
+            if (_heroFaceTextureDict.TryGetValue(heroSid, out var texture))
+            {
+                return texture;
+            }
+
+            return _heroFaceTextureDict[UnitName.Undefined];
         }
 
         public Texture2D GetSymbolSprite()
@@ -72,17 +77,20 @@ namespace Rpg.Client.GameScreens
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
-            _biomClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
+            _biomeClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Warrior") },
-                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Herbalist") },
-                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Archer") },
-                { UnitName.Maosin, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/Monk") }
+                { UnitName.Thar, LoadHeroTexture(contentManager, "Warrior") },
+                { UnitName.Dull, LoadHeroTexture(contentManager, "Warrior") },
+                { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
+                { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
+                { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
+                { UnitName.Maosin, LoadHeroTexture(contentManager, "Monk") },
+                { UnitName.Ping, LoadHeroTexture(contentManager, "Spearman") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -191,9 +199,9 @@ namespace Rpg.Client.GameScreens
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
             {
-                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
                 { UnitName.Maosin, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Ping, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
@@ -256,7 +264,13 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
-            _characterFaceTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace");
+            _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
+                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }
+            };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
@@ -277,15 +291,9 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
-        {
-            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
-            return contentManager.Load<Texture2D>(path);
-        }
-
         internal Texture2D GetBiomeClouds()
         {
-            return _biomClouds;
+            return _biomeClouds;
         }
 
         internal Texture2D GetBulletGraphics()
@@ -376,6 +384,18 @@ namespace Rpg.Client.GameScreens
         internal Texture2D GetUnitShadow()
         {
             return _shadowTexture;
+        }
+
+        private static Texture2D LoadHeroTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "PlayerUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
+        }
+
+        private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)
+        {
+            var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
+            return contentManager.Load<Texture2D>(path);
         }
 
         private enum BackgroundLayerType

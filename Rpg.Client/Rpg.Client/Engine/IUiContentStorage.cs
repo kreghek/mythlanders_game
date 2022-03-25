@@ -33,6 +33,8 @@ namespace Rpg.Client.Engine
         Texture2D[] GetModalTopTextures();
         Texture2D GetPanelTexture();
         Texture2D GetSkillButtonTexture();
+
+        Texture2D GetSocialTexture();
         Texture2D GetSpeechTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();

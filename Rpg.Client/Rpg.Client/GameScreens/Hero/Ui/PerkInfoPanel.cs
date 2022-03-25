@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.GameScreens.CharacterDetails.Ui
+namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal class PerkInfoPanel : PanelBase
     {

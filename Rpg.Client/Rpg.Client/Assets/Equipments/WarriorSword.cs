@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.Equipments
         protected override SkillSid[] AffectedAttackingSkills =>
             new[] { SkillSid.SwordSlash, SkillSid.WideSwordSlash };
 
-        protected override float MultiplicatorByLevel => 0.5f;
+        protected override float MultiplicatorByLevel => 0.25f;
 
         public override string GetDescription()
         {

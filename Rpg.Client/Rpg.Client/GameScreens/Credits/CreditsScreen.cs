@@ -11,6 +11,7 @@ namespace Rpg.Client.GameScreens.Credits
         private readonly ResourceTextButton _backButton;
         private readonly Camera2D _camera;
         private readonly string _creditsText;
+        private readonly SpriteFont _font;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private float _textPosition;
@@ -23,10 +24,15 @@ namespace Rpg.Client.GameScreens.Credits
 
             _textPosition = _resolutionIndependentRenderer.VirtualHeight + 100;
 
-            _creditsText = CreditsResource.ResourceManager.GetString("Credits");
+            _creditsText = CreditsResource.ResourceManager.GetString("Credits") ?? string.Empty;
 
-            _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            _font = _uiContentStorage.GetTitlesFont();
+
+            _backButton = new ResourceTextButton(
+                nameof(UiResource.BackButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
+
             _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title); };
         }
 
@@ -41,7 +47,7 @@ namespace Rpg.Client.GameScreens.Credits
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(),
+            spriteBatch.DrawString(_font,
                 _creditsText,
                 new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, _textPosition),
                 Color.Wheat);
@@ -54,9 +60,19 @@ namespace Rpg.Client.GameScreens.Credits
 
         protected override void UpdateContent(GameTime gameTime)
         {
-            _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * 100;
+            var size = _font.MeasureString(_creditsText);
+
+            const int TEXT_SPEED = 100;
+            const int DELAY_SECONDS = 2;
+
+            _textPosition -= (float)gameTime.ElapsedGameTime.TotalSeconds * TEXT_SPEED;
 
             _backButton.Update(_resolutionIndependentRenderer);
+
+            if (_textPosition <= -(size.Y + DELAY_SECONDS * TEXT_SPEED))
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+            }
         }
     }
 }

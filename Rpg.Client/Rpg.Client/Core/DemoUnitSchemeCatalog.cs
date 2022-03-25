@@ -2,10 +2,10 @@
 using System.Linq;
 
 using Rpg.Client.Assets;
+using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
-using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Core
 {
@@ -13,9 +13,9 @@ namespace Rpg.Client.Core
     {
         public DemoUnitSchemeCatalog()
         {
-            var heroes = new IHeroBuilder[]
+            var heroes = new IHeroFactory[]
             {
-                new SwordsmanBuilder(),
+                new SwordsmanFactory(),
                 new ArcherFactory(),
                 new HerbalistFactory()
             };
@@ -24,17 +24,17 @@ namespace Rpg.Client.Core
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
-            var slavicMonsters = CreateSlavicMonsters();
+            var slavicMonsters = CreateSlavicMonsters(balanceTable);
 
             AllMonsters = slavicMonsters.ToArray();
         }
 
-        private static IEnumerable<UnitScheme> CreateSlavicMonsters()
+        private static IEnumerable<UnitScheme> CreateSlavicMonsters(BalanceTable balanceTable)
         {
             var biomeType = BiomeType.Slavic;
             return new[]
             {
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -42,7 +42,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -54,7 +54,7 @@ namespace Rpg.Client.Core
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
 
-                new UnitScheme
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -62,7 +62,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.GreyWolf,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                        GlobeNodeSid.Swamp
+                    },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -73,7 +77,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -82,7 +87,7 @@ namespace Rpg.Client.Core
                     Name = UnitName.Bear,
                     Biome = biomeType,
                     LocationSids = new[]
-                        { GlobeNodeSid.Battleground },
+                        { GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
 
@@ -94,7 +99,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
                 },
-                new UnitScheme
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
@@ -102,7 +108,7 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Wisp,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
+                    LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -112,7 +118,8 @@ namespace Rpg.Client.Core
 
                     UnitGraphicsConfig = new WispMonsterGraphicsConfig()
                 },
-                new UnitScheme
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
@@ -123,11 +130,12 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
+                    MinRequiredBiomeLevel = 5,
 
                     Levels = new IUnitLevelScheme[]
                     {
+                        new AddPerkUnitLevel(1, new BossMonster(1)),
                         new AddSkillUnitLevel(1, new VolkolakEnergySkill()),
-                        new AddPerkUnitLevel(1, new BigMonster()),
                         new AddPerkUnitLevel(10, new CriticalHit())
                     },
 
@@ -136,7 +144,7 @@ namespace Rpg.Client.Core
                     SchemeAutoTransition = new UnitSchemeAutoTransition
                     {
                         HpShare = 0.5f,
-                        NextScheme = new UnitScheme
+                        NextScheme = new UnitScheme(balanceTable.GetCommonUnitBasics())
                         {
                             TankRank = 0.5f,
                             DamageDealerRank = 0.5f,
@@ -149,6 +157,7 @@ namespace Rpg.Client.Core
 
                             Levels = new IUnitLevelScheme[]
                             {
+                                new AddPerkUnitLevel(1, new BossMonster(1)),
                                 new AddSkillUnitLevel(1, new VolkolakClawsSkill()),
                                 new AddPerkUnitLevel(1, new ImprovedHitPoints()),
                                 new AddPerkUnitLevel(5, new Evasion()),

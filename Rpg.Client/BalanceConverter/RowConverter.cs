@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using Rpg.Client.Core;
 
@@ -19,6 +20,27 @@ namespace BalanceConverter
                 DamageDealerRank = x.DamageDealerRank,
                 SupportRank = x.SupportRank
             }).ToList();
+        }
+
+        public static UnitBasics ConvertToUnitBasic(IEnumerable<UnitBasicRow> unitExcelRows)
+        {
+            var basics = new UnitBasics();
+
+            var properties = typeof(UnitBasics).GetProperties();
+            foreach (var property in properties)
+            {
+                var row = unitExcelRows.Single(x => x.Key == property.Name);
+                if (property.PropertyType == typeof(int))
+                {
+                    property.SetValue(basics, (int)row.Value);
+                }
+                else
+                {
+                    property.SetValue(basics, row.Value);
+                }
+            }
+
+            return basics;
         }
     }
 }

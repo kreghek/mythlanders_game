@@ -59,6 +59,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
+
             Combat.EffectProcessor.Impose(InfluenceRules, Target, null);
         }
 

@@ -9,9 +9,9 @@ namespace Rpg.Client.Core
             _combatUnit = combatUnit;
         }
 
-        public int GetMana()
+        public int GetRedCombatEnergy()
         {
-            return _combatUnit.Unit.ManaPool;
+            return _combatUnit.EnergyPool;
         }
     }
 }

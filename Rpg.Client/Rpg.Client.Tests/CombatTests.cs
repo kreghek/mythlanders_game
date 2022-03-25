@@ -7,6 +7,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -18,7 +19,60 @@ namespace Rpg.Client.Tests
     public class CombatTests
     {
         [Test]
-        public void UseSkill_PeriodicDamageDefeatMonster_NotThrowException()
+        public void DemoBalance_VolkolakDealsNonZeroDamage()
+        {
+            // ARRANGE
+
+            var demoUnitCatalog = new DemoUnitSchemeCatalog();
+
+            var playerGroup = new Group();
+            var unitScheme = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
+                .SchemeAutoTransition.NextScheme;
+
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
+
+            playerGroup.Slots[0].Unit = new Unit(unitScheme, 5) { IsPlayerControlled = true };
+
+            var globeNode = new GlobeNode();
+
+            var combatSource = new CombatSource
+            {
+                EnemyGroup = new Group()
+            };
+            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
+
+            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
+
+            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
+                isAutoplay: false);
+            using var monitor = combat.Monitor();
+
+            combat.Initialize();
+
+            combat.Update();
+            combat.ActionGenerated += (_, args) =>
+            {
+                args.Action();
+            };
+
+            // ACT
+            var attacker = combat.CurrentUnit;
+            var skill = attacker.CombatCards.First();
+            var target = combat.AliveUnits.Single(x => x != attacker);
+            var takenDamageMount = 0;
+            target.HasTakenDamage += (_, e) =>
+            {
+                takenDamageMount = e.Amount;
+            };
+
+            combat.UseSkill(skill, target);
+
+            // ASSERT
+            takenDamageMount.Should().BeGreaterThan(2);
+        }
+
+        [Test]
+        public void UseSkill_PeriodicDamageDefeatsMonster_NotThrowException()
         {
             // ARRANGE
 
@@ -27,32 +81,35 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator(u =>
+                    EffectCreator = new EffectCreator(unit =>
                     {
                         return new PeriodicDamageEffect
                         {
                             Duration = 1,
                             PowerMultiplier = 10000,
                             SourceDamage = 1,
-                            Actor = u
+                            Actor = unit
                         };
                     })
                 }
             };
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
                     new AddSkillUnitLevel(1,
                         Mock.Of<ISkill>(skill =>
-                            skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy))
+                            // ReSharper disable once PossibleUnintendedReferenceComparison
+                            // Justification: Used to mock creating.
+                            skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy)
+                        )
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme();
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
 
             playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
@@ -68,6 +125,13 @@ namespace Rpg.Client.Tests
 
             var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
                 isAutoplay: false);
+            using var monitor = combat.Monitor();
+
+            var finishEventWasRaised = false;
+            combat.Finish += (_, _) =>
+            {
+                finishEventWasRaised = true;
+            };
 
             combat.Initialize();
             combat.Update();
@@ -77,18 +141,17 @@ namespace Rpg.Client.Tests
             };
 
             // ACT
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills.First();
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints;
+            var attacker = combat.CurrentUnit;
+            var skill = attacker.CombatCards.First();
+            var target = combat.AliveUnits.Single(x => x != attacker);
 
             combat.UseSkill(skill, target);
 
-            var targetCurrentHitPoints = target.Unit.HitPoints;
             combat.Update();
 
             // ASSERT
             target.Unit.IsDead.Should().BeTrue();
+            finishEventWasRaised.Should().BeTrue();
         }
 
         [Test]
@@ -115,7 +178,7 @@ namespace Rpg.Client.Tests
             };
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 SupportRank = 1,
                 Levels = new[]
@@ -126,7 +189,7 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme();
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
 
             playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
@@ -151,14 +214,12 @@ namespace Rpg.Client.Tests
             };
 
             // ACT
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills.First();
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints;
+            var attacker = combat.CurrentUnit;
+            var skill = attacker.CombatCards.First();
+            var target = combat.AliveUnits.Single(x => x != attacker);
 
             combat.UseSkill(skill, target);
 
-            var targetCurrentHitPoints = target.Unit.HitPoints;
             combat.Update();
 
             // ASSERT
@@ -171,12 +232,32 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            
+            var damageRule = new List<EffectRule>
+            {
+                new EffectRule
+                {
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new EffectCreator(unit =>
+                    {
+                        return new DamageEffect
+                        {
+                            Actor = unit,
+                            DamageMultiplier = 1
+                        };
+                    })
+                }
+            };
+            
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, new MonsterAttackSkill())
+                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                        // ReSharper disable once PossibleUnintendedReferenceComparison
+                        // Justification Creating mock using the expression tree.
+                        skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
                 }
             };
 
@@ -203,9 +284,9 @@ namespace Rpg.Client.Tests
             };
 
             // ACT
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills[0];
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var attacker = combat.CurrentUnit;
+            var skill = attacker.CombatCards.First();
+            var target = combat.AliveUnits.Single(x => x != attacker);
             var targetSourceHitPoints = target.Unit.HitPoints;
 
             combat.UseSkill(skill, target);
@@ -221,20 +302,58 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            var unitScheme = new UnitScheme
+            
+            var damageRule = new List<EffectRule>
+            {
+                new EffectRule
+                {
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new EffectCreator(unit =>
+                    {
+                        return new DamageEffect
+                        {
+                            Actor = unit,
+                            DamageMultiplier = 1
+                        };
+                    })
+                }
+            };
+            
+            var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, new MonsterAttackSkill())
+                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                        // ReSharper disable once PossibleUnintendedReferenceComparison
+                        // Justification Creating mock using the expression tree.
+                        skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
+                }
+            };
+            
+            var decreaseDamageRule = new List<EffectRule>
+            {
+                new EffectRule
+                {
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new EffectCreator(unit =>
+                    {
+                        return new DecreaseDamageEffect(multiplier: 0f)
+                        {
+                            Duration = 1
+                        };
+                    })
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, new DefenseStanceSkill())
+                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                        // ReSharper disable once PossibleUnintendedReferenceComparison
+                        // Justification Creating mock using the expression tree.
+                        skill.Rules == decreaseDamageRule && skill.TargetType == SkillTargetType.Enemy))
                 }
             };
 
@@ -261,23 +380,26 @@ namespace Rpg.Client.Tests
             };
 
             // ACT 1
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills.First();
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var attacker = combat.CurrentUnit;
+            var skill = attacker.CombatCards.First();
+            var target = combat.AliveUnits.Single(x => x != attacker);
             var targetSourceHitPoints = target.Unit.HitPoints;
 
             combat.UseSkill(skill, target);
 
             var targetCurrentHitPoints = target.Unit.HitPoints;
+            // Update combat will move turn to next unit in the queue.
+            // It will invoke Ai-turn.
+            // Ai will cast defence on yourself. 
             combat.Update();
 
             // ACT 2
-            combat.Update();
+            //combat.Update();
 
             // ACT 3
-            var attacker3 = combat.CurrentUnit.Unit;
-            var skill3 = attacker3.Skills.First();
-            var target3 = combat.AliveUnits.Single(x => x.Unit != attacker);
+            var attacker3 = combat.CurrentUnit;
+            var skill3 = attacker3.CombatCards.First();
+            var target3 = combat.AliveUnits.Single(x => x != attacker);
             var targetSourceHitPoints3 = target3.Unit.HitPoints;
 
             combat.UseSkill(skill3, target3);
@@ -287,82 +409,7 @@ namespace Rpg.Client.Tests
             var targetCurrentHitPoints3 = target.Unit.HitPoints;
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
-            targetHitPointsDiff3.Should().NotBe(0).And.BeLessThan(targetHitPointsDiff);
-        }
-
-        [Test]
-        public void UseSkill_UsePeriodicDamageSkill_DamageTakenDuringTwoRounds()
-        {
-            // ARRANGE
-
-            var playerGroup = new Group();
-            var unitScheme = new UnitScheme
-            {
-                DamageDealerRank = 1,
-                Levels = new[]
-                {
-                    new AddSkillUnitLevel(1, new MonsterAttackSkill())
-                }
-            };
-
-            var monsterUnitScheme = new UnitScheme
-            {
-                Levels = new[]
-                {
-                    new AddSkillUnitLevel(1, new DefenseStanceSkill())
-                }
-            };
-
-            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
-
-            var globeNode = new GlobeNode();
-
-            var combatSource = new CombatSource
-            {
-                EnemyGroup = new Group()
-            };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
-
-            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
-
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
-
-            combat.Initialize();
-            combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                args.Action();
-            };
-
-            // ACT 1
-            var attacker = combat.CurrentUnit.Unit;
-            var skill = attacker.Skills.First();
-            var target = combat.AliveUnits.Single(x => x.Unit != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints;
-
-            combat.UseSkill(skill, target);
-
-            var targetCurrentHitPoints = target.Unit.HitPoints;
-            combat.Update();
-
-            // ACT 2
-            combat.Update();
-
-            // ACT 3
-            var attacker3 = combat.CurrentUnit.Unit;
-            var skill3 = attacker3.Skills.First();
-            var target3 = combat.AliveUnits.Single(x => x.Unit != attacker);
-            var targetSourceHitPoints3 = target3.Unit.HitPoints;
-
-            combat.UseSkill(skill3, target3);
-            combat.Update();
-
-            // ASSERT
-            var targetCurrentHitPoints3 = target.Unit.HitPoints;
-            var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
-            var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
-            targetHitPointsDiff3.Should().NotBe(0).And.BeLessThan(targetHitPointsDiff);
+            targetHitPointsDiff3.Should().BeLessThan(targetHitPointsDiff);
         }
     }
 }

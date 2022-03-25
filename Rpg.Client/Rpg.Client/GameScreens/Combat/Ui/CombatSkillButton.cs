@@ -10,8 +10,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
+        private readonly T _skill;
         private readonly ISkillPanelState _skillPanelState;
-        private readonly Texture2D _texture;
 
         private float _counter;
 
@@ -20,34 +20,39 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
-            _texture = texture;
+            _skill = skill;
             _skillPanelState = skillPanelState;
         }
 
         protected override Color CalculateColor()
         {
-            if (Entity == _skillPanelState.SelectedSkill)
+            if (Entity != _skillPanelState.SelectedSkill)
             {
-                return Color.Lerp(Color.White, Color.Cyan, _counter);
+                return base.CalculateColor();
             }
 
-            return base.CalculateColor();
+            return Color.Lerp(Color.White, Color.Cyan, _counter);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {
-            spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-
-            if (!IsEnabled)
+            if (IsEnabled)
             {
-                spriteBatch.Draw(_texture, contentRect, _iconRect, Color.Lerp(color, Color.Red, 0.5f));
+                spriteBatch.Draw(_icon, contentRect, _iconRect, color);
+                DrawBackground(spriteBatch, color);    
             }
-
-            DrawBackground(spriteBatch, color);
+            else
+            {
+                var disabledColor = Color.Lerp(color, Color.Red, 0.5f + _counter * 0.5f);
+                spriteBatch.Draw(_icon, contentRect, _iconRect, disabledColor);
+                DrawBackground(spriteBatch, disabledColor);
+            }
         }
 
         protected override void UpdateContent()
         {
+            IsEnabled = _skill.IsAvailable;
+            
             base.UpdateContent();
 
             _counter += 0.005f;

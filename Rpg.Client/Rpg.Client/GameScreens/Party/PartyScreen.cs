@@ -125,16 +125,25 @@ namespace Rpg.Client.GameScreens.Party
         private void DrawInventory(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             const int COL = 5;
-            var array = _globeProvider.Globe.Player.Inventory.ToArray();
-            for (var i = 0; i < array.Length; i++)
+            var resources = _globeProvider.Globe.Player.Inventory
+                //TODO Demo fix
+                .Where(x => x.Type == EquipmentItemType.ExpiriencePoints ||
+                            x.Type == EquipmentItemType.Warrior ||
+                            x.Type == EquipmentItemType.Archer ||
+                            x.Type == EquipmentItemType.Herbalist)
+                .ToArray();
+
+            for (var i = 0; i < resources.Length; i++)
             {
-                var resourceItem = array[i];
+                var resourceItem = resources[i];
 
                 var col = i % COL;
                 var row = i / COL;
 
+                var resourceName = GameObjectHelper.GetLocalized(resourceItem.Type);
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{resourceItem.Type} x {resourceItem.Amount}",
+                    $"{resourceName} x {resourceItem.Amount}",
                     new Vector2(120 * col, (contentRect.Bottom - 60) + (row * 20)), Color.Wheat);
             }
         }

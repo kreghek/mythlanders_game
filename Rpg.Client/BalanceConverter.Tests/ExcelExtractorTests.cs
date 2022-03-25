@@ -1,8 +1,3 @@
-using System.IO;
-using System.Reflection;
-
-using BalanceConverter;
-
 using FluentAssertions;
 
 using NUnit.Framework;
@@ -12,11 +7,23 @@ namespace BalanceConverter.Tests
     public class ExcelExtractorTests
     {
         [Test]
-        public void Test1()
+        public void ReadUnitsBasicsFromExcel_ExcelHasRows_ReturnsNotEmptyList()
         {
             // ACT
 
-            var rows = ExcelExtractor.ReadUnitsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
+            var rows = ExcelExtractor.ReadUnitsBasicsFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Basics");
+
+            // ASSERT
+
+            rows.Should().NotBeEmpty();
+        }
+
+        [Test]
+        public void ReadUnitsRolesFromExcel_ExcelHasRows_ReturnsNotEmptyList()
+        {
+            // ACT
+
+            var rows = ExcelExtractor.ReadUnitsRolesFromExcel(ExcelExtractor.SOURCE_EVENTS_EXCEL, "Units");
 
             // ASSERT
 

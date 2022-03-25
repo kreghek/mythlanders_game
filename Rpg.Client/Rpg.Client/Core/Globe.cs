@@ -7,10 +7,12 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
+        private readonly IBiomeGenerator _biomeGenerator;
         private readonly List<IGlobeEvent> _globeEvents;
 
         public Globe(IBiomeGenerator biomeGenerator)
         {
+            _biomeGenerator = biomeGenerator;
             // First variant of the names.
             /*
              * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
@@ -58,9 +60,9 @@ namespace Rpg.Client.Core
         {
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
 
-            HandleBiomes(biomes);
+            RefreshBiomeStates(biomes);
 
-            CreateCombatsInBiomeNodes(dice: dice, unitSchemeCatalog: unitSchemeCatalog, biomes: biomes);
+            _biomeGenerator.CreateCombatsInBiomeNodes(biomes);
 
             CreateEventsInBiomeNodes(dice: dice, eventCatalog: eventCatalog, biomes: biomes);
 
@@ -127,65 +129,15 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void CreateCombatsInBiomeNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, Biome[] biomes)
+        private static void ClearNodeStates(Biome biome)
         {
-            foreach (var biome in biomes)
+            foreach (var node in biome.Nodes)
             {
-                var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
-                Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-                var nodesWithCombats = GetNodesWithCombats(biome, dice, availableNodes);
-
-                var combatCounts = GetCombatSequnceLength(biome.Level);
-                var combatLevelAdditionalList = new[]
-                {
-                    0, -1, 3
-                };
-                var selectedNodeCombatCount = dice.RollFromList(combatCounts, 3).ToArray();
-                var combatLevelAdditional = 0;
-
-                var combatToTrainingIndex = dice.RollArrayIndex(nodesWithCombats);
-
-                for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
-                {
-                    var selectedNode = nodesWithCombats[locationIndex];
-                    var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
-
-                    var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
-                    var combatList = new List<CombatSource>();
-                    for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
-                    {
-                        var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, dice, biome, combatLevel, unitSchemeCatalog).ToArray();
-
-                        var combat = new CombatSource
-                        {
-                            Level = combatLevel,
-                            EnemyGroup = new Group(),
-                            IsTrainingOnly = combatToTrainingIndex == locationIndex &&
-                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4,
-                            IsBossLevel = selectedNode.Item2
-                        };
-
-                        for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
-                        {
-                            var unit = units[slotIndex];
-                            combat.EnemyGroup.Slots[slotIndex].Unit = unit;
-                        }
-
-                        combatList.Add(combat);
-                    }
-
-                    var combatSequence = new CombatSequence
-                    {
-                        Combats = combatList
-                    };
-
-                    selectedNode.Item1.CombatSequence = combatSequence;
-
-                    combatLevelAdditional++;
-                }
+                node.CombatSequence = null;
+                node.AssignedEvent = null;
             }
         }
+
 
         private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes)
         {
@@ -195,68 +147,6 @@ namespace Rpg.Client.Core
                 var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
-            }
-        }
-
-        private static int[] GetCombatSequnceLength(int level)
-        {
-            return level switch
-            {
-                0 or 1 => new[] { 1, 1, 1 },
-                2 => new[] { 1, 1, 1, 3 },
-                > 3 and <= 4 => new[] { 1, 1, 1, 3, 3 },
-                > 5 and <= 7 => new[] { 1, 3, 3, 3, 5 },
-                > 8 and <= 10 => new[] { 3, 3, 3, 5, 5 },
-                > 10 => new[] { 3, 5, 5 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 5, 5 }
-            };
-        }
-
-        private static (GlobeNode, bool)[] GetNodesWithCombats(Biome biome, IDice dice, GlobeNode[] availableNodes)
-        {
-            const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Castle;
-
-            var nodeList = new List<(GlobeNode, bool)>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
-            int targetCount;
-            if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
-            {
-                nodeList.Add(new(bossLocation, true));
-                targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT - 1);
-            }
-            else
-            {
-                targetCount = Math.Min(availableNodes.Length, COMBAT_UNDER_ATTACK_COUNT);
-            }
-
-            var regularLocations = dice.RollFromList(availableNodes, targetCount);
-            foreach (var location in regularLocations)
-            {
-                nodeList.Add(new(location, false));
-            }
-
-            return nodeList.ToArray();
-        }
-
-        private void HandleBiomes(IEnumerable<Biome> biomes)
-        {
-            foreach (var biome in biomes)
-            {
-                // Reset all combat and event states.
-                foreach (var node in biome.Nodes)
-                {
-                    node.CombatSequence = null;
-                    node.AssignedEvent = null;
-                }
-
-                // unlock biomes
-                if (biome.IsComplete && biome.UnlockBiome is not null)
-                {
-                    var unlockedBiom = Biomes.Single(x => x.Type == biome.UnlockBiome);
-
-                    unlockedBiom.IsAvailable = true;
-                }
             }
         }
 
@@ -283,6 +173,28 @@ namespace Rpg.Client.Core
             }
 
             return true;
+        }
+
+        private void RefreshBiomeStates(IEnumerable<Biome> biomes)
+        {
+            foreach (var biome in biomes)
+            {
+                ClearNodeStates(biome);
+
+                UnlockNextBiomeIfComplete(biome);
+            }
+        }
+
+        private void UnlockNextBiomeIfComplete(Biome biome)
+        {
+            if (!biome.IsComplete || biome.UnlockBiome is null)
+            {
+                return;
+            }
+
+            var unlockedBiome = Biomes.Single(x => x.Type == biome.UnlockBiome);
+
+            unlockedBiome.IsAvailable = true;
         }
 
         private void UpdateGlobeEvents()

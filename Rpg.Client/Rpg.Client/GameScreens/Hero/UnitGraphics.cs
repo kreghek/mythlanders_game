@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.CharacterDetails
+namespace Rpg.Client.GameScreens.Hero
 {
     internal sealed class UnitGraphics : UnitGraphicsBase
     {

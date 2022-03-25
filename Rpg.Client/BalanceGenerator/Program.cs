@@ -27,7 +27,7 @@ namespace BalanceGenerator
             return combatSource;
         }
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             var balanceTable = new DynamicBalanceTable();
 
@@ -35,7 +35,10 @@ namespace BalanceGenerator
             var results = new List<ItemrationResult>();
 
             var globeNode = new GlobeNode
-                { Sid = GlobeNodeSid.Thicket };
+            {
+                Sid = GlobeNodeSid.Thicket
+            };
+
             var dice = new LinearDice();
             var biome = new Biome(1, BiomeType.Slavic);
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
@@ -132,6 +135,11 @@ namespace BalanceGenerator
                 }
 
                 return _balanceTable.GetRecord(unitName);
+            }
+
+            public CommonUnitBasics GetCommonUnitBasics()
+            {
+                return new CommonUnitBasics();
             }
         }
     }

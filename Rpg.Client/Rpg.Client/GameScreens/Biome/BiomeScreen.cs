@@ -190,14 +190,19 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 if (!_isNodeModelsCreated)
                 {
-                    foreach (var node in _biome.Nodes)
+                    var nodeList = _biome.Nodes.ToList();
+
+                    for (var nodeIndex = 0; nodeIndex < nodeList.Count; nodeIndex++)
                     {
+                        var node = nodeList[nodeIndex];
+
                         if (node.IsAvailable)
                         {
                             var centerNodePosition = _resolutionIndependenceRenderer.VirtualBounds.Center.ToVector2();
                             var firstNodePosition = centerNodePosition - Vector2.UnitY * 128;
-                            var index = (int)node.Sid % 100;
-                            var locationObject = new LocationGameObject(index % 3, index / 3,
+                            var col = nodeIndex % 2;
+                            var row = nodeIndex / 2;
+                            var locationObject = new LocationGameObject(col, row,
                                 firstNodePosition, node.Sid, _gameObjectContentStorage, node);
                             _locationObjectList.Add(locationObject);
                         }

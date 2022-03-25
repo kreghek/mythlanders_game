@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         public HitPointsChangedTextIndicator(int amount,
             HitPointsChangeDirection direction,
             Vector2 startPosition,
-            SpriteFont font) : base(startPosition, font)
+            SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
         {
             _amount = amount;
             _direction = direction;

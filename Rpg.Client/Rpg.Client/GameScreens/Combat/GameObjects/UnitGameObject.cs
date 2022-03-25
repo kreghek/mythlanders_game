@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
@@ -58,6 +59,18 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             var corpse = new CorpseGameObject(_graphics, _camera, _screenShaker, _gameObjectContentStorage);
             return corpse;
+        }
+
+        public int? GetCurrentIndicatorIndex()
+        {
+            var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
+
+            if (currentIndicatorCount == 0)
+            {
+                return null;
+            }
+
+            return currentIndicatorCount - 1;
         }
 
         public override void Update(GameTime gameTime)

@@ -22,11 +22,11 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.AllEnemy,
+                Direction = SkillDirection.AllEnemies,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         Actor = u,
                         DamageMultiplier = 0.3f * equipmentMultiplier
@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.Skills
 
             new EffectRule
             {
-                Direction = SkillDirection.AllEnemy,
+                Direction = SkillDirection.AllEnemies,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);

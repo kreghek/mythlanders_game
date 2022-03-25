@@ -30,7 +30,7 @@ namespace Rpg.Client.Core
             IsAutoplay = isAutoplay;
             _unitQueue = new List<CombatUnit>();
             _allUnitList = new List<CombatUnit>();
-            EffectProcessor = new EffectProcessor(this);
+            EffectProcessor = new EffectProcessor(this, dice);
             ModifiersProcessor = new ModifiersProcessor();
         }
 
@@ -140,7 +140,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        public void UseSkill(ISkill skill, ICombatUnit targetUnit)
+        public void UseSkill(CombatSkill skill, ICombatUnit targetUnit)
         {
             if (IsCurrentStepCompleted)
             {
@@ -152,14 +152,13 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            if (skill.ManaCost is not null)
-            {
-                CurrentUnit.Unit.ManaPool -= skill.ManaCost.Value;
-            }
-
+            
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
+                EffectProcessor.Impose(skill.Skill.Rules, CurrentUnit, targetUnit);
+
+                CurrentUnit.EnergyPool -= skill.EnergyCost;
+
                 CompleteStep();
             };
 
@@ -167,7 +166,7 @@ namespace Rpg.Client.Core
             (
                 action,
                 CurrentUnit,
-                skill,
+                skill.Skill,
                 targetUnit
             );
 
@@ -224,6 +223,10 @@ namespace Rpg.Client.Core
             CombatUnitIsReadyToControl += Combat_CombatUnitReadyIsToControl;
 
             IsCurrentStepCompleted = true;
+
+            Update();
+
+            AssignCpuTargetUnits();
         }
 
         internal void Update()
@@ -253,7 +256,8 @@ namespace Rpg.Client.Core
 
             IsCurrentStepCompleted = false;
 
-            CurrentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            var currentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            CurrentUnit = currentUnit;
         }
 
         private void Ai()
@@ -265,23 +269,32 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToList();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
-                var skill = dice.RollFromList(skillsOpenList, 1).Single();
-                skillsOpenList.Remove(skill);
-
-                var possibleTargetList = GetAvailableTargets(skill);
-
-                if (!possibleTargetList.Any())
+                if (CurrentUnit.Target is null || CurrentUnit.TargetSkill is null)
                 {
-                    continue;
-                    // There are no targets. Try another skill.
+                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                    skillsOpenList.Remove(skill);
+
+                    var possibleTargetList = GetAvailableTargets(skill, CurrentUnit);
+
+                    if (!possibleTargetList.Any())
+                    {
+                        continue;
+                        // There are no targets. Try another skill.
+                    }
+
+                    var targetUnit = dice.RollFromList(possibleTargetList);
+
+                    var combatSkill = new CombatSkill(skill, new CombatSkillContext(CurrentUnit));
+
+                    UseSkill(combatSkill, targetUnit);
                 }
-
-                var targetPlayerObject = dice.RollFromList(possibleTargetList);
-
-                UseSkill(skill, targetPlayerObject);
+                else
+                {
+                    UseSkill(CurrentUnit.TargetSkill, CurrentUnit.Target);
+                }
 
                 return;
             }
@@ -337,7 +350,7 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = true;
         }
 
-        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill)
+        private IReadOnlyList<CombatUnit> GetAvailableTargets(ISkill skill, CombatUnit unit)
         {
             switch (skill.TargetType)
             {
@@ -346,7 +359,7 @@ namespace Rpg.Client.Core
                         if (skill.Type == SkillType.Melee)
                         {
                             var unitsInTankPosition = Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
+                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
                                     !x.Unit.IsDead && x.IsInTankLine)
                                 .ToList();
 
@@ -356,24 +369,24 @@ namespace Rpg.Client.Core
                             }
 
                             return Units.Where(x =>
-                                    CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                                 .ToList();
                         }
 
                         return Units.Where(x =>
-                                CurrentUnit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
 
                 case SkillTargetType.Friendly:
                     {
                         return Units.Where(x =>
-                                CurrentUnit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
                             .ToList();
                     }
 
                 case SkillTargetType.Self:
-                    return new[] { CurrentUnit };
+                    return new[] { unit };
 
                 default:
                     // There is a skill with unknown target. So we can't form the target list.
@@ -396,8 +409,13 @@ namespace Rpg.Client.Core
                 return false;
             }
 
-            _unitQueue.RemoveAt(0);
-            return _unitQueue.Count != 0;
+            // Check last unit dead yet by periodic effect.
+            if (_unitQueue.Any())
+            {
+                _unitQueue.RemoveAt(0);
+            }
+
+            return _unitQueue.Any();
         }
 
         private void StartRound()
@@ -412,7 +430,37 @@ namespace Rpg.Client.Core
                 }
             }
 
+            AssignCpuTargetUnits();
+
             _round++;
+        }
+
+        private void AssignCpuTargetUnits()
+        {
+            var dice = GetDice();
+            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
+            {
+                var skillsOpenList = cpuUnit.CombatCards.ToList();
+                while (skillsOpenList.Any())
+                {
+
+                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                    skillsOpenList.Remove(skill);
+
+                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
+
+                    if (!possibleTargetList.Any())
+                    {
+                        continue;
+                        // There are no targets. Try another skill.
+                    }
+
+                    var targetUnit = dice.RollFromList(possibleTargetList);
+                    cpuUnit.Target = targetUnit;
+
+                    cpuUnit.TargetSkill = skill;
+                }
+            }
         }
 
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
@@ -428,7 +476,7 @@ namespace Rpg.Client.Core
 
                 foreach (var unitToRestoreMana in playerUnits)
                 {
-                    unitToRestoreMana.Unit.RestoreManaPoint();
+                    unitToRestoreMana.RestoreEnergyPoint();
                 }
             }
 
@@ -447,6 +495,11 @@ namespace Rpg.Client.Core
                 _allUnitList.Remove(combatUnit);
                 UnitDied?.Invoke(this, combatUnit);
                 CombatUnitRemoved?.Invoke(this, combatUnit);
+            }
+
+            if (unit == CurrentUnit?.Unit)
+            {
+                CompleteStep();
             }
         }
 

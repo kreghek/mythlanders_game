@@ -76,6 +76,11 @@ namespace Rpg.Client.Engine
             return Color.White;
         }
 
+        protected virtual bool IsMouseOver(Rectangle mouseRect)
+        {
+            return Rect.Intersects(mouseRect);
+        }
+
         protected virtual void UpdateContent()
         {
         }
@@ -89,7 +94,7 @@ namespace Rpg.Client.Engine
                 resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mousePosition);
             var mouseRect = new Rectangle(rirPosition.ToPoint(), new Point(1, 1));
 
-            return Rect.Intersects(mouseRect);
+            return IsMouseOver(mouseRect);
         }
 
         private static void PlayClickSoundIfExists()

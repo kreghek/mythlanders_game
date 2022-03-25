@@ -40,7 +40,9 @@ namespace Rpg.Client.Core
             {
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
-                if (!HasPerk<BossMonster>(scheme, combatLevel))
+                var isRegularMonster = !HasPerk<BossMonster>(scheme, combatLevel);
+
+                if (isRegularMonster)
                 {
                     rolledUnits.Add(scheme);
 
@@ -78,22 +80,24 @@ namespace Rpg.Client.Core
                 return 1;
             }
 
-            var availableMinMonsterCount = Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            var monsterCount = availableMinMonsterCount;
-            return monsterCount;
+            var availableMinMonsterCount =
+                predefinedMinMonsterCount; //Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
+            return availableMinMonsterCount;
         }
 
-        private static int[] GetPredefinedMonsterCounts(int biomeLevel)
+        private static int[] GetPredefinedMonsterCounts(int combatLevel)
         {
-            return biomeLevel switch
+            /*return biomeLevel switch
             {
-                0 => new[] { 1 },
-                1 => new[] { 1, 2, 3 },
-                2 => new[] { 1, 2, 2, 3 },
-                > 3 and <= 10 => new[] { 1, 2, 2, 3, 3 },
+                0 => new[] { 2 },
+                1 => new[] { 2, 2, 3 },
+                2 => new[] { 2, 2, 3, 3 },
+                > 3 and <= 10 => new[] { 2, 2, 3, 3, 3, 3 },
                 > 10 => new[] { 3, 3, 3 },
                 _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };
+            };*/
+
+            return new[] { 3 };
         }
 
         private static int GetUnitLevel(int combatLevel)

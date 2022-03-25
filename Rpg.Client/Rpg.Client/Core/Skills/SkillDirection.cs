@@ -5,7 +5,7 @@
         Target,
         Self,
         OtherFriendly,
-        AllEnemy,
+        AllEnemies,
         AllFriendly,
         RandomEnemy,
         RandomFriendly,

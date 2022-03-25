@@ -26,6 +26,9 @@ namespace Rpg.Client.GameScreens.Title
         private readonly GameSettings _gameSettings;
 
         private readonly GlobeProvider _globeProvider;
+
+        private readonly ParticleSystem _particleSystem;
+        private readonly ParticleSystem[] _pulseParticleSystems;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly SettingsModal _settingsModal;
         private readonly UnitName[] _showcaseUnits;
@@ -105,6 +108,22 @@ namespace Rpg.Client.GameScreens.Title
 
             _showcaseUnits = GetShowcaseHeroes();
 
+            var generator =
+                new HorizontalPulseParticleGenerator2(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            _particleSystem =
+                new ParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2(), generator);
+
+            _pulseParticleSystems = new[]
+            {
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2() +
+                                          new Vector2(0, 80)),
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
+                                          + Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) +
+                                          new Vector2(0, 60)),
+                CreatePulseParticleSystem(_resolutionIndependentRenderer.VirtualBounds.Center.ToVector2()
+                    - Vector2.UnitX * (0.25f * _resolutionIndependentRenderer.VirtualWidth) + new Vector2(0, 50))
+            };
+
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
                 isGameState: false);
             AddModal(_settingsModal, isLate: true);
@@ -133,6 +152,19 @@ namespace Rpg.Client.GameScreens.Title
                 ResolutionIndependentRenderer.VirtualWidth, ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawMenu(spriteBatch, menuRect);
 
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
+                    new Vector2(
+                        ResolutionIndependentRenderer.VirtualBounds.Right - 100,
+                        ResolutionIndependentRenderer.VirtualBounds.Top + 10),
+                    Color.White);
+            }
+
+            var socialPosition = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Right - 75,
+                ResolutionIndependentRenderer.VirtualBounds.Bottom - 150);
+            spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
+
             spriteBatch.End();
         }
 
@@ -141,6 +173,12 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var button in _buttons)
             {
                 button.Update(_resolutionIndependentRenderer);
+            }
+
+            _particleSystem.Update(gameTime);
+            foreach (var particleSystem in _pulseParticleSystems)
+            {
+                particleSystem.Update(gameTime);
             }
         }
 
@@ -173,6 +211,15 @@ namespace Rpg.Client.GameScreens.Title
             return loadGameButton;
         }
 
+        private ParticleSystem CreatePulseParticleSystem(Vector2 position)
+        {
+            var generator =
+                new HorizontalPulseParticleGenerator(new[] { _gameObjectContentStorage.GetParticlesTexture() });
+            var particleSystem = new ParticleSystem(position, generator);
+
+            return particleSystem;
+        }
+
         private void CreditsButton_OnClick(object? sender, EventArgs e)
         {
             ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
@@ -195,6 +242,15 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawLogo(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            foreach (var particleSystem in _pulseParticleSystems)
+            {
+                particleSystem.Draw(spriteBatch);
+            }
+
+            _particleSystem.MoveEmitter(contentRect.Center.ToVector2() + new Vector2(0, 160));
+
+            _particleSystem.Draw(spriteBatch);
+
             spriteBatch.Draw(_uiContentStorage.GetLogoTexture(),
                 new Vector2(contentRect.Center.X - _uiContentStorage.GetLogoTexture().Width / 2, contentRect.Top),
                 Color.White);
@@ -202,15 +258,6 @@ namespace Rpg.Client.GameScreens.Title
 
         private void DrawMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (_gameSettings.Mode == GameMode.Demo)
-            {
-                spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Demo",
-                    new Vector2(
-                        contentRect.Center.X,
-                        contentRect.Top + 10),
-                    Color.White);
-            }
-
             var index = 0;
             foreach (var button in _buttons)
             {

@@ -12,7 +12,6 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameComponents;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
-using Rpg.Client.GameScreens.Intro;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client
@@ -147,8 +146,7 @@ namespace Rpg.Client
         {
             if (_screenManager.ActiveScreen is null)
             {
-                var startScreen = new IntroScreen(this);
-                _screenManager.ActiveScreen = startScreen;
+                _screenManager.InitStartScreen();
             }
 
             _screenManager.Update(gameTime);
@@ -189,7 +187,7 @@ namespace Rpg.Client
         {
             if (VersionHelper.TryReadVersion(out var version))
             {
-                _logger.LogInformation($"Game version info:{Environment.NewLine}{version}");
+                _logger.LogInformation($"Game version info: {Environment.NewLine}{version}");
             }
             else
             {
@@ -217,7 +215,8 @@ namespace Rpg.Client
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-                var biomeGenerator = new BiomeGenerator();
+                var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
+                    Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
@@ -228,7 +227,8 @@ namespace Rpg.Client
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-                var biomeGenerator = new DemoBiomeGenerator();
+                var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
+                    Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());

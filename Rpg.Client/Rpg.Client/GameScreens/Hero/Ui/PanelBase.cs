@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.CharacterDetails
+namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal abstract class PanelBase : ControlBase
     {

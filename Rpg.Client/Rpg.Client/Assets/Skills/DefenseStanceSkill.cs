@@ -23,7 +23,10 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Self,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.5f)
+                    {
+                        Duration = 1
+                    };
 
                     return effect;
                 })
@@ -37,7 +40,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Support,
-            SoundEffectType = GameObjectSoundType.Defence
+            SoundEffectType = GameObjectSoundType.Defence,
+            AnimationSid = Core.AnimationSid.Skill3
         };
     }
 }

@@ -44,26 +44,37 @@ namespace Rpg.Client.Core
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = slot.Index;
             IsInTankLine = slot.IsTankLine;
+            EnergyPool = unit.EnergyPoolSize;
+
             var skillContext = new CombatSkillContext(this);
-
-            var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
-
-            CombatCards = cards;
+            CombatCards = CreateCombatSkills(unit.Skills, skillContext);
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
         }
 
-        public IReadOnlyList<CombatSkill> CombatCards { get; }
+        private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
+            ICombatSkillContext combatSkillContext)
+        {
+            return unitSkills.Select(skill => new CombatSkill(skill, combatSkillContext)).ToList();
+        }
+
+        public CombatUnit? Target { get; set; }
+
+        public CombatSkill? TargetSkill { get; set; }
+
+        public IReadOnlyList<CombatSkill> CombatCards { get; private set; }
 
         public int Index { get; }
 
         public bool IsInTankLine { get; }
 
-        public CombatUnitState State { get; internal set; }
+        public int EnergyPool { get; set; }
 
-        public void UnscribeHandlers()
+        public CombatUnitState State { get; private set; }
+
+        public void UnsubscribeHandlers()
         {
             Unit.HasBeenDamaged -= Unit_HasBeenDamaged;
             Unit.HasBeenHealed -= Unit_BeenHealed;
@@ -106,5 +117,14 @@ namespace Rpg.Client.Core
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
 
         internal event EventHandler? HasAvoidedDamage;
+
+        public void RestoreEnergyPoint()
+        {
+            EnergyPool++;
+            if (EnergyPool > Unit.EnergyPoolSize)
+            {
+                EnergyPool = Unit.EnergyPoolSize;
+            }
+        }
     }
 }

@@ -14,6 +14,9 @@ namespace Rpg.Client.Core.Skills
         PowerUp,
         SvarogBlastFurnace,
         SwordSlash,
+        SwordSlashRandom,
+        SwordSlashInaccurate,
+        SwordSlashDefensive,
         StaffHit,
         VampireBite,
         VolkolakClaws,
@@ -56,6 +59,7 @@ namespace Rpg.Client.Core.Skills
         PainfullWound,
         ShotOfHate,
         WarCry,
-        TribeDefender
+        TribeDefender,
+        GroupProtection
     }
 }

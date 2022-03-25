@@ -345,4 +345,40 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="CombatSwordDescription" xml:space="preserve">
+    <value>Технологичный меч.
+Повышает урон на 25% за уровень.</value>
+  </data>
+  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
+    <value>Экзоскелет.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
+  <data name="WoodenHandSculptureDescription" xml:space="preserve">
+    <value>Искусно вырезанная лошадка.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
+  <data name="ArcherPulsarBowDescription" xml:space="preserve">
+    <value>Стреляет энергетическими зарядами.
+Увеличивает урона на 25% за уровень.</value>
+  </data>
+  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
+    <value>Легкий экзоскелет.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
+  <data name="SilverWindNecklaceDescription" xml:space="preserve">
+    <value>Языческое ожерелье, полное мистики.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
+  <data name="HerbBagDescription" xml:space="preserve">
+    <value>Бездонная прочная сумка.
+Увеличивает эффективность на 25% за уровень.</value>
+  </data>
+  <data name="WomanShortDescription" xml:space="preserve">
+    <value>Длинные усиленные одежды.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
+  <data name="BookOfHerbsDescription" xml:space="preserve">
+    <value>Старинная рукопись из древности.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
 </root>

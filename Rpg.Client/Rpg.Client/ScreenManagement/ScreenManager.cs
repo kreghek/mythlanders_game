@@ -10,6 +10,8 @@ using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Event;
 using Rpg.Client.GameScreens.Hero;
+using Rpg.Client.GameScreens.Intro;
+using Rpg.Client.GameScreens.Locations;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
 using Rpg.Client.GameScreens.Speech;
@@ -47,6 +49,20 @@ namespace Rpg.Client.ScreenManagement
             }
 
             DrawTransition(spriteBatch);
+        }
+
+        public void InitStartScreen()
+        {
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                var startScreen = new IntroScreen(_game);
+                ActiveScreen = startScreen;
+            }
+            else
+            {
+                var startScreen = new TitleScreen(_game);
+                ActiveScreen = startScreen;
+            }
         }
 
         public void Update(GameTime gameTime)

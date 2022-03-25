@@ -10,6 +10,8 @@ namespace Rpg.Client.Assets.Skills
     {
         private const SkillSid SID = SkillSid.SwordSlash;
 
+        public override int Weight => BASE_WEIGHT * 2;
+
         public SwordSlashSkill() : this(false)
         {
         }
@@ -27,7 +29,7 @@ namespace Rpg.Client.Assets.Skills
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
 
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         Actor = u,
                         DamageMultiplier = 1 * equipmentMultiplier
@@ -44,6 +46,7 @@ namespace Rpg.Client.Assets.Skills
 
         private static SkillVisualization PredefinedVisualization => new()
         {
+            AnimationSid = Core.AnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };

@@ -16,10 +16,10 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                Direction = SkillDirection.AllEnemy,
+                Direction = SkillDirection.AllEnemies,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new AttackEffect
+                    var res = new DamageEffect
                     {
                         DamageMultiplier = 1.5f,
                         Actor = u
@@ -37,7 +37,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.FireDamage
+            SoundEffectType = GameObjectSoundType.FireDamage,
+            AnimationSid = Core.AnimationSid.Skill4
         };
     }
 }

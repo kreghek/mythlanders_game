@@ -34,6 +34,7 @@ namespace Rpg.Client.Engine
         private Texture2D[] _modalTopTextures;
         private Texture2D? _panelTexture;
         private Texture2D _skillButtonTexture;
+        private Texture2D _socialTexture;
         private Texture2D _speechTexture;
         private IDictionary<string, SpriteFont> _titlesFonts;
         private Song _titleTrack;
@@ -149,6 +150,7 @@ namespace Rpg.Client.Engine
         public void LoadContent(ContentManager contentManager)
         {
             _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
+            _socialTexture = contentManager.Load<Texture2D>("Sprites/Ui/Social");
             _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
             _skillButtonTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillButton");
             _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
@@ -224,6 +226,11 @@ namespace Rpg.Client.Engine
             _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
 
             _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
+        }
+
+        public Texture2D GetSocialTexture()
+        {
+            return _socialTexture;
         }
 
         public Texture2D GetCombatSkillPanelTexture()

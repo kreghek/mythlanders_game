@@ -372,4 +372,31 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="CombatSwordDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WoodenHandSculptureDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ArcherPulsarBowDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SilverWindNecklaceDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HerbBagDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WomanShortDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BookOfHerbsDescription" xml:space="preserve">
+    <value />
+  </data>
 </root>

@@ -181,17 +181,40 @@
   <data name="CombatTutorialText" xml:space="preserve">
     <value />
   </data>
+  <data name="CompleteGameButtonTitle" xml:space="preserve">
+    <value>Complete the game</value>
+  </data>
   <data name="ContinueGameButtonTitle" xml:space="preserve">
     <value>Continue game</value>
   </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
+  <data name="DamageEffectRuleText" xml:space="preserve">
+    <value>Damage: {0} - {1} to {2}</value>
+  </data>
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
   </data>
+  <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Decrease damage on {0}% of {2} on {1} turns</value>
+    <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
+                    decreaseDamageEffect.Target</comment>
+  </data>
+  <data name="EndOfGameMessage" xml:space="preserve">
+    <value>This is end of the game. Congratulations!{0}Thank you for attention</value>
+  </data>
+  <data name="EquipmentResourceRequipmentTemplate" xml:space="preserve">
+    <value>{0} x {1} to upgrade</value>
+  </data>
+  <data name="EquipmentTitleTemplate" xml:space="preserve">
+    <value>{0} ({1} lvl)</value>
+  </data>
+  <data name="EquipmentUpgradeMarkerText" xml:space="preserve">
+    <value>Upgrade is available!</value>
+  </data>
   <data name="EventTutorialText" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="ExitGameButtonTitle" xml:space="preserve">
     <value>Exit game</value>
@@ -202,6 +225,9 @@
   </data>
   <data name="GlobalEffectDurationTemplate" xml:space="preserve">
     <value>{0} combats left</value>
+  </data>
+  <data name="HealEffectRuleText" xml:space="preserve">
+    <value>Heal: {0} - {1} to {2}</value>
   </data>
   <data name="HeroEquipmentInfoTitle" xml:space="preserve">
     <value>Equipment</value>
@@ -217,6 +243,9 @@
   </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">
     <value>HitPoints: {0}</value>
+  </data>
+  <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
+    <value>Increase damage on +{0} of {2} on {1} turns</value>
   </data>
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Evasion!</value>
@@ -236,14 +265,17 @@
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>
+  <data name="LifeDrawEffectRuleText" xml:space="preserve">
+    <value>Draw {0} - {1} hp from {2}</value>
+  </data>
   <data name="LongCombatSequenceText" xml:space="preserve">
     <value>Long</value>
   </data>
   <data name="ManaCostLabelTemplate" xml:space="preserve">
-    <value>Mana cost: {0}</value>
+    <value>Psy-energy cost: {0}</value>
   </data>
   <data name="ManaLabelTemplate" xml:space="preserve">
-    <value>Mana: {0}/{1}</value>
+    <value>Psy-energy: {0}/{1}</value>
   </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
@@ -260,17 +292,43 @@
   <data name="PartyButtonTitle" xml:space="preserve">
     <value>Party</value>
   </data>
+  <data name="PeriodicDamageEffectRuleText" xml:space="preserve">
+    <value>Damage: {0} - {1} to {2} during {3} turns</value>
+  </data>
+  <data name="PeriodicHealEffectRuleText" xml:space="preserve">
+    <value>Heal over time: {0} - {1} during {3} to {2}</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Short</value>
   </data>
+  <data name="SkillDirectionAllEnemiesText" xml:space="preserve">
+    <value>all enemies</value>
+  </data>
+  <data name="SkillDirectionAllFriendlyText" xml:space="preserve">
+    <value>all ally</value>
+  </data>
+  <data name="SkillDirectionSelfText" xml:space="preserve">
+    <value>self</value>
+    <comment>Дательный падеж</comment>
+  </data>
+  <data name="SkillDirectionTargetText" xml:space="preserve">
+    <value>target</value>
+    <comment>Дательный падеж</comment>
+  </data>
+  <data name="SkillManaCostTemplate" xml:space="preserve">
+    <value>Required {0} psy-energy</value>
+  </data>
   <data name="SkipTutorialButtonTitle" xml:space="preserve">
     <value>Do not show anymore</value>
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
+  </data>
+  <data name="StunEffectRuleText" xml:space="preserve">
+    <value>Stun to {1} on {0}</value>
   </data>
   <data name="SurrenderButtonTitle" xml:space="preserve">
     <value>Surrender</value>

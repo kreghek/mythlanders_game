@@ -1,9 +1,9 @@
-﻿using Rpg.Client.Core;
-using Rpg.Client.Core.GraphicConfigs;
+﻿using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal abstract class HeroFactoryBase : IHeroBuilder
+    internal abstract class HeroFactoryBase : IHeroFactory
     {
         protected abstract IEquipmentScheme[] GetEquipment();
 
@@ -13,19 +13,19 @@ namespace Rpg.Client.Assets.Heroes
         }
 
         protected abstract IUnitLevelScheme[] GetLevels();
-        public abstract UnitName UnitName { get; }
+        public abstract UnitName HeroName { get; }
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {
-            var record = balanceTable.GetRecord(UnitName);
+            var record = balanceTable.GetRecord(HeroName);
 
-            return new()
+            return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
                 TankRank = record.TankRank,
                 DamageDealerRank = record.DamageDealerRank,
                 SupportRank = record.SupportRank,
 
-                Name = UnitName,
+                Name = HeroName,
 
                 Levels = GetLevels(),
 

@@ -1,14 +1,14 @@
 using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
-using Rpg.Client.Core.GraphicConfigs;
 
 namespace Rpg.Client.Assets.Heroes
 {
     internal class ArcherFactory : HeroFactoryBase
     {
-        public override UnitName UnitName => UnitName.Hawk;
+        public override UnitName HeroName => UnitName.Hawk;
 
         protected override IEquipmentScheme[] GetEquipment()
         {
