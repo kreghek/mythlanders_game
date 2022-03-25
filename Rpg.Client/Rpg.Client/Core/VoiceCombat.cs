@@ -29,7 +29,7 @@ namespace Rpg.Client.Core
             Dice = dice;
             _unitQueue = new List<ICombatUnit>();
             _allUnitList = new List<ICombatUnit>();
-            EffectProcessor = new EffectProcessor(this);
+            EffectProcessor = new EffectProcessor(this, Dice);
             ModifiersProcessor = new ModifiersProcessor();
         }
 
@@ -144,11 +144,6 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            if (skill.ManaCost is not null)
-            {
-                CurrentUnit.Unit.ManaPool -= skill.ManaCost.Value;
-            }
-
             Action action = () =>
             {
                 EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
@@ -226,7 +221,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.ManaCost is null).ToList();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
                 var skill = dice.RollFromList(skillsOpenList, 1).Single();
@@ -379,7 +374,7 @@ namespace Rpg.Client.Core
 
                 foreach (var unitToRestoreMana in playerUnits)
                 {
-                    unitToRestoreMana.Unit.RestoreManaPoint();
+                    unitToRestoreMana.RestoreEnergyPoint();
                 }
             }
 

@@ -243,7 +243,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (_combatSkillsPanel is not null)
             {
-                _combatSkillsPanel.Unit = null;
+                _combatSkillsPanel.CombatUnit = null;
                 _combatSkillsPanel.SelectedSkill = null;
                 _combatSkillsPanel.IsEnabled = false;
             }
@@ -741,7 +741,7 @@ namespace Rpg.Client.GameScreens.Combat
             _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
         }
 
-        private void DropSelection(CombatUnit? combatUnit)
+        private void DropSelection(ICombatUnit? combatUnit)
         {
             if (combatUnit is null || combatUnit.Unit.IsDead)
             {

@@ -16,10 +16,10 @@ namespace Rpg.Client.Core.SkillEffects
         {
             _combat = combat;
             _dice = dice;
-            _unitEffects = new Dictionary<CombatUnit, IList<EffectBase>>();
+            _unitEffects = new Dictionary<ICombatUnit, IList<EffectBase>>();
         }
 
-        public IEnumerable<EffectBase> GetCurrentEffect(CombatUnit combatUnit)
+        public IEnumerable<EffectBase> GetCurrentEffect(ICombatUnit combatUnit)
         {
             if (!_unitEffects.TryGetValue(combatUnit, out var effects))
             {

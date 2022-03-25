@@ -239,7 +239,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
-            e.UnscribeHandlers();
+            //e.UnscribeHandlers();
 
             var unitGameObject = GetUnitGameObject(e);
 
@@ -305,7 +305,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
         private void CombatInitialize()
         {
             _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage);
-            _combatSkillsPanel.CardSelected += CombatSkillsPanel_CardSelected;
+            _combatSkillsPanel.SkillSelected += CombatSkillsPanel_CardSelected;
             _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
             _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
             _combat.CombatUnitEntered += Combat_UnitEntered;
@@ -319,7 +319,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             _combat.Update();
 
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage);
+                _uiContentStorage, _gameObjectContentStorage, false);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -447,7 +447,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, 1);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -460,7 +460,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font);
+            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, 1);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -925,7 +925,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
                 _interactionButtons.Clear();
                 _interactButtonClicked = true;
-                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
+                _combat.UseSkill(skillCard, target.CombatUnit);
             };
 
             _interactionButtons.Add(interactButton);
@@ -1034,7 +1034,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             foreach (var unit in _globe.Player.GetAll())
             {
                 unit.RestoreHitPointsAfterCombat();
-                unit.RestoreManaPoint();
+                //unit.RestoreManaPoint();
             }
         }
 

@@ -7,36 +7,6 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class VoiceSkill : ISkill
-    {
-        public int? ManaCost { get; }
-        public IEnumerable<EffectRule> Rules { get; }
-        public SkillSid Sid { get; }
-        public SkillTargetType TargetType { get; }
-        public SkillType Type { get; }
-        public int UsageCount { get; }
-        public SkillVisualization Visualization { get; }
-    }
-    internal sealed class VoiceCombatUnit: ICombatUnit
-    {
-        public VoiceCombatUnit(Unit unit)
-        {
-            Unit = unit;
-
-            var voiceSkill = new VoiceSkill();
-            CombatCards = new[] { new CombatSkill(voiceSkill, new CombatSkillContext(this)) };
-        }
-        
-        public Unit Unit { get; }
-        public IReadOnlyList<CombatSkill> CombatCards { get; }
-
-        public void ChangeState(CombatUnitState targetState)
-        {
-        }
-
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
-    }
-
     internal sealed class CombatUnit : ICombatUnit
     {
         public CombatUnit(Unit unit, GroupSlot slot)
