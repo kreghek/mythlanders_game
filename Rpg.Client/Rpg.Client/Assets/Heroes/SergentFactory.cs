@@ -31,7 +31,6 @@ namespace Rpg.Client.Assets.Heroes
             {
                 new AddSkillUnitLevel(1, new SwordSlashSkill(true)),
                 new AddSkillUnitLevel(1, new SwordSlashDefensiveSkill(true)),
-                new AddSkillUnitLevel(1, new DefenseStanceSkill(true)),
                 new AddSkillUnitLevel(2, new WideSlashSkill(true)),
                 new AddPerkUnitLevel(2, new ImprovedHitPoints()),
                 new AddSkillUnitLevel(3, new GroupProtectionSkill(true)),

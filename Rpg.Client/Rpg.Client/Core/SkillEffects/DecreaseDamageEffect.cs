@@ -7,11 +7,9 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class DecreaseDamageEffect : ModifiersEffect
     {
-        public DecreaseDamageEffect(float multiplier, CombatSkillEfficient efficient)
+        public DecreaseDamageEffect(float multiplier)
         {
-            var envEfficient = GetEnvModifier(efficient);
-            
-            Multiplier = multiplier * envEfficient;
+            Multiplier = multiplier;
             
             Modifiers = new List<ModifierBase>
             {
@@ -19,18 +17,6 @@ namespace Rpg.Client.Core.SkillEffects
                 {
                     DamageMultiplier = Multiplier
                 }
-            };
-        }
-        
-        private static float GetEnvModifier(CombatSkillEfficient efficient)
-        {
-            return efficient switch
-            {
-                CombatSkillEfficient.Zero => 0,
-                CombatSkillEfficient.Low => 0.5f,
-                CombatSkillEfficient.Normal => 1f,
-                CombatSkillEfficient.High => 2f,
-                _ => throw new Exception(),
             };
         }
 

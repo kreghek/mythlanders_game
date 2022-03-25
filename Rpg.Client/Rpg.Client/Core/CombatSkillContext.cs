@@ -11,12 +11,7 @@ namespace Rpg.Client.Core
 
         public int GetRedCombatEnergy()
         {
-            return _combatUnit.RedEnergyPool;
-        }
-
-        public int GetGreenCombatEnergy()
-        {
-            return _combatUnit.GreenEnergyPool;
+            return _combatUnit.EnergyPool;
         }
     }
 }

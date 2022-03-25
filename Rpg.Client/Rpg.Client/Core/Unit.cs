@@ -41,7 +41,7 @@ namespace Rpg.Client.Core
         {
             get
             {
-                var manaDependentSkills = Skills.Where(x => x.BaseRedEnergyCost is not null || x.BaseGreenEnergyCost is not null);
+                var manaDependentSkills = Skills.Where(x => x.BaseEnergyCost is not null);
                 return manaDependentSkills.Any();
             }
         }
@@ -57,10 +57,7 @@ namespace Rpg.Client.Core
         public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) *
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
-        public int RedEnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
-                                   (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
-
-        public int GreenEnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+        public int EnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
                                    (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
@@ -172,12 +169,6 @@ namespace Rpg.Client.Core
             }
 
             return result;
-        }
-
-        internal void RestoreManaPoint()
-        {
-            //RedEnergyPool = RedEnergyPoolSize;
-            //GreenEnergyPool = GreenEnergyPoolSize;
         }
 
         private void ApplyLevels()

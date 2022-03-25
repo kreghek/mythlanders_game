@@ -40,40 +40,29 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var color = Color.White;
 
-            var combatPower = _skill;
-
             var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-            var skillNameText = GameObjectHelper.GetLocalized(combatPower.Skill.Sid);
-            if (_skill.IsLocked is not null)
-            {
-                skillNameText += $" (locked {_skill.IsLocked})";
-            }
+            var skillNameText = GameObjectHelper.GetLocalized(_skill.Skill.Sid);
 
             spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
                 color);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.RedEnergyCost > 0 || combatPower.GreenEnergyCost > 0)
+            if (_skill.EnergyCost > 0)
             {
-                var redManaCostColor = combatPower.IsAvailable ? color : Color.Red;
+                var redManaCostColor = _skill.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,
-                    $"R {combatPower.RedEnergyCost} +{combatPower.RedEnergyRegen}",
+                    string.Format(UiResource.SkillManaCostTemplate, _skill.EnergyCost),
                     manaCostPosition, redManaCostColor);
-
-                var greenManaCostColor = combatPower.IsAvailable ? color : Color.Red;
-                spriteBatch.DrawString(_font,
-                    $"G {combatPower.GreenEnergyCost} +{combatPower.GreenEnergyRegen}",
-                    manaCostPosition + Vector2.UnitY * 10, greenManaCostColor);
             }
 
             var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
-            var skillRules = combatPower.Skill.Rules.ToArray();
+            var skillRules = _skill.Skill.Rules.ToArray();
             for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
             {
                 var rule = skillRules[ruleIndex];
                 var effectCreator = rule.EffectCreator;
-                var effectToDisplay = effectCreator.Create(_unit, combatPower.Env);
+                var effectToDisplay = effectCreator.Create(_unit);
 
                 var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 

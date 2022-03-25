@@ -81,7 +81,7 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator((unit, _) =>
+                    EffectCreator = new EffectCreator(unit =>
                     {
                         return new PeriodicDamageEffect
                         {
@@ -164,7 +164,7 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator((u, env) =>
+                    EffectCreator = new EffectCreator(u =>
                     {
                         return new PeriodicSupportAttackEffect
                         {
@@ -238,13 +238,12 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator((unit, _) =>
+                    EffectCreator = new EffectCreator(unit =>
                     {
                         return new DamageEffect
                         {
                             Actor = unit,
-                            DamageMultiplier = 1,
-                            Efficient = CombatSkillEfficient.Normal
+                            DamageMultiplier = 1
                         };
                     })
                 }
@@ -309,13 +308,12 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator((unit, _) =>
+                    EffectCreator = new EffectCreator(unit =>
                     {
                         return new DamageEffect
                         {
                             Actor = unit,
-                            DamageMultiplier = 1,
-                            Efficient = CombatSkillEfficient.Normal
+                            DamageMultiplier = 1
                         };
                     })
                 }
@@ -338,9 +336,9 @@ namespace Rpg.Client.Tests
                 new EffectRule
                 {
                     Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator((unit, _) =>
+                    EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DecreaseDamageEffect(multiplier: 0f, CombatSkillEfficient.Normal)
+                        return new DecreaseDamageEffect(multiplier: 0f)
                         {
                             Duration = 1
                         };

@@ -9,23 +9,25 @@ namespace Rpg.Client.Core
 {
     internal sealed class CombatUnit : ICombatUnit
     {
-        private readonly CombatSkillContext _skillContext;
-
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = slot.Index;
             IsInTankLine = slot.IsTankLine;
-            RedEnergyPool = unit.RedEnergyPoolSize;
-            GreenEnergyPool = unit.GreenEnergyPoolSize;
+            EnergyPool = unit.EnergyPoolSize;
 
-            _skillContext = new CombatSkillContext(this);
-
-            CombatCards = Array.Empty<CombatSkill>();
+            var skillContext = new CombatSkillContext(this);
+            CombatCards = CreateCombatSkills(unit.Skills, skillContext);
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
+        }
+
+        private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
+            ICombatSkillContext combatSkillContext)
+        {
+            return unitSkills.Select(skill => new CombatSkill(skill, combatSkillContext)).ToList();
         }
 
         public CombatUnit? Target { get; set; }
@@ -38,9 +40,7 @@ namespace Rpg.Client.Core
 
         public bool IsInTankLine { get; }
 
-        public int RedEnergyPool { get; set; }
-
-        public int GreenEnergyPool { get; set; }
+        public int EnergyPool { get; set; }
 
         public CombatUnitState State { get; private set; }
 
@@ -80,74 +80,6 @@ namespace Rpg.Client.Core
             HasTakenDamage?.Invoke(this, args);
         }
 
-        private readonly IList<ISkill> _openSkills = new List<ISkill>();
-
-        public void RollCombatSkills(IDice dice)
-        {
-            var list = new List<CombatSkill>();
-            for (var i = 0; i < 4; i++)
-            {
-                var currentSkill = CombatCards.Any() ? CombatCards[i] : null;
-                if (currentSkill is not null && currentSkill.IsLocked.GetValueOrDefault() > 0)
-                {
-                    currentSkill.IsLocked--;
-                    list.Add(currentSkill);
-                }
-                else
-                {
-                    var rolledSkill = RollSkillFromList(dice);
-
-                    if (rolledSkill is not null)
-                    {
-                        var rolledEnv = new CombatSkillEnv
-                        {
-                            RedCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                            GreenCost = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                            Efficient = dice.RollFromList(Enum.GetValues<CombatSkillEfficient>()),
-                            RedRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                            GreenRegen = dice.RollFromList(Enum.GetValues<CombatSkillCost>()),
-                        };
-
-                        var skillCard = new CombatSkill(rolledSkill, rolledEnv, _skillContext);
-                        list.Add(skillCard);
-                    }
-                }
-            }
-
-            CombatCards = list;
-        }
-
-        private ISkill? RollSkillFromList(IDice dice)
-        {
-            if (!Unit.Skills.Any())
-            {
-                return null;
-            }
-
-            if (!_openSkills.Any())
-            {
-                FillOpenSkillList();
-            }
-            
-            var rolledSkillIndex = dice.RollArrayIndex(_openSkills);
-            var rolledSkill = _openSkills[rolledSkillIndex];
-            _openSkills.RemoveAt(rolledSkillIndex);
-            
-            return rolledSkill;
-        }
-
-        private void FillOpenSkillList()
-        {
-            foreach (var skill in Unit.Skills)
-            {
-                var weightFuse = skill.Weight > 0 ? skill.Weight : 1;
-                for (int i = 0; i < weightFuse; i++)
-                {
-                    _openSkills.Add(skill);   
-                }
-            }
-        }
-
         public Unit Unit { get; }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
@@ -155,5 +87,14 @@ namespace Rpg.Client.Core
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
 
         internal event EventHandler? HasAvoidedDamage;
+
+        public void RestoreEnergyPoint()
+        {
+            EnergyPool++;
+            if (EnergyPool > Unit.EnergyPoolSize)
+            {
+                EnergyPool = Unit.EnergyPoolSize;
+            }
+        }
     }
 }

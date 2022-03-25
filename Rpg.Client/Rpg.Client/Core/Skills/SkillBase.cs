@@ -18,12 +18,12 @@ namespace Rpg.Client.Core.Skills
         {
             if (costRequired)
             {
-                BaseRedEnergyCost = BASE_MANA_COST;
+                BaseEnergyCost = BASE_MANA_COST;
                 BaseGreenEnergyCost = BASE_MANA_COST;
             }
         }
 
-        public int? BaseRedEnergyCost { get; }
+        public int? BaseEnergyCost { get; }
         public int? BaseGreenEnergyCost { get; }
 
 

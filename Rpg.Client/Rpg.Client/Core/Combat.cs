@@ -155,13 +155,9 @@ namespace Rpg.Client.Core
             
             Action action = () =>
             {
-                EffectProcessor.Impose(skill.Skill.Rules, skill.Env, CurrentUnit, targetUnit);
+                EffectProcessor.Impose(skill.Skill.Rules, CurrentUnit, targetUnit);
 
-                CurrentUnit.RedEnergyPool -= skill.RedEnergyCost;
-                CurrentUnit.GreenEnergyPool -= skill.GreenEnergyCost;
-
-                CurrentUnit.RedEnergyPool += skill.RedEnergyRegen;
-                CurrentUnit.GreenEnergyPool += skill.GreenEnergyRegen;
+                CurrentUnit.EnergyPool -= skill.EnergyCost;
 
                 CompleteStep();
             };
@@ -261,7 +257,6 @@ namespace Rpg.Client.Core
             IsCurrentStepCompleted = false;
 
             var currentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
-            currentUnit?.RollCombatSkills(Dice);
             CurrentUnit = currentUnit;
         }
 
@@ -274,7 +269,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseRedEnergyCost is null).ToList();
+            var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
                 if (CurrentUnit.Target is null || CurrentUnit.TargetSkill is null)
@@ -292,12 +287,7 @@ namespace Rpg.Client.Core
 
                     var targetUnit = dice.RollFromList(possibleTargetList);
 
-                    var env = new CombatSkillEnv
-                    {
-                        Efficient = CombatSkillEfficient.Normal
-                    };
-
-                    var combatSkill = new CombatSkill(skill, env, new CombatSkillContext(CurrentUnit));
+                    var combatSkill = new CombatSkill(skill, new CombatSkillContext(CurrentUnit));
 
                     UseSkill(combatSkill, targetUnit);
                 }
@@ -450,7 +440,6 @@ namespace Rpg.Client.Core
             var dice = GetDice();
             foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
             {
-                cpuUnit.RollCombatSkills(dice);
                 var skillsOpenList = cpuUnit.CombatCards.ToList();
                 while (skillsOpenList.Any())
                 {
@@ -485,10 +474,10 @@ namespace Rpg.Client.Core
             {
                 var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
 
-                //foreach (var unitToRestoreMana in playerUnits)
-                //{
-                //    unitToRestoreMana.Unit.RestoreManaPoint();
-                //}
+                foreach (var unitToRestoreMana in playerUnits)
+                {
+                    unitToRestoreMana.RestoreEnergyPoint();
+                }
             }
 
             var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x.Unit == unit);

@@ -6,15 +6,17 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class PenetrationStrikeSkill : SkillBase
+    internal class SwordSlashDefensiveSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.PenetrationStrike;
+        private const SkillSid SID = SkillSid.SwordSlashDefensive;
 
-        public PenetrationStrikeSkill() : this(false)
+        public override int Weight => BASE_WEIGHT * 2;
+
+        public SwordSlashDefensiveSkill() : this(false)
         {
         }
 
-        public PenetrationStrikeSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SwordSlashDefensiveSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -30,7 +32,21 @@ namespace Rpg.Client.Assets.Skills
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1 * equipmentMultiplier
+                        DamageMultiplier = 0.5f * equipmentMultiplier
+                    };
+
+                    return res;
+                })
+            },
+            
+            new EffectRule
+            {
+                Direction = SkillDirection.Self,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var res = new DecreaseDamageEffect(0.3f)
+                    {
+                        Duration = 1
                     };
 
                     return res;
@@ -42,10 +58,9 @@ namespace Rpg.Client.Assets.Skills
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
-        public override int UsageCount => 3;
-
         private static SkillVisualization PredefinedVisualization => new()
         {
+            AnimationSid = Core.AnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };

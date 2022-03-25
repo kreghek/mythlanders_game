@@ -1059,7 +1059,7 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var unit in _globe.Player.GetAll())
             {
                 unit.RestoreHitPointsAfterCombat();
-                unit.RestoreManaPoint();
+                //unit.RestoreManaPoint();
             }
         }
 

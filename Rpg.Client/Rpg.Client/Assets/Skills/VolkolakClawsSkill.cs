@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator((u, env) =>
+                EffectCreator = new EffectCreator(u =>
                 {
                     var res = new LifeDrawEffect
                     {

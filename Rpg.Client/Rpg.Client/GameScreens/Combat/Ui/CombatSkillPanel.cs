@@ -265,17 +265,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             PressButton(buttonIndex);
 
-            if (IsKeyPressed(Keys.L))
-            {
-                if (SelectedSkill is not null)
-                {
-                    if (SelectedSkill.IsLocked is null)
-                    {
-                        SelectedSkill.IsLocked = 1;
-                    }
-                }
-            }
-
             _lastKeyboardState = _currentKeyboardState;
         }
 

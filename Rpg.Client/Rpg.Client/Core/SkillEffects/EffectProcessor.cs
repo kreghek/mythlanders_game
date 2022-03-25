@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.SkillEffects
             return effects.ToArray();
         }
 
-        public void Impose(IEnumerable<EffectRule>? influences, CombatSkillEnv env, CombatUnit actor, CombatUnit? target)
+        public void Impose(IEnumerable<EffectRule>? influences, CombatUnit actor, CombatUnit? target)
         {
             if (influences is null)
             {
@@ -38,7 +38,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             foreach (var influence in influences)
             {
-                ImposeSingleRule(influence, env, actor, target);
+                ImposeSingleRule(influence, actor, target);
             }
         }
 
@@ -86,24 +86,24 @@ namespace Rpg.Client.Core.SkillEffects
             _unitEffects[e.Unit].Add(e.Effect);
         }
 
-        private void ImposeByCreator(EffectCreator creator, CombatSkillEnv env, CombatUnit self, CombatUnit target)
+        private void ImposeByCreator(EffectCreator creator, CombatUnit self, CombatUnit target)
         {
-            var effect = creator.Create(self, env, _combat);
+            var effect = creator.Create(self, _combat);
 
             effect.Imposed += Effect_Imposed;
             effect.Dispelled += Effect_Dispelled;
 
-            effect.Impose(target, env);
+            effect.Impose(target);
         }
 
-        private void ImposeSingleRule(EffectRule influence, CombatSkillEnv env, CombatUnit actor, CombatUnit? target)
+        private void ImposeSingleRule(EffectRule influence, CombatUnit actor, CombatUnit? target)
         {
             switch (influence.Direction)
             {
                 case SkillDirection.All:
                     foreach (var unit in _combat.AliveUnits)
                     {
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
@@ -112,7 +112,7 @@ namespace Rpg.Client.Core.SkillEffects
                     foreach (var unit in _combat.AliveUnits.Where(x =>
                         x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled))
                     {
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
@@ -121,7 +121,7 @@ namespace Rpg.Client.Core.SkillEffects
                     foreach (var unit in _combat.AliveUnits.Where(x =>
                         x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled))
                     {
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
@@ -130,7 +130,7 @@ namespace Rpg.Client.Core.SkillEffects
                     foreach (var unit in _combat.AliveUnits.Where(x =>
                         x != actor))
                     {
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
@@ -139,13 +139,13 @@ namespace Rpg.Client.Core.SkillEffects
                     foreach (var unit in _combat.AliveUnits.Where(x =>
                         x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled))
                     {
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
 
                 case SkillDirection.Self:
-                    ImposeByCreator(influence.EffectCreator, env, actor, actor);
+                    ImposeByCreator(influence.EffectCreator, actor, actor);
 
                     break;
 
@@ -154,20 +154,20 @@ namespace Rpg.Client.Core.SkillEffects
                         var unit = _dice.RollFromList(_combat.AliveUnits
                             .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
 
-                        ImposeByCreator(influence.EffectCreator, env, actor, unit);
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
 
                     break;
 
-                // case SkillDirection.RandomFriendly:
-                //     {
-                //         var unit = dice.RollFromList(_combat.AliveUnits
-                //             .Where(x => x.Unit.IsPlayerControlled == self.Unit.IsPlayerControlled).ToList());
-                //
-                //         ImposeByCreator(influence.EffectCreator, self, unit);
-                //     }
-                //
-                //     break;
+                case SkillDirection.RandomFriendly:
+                    {
+                        var unit = _dice.RollFromList(_combat.AliveUnits
+                            .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
+                
+                        ImposeByCreator(influence.EffectCreator, actor, unit);
+                    }
+                
+                    break;
 
                 case SkillDirection.Target:
                     if (target is null)
@@ -175,7 +175,7 @@ namespace Rpg.Client.Core.SkillEffects
                         throw new InvalidOperationException();
                     }
 
-                    ImposeByCreator(influence.EffectCreator, env, actor, target);
+                    ImposeByCreator(influence.EffectCreator, actor, target);
 
                     break;
 

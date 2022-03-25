@@ -10,8 +10,6 @@ namespace Rpg.Client.Core.SkillEffects
     {
         public CombatUnit Actor { get; set; }
 
-        public CombatSkillEfficient Efficient { get; set; }
-
         public float DamageMultiplier { get; init; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
@@ -22,9 +20,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         public MinMax<int> CalculateDamage()
         {
-            var envModifier = GetEnvModifier(Efficient);
-
-            var absoluteDamage = Actor.Unit.Damage * DamageMultiplier * envModifier;
+            var absoluteDamage = Actor.Unit.Damage * DamageMultiplier;
 
             var min = absoluteDamage - Scatter * absoluteDamage;
             var max = absoluteDamage + Scatter * absoluteDamage;
@@ -48,18 +44,6 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 Min = Math.Max(absoluteMin, 0),
                 Max = Math.Max(absoluteMin, absoluteMax)
-            };
-        }
-
-        private static float GetEnvModifier(CombatSkillEfficient efficient)
-        {
-            return efficient switch
-            {
-                CombatSkillEfficient.Zero => 0,
-                CombatSkillEfficient.Low => 0.5f,
-                CombatSkillEfficient.Normal => 1f,
-                CombatSkillEfficient.High => 2f,
-                _ => throw new Exception(),
             };
         }
 

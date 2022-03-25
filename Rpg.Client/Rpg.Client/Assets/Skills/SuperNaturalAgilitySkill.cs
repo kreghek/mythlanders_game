@@ -17,9 +17,9 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator((u, env) =>
+                EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f, env.Efficient) { Duration = 5 };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 5 };
 
                     return effect;
                 })

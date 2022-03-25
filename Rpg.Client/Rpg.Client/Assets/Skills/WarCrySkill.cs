@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Skills
             new EffectRule
             {
                 Direction = SkillDirection.AllFriendly,
-                EffectCreator = new EffectCreator((u, env) =>
+                EffectCreator = new EffectCreator(u =>
                 {
                     var effect = new IncreaseAttackEffect(u.Unit.Support)
                     {

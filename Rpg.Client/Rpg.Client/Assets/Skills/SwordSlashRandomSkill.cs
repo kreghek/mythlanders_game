@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -6,28 +6,33 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class MonsterAttackSkill : SkillBase
+    internal class SwordSlashRandomSkill : SkillBase
     {
-        public MonsterAttackSkill() : base(PredefinedVisualization, false)
+        private const SkillSid SID = SkillSid.SwordSlashRandom;
+
+        public override int Weight => BASE_WEIGHT * 2;
+
+        public SwordSlashRandomSkill() : this(false)
         {
         }
 
-        protected MonsterAttackSkill(SkillVisualization visualization, bool costRequired) : base(visualization,
-            costRequired)
+        public SwordSlashRandomSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IEnumerable<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
-                Direction = SkillDirection.Target,
+                Direction = SkillDirection.RandomEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1
+                        DamageMultiplier = 1 * equipmentMultiplier
                     };
 
                     return res;
@@ -35,14 +40,15 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.AbstractMonsterAttack;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
+            AnimationSid = Core.AnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.WolfBite
+            SoundEffectType = GameObjectSoundType.SwordSlash
         };
     }
 }
