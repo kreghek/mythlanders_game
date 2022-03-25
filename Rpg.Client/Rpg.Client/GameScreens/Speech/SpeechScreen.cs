@@ -317,8 +317,10 @@ namespace Rpg.Client.GameScreens.Speech
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            var col = _frameIndex % 2;
-            var row = _frameIndex / 2;
+            var col = 0;
+            var row = 0;
+            // var col = _frameIndex % 2;
+            // var row = _frameIndex / 2;
 
             var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
             spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(currentFragment.Speaker),
