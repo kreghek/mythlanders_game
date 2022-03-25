@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
-        private double _combatFinishedCounter;
+        private double _combatFinishedDelayCounter;
 
         private bool? _combatFinishedVictory;
 
@@ -193,13 +194,13 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void ApplyCombatReward(IReadOnlyCollection<CombatRewardsItem> xpItems, Player player)
+        private static void ApplyCombatReward(IReadOnlyCollection<ResourceReward> xpItems, Player player)
         {
             foreach (var item in xpItems)
             {
-                var inventoryItem = player.Inventory.Single(x => x.Type == item.Xp.Type);
+                var inventoryItem = player.Inventory.Single(x => x.Type == item.Type);
 
-                inventoryItem.Amount += item.Xp.Amount;
+                inventoryItem.Amount += item.Amount;
             }
         }
 
@@ -503,7 +504,7 @@ namespace Rpg.Client.GameScreens.Combat
             var inventoryItem = inventory.Single(x => x.Type == resourceType);
             var item = new CombatRewardsItem
             {
-                Xp = new CountableRewardStat
+                Xp = new ResourceReward
                 {
                     StartValue = inventoryItem.Amount,
                     Amount = amount,
@@ -883,41 +884,27 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private CombatRewards HandleRewardGaining(
-            ICollection<CombatSource> completedCombats,
+        private static CombatRewards CalculateRewardGaining(
+            IEnumerable<CombatSource> completedCombats,
             GlobeNode globeNode,
-            Player? player)
+            Player player,
+            Core.Biome biome)
         {
-            var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
+            var completedCombatsShortInfos = completedCombats.Select(x =>
+                new CombatRewardInfo(x.EnemyGroup.GetUnits()
+                    .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
 
-            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
+            var rewardCalculationContext = new RewardCalculationContext(
+                player.Inventory,
+                globeNode.EquipmentItem, 
+                completedCombatsShortInfos,
+                biome.Level,
+                biome.MinLevel + 15
+            );
 
-            var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
-            var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
+            var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
 
-            var rewardList = new List<CombatRewardsItem>();
-            if (globeNode.EquipmentItem is not null)
-            {
-                var rewardItem = CreateReward(player.Inventory, globeNode.EquipmentItem.Value, amount: 1);
-                rewardList.Add(rewardItem);
-            }
-
-            var gainedXp = summaryXp;
-            var xpRewardItem = CreateXpReward(player.Inventory, gainedXp);
-            rewardList.Add(xpRewardItem);
-
-            var combatRewards = new CombatRewards
-            {
-                BiomeProgress = new ProgressionRewardStat
-                {
-                    StartValue = _combat.Biome.Level,
-                    Amount = 1,
-                    ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
-                },
-                InventoryRewards = rewardList
-            };
-
-            return combatRewards;
+            return rewards;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -1075,7 +1062,7 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var xpItems = HandleRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player);
+                    var xpItems = CalculateRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player, _combat.Biome);
                     ApplyCombatReward(xpItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
@@ -1099,7 +1086,7 @@ namespace Rpg.Client.GameScreens.Combat
                         new CombatRewards
                         {
                             BiomeProgress = new ProgressionRewardStat(),
-                            InventoryRewards = Array.Empty<CombatRewardsItem>()
+                            InventoryRewards = Array.Empty<ResourceReward>()
                         });
                 }
             }
@@ -1123,7 +1110,7 @@ namespace Rpg.Client.GameScreens.Combat
                             Amount = _combat.Biome.Level / 2,
                             ValueToLevelupSelector = () => 25
                         },
-                        InventoryRewards = Array.Empty<CombatRewardsItem>()
+                        InventoryRewards = Array.Empty<ResourceReward>()
                     });
             }
 
@@ -1147,9 +1134,9 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void UpdateCombatFinished(GameTime gameTime)
         {
-            _combatFinishedCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            _combatFinishedDelayCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_combatFinishedCounter >= 2 && !_combatResultModalShown)
+            if (_combatFinishedDelayCounter >= 2 && !_combatResultModalShown)
             {
                 _combatResultModalShown = true;
                 ShowCombatResultModal(_combatFinishedVictory.Value);

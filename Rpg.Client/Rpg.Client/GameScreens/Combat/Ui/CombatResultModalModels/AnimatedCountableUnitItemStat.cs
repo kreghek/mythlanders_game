@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
         private bool _countingComplete;
 
-        public AnimatedCountableUnitItemStat(CountableRewardStat item)
+        public AnimatedCountableUnitItemStat(ResourceReward item)
         {
             Amount = item.Amount;
             CurrentValue = item.StartValue;
