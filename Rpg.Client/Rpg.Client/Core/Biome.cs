@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core
 {
@@ -20,6 +21,8 @@ namespace Rpg.Client.Core
         public bool IsStart { get; init; }
 
         public int Level { get; set; }
+
+        public int MonsterLevel => (int)Math.Log(Level, 32) + 1;
 
         public int MinLevel { get; }
 
