@@ -269,6 +269,12 @@ namespace Rpg.Client.Core
                 return;
             }
 
+            if (CurrentUnit.Target is not null && CurrentUnit.Target.Unit.IsDead)
+            {
+                CurrentUnit.Target = null;
+                CurrentUnit.TargetSkill = null;
+            }
+
             var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
