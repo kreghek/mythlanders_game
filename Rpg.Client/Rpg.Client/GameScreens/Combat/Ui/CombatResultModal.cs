@@ -15,13 +15,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int MARGIN = 5;
 
         private readonly ButtonBase _closeButton;
-        private readonly CombatRewards _combatRewards;
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         private readonly CombatResultTitle _title;
-        private readonly IUiContentStorage _uiContentStorage;
-        private CombatItem? _combatItemsLocal;
-        private CombatRewardList? _combatRewardList;
+        private readonly CombatRewardList _combatRewardList;
 
         private double _iterationCounter;
 
@@ -31,17 +27,25 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             CombatResult combatResult,
             CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
         {
-            _uiContentStorage = uiContentStorage;
-            _gameObjectContentStorage = gameObjectContentStorage;
-            _combatRewards = combatRewards;
             CombatResult = combatResult;
             _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+                uiContentStorage.GetButtonTexture(),
+                uiContentStorage.GetMainFont());
             _closeButton.OnClick += CloseButton_OnClick;
 
-            _title = new CombatResultTitle(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetTitlesFont(),
+            _title = new CombatResultTitle(uiContentStorage.GetButtonTexture(), uiContentStorage.GetTitlesFont(),
                 combatResult);
+            
+            var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
+            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x)).ToArray();
+
+            var combatItemsLocal = new CombatRewardsData(biomeProgress, resourceRewards);
+            _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
+                uiContentStorage.GetTitlesFont(),
+                uiContentStorage.GetMainFont(),
+                gameObjectContentStorage.GetEquipmentIcons(),
+                combatItemsLocal
+            );
         }
 
         internal CombatResult CombatResult { get; }
@@ -61,7 +65,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     DrawVictoryBenefits(spriteBatch, benefitsRect);
                     break;
                 case CombatResult.NextCombat:
-                    DrawNextCombatBenefits(spriteBatch, benefitsRect);
+                    // Draw nothing
                     break;
                 case CombatResult.Defeat:
                     DrawDefeatBenefits(spriteBatch, benefitsRect);
@@ -75,22 +79,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _closeButton.Draw(spriteBatch);
         }
 
-        protected override void InitContent()
-        {
-            base.InitContent();
-
-            var biomeProgress = new AnimatedProgressionUnitItemStat(_combatRewards.BiomeProgress);
-            var unitRewards = _combatRewards.InventoryRewards.Select(x => new AnimatedRewardItem(x)).ToArray();
-
-            _combatItemsLocal = new CombatItem(biomeProgress, unitRewards);
-            _combatRewardList = new CombatRewardList(_uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _uiContentStorage.GetMainFont(),
-                _gameObjectContentStorage.GetEquipmentIcons(),
-                _combatItemsLocal
-            );
-        }
-
         protected override void UpdateContent(GameTime gameTime,
             ResolutionIndependentRenderer? resolutionIndependenceRenderer = null)
         {
@@ -100,7 +88,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_iterationCounter >= 0.01)
             {
-                _combatRewardList?.Update();
+                _combatRewardList.Update();
                 _iterationCounter = 0;
             }
 
@@ -115,39 +103,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            var biomeProgress =
-                string.Format(UiResource.CombatResultMonsterDangerDecreasedTemplate,
-                    _combatItemsLocal.BiomeProgress.CurrentValue);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
-                new Vector2(benefitsRect.Center.X, _combatRewardList.Rect.Bottom + MARGIN),
-                Color.Wheat);
-        }
-
-        private void DrawNextCombatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
-        {
+            _combatRewardList.Rect =
+                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
+            _combatRewardList.Draw(spriteBatch);
         }
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            if (_combatItemsLocal is null)
-            {
-                // The modal is not initialized yet.
-                return;
-            }
-
-            if (_combatRewardList is not null)
-            {
-                _combatRewardList.Rect =
-                    new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
-                _combatRewardList.Draw(spriteBatch);
-
-                var biomeProgress =
-                    string.Format(UiResource.CombatResultMonsterDangerIncreasedTemplate,
-                        _combatItemsLocal.BiomeProgress.CurrentValue);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), biomeProgress,
-                    new Vector2(benefitsRect.Center.X, _combatRewardList.Rect.Bottom + MARGIN),
-                    Color.Wheat);
-            }
+            _combatRewardList.Rect =
+                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
+            _combatRewardList.Draw(spriteBatch);
         }
     }
 }

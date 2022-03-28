@@ -1084,7 +1084,7 @@ namespace Rpg.Client.GameScreens.Combat
                         CombatResult.NextCombat,
                         new CombatRewards
                         {
-                            BiomeProgress = new ProgressionRewardStat(),
+                            BiomeProgress = new ResourceReward(),
                             InventoryRewards = Array.Empty<ResourceReward>()
                         });
                 }
@@ -1103,11 +1103,10 @@ namespace Rpg.Client.GameScreens.Combat
                     CombatResult.Defeat,
                     new CombatRewards
                     {
-                        BiomeProgress = new ProgressionRewardStat
+                        BiomeProgress = new ResourceReward
                         {
                             StartValue = _combat.Biome.Level,
-                            Amount = _combat.Biome.Level / 2,
-                            ValueToLevelupSelector = () => 25
+                            Amount = _combat.Biome.Level / 2
                         },
                         InventoryRewards = Array.Empty<ResourceReward>()
                     });

@@ -12,9 +12,9 @@ namespace Rpg.Client.Tests.GameScreens.Combat.Ui
     {
         [Test]
         public void Update_ResourceWasGathered_CurrentValueEqualsStartPlusRewardValues(
-            [Values(0, 1, 2,  1000, -1)]
+            [Values(0, 1, 2, 333, 1000, -1)]
             int rewardAmount,
-            [Values(0, 1, 2, 1000, -1)]
+            [Values(0, 1, 2, 333, 1000, -1)]
             int startAmount)
         {
             // ARRANGE
