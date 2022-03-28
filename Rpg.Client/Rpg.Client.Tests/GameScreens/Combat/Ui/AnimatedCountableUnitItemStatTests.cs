@@ -11,9 +11,8 @@ namespace Rpg.Client.Tests.GameScreens.Combat.Ui
     public class AnimatedCountableUnitItemStatTests
     {
         [Test]
-        [Sequential]
         public void Update_ResourceWasGathered_CurrentValueEqualsStartPlusRewardValues(
-            [Values(1, 2, 0, 1000, -1)]
+            [Values(0, 1, 2,  1000, -1)]
             int rewardAmount,
             [Values(0, 1, 2, 1000, -1)]
             int startAmount)
