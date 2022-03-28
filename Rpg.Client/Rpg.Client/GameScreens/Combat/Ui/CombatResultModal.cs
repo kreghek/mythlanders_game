@@ -13,10 +13,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal sealed class CombatResultModal : ModalDialogBase
     {
         private const int MARGIN = 5;
+        private const int BLOCK_MARGIN = MARGIN;
 
         private readonly ButtonBase _closeButton;
 
         private readonly CombatResultTitle _title;
+        private readonly CombatResultsBiomeProgression _biomeProgression;
         private readonly CombatRewardList _combatRewardList;
 
         private double _iterationCounter;
@@ -37,14 +39,18 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 combatResult);
             
             var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
+
+            _biomeProgression = new CombatResultsBiomeProgression(uiContentStorage.GetButtonTexture(),
+                uiContentStorage.GetMainFont(),
+                biomeProgress);
+            
             var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x)).ToArray();
 
-            var combatItemsLocal = new CombatRewardsData(biomeProgress, resourceRewards);
             _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
                 uiContentStorage.GetTitlesFont(),
                 uiContentStorage.GetMainFont(),
                 gameObjectContentStorage.GetEquipmentIcons(),
-                combatItemsLocal
+                resourceRewards
             );
         }
 
@@ -85,9 +91,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
             _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
+            
             if (_iterationCounter >= 0.01)
             {
+                _combatRewardList.Update();
                 _combatRewardList.Update();
                 _iterationCounter = 0;
             }
@@ -103,15 +110,22 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawDefeatBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
-            _combatRewardList.Rect =
-                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
-            _combatRewardList.Draw(spriteBatch);
+            _biomeProgression.Rect =
+                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
+            _biomeProgression.Draw(spriteBatch);
         }
 
         private void DrawVictoryBenefits(SpriteBatch spriteBatch, Rectangle benefitsRect)
         {
+            _biomeProgression.Rect =
+                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 32));
+            _biomeProgression.Draw(spriteBatch);
+
+            const int REWARD_ITEM_MARGIN = 5;
+            
             _combatRewardList.Rect =
-                new Rectangle(benefitsRect.Location, new Point(benefitsRect.Width, 2 * (32 + 5)));
+                new Rectangle(benefitsRect.Location + new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN),
+                    new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));
             _combatRewardList.Draw(spriteBatch);
         }
     }

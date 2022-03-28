@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -15,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int MARGIN = 5;
         private readonly Texture2D _rewardIconsTexture;
 
-        private readonly CombatRewardsData _combatRewardsData;
+        private readonly IReadOnlyCollection<AnimatedCountableUnitItemStat> _rewardItems;
         private readonly SpriteFont _textFont;
         private readonly SpriteFont _titleFont;
 
@@ -23,17 +24,20 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             SpriteFont titleFont,
             SpriteFont textFont,
             Texture2D rewardIconsTexture,
-            CombatRewardsData combatRewardsData) : base(texture)
+            IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(texture)
         {
             _titleFont = titleFont;
             _textFont = textFont;
             _rewardIconsTexture = rewardIconsTexture;
-            _combatRewardsData = combatRewardsData;
+            _rewardItems = rewardItems;
         }
 
         public void Update()
         {
-            _combatRewardsData.Update();
+            foreach (var item in _rewardItems)
+            {
+                item.Update();
+            }
         }
 
         protected override Color CalculateColor()
@@ -51,24 +55,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int TITLE_HEIGHT = 20; // See title control
 
             const int REWARD_BLOCK_HEIGHT = 20;
-            const int BIOME_PROGRESS_BLOCK_HEIGHT = 20;
             
             var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width,
                 REWARD_BLOCK_HEIGHT);
-            DrawRewardList(spriteBatch, _combatRewardsData.RewardItems.ToArray(), listRect);
-            
-            var biomeProgressRect = new Rectangle(contentRect.X, listRect.Bottom, contentRect.Width,
-                BIOME_PROGRESS_BLOCK_HEIGHT);
-            DrawBiomeProgression(spriteBatch: spriteBatch, biomeProgressRect: biomeProgressRect);
-        }
-
-        private void DrawBiomeProgression(SpriteBatch spriteBatch, Rectangle biomeProgressRect)
-        {
-            var biomeProgress =
-                string.Format(UiResource.CombatResultMonsterDangerIncreasedTemplate,
-                    _combatRewardsData.BiomeProgress.CurrentValue);
-            spriteBatch.DrawString(_textFont, biomeProgress, biomeProgressRect.Location.ToVector2(),
-                Color.Wheat);
+            DrawRewardList(spriteBatch, _rewardItems.ToArray(), listRect);
         }
 
         private void DrawRewardList(SpriteBatch spriteBatch, AnimatedCountableUnitItemStat[] rewardItems,
