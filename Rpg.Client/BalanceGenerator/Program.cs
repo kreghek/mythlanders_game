@@ -95,8 +95,18 @@ namespace BalanceGenerator
                 combat.Update();
 
                 var attacker = combat.CurrentUnit;
+                if (attacker is null)
+                {
+                    throw new InvalidOperationException("Current unit can't be null after the combat starts.");
+                }
+
                 var skill = attacker.CombatCards.First();
                 var target = combat.AliveUnits.FirstOrDefault(x => x != attacker);
+
+                if (target is null)
+                {
+                    throw new InvalidOperationException("The combat ends but Finished property is not equal true.");
+                }
 
                 combat.UseSkill(skill, target);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,6 @@ using Moq;
 using NUnit.Framework;
 
 using Rpg.Client.Assets;
-using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -26,8 +26,7 @@ namespace Rpg.Client.Tests
             var demoUnitCatalog = new DemoUnitSchemeCatalog();
 
             var playerGroup = new Group();
-            var unitScheme = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
-                .SchemeAutoTransition.NextScheme;
+            var unitScheme = GetVolkolakBeastFormScheme(demoUnitCatalog);
 
             var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
 
@@ -69,6 +68,19 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             takenDamageMount.Should().BeGreaterThan(2);
+        }
+
+        private static UnitScheme GetVolkolakBeastFormScheme(IUnitSchemeCatalog demoUnitCatalog)
+        {
+            var volkolakTransition = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
+                .SchemeAutoTransition;
+
+            if (volkolakTransition is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return volkolakTransition.NextScheme;
         }
 
         [Test]
