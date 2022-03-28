@@ -181,13 +181,13 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             _combat.Update();
         }
 
-        private static void ApplyCombatReward(IReadOnlyCollection<CombatRewardsItem> xpItems, Player player)
+        private static void ApplyCombatReward(IReadOnlyCollection<ResourceReward> xpItems, Player player)
         {
             foreach (var item in xpItems)
             {
-                var inventoryItem = player.Inventory.Single(x => x.Type == item.Xp.Type);
+                var inventoryItem = player.Inventory.Single(x => x.Type == item.Type);
 
-                inventoryItem.Amount += item.Xp.Amount;
+                inventoryItem.Amount += item.Amount;
             }
         }
 
@@ -465,27 +465,24 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory,
+        private static ResourceReward CreateReward(IReadOnlyCollection<ResourceItem> inventory,
             EquipmentItemType resourceType, int amount)
         {
             var inventoryItem = inventory.Single(x => x.Type == resourceType);
-            var item = new CombatRewardsItem
+            var item = new ResourceReward
             {
-                Xp = new CountableRewardStat
-                {
-                    StartValue = inventoryItem.Amount,
-                    Amount = amount,
-                    Type = resourceType
-                }
+                StartValue = inventoryItem.Amount,
+                Amount = amount,
+                Type = resourceType
             };
 
             return item;
         }
 
-        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
+        private static ResourceReward CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
         {
-            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
-            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
+            const EquipmentItemType EXPERIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
+            return CreateReward(inventory, EXPERIENCE_POINTS_TYPE, amount);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
@@ -870,7 +867,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
             var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
 
-            var rewardList = new List<CombatRewardsItem>();
+            var rewardList = new List<ResourceReward>();
             if (globeNode.EquipmentItem is not null)
             {
                 var rewardItem = CreateReward(player.Inventory, globeNode.EquipmentItem.Value, amount: 1);
@@ -1074,7 +1071,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         new CombatRewards
                         {
                             BiomeProgress = new ProgressionRewardStat(),
-                            InventoryRewards = Array.Empty<CombatRewardsItem>()
+                            InventoryRewards = Array.Empty<ResourceReward>()
                         });
                 }
             }
@@ -1098,7 +1095,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                             Amount = _combat.Biome.Level / 2,
                             ValueToLevelupSelector = () => 25
                         },
-                        InventoryRewards = Array.Empty<CombatRewardsItem>()
+                        InventoryRewards = Array.Empty<ResourceReward>()
                     });
             }
 
