@@ -18,16 +18,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
         public AnimatedProgressionUnitItemStat(ProgressionRewardStat item)
         {
             _amount = item.Amount;
-            LevelupSelector = item.ValueToLevelupSelector;
             CurrentValue = item.StartValue;
 
             _counterSpeed = CalcCounterSpeed();
         }
 
         public int CurrentValue { get; private set; }
-
-        public int? IsShowLevelUpIndicator { get; private set; }
-        public Func<int> LevelupSelector { get; }
 
         public void Update()
         {
@@ -44,20 +40,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
             CurrentValue += _counterSpeed;
             _countedValue += _counterSpeed;
-
-            if (CurrentValue >= LevelupSelector())
-            {
-                CurrentValue -= LevelupSelector();
-
-                if (IsShowLevelUpIndicator is null)
-                {
-                    IsShowLevelUpIndicator = 1;
-                }
-                else
-                {
-                    IsShowLevelUpIndicator++;
-                }
-            }
 
             if (_countedValue >= _amount)
             {
