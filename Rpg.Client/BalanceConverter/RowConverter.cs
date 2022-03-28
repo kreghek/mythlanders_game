@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 using Rpg.Client.Core;
 
@@ -27,9 +26,10 @@ namespace BalanceConverter
             var basics = new UnitBasics();
 
             var properties = typeof(UnitBasics).GetProperties();
+            var unitBasicRowsArray = unitExcelRows as UnitBasicRow[] ?? unitExcelRows.ToArray();
             foreach (var property in properties)
             {
-                var row = unitExcelRows.Single(x => x.Key == property.Name);
+                var row = unitBasicRowsArray.Single(x => x.Key == property.Name);
                 if (property.PropertyType == typeof(int))
                 {
                     property.SetValue(basics, (int)row.Value);

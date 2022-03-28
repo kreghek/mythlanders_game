@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.SkillEffects;
@@ -24,8 +26,9 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
 
+            var percentage = (int)Math.Round(decreaseDamageEffect.Multiplier * 100, 0, MidpointRounding.AwayFromZero);
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.DecreaseDamageEffectRuleText, decreaseDamageEffect.Multiplier * 100,
+                string.Format(UiResource.DecreaseDamageEffectRuleText, percentage,
                     decreaseDamageEffect.Duration,
                     ruleDirectionText),
                 position, Color.Wheat);

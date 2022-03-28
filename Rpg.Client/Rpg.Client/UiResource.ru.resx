@@ -208,7 +208,7 @@
     <value>Урон: {0}</value>
   </data>
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+    <value>Уменьшает урон на  {0}% по {2} на {1} ходов</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
