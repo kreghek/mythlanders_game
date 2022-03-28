@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+namespace Rpg.Client.GameScreens.Combat
 {
     internal sealed record ProgressionRewardStat
     {

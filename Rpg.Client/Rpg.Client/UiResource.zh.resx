@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="PlayGameButtonTitle" xml:space="preserve">
+    <value>玩个游戏</value>
+  </data>
+  <data name="SettingsButtonTitle" xml:space="preserve">
+    <value>设置</value>
+  </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
-    <value>这是什么</value>
+    <value>新游戏</value>
   </data>
 </root>

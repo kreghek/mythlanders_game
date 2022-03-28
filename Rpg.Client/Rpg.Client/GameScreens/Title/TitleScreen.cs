@@ -68,7 +68,7 @@ namespace Rpg.Client.GameScreens.Title
             else
             {
                 var startButton = new ResourceTextButton(
-                    nameof(UiResource.StartNewGameButtonTitle),
+                    nameof(UiResource.PlayGameButtonTitle),
                     buttonTexture,
                     buttonFont,
                     Rectangle.Empty);
@@ -195,7 +195,7 @@ namespace Rpg.Client.GameScreens.Title
             }
 
             var loadGameButton = new ResourceTextButton(
-                nameof(UiResource.ContinueGameButtonTitle),
+                nameof(UiResource.PlayGameButtonTitle),
                 buttonTexture,
                 font,
                 new Rectangle(0, 0, 100, 25));

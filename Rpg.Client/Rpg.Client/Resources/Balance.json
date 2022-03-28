@@ -1,6 +1,6 @@
 {
   "UnitBasics": {
-    "ARMOR_BASE": 0.5,
+    "ARMOR_BASE": 10,
     "DAMAGE_BASE": 10,
     "HERO_POWER_MULTIPLICATOR": 1,
     "HITPOINTS_BASE": 32,

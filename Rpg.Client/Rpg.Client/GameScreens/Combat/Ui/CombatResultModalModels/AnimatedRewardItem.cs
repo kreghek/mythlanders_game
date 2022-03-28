@@ -2,9 +2,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 {
     internal sealed class AnimatedRewardItem
     {
-        public AnimatedRewardItem(CombatRewardsItem rewardItem)
+        public AnimatedRewardItem(ResourceReward rewardItem)
         {
-            Equipment = new AnimatedCountableUnitItemStat(rewardItem.Xp);
+            Equipment = new AnimatedCountableUnitItemStat(rewardItem);
         }
 
         public AnimatedCountableUnitItemStat? Equipment { get; }

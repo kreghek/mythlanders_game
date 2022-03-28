@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens
 
         public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
         {
-            return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
+            return new[] { 1f, 1f, 1.25f, 1.25f, 1.5f };
         }
 
         public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)

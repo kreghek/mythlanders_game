@@ -241,15 +241,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continue game.
-        /// </summary>
-        internal static string ContinueGameButtonTitle {
-            get {
-                return ResourceManager.GetString("ContinueGameButtonTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Credits.
         /// </summary>
         internal static string CreditsButtonTitle {
@@ -561,6 +552,15 @@ namespace Rpg.Client {
         internal static string PeriodicHealEffectRuleText {
             get {
                 return ResourceManager.GetString("PeriodicHealEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play.
+        /// </summary>
+        internal static string PlayGameButtonTitle {
+            get {
+                return ResourceManager.GetString("PlayGameButtonTitle", resourceCulture);
             }
         }
         
