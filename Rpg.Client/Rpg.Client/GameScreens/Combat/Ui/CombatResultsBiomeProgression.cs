@@ -6,9 +6,8 @@ using Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
-    internal class CombatResultsBiomeProgression: ControlBase
+    internal class CombatResultsBiomeProgression : ControlBase
     {
-        private const int MARGIN = 5;
         private readonly AnimatedCountableUnitItemStat _progression;
         private readonly SpriteFont _textFont;
 
@@ -38,7 +37,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
             const int BIOME_PROGRESS_BLOCK_HEIGHT = 20;
-            
+
             var biomeProgressRect = new Rectangle(contentRect.X, contentRect.Y, contentRect.Width,
                 BIOME_PROGRESS_BLOCK_HEIGHT);
             DrawBiomeProgression(spriteBatch: spriteBatch, biomeProgressRect: biomeProgressRect);
@@ -46,11 +45,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawBiomeProgression(SpriteBatch spriteBatch, Rectangle biomeProgressRect)
         {
-            var biomeProgress =
-                string.Format(UiResource.CombatResultMonsterDangerIncreasedTemplate,
-                    _progression.CurrentValue);
-            spriteBatch.DrawString(_textFont, biomeProgress, biomeProgressRect.Location.ToVector2(),
-                Color.Wheat);
+            var textTemplate = UiResource.CombatResultMonsterDangerIncreasedTemplate;
+            if (_progression.Amount < 0)
+            {
+                textTemplate = UiResource.CombatResultMonsterDangerDecreasedTemplate;
+            }
+
+            var biomeProgress = string.Format(textTemplate, _progression.CurrentValue);
+            spriteBatch.DrawString(_textFont, biomeProgress, biomeProgressRect.Location.ToVector2(), Color.Wheat);
         }
     }
 }
