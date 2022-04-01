@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.Perks;
@@ -34,7 +33,7 @@ namespace Rpg.Client.Core
 
             var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(combatLevel);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
-            var monsterCount = GetMonsterCount(node, biome, availableMonsters, predefinedMinMonsterCount);
+            var monsterCount = GetMonsterCount(node, biome, predefinedMinMonsterCount);
 
             for (var i = 0; i < monsterCount; i++)
             {
@@ -72,7 +71,7 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters,
+        private static int GetMonsterCount(GlobeNode node, Biome biome,
             int predefinedMinMonsterCount)
         {
             if (node.IsLast && !biome.IsComplete)
@@ -80,24 +79,17 @@ namespace Rpg.Client.Core
                 return 1;
             }
 
-            var availableMinMonsterCount =
-                predefinedMinMonsterCount; //Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            return availableMinMonsterCount;
+            return predefinedMinMonsterCount;
         }
 
         private static int[] GetPredefinedMonsterCounts(int combatLevel)
         {
-            /*return biomeLevel switch
+            return combatLevel switch
             {
-                0 => new[] { 2 },
-                1 => new[] { 2, 2, 3 },
-                2 => new[] { 2, 2, 3, 3 },
-                > 3 and <= 10 => new[] { 2, 2, 3, 3, 3, 3 },
-                > 10 => new[] { 3, 3, 3 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };*/
-
-            return new[] { 3 };
+                > 0 and < 10 => new[] { 2, 3 },
+                > 10 => new[] { 3, 3, 4, 4, 5 },
+                _ => new[] { 1 }
+            };
         }
 
         private static int GetUnitLevel(int combatLevel)

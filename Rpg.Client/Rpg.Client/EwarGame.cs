@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
@@ -187,7 +186,7 @@ namespace Rpg.Client
         {
             if (VersionHelper.TryReadVersion(out var version))
             {
-                _logger.LogInformation($"Game version info: {Environment.NewLine}{version}");
+                _logger.LogInformation("Game version info:\n{Version}", version);
             }
             else
             {
@@ -220,7 +219,7 @@ namespace Rpg.Client
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
-                eventCatalog.Init();
+                Services.AddService<IEventInitializer>(eventCatalog);
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
             else
@@ -233,9 +232,12 @@ namespace Rpg.Client
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());
-                eventCatalog.Init();
+                Services.AddService<IEventInitializer>(eventCatalog);
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
+
+            var eventInitializer = Services.GetService<IEventInitializer>();
+            eventInitializer.Init();
 
             Services.AddService(
                 new GlobeProvider(
