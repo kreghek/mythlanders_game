@@ -322,7 +322,8 @@ namespace Rpg.Client.GameScreens.Event
                 var textFragmentControl = new TextFragment(texture,
                     _uiContentStorage.GetMainFont(),
                     textFragment, _gameObjectContentStorage.GetUnitPortrains(),
-                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker))
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
+                    _dice)
                 {
                     UsePortrait = true
                 };

@@ -55,6 +55,8 @@ namespace Rpg.Client.GameScreens.Speech
 
         private bool _isInitialized;
 
+        private Event.Ui.Speech _speech;
+
         public SpeechScreen(EwarGame game) : base(game)
         {
             _random = new Random();
@@ -353,7 +355,8 @@ namespace Rpg.Client.GameScreens.Speech
                     _uiContentStorage.GetTitlesFont(),
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
-                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
+                    _dice);
                 _textFragments.Add(textFragmentControl);
             }
 
