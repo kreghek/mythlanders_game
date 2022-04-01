@@ -1,52 +1,63 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Rpg.Client.Core
 {
     public static class StringHelper
     {
+        public static readonly IReadOnlyList<char> WordBreakers = new[] { ' ' };
         public static string LineBreaking(string text, int maxInLine)
         {
-            var items = text.Split('\n');
-            var sb = new StringBuilder();
+            var items = text.Split(Environment.NewLine);
+            var mainSb = new StringBuilder();
             var singleSb = new StringBuilder();
             foreach (var item in items)
             {
-                var lineItems = item.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var words = item.Split(WordBreakers.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
                 singleSb.Clear();
-                var firstInLine = true;
-                foreach (var lineItem in lineItems)
+                var isFirstInLine = true;
+                foreach (var word in words)
                 {
-                    if (firstInLine)
-                    {
-                        
-                    }
-                    else
-                    {
-                        singleSb.Append(" ");
-                    }
-                    
-                    firstInLine = false;
-
-                    singleSb.Append(lineItem);
+                    AppendWord(word, singleSb, isFirstInLine);
 
                     if (singleSb.Length <= maxInLine)
                     {
-                        sb.Append(lineItem);
+                        AppendWord(word, mainSb, isFirstInLine);
                     }
                     else
                     {
-                        singleSb.Clear();
-                        sb.AppendLine();
-                        
-                        singleSb.Append(lineItem);
-                        sb.Append(lineItem);
+                        StartNewLine(mainSb, singleSb);
+
+                        AppendWord(word, singleSb, isFirstInLine: true);
+                        AppendWord(word, mainSb, isFirstInLine: true);
                     }
+                    
+                    isFirstInLine = false;
                 }
+                
+                StartNewLine(mainSb, singleSb: null);
             }
 
-            return sb.ToString().Trim();
+            return mainSb.ToString().Trim();
+        }
+
+        private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)
+        {
+            singleSb?.Clear();
+            mainSb.AppendLine();
+        }
+
+        private static void AppendWord(string word, StringBuilder sb, bool isFirstInLine)
+        {
+            if (!isFirstInLine)
+            {
+                sb.Append(" ");
+            }
+
+            sb.Append(word);
         }
     }
 }
