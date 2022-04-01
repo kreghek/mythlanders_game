@@ -8,29 +8,20 @@ using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Core
 {
-    internal abstract class EventCatalogBase : IEventCatalog
+    internal abstract class EventCatalogBase : IEventCatalog, IEventInitializer
     {
+        private const int GOAL_TEXT_MAX_SYMBOL_COUNT = 60;
+        
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private IEnumerable<Event> _events = null!;
+        private bool _isInitialized;
 
-        public EventCatalogBase(IUnitSchemeCatalog unitSchemeCatalog)
+        protected EventCatalogBase(IUnitSchemeCatalog unitSchemeCatalog)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
 
-            var rm = PlotResources.ResourceManager;
-            var resourceName = GetPlotResourceName();
-            var serializedPlotString = rm.GetString(resourceName);
-
-            Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
-
-            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
-
-            Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
-
-            var events = CreateEvents(eventStorageModelList);
-
-            AssignEventParents(events, eventStorageModelList);
-
-            Events = events.ToArray();
+            // To init use IEventInitializer.Init()
+            _isInitialized = false;
         }
 
         protected abstract bool SplitIntoPages { get; }
@@ -52,13 +43,13 @@ namespace Rpg.Client.Core
             }
         }
 
-        private IReadOnlyCollection<Event> CreateEvents(EventStorageModel[] eventStorageModelList)
+        private IReadOnlyCollection<Event> CreateEvents(IEnumerable<EventStorageModel> eventStorageModelList)
         {
-            var events = CreateEventsIterator(eventStorageModelList).ToArray();
-            return events;
+            var events = CreateEventsIterator(eventStorageModelList);
+            return events.ToArray();
         }
 
-        private IEnumerable<Event> CreateEventsIterator(EventStorageModel[] eventStorageModelList)
+        private IEnumerable<Event> CreateEventsIterator(IEnumerable<EventStorageModel> eventStorageModelList)
         {
             foreach (var eventStorageModel in eventStorageModelList)
             {
@@ -91,7 +82,9 @@ namespace Rpg.Client.Core
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
                     IsGameStart = isGameStartEvent,
-                    GoalDescription = StringHelper.TempLineBreaking(eventStorageModel.GoalDescription)
+                    GoalDescription = eventStorageModel.GoalDescription is not null ?
+                        StringHelper.LineBreaking(eventStorageModel.GoalDescription,
+                        GOAL_TEXT_MAX_SYMBOL_COUNT) : null
                 };
 
                 yield return plotEvent;
@@ -128,12 +121,45 @@ namespace Rpg.Client.Core
             return eventStorageModel.Sid.StartsWith("Main");
         }
 
-        public IEnumerable<Event> Events { get; }
+        public IEnumerable<Event> Events
+        {
+            get
+            {
+                if (!_isInitialized)
+                {
+                    throw new InvalidOperationException("Init catalog first.");
+                }
+
+                return _events;
+            }
+            private set => _events = value;
+        }
 
         private sealed record LocationInfo
         {
             public BiomeType Biome { get; init; }
             public GlobeNodeSid LocationSid { get; init; }
+        }
+
+        public void Init()
+        {
+            var rm = PlotResources.ResourceManager;
+            var resourceName = GetPlotResourceName();
+            var serializedPlotString = rm.GetString(resourceName);
+
+            Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
+
+            var eventStorageModelList = JsonSerializer.Deserialize<EventStorageModel[]>(serializedPlotString);
+
+            Debug.Assert(eventStorageModelList is not null, "Plot event required to be correctly serializable.");
+
+            var events = CreateEvents(eventStorageModelList);
+
+            AssignEventParents(events, eventStorageModelList);
+
+            Events = events.ToArray();
+            
+            _isInitialized = true;
         }
     }
 }

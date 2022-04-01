@@ -16,21 +16,11 @@ namespace Rpg.Client.Core
         {
             if (!splitIntoPages)
             {
-                var fragments = new List<EventTextFragment>();
-                foreach (var fragmentStorageModel in nodeStorageModel.Fragments)
-                {
-                    fragments.Add(new EventTextFragment
-                    {
-                        Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
-                        Speaker = ParseSpeaker(fragmentStorageModel)
-                    });
-                }
+                var fragments = nodeStorageModel.Fragments.Select(CreateEventTextFragment).ToList();
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
-                EventOption option;
-
-                option = new EventOption
+                var option = new EventOption
                 {
                     TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
                     IsEnd = true,
@@ -55,25 +45,9 @@ namespace Rpg.Client.Core
                 var startStorageFragments = nodeStorageModel.Fragments.Take(5).ToArray();
                 var innerStorageFragments = nodeStorageModel.Fragments.Skip(5).ToArray();
 
-                var fragments = new List<EventTextFragment>();
-                foreach (var fragmentStorageModel in startStorageFragments)
-                {
-                    fragments.Add(new EventTextFragment
-                    {
-                        Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
-                        Speaker = ParseSpeaker(fragmentStorageModel)
-                    });
-                }
+                var fragments = startStorageFragments.Select(CreateEventTextFragment).ToList();
 
-                var innerFragments = new List<EventTextFragment>();
-                foreach (var fragmentStorageModel in innerStorageFragments)
-                {
-                    innerFragments.Add(new EventTextFragment
-                    {
-                        Text = StringHelper.TempLineBreaking(fragmentStorageModel.Text),
-                        Speaker = ParseSpeaker(fragmentStorageModel)
-                    });
-                }
+                var innerFragments = innerStorageFragments.Select(CreateEventTextFragment).ToList();
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
@@ -127,6 +101,18 @@ namespace Rpg.Client.Core
                     }
                 };
             }
+        }
+
+        private const int SPEECH_TEXT_MAX_SYMBOL_COUNT = 60;
+        
+        private static EventTextFragment CreateEventTextFragment(EventTextFragmentStorageModel fragmentStorageModel)
+        {
+            return new EventTextFragment
+            {
+                Text = StringHelper.LineBreaking(fragmentStorageModel.Text, 
+                    SPEECH_TEXT_MAX_SYMBOL_COUNT),
+                Speaker = ParseSpeaker(fragmentStorageModel)
+            };
         }
 
         private static IOptionAftermath? CreateAftermath(string? aftermath, IUnitSchemeCatalog unitSchemeCatalog)

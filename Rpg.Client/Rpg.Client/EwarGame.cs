@@ -220,6 +220,7 @@ namespace Rpg.Client
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
+                eventCatalog.Init();
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
             else
@@ -232,6 +233,7 @@ namespace Rpg.Client
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());
+                eventCatalog.Init();
                 Services.AddService<IEventCatalog>(eventCatalog);
             }
 

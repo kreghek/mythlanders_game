@@ -6,4 +6,9 @@ namespace Rpg.Client.Core
     {
         IEnumerable<Event> Events { get; }
     }
+
+    internal interface IEventInitializer
+    {
+        void Init();
+    }
 }

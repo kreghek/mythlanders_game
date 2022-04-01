@@ -8,7 +8,7 @@
 
         public EventNodeStorageModel BeforeCombatNode { get; set; }
 
-        public string GoalDescription { get; set; }
+        public string? GoalDescription { get; set; }
         public string Location { get; set; }
         public string Name { get; set; }
         public string[]? ParentSids { get; set; }

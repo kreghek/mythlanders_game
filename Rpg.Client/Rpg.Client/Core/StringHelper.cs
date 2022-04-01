@@ -1,38 +1,52 @@
+using System;
 using System.Text;
 
 namespace Rpg.Client.Core
 {
     public static class StringHelper
     {
-        public static string TempLineBreaking(string? text)
+        public static string LineBreaking(string text, int maxInLine)
         {
-            if (text is null)
-            {
-                return null;
-            }
-
             var items = text.Split('\n');
             var sb = new StringBuilder();
+            var singleSb = new StringBuilder();
             foreach (var item in items)
             {
-                if (item.Length > 80)
-                {
-                    var textRemains = item;
-                    do
-                    {
-                        sb.AppendLine(textRemains.Substring(0, 80));
-                        textRemains = textRemains.Remove(0, 80);
-                    } while (textRemains.Length > 80);
+                var lineItems = item.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                    sb.AppendLine(textRemains);
-                }
-                else
+                singleSb.Clear();
+                var firstInLine = true;
+                foreach (var lineItem in lineItems)
                 {
-                    sb.AppendLine(item);
+                    if (firstInLine)
+                    {
+                        
+                    }
+                    else
+                    {
+                        singleSb.Append(" ");
+                    }
+                    
+                    firstInLine = false;
+
+                    singleSb.Append(lineItem);
+
+                    if (singleSb.Length <= maxInLine)
+                    {
+                        sb.Append(lineItem);
+                    }
+                    else
+                    {
+                        singleSb.Clear();
+                        sb.AppendLine();
+                        
+                        singleSb.Append(lineItem);
+                        sb.Append(lineItem);
+                    }
                 }
             }
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
     }
 }
