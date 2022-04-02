@@ -22,7 +22,7 @@ namespace Rpg.Client.Core
 
         public int Level { get; set; }
 
-        public int MonsterLevel => (int)Math.Log(Level, 32) + 1;
+        public int MonsterLevel => (int)Math.Log(Level + 1, 32) + 1;
 
         public int MinLevel { get; }
 

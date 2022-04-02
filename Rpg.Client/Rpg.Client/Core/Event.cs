@@ -9,7 +9,7 @@
         public bool Completed { get; set; }
         public int Counter { get; set; }
 
-        public string GoalDescription { get; set; }
+        public string? GoalDescription { get; set; }
         public bool IsGameStart { get; set; }
         public bool IsHighPriority { get; set; }
         public bool IsUnique { get; set; }

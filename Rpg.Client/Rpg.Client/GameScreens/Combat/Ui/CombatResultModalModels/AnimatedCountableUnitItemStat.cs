@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
         private int _countedValue;
 
-        private bool _countingComplete;
+        public bool IsComplete { get; private set; }
 
         public AnimatedCountableUnitItemStat(ResourceReward item)
         {
@@ -32,14 +32,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
         public void Update()
         {
-            if (_countingComplete)
+            if (IsComplete)
             {
                 return;
             }
 
             if (Amount == 0)
             {
-                _countingComplete = true;
+                IsComplete = true;
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
             if (_countedValue >= Amount)
             {
-                _countingComplete = true;
+                IsComplete = true;
             }
         }
 
@@ -63,11 +63,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
             }
             else
             {
+                var counterSpeedValue = Math.Min(MINIMAL_COUNTER_SPEED, Math.Abs(Amount));
                 counterSpeed = Amount switch
                 {
-                    > 0 => MINIMAL_COUNTER_SPEED,
-                    < 0 => -MINIMAL_COUNTER_SPEED,
-                    _ => MINIMAL_COUNTER_SPEED /*throw new InvalidOperationException(
+                    > 0 => counterSpeedValue,
+                    < 0 => -counterSpeedValue,
+                    _ => counterSpeedValue /*throw new InvalidOperationException(
                             $"{nameof(_amount)} required to be greatest that zero.")*/
                 };
             }

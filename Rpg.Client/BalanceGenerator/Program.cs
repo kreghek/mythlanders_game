@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace BalanceGenerator
 {
-    internal class Program
+    internal static class Program
     {
         private static CombatSource CreateCombatSource(GlobeNode globeNode, Biome biome, LinearDice dice,
             UnitSchemeCatalog unitSchemeCatalog)
@@ -32,7 +32,7 @@ namespace BalanceGenerator
             var balanceTable = new DynamicBalanceTable();
 
             balanceTable.SetTable(new Dictionary<UnitName, BalanceTableRecord>());
-            var results = new List<ItemrationResult>();
+            var results = new List<IterationsResult>();
 
             var globeNode = new GlobeNode
             {
@@ -52,11 +52,11 @@ namespace BalanceGenerator
 
             foreach (var item in results)
             {
-                Console.WriteLine(item.RoundCount);
+                Console.WriteLine($@"Rounds: {item.RoundCount}; Heroes victory: {item.IsHeroesVictory}");
             }
         }
 
-        private static ItemrationResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode,
+        private static IterationsResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode,
             Biome biome, IDice dice, CombatSource combatSource)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
@@ -76,9 +76,17 @@ namespace BalanceGenerator
                 args.Action();
             };
 
+            var isHeroesVictory = false;
+            combat.Finish += (_, args) =>
+            {
+                isHeroesVictory = args.Victory;
+            };
+
             var roundIndex = 1;
             combat.NextRoundStarted += (_, _) =>
             {
+                // ReSharper disable once AccessToModifiedClosure
+                // Justification: We need to count the rounds. We must to change outer variable.
                 roundIndex++;
             };
 
@@ -86,33 +94,43 @@ namespace BalanceGenerator
             {
                 combat.Update();
 
-                /*var attacker = combat.CurrentUnit.Unit;
-                var skill = attacker.Skills[0];
-                var target = combat.AliveUnits.Single(x => x.Unit != attacker);
-                var targetSourceHitPoints = target.Unit.HitPoints;
+                var attacker = combat.CurrentUnit;
+                if (attacker is null)
+                {
+                    throw new InvalidOperationException("Current unit can't be null after the combat starts.");
+                }
 
-                combat.UseSkill(skill, target);*/
+                var skill = attacker.CombatCards.First();
+                var target = combat.AliveUnits.FirstOrDefault(x => x != attacker);
+
+                if (target is null)
+                {
+                    throw new InvalidOperationException("The combat ends but Finished property is not equal true.");
+                }
+
+                combat.UseSkill(skill, target);
 
                 if (roundIndex > 10)
                 {
                     // Fuse against infinite combats.
-                    roundIndex = int.MaxValue;
                     break;
                 }
             } while (!combat.Finished);
 
-            return new ItemrationResult
+            return new IterationsResult
             {
-                RoundCount = roundIndex
+                RoundCount = roundIndex,
+                IsHeroesVictory = isHeroesVictory
             };
         }
 
-        internal sealed class ItemrationResult
+        private sealed class IterationsResult
         {
             public int RoundCount { get; init; }
+            public bool IsHeroesVictory { get; init; }
         }
 
-        internal sealed class DynamicBalanceTable : IBalanceTable
+        private sealed class DynamicBalanceTable : IBalanceTable
         {
             private readonly BalanceTable _balanceTable;
             private IDictionary<UnitName, BalanceTableRecord> _balanceDictionary;

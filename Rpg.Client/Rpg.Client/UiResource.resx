@@ -196,7 +196,7 @@
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
     <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
-                    decreaseDamageEffect.Target</comment>
+      decreaseDamageEffect.Target</comment>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>This is end of the game. Congratulations!{0}Thank you for attention</value>

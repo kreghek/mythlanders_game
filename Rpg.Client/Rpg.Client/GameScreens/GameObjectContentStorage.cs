@@ -266,7 +266,8 @@ namespace Rpg.Client.GameScreens
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Hq, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HqFace") },
+                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/UndefinedFace") },
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
                 { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
                 { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }

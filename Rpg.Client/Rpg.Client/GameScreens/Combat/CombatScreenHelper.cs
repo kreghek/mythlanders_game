@@ -30,11 +30,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             var combatRewards = new CombatRewards
             {
-                BiomeProgress = new ProgressionRewardStat
+                BiomeProgress = new ResourceReward
                 {
                     StartValue = context.BiomeCurrentLevel,
-                    Amount = 1,
-                    ValueToLevelupSelector = () => context.BiomeLevelToBoss
+                    Amount = 1
                 },
                 InventoryRewards = rewardList
             };

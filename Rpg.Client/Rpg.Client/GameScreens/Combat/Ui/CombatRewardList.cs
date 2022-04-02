@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -15,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int MARGIN = 5;
         private readonly Texture2D _rewardIconsTexture;
 
-        private readonly CombatItem _rewardItems;
+        private readonly IReadOnlyCollection<AnimatedCountableUnitItemStat> _rewardItems;
         private readonly SpriteFont _textFont;
         private readonly SpriteFont _titleFont;
 
@@ -23,17 +24,20 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             SpriteFont titleFont,
             SpriteFont textFont,
             Texture2D rewardIconsTexture,
-            CombatItem? combatItemsLocal) : base(texture)
+            IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(texture)
         {
             _titleFont = titleFont;
             _textFont = textFont;
             _rewardIconsTexture = rewardIconsTexture;
-            _rewardItems = combatItemsLocal;
+            _rewardItems = rewardItems;
         }
 
         public void Update()
         {
-            _rewardItems.Update();
+            foreach (var item in _rewardItems)
+            {
+                item.Update();
+            }
         }
 
         protected override Color CalculateColor()
@@ -48,24 +52,27 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
-            const int TITLE_HEIGHT = 20;
+            const int TITLE_HEIGHT = 20; // See title control
 
-            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRect.Location.ToVector2(),
-                Color.White);
-
+            const int REWARD_BLOCK_HEIGHT = 20;
+            
             var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width,
-                contentRect.Height - TITLE_HEIGHT);
-            DrawRewardList(spriteBatch, _rewardItems.UnitItems.ToArray(), listRect);
+                REWARD_BLOCK_HEIGHT);
+            DrawRewardList(spriteBatch, _rewardItems.ToArray(), listRect);
         }
 
-        private void DrawRewardList(SpriteBatch spriteBatch, AnimatedRewardItem[] rewardItems,
+        private void DrawRewardList(SpriteBatch spriteBatch, AnimatedCountableUnitItemStat[] rewardItems,
             Rectangle contentRectangle)
         {
+            const int TITLE_OFFSET = 20; // Title here is the label "Found items"
+            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRectangle.Location.ToVector2(),
+                Color.White);
+            
             const int ITEM_WIDTH = 128;
             const int ITEM_HEIGHT = 32;
             const int CELL_COLS = 3;
 
-            var orderedRewardItems = rewardItems.OrderBy(x => x.Equipment.Type).ToArray();
+            var orderedRewardItems = rewardItems.OrderBy(x => x.Type).ToArray();
 
             for (var itemIndex = 0; itemIndex < orderedRewardItems.Length; itemIndex++)
             {
@@ -75,19 +82,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 var itemCellY = itemIndex / CELL_COLS;
 
                 var itemOffsetVector =
-                    new Vector2(itemCellX * (ITEM_WIDTH + MARGIN), (ITEM_HEIGHT + MARGIN) * itemCellY);
+                    new Vector2(itemCellX * (ITEM_WIDTH + MARGIN), (ITEM_HEIGHT + MARGIN) * itemCellY + TITLE_OFFSET);
 
                 var rewardItemPosition = contentRectangle.Location.ToVector2() + itemOffsetVector;
 
-                var resourceIconRect = GetEquipmentSpriteRect(item.Equipment.Type);
+                var resourceIconRect = GetEquipmentSpriteRect(item.Type);
 
                 spriteBatch.Draw(_rewardIconsTexture, rewardItemPosition, resourceIconRect,
                     Color.White);
 
-                var localizedName = GameObjectHelper.GetLocalized(item.Equipment.Type);
+                var localizedName = GameObjectHelper.GetLocalized(item.Type);
 
                 spriteBatch.DrawString(_textFont,
-                    $"{localizedName}{Environment.NewLine}x{item.Equipment.CurrentValue} (+{item.Equipment.Amount})",
+                    $"{localizedName}{Environment.NewLine}x{item.CurrentValue} (+{item.Amount})",
                     rewardItemPosition + new Vector2(32 + MARGIN, 0),
                     Color.Wheat);
             }
