@@ -1,15 +1,10 @@
-using System;
 using System.Text;
-
-using Microsoft.Xna.Framework.Audio;
-
-using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Event.Ui
 {
     internal sealed class Speech
     {
-        public const float SYMBOL_DELAY_SEC = 0.01f;
+        public const float SYMBOL_DELAY_SEC = 0.05f;
         
         private readonly string _fullText;
         private readonly ISpeechSoundWrapper _speechSound;
@@ -110,56 +105,6 @@ namespace Rpg.Client.GameScreens.Event.Ui
                     _delayUsed = 0;
                 }
             }
-        }
-    }
-
-    internal interface ISpeechSoundWrapper
-    {
-        public double Duration { get; }
-        public void Play();
-    }
-    
-    internal sealed class SpeechSoundWrapper: ISpeechSoundWrapper
-    {
-        private readonly SoundEffect _soundEffect;
-        private SoundEffectInstance? _currentSound;
-
-        public SpeechSoundWrapper(SoundEffect soundEffect)
-        {
-            _soundEffect = soundEffect;
-        }
-
-        public double Duration => _soundEffect.Duration.TotalSeconds;
-        public void Play()
-        {
-            if (_currentSound is not null && _currentSound.State != SoundState.Stopped)
-            {
-                return;
-            }
-
-            _currentSound = _soundEffect.CreateInstance();
-            _currentSound.Volume = 0.5f;
-            _currentSound.Play();
-        }
-    }
-
-    internal interface ISpeechRandomProvider
-    {
-        float RollPlayingSoundOnSymbol();
-    }
-
-    internal sealed class SpeechRandomProvider : ISpeechRandomProvider
-    {
-        private readonly IDice _dice;
-
-        public SpeechRandomProvider(IDice dice)
-        {
-            _dice = dice;
-        }
-
-        public float RollPlayingSoundOnSymbol()
-        {
-            return _dice.Roll(100) * 0.01f;
         }
     }
 }
