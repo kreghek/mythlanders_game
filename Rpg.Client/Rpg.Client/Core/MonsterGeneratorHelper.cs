@@ -10,15 +10,18 @@ namespace Rpg.Client.Core
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int monsterLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
-            var availableMonsters = unitSchemeCatalog.AllMonsters
-                .Where(x => (!HasPerk<BossMonster>(x, monsterLevel)) ||
-                            (HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
+            var availableAllRegularMonsters = unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
+            var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x => HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
                              x.MinRequiredBiomeLevel is not null &&
-                             x.MinRequiredBiomeLevel.Value <= biome.Level))
-                .Where(x => x.Biome == biome.Type &&
-                            ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) ||
-                             x.LocationSids is null))
-                .ToList();
+                             x.MinRequiredBiomeLevel.Value <= biome.Level);
+
+            var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
+
+            var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == biome.Type);
+
+            var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x => (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));
+
+            var availableMonsters = filteredByLocationMonsters.ToList();
 
             if (availableMonsters.Any(x => HasPerk<BossMonster>(x, monsterLevel)))
             {
@@ -37,6 +40,11 @@ namespace Rpg.Client.Core
 
             for (var i = 0; i < monsterCount; i++)
             {
+                if (!availableMonsters.Any())
+                {
+                    break;
+                }
+
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
                 var isRegularMonster = !HasPerk<BossMonster>(scheme, monsterLevel);

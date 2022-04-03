@@ -393,15 +393,27 @@ namespace Rpg.Client.GameScreens.Combat
                                 _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
                             var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
                             _globe.CurrentEvent = startGlobeNode.AssignedEvent;
-                            _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                            if (_globe.CurrentEvent is not null)
+                            {
+                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
-                            _globe.CurrentEvent.Counter++;
+                                _globe.CurrentEvent.Counter++;
+                            }
+
+                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
                             var combatSource = startGlobeNode.CombatSequence.Combats.First();
                             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
                                 combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
 
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            if (_globe.CurrentEvent is not null)
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            }
+                            else
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            }
                         }
                     }
                     else

@@ -194,6 +194,10 @@ namespace Rpg.Client.GameScreens
                 {
                     GameObjectSoundType.FireDamage,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FireDamage")
+                },
+                {
+                    GameObjectSoundType.FrogHornsUp,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FrogHornsUp")
                 }
             };
 

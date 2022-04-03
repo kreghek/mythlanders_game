@@ -191,17 +191,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
 
+            var nameText = $"{unitName} (a{unit.Armor})";
+
             if (side == Side.Left)
             {
                 var unitNamePosition = panelPosition + new Vector2(46, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), nameText, unitNamePosition, Color.White);
             }
             else
             {
-                var textSize = _uiContentStorage.GetMainFont().MeasureString(unitName);
+                var textSize = _uiContentStorage.GetMainFont().MeasureString(nameText);
 
                 var unitNamePosition = panelPosition + new Vector2(146 - textSize.X, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), nameText, unitNamePosition, Color.White);
             }
         }
 

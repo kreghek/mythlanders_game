@@ -22,6 +22,16 @@ namespace Rpg.Client.Core
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
+            unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+        }
+
+        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        {
+            Target = null;
+            TargetSkill = null;
+
+            var skillContext = new CombatSkillContext(this);
+            CombatCards = CreateCombatSkills(Unit.Skills, skillContext);
         }
 
         private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -86,6 +87,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             IList<IInteractionDelivery> interactionDeliveryList, ISkill skill, Action action)
         {
             var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
+
+            if (skillIndex == 0)
+            {
+                Debug.Fail("SkillIndex can npt be 0.");
+                skillIndex = 1;
+            }
+
             var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,
                 interactionDeliveryList,
                 skillIndex);

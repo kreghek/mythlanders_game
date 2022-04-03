@@ -6,6 +6,7 @@ using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Monster;
 
 namespace Rpg.Client.Core
 {
@@ -403,7 +404,7 @@ namespace Rpg.Client.Core
 
                     Levels = new IUnitLevelScheme[]
                     {
-                        new AddSkillUnitLevel(1, new DefenseStanceSkill())
+                        new AddSkillUnitLevel(1, new FrogDefenseStanceSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
