@@ -880,11 +880,10 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
             var combatRewards = new CombatRewards
             {
-                BiomeProgress = new ProgressionRewardStat
+                BiomeProgress = new ResourceReward
                 {
                     StartValue = _combat.Biome.Level,
-                    Amount = 1,
-                    ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
+                    Amount = 1
                 },
                 InventoryRewards = rewardList
             };
@@ -1070,7 +1069,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         CombatResult.NextCombat,
                         new CombatRewards
                         {
-                            BiomeProgress = new ProgressionRewardStat(),
+                            BiomeProgress = new ResourceReward(),
                             InventoryRewards = Array.Empty<ResourceReward>()
                         });
                 }
@@ -1089,11 +1088,10 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     CombatResult.Defeat,
                     new CombatRewards
                     {
-                        BiomeProgress = new ProgressionRewardStat
+                        BiomeProgress = new ResourceReward
                         {
                             StartValue = _combat.Biome.Level,
-                            Amount = _combat.Biome.Level / 2,
-                            ValueToLevelupSelector = () => 25
+                            Amount = -_combat.Biome.Level / 2
                         },
                         InventoryRewards = Array.Empty<ResourceReward>()
                     });
