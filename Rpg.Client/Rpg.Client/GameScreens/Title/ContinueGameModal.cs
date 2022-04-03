@@ -148,9 +148,10 @@ namespace Rpg.Client.GameScreens.Title
                 if (_pageIndex > 0)
                 {
                     _pageIndex--;
-                }
 
-                RefreshGameStartButtons(uiContentStorage);
+
+                    RefreshGameStartButtons(uiContentStorage);
+                }
             };
 
             _pageButtons.Add(upButton);
@@ -159,12 +160,12 @@ namespace Rpg.Client.GameScreens.Title
                 uiContentStorage.GetMainFont());
             downButton.OnClick += (_, _) =>
             {
-                if (_pageIndex < pageCount - 1)
+                if (_pageIndex < pageCount)
                 {
                     _pageIndex++;
-                }
 
-                RefreshGameStartButtons(uiContentStorage);
+                    RefreshGameStartButtons(uiContentStorage);
+                }
             };
 
             _pageButtons.Add(downButton);
