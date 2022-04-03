@@ -54,7 +54,7 @@ namespace Rpg.Client.GameScreens
 
         public static Rectangle GetIconRect(SkillSid sid)
         {
-            const int SPRITE_SHEET_COLUMN_COUNT = 3;
+            const int SPRITE_SHEET_COLUMN_COUNT = 4;
             const int ICON_SIZE = 64;
 
             var iconIndexNullable = GetIconOneBasedIndex(sid);
@@ -114,6 +114,7 @@ namespace Rpg.Client.GameScreens
                 SkillSid.SwordSlashDefensive => 1,
                 SkillSid.SwordSlashInaccurate => 1,
                 SkillSid.WideSwordSlash => 2,
+                SkillSid.GroupProtection=> 15,
                 SkillSid.DefenseStance => 3,
                 SkillSid.SvarogBlastFurnace => 4,
 
