@@ -19,7 +19,7 @@ namespace Rpg.Client {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class GameObjectResources {
@@ -340,6 +340,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dull.
+        /// </summary>
+        internal static string Dull {
+            get {
+                return ResourceManager.GetString("Dull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Egyptian Book of a dead.
         /// </summary>
         internal static string EgyptianBookOfDeath {
@@ -471,6 +480,15 @@ namespace Rpg.Client {
         internal static string Hermitage {
             get {
                 return ResourceManager.GetString("Hermitage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horned frog.
+        /// </summary>
+        internal static string HornedFrog {
+            get {
+                return ResourceManager.GetString("HornedFrog", resourceCulture);
             }
         }
         
@@ -664,6 +682,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stryga.
+        /// </summary>
+        internal static string Stryga {
+            get {
+                return ResourceManager.GetString("Stryga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Svarog&apos;s Blast Furnace.
         /// </summary>
         internal static string SvarogBlastFurnace {
@@ -696,6 +723,15 @@ namespace Rpg.Client {
         internal static string SymbolOfGod {
             get {
                 return ResourceManager.GetString("SymbolOfGod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thar Scarus.
+        /// </summary>
+        internal static string Thar {
+            get {
+                return ResourceManager.GetString("Thar", resourceCulture);
             }
         }
         

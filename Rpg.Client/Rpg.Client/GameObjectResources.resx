@@ -107,8 +107,14 @@
   <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
     <value>Mk3 scout power armor</value><comment>Equipment</comment>
   </data>
+  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="ArcherPulsarBow" xml:space="preserve">
     <value>Pulsar bow</value><comment>Equipment</comment>
+  </data>
+  <data name="ArcherPulsarBowDescription" xml:space="preserve">
+    <value />
   </data>
   <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
@@ -142,6 +148,9 @@
   <data name="BookOfHerbs" xml:space="preserve">
     <value>The book of a herbs</value><comment>Equipment</comment>
   </data>
+  <data name="BookOfHerbsDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="BossMonster" xml:space="preserve">
     <value>The BOSS</value><comment>Perk</comment>
   </data>
@@ -160,6 +169,9 @@
   </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Combat sword</value><comment>Equipment</comment>
+  </data>
+  <data name="CombatSwordDescription" xml:space="preserve">
+    <value />
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
@@ -191,6 +203,9 @@
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
     <comment>Skill</comment>
+  </data>
+  <data name="Dull" xml:space="preserve">
+    <value>Dull</value>
   </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value><comment>Equipment</comment>
@@ -239,9 +254,16 @@
   <data name="HerbBag" xml:space="preserve">
     <value>Herb bag</value><comment>Equipment</comment>
   </data>
+  <data name="HerbBagDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="Hermitage" xml:space="preserve">
     <value>Hermitage</value>
     <comment>Location</comment>
+  </data>
+  <data name="HornedFrog" xml:space="preserve">
+    <value>Horned frog</value>
+    <comment>Monster</comment>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>HQ</value>
@@ -276,6 +298,9 @@
   <data name="Mk2MediumPowerArmor" xml:space="preserve">
     <value>Mk2 medium power armor</value><comment>Equipment</comment>
   </data>
+  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Nano-metal long cloths</value><comment>Equipment</comment>
   </data>
@@ -307,9 +332,16 @@
   <data name="SilverWindNecklace" xml:space="preserve">
     <value>Silver wind necklace</value><comment>Equipment</comment>
   </data>
+  <data name="SilverWindNecklaceDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
     <comment>Skill</comment>
+  </data>
+  <data name="Stryga" xml:space="preserve">
+    <value>Stryga</value>
+    <comment>Monster</comment>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
@@ -325,6 +357,9 @@
   </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value><comment>Equipment</comment>
+  </data>
+  <data name="Thar" xml:space="preserve">
+    <value>Thar Scarus</value>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>The Thicket</value>
@@ -365,38 +400,17 @@
   <data name="WomanShort" xml:space="preserve">
     <value>Woman short</value><comment>Equipment</comment>
   </data>
+  <data name="WomanShortDescription" xml:space="preserve">
+    <value />
+  </data>
   <data name="WoodenHandSculpture" xml:space="preserve">
     <value>Wooden hand sculpture</value><comment>Equipment</comment>
-  </data>
-  <data name="ZduhachMight" xml:space="preserve">
-      <value>Zduhach Might</value>
-    <comment>Skill</comment>
-  </data>
-  <data name="CombatSwordDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
-    <value />
   </data>
   <data name="WoodenHandSculptureDescription" xml:space="preserve">
     <value />
   </data>
-  <data name="ArcherPulsarBowDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SilverWindNecklaceDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HerbBagDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="WomanShortDescription" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BookOfHerbsDescription" xml:space="preserve">
-    <value />
+  <data name="ZduhachMight" xml:space="preserve">
+      <value>Zduhach Might</value>
+    <comment>Skill</comment>
   </data>
 </root>

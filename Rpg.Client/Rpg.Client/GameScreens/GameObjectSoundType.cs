@@ -19,6 +19,7 @@
         FireDamage,
         StaffHit,
         BearBludgeon,
-        FrogHornsUp
+        FrogHornsUp,
+        Gunshot
     }
 }

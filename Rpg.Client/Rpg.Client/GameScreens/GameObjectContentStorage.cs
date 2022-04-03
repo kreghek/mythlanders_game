@@ -84,8 +84,8 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Thar, LoadHeroTexture(contentManager, "Warrior") },
-                { UnitName.Dull, LoadHeroTexture(contentManager, "Warrior") },
+                { UnitName.Thar, LoadHeroTexture(contentManager, "Soldier") },
+                { UnitName.Dull, LoadHeroTexture(contentManager, "Soldier") },
                 { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
                 { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
                 { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
@@ -101,7 +101,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
                 { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
                 { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") }
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
+                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -198,6 +199,10 @@ namespace Rpg.Client.GameScreens
                 {
                     GameObjectSoundType.FrogHornsUp,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FrogHornsUp")
+                },
+                {
+                    GameObjectSoundType.Gunshot,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Gunshot")
                 }
             };
 

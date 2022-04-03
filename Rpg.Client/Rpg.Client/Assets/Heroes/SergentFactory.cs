@@ -22,14 +22,14 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SwordsmanGraphicsConfig();
+            return new SingleSpriteMonsterGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new SwordSlashSkill()),
+                new AddSkillUnitLevel(1, new RifleShotSkill()),
                 new AddSkillUnitLevel(1, new SwordSlashDefensiveSkill(true)),
                 new AddSkillUnitLevel(2, new WideSlashSkill(true)),
                 new AddPerkUnitLevel(2, new ImprovedHitPoints()),

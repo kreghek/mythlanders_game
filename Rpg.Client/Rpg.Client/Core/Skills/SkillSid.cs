@@ -60,6 +60,8 @@ namespace Rpg.Client.Core.Skills
         ShotOfHate,
         WarCry,
         TribeDefender,
-        GroupProtection
+        GroupProtection,
+        RifleShot,
+        Shotgun
     }
 }
