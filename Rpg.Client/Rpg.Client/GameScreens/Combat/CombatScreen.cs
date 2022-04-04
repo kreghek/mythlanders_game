@@ -34,6 +34,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
+        private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -98,6 +99,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
+            _farLayerObjects = backgroundObjectFactory.CreateFarLayerObjects();
 
             _settings = game.Services.GetService<GameSettings>();
 
@@ -108,7 +110,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Vector2(305, 350),
                 new Vector2(215, 250),
                 new Vector2(215, 350),
-                new Vector2(165, 300)
+                new Vector2(265, 300)
             };
 
             _screenShaker = new ScreenShaker();
@@ -590,6 +592,13 @@ namespace Rpg.Client.GameScreens.Combat
                 if (i == 0 /*Cloud layer*/)
                 {
                     foreach (var obj in _cloudLayerObjects)
+                    {
+                        obj.Draw(spriteBatch);
+                    }
+                }
+                else if (i == 1 /* Far layer */)
+                {
+                    foreach (var obj in _farLayerObjects)
                     {
                         obj.Draw(spriteBatch);
                     }
@@ -1133,6 +1142,11 @@ namespace Rpg.Client.GameScreens.Combat
         private void UpdateBackgroundObjects(GameTime gameTime)
         {
             foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _farLayerObjects)
             {
                 obj.Update(gameTime);
             }
