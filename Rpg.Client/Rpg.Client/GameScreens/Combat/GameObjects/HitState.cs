@@ -12,8 +12,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private readonly AnimationBlocker? _animationBlocker;
         private readonly SkillAnimationInfo _animationInfo;
+        private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
-        private readonly int _index;
 
         private int _animationItemIndex;
         private bool _animationStarted;
@@ -22,39 +22,36 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private bool _interactionExecuted;
 
         public HitState(UnitGraphics graphics,
-            SkillAnimationInfo animationInfo, int index)
-            : this(graphics, default, animationInfo, index)
+            SkillAnimationInfo animationInfo, AnimationSid animationSid)
+            : this(graphics, default, animationInfo, animationSid)
         {
         }
 
-        public HitState(
+        private HitState(
             UnitGraphics graphics,
             AnimationBlocker? animationBlocker,
             SkillAnimationInfo animationInfo,
-            int index)
+            AnimationSid animationSid)
         {
-            _index = index;
             _animationBlocker = animationBlocker;
             _animationInfo = animationInfo;
+            _animationSid = animationSid;
             _graphics = graphics;
         }
 
         private void HandleStateEnding()
         {
-            if (_animationBlocker is not null)
-            {
-                _animationBlocker.Release();
-            }
+            _animationBlocker?.Release();
         }
 
         private static void HandleStateExecution(Action interaction, SoundEffectInstance interactionSound)
         {
             interactionSound.Play();
 
-            interaction?.Invoke();
+            interaction.Invoke();
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
@@ -69,9 +66,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (!_animationStarted)
             {
-                var skillText = $"Skill{_index}";
-                var sid = Enum.Parse<AnimationSid>(skillText);
-                _graphics.PlayAnimation(sid);
+                _graphics.PlayAnimation(_animationSid);
 
                 _animationStarted = true;
             }

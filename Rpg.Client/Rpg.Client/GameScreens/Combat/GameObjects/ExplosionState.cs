@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -17,7 +16,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _hitSound;
-        private readonly int _index;
+        private readonly AnimationSid _animationSid;
         private readonly IInteractionDelivery _interactionDelivery;
         private double _counter;
 
@@ -34,12 +33,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public ExplosionState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance? hitSound,
-            int index, SoundEffectInstance explosionSoundEffect) :
+            AnimationSid animationSid, SoundEffectInstance explosionSoundEffect) :
             this(graphics, bulletGameObject, interactionDeliveryList)
         {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
-            _index = index;
+            _animationSid = animationSid;
             _explosionSoundEffect = explosionSoundEffect;
         }
 
@@ -58,9 +57,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                var skillText = $"Skill{_index}";
-                var sid = Enum.Parse<AnimationSid>(skillText);
-                _graphics.PlayAnimation(sid);
+                _graphics.PlayAnimation(_animationSid);
 
                 _explosionSoundEffect.Play();
             }

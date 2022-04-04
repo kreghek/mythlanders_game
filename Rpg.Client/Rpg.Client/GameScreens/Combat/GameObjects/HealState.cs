@@ -13,20 +13,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly UnitGraphics _graphics;
         private readonly Action _healInteraction;
         private readonly SoundEffectInstance _hitSound;
-        private readonly int _index;
+        private readonly AnimationSid _animationSid;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound, int index)
+        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;
             _hitSound = hitSound;
-            _index = index;
+            _animationSid = animationSid;
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
@@ -38,9 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                var skillText = $"Skill{_index}";
-                var sid = Enum.Parse<AnimationSid>(skillText);
-                _graphics.PlayAnimation(sid);
+                _graphics.PlayAnimation(_animationSid);
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

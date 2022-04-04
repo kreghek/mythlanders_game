@@ -12,17 +12,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private const double DURATION = 0.25;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
-        private readonly int _skillIndex;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
+        private readonly AnimationSid _animationSid;
         private double _counter;
 
-        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, int skillIndex)
+        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, AnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;
-            _skillIndex = skillIndex;
+            _animationSid = animationSid;
             _graphics = graphics;
             _graphicsRoot = graphicsRoot;
         }
@@ -46,9 +46,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             if (_counter == 0)
             {
-                var skillText = $"Skill{_skillIndex}";
-                var sid = Enum.Parse<AnimationSid>(skillText);
-                _graphics.PlayAnimation(sid);
+                _graphics.PlayAnimation(_animationSid);
             }
 
             if (_counter <= DURATION)

@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -16,14 +17,14 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action attackInteractions, int index)
+            AnimationBlocker blocker, Action attackInteractions, AnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(graphics, graphicsRoot, targetPosition, index),
-                new MassHitState(graphics, attackInteractions, index),
+                new MoveToTarget(graphics, graphicsRoot, targetPosition, animationSid),
+                new MassHitState(graphics, attackInteractions, animationSid),
                 new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
             _graphics = graphics;
