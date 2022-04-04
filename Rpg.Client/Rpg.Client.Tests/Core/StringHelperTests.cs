@@ -10,17 +10,6 @@ namespace Rpg.Client.Tests.Core
     [TestFixture]
     public class StringHelperTests
     {
-        [Test]
-        [TestCaseSource(nameof(GetTestCases))]
-        public string LineBreaking_TestCases_ReturnsExpectedWordBreaking(string source, int maxInLine)
-        {
-            // ACT
-            var fact = StringHelper.LineBreaking(source, maxInLine);
-
-            // ASSERT
-            return fact;
-        }
-
         public static IEnumerable GetTestCases()
         {
             yield return new TestCaseData("1", 60).Returns("1");
@@ -49,6 +38,17 @@ namespace Rpg.Client.Tests.Core
 
             yield return new TestCaseData("1" + Environment.NewLine + "2" + Environment.NewLine + "3", 60)
                 .Returns("1" + Environment.NewLine + "2" + Environment.NewLine + "3");
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetTestCases))]
+        public string LineBreaking_TestCases_ReturnsExpectedWordBreaking(string source, int maxInLine)
+        {
+            // ACT
+            var fact = StringHelper.LineBreaking(source, maxInLine);
+
+            // ASSERT
+            return fact;
         }
     }
 }

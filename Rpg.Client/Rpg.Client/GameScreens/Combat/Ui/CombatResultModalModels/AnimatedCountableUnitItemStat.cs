@@ -13,8 +13,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
 
         private int _countedValue;
 
-        public bool IsComplete { get; private set; }
-
         public AnimatedCountableUnitItemStat(ResourceReward item)
         {
             Amount = item.Amount;
@@ -27,6 +25,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui.CombatResultModalModels
         public int Amount { get; }
 
         public int CurrentValue { get; private set; }
+
+        public bool IsComplete { get; private set; }
 
         public EquipmentItemType Type { get; }
 

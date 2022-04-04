@@ -126,8 +126,8 @@ namespace BalanceGenerator
 
         private sealed class IterationsResult
         {
-            public int RoundCount { get; init; }
             public bool IsHeroesVictory { get; init; }
+            public int RoundCount { get; init; }
         }
 
         private sealed class DynamicBalanceTable : IBalanceTable

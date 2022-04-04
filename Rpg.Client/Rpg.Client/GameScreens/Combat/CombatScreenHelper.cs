@@ -57,7 +57,6 @@ namespace Rpg.Client.GameScreens.Combat
                 StartValue = currentAmount,
                 Amount = amount,
                 Type = resourceType
-
             };
 
             return item;

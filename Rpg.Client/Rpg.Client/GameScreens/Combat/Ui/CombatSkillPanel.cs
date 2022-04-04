@@ -39,8 +39,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             IsEnabled = true;
         }
 
-        public bool IsEnabled { get; set; }
-
         public ICombatUnit? CombatUnit
         {
             get => _unit;
@@ -58,6 +56,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 RecreateButtons();
             }
         }
+
+        public bool IsEnabled { get; set; }
 
         protected override Color CalculateColor()
         {

@@ -10,16 +10,19 @@ namespace Rpg.Client.Core
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int monsterLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
-            var availableAllRegularMonsters = unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
-            var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x => HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
-                             x.MinRequiredBiomeLevel is not null &&
-                             x.MinRequiredBiomeLevel.Value <= biome.Level);
+            var availableAllRegularMonsters =
+                unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
+            var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x =>
+                HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
+                x.MinRequiredBiomeLevel is not null &&
+                x.MinRequiredBiomeLevel.Value <= biome.Level);
 
             var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
 
             var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == biome.Type);
 
-            var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x => (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));
+            var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x =>
+                (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));
 
             var availableMonsters = filteredByLocationMonsters.ToList();
 

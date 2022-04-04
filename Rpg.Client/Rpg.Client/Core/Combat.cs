@@ -34,8 +34,6 @@ namespace Rpg.Client.Core
             ModifiersProcessor = new ModifiersProcessor();
         }
 
-        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
-
         public Biome Biome { get; }
 
         public CombatUnit? CurrentUnit
@@ -76,13 +74,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IDice Dice { get; }
-
-        public EffectProcessor EffectProcessor { get; }
-
         public bool IsAutoplay { get; }
-
-        public ModifiersProcessor ModifiersProcessor { get; }
 
         public GlobeNode Node { get; }
 
@@ -117,17 +109,6 @@ namespace Rpg.Client.Core
 
         private bool IsCurrentStepCompleted { get; set; }
 
-        public void Pass()
-        {
-            if (CurrentUnit is null)
-            {
-                Debug.Fail("Current unit must be assigned");
-            }
-
-            UnitPassedTurn?.Invoke(this, CurrentUnit);
-            CompleteStep();
-        }
-
         public void Surrender()
         {
             var playerCombatUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled).ToArray();
@@ -151,7 +132,6 @@ namespace Rpg.Client.Core
             {
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
-
 
             Action action = () =>
             {
@@ -309,6 +289,33 @@ namespace Rpg.Client.Core
             Debug.Fail("Required at least one skill was used.");
         }
 
+        private void AssignCpuTargetUnits()
+        {
+            var dice = GetDice();
+            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
+            {
+                var skillsOpenList = cpuUnit.CombatCards.ToList();
+                while (skillsOpenList.Any())
+                {
+                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                    skillsOpenList.Remove(skill);
+
+                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
+
+                    if (!possibleTargetList.Any())
+                    {
+                        continue;
+                        // There are no targets. Try another skill.
+                    }
+
+                    var targetUnit = dice.RollFromList(possibleTargetList);
+                    cpuUnit.Target = targetUnit;
+
+                    cpuUnit.TargetSkill = skill;
+                }
+            }
+        }
+
         private static bool CheckUnitIsAvailable(Unit unit)
         {
             // Some of the player persons can be killed in previous combat in a combat sequence.
@@ -441,34 +448,6 @@ namespace Rpg.Client.Core
             _round++;
         }
 
-        private void AssignCpuTargetUnits()
-        {
-            var dice = GetDice();
-            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
-            {
-                var skillsOpenList = cpuUnit.CombatCards.ToList();
-                while (skillsOpenList.Any())
-                {
-
-                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
-                    skillsOpenList.Remove(skill);
-
-                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
-
-                    if (!possibleTargetList.Any())
-                    {
-                        continue;
-                        // There are no targets. Try another skill.
-                    }
-
-                    var targetUnit = dice.RollFromList(possibleTargetList);
-                    cpuUnit.Target = targetUnit;
-
-                    cpuUnit.TargetSkill = skill;
-                }
-            }
-        }
-
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
         {
             if (sender is not Unit unit)
@@ -507,6 +486,25 @@ namespace Rpg.Client.Core
             {
                 CompleteStep();
             }
+        }
+
+        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
+
+        public IDice Dice { get; }
+
+        public EffectProcessor EffectProcessor { get; }
+
+        public ModifiersProcessor ModifiersProcessor { get; }
+
+        public void Pass()
+        {
+            if (CurrentUnit is null)
+            {
+                Debug.Fail("Current unit must be assigned");
+            }
+
+            UnitPassedTurn?.Invoke(this, CurrentUnit);
+            CompleteStep();
         }
 
         public event EventHandler? NextRoundStarted;

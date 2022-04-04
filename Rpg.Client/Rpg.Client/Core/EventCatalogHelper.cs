@@ -8,6 +8,8 @@ namespace Rpg.Client.Core
 {
     internal static class EventCatalogHelper
     {
+        private const int SPEECH_TEXT_MAX_SYMBOL_COUNT = 60;
+
         public static EventNode BuildEventNode(
             EventNodeStorageModel nodeStorageModel, EventPosition position,
             string? aftermath,
@@ -103,18 +105,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private const int SPEECH_TEXT_MAX_SYMBOL_COUNT = 60;
-
-        private static EventTextFragment CreateEventTextFragment(EventTextFragmentStorageModel fragmentStorageModel)
-        {
-            return new EventTextFragment
-            {
-                Text = StringHelper.LineBreaking(fragmentStorageModel.Text,
-                    SPEECH_TEXT_MAX_SYMBOL_COUNT),
-                Speaker = ParseSpeaker(fragmentStorageModel)
-            };
-        }
-
         private static IOptionAftermath? CreateAftermath(string? aftermath, IUnitSchemeCatalog unitSchemeCatalog)
         {
             IOptionAftermath? optionAftermath = null;
@@ -142,6 +132,16 @@ namespace Rpg.Client.Core
             }
 
             return optionAftermath;
+        }
+
+        private static EventTextFragment CreateEventTextFragment(EventTextFragmentStorageModel fragmentStorageModel)
+        {
+            return new EventTextFragment
+            {
+                Text = StringHelper.LineBreaking(fragmentStorageModel.Text,
+                    SPEECH_TEXT_MAX_SYMBOL_COUNT),
+                Speaker = ParseSpeaker(fragmentStorageModel)
+            };
         }
 
         private static UnitName ParseSpeaker(EventTextFragmentStorageModel fragmentStorageModel)

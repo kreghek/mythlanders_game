@@ -31,6 +31,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
+        private readonly EventNode _currentEventNode;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -57,7 +58,12 @@ namespace Rpg.Client.GameScreens.VoiceCombat
         private bool _combatResultModalShown;
         private CombatSkillPanel? _combatSkillsPanel;
 
+        private double _counter;
+
+        private int _currentFragmentIndex;
+
         private bool _finalBossWasDefeat;
+        private int _frameIndex;
 
 
         private bool _interactButtonClicked;
@@ -537,20 +543,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             }
         }
 
-        private void DrawCombatSkillsPanel(SpriteBatch spriteBatch)
-        {
-            if (_combatSkillsPanel is not null)
-            {
-                const int COMBAT_SKILLS_PANEL_WIDTH = 480;
-                const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
-                _combatSkillsPanel.Rect = new Rectangle(
-                    _resolutionIndependentRenderer.VirtualBounds.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
-                    _resolutionIndependentRenderer.VirtualBounds.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
-                    COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
-                _combatSkillsPanel.Draw(spriteBatch);
-            }
-        }
-
         private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
             if (_globeNode.CombatSequence is not null)
@@ -569,6 +561,20 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     string.Format(UiResource.MonsterDangerTemplate, _combat.CombatSource.Level),
                     position + new Vector2(0, 10), Color.White);
+            }
+        }
+
+        private void DrawCombatSkillsPanel(SpriteBatch spriteBatch)
+        {
+            if (_combatSkillsPanel is not null)
+            {
+                const int COMBAT_SKILLS_PANEL_WIDTH = 480;
+                const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
+                _combatSkillsPanel.Rect = new Rectangle(
+                    _resolutionIndependentRenderer.VirtualBounds.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
+                    _resolutionIndependentRenderer.VirtualBounds.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
+                    COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
+                _combatSkillsPanel.Draw(spriteBatch);
             }
         }
 
@@ -679,11 +685,13 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             spriteBatch.End();
         }
 
-        private double _counter;
-
-        private int _currentFragmentIndex;
-        private int _frameIndex;
-        private readonly EventNode _currentEventNode;
+        private void DrawInteractionButtons(SpriteBatch spriteBatch)
+        {
+            foreach (var button in _interactionButtons)
+            {
+                button.Draw(spriteBatch);
+            }
+        }
 
         private void DrawSpeaker(SpriteBatch spriteBatch)
         {
@@ -705,14 +713,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                 Color.White);
 
             spriteBatch.End();
-        }
-
-        private void DrawInteractionButtons(SpriteBatch spriteBatch)
-        {
-            foreach (var button in _interactionButtons)
-            {
-                button.Draw(spriteBatch);
-            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)

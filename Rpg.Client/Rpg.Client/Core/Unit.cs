@@ -33,6 +33,9 @@ namespace Rpg.Client.Core
 
         public int Damage => CalcDamage();
 
+        public int EnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+                                     (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
+
         public IReadOnlyList<Equipment> Equipments { get; }
 
         public IReadOnlyCollection<GlobalUnitEffect> GlobalEffects => _globalEffects;
@@ -56,9 +59,6 @@ namespace Rpg.Client.Core
 
         public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) *
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
-
-        public int EnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
-                                   (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
 

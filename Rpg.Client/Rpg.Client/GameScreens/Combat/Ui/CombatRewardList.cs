@@ -65,7 +65,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             Rectangle contentRectangle)
         {
             const int TITLE_OFFSET = 20; // Title here is the label "Found items"
-            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRectangle.Location.ToVector2(),
+            spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel,
+                contentRectangle.Location.ToVector2(),
                 Color.White);
 
             const int ITEM_WIDTH = 128;

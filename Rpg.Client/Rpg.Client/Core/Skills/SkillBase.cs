@@ -23,8 +23,10 @@ namespace Rpg.Client.Core.Skills
             }
         }
 
-        public int? BaseEnergyCost { get; }
         public int? BaseGreenEnergyCost { get; }
+        public virtual int Weight => BASE_WEIGHT;
+
+        public int? BaseEnergyCost { get; }
 
 
         public abstract IEnumerable<EffectRule> Rules { get; }
@@ -38,6 +40,5 @@ namespace Rpg.Client.Core.Skills
         public virtual int UsageCount { get; }
 
         public SkillVisualization Visualization { get; }
-        public virtual int Weight => BASE_WEIGHT;
     }
 }

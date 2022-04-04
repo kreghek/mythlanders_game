@@ -22,9 +22,9 @@ namespace Rpg.Client.Core
 
         public int Level { get; set; }
 
-        public int MonsterLevel => (int)Math.Log(Level + 1, 32) + 1;
-
         public int MinLevel { get; }
+
+        public int MonsterLevel => (int)Math.Log(Level + 1, 32) + 1;
 
         public IEnumerable<GlobeNode> Nodes { get; init; }
         public BiomeType Type { get; }

@@ -14,9 +14,11 @@ namespace Rpg.Client.Core
             _combatSkillContext = combatSkillContext ?? throw new ArgumentNullException(nameof(combatSkillContext));
         }
 
+        public int EnergyCost => GetEnergyCost(Skill.BaseEnergyCost);
+
         public bool IsAvailable => IsCombatEnergyEnough();
 
-        public int EnergyCost => GetEnergyCost(Skill.BaseEnergyCost);
+        public ISkill Skill { get; }
 
         private static int GetEnergyCost(int? baseEnergyCost)
         {
@@ -27,8 +29,6 @@ namespace Rpg.Client.Core
 
             return baseEnergyCost.Value;
         }
-
-        public ISkill Skill { get; }
 
         private bool IsCombatEnergyEnough()
         {

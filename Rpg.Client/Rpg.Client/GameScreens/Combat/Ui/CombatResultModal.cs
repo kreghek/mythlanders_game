@@ -14,12 +14,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private const int MARGIN = 5;
         private const int BLOCK_MARGIN = MARGIN;
+        private readonly CombatResultsBiomeProgression _biomeProgression;
 
         private readonly ButtonBase _closeButton;
+        private readonly CombatRewardList _combatRewardList;
 
         private readonly CombatResultTitle _title;
-        private readonly CombatResultsBiomeProgression _biomeProgression;
-        private readonly CombatRewardList _combatRewardList;
 
         private double _iterationCounter;
 
@@ -44,7 +44,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 uiContentStorage.GetMainFont(),
                 biomeProgress);
 
-            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x)).ToArray();
+            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
+                .ToArray();
 
             _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
                 uiContentStorage.GetTitlesFont(),

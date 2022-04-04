@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework.Audio;
 
 namespace Rpg.Client.GameScreens.Event.Ui
 {
@@ -14,6 +13,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
         }
 
         public double Duration => _soundEffect.Duration.TotalSeconds;
+
         public void Play()
         {
             if (_currentSound is not null && _currentSound.State != SoundState.Stopped)

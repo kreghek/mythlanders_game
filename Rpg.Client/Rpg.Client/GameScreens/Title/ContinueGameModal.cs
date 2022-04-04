@@ -149,7 +149,6 @@ namespace Rpg.Client.GameScreens.Title
                 {
                     _pageIndex--;
 
-
                     RefreshGameStartButtons(uiContentStorage);
                 }
             };
