@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal sealed class SkillsInfoPanel : PanelBase
     {
-        private const int ICON_SIZE = 64;
+        private const int ICON_SIZE = 32;
         private const int MARGIN = 5;
         private readonly SpriteFont _mainFont;
 
@@ -62,9 +62,9 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 spriteBatch.DrawString(_mainFont, skillNameText,
                     skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
 
-                if (skillButton.Entity.ManaCost is not null)
+                if (skillButton.Entity.BaseEnergyCost is not null)
                 {
-                    var manaCostText = string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.ManaCost);
+                    var manaCostText = string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.BaseEnergyCost);
                     spriteBatch.DrawString(_mainFont, manaCostText,
                         skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }

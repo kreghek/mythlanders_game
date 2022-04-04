@@ -118,6 +118,7 @@ namespace Rpg.Client.GameComponents
                 "herbalist" => SystemEventMarker.MeetHerbalist,
 
                 "monk" => SystemEventMarker.MeetMonk,
+                "spearman" => SystemEventMarker.MeetSpearman,
                 "missionary" => SystemEventMarker.MeetMissionary,
 
                 "priest" => SystemEventMarker.MeetPriest,
@@ -135,6 +136,7 @@ namespace Rpg.Client.GameComponents
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Rada],
 
                 "monk" => unitSchemeCatalog.Heroes[UnitName.Maosin],
+                "spearman" => unitSchemeCatalog.Heroes[UnitName.Ping],
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Cheng],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Kakhotep],

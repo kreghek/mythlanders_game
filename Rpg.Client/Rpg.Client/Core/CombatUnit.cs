@@ -3,36 +3,54 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core
 {
     internal sealed class CombatUnit : ICombatUnit
     {
-        private readonly CombatSkillContext _skillContext;
-
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
             Index = slot.Index;
             IsInTankLine = slot.IsTankLine;
-
-            _skillContext = new CombatSkillContext(this);
+            EnergyPool = unit.EnergyPoolSize;
 
             var skillContext = new CombatSkillContext(this);
-
-            var cards = unit.Skills.Select(skill => new CombatSkill(skill, skillContext)).ToList();
-
-            CombatCards = cards;
+            CombatCards = CreateCombatSkills(unit.Skills, skillContext);
 
             unit.HasBeenDamaged += Unit_HasBeenDamaged;
             unit.HasBeenHealed += Unit_BeenHealed;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
+            unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
+
+        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        {
+            Target = null;
+            TargetSkill = null;
+
+            var skillContext = new CombatSkillContext(this);
+            CombatCards = CreateCombatSkills(Unit.Skills, skillContext);
+        }
+
+        private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
+            ICombatSkillContext combatSkillContext)
+        {
+            return unitSkills.Select(skill => new CombatSkill(skill, combatSkillContext)).ToList();
+        }
+
+        public CombatUnit? Target { get; set; }
+
+        public CombatSkill? TargetSkill { get; set; }
 
         public IReadOnlyList<CombatSkill> CombatCards { get; private set; }
 
         public int Index { get; }
 
         public bool IsInTankLine { get; }
+
+        public int EnergyPool { get; set; }
 
         public CombatUnitState State { get; private set; }
 
@@ -43,7 +61,7 @@ namespace Rpg.Client.Core
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
         }
 
-        internal void ChangeState(CombatUnitState targetState)
+        public void ChangeState(CombatUnitState targetState)
         {
             State = targetState;
         }
@@ -72,25 +90,21 @@ namespace Rpg.Client.Core
             HasTakenDamage?.Invoke(this, args);
         }
 
-        public void RollCombatSkills(IDice dice)
-        {
-            var list = new List<CombatSkill>();
-            for (var i = 0; i < 4; i++)
-            {
-                var rolledSkill = dice.RollFromList(Unit.Skills.ToArray());
-                var skillCard = new CombatSkill(rolledSkill, _skillContext);
-                list.Add(skillCard);
-            }
-
-            CombatCards = list;
-        }
-
         public Unit Unit { get; }
 
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
 
         internal event EventHandler? HasAvoidedDamage;
+
+        public void RestoreEnergyPoint()
+        {
+            EnergyPool++;
+            if (EnergyPool > Unit.EnergyPoolSize)
+            {
+                EnergyPool = Unit.EnergyPoolSize;
+            }
+        }
     }
 }

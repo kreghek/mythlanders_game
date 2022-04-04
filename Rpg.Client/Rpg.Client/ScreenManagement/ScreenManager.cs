@@ -16,6 +16,7 @@ using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
+using Rpg.Client.GameScreens.VoiceCombat;
 
 namespace Rpg.Client.ScreenManagement
 {

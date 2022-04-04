@@ -26,8 +26,6 @@ namespace Rpg.Client.Core
 
             InitStats(unitScheme);
 
-            ManaPool = 0;
-
             _globalEffects = new List<GlobalUnitEffect>();
         }
 
@@ -43,7 +41,7 @@ namespace Rpg.Client.Core
         {
             get
             {
-                var manaDependentSkills = Skills.Where(x => x.ManaCost is not null);
+                var manaDependentSkills = Skills.Where(x => x.BaseEnergyCost is not null);
                 return manaDependentSkills.Any();
             }
         }
@@ -59,9 +57,7 @@ namespace Rpg.Client.Core
         public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) *
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
-        public int ManaPool { get; set; }
-
-        public int ManaPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+        public int EnergyPoolSize => UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
                                    (Level - 1) * UnitScheme.UnitBasics.MANA_PER_LEVEL;
 
         public int MaxHitPoints { get; private set; }
@@ -175,14 +171,6 @@ namespace Rpg.Client.Core
             return result;
         }
 
-        internal void RestoreManaPoint()
-        {
-            if (ManaPool < ManaPoolSize)
-            {
-                ManaPool++;
-            }
-        }
-
         private void ApplyLevels()
         {
             var levels = UnitScheme.Levels;
@@ -226,13 +214,13 @@ namespace Rpg.Client.Core
 
         private float CalcOverpower()
         {
-            var startPoolSize = ManaPool - (UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
-                                            UnitScheme.UnitBasics.MANA_PER_LEVEL *
-                                            UnitScheme.UnitBasics.MINIMAL_LEVEL_WITH_MANA);
-            if (startPoolSize > 0)
-            {
-                return (float)Math.Log(startPoolSize, UnitScheme.UnitBasics.OVERPOWER_BASE);
-            }
+            //var startPoolSize = ManaPool - (UnitScheme.UnitBasics.BASE_MANA_POOL_SIZE +
+            //                                UnitScheme.UnitBasics.MANA_PER_LEVEL *
+            //                                UnitScheme.UnitBasics.MINIMAL_LEVEL_WITH_MANA);
+            //if (startPoolSize > 0)
+            //{
+            //    return (float)Math.Log(startPoolSize, UnitScheme.UnitBasics.OVERPOWER_BASE);
+            //}
 
             // Monsters and low-level heroes has no overpower.
             return 0;

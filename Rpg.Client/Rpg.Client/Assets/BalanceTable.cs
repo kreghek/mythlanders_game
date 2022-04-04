@@ -41,6 +41,11 @@ namespace Rpg.Client.Assets
                     }
                 });
 
+                if (balanceData is null)
+                {
+                    throw new InvalidOperationException("Balance data can't be null.");
+                }
+
                 _unitBasics = balanceData.UnitBasics;
 
                 var unitRows = balanceData.UnitRows;
@@ -63,7 +68,7 @@ namespace Rpg.Client.Assets
 
         public CommonUnitBasics GetCommonUnitBasics()
         {
-            return new CommonUnitBasics();
+            return _unitBasics;
         }
     }
 }

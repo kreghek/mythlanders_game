@@ -35,8 +35,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             {
                 name,
                 string.Format(UiResource.HitPointsLabelTemplate, _character.MaxHitPoints),
-                string.Format(UiResource.ManaLabelTemplate, _character.ManaPool,
-                    _character.ManaPoolSize),
+                string.Format(UiResource.ManaLabelTemplate, 0,
+                    _character.EnergyPoolSize),
                 string.Format(UiResource.CombatLevelTemplate, _character.Level),
                 string.Format(UiResource.CombatLevelUpTemplate, _character.LevelUpXpAmount)
             };

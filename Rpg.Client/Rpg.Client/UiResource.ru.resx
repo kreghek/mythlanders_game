@@ -198,9 +198,6 @@
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Завершить игру</value>
   </data>
-  <data name="ContinueGameButtonTitle" xml:space="preserve">
-    <value>Продолжить игру</value>
-  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Разработчики</value>
   </data>
@@ -211,7 +208,7 @@
     <value>Урон: {0}</value>
   </data>
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+    <value>Уменьшает урон на  {0}% по {2} на {1} ходов</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
@@ -311,6 +308,9 @@
   </data>
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Лечение {0} - {1} {2} в течении {3} ходов</value>
+  </data>
+  <data name="PlayGameButtonTitle" xml:space="preserve">
+    <value>Играть</value>
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>

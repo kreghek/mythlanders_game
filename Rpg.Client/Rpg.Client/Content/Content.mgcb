@@ -13,29 +13,41 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Audio/Background/Battle.ogg
+#begin Audio/Background/Combat_Slavic01.ogg
 /importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/Battle.ogg
+/build:Audio/Background/Combat_Slavic01.ogg
 
-#begin Audio/Background/Battle2.ogg
+#begin Audio/Background/Combat_Slavic02.ogg
 /importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/Battle2.ogg
+/build:Audio/Background/Combat_Slavic02.ogg
 
-#begin Audio/Background/BattleChinese.ogg
+#begin Audio/Background/Combat_Chinese01.ogg
 /importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/BattleChinese.ogg
+/build:Audio/Background/Combat_Chinese01.ogg
 
-#begin Audio/Background/BattleChinese02.ogg
+#begin Audio/Background/Combat_Chinese02.ogg
 /importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:Audio/Background/BattleChinese02.ogg
+/build:Audio/Background/Combat_Chinese02.ogg
+
+#begin Audio/Background/Combat_Egyptian01.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Egyptian01.ogg
+
+#begin Audio/Background/Combat_Egyptian02.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Egyptian02.ogg
 
 #begin Audio/Background/Defeat.ogg
 /importer:OggImporter
@@ -162,6 +174,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/FireDamage.mp3
+
+#begin Audio/GameObjects/Skills/FrogHornsUp.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/FrogHornsUp.mp3
+
+#begin Audio/GameObjects/Skills/Gunshot.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/Gunshot.mp3
 
 #begin Audio/GameObjects/Skills/HealEffect.mp3
 /importer:Mp3Importer
@@ -685,6 +709,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Stryga.png
 
+#begin Sprites/GameObjects/MonsterUnits/HornedFrog.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/HornedFrog.png
+
 #begin Sprites/GameObjects/MonsterUnits/Bear.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -781,6 +817,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/ArcherFace.png
 
+#begin Sprites/GameObjects/PlayerUnits/HqFace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/HqFace.png
+
+#begin Sprites/GameObjects/PlayerUnits/UndefinedFace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/UndefinedFace.png
+
 #begin Sprites/GameObjects/PlayerUnits/SwordsmanFace.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -816,6 +876,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/Warrior.png
+
+#begin Sprites/GameObjects/PlayerUnits/Soldier.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/Soldier.png
 
 #begin Sprites/GameObjects/PlayerUnits/Spearman.png
 /importer:TextureImporter

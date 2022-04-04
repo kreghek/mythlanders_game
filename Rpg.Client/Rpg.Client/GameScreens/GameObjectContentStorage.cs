@@ -84,6 +84,8 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
+                { UnitName.Thar, LoadHeroTexture(contentManager, "Soldier") },
+                { UnitName.Dull, LoadHeroTexture(contentManager, "Soldier") },
                 { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
                 { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
                 { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
@@ -99,7 +101,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
                 { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
                 { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") }
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
+                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
@@ -192,6 +195,14 @@ namespace Rpg.Client.GameScreens
                 {
                     GameObjectSoundType.FireDamage,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FireDamage")
+                },
+                {
+                    GameObjectSoundType.FrogHornsUp,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FrogHornsUp")
+                },
+                {
+                    GameObjectSoundType.Gunshot,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Gunshot")
                 }
             };
 
@@ -264,7 +275,8 @@ namespace Rpg.Client.GameScreens
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
+                { UnitName.Hq, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HqFace") },
+                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/UndefinedFace") },
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
                 { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
                 { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }

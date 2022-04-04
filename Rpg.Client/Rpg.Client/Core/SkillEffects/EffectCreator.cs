@@ -4,14 +4,14 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class EffectCreator
     {
-        private readonly Func<CombatUnit, EffectBase> _factory;
+        private readonly Func<ICombatUnit, EffectBase> _factory;
 
-        public EffectCreator(Func<CombatUnit, EffectBase> factory)
+        public EffectCreator(Func<ICombatUnit, EffectBase> factory)
         {
             _factory = factory;
         }
 
-        public EffectBase Create(CombatUnit actor, Combat combat)
+        public EffectBase Create(ICombatUnit actor, ICombat combat)
         {
             var effect = _factory(actor);
             effect.Combat = combat;
@@ -19,7 +19,7 @@ namespace Rpg.Client.Core.SkillEffects
             return effect;
         }
 
-        public EffectBase Create(CombatUnit actor)
+        public EffectBase Create(ICombatUnit actor)
         {
             var effect = _factory(actor);
 

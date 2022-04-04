@@ -22,14 +22,14 @@ namespace Rpg.Client.GameScreens.Event.Ui
         private readonly SoundEffect _textSoundEffect;
 
         public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
-            Texture2D portraitsTexture, SoundEffect textSoundEffect) : base(texture)
+            Texture2D portraitsTexture, SoundEffect textSoundEffect, IDice dice) : base(texture)
         {
             _font = font;
             _portraitsTexture = portraitsTexture;
             _textSoundEffect = textSoundEffect;
             _speaker = eventTextFragment.Speaker;
             _localizedSpeakerName = GetSpeaker(_speaker);
-            _message = new TextFragmentMessage(texture, font, eventTextFragment, _textSoundEffect);
+            _message = new TextFragmentMessage(texture, font, eventTextFragment, _textSoundEffect, dice);
         }
 
         public bool IsComplete => _message.IsComplete;

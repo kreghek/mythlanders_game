@@ -126,8 +126,16 @@
   <data name="ArcherMk3ScoutPowerArmor" xml:space="preserve">
     <value>Mk3 силовая броня разведчика</value>
   </data>
+  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
+    <value>Легкий экзоскелет.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
   <data name="ArcherPulsarBow" xml:space="preserve">
     <value>Импульсный лук</value>
+  </data>
+  <data name="ArcherPulsarBowDescription" xml:space="preserve">
+    <value>Стреляет энергетическими зарядами.
+Увеличивает урона на 25% за уровень.</value>
   </data>
   <data name="ArrowRain" xml:space="preserve">
     <value>Дождь стрел</value>
@@ -156,6 +164,10 @@
   <data name="BookOfHerbs" xml:space="preserve">
     <value>Книга трав</value>
   </data>
+  <data name="BookOfHerbsDescription" xml:space="preserve">
+    <value>Старинная рукопись из древности.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
   <data name="BossMonster" xml:space="preserve">
     <value>БОСС</value>
   </data>
@@ -173,6 +185,10 @@
   </data>
   <data name="CombatSword" xml:space="preserve">
     <value>Боевой меч</value>
+  </data>
+  <data name="CombatSwordDescription" xml:space="preserve">
+    <value>Технологичный меч.
+Повышает урон на 25% за уровень.</value>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>
@@ -197,6 +213,9 @@
   </data>
   <data name="DopeHerb" xml:space="preserve">
     <value>Дурман-трава</value>
+  </data>
+  <data name="Dull" xml:space="preserve">
+    <value>Дурачок</value>
   </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Египетская книга мертвых</value>
@@ -237,8 +256,15 @@
   <data name="HerbBag" xml:space="preserve">
     <value>Сумка для трав</value>
   </data>
+  <data name="HerbBagDescription" xml:space="preserve">
+    <value>Бездонная прочная сумка.
+Увеличивает эффективность на 25% за уровень.</value>
+  </data>
   <data name="Hermitage" xml:space="preserve">
     <value>Покинутый скит</value>
+  </data>
+  <data name="HornedFrog" xml:space="preserve">
+    <value>Рогатая жаба</value>
   </data>
   <data name="Hq" xml:space="preserve">
     <value>Штаб</value>
@@ -267,6 +293,10 @@
   <data name="Mk2MediumPowerArmor" xml:space="preserve">
     <value>Mk2 средняя силовая броня</value>
   </data>
+  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
+    <value>Экзоскелет.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Одежды из нано-металла</value>
   </data>
@@ -294,8 +324,15 @@
   <data name="SilverWindNecklace" xml:space="preserve">
     <value>Серебрянное ожерелье ветра</value>
   </data>
+  <data name="SilverWindNecklaceDescription" xml:space="preserve">
+    <value>Языческое ожерелье, полное мистики.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
   <data name="StaffHit" xml:space="preserve">
     <value>Удары посохом</value>
+  </data>
+  <data name="Stryga" xml:space="preserve">
+    <value>Стрыга</value>
   </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
     <value>Взрыв печи Сварога</value>
@@ -308,6 +345,9 @@
   </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Символ Бога</value>
+  </data>
+  <data name="Thar" xml:space="preserve">
+    <value>Тар Скарус</value>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>
@@ -339,46 +379,18 @@
   <data name="WomanShort" xml:space="preserve">
     <value>Женская рубаха</value>
   </data>
+  <data name="WomanShortDescription" xml:space="preserve">
+    <value>Длинные усиленные одежды.
+Увеличивает HP на 10% за уровень.</value>
+  </data>
   <data name="WoodenHandSculpture" xml:space="preserve">
     <value>Деревянная фигурка</value>
-  </data>
-  <data name="ZduhachMight" xml:space="preserve">
-    <value>Мощь великого Здухача</value>
-  </data>
-  <data name="CombatSwordDescription" xml:space="preserve">
-    <value>Технологичный меч.
-Повышает урон на 25% за уровень.</value>
-  </data>
-  <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
-    <value>Экзоскелет.
-Увеличивает HP на 10% за уровень.</value>
   </data>
   <data name="WoodenHandSculptureDescription" xml:space="preserve">
     <value>Искусно вырезанная лошадка.
 Увеличивает HP на 10% за уровень.</value>
   </data>
-  <data name="ArcherPulsarBowDescription" xml:space="preserve">
-    <value>Стреляет энергетическими зарядами.
-Увеличивает урона на 25% за уровень.</value>
-  </data>
-  <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
-    <value>Легкий экзоскелет.
-Увеличивает HP на 10% за уровень.</value>
-  </data>
-  <data name="SilverWindNecklaceDescription" xml:space="preserve">
-    <value>Языческое ожерелье, полное мистики.
-Увеличивает HP на 10% за уровень.</value>
-  </data>
-  <data name="HerbBagDescription" xml:space="preserve">
-    <value>Бездонная прочная сумка.
-Увеличивает эффективность на 25% за уровень.</value>
-  </data>
-  <data name="WomanShortDescription" xml:space="preserve">
-    <value>Длинные усиленные одежды.
-Увеличивает HP на 10% за уровень.</value>
-  </data>
-  <data name="BookOfHerbsDescription" xml:space="preserve">
-    <value>Старинная рукопись из древности.
-Увеличивает HP на 10% за уровень.</value>
+  <data name="ZduhachMight" xml:space="preserve">
+    <value>Мощь великого Здухача</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
 
@@ -8,14 +9,15 @@ namespace Rpg.Client.Core.SkillEffects
     {
         public DecreaseDamageEffect(float multiplier)
         {
+            Multiplier = multiplier;
+            
             Modifiers = new List<ModifierBase>
             {
                 new GivenDamageModifier
                 {
-                    DamageMultiplier = multiplier
+                    DamageMultiplier = Multiplier
                 }
             };
-            Multiplier = multiplier;
         }
 
         public override IEnumerable<ModifierBase> Modifiers { get; }

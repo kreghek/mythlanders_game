@@ -184,9 +184,6 @@
   <data name="CompleteGameButtonTitle" xml:space="preserve">
     <value>Complete the game</value>
   </data>
-  <data name="ContinueGameButtonTitle" xml:space="preserve">
-    <value>Continue game</value>
-  </data>
   <data name="CreditsButtonTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
@@ -199,7 +196,7 @@
   <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
     <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
-                    decreaseDamageEffect.Target</comment>
+      decreaseDamageEffect.Target</comment>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>This is end of the game. Congratulations!{0}Thank you for attention</value>
@@ -298,6 +295,9 @@
   <data name="PeriodicHealEffectRuleText" xml:space="preserve">
     <value>Heal over time: {0} - {1} during {3} to {2}</value>
   </data>
+  <data name="PlayGameButtonTitle" xml:space="preserve">
+    <value>Play</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -326,6 +326,7 @@
   </data>
   <data name="StartNewGameButtonTitle" xml:space="preserve">
     <value>New game</value>
+    <comment>TitleScreen</comment>
   </data>
   <data name="StunEffectRuleText" xml:space="preserve">
     <value>Stun to {1} on {0}</value>

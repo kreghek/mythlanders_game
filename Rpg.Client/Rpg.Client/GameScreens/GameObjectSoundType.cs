@@ -18,6 +18,8 @@
         Firestorm,
         FireDamage,
         StaffHit,
-        BearBludgeon
+        BearBludgeon,
+        FrogHornsUp,
+        Gunshot
     }
 }

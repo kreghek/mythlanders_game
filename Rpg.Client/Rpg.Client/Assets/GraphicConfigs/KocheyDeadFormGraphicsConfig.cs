@@ -18,6 +18,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
                 { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Skill4, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Ult, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Wound, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Death, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } },
                 { AnimationSid.Defense, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) }

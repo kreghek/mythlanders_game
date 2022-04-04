@@ -2,16 +2,16 @@ namespace Rpg.Client.Core
 {
     internal sealed class CombatSkillContext : ICombatSkillContext
     {
-        private readonly CombatUnit _combatUnit;
+        private readonly ICombatUnit _combatUnit;
 
-        public CombatSkillContext(CombatUnit combatUnit)
+        public CombatSkillContext(ICombatUnit combatUnit)
         {
             _combatUnit = combatUnit;
         }
 
-        public int GetMana()
+        public int GetRedCombatEnergy()
         {
-            return _combatUnit.Unit.ManaPool;
+            return _combatUnit.EnergyPool;
         }
     }
 }

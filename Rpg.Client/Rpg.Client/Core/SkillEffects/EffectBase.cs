@@ -8,12 +8,12 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class EffectBase
     {
-        public Combat? Combat { get; set; }
+        public ICombat? Combat { get; set; }
 
         public virtual IEnumerable<EffectRule>? DispelRules => default;
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;
-        public CombatUnit? Target { get; private set; }
+        public ICombatUnit? Target { get; private set; }
         protected bool IsImposed { get; private set; }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Rpg.Client.Core.SkillEffects
         /// Наложение.
         /// </summary>
         /// <param name="target"></param>
-        public void Impose(CombatUnit target)
+        public void Impose(ICombatUnit target)
         {
             Target = target;
             IsImposed = true;
@@ -59,6 +59,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
+
             Combat.EffectProcessor.Impose(InfluenceRules, Target, null);
         }
 
@@ -80,7 +81,7 @@ namespace Rpg.Client.Core.SkillEffects
         internal class UnitEffectEventArgs : EventArgs
         {
             public EffectBase Effect { get; set; }
-            public CombatUnit Unit { get; set; }
+            public ICombatUnit Unit { get; set; }
         }
     }
 }

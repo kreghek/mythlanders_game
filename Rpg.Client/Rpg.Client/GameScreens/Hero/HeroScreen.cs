@@ -135,18 +135,18 @@ namespace Rpg.Client.GameScreens.Hero
 
             InitUpgradeButtons(character, player);
 
-            //var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
-            //    _uiContentStorage.GetButtonTexture(),
-            //    _uiContentStorage.GetMainFont());
+            var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
+                _uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont());
 
-            //_buttonList.Add(slotButton);
+            _buttonList.Add(slotButton);
 
-            //slotButton.OnClick += (_, _) =>
-            //{
-            //    var formationModal =
-            //        new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
-            //    AddModal(formationModal, isLate: false);
-            //};
+            slotButton.OnClick += (_, _) =>
+            {
+                var formationModal =
+                    new FormationModal(_uiContentStorage, character, player, ResolutionIndependentRenderer);
+                AddModal(formationModal, isLate: false);
+            };
         }
 
         private void InitContent()

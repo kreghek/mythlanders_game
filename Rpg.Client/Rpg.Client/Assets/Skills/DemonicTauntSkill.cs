@@ -8,10 +8,6 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class DemonicTauntSkill : SkillBase
     {
-        public DemonicTauntSkill() : this(false)
-        {
-        }
-
         public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }

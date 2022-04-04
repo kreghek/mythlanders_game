@@ -6,7 +6,7 @@ namespace Rpg.Client.Core
 {
     internal class ActionEventArgs : EventArgs
     {
-        public ActionEventArgs(Action action, CombatUnit actor, ISkill skill, CombatUnit target)
+        public ActionEventArgs(Action action, ICombatUnit actor, ISkill skill, ICombatUnit target)
         {
             Action = action;
             Actor = actor;
@@ -15,8 +15,8 @@ namespace Rpg.Client.Core
         }
 
         public Action Action { get; }
-        public CombatUnit Actor { get; }
+        public ICombatUnit Actor { get; }
         public ISkill Skill { get; }
-        public CombatUnit Target { get; }
+        public ICombatUnit Target { get; }
     }
 }

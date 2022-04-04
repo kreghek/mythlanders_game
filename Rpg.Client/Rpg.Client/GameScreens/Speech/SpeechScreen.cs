@@ -116,7 +116,9 @@ namespace Rpg.Client.GameScreens.Speech
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
             DrawGameObjects(spriteBatch);
-            DrawSpeaker(spriteBatch);
+
+            DrawCurrentSpeaker(spriteBatch);
+
             DrawHud(spriteBatch, contentRect);
         }
 
@@ -307,8 +309,19 @@ namespace Rpg.Client.GameScreens.Speech
             spriteBatch.End();
         }
 
-        private void DrawSpeaker(SpriteBatch spriteBatch)
+        private void DrawCurrentSpeaker(SpriteBatch spriteBatch)
         {
+            const int SPEAKER_FRAME_SIZE = 256;
+
+            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
+            var speaker = currentFragment.Speaker;
+
+            if (speaker == UnitName.Environment)
+            {
+                // This text describes environment. There is no speaker.
+                return;
+            }
+
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -317,13 +330,14 @@ namespace Rpg.Client.GameScreens.Speech
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            var col = _frameIndex % 2;
-            var row = _frameIndex / 2;
+            var col = 0;
+            var row = 0;
+            // var col = _frameIndex % 2;
+            // var row = _frameIndex / 2;
 
-            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
-            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(currentFragment.Speaker),
-                new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - 256, 256, 256),
-                new Rectangle(col * 256, row * 256, 256, 256),
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
+                new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE),
+                new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE),
                 Color.White);
 
             spriteBatch.End();
@@ -351,7 +365,8 @@ namespace Rpg.Client.GameScreens.Speech
                     _uiContentStorage.GetTitlesFont(),
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
-                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker));
+                    _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
+                    _dice);
                 _textFragments.Add(textFragmentControl);
             }
 

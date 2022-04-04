@@ -70,7 +70,7 @@ namespace Rpg.Client.Core
                 throw new ArgumentNullException(nameof(list));
             }
 
-            var rollIndex = dice.Roll(0, list.Count);
+            var rollIndex = dice.Roll(0, list.Count - 1);
             return rollIndex;
         }
 

@@ -72,7 +72,7 @@ namespace Rpg.Client.Engine
 
         public void Update(GameTime gameTime)
         {
-            if (_animationSid == AnimationSid.Idle)
+            if (_animationSid == AnimationSid.Idle || _animationSid == AnimationSid.Defense)
             {
                 _selectedMarker.Visible = ShowActiveMarker;
             }

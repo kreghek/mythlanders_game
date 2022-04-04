@@ -196,10 +196,12 @@ namespace Rpg.Client.Engine
             };
             _battleTracks = new[]
             {
-                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle")),
-                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Battle2")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese")),
-                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/BattleChinese02"))
+                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic01")),
+                (BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
+                (BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
+                (BiomeType.Egyptian, contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
+                (BiomeType.Egyptian, contentManager.Load<Song>("Audio/Background/Combat_Egyptian02"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");

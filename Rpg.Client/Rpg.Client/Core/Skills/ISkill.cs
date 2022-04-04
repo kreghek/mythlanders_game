@@ -4,7 +4,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal interface ISkill
     {
-        int? ManaCost { get; }
+        int? BaseEnergyCost { get; }
         IEnumerable<EffectRule> Rules { get; }
         SkillSid Sid { get; }
         SkillTargetType TargetType { get; }

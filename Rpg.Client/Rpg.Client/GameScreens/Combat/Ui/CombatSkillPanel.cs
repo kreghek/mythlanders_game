@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private EntityButtonBase<CombatSkill>? _hoverButton;
         private KeyboardState? _lastKeyboardState;
         private CombatSkill? _selectedSkill;
-        private CombatUnit? _unit;
+        private ICombatUnit? _unit;
 
         public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage) : base(texture)
         {
@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public bool IsEnabled { get; set; }
 
-        public CombatUnit? Unit
+        public ICombatUnit? CombatUnit
         {
             get => _unit;
             set
@@ -139,8 +139,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 button.Update(resolutionIndependentRenderer);
 
-                button.IsEnabled = button.Entity.IsAvailable;
-
                 DetectMouseHoverOnButton(mouseRect, button);
             }
 
@@ -151,6 +149,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
+                // Do nothing because hint of this button is created yet.
             }
             else
             {

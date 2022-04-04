@@ -225,7 +225,7 @@ namespace Rpg.Client.Core
                     var selectedNode = nodesWithCombats[locationIndex];
                     var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
-                    var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
+                    var combatLevel = biome.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {

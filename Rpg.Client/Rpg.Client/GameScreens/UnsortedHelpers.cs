@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens
 
         public static IReadOnlyList<float> GetCombatSequenceXpBonuses()
         {
-            return new[] { 1f, 0 /*not used*/, 1.25f, /*not used*/0, 1.5f };
+            return new[] { 1f, 1f, 1.25f, 1.25f, 1.5f };
         }
 
         public static EquipmentItemType? GetEquipmentItemTypeByUnitScheme(UnitScheme unitScheme)
@@ -54,7 +54,7 @@ namespace Rpg.Client.GameScreens
 
         public static Rectangle GetIconRect(SkillSid sid)
         {
-            const int SPRITE_SHEET_COLUMN_COUNT = 3;
+            const int SPRITE_SHEET_COLUMN_COUNT = 4;
             const int ICON_SIZE = 64;
 
             var iconIndexNullable = GetIconOneBasedIndex(sid);
@@ -109,8 +109,14 @@ namespace Rpg.Client.GameScreens
         {
             return sid switch
             {
+                SkillSid.Shotgun => 16,
+                SkillSid.RifleShot => 16,
                 SkillSid.SwordSlash => 1,
+                SkillSid.SwordSlashRandom => 1,
+                SkillSid.SwordSlashDefensive => 1,
+                SkillSid.SwordSlashInaccurate => 1,
                 SkillSid.WideSwordSlash => 2,
+                SkillSid.GroupProtection=> 15,
                 SkillSid.DefenseStance => 3,
                 SkillSid.SvarogBlastFurnace => 4,
 

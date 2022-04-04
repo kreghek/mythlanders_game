@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class DamageEffect : InstantenousEffectBase
     {
-        public CombatUnit Actor { get; set; }
+        public ICombatUnit Actor { get; set; }
 
         public float DamageMultiplier { get; init; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
@@ -21,6 +21,7 @@ namespace Rpg.Client.Core.SkillEffects
         public MinMax<int> CalculateDamage()
         {
             var absoluteDamage = Actor.Unit.Damage * DamageMultiplier;
+
             var min = absoluteDamage - Scatter * absoluteDamage;
             var max = absoluteDamage + Scatter * absoluteDamage;
 

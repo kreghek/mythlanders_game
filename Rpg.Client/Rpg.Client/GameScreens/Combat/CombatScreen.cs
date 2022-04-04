@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private float _bgCenterOffsetPercentage;
         private bool _bossWasDefeat;
-        private double _combatFinishedCounter;
+        private double _combatFinishedDelayCounter;
 
         private bool? _combatFinishedVictory;
 
@@ -193,13 +194,13 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static void ApplyCombatReward(IReadOnlyCollection<CombatRewardsItem> xpItems, Player player)
+        private static void ApplyCombatReward(IReadOnlyCollection<ResourceReward> xpItems, Player player)
         {
             foreach (var item in xpItems)
             {
-                var inventoryItem = player.Inventory.Single(x => x.Type == item.Xp.Type);
+                var inventoryItem = player.Inventory.Single(x => x.Type == item.Type);
 
-                inventoryItem.Amount += item.Xp.Amount;
+                inventoryItem.Amount += item.Amount;
             }
         }
 
@@ -243,7 +244,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (_combatSkillsPanel is not null)
             {
-                _combatSkillsPanel.Unit = null;
+                _combatSkillsPanel.CombatUnit = null;
                 _combatSkillsPanel.SelectedSkill = null;
                 _combatSkillsPanel.IsEnabled = false;
             }
@@ -314,7 +315,7 @@ namespace Rpg.Client.GameScreens.Combat
             var selectedUnit = e;
 
             _combatSkillsPanel.IsEnabled = true;
-            _combatSkillsPanel.Unit = selectedUnit;
+            _combatSkillsPanel.CombatUnit = selectedUnit;
             _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards.First();
             var unitGameObject = GetUnitGameObject(e);
             unitGameObject.IsActive = true;
@@ -334,12 +335,11 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
-            _combat.Update();
 
-            var settigs = Game.Services.GetService<GameSettings>();
-            // TODO Remove then effects would be developed.
+            var settings = Game.Services.GetService<GameSettings>();
+            // TODO Remove settings.Mode == GameMode.Full then effects would be developed.
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage, settigs.Mode == GameMode.Full);
+                _uiContentStorage, _gameObjectContentStorage, settings.Mode == GameMode.Full);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -353,8 +353,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var combatResultModal = (CombatResultModal)sender;
 
-            if (combatResultModal.CombatResult == CombatResult.Victory ||
-                combatResultModal.CombatResult == CombatResult.NextCombat)
+            if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
             {
                 var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
                 currentCombatList.Remove(_combat.CombatSource);
@@ -394,15 +393,27 @@ namespace Rpg.Client.GameScreens.Combat
                                 _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
                             var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
                             _globe.CurrentEvent = startGlobeNode.AssignedEvent;
-                            _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                            if (_globe.CurrentEvent is not null)
+                            {
+                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
-                            _globe.CurrentEvent.Counter++;
+                                _globe.CurrentEvent.Counter++;
+                            }
+
+                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
 
                             var combatSource = startGlobeNode.CombatSequence.Combats.First();
                             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
                                 combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
 
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            if (_globe.CurrentEvent is not null)
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            }
+                            else
+                            {
+                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                            }
                         }
                     }
                     else
@@ -504,7 +515,7 @@ namespace Rpg.Client.GameScreens.Combat
             var inventoryItem = inventory.Single(x => x.Type == resourceType);
             var item = new CombatRewardsItem
             {
-                Xp = new CountableRewardStat
+                Xp = new ResourceReward
                 {
                     StartValue = inventoryItem.Amount,
                     Amount = amount,
@@ -742,7 +753,7 @@ namespace Rpg.Client.GameScreens.Combat
             _unitStatePanelController?.Draw(spriteBatch, contentRectangle);
         }
 
-        private void DropSelection(CombatUnit? combatUnit)
+        private void DropSelection(ICombatUnit? combatUnit)
         {
             if (combatUnit is null || combatUnit.Unit.IsDead)
             {
@@ -767,7 +778,7 @@ namespace Rpg.Client.GameScreens.Combat
             return nextIndex;
         }
 
-        private UnitGameObject GetUnitGameObject(CombatUnit combatUnit)
+        private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.CombatUnit == combatUnit);
         }
@@ -884,41 +895,27 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private CombatRewards HandleRewardGaining(
-            ICollection<CombatSource> completedCombats,
+        private static CombatRewards CalculateRewardGaining(
+            IEnumerable<CombatSource> completedCombats,
             GlobeNode globeNode,
-            Player? player)
+            Player player,
+            Core.Biome biome)
         {
-            var combatSequenceXpBonuses = UnsortedHelpers.GetCombatSequenceXpBonuses();
+            var completedCombatsShortInfos = completedCombats.Select(x =>
+                new CombatRewardInfo(x.EnemyGroup.GetUnits()
+                    .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
 
-            var monsters = completedCombats.SelectMany(x => x.EnemyGroup.GetUnits()).ToArray();
+            var rewardCalculationContext = new RewardCalculationContext(
+                player.Inventory,
+                globeNode.EquipmentItem, 
+                completedCombatsShortInfos,
+                biome.Level,
+                biome.MinLevel + 15
+            );
 
-            var sequenceBonus = combatSequenceXpBonuses[completedCombats.Count - 1];
-            var summaryXp = (int)Math.Round(monsters.Sum(x => x.XpReward) * sequenceBonus);
+            var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
 
-            var rewardList = new List<CombatRewardsItem>();
-            if (globeNode.EquipmentItem is not null)
-            {
-                var rewardItem = CreateReward(player.Inventory, globeNode.EquipmentItem.Value, amount: 1);
-                rewardList.Add(rewardItem);
-            }
-
-            var gainedXp = summaryXp;
-            var xpRewardItem = CreateXpReward(player.Inventory, gainedXp);
-            rewardList.Add(xpRewardItem);
-
-            var combatRewards = new CombatRewards
-            {
-                BiomeProgress = new ProgressionRewardStat
-                {
-                    StartValue = _combat.Biome.Level,
-                    Amount = 1,
-                    ValueToLevelupSelector = () => _combat.Biome.MinLevel + 15
-                },
-                InventoryRewards = rewardList
-            };
-
-            return combatRewards;
+            return rewards;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -951,7 +948,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 _interactionButtons.Clear();
                 _interactButtonClicked = true;
-                _combat.UseSkill(skillCard.Skill, target.CombatUnit);
+                _combat.UseSkill(skillCard, target.CombatUnit);
             };
 
             _interactionButtons.Add(interactButton);
@@ -1060,7 +1057,7 @@ namespace Rpg.Client.GameScreens.Combat
             foreach (var unit in _globe.Player.GetAll())
             {
                 unit.RestoreHitPointsAfterCombat();
-                unit.RestoreManaPoint();
+                //unit.RestoreManaPoint();
             }
         }
 
@@ -1076,8 +1073,8 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var xpItems = HandleRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player);
-                    ApplyCombatReward(xpItems.InventoryRewards, _globeProvider.Globe.Player);
+                    var rewardItems = CalculateRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player, _combat.Biome);
+                    ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1088,7 +1085,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _gameObjectContentStorage,
                         ResolutionIndependentRenderer,
                         CombatResult.Victory,
-                        xpItems);
+                        rewardItems);
                 }
                 else
                 {
@@ -1099,8 +1096,8 @@ namespace Rpg.Client.GameScreens.Combat
                         CombatResult.NextCombat,
                         new CombatRewards
                         {
-                            BiomeProgress = new ProgressionRewardStat(),
-                            InventoryRewards = Array.Empty<CombatRewardsItem>()
+                            BiomeProgress = new ResourceReward(),
+                            InventoryRewards = Array.Empty<ResourceReward>()
                         });
                 }
             }
@@ -1118,13 +1115,12 @@ namespace Rpg.Client.GameScreens.Combat
                     CombatResult.Defeat,
                     new CombatRewards
                     {
-                        BiomeProgress = new ProgressionRewardStat
+                        BiomeProgress = new ResourceReward
                         {
                             StartValue = _combat.Biome.Level,
-                            Amount = _combat.Biome.Level / 2,
-                            ValueToLevelupSelector = () => 25
+                            Amount = _combat.Biome.Level / 2
                         },
-                        InventoryRewards = Array.Empty<CombatRewardsItem>()
+                        InventoryRewards = Array.Empty<ResourceReward>()
                     });
             }
 
@@ -1148,9 +1144,9 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void UpdateCombatFinished(GameTime gameTime)
         {
-            _combatFinishedCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            _combatFinishedDelayCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_combatFinishedCounter >= 2 && !_combatResultModalShown)
+            if (_combatFinishedDelayCounter >= 2 && !_combatResultModalShown)
             {
                 _combatResultModalShown = true;
                 ShowCombatResultModal(_combatFinishedVictory.Value);

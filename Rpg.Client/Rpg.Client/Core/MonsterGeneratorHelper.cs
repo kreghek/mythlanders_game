@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.Perks;
@@ -8,39 +7,47 @@ namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
-        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int combatLevel,
+        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int monsterLevel,
             IUnitSchemeCatalog unitSchemeCatalog)
         {
-            var availableMonsters = unitSchemeCatalog.AllMonsters
-                .Where(x => (!HasPerk<BossMonster>(x, combatLevel)) ||
-                            (HasPerk<BossMonster>(x, combatLevel) && !biome.IsComplete &&
+            var availableAllRegularMonsters = unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
+            var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x => HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
                              x.MinRequiredBiomeLevel is not null &&
-                             x.MinRequiredBiomeLevel.Value <= biome.Level))
-                .Where(x => x.Biome == biome.Type &&
-                            ((x.LocationSids is not null && x.LocationSids.Contains(node.Sid)) ||
-                             x.LocationSids is null))
-                .ToList();
+                             x.MinRequiredBiomeLevel.Value <= biome.Level);
 
-            if (availableMonsters.Any(x => HasPerk<BossMonster>(x, combatLevel)))
+            var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
+
+            var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == biome.Type);
+
+            var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x => (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));
+
+            var availableMonsters = filteredByLocationMonsters.ToList();
+
+            if (availableMonsters.Any(x => HasPerk<BossMonster>(x, monsterLevel)))
             {
                 // This location for a boss.
                 // Boss has the highest priority so generate only one boss and ignore other units.
-                var bossScheme = availableMonsters.Single(x => HasPerk<BossMonster>(x, combatLevel));
-                var unit = new Unit(bossScheme, combatLevel);
+                var bossScheme = availableMonsters.Single(x => HasPerk<BossMonster>(x, monsterLevel));
+                var unit = new Unit(bossScheme, monsterLevel);
                 return new[] { unit };
             }
 
             var rolledUnits = new List<UnitScheme>();
 
-            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(combatLevel);
+            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(biome.Level);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
-            var monsterCount = GetMonsterCount(node, biome, availableMonsters, predefinedMinMonsterCount);
+            var monsterCount = GetMonsterCount(node, biome, predefinedMinMonsterCount);
 
             for (var i = 0; i < monsterCount; i++)
             {
+                if (!availableMonsters.Any())
+                {
+                    break;
+                }
+
                 var scheme = dice.RollFromList(availableMonsters, 1).Single();
 
-                var isRegularMonster = !HasPerk<BossMonster>(scheme, combatLevel);
+                var isRegularMonster = !HasPerk<BossMonster>(scheme, monsterLevel);
 
                 if (isRegularMonster)
                 {
@@ -64,7 +71,7 @@ namespace Rpg.Client.Core
             var units = new List<Unit>();
             foreach (var unitScheme in rolledUnits)
             {
-                var unitLevel = GetUnitLevel(combatLevel);
+                var unitLevel = GetUnitLevel(monsterLevel);
                 var unit = new Unit(unitScheme, unitLevel);
                 units.Add(unit);
             }
@@ -72,7 +79,7 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static int GetMonsterCount(GlobeNode node, Biome biome, List<UnitScheme> availableMonsters,
+        private static int GetMonsterCount(GlobeNode node, Biome biome,
             int predefinedMinMonsterCount)
         {
             if (node.IsLast && !biome.IsComplete)
@@ -80,24 +87,17 @@ namespace Rpg.Client.Core
                 return 1;
             }
 
-            var availableMinMonsterCount =
-                predefinedMinMonsterCount; //Math.Min(predefinedMinMonsterCount, availableMonsters.Count);
-            return availableMinMonsterCount;
+            return predefinedMinMonsterCount;
         }
 
-        private static int[] GetPredefinedMonsterCounts(int combatLevel)
+        private static int[] GetPredefinedMonsterCounts(int biomeLevel)
         {
-            /*return biomeLevel switch
+            return biomeLevel switch
             {
-                0 => new[] { 2 },
-                1 => new[] { 2, 2, 3 },
-                2 => new[] { 2, 2, 3, 3 },
-                > 3 and <= 10 => new[] { 2, 2, 3, 3, 3, 3 },
-                > 10 => new[] { 3, 3, 3 },
-                _ => new[] { 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 }
-            };*/
-
-            return new[] { 3 };
+                >= 0 and <= 10 => new[] { 2, 3 },
+                > 10 => new[] { 3, 3, 4, 4, 5 },
+                _ => new[] { 1 }
+            };
         }
 
         private static int GetUnitLevel(int combatLevel)

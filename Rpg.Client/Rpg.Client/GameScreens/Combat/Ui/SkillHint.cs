@@ -14,9 +14,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly ISkillEffectDrawer[] _effectDrawers;
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
-        private readonly CombatUnit _unit;
+        private readonly ICombatUnit _unit;
 
-        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, CombatUnit unit) : base(texture)
+        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit) : base(texture)
         {
             _font = font;
             _skill = skill;
@@ -40,25 +40,24 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var color = Color.White;
 
-            var combatPower = _skill;
-
             var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-            var skillNameText = GameObjectHelper.GetLocalized(combatPower.Skill.Sid);
+            var skillNameText = GameObjectHelper.GetLocalized(_skill.Skill.Sid);
+
             spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
                 color);
 
             var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (combatPower.Skill.ManaCost is not null)
+            if (_skill.EnergyCost > 0)
             {
-                var manaCostColor = combatPower.IsAvailable ? color : Color.Red;
+                var redManaCostColor = _skill.IsAvailable ? color : Color.Red;
                 spriteBatch.DrawString(_font,
-                    string.Format(UiResource.SkillManaCostTemplate, combatPower.Skill.ManaCost),
-                    manaCostPosition, manaCostColor);
+                    string.Format(UiResource.SkillManaCostTemplate, _skill.EnergyCost),
+                    manaCostPosition, redManaCostColor);
             }
 
-            var ruleBlockPosition = manaCostPosition + new Vector2(0, 10);
-            var skillRules = combatPower.Skill.Rules.ToArray();
+            var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
+            var skillRules = _skill.Skill.Rules.ToArray();
             for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
             {
                 var rule = skillRules[ruleIndex];
