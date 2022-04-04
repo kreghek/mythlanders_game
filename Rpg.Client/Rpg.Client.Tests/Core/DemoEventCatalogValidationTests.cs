@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Tests
             // ARRANGE
 
             var unitSchemeCatalog = new DemoUnitSchemeCatalog();
-            
+
             var catalog = new DemoEventCatalog(unitSchemeCatalog);
 
             // ACT

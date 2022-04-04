@@ -18,7 +18,7 @@ namespace Rpg.Client.Tests.GameScreens.Combat.Ui
             int startAmount)
         {
             // ARRANGE
-            
+
             var sourceReward = new ResourceReward
             {
                 Amount = rewardAmount,
@@ -30,11 +30,11 @@ namespace Rpg.Client.Tests.GameScreens.Combat.Ui
             // ACT
 
             var fuseCounter = 0;
-            
+
             while (!fact.IsComplete)
             {
                 fact.Update();
-                
+
                 fuseCounter++;
 
                 if (fuseCounter > 1000)
@@ -42,7 +42,7 @@ namespace Rpg.Client.Tests.GameScreens.Combat.Ui
                     Assert.Fail();
                 }
             }
-            
+
             // ASSERT
             fact.CurrentValue.Should().Be(startAmount + rewardAmount);
         }

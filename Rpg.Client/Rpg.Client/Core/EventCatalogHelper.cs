@@ -104,12 +104,12 @@ namespace Rpg.Client.Core
         }
 
         private const int SPEECH_TEXT_MAX_SYMBOL_COUNT = 60;
-        
+
         private static EventTextFragment CreateEventTextFragment(EventTextFragmentStorageModel fragmentStorageModel)
         {
             return new EventTextFragment
             {
-                Text = StringHelper.LineBreaking(fragmentStorageModel.Text, 
+                Text = StringHelper.LineBreaking(fragmentStorageModel.Text,
                     SPEECH_TEXT_MAX_SYMBOL_COUNT),
                 Speaker = ParseSpeaker(fragmentStorageModel)
             };

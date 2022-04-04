@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class Combat: ICombat
+    internal sealed class Combat : ICombat
     {
         private readonly IList<CombatUnit> _allUnitList;
         private readonly Group _playerGroup;
@@ -152,7 +152,7 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            
+
             Action action = () =>
             {
                 EffectProcessor.Impose(skill.Skill.Rules, CurrentUnit, targetUnit);

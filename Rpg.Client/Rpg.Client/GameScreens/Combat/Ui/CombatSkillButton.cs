@@ -39,7 +39,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (IsEnabled)
             {
                 spriteBatch.Draw(_icon, contentRect, _iconRect, color);
-                DrawBackground(spriteBatch, color);    
+                DrawBackground(spriteBatch, color);
             }
             else
             {
@@ -52,7 +52,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         protected override void UpdateContent()
         {
             IsEnabled = _skill.IsAvailable;
-            
+
             base.UpdateContent();
 
             _counter += 0.005f;

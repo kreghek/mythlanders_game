@@ -5,11 +5,11 @@ namespace Rpg.Client.GameScreens.Event.Ui
     internal sealed class Speech
     {
         public const float SYMBOL_DELAY_SEC = 0.05f;
-        
+
         private readonly string _fullText;
         private readonly ISpeechSoundWrapper _speechSound;
         private readonly ISpeechRandomProvider _speechRandomProvider;
-        
+
         private readonly StringBuilder _textToPrintBuilder;
         private int _delayUsed;
         private int _symbolIndex;
@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
             {
                 return;
             }
-            
+
             _symbolDelayCounter += elapsedSeconds;
 
             if (_symbolDelayCounter <= SYMBOL_DELAY_SEC)
@@ -76,7 +76,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
         {
             return _textToPrintBuilder.ToString();
         }
-        
+
         private void HandleTextSound(float elapsedSeconds)
         {
             if (_soundDelayCounter > 0)

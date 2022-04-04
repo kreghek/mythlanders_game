@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens.Combat
             EquipmentItemType resourceType, int amount)
         {
             var currentAmount = 0;
-            
+
             var inventoryItem = inventory.SingleOrDefault(x => x.Type == resourceType);
             if (inventoryItem is not null)
             {

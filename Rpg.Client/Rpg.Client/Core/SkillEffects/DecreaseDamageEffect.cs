@@ -10,7 +10,7 @@ namespace Rpg.Client.Core.SkillEffects
         public DecreaseDamageEffect(float multiplier)
         {
             Multiplier = multiplier;
-            
+
             Modifiers = new List<ModifierBase>
             {
                 new GivenDamageModifier

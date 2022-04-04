@@ -55,7 +55,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int TITLE_HEIGHT = 20; // See title control
 
             const int REWARD_BLOCK_HEIGHT = 20;
-            
+
             var listRect = new Rectangle(contentRect.X, contentRect.Y + TITLE_HEIGHT, contentRect.Width,
                 REWARD_BLOCK_HEIGHT);
             DrawRewardList(spriteBatch, _rewardItems.ToArray(), listRect);
@@ -67,7 +67,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int TITLE_OFFSET = 20; // Title here is the label "Found items"
             spriteBatch.DrawString(_titleFont, UiResource.CombatResultItemsFoundLabel, contentRectangle.Location.ToVector2(),
                 Color.White);
-            
+
             const int ITEM_WIDTH = 128;
             const int ITEM_HEIGHT = 32;
             const int CELL_COLS = 3;

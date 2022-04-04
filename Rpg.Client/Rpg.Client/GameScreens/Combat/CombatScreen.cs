@@ -907,7 +907,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var rewardCalculationContext = new RewardCalculationContext(
                 player.Inventory,
-                globeNode.EquipmentItem, 
+                globeNode.EquipmentItem,
                 completedCombatsShortInfos,
                 biome.Level,
                 biome.MinLevel + 15

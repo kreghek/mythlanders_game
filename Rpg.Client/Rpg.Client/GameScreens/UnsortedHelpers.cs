@@ -116,7 +116,7 @@ namespace Rpg.Client.GameScreens
                 SkillSid.SwordSlashDefensive => 1,
                 SkillSid.SwordSlashInaccurate => 1,
                 SkillSid.WideSwordSlash => 2,
-                SkillSid.GroupProtection=> 15,
+                SkillSid.GroupProtection => 15,
                 SkillSid.DefenseStance => 3,
                 SkillSid.SvarogBlastFurnace => 4,
 

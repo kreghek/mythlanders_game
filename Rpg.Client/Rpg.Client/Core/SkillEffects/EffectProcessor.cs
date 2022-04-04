@@ -163,10 +163,10 @@ namespace Rpg.Client.Core.SkillEffects
                     {
                         var unit = _dice.RollFromList(_combat.AliveUnits
                             .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
-                
+
                         ImposeByCreator(influence.EffectCreator, actor, unit);
                     }
-                
+
                     break;
 
                 case SkillDirection.Target:

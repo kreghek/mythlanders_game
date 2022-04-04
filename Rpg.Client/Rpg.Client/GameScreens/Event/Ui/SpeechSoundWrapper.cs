@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Rpg.Client.GameScreens.Event.Ui
 {
-    internal sealed class SpeechSoundWrapper: ISpeechSoundWrapper
+    internal sealed class SpeechSoundWrapper : ISpeechSoundWrapper
     {
         private readonly SoundEffect _soundEffect;
         private SoundEffectInstance? _currentSound;

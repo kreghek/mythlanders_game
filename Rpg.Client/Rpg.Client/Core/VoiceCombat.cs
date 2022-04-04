@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core
 {
-    internal class VoiceCombat: ICombat
+    internal class VoiceCombat : ICombat
     {
         private readonly VoiceCombatUnit _playerUnit;
         private readonly VoiceCombatUnit _enemyUnit;
@@ -167,7 +167,7 @@ namespace Rpg.Client.Core
 
             _allUnitList.Add(_playerUnit);
             CombatUnitEntered?.Invoke(this, _playerUnit);
-            
+
             _allUnitList.Add(_enemyUnit);
             CombatUnitEntered?.Invoke(this, _enemyUnit);
 

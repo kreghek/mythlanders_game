@@ -678,7 +678,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
             spriteBatch.End();
         }
-        
+
         private double _counter;
 
         private int _currentFragmentIndex;

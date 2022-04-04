@@ -34,10 +34,10 @@ namespace Rpg.Client.Core
                         AppendWord(word, singleSb, isFirstInLine: true);
                         AppendWord(word, mainSb, isFirstInLine: true);
                     }
-                    
+
                     isFirstInLine = false;
                 }
-                
+
                 StartNewLine(mainSb, singleSb: null);
             }
 

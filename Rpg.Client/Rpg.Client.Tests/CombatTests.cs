@@ -244,7 +244,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            
+
             var damageRule = new List<EffectRule>
             {
                 new EffectRule
@@ -260,7 +260,7 @@ namespace Rpg.Client.Tests
                     })
                 }
             };
-            
+
             var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
@@ -314,7 +314,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            
+
             var damageRule = new List<EffectRule>
             {
                 new EffectRule
@@ -330,7 +330,7 @@ namespace Rpg.Client.Tests
                     })
                 }
             };
-            
+
             var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
@@ -342,7 +342,7 @@ namespace Rpg.Client.Tests
                         skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
                 }
             };
-            
+
             var decreaseDamageRule = new List<EffectRule>
             {
                 new EffectRule

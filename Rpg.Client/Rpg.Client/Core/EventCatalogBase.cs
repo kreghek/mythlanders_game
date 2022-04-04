@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
     internal abstract class EventCatalogBase : IEventCatalog, IEventInitializer
     {
         private const int GOAL_TEXT_MAX_SYMBOL_COUNT = 60;
-        
+
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private IEnumerable<Event> _events = null!;
         private bool _isInitialized;
@@ -158,7 +158,7 @@ namespace Rpg.Client.Core
             AssignEventParents(events, eventStorageModelList);
 
             Events = events.ToArray();
-            
+
             _isInitialized = true;
         }
     }

@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.Skills
                     return res;
                 })
             },
-            
+
             new EffectRule
             {
                 Direction = SkillDirection.Self,

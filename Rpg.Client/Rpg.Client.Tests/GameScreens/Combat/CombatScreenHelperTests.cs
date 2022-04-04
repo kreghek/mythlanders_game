@@ -20,12 +20,12 @@ namespace Rpg.Client.Tests.GameScreens.Combat
 
             const EquipmentItemType EQUIPMENT_RESOURCE_DROP = EquipmentItemType.Warrior;
             var context = new RewardCalculationContext(new List<ResourceItem>(0), EQUIPMENT_RESOURCE_DROP,
-                new []{new CombatRewardInfo(new []{new CombatMonsterRewardInfo(default)})}, default, default);
-            
+                new[] { new CombatRewardInfo(new[] { new CombatMonsterRewardInfo(default) }) }, default, default);
+
             // ACT
 
             var rewards = CombatScreenHelper.CalculateRewards(context);
-            
+
             // ASSERT
 
             rewards.InventoryRewards.Single(x => x.Type == EQUIPMENT_RESOURCE_DROP).Amount.Should().Be(1);

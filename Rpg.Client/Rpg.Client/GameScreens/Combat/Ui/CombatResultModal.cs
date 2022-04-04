@@ -37,13 +37,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             _title = new CombatResultTitle(uiContentStorage.GetButtonTexture(), uiContentStorage.GetTitlesFont(),
                 combatResult);
-            
+
             var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
 
             _biomeProgression = new CombatResultsBiomeProgression(uiContentStorage.GetButtonTexture(),
                 uiContentStorage.GetMainFont(),
                 biomeProgress);
-            
+
             var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x)).ToArray();
 
             _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
             _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            
+
             if (_iterationCounter >= 0.01)
             {
                 _combatRewardList.Update();
@@ -122,7 +122,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _biomeProgression.Draw(spriteBatch);
 
             const int REWARD_ITEM_MARGIN = 5;
-            
+
             _combatRewardList.Rect =
                 new Rectangle(benefitsRect.Location + new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN),
                     new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));
