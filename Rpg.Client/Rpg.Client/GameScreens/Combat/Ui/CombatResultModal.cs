@@ -14,12 +14,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private const int MARGIN = 5;
         private const int BLOCK_MARGIN = MARGIN;
+        private readonly CombatResultsBiomeProgression _biomeProgression;
 
         private readonly ButtonBase _closeButton;
+        private readonly CombatRewardList _combatRewardList;
 
         private readonly CombatResultTitle _title;
-        private readonly CombatResultsBiomeProgression _biomeProgression;
-        private readonly CombatRewardList _combatRewardList;
 
         private double _iterationCounter;
 
@@ -37,14 +37,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             _title = new CombatResultTitle(uiContentStorage.GetButtonTexture(), uiContentStorage.GetTitlesFont(),
                 combatResult);
-            
+
             var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
 
             _biomeProgression = new CombatResultsBiomeProgression(uiContentStorage.GetButtonTexture(),
                 uiContentStorage.GetMainFont(),
                 biomeProgress);
-            
-            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x)).ToArray();
+
+            var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
+                .ToArray();
 
             _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
                 uiContentStorage.GetTitlesFont(),
@@ -91,7 +92,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             base.UpdateContent(gameTime, resolutionIndependenceRenderer);
 
             _iterationCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            
+
             if (_iterationCounter >= 0.01)
             {
                 _combatRewardList.Update();
@@ -122,7 +123,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _biomeProgression.Draw(spriteBatch);
 
             const int REWARD_ITEM_MARGIN = 5;
-            
+
             _combatRewardList.Rect =
                 new Rectangle(benefitsRect.Location + new Point(0, _biomeProgression.Rect.Height + BLOCK_MARGIN),
                     new Point(benefitsRect.Width, 2 * (32 + REWARD_ITEM_MARGIN)));

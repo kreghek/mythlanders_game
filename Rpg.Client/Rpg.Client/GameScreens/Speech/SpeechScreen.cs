@@ -207,6 +207,42 @@ namespace Rpg.Client.GameScreens.Speech
             }
         }
 
+        private void DrawCurrentSpeaker(SpriteBatch spriteBatch)
+        {
+            const int SPEAKER_FRAME_SIZE = 256;
+
+            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
+            var speaker = currentFragment.Speaker;
+
+            if (speaker == UnitName.Environment)
+            {
+                // This text describes environment. There is no speaker.
+                return;
+            }
+
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: Camera.GetViewTransformationMatrix());
+
+            var col = 0;
+            var row = 0;
+            // var col = _frameIndex % 2;
+            // var row = _frameIndex / 2;
+
+            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
+                new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+                    SPEAKER_FRAME_SIZE),
+                new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE,
+                    SPEAKER_FRAME_SIZE),
+                Color.White);
+
+            spriteBatch.End();
+        }
+
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
@@ -305,40 +341,6 @@ namespace Rpg.Client.GameScreens.Speech
                     index++;
                 }
             }
-
-            spriteBatch.End();
-        }
-
-        private void DrawCurrentSpeaker(SpriteBatch spriteBatch)
-        {
-            const int SPEAKER_FRAME_SIZE = 256;
-
-            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
-            var speaker = currentFragment.Speaker;
-
-            if (speaker == UnitName.Environment)
-            {
-                // This text describes environment. There is no speaker.
-                return;
-            }
-
-            spriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: Camera.GetViewTransformationMatrix());
-
-            var col = 0;
-            var row = 0;
-            // var col = _frameIndex % 2;
-            // var row = _frameIndex / 2;
-
-            spriteBatch.Draw(_gameObjectContentStorage.GetCharacterFaceTexture(speaker),
-                new Rectangle(0, ResolutionIndependentRenderer.VirtualHeight - SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE),
-                new Rectangle(col * SPEAKER_FRAME_SIZE, row * SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE, SPEAKER_FRAME_SIZE),
-                Color.White);
 
             spriteBatch.End();
         }

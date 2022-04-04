@@ -70,19 +70,6 @@ namespace Rpg.Client.Tests
             takenDamageMount.Should().BeGreaterThan(2);
         }
 
-        private static UnitScheme GetVolkolakBeastFormScheme(IUnitSchemeCatalog demoUnitCatalog)
-        {
-            var volkolakTransition = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
-                .SchemeAutoTransition;
-
-            if (volkolakTransition is null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            return volkolakTransition.NextScheme;
-        }
-
         [Test]
         public void UseSkill_PeriodicDamageDefeatsMonster_NotThrowException()
         {
@@ -117,7 +104,7 @@ namespace Rpg.Client.Tests
                             // ReSharper disable once PossibleUnintendedReferenceComparison
                             // Justification: Used to mock creating.
                             skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy)
-                        )
+                    )
                 }
             };
 
@@ -244,7 +231,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            
+
             var damageRule = new List<EffectRule>
             {
                 new EffectRule
@@ -260,7 +247,7 @@ namespace Rpg.Client.Tests
                     })
                 }
             };
-            
+
             var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
@@ -314,7 +301,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var playerGroup = new Group();
-            
+
             var damageRule = new List<EffectRule>
             {
                 new EffectRule
@@ -330,7 +317,7 @@ namespace Rpg.Client.Tests
                     })
                 }
             };
-            
+
             var unitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 DamageDealerRank = 1,
@@ -342,7 +329,7 @@ namespace Rpg.Client.Tests
                         skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
                 }
             };
-            
+
             var decreaseDamageRule = new List<EffectRule>
             {
                 new EffectRule
@@ -422,6 +409,19 @@ namespace Rpg.Client.Tests
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().BeLessThan(targetHitPointsDiff);
+        }
+
+        private static UnitScheme GetVolkolakBeastFormScheme(IUnitSchemeCatalog demoUnitCatalog)
+        {
+            var volkolakTransition = demoUnitCatalog.AllMonsters.Single(x => x.Name == UnitName.VolkolakWarrior)
+                .SchemeAutoTransition;
+
+            if (volkolakTransition is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return volkolakTransition.NextScheme;
         }
     }
 }

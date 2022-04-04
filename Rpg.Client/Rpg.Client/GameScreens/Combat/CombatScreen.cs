@@ -204,6 +204,29 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
+        private static CombatRewards CalculateRewardGaining(
+            IEnumerable<CombatSource> completedCombats,
+            GlobeNode globeNode,
+            Player player,
+            Core.Biome biome)
+        {
+            var completedCombatsShortInfos = completedCombats.Select(x =>
+                new CombatRewardInfo(x.EnemyGroup.GetUnits()
+                    .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
+
+            var rewardCalculationContext = new RewardCalculationContext(
+                player.Inventory,
+                globeNode.EquipmentItem,
+                completedCombatsShortInfos,
+                biome.Level,
+                biome.MinLevel + 15
+            );
+
+            var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
+
+            return rewards;
+        }
+
         private void Combat_ActionGenerated(object? sender, ActionEventArgs e)
         {
             var actor = GetUnitGameObject(e.Actor);
@@ -895,29 +918,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private static CombatRewards CalculateRewardGaining(
-            IEnumerable<CombatSource> completedCombats,
-            GlobeNode globeNode,
-            Player player,
-            Core.Biome biome)
-        {
-            var completedCombatsShortInfos = completedCombats.Select(x =>
-                new CombatRewardInfo(x.EnemyGroup.GetUnits()
-                    .Select(enemy => new CombatMonsterRewardInfo(enemy.XpReward))));
-
-            var rewardCalculationContext = new RewardCalculationContext(
-                player.Inventory,
-                globeNode.EquipmentItem, 
-                completedCombatsShortInfos,
-                biome.Level,
-                biome.MinLevel + 15
-            );
-
-            var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
-
-            return rewards;
-        }
-
         private void HandleUnits(GameTime gameTime)
         {
             foreach (var gameObject in _gameObjects.ToArray())
@@ -1073,7 +1073,8 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var rewardItems = CalculateRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player, _combat.Biome);
+                    var rewardItems = CalculateRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player,
+                        _combat.Biome);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 

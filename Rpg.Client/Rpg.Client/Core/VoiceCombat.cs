@@ -10,17 +10,18 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Core
 {
-    internal class VoiceCombat: ICombat
+    internal class VoiceCombat : ICombat
     {
-        private readonly VoiceCombatUnit _playerUnit;
-        private readonly VoiceCombatUnit _enemyUnit;
         private readonly IList<ICombatUnit> _allUnitList;
+        private readonly VoiceCombatUnit _enemyUnit;
+        private readonly VoiceCombatUnit _playerUnit;
         private readonly IList<ICombatUnit> _unitQueue;
         private ICombatUnit? _currentUnit;
 
         private int _round;
 
-        public VoiceCombat(VoiceCombatUnit playerUnit, VoiceCombatUnit enemyUnit, GlobeNode node, Biome biome, IDice dice)
+        public VoiceCombat(VoiceCombatUnit playerUnit, VoiceCombatUnit enemyUnit, GlobeNode node, Biome biome,
+            IDice dice)
         {
             _playerUnit = playerUnit;
             _enemyUnit = enemyUnit;
@@ -32,8 +33,6 @@ namespace Rpg.Client.Core
             EffectProcessor = new EffectProcessor(this, Dice);
             ModifiersProcessor = new ModifiersProcessor();
         }
-
-        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
 
         public Biome Biome { get; }
 
@@ -68,13 +67,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IDice Dice { get; }
-
-        public EffectProcessor EffectProcessor { get; }
-
         public bool IsAutoplay { get; }
-
-        public ModifiersProcessor ModifiersProcessor { get; }
 
         public GlobeNode Node { get; }
 
@@ -108,17 +101,6 @@ namespace Rpg.Client.Core
         }
 
         private bool IsCurrentStepCompleted { get; set; }
-
-        public void Pass()
-        {
-            if (CurrentUnit is null)
-            {
-                Debug.Fail("Current unit must be assigned");
-            }
-
-            UnitPassedTurn?.Invoke(this, CurrentUnit);
-            CompleteStep();
-        }
 
         public void Surrender()
         {
@@ -167,7 +149,7 @@ namespace Rpg.Client.Core
 
             _allUnitList.Add(_playerUnit);
             CombatUnitEntered?.Invoke(this, _playerUnit);
-            
+
             _allUnitList.Add(_enemyUnit);
             CombatUnitEntered?.Invoke(this, _enemyUnit);
 
@@ -394,6 +376,25 @@ namespace Rpg.Client.Core
                 UnitDied?.Invoke(this, combatUnit);
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }
+        }
+
+        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
+
+        public IDice Dice { get; }
+
+        public EffectProcessor EffectProcessor { get; }
+
+        public ModifiersProcessor ModifiersProcessor { get; }
+
+        public void Pass()
+        {
+            if (CurrentUnit is null)
+            {
+                Debug.Fail("Current unit must be assigned");
+            }
+
+            UnitPassedTurn?.Invoke(this, CurrentUnit);
+            CompleteStep();
         }
 
         internal event EventHandler<ICombatUnit>? CombatUnitRemoved;

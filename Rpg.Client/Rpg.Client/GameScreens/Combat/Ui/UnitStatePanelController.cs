@@ -88,15 +88,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
-        {
-            if (combatUnit.Target is not null)
-            {
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), combatUnit.Target.Unit.UnitScheme.Name.ToString(), panelPosition + new Vector2(-30, 0),
-                        Color.LightCyan);
-            }
-        }
-
         private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
             var effects = _activeCombat.EffectProcessor.GetCurrentEffect(combatUnit).ToArray();
@@ -130,7 +121,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset, Side side)
+        private void DrawPanelBackground(SpriteBatch spriteBatch, Vector2 panelPosition, Vector2 backgroundOffset,
+            Side side)
         {
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
@@ -138,6 +130,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new Rectangle(0, 0, PANEL_WIDTH, PANEL_HEIGHT),
                 Color.White,
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
+        }
+
+        private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
+        {
+            if (combatUnit.Target is not null)
+            {
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    combatUnit.Target.Unit.UnitScheme.Name.ToString(), panelPosition + new Vector2(-30, 0),
+                    Color.LightCyan);
+            }
         }
 
         private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Unit unit, Vector2 panelPosition,

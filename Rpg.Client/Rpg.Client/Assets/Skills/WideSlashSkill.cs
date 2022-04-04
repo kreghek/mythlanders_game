@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -44,7 +45,7 @@ namespace Rpg.Client.Assets.Skills
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            AnimationSid = Core.AnimationSid.Skill2,
+            AnimationSid = AnimationSid.Skill2,
             Type = SkillVisualizationStateType.MassMelee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };

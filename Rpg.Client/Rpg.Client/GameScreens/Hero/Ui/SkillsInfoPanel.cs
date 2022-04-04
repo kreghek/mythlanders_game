@@ -64,7 +64,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
                 if (skillButton.Entity.BaseEnergyCost is not null)
                 {
-                    var manaCostText = string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.BaseEnergyCost);
+                    var manaCostText =
+                        string.Format(UiResource.ManaCostLabelTemplate, skillButton.Entity.BaseEnergyCost);
                     spriteBatch.DrawString(_mainFont, manaCostText,
                         skillButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }

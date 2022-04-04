@@ -19,7 +19,7 @@ namespace Rpg.Client.Core.Tests
 
             var balanceTable = new BalanceTable();
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
-            
+
             var catalog = new EventCatalog(unitSchemeCatalog);
 
             // ACT

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -38,7 +39,7 @@ namespace Rpg.Client.Assets.Skills
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.FireDamage,
-            AnimationSid = Core.AnimationSid.Skill4
+            AnimationSid = AnimationSid.Skill4
         };
     }
 }

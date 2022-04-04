@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
     internal abstract class EventCatalogBase : IEventCatalog, IEventInitializer
     {
         private const int GOAL_TEXT_MAX_SYMBOL_COUNT = 60;
-        
+
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private IEnumerable<Event> _events = null!;
         private bool _isInitialized;
@@ -82,9 +82,10 @@ namespace Rpg.Client.Core
                     AfterCombatStartNode = afterEventNode,
                     SystemMarker = systemMarker,
                     IsGameStart = isGameStartEvent,
-                    GoalDescription = eventStorageModel.GoalDescription is not null ?
-                        StringHelper.LineBreaking(eventStorageModel.GoalDescription,
-                        GOAL_TEXT_MAX_SYMBOL_COUNT) : null
+                    GoalDescription = eventStorageModel.GoalDescription is not null
+                        ? StringHelper.LineBreaking(eventStorageModel.GoalDescription,
+                            GOAL_TEXT_MAX_SYMBOL_COUNT)
+                        : null
                 };
 
                 yield return plotEvent;
@@ -135,12 +136,6 @@ namespace Rpg.Client.Core
             private set => _events = value;
         }
 
-        private sealed record LocationInfo
-        {
-            public BiomeType Biome { get; init; }
-            public GlobeNodeSid LocationSid { get; init; }
-        }
-
         public void Init()
         {
             var rm = PlotResources.ResourceManager;
@@ -158,8 +153,14 @@ namespace Rpg.Client.Core
             AssignEventParents(events, eventStorageModelList);
 
             Events = events.ToArray();
-            
+
             _isInitialized = true;
+        }
+
+        private sealed record LocationInfo
+        {
+            public BiomeType Biome { get; init; }
+            public GlobeNodeSid LocationSid { get; init; }
         }
     }
 }

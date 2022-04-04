@@ -102,7 +102,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
                 { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
                 { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
-                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
+                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") }
             };
 
             _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>

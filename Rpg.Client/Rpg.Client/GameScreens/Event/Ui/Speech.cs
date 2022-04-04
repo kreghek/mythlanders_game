@@ -5,19 +5,17 @@ namespace Rpg.Client.GameScreens.Event.Ui
     internal sealed class Speech
     {
         public const float SYMBOL_DELAY_SEC = 0.05f;
-        
+
         private readonly string _fullText;
-        private readonly ISpeechSoundWrapper _speechSound;
         private readonly ISpeechRandomProvider _speechRandomProvider;
-        
+        private readonly ISpeechSoundWrapper _speechSound;
+
         private readonly StringBuilder _textToPrintBuilder;
+        private double _delayCounter;
         private int _delayUsed;
-        private int _symbolIndex;
         private double _soundDelayCounter;
         private double _symbolDelayCounter;
-        private double _delayCounter;
-
-        public string FullText { get; }
+        private int _symbolIndex;
 
         public Speech(string fullText, ISpeechSoundWrapper speechSound, ISpeechRandomProvider speechRandomProvider)
         {
@@ -26,6 +24,15 @@ namespace Rpg.Client.GameScreens.Event.Ui
             _speechSound = speechSound;
             _speechRandomProvider = speechRandomProvider;
             _textToPrintBuilder = new StringBuilder(fullText.Length);
+        }
+
+        public string FullText { get; }
+
+        public bool IsComplete { get; private set; }
+
+        public string GetCurrentText()
+        {
+            return _textToPrintBuilder.ToString();
         }
 
         public void MoveToCompletion()
@@ -41,7 +48,7 @@ namespace Rpg.Client.GameScreens.Event.Ui
             {
                 return;
             }
-            
+
             _symbolDelayCounter += elapsedSeconds;
 
             if (_symbolDelayCounter <= SYMBOL_DELAY_SEC)
@@ -70,13 +77,6 @@ namespace Rpg.Client.GameScreens.Event.Ui
             }
         }
 
-        public bool IsComplete { get; private set; }
-
-        public string GetCurrentText()
-        {
-            return _textToPrintBuilder.ToString();
-        }
-        
         private void HandleTextSound(float elapsedSeconds)
         {
             if (_soundDelayCounter > 0)

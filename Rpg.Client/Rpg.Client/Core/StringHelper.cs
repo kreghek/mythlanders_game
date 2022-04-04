@@ -8,6 +8,7 @@ namespace Rpg.Client.Core
     public static class StringHelper
     {
         public static readonly IReadOnlyList<char> WordBreakers = new[] { ' ' };
+
         public static string LineBreaking(string text, int maxInLine)
         {
             var items = text.Split(Environment.NewLine);
@@ -34,20 +35,14 @@ namespace Rpg.Client.Core
                         AppendWord(word, singleSb, isFirstInLine: true);
                         AppendWord(word, mainSb, isFirstInLine: true);
                     }
-                    
+
                     isFirstInLine = false;
                 }
-                
+
                 StartNewLine(mainSb, singleSb: null);
             }
 
             return mainSb.ToString().Trim();
-        }
-
-        private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)
-        {
-            singleSb?.Clear();
-            mainSb.AppendLine();
         }
 
         private static void AppendWord(string word, StringBuilder sb, bool isFirstInLine)
@@ -58,6 +53,12 @@ namespace Rpg.Client.Core
             }
 
             sb.Append(word);
+        }
+
+        private static void StartNewLine(StringBuilder mainSb, StringBuilder? singleSb)
+        {
+            singleSb?.Clear();
+            mainSb.AppendLine();
         }
     }
 }

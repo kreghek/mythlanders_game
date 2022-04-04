@@ -8,9 +8,9 @@ namespace Rpg.Client.Core
     internal interface ICombat
     {
         IEnumerable<ICombatUnit> AliveUnits { get; }
+        IDice Dice { get; }
         EffectProcessor EffectProcessor { get; }
         ModifiersProcessor ModifiersProcessor { get; }
-        IDice Dice { get; }
         void Pass();
     }
 }
