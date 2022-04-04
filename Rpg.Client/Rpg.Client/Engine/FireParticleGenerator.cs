@@ -27,10 +27,10 @@ namespace Rpg.Client.Engine
             const float ANGLE = 0;
             const int ANGULAR_VELOCITY = 0;
             var color = Color.Lerp(Color.White, Color.Transparent, 0.5f);
-            var size = 0.1f + (float)_random.NextDouble() * 0.1f;
+            var size = 0.2f + (float)_random.NextDouble() * 0.1f;
             var ttl = 100 + _random.Next(100);
 
-            return new SwarmParticle(texture, new Rectangle(0, 0, 32, 32), emitterPosition, velocity, ANGLE, ANGULAR_VELOCITY, Color.Purple,
+            return new SwarmParticle(texture, new Rectangle(0, 32*2, 32, 32), emitterPosition, velocity, ANGLE, ANGULAR_VELOCITY, Color.Purple,
                 size, ttl);
         }
 
