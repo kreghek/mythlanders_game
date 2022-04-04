@@ -15,7 +15,8 @@ namespace Rpg.Client.Assets.Skills
         public StaffHitSkill(bool costRequired) : base(new SkillVisualization
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.StaffHit
+            SoundEffectType = GameObjectSoundType.StaffHit,
+            AnimationSid = Core.AnimationSid.Skill1
         }, costRequired)
         {
         }
