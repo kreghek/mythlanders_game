@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,10 +7,10 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal sealed class BulletGameObject : IInteractionDelivery
+    internal sealed class GasBomb : IInteractionDelivery
     {
         private const double DURATION_SECONDS = 0.3;
-        private const double FRAMERATE = 1f / (8f * 3);
+        private const double FRAME_RATE = 1f / (8f * 3);
 
         private const int FRAME_COUNT = 4;
 
@@ -20,23 +20,26 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly ParticleSystem _particleSystem;
         private readonly Vector2 _startPosition;
         private double _counter;
+        private double _counter2;
         private double _frameCounter;
         private int _frameIndex;
 
-        public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
+        public GasBomb(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics())
             {
                 Position = startPosition,
-                SourceRectangle = new Rectangle(0, 0, 64, 32)
+                SourceRectangle = new Rectangle(0, 0, 64, 32),
+                Color = Color.LimeGreen
             };
 
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;
 
-            var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
+            var particleGenerator = new ExplosionParticleGenerator(new[] { contentStorage.GetParticlesTexture() }, 
+                new Rectangle(0, 64 + 32, 32, 32));
             _particleSystem = new ParticleSystem(_startPosition, particleGenerator);
         }
 
@@ -50,7 +53,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
 
             _graphics.Draw(spriteBatch);
-            _particleSystem.Draw(spriteBatch);
+
+            if (_counter2 > 0)
+            {
+                _particleSystem.Draw(spriteBatch);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -65,7 +72,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
                 _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (_frameCounter >= FRAMERATE)
+                if (_frameCounter >= FRAME_RATE)
                 {
                     _frameCounter = 0;
                     _frameIndex++;
@@ -77,21 +84,28 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 }
 
                 var t = _counter / DURATION_SECONDS;
-                _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
+                _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t) +
+                                     Vector2.UnitY * (float)Math.Sin(t * Math.PI * 2) * 256;
                 _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
                 _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }
             else
             {
-                if (!IsDestroyed)
+                if (_counter2 < DURATION_SECONDS)
                 {
-                    IsDestroyed = true;
-                    _blocker?.Release();
+                    _counter2 += gameTime.ElapsedGameTime.TotalSeconds;
+                    _particleSystem.MoveEmitter(_graphics.Position);
+                    _particleSystem.Update(gameTime);
+                }
+                else
+                {
+                    if (!IsDestroyed)
+                    {
+                        IsDestroyed = true;
+                        _blocker?.Release();
+                    }
                 }
             }
-
-            _particleSystem.MoveEmitter(_graphics.Position);
-            _particleSystem.Update(gameTime);
         }
     }
 }

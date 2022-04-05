@@ -10,10 +10,12 @@ namespace Rpg.Client.Engine
     {
         private readonly Random _random;
         private readonly IList<Texture2D> _textures;
+        private readonly Rectangle _sourceTextureRect;
 
-        public ExplosionParticleGenerator(IList<Texture2D> textures)
+        public ExplosionParticleGenerator(IList<Texture2D> textures, Rectangle sourceTextureRect)
         {
             _textures = textures;
+            _sourceTextureRect = sourceTextureRect;
             _random = new Random();
         }
 
@@ -41,7 +43,7 @@ namespace Rpg.Client.Engine
             var size = (float)_random.NextDouble() * 5f;
             var ttl = 40 + _random.Next(40);
 
-            return new MothParticle(texture, new Rectangle(0, 64, 32, 32), startPosition, targetPosition, velocity,
+            return new MothParticle(texture, _sourceTextureRect, startPosition, targetPosition, velocity,
                 angle, angularVelocity, color, size, ttl);
         }
 

@@ -556,6 +556,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mass heal.
+        /// </summary>
+        internal static string MassHeal {
+            get {
+                return ResourceManager.GetString("MassHeal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Mines.
         /// </summary>
         internal static string Mines {
