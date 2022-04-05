@@ -1,4 +1,4 @@
-﻿namespace Rpg.Client.Core.SkillEffects
+﻿namespace Rpg.Client.Core
 {
     public class MinMax<T>
     {
