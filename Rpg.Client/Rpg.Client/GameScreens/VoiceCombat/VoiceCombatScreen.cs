@@ -453,7 +453,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, 1);
+            var damageIndicator = new HitPointsChangedTextIndicator(-e.Amount, null, e.Direction, position, font, 1);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -466,7 +466,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
-            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, 1);
+            var damageIndicator = new HitPointsChangedTextIndicator(e.Amount, null, e.Direction, position, font, 1);
 
             unitGameObject.AddChild(damageIndicator);
         }

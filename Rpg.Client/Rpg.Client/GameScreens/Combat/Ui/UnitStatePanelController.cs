@@ -168,6 +168,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
                     Color.LightCyan);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}", hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
+                    Color.LightCyan);
             }
             else
             {
@@ -186,6 +189,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10), Color.LightCyan);
             }
         }
 

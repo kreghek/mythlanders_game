@@ -513,7 +513,7 @@ namespace Rpg.Client.GameScreens.Combat
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var damageIndicator =
-                new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                new HitPointsChangedTextIndicator(-e.Amount, e.ShieldValue, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }
@@ -529,7 +529,7 @@ namespace Rpg.Client.GameScreens.Combat
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var damageIndicator =
-                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                new HitPointsChangedTextIndicator(e.Amount, null, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }

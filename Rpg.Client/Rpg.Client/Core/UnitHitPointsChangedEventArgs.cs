@@ -9,5 +9,6 @@ namespace Rpg.Client.Core
 
         public HitPointsChangeDirection Direction { get; init; }
         public int SourceAmount { get; init; }
+        public int? ShieldValue { get; internal set; }
     }
 }

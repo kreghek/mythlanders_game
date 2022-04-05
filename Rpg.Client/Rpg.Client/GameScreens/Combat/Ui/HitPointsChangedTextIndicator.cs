@@ -8,14 +8,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     internal class HitPointsChangedTextIndicator : TextIndicatorBase
     {
         private readonly int _amount;
+        private readonly int? _shieldValue;
         private readonly HitPointsChangeDirection _direction;
 
-        public HitPointsChangedTextIndicator(int amount,
-            HitPointsChangeDirection direction,
+        public HitPointsChangedTextIndicator(int amount, int? shieldValue, HitPointsChangeDirection direction,
             Vector2 startPosition,
             SpriteFont font, int stackIndex) : base(startPosition + new Vector2(stackIndex * 20, 0), font)
         {
             _amount = amount;
+            _shieldValue = shieldValue;
             _direction = direction;
         }
 
@@ -31,7 +32,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 return $"+{_amount}";
             }
 
-            return _amount.ToString();
+            return (_shieldValue is not null ? _shieldValue.Value.ToString() + "s" : string.Empty) + _amount.ToString();
         }
     }
 }

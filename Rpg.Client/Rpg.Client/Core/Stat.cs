@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿using System;
+
+namespace Rpg.Client.Core
 {
     public class Stat
     {
@@ -8,7 +10,7 @@
             Current = Base;
         }
 
-        public int Base { get; private set; }
+        private int Base { get; set; }
 
         public void ChangeBase(int newBase)
         {
@@ -41,5 +43,10 @@
         }
 
         public float Share => (float)Current / ActualBase;
+
+        internal void Restore()
+        {
+            Current = ActualBase;
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace Rpg.Client.Core
             InitEquipment(equipments);
             Equipments = equipments;
 
+            ShieldPoints = new Stat(Armor);
+
             Level = level;
 
             InitStats(unitScheme);
@@ -61,6 +63,8 @@ namespace Rpg.Client.Core
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
         public int MaxHitPoints { get; private set; }
+
+        public Stat ShieldPoints { get; }
 
         public IList<IPerk> Perks { get; }
 
@@ -134,13 +138,28 @@ namespace Rpg.Client.Core
 
         public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
-            var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
-            HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
+            var armor = Armor;
+
+            var damageAbsorbedByArmor = Math.Max(damageSource - armor, 0);
+
+            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByArmor);
+            var damageAbsorbedByShields = damageAbsorbedByArmor - damageToShield;
+
+            if (damageToShield > 0)
+            {
+                ShieldPoints.Descrease(damageToShield);
+            }
+
+            if (damageAbsorbedByShields > 0)
+            {
+                HitPoints -= Math.Min(HitPoints, damageAbsorbedByShields);
+            }
 
             var result = new DamageResult
             {
                 ValueSource = damageSource,
-                ValueFinal = damageAbsorbedByArmor
+                ValueFinal = damageAbsorbedByShields,
+                ValueToShield = damageToShield
             };
 
             var args = new UnitHasBeenDamagedEventArgs { Result = result };

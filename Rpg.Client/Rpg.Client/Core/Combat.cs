@@ -342,6 +342,8 @@ namespace Rpg.Client.Core
                 return;
             }
 
+            e.NewUnit.Unit.ShieldPoints.Restore();
+
             EffectProcessor.Influence(e.NewUnit);
         }
 

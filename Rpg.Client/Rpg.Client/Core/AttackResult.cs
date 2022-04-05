@@ -4,5 +4,6 @@ namespace Rpg.Client.Core
     {
         public int? ValueFinal { get; init; }
         public int ValueSource { get; init; }
+        public int? ValueToShield { get; init; }
     }
 }

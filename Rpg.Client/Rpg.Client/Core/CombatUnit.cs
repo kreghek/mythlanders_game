@@ -66,6 +66,7 @@ namespace Rpg.Client.Core
             {
                 CombatUnit = this,
                 Amount = e.Result.ValueFinal.Value,
+                ShieldValue = e.Result.ValueToShield,
                 SourceAmount = e.Result.ValueSource,
                 Direction = HitPointsChangeDirection.Negative
             };
