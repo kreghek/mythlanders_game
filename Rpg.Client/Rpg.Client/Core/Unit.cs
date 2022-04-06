@@ -138,7 +138,7 @@ namespace Rpg.Client.Core
 
         public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
-            var armor = Armor;
+            var armor = 0;
 
             var damageAbsorbedByArmor = Math.Max(damageSource - armor, 0);
 

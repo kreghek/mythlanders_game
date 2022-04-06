@@ -94,7 +94,7 @@ namespace Rpg.Client.GameScreens
         public static Rectangle GetUnitPortraitRect(UnitName unitName)
         {
             const int SIZE = 32;
-            const int COLUMN_COUNT = 3;
+            const int COLUMN_COUNT = 4;
 
             var index = GetUnitPortraitOneBasedIndex(unitName);
 
@@ -159,6 +159,8 @@ namespace Rpg.Client.GameScreens
                 UnitName.Bear => 9,
                 UnitName.Wisp => 10,
                 UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
+                UnitName.Thar => 13,
+                UnitName.Dull => 14,
                 _ => 12
             };
         }
