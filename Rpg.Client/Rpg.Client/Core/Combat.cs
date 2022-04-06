@@ -294,25 +294,30 @@ namespace Rpg.Client.Core
             var dice = GetDice();
             foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
             {
-                var skillsOpenList = cpuUnit.CombatCards.ToList();
-                while (skillsOpenList.Any())
+                //AssignCpuTarget(cpuUnit, dice);
+            }
+        }
+
+        private void AssignCpuTarget(CombatUnit unit, IDice dice)
+        {
+            var skillsOpenList = unit.CombatCards.ToList();
+            while (skillsOpenList.Any())
+            {
+                var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                skillsOpenList.Remove(skill);
+
+                var possibleTargetList = GetAvailableTargets(skill.Skill, unit);
+
+                if (!possibleTargetList.Any())
                 {
-                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
-                    skillsOpenList.Remove(skill);
-
-                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
-
-                    if (!possibleTargetList.Any())
-                    {
-                        continue;
-                        // There are no targets. Try another skill.
-                    }
-
-                    var targetUnit = dice.RollFromList(possibleTargetList);
-                    cpuUnit.Target = targetUnit;
-
-                    cpuUnit.TargetSkill = skill;
+                    continue;
+                    // There are no targets. Try another skill.
                 }
+
+                var targetUnit = dice.RollFromList(possibleTargetList);
+                unit.Target = targetUnit;
+
+                unit.TargetSkill = skill;
             }
         }
 
@@ -337,14 +342,20 @@ namespace Rpg.Client.Core
 
         private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            if (e.NewUnit is null)
+            var combatUnit = e.NewUnit;
+            if (combatUnit is null)
             {
                 return;
             }
 
-            e.NewUnit.Unit.ShieldPoints.Restore();
+            combatUnit.Unit.ShieldPoints.Restore();
+            
+            EffectProcessor.Influence(combatUnit);
 
-            EffectProcessor.Influence(e.NewUnit);
+            if (!combatUnit.Unit.IsDead && !combatUnit.Unit.IsPlayerControlled)
+            {
+                AssignCpuTarget((CombatUnit)combatUnit, Dice);
+            }
         }
 
         private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
