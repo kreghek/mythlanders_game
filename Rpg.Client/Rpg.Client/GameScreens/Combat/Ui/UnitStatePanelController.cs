@@ -76,6 +76,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 DrawTargets(spriteBatch, panelPosition, combatUnit);
 
+                DrawTurnState(spriteBatch, panelPosition, combatUnit, side);
+
                 if (HasMana(unit))
                 {
                     DrawManaBar(spriteBatch, panelPosition, combatUnit);
@@ -85,6 +87,61 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 {
                     DrawEffects(spriteBatch, panelPosition, combatUnit);
                 }
+            }
+        }
+
+        private void DrawTurnState(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit, Side side)
+        {
+            if (side == Side.Left)
+            {
+                var markerPosition = panelPosition + new Vector2(17, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
+            }
+            else
+            {
+                var markerPosition = panelPosition + new Vector2(17 + 146, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
+
+                //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
+                //    new Rectangle(0, 83, 42, 32),
+                //    Color.White);
+
+                //var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
+                //var portraitPosition = panelPosition + new Vector2(7, 0);
+                //var portraitDestRect = portraitPosition;
+                //var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                //spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
+                //    portraitSourceRect,
+                //    Color.White,
+                //    rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
             }
         }
 

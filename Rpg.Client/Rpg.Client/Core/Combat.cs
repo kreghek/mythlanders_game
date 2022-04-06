@@ -198,6 +198,7 @@ namespace Rpg.Client.Core
                 combatUnit.Unit.Dead += Unit_Dead;
                 combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
+                combatUnit.IsWaiting = true;
 
                 if (!combatUnit.Unit.IsPlayerControlled)
                 {
@@ -366,6 +367,7 @@ namespace Rpg.Client.Core
             EffectProcessor.Influence(combatUnit);
             
             combatUnit.Unit.RestoreShields();
+            ((CombatUnit)combatUnit).IsWaiting = false;
         }
 
         private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
@@ -476,6 +478,8 @@ namespace Rpg.Client.Core
                 {
                     _unitQueue.Add(unit);
                 }
+
+                unit.IsWaiting = true;
             }
         }
 

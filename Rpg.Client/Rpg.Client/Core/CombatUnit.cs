@@ -28,6 +28,8 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
+        public bool IsWaiting { get; set; }
+
         private void Unit_Blocked(object? sender, EventArgs e)
         {
             Blocked?.Invoke(this, EventArgs.Empty);
