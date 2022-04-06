@@ -27,10 +27,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             if (_amount > 0 && _direction == HitPointsChangeDirection.Positive)
             {
-                return $"+{_amount}";
+                return $"+<{_amount}>";
             }
 
-            return _amount.ToString();
+            return $"<{_amount}>";
         }
     }
 }

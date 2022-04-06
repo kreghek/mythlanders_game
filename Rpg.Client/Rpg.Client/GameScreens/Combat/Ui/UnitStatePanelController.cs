@@ -134,11 +134,64 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
-            if (combatUnit.Target is not null)
+            var targetCombatUnit = combatUnit.Target;
+            if (targetCombatUnit is not null)
             {
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    combatUnit.Target.Unit.UnitScheme.Name.ToString(), panelPosition + new Vector2(-30, 0),
-                    Color.LightCyan);
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(targetCombatUnit.Unit.UnitScheme.Name);
+
+                var targetPortraintPosition = panelPosition + new Vector2(-30, 0);
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)), 
+                    portraitSourceRect,
+                    Color.White);
+
+                if (combatUnit.TargetSkill is not null)
+                {
+                    var targetSkill = combatUnit.TargetSkill;
+
+                    var impactText = string.Empty;
+
+                    foreach (var rule in targetSkill.Skill.Rules)
+                    {
+                        var effect = rule.EffectCreator.Create(combatUnit);
+
+                        if (effect is DamageEffect damageEffect)
+                        {
+                            var damageRange = damageEffect.CalculateDamage();
+                            if (damageRange.Min != damageRange.Max)
+                            {
+                                impactText = $"{damageRange.Min}-{damageRange.Max}";
+                            }
+                            else
+                            {
+                                impactText = $"{damageRange.Min}";
+                            }
+
+                            if (targetCombatUnit.Unit.HitPoints <= damageRange.Min)
+                            {
+                                impactText += " ☠";
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(impactText))
+                    {
+                        for (var i = -1; i <= 1; i++)
+                        {
+                            for (var j = -1; j <= 1; j++)
+                            {
+                                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                    impactText, panelPosition + new Vector2(-(30 - 24), 6) + new Vector2(i, j),
+                                    Color.LightGray);
+                            }
+                        }
+
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                    impactText, panelPosition + new Vector2(-(30 - 24), 6),
+                                    Color.Maroon);
+                    }
+                }
+
             }
         }
 
