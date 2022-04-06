@@ -145,15 +145,24 @@ namespace Rpg.Client.Core
             var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByArmor);
             var damageToHitPoints = damageAbsorbedByArmor - damageToShield;
 
+            var blocked = true;
             if (damageToShield > 0)
             {
                 TakeDamageToShields(damageSource, damageToShield);
+                blocked = false;
             }
 
             if (damageToHitPoints > 0)
             {
                 TakeDamageToHitPoints(damageSource, damageToHitPoints);
+                blocked = false;
             }
+
+            if (blocked)
+            {
+                Blocked?.Invoke(this, EventArgs.Empty);
+            }
+
 
             if (HitPoints <= 0)
             {
@@ -348,6 +357,7 @@ namespace Rpg.Client.Core
         public event EventHandler? HasAvoidedDamage;
 
         public event EventHandler<int>? HasBeenHitPointsRestored;
+        public event EventHandler? Blocked;
         public event EventHandler<int>? HasBeenShieldPointsRestored;
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;

@@ -198,6 +198,11 @@ namespace Rpg.Client.Core
                 combatUnit.Unit.Dead += Unit_Dead;
                 combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
+
+                if (!combatUnit.Unit.IsPlayerControlled)
+                {
+                    AssignCpuTarget(combatUnit, Dice);
+                }
             }
 
             ActiveCombatUnitChanged += Combat_ActiveCombatUnitChanged;
@@ -343,6 +348,15 @@ namespace Rpg.Client.Core
 
         private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
         {
+            var oldCombatUnit = e.OldUnit;
+            if (oldCombatUnit is not null)
+            {
+                if (!oldCombatUnit.Unit.IsDead && !oldCombatUnit.Unit.IsPlayerControlled)
+                {
+                    AssignCpuTarget((CombatUnit)oldCombatUnit, Dice);
+                }
+            }
+
             var combatUnit = e.NewUnit;
             if (combatUnit is null)
             {
@@ -352,11 +366,6 @@ namespace Rpg.Client.Core
             EffectProcessor.Influence(combatUnit);
             
             combatUnit.Unit.RestoreShields();
-
-            if (!combatUnit.Unit.IsDead && !combatUnit.Unit.IsPlayerControlled)
-            {
-                AssignCpuTarget((CombatUnit)combatUnit, Dice);
-            }
         }
 
         private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)

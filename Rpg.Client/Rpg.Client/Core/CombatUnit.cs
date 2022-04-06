@@ -24,7 +24,13 @@ namespace Rpg.Client.Core
             unit.HasBeenHitPointsRestored += Unit_BeenHealed;
             unit.HasBeenShieldPointsRestored += Unit_HasBeenShieldRestored;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
+            unit.Blocked += Unit_Blocked;
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+        }
+
+        private void Unit_Blocked(object? sender, EventArgs e)
+        {
+            Blocked?.Invoke(this, EventArgs.Empty);
         }
 
         private void Unit_HasBeenShieldRestored(object? sender, int e)
@@ -63,6 +69,8 @@ namespace Rpg.Client.Core
             Unit.HasBeenHitPointsRestored -= Unit_BeenHealed;
             Unit.HasBeenShieldPointsRestored -= Unit_HasBeenShieldRestored;
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
+            Unit.SchemeAutoTransition -= Unit_SchemeAutoTransition;
+            Unit.Blocked -= Unit_Blocked;
         }
 
         private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
@@ -118,6 +126,8 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
         
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
+
+        public event EventHandler? Blocked;
 
         public void RestoreEnergyPoint()
         {

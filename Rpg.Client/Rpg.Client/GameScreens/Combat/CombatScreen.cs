@@ -302,22 +302,39 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
             combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
             combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+            combatUnit.Blocked += CombatUnit_Blocked;
+        }
+
+        private void CombatUnit_Blocked(object? sender, EventArgs e)
+        {
+            Debug.Assert(sender is not null);
+            var combatUnit = (CombatUnit)sender;
+            var unitGameObject = GetUnitGameObject(combatUnit);
+            var textPosition = GetUnitGameObject(combatUnit).Position;
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+
+            var passIndicator = new BlockAnyDamageTextIndicator(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
         }
 
         private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
         {
-            Debug.Assert(e.CombatUnit is not null);
-            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+            if (e.Amount > 0)
+            {
+                Debug.Assert(e.CombatUnit is not null);
+                var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
+                var font = _uiContentStorage.GetCombatIndicatorFont();
+                var position = unitGameObject.Position;
 
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+                var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            var damageIndicator =
-                new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                var damageIndicator =
+                    new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
-            unitGameObject.AddChild(damageIndicator);
+                unitGameObject.AddChild(damageIndicator);
+            }
         }
 
         private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)

@@ -244,6 +244,9 @@
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
     <value>Increase damage on +{0} of {2} on {1} turns</value>
   </data>
+  <data name="IndicatorBlockAnyDamage" xml:space="preserve">
+    <value>Block!</value>
+  </data>
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Evasion!</value>
     <comment>Когда юнит уклоняется от урона</comment>
