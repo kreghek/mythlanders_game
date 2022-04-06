@@ -196,7 +196,8 @@ namespace Rpg.Client.Core
             foreach (var combatUnit in _allUnitList)
             {
                 combatUnit.Unit.Dead += Unit_Dead;
-                combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+                combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
+                combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
             }
 
             ActiveCombatUnitChanged += Combat_ActiveCombatUnitChanged;
@@ -348,9 +349,9 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            combatUnit.Unit.ShieldPoints.Restore();
-            
             EffectProcessor.Influence(combatUnit);
+            
+            combatUnit.Unit.RestoreShields();
 
             if (!combatUnit.Unit.IsDead && !combatUnit.Unit.IsPlayerControlled)
             {

@@ -247,8 +247,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
-            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed -= CombatUnit_Healed;
+            combatUnit.HasTakenHitPointsDamage -= CombatUnit_HasTakenHitPointsDamage;
+            combatUnit.HasBeenHitPointsRestored -= CombatUnit_HasBeenHitPointsRestored;
             combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 
@@ -297,9 +297,49 @@ namespace Rpg.Client.GameScreens.Combat
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager);
             _gameObjects.Add(gameObject);
-            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed += CombatUnit_Healed;
+            combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
+            combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
+            combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
+            combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
             combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+        }
+
+        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            Debug.Assert(e.CombatUnit is not null);
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+            var position = unitGameObject.Position;
+
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var damageIndicator =
+                new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+            unitGameObject.AddChild(damageIndicator);
+        }
+
+        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            Debug.Assert(e.CombatUnit is not null);
+
+            if (e.CombatUnit.Unit.IsDead)
+            {
+                return;
+            }
+
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+            var position = unitGameObject.Position;
+
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var damageIndicator =
+                new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+            unitGameObject.AddChild(damageIndicator);
         }
 
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
@@ -496,7 +536,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(passIndicator);
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
 
@@ -513,12 +553,12 @@ namespace Rpg.Client.GameScreens.Combat
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var damageIndicator =
-                new HitPointsChangedTextIndicator(-e.Amount, e.ShieldValue, e.Direction, position, font, nextIndex ?? 0);
+                new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
@@ -529,7 +569,7 @@ namespace Rpg.Client.GameScreens.Combat
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var damageIndicator =
-                new HitPointsChangedTextIndicator(e.Amount, null, e.Direction, position, font, nextIndex ?? 0);
+                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }

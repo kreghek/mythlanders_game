@@ -19,10 +19,31 @@ namespace Rpg.Client.Core
             var skillContext = new CombatSkillContext(this);
             CombatCards = CreateCombatSkills(unit.Skills, skillContext);
 
-            unit.HasBeenDamaged += Unit_HasBeenDamaged;
-            unit.HasBeenHealed += Unit_BeenHealed;
+            unit.HasBeenHitPointsDamaged += Unit_HasBeenHitPointsDamaged;
+            unit.HasBeenShieldPointsDamaged += Unit_HasBeenShieldPointsDamaged;
+            unit.HasBeenHitPointsRestored += Unit_BeenHealed;
+            unit.HasBeenShieldPointsRestored += Unit_HasBeenShieldRestored;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+        }
+
+        private void Unit_HasBeenShieldRestored(object? sender, int e)
+        {
+            HasBeenShieldPointsRestored?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+        }
+
+        private void Unit_HasBeenShieldPointsDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
+        {
+            Debug.Assert(e.Result is not null);
+            Debug.Assert(e.Result?.ValueFinal is not null);
+            var args = new UnitHitPointsChangedEventArgs
+            {
+                CombatUnit = this,
+                Amount = e.Result.ValueFinal.Value,
+                SourceAmount = e.Result.ValueSource,
+                Direction = HitPointsChangeDirection.Negative
+            };
+            HasTakenShieldPointsDamage?.Invoke(this, args);
         }
 
         public int Index { get; }
@@ -37,8 +58,10 @@ namespace Rpg.Client.Core
 
         public void UnsubscribeHandlers()
         {
-            Unit.HasBeenDamaged -= Unit_HasBeenDamaged;
-            Unit.HasBeenHealed -= Unit_BeenHealed;
+            Unit.HasBeenHitPointsDamaged -= Unit_HasBeenHitPointsDamaged;
+            Unit.HasBeenShieldPointsDamaged -= Unit_HasBeenShieldPointsDamaged;
+            Unit.HasBeenHitPointsRestored -= Unit_BeenHealed;
+            Unit.HasBeenShieldPointsRestored -= Unit_HasBeenShieldRestored;
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
         }
 
@@ -50,7 +73,7 @@ namespace Rpg.Client.Core
 
         private void Unit_BeenHealed(object? sender, int e)
         {
-            HasBeenHealed?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+            HasBeenHitPointsRestored?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_HasAvoidedDamage(object? sender, EventArgs e)
@@ -58,7 +81,7 @@ namespace Rpg.Client.Core
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
-        private void Unit_HasBeenDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
+        private void Unit_HasBeenHitPointsDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
         {
             Debug.Assert(e.Result is not null);
             Debug.Assert(e.Result?.ValueFinal is not null);
@@ -66,11 +89,10 @@ namespace Rpg.Client.Core
             {
                 CombatUnit = this,
                 Amount = e.Result.ValueFinal.Value,
-                ShieldValue = e.Result.ValueToShield,
                 SourceAmount = e.Result.ValueSource,
                 Direction = HitPointsChangeDirection.Negative
             };
-            HasTakenDamage?.Invoke(this, args);
+            HasTakenHitPointsDamage?.Invoke(this, args);
         }
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
@@ -93,7 +115,9 @@ namespace Rpg.Client.Core
 
         public Unit Unit { get; }
 
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
+        
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
 
         public void RestoreEnergyPoint()
         {
@@ -104,7 +128,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHealed;
+        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHitPointsRestored;
+        
+        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenShieldPointsRestored;
 
         internal event EventHandler? HasAvoidedDamage;
     }
