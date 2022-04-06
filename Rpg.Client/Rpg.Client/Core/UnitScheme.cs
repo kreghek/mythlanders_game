@@ -10,10 +10,14 @@ namespace Rpg.Client.Core
         public UnitScheme(CommonUnitBasics unitBasics)
         {
             UnitBasics = unitBasics;
+
+            Resolve = 10;
         }
 
         public float ArmorBase => CalcArmor();
         public BiomeType Biome { get; init; }
+
+        public int Resolve { get; init; }
 
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }

@@ -215,6 +215,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
+                    Resolve = 13,
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,

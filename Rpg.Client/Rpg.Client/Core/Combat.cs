@@ -435,19 +435,27 @@ namespace Rpg.Client.Core
 
         private void StartRound()
         {
+            MakeUnitRoundQueue();
+
+            AssignCpuTargetUnits();
+
+            _round++;
+        }
+
+        private void MakeUnitRoundQueue()
+        {
             _unitQueue.Clear();
 
-            foreach (var unit in _allUnitList)
+            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Unit.UnitScheme.Resolve)
+                .ThenByDescending(x => x.Unit.IsPlayerControlled).ToArray();
+
+            foreach (var unit in orderedByResolve)
             {
                 if (!unit.Unit.IsDead)
                 {
                     _unitQueue.Add(unit);
                 }
             }
-
-            AssignCpuTargetUnits();
-
-            _round++;
         }
 
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
