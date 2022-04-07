@@ -54,7 +54,7 @@ namespace Rpg.Client.GameScreens
 
         public static Rectangle GetIconRect(SkillSid sid)
         {
-            const int SPRITE_SHEET_COLUMN_COUNT = 4;
+            const int SPRITE_SHEET_COLUMN_COUNT = 5;
             const int ICON_SIZE = 64;
 
             var iconIndexNullable = GetIconOneBasedIndex(sid);
@@ -135,12 +135,19 @@ namespace Rpg.Client.GameScreens
                 SkillSid.StaffHit => 12,
                 SkillSid.RestoreMantra => 13,
                 SkillSid.PathOf1000Firsts => 14,
+                SkillSid.MasterStaffHit => 17,
+                SkillSid.GodNature => 21,
 
                 SkillSid.DarkLighting => 9,
                 SkillSid.ParalyticChoir => 10,
                 SkillSid.FingerOfAnubis => 11,
 
                 SkillSid.PowerUp => 1,
+
+                SkillSid.PenetrationStrike => 18,
+                SkillSid.StonePath => 19,
+                SkillSid.DemonicTaunt => 20,
+
                 _ => null
             };
         }

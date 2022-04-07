@@ -481,6 +481,54 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/ClosestLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/ClosestLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/CloudsLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/CloudsLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptianv/SacredPlace/FarLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/FarLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/MainLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/MainLayer.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/DestroyedVillage/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor

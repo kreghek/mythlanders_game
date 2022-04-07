@@ -7,6 +7,8 @@
         SlavicSwamp,
         SlavicDestroyedVillage,
 
-        ChineseMonastery
+        ChineseMonastery,
+
+        EgyptianPyramids
     }
 }

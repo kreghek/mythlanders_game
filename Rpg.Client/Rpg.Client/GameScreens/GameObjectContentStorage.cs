@@ -128,6 +128,10 @@ namespace Rpg.Client.GameScreens
 
                 {
                     BackgroundType.ChineseMonastery, LoadBackgroundLayers(BiomeType.Chinese, GlobeNodeSid.Monastery)
+                },
+
+                {
+                    BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)
                 }
             };
 
