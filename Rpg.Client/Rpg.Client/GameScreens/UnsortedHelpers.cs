@@ -94,7 +94,7 @@ namespace Rpg.Client.GameScreens
         public static Rectangle GetUnitPortraitRect(UnitName unitName)
         {
             const int SIZE = 32;
-            const int COLUMN_COUNT = 3;
+            const int COLUMN_COUNT = 4;
 
             var index = GetUnitPortraitOneBasedIndex(unitName);
 
@@ -110,7 +110,7 @@ namespace Rpg.Client.GameScreens
             return sid switch
             {
                 SkillSid.Shotgun => 16,
-                SkillSid.RifleShot => 16,
+                SkillSid.BlankShot => 16,
                 SkillSid.SwordSlash => 1,
                 SkillSid.SwordSlashRandom => 1,
                 SkillSid.SwordSlashDefensive => 1,
@@ -118,6 +118,7 @@ namespace Rpg.Client.GameScreens
                 SkillSid.WideSwordSlash => 2,
                 SkillSid.GroupProtection => 15,
                 SkillSid.DefenseStance => 3,
+                SkillSid.BlindDefense => 3,
                 SkillSid.SvarogBlastFurnace => 4,
 
                 SkillSid.EnergyShot => 5,
@@ -159,6 +160,8 @@ namespace Rpg.Client.GameScreens
                 UnitName.Bear => 9,
                 UnitName.Wisp => 10,
                 UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
+                UnitName.Thar => 13,
+                UnitName.Dull => 14,
                 _ => 12
             };
         }

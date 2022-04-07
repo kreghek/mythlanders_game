@@ -769,6 +769,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Wolf.png
 
+#begin Sprites/GameObjects/MonsterUnits/BlackTrooper.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/BlackTrooper.png
+
+#begin Sprites/GameObjects/MonsterUnits/Marauder.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/Marauder.png
+
 #begin Sprites/GameObjects/PlayerUnits/Archer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -877,7 +901,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/Warrior.png
 
-#begin Sprites/GameObjects/PlayerUnits/Soldier.png
+#begin Sprites/GameObjects/PlayerUnits/Sergant.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -887,7 +911,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/PlayerUnits/Soldier.png
+/build:Sprites/GameObjects/PlayerUnits/Sergant.png
+
+#begin Sprites/GameObjects/PlayerUnits/Assaulter.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/Assaulter.png
 
 #begin Sprites/GameObjects/PlayerUnits/Spearman.png
 /importer:TextureImporter

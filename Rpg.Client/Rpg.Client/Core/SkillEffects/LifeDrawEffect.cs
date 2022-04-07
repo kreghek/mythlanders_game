@@ -7,7 +7,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class LifeDrawEffect : InstantenousEffectBase
+    internal class LifeDrawEffect : InstantaneousEffectBase
     {
         public ICombatUnit Actor { get; set; }
 

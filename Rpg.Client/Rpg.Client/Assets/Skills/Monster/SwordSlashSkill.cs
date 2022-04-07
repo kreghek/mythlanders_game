@@ -7,15 +7,15 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class SwordSlashSkill : SkillBase
+    internal class UnholyHitSkill : SkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSlash;
+        private const SkillSid SID = SkillSid.UnholyHit;
 
-        public SwordSlashSkill() : this(false)
+        public UnholyHitSkill() : this(false)
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public UnholyHitSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -26,12 +26,10 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1 * equipmentMultiplier
+                        DamageMultiplier = 1
                     };
 
                     return res;

@@ -59,7 +59,7 @@ namespace Rpg.Client.Tests
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
             var takenDamageMount = 0;
-            target.HasTakenDamage += (_, e) =>
+            target.HasTakenHitPointsDamage += (_, e) =>
             {
                 takenDamageMount = e.Amount;
             };

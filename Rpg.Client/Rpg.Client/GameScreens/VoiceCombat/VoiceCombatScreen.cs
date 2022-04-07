@@ -215,8 +215,8 @@ namespace Rpg.Client.GameScreens.VoiceCombat
         {
             var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
-            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed -= CombatUnit_Healed;
+            combatUnit.HasTakenHitPointsDamage -= CombatUnit_HasTakenDamage;
+            combatUnit.HasBeenHitPointsRestored -= CombatUnit_Healed;
             combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 

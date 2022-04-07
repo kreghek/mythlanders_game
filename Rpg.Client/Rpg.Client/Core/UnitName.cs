@@ -58,6 +58,8 @@
         VolkolakWarrior,
         ChineseMonster,
         EqyptianMonster,
-        GreekMonster
+        GreekMonster,
+        Marauder,
+        BlackTrooper
     }
 }

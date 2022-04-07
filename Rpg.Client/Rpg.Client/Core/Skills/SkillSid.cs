@@ -61,7 +61,10 @@ namespace Rpg.Client.Core.Skills
         WarCry,
         TribeDefender,
         GroupProtection,
-        RifleShot,
-        Shotgun
+        BlankShot,
+        Shotgun,
+        UnholyHit,
+        BlackRifleShotSkill,
+        BlindDefense
     }
 }

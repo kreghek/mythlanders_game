@@ -2,11 +2,12 @@ using Rpg.Client.Assets.Equipments;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class DullFactory : HeroFactoryBase
+    internal class AssaulterFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Dull;
 
@@ -30,7 +31,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new ShotgunSkill()),
-                new AddSkillUnitLevel(1, new DefenseStanceSkill(true)),
+                new AddSkillUnitLevel(1, new BlindDefenseSkill(true)),
                 new AddSkillUnitLevel(2, new WideSlashSkill(true)),
                 new AddPerkUnitLevel(2, new ImprovedHitPoints()),
                 new AddSkillUnitLevel(3, new GroupProtectionSkill(true)),

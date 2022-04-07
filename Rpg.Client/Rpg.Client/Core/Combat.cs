@@ -196,7 +196,14 @@ namespace Rpg.Client.Core
             foreach (var combatUnit in _allUnitList)
             {
                 combatUnit.Unit.Dead += Unit_Dead;
-                combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+                combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
+                combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
+                combatUnit.IsWaiting = true;
+
+                if (!combatUnit.Unit.IsPlayerControlled)
+                {
+                    AssignCpuTarget(combatUnit, Dice);
+                }
             }
 
             ActiveCombatUnitChanged += Combat_ActiveCombatUnitChanged;
@@ -294,25 +301,30 @@ namespace Rpg.Client.Core
             var dice = GetDice();
             foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
             {
-                var skillsOpenList = cpuUnit.CombatCards.ToList();
-                while (skillsOpenList.Any())
+                //AssignCpuTarget(cpuUnit, dice);
+            }
+        }
+
+        private void AssignCpuTarget(CombatUnit unit, IDice dice)
+        {
+            var skillsOpenList = unit.CombatCards.ToList();
+            while (skillsOpenList.Any())
+            {
+                var skill = dice.RollFromList(skillsOpenList, 1).Single();
+                skillsOpenList.Remove(skill);
+
+                var possibleTargetList = GetAvailableTargets(skill.Skill, unit);
+
+                if (!possibleTargetList.Any())
                 {
-                    var skill = dice.RollFromList(skillsOpenList, 1).Single();
-                    skillsOpenList.Remove(skill);
-
-                    var possibleTargetList = GetAvailableTargets(skill.Skill, cpuUnit);
-
-                    if (!possibleTargetList.Any())
-                    {
-                        continue;
-                        // There are no targets. Try another skill.
-                    }
-
-                    var targetUnit = dice.RollFromList(possibleTargetList);
-                    cpuUnit.Target = targetUnit;
-
-                    cpuUnit.TargetSkill = skill;
+                    continue;
+                    // There are no targets. Try another skill.
                 }
+
+                var targetUnit = dice.RollFromList(possibleTargetList);
+                unit.Target = targetUnit;
+
+                unit.TargetSkill = skill;
             }
         }
 
@@ -337,12 +349,25 @@ namespace Rpg.Client.Core
 
         private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            if (e.NewUnit is null)
+            var oldCombatUnit = e.OldUnit;
+            if (oldCombatUnit is not null)
+            {
+                if (!oldCombatUnit.Unit.IsDead && !oldCombatUnit.Unit.IsPlayerControlled)
+                {
+                    AssignCpuTarget((CombatUnit)oldCombatUnit, Dice);
+                }
+            }
+
+            var combatUnit = e.NewUnit;
+            if (combatUnit is null)
             {
                 return;
             }
 
-            EffectProcessor.Influence(e.NewUnit);
+            EffectProcessor.Influence(combatUnit);
+            
+            combatUnit.Unit.RestoreShields();
+            ((CombatUnit)combatUnit).IsWaiting = false;
         }
 
         private void Combat_CombatUnitReadyIsToControl(object? sender, CombatUnit e)
@@ -433,19 +458,29 @@ namespace Rpg.Client.Core
 
         private void StartRound()
         {
+            MakeUnitRoundQueue();
+
+            AssignCpuTargetUnits();
+
+            _round++;
+        }
+
+        private void MakeUnitRoundQueue()
+        {
             _unitQueue.Clear();
 
-            foreach (var unit in _allUnitList)
+            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Unit.UnitScheme.Resolve)
+                .ThenByDescending(x => x.Unit.IsPlayerControlled).ToArray();
+
+            foreach (var unit in orderedByResolve)
             {
                 if (!unit.Unit.IsDead)
                 {
                     _unitQueue.Add(unit);
                 }
+
+                unit.IsWaiting = true;
             }
-
-            AssignCpuTargetUnits();
-
-            _round++;
         }
 
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)

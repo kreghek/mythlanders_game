@@ -412,6 +412,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Block!.
+        /// </summary>
+        internal static string IndicatorBlockAnyDamage {
+            get {
+                return ResourceManager.GetString("IndicatorBlockAnyDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evasion!.
         /// </summary>
         internal static string IndicatorEvasion {

@@ -261,6 +261,9 @@
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
     <value>Увеличивает урон на +{0}% по {2} на {1} ходов</value>
   </data>
+  <data name="IndicatorBlockAnyDamage" xml:space="preserve">
+    <value>Блок!</value>
+  </data>
   <data name="IndicatorEvasion" xml:space="preserve">
     <value>Уклонение!</value>
   </data>

@@ -389,11 +389,25 @@ namespace Rpg.Client.GameScreens.Biome
                 return;
             }
 
-            var position = new Vector2(contentRect.Right - 300, contentRect.Top);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.Title, position,
-                Color.White);
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), _globe.Player.CurrentGoalEvent.GoalDescription,
-                position + new Vector2(0, 10), Color.White);
+            const int GOAL_PANEL_WIDTH = 300;
+            const int GOAL_TITLE_HEIGHT = 10;
+            
+            var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top);
+            var goalFont = _uiContentStorage.GetMainFont();
+            
+            var goalTitle = _globe.Player.CurrentGoalEvent.Title;
+            if (!string.IsNullOrWhiteSpace(goalTitle))
+            {
+                spriteBatch.DrawString(goalFont, goalTitle, position,
+                    Color.White);
+            }
+
+            var goalDescription = _globe.Player.CurrentGoalEvent.GoalDescription;
+            if (!string.IsNullOrWhiteSpace(goalDescription))
+            {
+                spriteBatch.DrawString(goalFont, goalDescription,
+                    position + new Vector2(0, GOAL_TITLE_HEIGHT), Color.White);
+            }
         }
 
         private void DrawGlobalEvents(SpriteBatch spriteBatch, Rectangle contentRect)

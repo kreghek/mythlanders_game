@@ -22,6 +22,8 @@ namespace Rpg.Client.Core
             InitEquipment(equipments);
             Equipments = equipments;
 
+            ShieldPoints = new Stat(Armor);
+
             Level = level;
 
             InitStats(unitScheme);
@@ -61,6 +63,8 @@ namespace Rpg.Client.Core
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
 
         public int MaxHitPoints { get; private set; }
+
+        public Stat ShieldPoints { get; }
 
         public IList<IPerk> Perks { get; }
 
@@ -116,7 +120,7 @@ namespace Rpg.Client.Core
         public void RestoreHitPoints(int heal)
         {
             HitPoints += Math.Min(MaxHitPoints - HitPoints, heal);
-            HasBeenHealed?.Invoke(this, heal);
+            HasBeenHitPointsRestored?.Invoke(this, heal);
         }
 
         public void RestoreHitPointsAfterCombat()
@@ -134,17 +138,31 @@ namespace Rpg.Client.Core
 
         public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
-            var damageAbsorbedByArmor = Math.Max(damageSource - Armor, 0);
-            HitPoints -= Math.Min(HitPoints, damageAbsorbedByArmor);
+            var armor = 0;
 
-            var result = new DamageResult
+            var damageAbsorbedByArmor = Math.Max(damageSource - armor, 0);
+
+            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByArmor);
+            var damageToHitPoints = damageAbsorbedByArmor - damageToShield;
+
+            var blocked = true;
+            if (damageToShield > 0)
             {
-                ValueSource = damageSource,
-                ValueFinal = damageAbsorbedByArmor
-            };
+                TakeDamageToShields(damageSource, damageToShield);
+                blocked = false;
+            }
 
-            var args = new UnitHasBeenDamagedEventArgs { Result = result };
-            HasBeenDamaged?.Invoke(this, args);
+            if (damageToHitPoints > 0)
+            {
+                TakeDamageToHitPoints(damageSource, damageToHitPoints);
+                blocked = false;
+            }
+
+            if (blocked)
+            {
+                Blocked?.Invoke(this, EventArgs.Empty);
+            }
+
 
             if (HitPoints <= 0)
             {
@@ -168,7 +186,40 @@ namespace Rpg.Client.Core
                 }
             }
 
-            return result;
+            return new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageToHitPoints
+            };
+        }
+
+        private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
+        {
+            HitPoints -= Math.Min(HitPoints, damageAbsorbedByShields);
+
+            var result = new DamageResult
+            {
+                ValueSource = damageSource, ValueFinal = damageAbsorbedByShields
+            };
+
+            var args = new UnitHasBeenDamagedEventArgs
+            {
+                Result = result
+            };
+            HasBeenHitPointsDamaged?.Invoke(this, args);
+        }
+
+        private void TakeDamageToShields(int damageSource, int damageActual)
+        {
+            ShieldPoints.Descrease(damageActual);
+            
+            var result = new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageActual
+            };
+
+            HasBeenShieldPointsDamaged?.Invoke(this, new UnitHasBeenDamagedEventArgs { Result = result });
         }
 
         private void ApplyLevels()
@@ -299,14 +350,28 @@ namespace Rpg.Client.Core
             HitPoints = MaxHitPoints;
         }
 
-        public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenDamaged;
+        public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
+        
+        public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenShieldPointsDamaged;
 
         public event EventHandler? HasAvoidedDamage;
 
-        public event EventHandler<int>? HasBeenHealed;
+        public event EventHandler<int>? HasBeenHitPointsRestored;
+        public event EventHandler? Blocked;
+        public event EventHandler<int>? HasBeenShieldPointsRestored;
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
+
+        public void RestoreShields()
+        {
+            var current = ShieldPoints.Current;
+            ShieldPoints.Restore();
+
+            var diff = ShieldPoints.Current - current;
+            
+            HasBeenShieldPointsRestored?.Invoke(this, diff);
+        }
     }
 }

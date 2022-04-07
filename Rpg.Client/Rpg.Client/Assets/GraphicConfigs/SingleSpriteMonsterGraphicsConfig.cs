@@ -23,7 +23,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
 
                 { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
                 { AnimationSid.Wound, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } }
+                { AnimationSid.Death, new AnimationInfo(startFrame: 1000, frames: 1, speed: 1) { IsFinal = true } }
             };
         }
     }

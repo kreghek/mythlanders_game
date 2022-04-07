@@ -84,8 +84,8 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Thar, LoadHeroTexture(contentManager, "Soldier") },
-                { UnitName.Dull, LoadHeroTexture(contentManager, "Soldier") },
+                { UnitName.Thar, LoadHeroTexture(contentManager, "Sergant") },
+                { UnitName.Dull, LoadHeroTexture(contentManager, "Assaulter") },
                 { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
                 { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
                 { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
@@ -95,6 +95,8 @@ namespace Rpg.Client.GameScreens
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
+                { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
+                { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
                 { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
                 { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
                 { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
