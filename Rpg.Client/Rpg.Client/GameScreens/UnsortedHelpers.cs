@@ -110,7 +110,7 @@ namespace Rpg.Client.GameScreens
             return sid switch
             {
                 SkillSid.Shotgun => 16,
-                SkillSid.RifleShot => 16,
+                SkillSid.BlankShot => 16,
                 SkillSid.SwordSlash => 1,
                 SkillSid.SwordSlashRandom => 1,
                 SkillSid.SwordSlashDefensive => 1,
@@ -118,6 +118,7 @@ namespace Rpg.Client.GameScreens
                 SkillSid.WideSwordSlash => 2,
                 SkillSid.GroupProtection => 15,
                 SkillSid.DefenseStance => 3,
+                SkillSid.BlindDefense => 3,
                 SkillSid.SvarogBlastFurnace => 4,
 
                 SkillSid.EnergyShot => 5,

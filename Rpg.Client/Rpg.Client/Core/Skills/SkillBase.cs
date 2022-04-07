@@ -10,7 +10,6 @@ namespace Rpg.Client.Core.Skills
 
         protected SkillBase(SkillVisualization visualization)
         {
-            UsageCount = 1;
             Visualization = visualization;
         }
 
@@ -24,7 +23,6 @@ namespace Rpg.Client.Core.Skills
         }
 
         public int? BaseGreenEnergyCost { get; }
-        public virtual int Weight => BASE_WEIGHT;
 
         public int? BaseEnergyCost { get; }
 
@@ -36,8 +34,6 @@ namespace Rpg.Client.Core.Skills
         public abstract SkillTargetType TargetType { get; }
 
         public abstract SkillType Type { get; }
-
-        public virtual int UsageCount { get; }
 
         public SkillVisualization Visualization { get; }
     }

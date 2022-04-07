@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
             var heroes = new IHeroFactory[]
             {
                 new SergentFactory(),
-                new DullFactory(),
+                new AssaulterFactory(),
 
                 new SwordsmanFactory(),
                 new ArcherFactory(),

@@ -36,8 +36,6 @@ namespace Rpg.Client.Assets.Skills
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 
-        public override int UsageCount => 3;
-
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,

@@ -110,7 +110,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Vector2(305, 350),
                 new Vector2(215, 250),
                 new Vector2(215, 350),
-                new Vector2(265, 300)
+                new Vector2(245, 300)
             };
 
             _screenShaker = new ScreenShaker();

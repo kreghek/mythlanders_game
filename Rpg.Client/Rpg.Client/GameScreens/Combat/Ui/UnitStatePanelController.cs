@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                             if (targetCombatUnit.Unit.HitPoints <= damageRange.Min)
                             {
-                                impactText += " ☠";
+                                impactText += "  X";
                             }
                         }
                     }

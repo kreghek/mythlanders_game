@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
-        public override int Weight => BASE_WEIGHT * 2;
+        public virtual int Weight => BASE_WEIGHT * 2;
 
         private static SkillVisualization PredefinedVisualization => new()
         {

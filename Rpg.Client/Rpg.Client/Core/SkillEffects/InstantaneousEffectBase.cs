@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core.SkillEffects
 {
-    internal abstract class InstantenousEffectBase : EffectBase
+    internal abstract class InstantaneousEffectBase : EffectBase
     {
         protected override void AfterImpose()
         {
