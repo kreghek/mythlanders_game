@@ -86,6 +86,7 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.SkyTower },
 
                     IsMonster = true,
+                    MinRequiredBiomeLevel = 25,
 
                     Levels = new IUnitLevelScheme[]
                     {
@@ -140,6 +141,8 @@ namespace Rpg.Client.Core
 
                     IsMonster = true,
 
+                    MinRequiredBiomeLevel = 35,
+
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddPerkUnitLevel(1, new BossMonster(3)),
@@ -191,6 +194,7 @@ namespace Rpg.Client.Core
                     LocationSids = new[] { GlobeNodeSid.Labirinth },
 
                     IsMonster = true,
+                    MinRequiredBiomeLevel = 45,
 
                     Levels = new IUnitLevelScheme[]
                     {

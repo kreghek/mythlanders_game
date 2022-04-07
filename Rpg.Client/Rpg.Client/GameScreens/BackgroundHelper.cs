@@ -12,7 +12,11 @@ namespace Rpg.Client.GameScreens
                 GlobeNodeSid.Battleground => BackgroundType.SlavicBattleground,
                 GlobeNodeSid.Swamp => BackgroundType.SlavicSwamp,
                 GlobeNodeSid.DestroyedVillage => BackgroundType.SlavicDestroyedVillage,
+
                 GlobeNodeSid.Monastery => BackgroundType.ChineseMonastery,
+
+                GlobeNodeSid.SacredPlace => BackgroundType.EgyptianPyramids,
+
                 _ => BackgroundType.SlavicBattleground
             };
         }

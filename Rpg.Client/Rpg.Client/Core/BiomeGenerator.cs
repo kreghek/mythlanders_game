@@ -97,10 +97,10 @@ namespace Rpg.Client.Core
             IList<GlobeNode> availableNodes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Castle;
+            var BOSS_LOCATION_SIDS = new[] { GlobeNodeSid.Castle, GlobeNodeSid.SkyTower };
 
             var nodeList = new List<(GlobeNode, bool)>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
+            var bossLocation = availableNodes.SingleOrDefault(x => BOSS_LOCATION_SIDS.Contains(x.Sid));
             int targetCount;
             if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
             {
