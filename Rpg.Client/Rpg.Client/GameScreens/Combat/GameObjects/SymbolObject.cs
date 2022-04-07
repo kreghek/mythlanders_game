@@ -77,7 +77,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         if (!IsDestroyed)
                         {
                             var explosionParticleGenerator =
-                                new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() }, new Rectangle(0, 64, 32, 32));
+                                new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() },
+                                    new Rectangle(0, 64, 32, 32));
                             _particleSystem = new ParticleSystem(_targetPosition, explosionParticleGenerator);
                             _stageIndex++;
                             _counter = 0;

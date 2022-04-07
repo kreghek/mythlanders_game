@@ -296,15 +296,6 @@ namespace Rpg.Client.Core
             Debug.Fail("Required at least one skill was used.");
         }
 
-        private void AssignCpuTargetUnits()
-        {
-            var dice = GetDice();
-            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
-            {
-                //AssignCpuTarget(cpuUnit, dice);
-            }
-        }
-
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
         {
             var skillsOpenList = unit.CombatCards.ToList();
@@ -325,6 +316,15 @@ namespace Rpg.Client.Core
                 unit.Target = targetUnit;
 
                 unit.TargetSkill = skill;
+            }
+        }
+
+        private void AssignCpuTargetUnits()
+        {
+            var dice = GetDice();
+            foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
+            {
+                //AssignCpuTarget(cpuUnit, dice);
             }
         }
 
@@ -439,6 +439,24 @@ namespace Rpg.Client.Core
             return Dice;
         }
 
+        private void MakeUnitRoundQueue()
+        {
+            _unitQueue.Clear();
+
+            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Unit.UnitScheme.Resolve)
+                .ThenByDescending(x => x.Unit.IsPlayerControlled).ToArray();
+
+            foreach (var unit in orderedByResolve)
+            {
+                if (!unit.Unit.IsDead)
+                {
+                    _unitQueue.Add(unit);
+                }
+
+                unit.IsWaiting = true;
+            }
+        }
+
 
         private bool NextUnit()
         {
@@ -463,24 +481,6 @@ namespace Rpg.Client.Core
             AssignCpuTargetUnits();
 
             _round++;
-        }
-
-        private void MakeUnitRoundQueue()
-        {
-            _unitQueue.Clear();
-
-            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Unit.UnitScheme.Resolve)
-                .ThenByDescending(x => x.Unit.IsPlayerControlled).ToArray();
-
-            foreach (var unit in orderedByResolve)
-            {
-                if (!unit.Unit.IsDead)
-                {
-                    _unitQueue.Add(unit);
-                }
-
-                unit.IsWaiting = true;
-            }
         }
 
         private void Unit_Dead(object? sender, UnitDamagedEventArgs e)

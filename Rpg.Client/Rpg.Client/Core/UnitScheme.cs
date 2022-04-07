@@ -17,8 +17,6 @@ namespace Rpg.Client.Core
         public float ArmorBase => CalcArmor();
         public BiomeType Biome { get; init; }
 
-        public int Resolve { get; init; }
-
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }
 
@@ -44,6 +42,8 @@ namespace Rpg.Client.Core
         public float Power => CalcPower();
 
         public float PowerPerLevel => CalcPowerPerLevel();
+
+        public int Resolve { get; init; }
 
         public UnitSchemeAutoTransition? SchemeAutoTransition { get; init; }
 

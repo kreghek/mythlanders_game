@@ -19,7 +19,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _graphics = graphics;
         }
 
-        public SvarogSymbolState(UnitGraphics graphics, AnimationBlocker animationBlocker, SoundEffectInstance symbolAppearingSoundEffect) :
+        public SvarogSymbolState(UnitGraphics graphics, AnimationBlocker animationBlocker,
+            SoundEffectInstance symbolAppearingSoundEffect) :
             this(graphics)
         {
             _animationBlocker = animationBlocker;

@@ -219,7 +219,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.Marauder,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp,GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
+                        GlobeNodeSid.Mines
+                    },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]
@@ -239,7 +243,11 @@ namespace Rpg.Client.Core
 
                     Name = UnitName.BlackTrooper,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp,GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
+                        GlobeNodeSid.Mines
+                    },
                     IsMonster = true,
 
                     Levels = new IUnitLevelScheme[]

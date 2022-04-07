@@ -64,11 +64,11 @@ namespace Rpg.Client.Core
 
         public int MaxHitPoints { get; private set; }
 
-        public Stat ShieldPoints { get; }
-
         public IList<IPerk> Perks { get; }
 
         public float Power => CalcPower();
+
+        public Stat ShieldPoints { get; }
 
         public IList<ISkill> Skills { get; }
 
@@ -136,6 +136,16 @@ namespace Rpg.Client.Core
             }
         }
 
+        public void RestoreShields()
+        {
+            var current = ShieldPoints.Current;
+            ShieldPoints.Restore();
+
+            var diff = ShieldPoints.Current - current;
+
+            HasBeenShieldPointsRestored?.Invoke(this, diff);
+        }
+
         public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
             var armor = 0;
@@ -162,7 +172,6 @@ namespace Rpg.Client.Core
             {
                 Blocked?.Invoke(this, EventArgs.Empty);
             }
-
 
             if (HitPoints <= 0)
             {
@@ -191,35 +200,6 @@ namespace Rpg.Client.Core
                 ValueSource = damageSource,
                 ValueFinal = damageToHitPoints
             };
-        }
-
-        private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
-        {
-            HitPoints -= Math.Min(HitPoints, damageAbsorbedByShields);
-
-            var result = new DamageResult
-            {
-                ValueSource = damageSource, ValueFinal = damageAbsorbedByShields
-            };
-
-            var args = new UnitHasBeenDamagedEventArgs
-            {
-                Result = result
-            };
-            HasBeenHitPointsDamaged?.Invoke(this, args);
-        }
-
-        private void TakeDamageToShields(int damageSource, int damageActual)
-        {
-            ShieldPoints.Descrease(damageActual);
-
-            var result = new DamageResult
-            {
-                ValueSource = damageSource,
-                ValueFinal = damageActual
-            };
-
-            HasBeenShieldPointsDamaged?.Invoke(this, new UnitHasBeenDamagedEventArgs { Result = result });
         }
 
         private void ApplyLevels()
@@ -350,6 +330,35 @@ namespace Rpg.Client.Core
             HitPoints = MaxHitPoints;
         }
 
+        private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
+        {
+            HitPoints -= Math.Min(HitPoints, damageAbsorbedByShields);
+
+            var result = new DamageResult
+            {
+                ValueSource = damageSource, ValueFinal = damageAbsorbedByShields
+            };
+
+            var args = new UnitHasBeenDamagedEventArgs
+            {
+                Result = result
+            };
+            HasBeenHitPointsDamaged?.Invoke(this, args);
+        }
+
+        private void TakeDamageToShields(int damageSource, int damageActual)
+        {
+            ShieldPoints.Descrease(damageActual);
+
+            var result = new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageActual
+            };
+
+            HasBeenShieldPointsDamaged?.Invoke(this, new UnitHasBeenDamagedEventArgs { Result = result });
+        }
+
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenShieldPointsDamaged;
@@ -363,15 +372,5 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
-
-        public void RestoreShields()
-        {
-            var current = ShieldPoints.Current;
-            ShieldPoints.Restore();
-
-            var diff = ShieldPoints.Current - current;
-
-            HasBeenShieldPointsRestored?.Invoke(this, diff);
-        }
     }
 }

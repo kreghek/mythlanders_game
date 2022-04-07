@@ -5,8 +5,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
     internal interface IBackgroundObjectFactory
     {
         IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects();
-        IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();
 
-        IReadOnlyList<IBackgroundObject> CreateFarLayerObjects() => new List<IBackgroundObject>(0);
+        IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
+        {
+            return new List<IBackgroundObject>(0);
+        }
+
+        IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();
     }
 }

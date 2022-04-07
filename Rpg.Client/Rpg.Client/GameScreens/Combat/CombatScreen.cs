@@ -33,8 +33,8 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
-        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
+        private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -305,60 +305,6 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.Blocked += CombatUnit_Blocked;
         }
 
-        private void CombatUnit_Blocked(object? sender, EventArgs e)
-        {
-            Debug.Assert(sender is not null);
-            var combatUnit = (CombatUnit)sender;
-            var unitGameObject = GetUnitGameObject(combatUnit);
-            var textPosition = GetUnitGameObject(combatUnit).Position;
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-
-            var passIndicator = new BlockAnyDamageTextIndicator(textPosition, font);
-
-            unitGameObject.AddChild(passIndicator);
-        }
-
-        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
-        {
-            if (e.Amount > 0)
-            {
-                Debug.Assert(e.CombatUnit is not null);
-                var unitGameObject = GetUnitGameObject(e.CombatUnit);
-
-                var font = _uiContentStorage.GetCombatIndicatorFont();
-                var position = unitGameObject.Position;
-
-                var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-                var damageIndicator =
-                    new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
-
-                unitGameObject.AddChild(damageIndicator);
-            }
-        }
-
-        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
-        {
-            Debug.Assert(e.CombatUnit is not null);
-
-            if (e.CombatUnit.Unit.IsDead)
-            {
-                return;
-            }
-
-            var unitGameObject = GetUnitGameObject(e.CombatUnit);
-
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
-
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
-
-            var damageIndicator =
-                new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
-
-            unitGameObject.AddChild(damageIndicator);
-        }
-
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
@@ -540,6 +486,19 @@ namespace Rpg.Client.GameScreens.Combat
             RefreshHudButtons(skillCard);
         }
 
+        private void CombatUnit_Blocked(object? sender, EventArgs e)
+        {
+            Debug.Assert(sender is not null);
+            var combatUnit = (CombatUnit)sender;
+            var unitGameObject = GetUnitGameObject(combatUnit);
+            var textPosition = GetUnitGameObject(combatUnit).Position;
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+
+            var passIndicator = new BlockAnyDamageTextIndicator(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
+        }
+
         private void CombatUnit_HasAvoidedDamage(object? sender, EventArgs e)
         {
             Debug.Assert(sender is not null);
@@ -551,6 +510,41 @@ namespace Rpg.Client.GameScreens.Combat
             var passIndicator = new EvasionTextIndicator(textPosition, font);
 
             unitGameObject.AddChild(passIndicator);
+        }
+
+        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            Debug.Assert(e.CombatUnit is not null);
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+            var position = unitGameObject.Position;
+
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var damageIndicator =
+                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+            unitGameObject.AddChild(damageIndicator);
+        }
+
+        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            if (e.Amount > 0)
+            {
+                Debug.Assert(e.CombatUnit is not null);
+                var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+                var font = _uiContentStorage.GetCombatIndicatorFont();
+                var position = unitGameObject.Position;
+
+                var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+                var damageIndicator =
+                    new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+                unitGameObject.AddChild(damageIndicator);
+            }
         }
 
         private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
@@ -575,9 +569,15 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
+
+            if (e.CombatUnit.Unit.IsDead)
+            {
+                return;
+            }
+
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
             var font = _uiContentStorage.GetCombatIndicatorFont();
@@ -586,7 +586,7 @@ namespace Rpg.Client.GameScreens.Combat
             var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
             var damageIndicator =
-                new HitPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
         }

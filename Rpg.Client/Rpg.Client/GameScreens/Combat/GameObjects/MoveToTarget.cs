@@ -10,15 +10,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     internal class MoveToTarget : IUnitStateEngine
     {
         private const double DURATION = 0.25;
+        private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
-        private readonly AnimationSid _animationSid;
         private double _counter;
 
-        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition, AnimationSid animationSid)
+        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+            AnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;

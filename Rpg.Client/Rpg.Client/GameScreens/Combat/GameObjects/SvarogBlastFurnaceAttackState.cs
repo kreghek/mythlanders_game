@@ -19,7 +19,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public SvarogBlastFurnaceAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, AnimationSid animationSid,
+            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
+            AnimationSid animationSid,
             ScreenShaker screenShaker,
             SoundEffectInstance symbolAppearingSoundEffect,
             SoundEffectInstance risingPowerSoundEffect,
@@ -30,7 +31,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 new SvarogSymbolState(graphics, blocker, symbolAppearingSoundEffect),
                 new SvarogSymbolBurningState(blocker,
                     screenShaker, risingPowerSoundEffect),
-                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, animationSid,
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
+                    animationSid,
                     explosionSoundEffect)
             };
             _blocker = blocker;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -16,7 +17,7 @@ namespace Rpg.Client.Assets.Skills
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.StaffHit,
-            AnimationSid = Core.AnimationSid.Skill1
+            AnimationSid = AnimationSid.Skill1
         }, costRequired)
         {
         }

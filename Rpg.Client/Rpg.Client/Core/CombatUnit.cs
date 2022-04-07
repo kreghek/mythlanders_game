@@ -28,35 +28,11 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public bool IsWaiting { get; set; }
-
-        private void Unit_Blocked(object? sender, EventArgs e)
-        {
-            Blocked?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void Unit_HasBeenShieldRestored(object? sender, int e)
-        {
-            HasBeenShieldPointsRestored?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
-        }
-
-        private void Unit_HasBeenShieldPointsDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
-        {
-            Debug.Assert(e.Result is not null);
-            Debug.Assert(e.Result?.ValueFinal is not null);
-            var args = new UnitHitPointsChangedEventArgs
-            {
-                CombatUnit = this,
-                Amount = e.Result.ValueFinal.Value,
-                SourceAmount = e.Result.ValueSource,
-                Direction = HitPointsChangeDirection.Negative
-            };
-            HasTakenShieldPointsDamage?.Invoke(this, args);
-        }
-
         public int Index { get; }
 
         public bool IsInTankLine { get; }
+
+        public bool IsWaiting { get; set; }
 
         public CombatUnitState State { get; private set; }
 
@@ -86,6 +62,11 @@ namespace Rpg.Client.Core
             HasBeenHitPointsRestored?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
+        private void Unit_Blocked(object? sender, EventArgs e)
+        {
+            Blocked?.Invoke(this, EventArgs.Empty);
+        }
+
         private void Unit_HasAvoidedDamage(object? sender, EventArgs e)
         {
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
@@ -103,6 +84,26 @@ namespace Rpg.Client.Core
                 Direction = HitPointsChangeDirection.Negative
             };
             HasTakenHitPointsDamage?.Invoke(this, args);
+        }
+
+        private void Unit_HasBeenShieldPointsDamaged(object? sender, UnitHasBeenDamagedEventArgs e)
+        {
+            Debug.Assert(e.Result is not null);
+            Debug.Assert(e.Result?.ValueFinal is not null);
+            var args = new UnitHitPointsChangedEventArgs
+            {
+                CombatUnit = this,
+                Amount = e.Result.ValueFinal.Value,
+                SourceAmount = e.Result.ValueSource,
+                Direction = HitPointsChangeDirection.Negative
+            };
+            HasTakenShieldPointsDamage?.Invoke(this, args);
+        }
+
+        private void Unit_HasBeenShieldRestored(object? sender, int e)
+        {
+            HasBeenShieldPointsRestored?.Invoke(this,
+                new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
@@ -127,10 +128,6 @@ namespace Rpg.Client.Core
 
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
 
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
-
-        public event EventHandler? Blocked;
-
         public void RestoreEnergyPoint()
         {
             EnergyPool++;
@@ -139,6 +136,10 @@ namespace Rpg.Client.Core
                 EnergyPool = Unit.EnergyPoolSize;
             }
         }
+
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
+
+        public event EventHandler? Blocked;
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHitPointsRestored;
 
