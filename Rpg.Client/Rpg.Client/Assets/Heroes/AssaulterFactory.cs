@@ -32,10 +32,7 @@ namespace Rpg.Client.Assets.Heroes
             {
                 new AddSkillUnitLevel(1, new ShotgunSkill()),
                 new AddSkillUnitLevel(1, new BlindDefenseSkill(true)),
-                new AddSkillUnitLevel(2, new WideSlashSkill(true)),
-                new AddPerkUnitLevel(2, new ImprovedHitPoints()),
-                new AddSkillUnitLevel(3, new GroupProtectionSkill(true)),
-                new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
+                new AddPerkUnitLevel(1, new ImprovedArmor())
             };
         }
     }

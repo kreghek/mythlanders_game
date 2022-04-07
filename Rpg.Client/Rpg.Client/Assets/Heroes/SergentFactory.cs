@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class SergentFactory : HeroFactoryBase
+    internal class SergantFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Thar;
 
@@ -30,11 +30,9 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new BlankShotSkill()),
-                new AddSkillUnitLevel(1, new SwordSlashDefensiveSkill(true)),
-                new AddSkillUnitLevel(2, new WideSlashSkill(true)),
-                new AddPerkUnitLevel(2, new ImprovedHitPoints()),
-                new AddSkillUnitLevel(3, new GroupProtectionSkill(true)),
-                new AddSkillUnitLevel(4, new SvarogBlastFurnaceSkill(true))
+                new AddSkillUnitLevel(1, new DefenseStanceSkill(true)),
+                new AddPerkUnitLevel(2, new Evasion()),
+                new AddSkillUnitLevel(3, new GroupProtectionSkill(true))
             };
         }
     }
