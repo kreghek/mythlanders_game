@@ -391,10 +391,10 @@ namespace Rpg.Client.GameScreens.Biome
 
             const int GOAL_PANEL_WIDTH = 300;
             const int GOAL_TITLE_HEIGHT = 10;
-            
+
             var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top);
             var goalFont = _uiContentStorage.GetMainFont();
-            
+
             var goalTitle = _globe.Player.CurrentGoalEvent.Title;
             if (!string.IsNullOrWhiteSpace(goalTitle))
             {

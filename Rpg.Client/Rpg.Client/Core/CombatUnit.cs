@@ -126,7 +126,7 @@ namespace Rpg.Client.Core
         public Unit Unit { get; }
 
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
-        
+
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
 
         public event EventHandler? Blocked;
@@ -141,7 +141,7 @@ namespace Rpg.Client.Core
         }
 
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHitPointsRestored;
-        
+
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenShieldPointsRestored;
 
         internal event EventHandler? HasAvoidedDamage;

@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Skills
                     return effect;
                 })
             },
-            
+
             new EffectRule
             {
                 Direction = SkillDirection.RandomEnemy,

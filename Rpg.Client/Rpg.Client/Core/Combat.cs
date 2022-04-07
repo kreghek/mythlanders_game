@@ -365,7 +365,7 @@ namespace Rpg.Client.Core
             }
 
             EffectProcessor.Influence(combatUnit);
-            
+
             combatUnit.Unit.RestoreShields();
             ((CombatUnit)combatUnit).IsWaiting = false;
         }

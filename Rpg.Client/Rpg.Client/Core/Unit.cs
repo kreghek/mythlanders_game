@@ -212,7 +212,7 @@ namespace Rpg.Client.Core
         private void TakeDamageToShields(int damageSource, int damageActual)
         {
             ShieldPoints.Descrease(damageActual);
-            
+
             var result = new DamageResult
             {
                 ValueSource = damageSource,
@@ -351,7 +351,7 @@ namespace Rpg.Client.Core
         }
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
-        
+
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenShieldPointsDamaged;
 
         public event EventHandler? HasAvoidedDamage;
@@ -370,7 +370,7 @@ namespace Rpg.Client.Core
             ShieldPoints.Restore();
 
             var diff = ShieldPoints.Current - current;
-            
+
             HasBeenShieldPointsRestored?.Invoke(this, diff);
         }
     }

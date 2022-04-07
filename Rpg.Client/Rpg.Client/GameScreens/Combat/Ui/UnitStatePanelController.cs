@@ -198,7 +198,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var targetPortraintPosition = panelPosition + new Vector2(-30, 0);
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
-                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)), 
+                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)),
                     portraitSourceRect,
                     Color.White);
 

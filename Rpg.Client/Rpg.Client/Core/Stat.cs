@@ -27,13 +27,13 @@ namespace Rpg.Client.Core
             Current += value;
 
             if (Current > Base)
-            { 
+            {
                 Current = Base;
             }
         }
 
         public void Descrease(int value)
-        { 
+        {
             Current -= value;
 
             if (Current < 0)

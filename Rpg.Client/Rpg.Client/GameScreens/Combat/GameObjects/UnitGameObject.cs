@@ -175,7 +175,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList)
         {
             var animationSid = skill.Visualization.AnimationSid;
-            
+
             IUnitStateEngine state;
 
             var hitSound = GetHitSound(skill);
