@@ -12,6 +12,6 @@ namespace Rpg.Client.Core
         void ChangeState(CombatUnitState targetState);
         void RestoreEnergyPoint();
 
-        event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
     }
 }

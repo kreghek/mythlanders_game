@@ -413,4 +413,7 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="MassHeal" xml:space="preserve">
+    <value>Mass heal</value>
+  </data>
 </root>

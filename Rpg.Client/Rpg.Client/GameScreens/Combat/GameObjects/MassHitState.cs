@@ -10,22 +10,22 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private const double DURATION = 1;
         private readonly Action _attackInteractions;
+        private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
-        private readonly int _index;
 
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public MassHitState(UnitGraphics graphics, Action attackInteractions, int index)
+        public MassHitState(UnitGraphics graphics, Action attackInteractions, AnimationSid animationSid)
         {
             _graphics = graphics;
 
             _attackInteractions = attackInteractions;
-            _index = index;
+            _animationSid = animationSid;
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
@@ -37,9 +37,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (_counter == 0)
             {
-                var skillText = $"Skill{_index}";
-                var sid = Enum.Parse<AnimationSid>(skillText);
-                _graphics.PlayAnimation(sid);
+                _graphics.PlayAnimation(_animationSid);
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

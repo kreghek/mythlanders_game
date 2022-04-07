@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
             var heroes = new IHeroFactory[]
             {
                 new SergentFactory(),
-                new DullFactory(),
+                new AssaulterFactory(),
 
                 new SwordsmanFactory(),
                 new ArcherFactory(),
@@ -212,9 +212,50 @@ namespace Rpg.Client.Core
             {
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.Marauder,
+                    Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp,GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.25f,
+                    DamageDealerRank = 0.75f,
+                    SupportRank = 0.0f,
+                    Resolve = 11,
+
+                    Name = UnitName.BlackTrooper,
+                    Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp,GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
                     TankRank = 0.0f,
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
+                    Resolve = 13,
 
                     Name = UnitName.Aspid,
                     Biome = biomeType,

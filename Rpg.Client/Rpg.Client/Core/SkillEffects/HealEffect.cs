@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class HealEffect : InstantenousEffectBase
+    internal class HealEffect : InstantaneousEffectBase
     {
         public ICombatUnit Actor { get; set; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();

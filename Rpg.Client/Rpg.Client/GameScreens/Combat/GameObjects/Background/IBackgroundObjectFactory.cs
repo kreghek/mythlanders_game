@@ -6,5 +6,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
     {
         IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects();
         IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();
+
+        IReadOnlyList<IBackgroundObject> CreateFarLayerObjects() => new List<IBackgroundObject>(0);
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -18,7 +19,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public SvarogBlastFurnaceAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index,
+            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, AnimationSid animationSid,
             ScreenShaker screenShaker,
             SoundEffectInstance symbolAppearingSoundEffect,
             SoundEffectInstance risingPowerSoundEffect,
@@ -26,10 +27,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolState(graphics, blocker, index, symbolAppearingSoundEffect),
+                new SvarogSymbolState(graphics, blocker, symbolAppearingSoundEffect),
                 new SvarogSymbolBurningState(blocker,
                     screenShaker, risingPowerSoundEffect),
-                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index,
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, animationSid,
                     explosionSoundEffect)
             };
             _blocker = blocker;

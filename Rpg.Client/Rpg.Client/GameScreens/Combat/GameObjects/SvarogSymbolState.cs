@@ -11,7 +11,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private const double DURATION = 2.5f;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly UnitGraphics _graphics;
-        private readonly int _index;
         private readonly SoundEffectInstance? _symbolAppearingSoundEffect;
         private double _counter;
 
@@ -20,12 +19,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _graphics = graphics;
         }
 
-        public SvarogSymbolState(UnitGraphics graphics, AnimationBlocker animationBlocker,
-            int index, SoundEffectInstance symbolAppearingSoundEffect) :
+        public SvarogSymbolState(UnitGraphics graphics, AnimationBlocker animationBlocker, SoundEffectInstance symbolAppearingSoundEffect) :
             this(graphics)
         {
             _animationBlocker = animationBlocker;
-            _index = index;
             _symbolAppearingSoundEffect = symbolAppearingSoundEffect;
         }
 

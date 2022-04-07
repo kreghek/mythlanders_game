@@ -76,6 +76,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 DrawTargets(spriteBatch, panelPosition, combatUnit);
 
+                DrawTurnState(spriteBatch, panelPosition, combatUnit, side);
+
                 if (HasMana(unit))
                 {
                     DrawManaBar(spriteBatch, panelPosition, combatUnit);
@@ -85,6 +87,61 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 {
                     DrawEffects(spriteBatch, panelPosition, combatUnit);
                 }
+            }
+        }
+
+        private void DrawTurnState(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit, Side side)
+        {
+            if (side == Side.Left)
+            {
+                var markerPosition = panelPosition + new Vector2(17, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
+            }
+            else
+            {
+                var markerPosition = panelPosition + new Vector2(17 + 146, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
+
+                //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
+                //    new Rectangle(0, 83, 42, 32),
+                //    Color.White);
+
+                //var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
+                //var portraitPosition = panelPosition + new Vector2(7, 0);
+                //var portraitDestRect = portraitPosition;
+                //var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                //spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
+                //    portraitSourceRect,
+                //    Color.White,
+                //    rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
             }
         }
 
@@ -134,11 +191,64 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
-            if (combatUnit.Target is not null)
+            var targetCombatUnit = combatUnit.Target;
+            if (targetCombatUnit is not null)
             {
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    combatUnit.Target.Unit.UnitScheme.Name.ToString(), panelPosition + new Vector2(-30, 0),
-                    Color.LightCyan);
+                var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(targetCombatUnit.Unit.UnitScheme.Name);
+
+                var targetPortraintPosition = panelPosition + new Vector2(-30, 0);
+                spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
+                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)), 
+                    portraitSourceRect,
+                    Color.White);
+
+                if (combatUnit.TargetSkill is not null)
+                {
+                    var targetSkill = combatUnit.TargetSkill;
+
+                    var impactText = string.Empty;
+
+                    foreach (var rule in targetSkill.Skill.Rules)
+                    {
+                        var effect = rule.EffectCreator.Create(combatUnit);
+
+                        if (effect is DamageEffect damageEffect)
+                        {
+                            var damageRange = damageEffect.CalculateDamage();
+                            if (damageRange.Min != damageRange.Max)
+                            {
+                                impactText = $"{damageRange.Min}-{damageRange.Max}";
+                            }
+                            else
+                            {
+                                impactText = $"{damageRange.Min}";
+                            }
+
+                            if (targetCombatUnit.Unit.HitPoints <= damageRange.Min)
+                            {
+                                impactText += "  X";
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(impactText))
+                    {
+                        for (var i = -1; i <= 1; i++)
+                        {
+                            for (var j = -1; j <= 1; j++)
+                            {
+                                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                    impactText, panelPosition + new Vector2(-(30 - 24), 6) + new Vector2(i, j),
+                                    Color.LightGray);
+                            }
+                        }
+
+                        spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                    impactText, panelPosition + new Vector2(-(30 - 24), 6),
+                                    Color.Maroon);
+                    }
+                }
+
             }
         }
 
@@ -168,6 +278,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
                     Color.LightCyan);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}", hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
+                    Color.LightCyan);
             }
             else
             {
@@ -186,6 +299,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10), Color.LightCyan);
             }
         }
 
@@ -193,19 +310,17 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var unitName = GameObjectHelper.GetLocalized(unit.UnitScheme.Name);
 
-            var nameText = $"{unitName} (a{unit.Armor})";
-
             if (side == Side.Left)
             {
                 var unitNamePosition = panelPosition + new Vector2(46, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), nameText, unitNamePosition, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
             }
             else
             {
-                var textSize = _uiContentStorage.GetMainFont().MeasureString(nameText);
+                var textSize = _uiContentStorage.GetMainFont().MeasureString(unitName);
 
                 var unitNamePosition = panelPosition + new Vector2(146 - textSize.X, 0);
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), nameText, unitNamePosition, Color.White);
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), unitName, unitNamePosition, Color.White);
             }
         }
 

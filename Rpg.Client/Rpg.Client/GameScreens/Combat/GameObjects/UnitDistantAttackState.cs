@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -18,11 +19,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker,
             Action attackInteraction, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, int index)
+            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _subStates = new IUnitStateEngine[]
             {
-                new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, index)
+                new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound, animationSid)
             };
             _blocker = blocker;
         }

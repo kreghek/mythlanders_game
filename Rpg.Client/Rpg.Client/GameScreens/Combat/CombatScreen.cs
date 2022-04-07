@@ -34,6 +34,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
+        private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
         private readonly Globe _globe;
@@ -98,6 +99,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
+            _farLayerObjects = backgroundObjectFactory.CreateFarLayerObjects();
 
             _settings = game.Services.GetService<GameSettings>();
 
@@ -108,7 +110,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Vector2(305, 350),
                 new Vector2(215, 250),
                 new Vector2(215, 350),
-                new Vector2(165, 300)
+                new Vector2(245, 300)
             };
 
             _screenShaker = new ScreenShaker();
@@ -245,8 +247,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var gameObject = _gameObjects.Single(x => x.CombatUnit == combatUnit);
             _gameObjects.Remove(gameObject);
-            combatUnit.HasTakenDamage -= CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed -= CombatUnit_Healed;
+            combatUnit.HasTakenHitPointsDamage -= CombatUnit_HasTakenHitPointsDamage;
+            combatUnit.HasBeenHitPointsRestored -= CombatUnit_HasBeenHitPointsRestored;
             combatUnit.HasAvoidedDamage -= CombatUnit_HasAvoidedDamage;
         }
 
@@ -295,9 +297,66 @@ namespace Rpg.Client.GameScreens.Combat
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager);
             _gameObjects.Add(gameObject);
-            combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
-            combatUnit.HasBeenHealed += CombatUnit_Healed;
+            combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
+            combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
+            combatUnit.HasBeenHitPointsRestored += CombatUnit_HasBeenHitPointsRestored;
+            combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
             combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
+            combatUnit.Blocked += CombatUnit_Blocked;
+        }
+
+        private void CombatUnit_Blocked(object? sender, EventArgs e)
+        {
+            Debug.Assert(sender is not null);
+            var combatUnit = (CombatUnit)sender;
+            var unitGameObject = GetUnitGameObject(combatUnit);
+            var textPosition = GetUnitGameObject(combatUnit).Position;
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+
+            var passIndicator = new BlockAnyDamageTextIndicator(textPosition, font);
+
+            unitGameObject.AddChild(passIndicator);
+        }
+
+        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            if (e.Amount > 0)
+            {
+                Debug.Assert(e.CombatUnit is not null);
+                var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+                var font = _uiContentStorage.GetCombatIndicatorFont();
+                var position = unitGameObject.Position;
+
+                var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+                var damageIndicator =
+                    new ShieldPointsChangedTextIndicator(e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+                unitGameObject.AddChild(damageIndicator);
+            }
+        }
+
+        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        {
+            Debug.Assert(e.CombatUnit is not null);
+
+            if (e.CombatUnit.Unit.IsDead)
+            {
+                return;
+            }
+
+            var unitGameObject = GetUnitGameObject(e.CombatUnit);
+
+            var font = _uiContentStorage.GetCombatIndicatorFont();
+            var position = unitGameObject.Position;
+
+            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+
+            var damageIndicator =
+                new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+            unitGameObject.AddChild(damageIndicator);
         }
 
         private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
@@ -494,7 +553,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(passIndicator);
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
 
@@ -516,7 +575,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
@@ -590,6 +649,13 @@ namespace Rpg.Client.GameScreens.Combat
                 if (i == 0 /*Cloud layer*/)
                 {
                     foreach (var obj in _cloudLayerObjects)
+                    {
+                        obj.Draw(spriteBatch);
+                    }
+                }
+                else if (i == 1 /* Far layer */)
+                {
+                    foreach (var obj in _farLayerObjects)
                     {
                         obj.Draw(spriteBatch);
                     }
@@ -1133,6 +1199,11 @@ namespace Rpg.Client.GameScreens.Combat
         private void UpdateBackgroundObjects(GameTime gameTime)
         {
             foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _farLayerObjects)
             {
                 obj.Update(gameTime);
             }

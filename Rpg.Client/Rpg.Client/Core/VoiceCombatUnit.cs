@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
         {
         }
 
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenDamage;
+        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
 
         public void RestoreEnergyPoint()
         {

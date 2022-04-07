@@ -393,4 +393,7 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="MassHeal" xml:space="preserve">
+    <value>Благовония</value>
+  </data>
 </root>

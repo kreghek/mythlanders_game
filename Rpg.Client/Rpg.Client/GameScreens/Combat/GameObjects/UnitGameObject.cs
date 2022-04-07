@@ -86,17 +86,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public void UseSkill(UnitGameObject target, AnimationBlocker animationBlocker, AnimationBlocker bulletBlocker,
             IList<IInteractionDelivery> interactionDeliveryList, ISkill skill, Action action)
         {
-            var skillIndex = CombatUnit.Unit.Skills.ToList().IndexOf(skill) + 1;
-
-            if (skillIndex == 0)
-            {
-                Debug.Fail("SkillIndex can npt be 0.");
-                skillIndex = 1;
-            }
-
             var actorStateEngine = CreateSkillStateEngine(skill, target, animationBlocker, bulletBlocker, action,
-                interactionDeliveryList,
-                skillIndex);
+                interactionDeliveryList);
             AddStateEngine(actorStateEngine);
         }
 
@@ -181,9 +172,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private IUnitStateEngine CreateSkillStateEngine(ISkill skill, UnitGameObject target,
             AnimationBlocker animationBlocker,
-            AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList,
-            int skillIndex)
+            AnimationBlocker bulletBlocker, Action interaction, IList<IInteractionDelivery> interactionDeliveryList)
         {
+            var animationSid = skill.Visualization.AnimationSid;
+            
             IUnitStateEngine state;
 
             var hitSound = GetHitSound(skill);
@@ -230,7 +222,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            skillAnimationInfo, skillIndex);
+                            skillAnimationInfo, animationSid);
                     }
                     else
                     {
@@ -250,7 +242,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            skillAnimationInfo, skillIndex);
+                            skillAnimationInfo, animationSid);
                     }
 
                     break;
@@ -295,7 +287,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         interactionDelivery: singleBullet,
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
-                        index: skillIndex);
+                        animationSid: animationSid);
 
                     break;
 
@@ -323,7 +315,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                     state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                         animationBlocker,
-                        skillAnimationInfoMass, skillIndex);
+                        skillAnimationInfoMass, animationSid);
                     break;
 
                 case SkillVisualizationStateType.MassRange:
@@ -397,7 +389,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                             interactionDelivery: null,
                             interactionDeliveryList: interactionDeliveryList,
                             hitSound: hitSound,
-                            index: skillIndex,
+                            animationSid: animationSid,
                             _screenShaker,
                             svarogSymbolAppearingSound.CreateInstance(),
                             risingPowerSound.CreateInstance(),
@@ -413,7 +405,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                             interactionDelivery: null,
                             interactionDeliveryList: interactionDeliveryList,
                             hitSound: hitSound,
-                            index: skillIndex);
+                            animationSid: animationSid);
                     }
 
                     break;
@@ -434,7 +426,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         blocker: animationBlocker,
                         healInteraction: interaction,
                         hitSound: hitSound,
-                        skillIndex);
+                        animationSid);
                     break;
             }
 

@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
@@ -16,14 +17,14 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public UnitSupportState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, Action healInteraction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, int index)
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _graphics = graphics;
             _blocker = blocker;
 
             _subStates = new IUnitStateEngine[]
             {
-                new HealState(_graphics, healInteraction, hitSound, index)
+                new HealState(_graphics, healInteraction, hitSound, animationSid)
             };
         }
 

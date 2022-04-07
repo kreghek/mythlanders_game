@@ -156,7 +156,7 @@ namespace Rpg.Client.Core
             foreach (var combatUnit in _allUnitList)
             {
                 combatUnit.Unit.Dead += Unit_Dead;
-                combatUnit.HasTakenDamage += CombatUnit_HasTakenDamage;
+                combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
             }
 
             ActiveCombatUnitChanged += Combat_ActiveCombatUnitChanged;

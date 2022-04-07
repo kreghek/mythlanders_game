@@ -41,7 +41,5 @@ namespace Rpg.Client.Assets.Skills
         public override SkillSid Sid => SkillSid.MasterStaffHit;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
-
-        public override int UsageCount => 3;
     }
 }
