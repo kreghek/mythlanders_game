@@ -9,8 +9,8 @@ namespace Rpg.Client.Engine
     internal sealed class ExplosionParticleGenerator : IParticleGenerator
     {
         private readonly Random _random;
-        private readonly IList<Texture2D> _textures;
         private readonly Rectangle _sourceTextureRect;
+        private readonly IList<Texture2D> _textures;
 
         public ExplosionParticleGenerator(IList<Texture2D> textures, Rectangle sourceTextureRect)
         {

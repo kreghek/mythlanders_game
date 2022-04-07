@@ -90,61 +90,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawTurnState(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit, Side side)
-        {
-            if (side == Side.Left)
-            {
-                var markerPosition = panelPosition + new Vector2(17, 33);
-
-                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
-
-                var color = Color.LightCyan;
-                if (combatUnit.IsWaiting)
-                {
-                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
-                    //Color.White);
-                }
-                else
-                {
-                    color = Color.LightGray;
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
-            }
-            else
-            {
-                var markerPosition = panelPosition + new Vector2(17 + 146, 33);
-
-                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
-
-                var color = Color.LightCyan;
-                if (combatUnit.IsWaiting)
-                {
-                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
-                    //Color.White);
-                }
-                else
-                {
-                    color = Color.LightGray;
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]", markerPosition, color);
-
-                //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
-                //    new Rectangle(0, 83, 42, 32),
-                //    Color.White);
-
-                //var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
-                //var portraitPosition = panelPosition + new Vector2(7, 0);
-                //var portraitDestRect = portraitPosition;
-                //var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-                //spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
-                //    portraitSourceRect,
-                //    Color.White,
-                //    rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
-            }
-        }
-
         private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
             var effects = _activeCombat.EffectProcessor.GetCurrentEffect(combatUnit).ToArray();
@@ -198,7 +143,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var targetPortraintPosition = panelPosition + new Vector2(-30, 0);
                 spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(),
-                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)), 
+                    new Rectangle(targetPortraintPosition.ToPoint(), new Point(16, 16)),
                     portraitSourceRect,
                     Color.White);
 
@@ -244,11 +189,67 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         }
 
                         spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                                    impactText, panelPosition + new Vector2(-(30 - 24), 6),
-                                    Color.Maroon);
+                            impactText, panelPosition + new Vector2(-(30 - 24), 6),
+                            Color.Maroon);
                     }
                 }
+            }
+        }
 
+        private void DrawTurnState(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit, Side side)
+        {
+            if (side == Side.Left)
+            {
+                var markerPosition = panelPosition + new Vector2(17, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]",
+                    markerPosition, color);
+            }
+            else
+            {
+                var markerPosition = panelPosition + new Vector2(17 + 146, 33);
+
+                var portraitDestRect = new Rectangle(markerPosition.ToPoint(), new Point(10, 10));
+
+                var color = Color.LightCyan;
+                if (combatUnit.IsWaiting)
+                {
+                    //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), portraitDestRect, new Rectangle(0, 85, 2, 2),
+                    //Color.White);
+                }
+                else
+                {
+                    color = Color.LightGray;
+                }
+
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]",
+                    markerPosition, color);
+
+                //spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), panelPosition + new Vector2(146, 0),
+                //    new Rectangle(0, 83, 42, 32),
+                //    Color.White);
+
+                //var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(unit.UnitScheme.Name);
+                //var portraitPosition = panelPosition + new Vector2(7, 0);
+                //var portraitDestRect = portraitPosition;
+                //var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                //spriteBatch.Draw(_gameObjectContentStorage.GetUnitPortrains(), portraitDestRect + new Vector2(146, 0),
+                //    portraitSourceRect,
+                //    Color.White,
+                //    rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
             }
         }
 
@@ -279,7 +280,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
                     Color.LightCyan);
 
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}", hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
+                spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
+                    hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }
             else
@@ -302,7 +305,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
-                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10), Color.LightCyan);
+                    hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10),
+                    Color.LightCyan);
             }
         }
 

@@ -10,15 +10,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     internal sealed class HealState : IUnitStateEngine
     {
         private const double DURATION = 1;
+        private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly Action _healInteraction;
         private readonly SoundEffectInstance _hitSound;
-        private readonly AnimationSid _animationSid;
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound, AnimationSid animationSid)
+        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound,
+            AnimationSid animationSid)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;

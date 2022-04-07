@@ -10,6 +10,12 @@ namespace Rpg.Client.Core
             Current = Base;
         }
 
+        public int ActualBase => Base;
+
+        public int Current { get; private set; }
+
+        public float Share => (float)Current / ActualBase;
+
         private int Base { get; set; }
 
         public void ChangeBase(int newBase)
@@ -18,22 +24,8 @@ namespace Rpg.Client.Core
             Current = newBase;
         }
 
-        public int ActualBase => Base;
-
-        public int Current { get; private set; }
-
-        public void Increase(int value)
-        {
-            Current += value;
-
-            if (Current > Base)
-            { 
-                Current = Base;
-            }
-        }
-
         public void Descrease(int value)
-        { 
+        {
             Current -= value;
 
             if (Current < 0)
@@ -42,7 +34,15 @@ namespace Rpg.Client.Core
             }
         }
 
-        public float Share => (float)Current / ActualBase;
+        public void Increase(int value)
+        {
+            Current += value;
+
+            if (Current > Base)
+            {
+                Current = Base;
+            }
+        }
 
         internal void Restore()
         {

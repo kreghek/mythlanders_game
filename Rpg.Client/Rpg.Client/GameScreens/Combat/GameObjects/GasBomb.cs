@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _endPosition = endPosition;
             _blocker = blocker;
 
-            var particleGenerator = new ExplosionParticleGenerator(new[] { contentStorage.GetParticlesTexture() }, 
+            var particleGenerator = new ExplosionParticleGenerator(new[] { contentStorage.GetParticlesTexture() },
                 new Rectangle(0, 64 + 32, 32, 32));
             _particleSystem = new ParticleSystem(_startPosition, particleGenerator);
         }

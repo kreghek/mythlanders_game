@@ -9,8 +9,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     internal sealed class MassHitState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly Action _attackInteractions;
         private readonly AnimationSid _animationSid;
+        private readonly Action _attackInteractions;
         private readonly UnitGraphics _graphics;
 
         private double _counter;
