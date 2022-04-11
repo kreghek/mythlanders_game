@@ -36,6 +36,11 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
+        public override void MergeWithBase(EffectBase testedEffect)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void InfluenceAction()
         {
             var heal = CalculateHeal();

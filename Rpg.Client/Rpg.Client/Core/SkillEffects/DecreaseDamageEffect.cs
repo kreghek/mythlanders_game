@@ -32,5 +32,10 @@ namespace Rpg.Client.Core.SkillEffects
         {
             Target.ChangeState(CombatUnitState.Defense);
         }
+
+        public override void MergeWithBase(EffectBase testedEffect)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -16,6 +16,11 @@ namespace Rpg.Client.Core.SkillEffects
         public ICombatUnit? Target { get; private set; }
         protected bool IsImposed { get; private set; }
 
+        public virtual void AddToList(IList<EffectBase> list)
+        {
+            list.Add(this);
+        }
+
         /// <summary>
         /// Снятие.
         /// </summary>

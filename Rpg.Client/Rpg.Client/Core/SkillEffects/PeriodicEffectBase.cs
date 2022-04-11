@@ -1,9 +1,29 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
+        public virtual bool IsCanBeMerged(EffectBase testedEffect) => false;
+
+        public abstract void MergeWithBase(EffectBase testedEffect);
+        
+        public override void AddToList(IList<EffectBase> list)
+        {
+            foreach (var effect in list)
+            {
+                var isCanBeMerged = IsCanBeMerged(effect);
+                if (isCanBeMerged)
+                {
+                    MergeWithBase(effect);
+                    return;
+                }
+            }
+            
+            base.AddToList(list);
+        }
+
         private int _value = -1;
 
         /// <summary>
