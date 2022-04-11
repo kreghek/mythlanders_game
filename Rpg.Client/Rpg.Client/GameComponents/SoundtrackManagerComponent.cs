@@ -23,7 +23,7 @@ namespace Rpg.Client.GameComponents
 
             if (_soundtrackManager is not null)
             {
-                _soundtrackManager.Update(gameTime);
+                _soundtrackManager.Update();
             }
         }
     }

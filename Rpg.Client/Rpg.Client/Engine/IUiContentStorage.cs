@@ -10,7 +10,7 @@ namespace Rpg.Client.Engine
 {
     internal interface IUiContentStorage
     {
-        IReadOnlyCollection<Song> GetBattleSongs(BiomeType currentBiome);
+        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonIndicatorsTexture();
         Texture2D GetButtonTexture();

@@ -84,7 +84,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _combat.Node;
-            soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
+            soundtrackManager.PlayCombatTrack(_globe.CurrentBiome.Type);
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();

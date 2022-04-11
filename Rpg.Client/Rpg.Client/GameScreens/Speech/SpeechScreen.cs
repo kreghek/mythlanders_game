@@ -100,7 +100,7 @@ namespace Rpg.Client.GameScreens.Speech
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
             {
-                soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
+                soundtrackManager.PlayCombatTrack(_globe.CurrentBiome.Type);
             }
             else
             {

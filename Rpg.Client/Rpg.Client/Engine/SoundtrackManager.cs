@@ -9,22 +9,17 @@ namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
     {
-        private const float MUSIC_VOLUME = 0.5f;
-        private const double DURATION_MS = 2051; // 117 bmp https://toolstud.io/music/bpm.php?bpm=117&bpm_unit=4%2F4
+        private float MUSIC_VOLUME = 1.0f;
 
         private readonly Random _random;
 
         private bool _changeTrack;
 
-        private double _counter;
-
         private BiomeType _currentBiome;
         private Song? _currentSong;
 
-        private string? _state;
+        private SoundtrackType _state;
 
-        // this is 2051 * 4 * (1 + 2 + 2 + 2) full length
-        private bool _transition;
         private IUiContentStorage? _uiContentStorage;
 
         public SoundtrackManager()
@@ -42,40 +37,38 @@ namespace Rpg.Client.Engine
             IsInitialized = true;
         }
 
-        public void PlayBattleTrack(BiomeType type)
+        public void PlayCombatTrack(BiomeType type)
         {
             _currentBiome = type;
-            ChangeState("battle");
+            ChangeState(SoundtrackType.Combat);
         }
 
         public void PlayDefeatTrack()
         {
-            _transition = true;
-            ChangeState("defeat");
+            ChangeState(SoundtrackType.Defeat);
         }
 
         public void PlayMapTrack()
         {
-            ChangeState("map");
+            ChangeState(SoundtrackType.Map);
         }
 
         public void PlaySilence()
         {
-            _state = null; // means silence.
+            _state = SoundtrackType.Silence;
         }
 
         public void PlayTitleTrack()
         {
-            ChangeState("title");
+            ChangeState(SoundtrackType.Title);
         }
 
         public void PlayVictoryTrack()
         {
-            _transition = true;
-            ChangeState("victory");
+            ChangeState(SoundtrackType.Victory);
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime gameTime)
+        public void Update()
         {
             if (!IsInitialized)
             {
@@ -84,12 +77,12 @@ namespace Rpg.Client.Engine
 
             switch (_state)
             {
-                case null:
+                case SoundtrackType.Silence:
                     _currentSong = null;
                     MediaPlayer.Stop();
                     break;
 
-                case "intro":
+                case SoundtrackType.Intro:
                     if (_changeTrack)
                     {
                         _changeTrack = false;
@@ -105,7 +98,7 @@ namespace Rpg.Client.Engine
 
                     break;
 
-                case "title":
+                case SoundtrackType.Title:
                     if (_changeTrack)
                     {
                         _changeTrack = false;
@@ -121,7 +114,7 @@ namespace Rpg.Client.Engine
 
                     break;
 
-                case "map":
+                case SoundtrackType.Map:
                     if (_changeTrack)
                     {
                         _changeTrack = false;
@@ -142,41 +135,30 @@ namespace Rpg.Client.Engine
 
                     break;
 
-                case "battle":
+                case SoundtrackType.Combat:
                     if (_changeTrack)
                     {
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
                         {
-                            var songs = _uiContentStorage.GetBattleSongs(_currentBiome).ToArray();
-                            var soundIndex = _random.Next(0, songs.Length);
-                            var song = songs[soundIndex];
+                            var songDataList = _uiContentStorage.GetCombatSongs(_currentBiome).ToArray();
+                            var soundIndex = _random.Next(0, songDataList.Length);
+                            var songData = songDataList[soundIndex];
 
-                            _currentSong = song;
+                            _currentSong = songData.Soundtrack;
 
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Volume = MUSIC_VOLUME;
-                            MediaPlayer.Play(song, TimeSpan.Zero);
+                            MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
                     }
 
                     break;
 
-                case "victory":
+                case SoundtrackType.Victory:
                     if (_changeTrack)
                     {
-                        if (_transition)
-                        {
-                            _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                            if (_counter < DURATION_MS * 4 /* * (1 + 2 + 2 + 2 + 2)*/)
-                            {
-                                return;
-                            }
-
-                            _counter = 0;
-                        }
-
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -193,20 +175,9 @@ namespace Rpg.Client.Engine
 
                     break;
 
-                case "defeat":
+                case SoundtrackType.Defeat:
                     if (_changeTrack)
                     {
-                        if (_transition)
-                        {
-                            _counter += gameTime.ElapsedGameTime.TotalMilliseconds;
-                            if (_counter < DURATION_MS * 4 /* * (1 + 2 + 2 + 2 + 2)*/)
-                            {
-                                return;
-                            }
-
-                            _counter = 0;
-                        }
-
                         _changeTrack = false;
 
                         if (_uiContentStorage is not null)
@@ -227,10 +198,10 @@ namespace Rpg.Client.Engine
 
         internal void PlayIntroTrack()
         {
-            ChangeState("intro");
+            ChangeState(SoundtrackType.Intro);
         }
 
-        private void ChangeState(string targetState)
+        private void ChangeState(SoundtrackType targetState)
         {
             if (_state != targetState)
             {

@@ -64,7 +64,7 @@ namespace Rpg.Client.GameScreens.Event
 
             if (_currentDialogNode.CombatPosition == EventPosition.BeforeCombat)
             {
-                soundtrackManager.PlayBattleTrack(_globe.CurrentBiome.Type);
+                soundtrackManager.PlayCombatTrack(_globe.CurrentBiome.Type);
             }
             else
             {

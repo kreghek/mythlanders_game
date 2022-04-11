@@ -43,6 +43,12 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Combat_Egyptian01.ogg
 
+#begin Audio/Background/Combat_Egyptian01_Intro.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Egyptian01_Intro.ogg
+
 #begin Audio/Background/Combat_Egyptian02.ogg
 /importer:OggImporter
 /processor:SongProcessor
