@@ -5,7 +5,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
-        public virtual bool IsCanBeMerged(EffectBase testedEffect) => false;
+        public virtual bool CanBeMerged(EffectBase testedEffect) => false;
 
         public abstract void MergeWithBase(EffectBase testedEffect);
         
@@ -13,8 +13,8 @@ namespace Rpg.Client.Core.SkillEffects
         {
             foreach (var effect in list)
             {
-                var isCanBeMerged = IsCanBeMerged(effect);
-                if (isCanBeMerged)
+                var canBeMerged = CanBeMerged(effect);
+                if (canBeMerged)
                 {
                     MergeWithBase(effect);
                     return;

@@ -38,7 +38,7 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
-        public override bool IsCanBeMerged(EffectBase testedEffect)
+        public override bool CanBeMerged(EffectBase testedEffect)
         {
             if (testedEffect is PeriodicSupportAttackEffect periodicDamageEffect)
             {
