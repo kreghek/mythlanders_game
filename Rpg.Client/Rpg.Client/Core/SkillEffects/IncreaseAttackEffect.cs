@@ -21,5 +21,9 @@ namespace Rpg.Client.Core.SkillEffects
         public int Bonus { get; }
 
         public override IEnumerable<ModifierBase> Modifiers { get; }
+        public override void MergeWithBase(EffectBase testedEffect)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

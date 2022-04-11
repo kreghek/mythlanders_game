@@ -98,11 +98,30 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var effect = effects[index];
 
+                const int EFFECT_SIZE = 16;
+                const int EFFECTS_MARGIN = 2;
+                const int EFFECTS_DURATION_OFFSET = 2;
+                
+                var effectPosition = panelPosition + new Vector2(index * (EFFECT_SIZE + EFFECTS_MARGIN), 0);
+                var effectRect = new Rectangle(effectPosition.ToPoint(), new Point(EFFECT_SIZE, EFFECT_SIZE));
+                
+                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), effectRect, Color.White);
+
                 if (effect is PeriodicEffectBase periodicEffect)
                 {
+                    for (var i = -1; i <= 1; i++)
+                    {
+                        for (var j = -1; j <= 1; j++)
+                        {
+                            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                                periodicEffect.Duration.ToString(),
+                                effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET, EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + new Vector2(i, j), Color.Black);
+                        }
+                    }
+
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        $"{periodicEffect.GetType()} {periodicEffect.Duration} turns",
-                        panelPosition + new Vector2(0, index * 10), Color.Aqua);
+                        periodicEffect.Duration.ToString(),
+                        effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET, EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
                 }
             }
         }

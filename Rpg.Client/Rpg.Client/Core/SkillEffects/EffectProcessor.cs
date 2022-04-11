@@ -82,8 +82,8 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 _unitEffects[e.Unit] = new List<EffectBase>();
             }
-
-            _unitEffects[e.Unit].Add(e.Effect);
+            
+            e.Effect.AddToList(_unitEffects[e.Unit]);
         }
 
         private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target)

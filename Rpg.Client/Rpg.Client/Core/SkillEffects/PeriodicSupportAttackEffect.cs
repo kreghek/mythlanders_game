@@ -38,6 +38,43 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
+        public override bool CanBeMerged(EffectBase testedEffect)
+        {
+            if (testedEffect is PeriodicSupportAttackEffect periodicDamageEffect)
+            {
+                if (Actor == periodicDamageEffect.Actor)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override void MergeWithBase(EffectBase testedEffect)
+        {
+            if (testedEffect is PeriodicSupportAttackEffect periodicDamageEffect)
+            {
+                if (Actor == periodicDamageEffect.Actor)
+                {
+                    periodicDamageEffect.Duration += Duration;
+                    periodicDamageEffect.SourceSupport = SourceSupport;
+                }
+                else
+                {
+                    throw new InvalidOperationException("The tested effect has not same author.");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Base is not same type");
+            }
+        }
+
         protected override void InfluenceAction()
         {
             var damageRange = CalculateRoundDamage();
