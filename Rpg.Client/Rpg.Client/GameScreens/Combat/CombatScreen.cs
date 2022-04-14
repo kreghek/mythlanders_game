@@ -28,6 +28,10 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
+        private readonly SpriteContainer _cloudLayer;
+        private readonly SpriteContainer _farLayer;
+        private readonly SpriteContainer _mainLayer;
+        private readonly SpriteContainer _closestLayer;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
@@ -96,6 +100,13 @@ namespace Rpg.Client.GameScreens.Combat
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);
+
+            _cloudLayer = new SpriteContainer();
+            _farLayer = new SpriteContainer();
+            _mainLayer = new SpriteContainer();
+            _closestLayer = new SpriteContainer();
+
+            backgroundObjectFactory.GenerateFarLayerObjects(_farLayer);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -364,6 +375,8 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
 
+            
+
             var settings = Game.Services.GetService<GameSettings>();
             // TODO Remove settings.Mode == GameMode.Full then effects would be developed.
             _unitStatePanelController = new UnitStatePanelController(_combat,
@@ -608,61 +621,67 @@ namespace Rpg.Client.GameScreens.Combat
             return item;
         }
 
-        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
-        {
-            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
-            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
-        }
-
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffset,
             int backgroundMaxOffset)
         {
-            for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
-            {
-                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                    BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
-                var roundedX = (int)Math.Round(xFloat);
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: _camera.GetViewTransformationMatrix());
 
-                var position = new Vector2(roundedX, 0);
-                var position3d = new Vector3(position, 0);
+            _farLayer.Draw(spriteBatch);
 
-                var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-                worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
+            spriteBatch.End();
 
-                var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-                var shakeVector3d = new Vector3(shakeVector, 0);
+            //for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
+            //{
+            //    var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
+            //        BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
+            //    var roundedX = (int)Math.Round(xFloat);
 
-                var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                             * Matrix.CreateScale(scaleVector);
+            //    var position = new Vector2(roundedX, 0);
+            //    var position3d = new Vector3(position, 0);
 
-                spriteBatch.Begin(
-                    sortMode: SpriteSortMode.Deferred,
-                    blendState: BlendState.AlphaBlend,
-                    samplerState: SamplerState.PointClamp,
-                    depthStencilState: DepthStencilState.None,
-                    rasterizerState: RasterizerState.CullNone,
-                    transformMatrix: matrix);
+            //    var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+            //    worldTransformationMatrix.Decompose(out var scaleVector, out _, out var translationVector);
 
-                spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+            //    var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            //    var shakeVector3d = new Vector3(shakeVector, 0);
 
-                if (i == 0 /*Cloud layer*/)
-                {
-                    foreach (var obj in _cloudLayerObjects)
-                    {
-                        obj.Draw(spriteBatch);
-                    }
-                }
-                else if (i == 1 /* Far layer */)
-                {
-                    foreach (var obj in _farLayerObjects)
-                    {
-                        obj.Draw(spriteBatch);
-                    }
-                }
+            //    var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
+            //                 * Matrix.CreateScale(scaleVector);
 
-                spriteBatch.End();
-            }
+            //    spriteBatch.Begin(
+            //        sortMode: SpriteSortMode.Deferred,
+            //        blendState: BlendState.AlphaBlend,
+            //        samplerState: SamplerState.PointClamp,
+            //        depthStencilState: DepthStencilState.None,
+            //        rasterizerState: RasterizerState.CullNone,
+            //        transformMatrix: matrix);
+
+            //    spriteBatch.Draw(backgrounds[i], Vector2.Zero, Color.White);
+
+            //    if (i == 0 /*Cloud layer*/)
+            //    {
+            //        foreach (var obj in _cloudLayerObjects)
+            //        {
+            //            obj.Draw(spriteBatch);
+            //        }
+            //    }
+            //    else if (i == 1 /* Far layer */)
+            //    {
+            //        foreach (var obj in _farLayerObjects)
+            //        {
+            //            obj.Draw(spriteBatch);
+            //        }
+            //    }
+
+            //    spriteBatch.End();
+            //}
         }
 
         private void DrawBullets(SpriteBatch spriteBatch)
@@ -711,38 +730,38 @@ namespace Rpg.Client.GameScreens.Combat
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
             int backgroundMaxOffset)
         {
-            var xFloat = backgroundStartOffset +
-                         -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
-            var roundedX = (int)Math.Round(xFloat);
+            //var xFloat = backgroundStartOffset +
+            //             -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+            //var roundedX = (int)Math.Round(xFloat);
 
-            var position = new Vector2(roundedX, 0);
-            var position3d = new Vector3(position, 0);
+            //var position = new Vector2(roundedX, 0);
+            //var position3d = new Vector3(position, 0);
 
-            var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
-            var shakeVector3d = new Vector3(shakeVector, 0);
+            //var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
+            //var shakeVector3d = new Vector3(shakeVector, 0);
 
-            var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
-            worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
+            //var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
+            //worldTransformationMatrix.Decompose(out var scaleVector, out var _, out var translationVector);
 
-            var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
-                         * Matrix.CreateScale(scaleVector);
+            //var matrix = Matrix.CreateTranslation(translationVector + position3d + shakeVector3d)
+            //             * Matrix.CreateScale(scaleVector);
 
-            spriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: matrix);
+            //spriteBatch.Begin(
+            //    sortMode: SpriteSortMode.Deferred,
+            //    blendState: BlendState.AlphaBlend,
+            //    samplerState: SamplerState.PointClamp,
+            //    depthStencilState: DepthStencilState.None,
+            //    rasterizerState: RasterizerState.CullNone,
+            //    transformMatrix: matrix);
 
-            spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+            //spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
 
-            foreach (var obj in _foregroundLayerObjects)
-            {
-                obj.Draw(spriteBatch);
-            }
+            //foreach (var obj in _foregroundLayerObjects)
+            //{
+            //    obj.Draw(spriteBatch);
+            //}
 
-            spriteBatch.End();
+            //spriteBatch.End();
         }
 
         private void DrawGameObjects(SpriteBatch spriteBatch)

@@ -27,6 +27,12 @@ namespace Rpg.Client.GameScreens
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
+
+        internal Texture2D GetCombatBackgroundObjectsTexture()
+        {
+            return _combatBackgroundObjectsTexture;
+        }
+
         private Texture2D _particlesTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
         private Texture2D _shadowTexture;
@@ -36,6 +42,7 @@ namespace Rpg.Client.GameScreens
 
         private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
+        private Texture2D _combatBackgroundObjectsTexture;
 
         public Effect GetAllWhiteEffect()
         {
@@ -287,6 +294,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
                 { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }
             };
+
+            _combatBackgroundObjectsTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/FarLayerObjects256x256_1");
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
             {
