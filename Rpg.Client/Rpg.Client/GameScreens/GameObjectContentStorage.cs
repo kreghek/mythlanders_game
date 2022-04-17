@@ -154,8 +154,8 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
-                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Far, 0),
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0")
+                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Clouds, 0),
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0")
                 },
 
                 { 

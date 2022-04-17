@@ -511,7 +511,7 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0.png
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -521,7 +521,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0.png
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0.png
 
 #begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/ClosestLayer.png
 /importer:TextureImporter
