@@ -6,7 +6,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
     {
         IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects();
 
+        IReadOnlyList<IBackgroundObject> CreateConnectorLayerObjects()
+        {
+            return new List<IBackgroundObject>(0);
+        }
+
         IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
+        {
+            return new List<IBackgroundObject>(0);
+        }
+
+        IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
         {
             return new List<IBackgroundObject>(0);
         }

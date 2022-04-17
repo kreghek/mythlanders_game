@@ -9,15 +9,26 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens
 {
+    internal enum BackgroundLayerType
+    {
+        Clouds, // Rename to horizon
+        Semi, // Rename to Far
+        Far, // Rename to Closest
+        Main,
+        Closest // Rename to foreground
+    }
+
     internal class GameObjectContentStorage
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
         private Texture2D _biomeClouds;
-        private IDictionary<CombatBackgroundObjectTextureType, Texture2D> _combatBackgroundAnimatedObjectsTextureDict;
-        private Dictionary<BackgroundType, Texture2D[]> _combatBackgroundDict;
+
+        private IDictionary<BackgroundType, Texture2D[]> _combatBackgroundBaseDict;
+        private IDictionary<(BackgroundType, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
+
         private Texture2D _combatUnitMarkers;
-        private Dictionary<UnitName, SoundEffect> _deathSoundDict;
+        private IDictionary<UnitName, SoundEffect> _deathSoundDict;
         private Texture2D _equipmentIcons;
         private SpriteFont _font;
         private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
@@ -107,7 +118,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") }
             };
 
-            _combatBackgroundDict = new Dictionary<BackgroundType, Texture2D[]>
+            _combatBackgroundBaseDict = new Dictionary<BackgroundType, Texture2D[]>
             {
                 {
                     BackgroundType.SlavicDarkThicket, LoadBackgroundLayers(BiomeType.Slavic, GlobeNodeSid.Thicket)
@@ -132,6 +143,24 @@ namespace Rpg.Client.GameScreens
 
                 {
                     BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)
+                }
+            };
+
+            _combatBackgroundObjectsDict = new Dictionary<(BackgroundType, BackgroundLayerType, int), Texture2D>
+            {
+                {
+                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Closest, 0),
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0")
+                },
+
+                {
+                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Far, 0),
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0")
+                },
+
+                { 
+                    new (BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
                 }
             };
 
@@ -256,18 +285,6 @@ namespace Rpg.Client.GameScreens
 
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
 
-            _combatBackgroundAnimatedObjectsTextureDict = new Dictionary<CombatBackgroundObjectTextureType, Texture2D>
-            {
-                {
-                    CombatBackgroundObjectTextureType.Clouds,
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds")
-                },
-                {
-                    CombatBackgroundObjectTextureType.Banner,
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner")
-                }
-            };
-
             _svarogSymbolTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/SvarogFireSfx");
             _equipmentIcons = contentManager.Load<Texture2D>("Sprites/GameObjects/EquipmentIcons");
 
@@ -301,6 +318,7 @@ namespace Rpg.Client.GameScreens
                 {
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Clouds),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Far),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Semi),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Main),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
@@ -317,14 +335,14 @@ namespace Rpg.Client.GameScreens
             return _arrowTexture;
         }
 
-        internal Texture2D GetCombatBackgroundAnimatedObjectsTexture(CombatBackgroundObjectTextureType textureType)
+        internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType, BackgroundLayerType layerType, int spritesheetIndex)
         {
-            return _combatBackgroundAnimatedObjectsTextureDict[textureType];
+            return _combatBackgroundObjectsDict[new(backgroundType, layerType, spritesheetIndex)];
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
         {
-            return _combatBackgroundDict[backgroundType];
+            return _combatBackgroundBaseDict[backgroundType];
         }
 
         internal Texture2D GetCombatUnitMarker()
@@ -412,14 +430,6 @@ namespace Rpg.Client.GameScreens
         {
             var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
             return contentManager.Load<Texture2D>(path);
-        }
-
-        private enum BackgroundLayerType
-        {
-            Clouds,
-            Far,
-            Main,
-            Closest
         }
     }
 }

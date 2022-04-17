@@ -367,30 +367,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/Clouds.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Banner.png
-
-#begin Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/CombatBackgrounds/AnimatedObjects/Clouds.png
-
 #begin Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -438,6 +414,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/MainLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/SemiLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0.png
 
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 /importer:TextureImporter
@@ -487,6 +487,42 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/MainLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/SemiLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Far256x256_0.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -534,6 +570,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/MainLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/SacredPlace/SemiLayer.png
 
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/DestroyedVillage/ClosestLayer.png
 /importer:TextureImporter
@@ -583,6 +631,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/DestroyedVillage/MainLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/DestroyedVillage/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/DestroyedVillage/SemiLayer.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -631,6 +691,18 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/MainLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Swamp/SemiLayer.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -678,6 +750,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/MainLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Slavic/Thicket/SemiLayer.png
 
 #begin Sprites/GameObjects/CombatUnitMarkers.png
 /importer:TextureImporter

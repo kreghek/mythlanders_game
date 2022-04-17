@@ -20,8 +20,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             {
                 var y = (i * 71f) / 710;
                 var cloud = new BackgroundCloud(
-                    _gameObjectContentStorage.GetCombatBackgroundAnimatedObjectsTexture(
-                        CombatBackgroundObjectTextureType.Clouds),
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.SlavicBattleground, BackgroundLayerType.Clouds, 0),
                     i,
                     new Vector2(0, 40 + y),
                     new Vector2(1000, 40 + y),
@@ -38,8 +37,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             var list = new List<IBackgroundObject>();
 
             var bannerObject = new PositionalAnimatedObject(
-                _gameObjectContentStorage.GetCombatBackgroundAnimatedObjectsTexture(CombatBackgroundObjectTextureType
-                    .Banner),
+                _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.SlavicBattleground, BackgroundLayerType.Closest, 0),
                 new Vector2(160, 480 - 128));
             list.Add(bannerObject);
 
