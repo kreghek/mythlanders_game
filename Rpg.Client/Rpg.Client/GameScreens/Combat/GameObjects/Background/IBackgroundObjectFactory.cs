@@ -33,9 +33,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
         public IReadOnlyCollection<BackgroundObjectBase> GetObjects()
         {
             return new BackgroundObjectBase[] {
-                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(0, 0, 256, 256)),
-                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(256, 0, 256, 256)),
-                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(0, 256, 256, 256))
+                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(256 * 0, 0, 256, 256)),
+                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(256 * 1, 0, 256, 256)),
+                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(256 * 0, 256 * 1, 256, 256)),
+                new StaticBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(), new Rectangle(256 * 1, 256 * 1, 256, 256))
             };
         }
     }

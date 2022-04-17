@@ -39,6 +39,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return list;
         }
 
+        public void GenerateMainLayerObjects(SpriteContainer spriteContainer)
+        { 
+
+        }
+
         public void GenerateFarLayerObjects(SpriteContainer spriteContainer)
         {
             var availableObjects = _backgroundObjectCatalog.GetObjects();
