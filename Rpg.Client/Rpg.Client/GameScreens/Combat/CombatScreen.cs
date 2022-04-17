@@ -22,7 +22,7 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal class CombatScreen : GameScreenWithMenuBase
     {
-        private const int BACKGROUND_LAYERS_COUNT = 3;
+        private const int BACKGROUND_LAYERS_COUNT = 4;
         private const float BACKGROUND_LAYERS_SPEED = 0.1f;
 
         private readonly AnimationManager _animationManager;
@@ -608,12 +608,6 @@ namespace Rpg.Client.GameScreens.Combat
             return item;
         }
 
-        private static CombatRewardsItem CreateXpReward(IReadOnlyCollection<ResourceItem> inventory, int amount)
-        {
-            const EquipmentItemType EXPIRIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
-            return CreateReward(inventory, EXPIRIENCE_POINTS_TYPE, amount);
-        }
-
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffset,
             int backgroundMaxOffset)
@@ -735,7 +729,7 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: matrix);
 
-            spriteBatch.Draw(backgrounds[3], Vector2.Zero, Color.White);
+            spriteBatch.Draw(backgrounds[4], Vector2.Zero, Color.White);
 
             foreach (var obj in _foregroundLayerObjects)
             {
