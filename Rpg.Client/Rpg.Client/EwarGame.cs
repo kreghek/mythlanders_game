@@ -129,7 +129,7 @@ namespace Rpg.Client
 
             var bgofSelector = Services.GetService<BackgroundObjectFactorySelector>();
 
-            bgofSelector.Initialize(gameObjectContentStorage);
+            bgofSelector.Initialize(gameObjectContentStorage, Services.GetService<IDice>());
 
 #if DEBUG
             if (_gameSettings.Mode == GameMode.Full)

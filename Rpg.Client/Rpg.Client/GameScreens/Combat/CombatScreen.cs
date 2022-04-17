@@ -647,7 +647,7 @@ namespace Rpg.Client.GameScreens.Combat
                         obj.Draw(spriteBatch);
                     }
                 }
-                else if (i == 1 /* Far layer */)
+                else if (i == 2 /* Far layer */)
                 {
                     foreach (var obj in _farLayerObjects)
                     {
