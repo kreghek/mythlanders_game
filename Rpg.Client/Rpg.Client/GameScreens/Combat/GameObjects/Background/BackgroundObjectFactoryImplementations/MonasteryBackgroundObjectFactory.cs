@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -39,22 +40,26 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
         {
-            return CreateHouses(farLayerBottom: 256);
+            return CreateHouses(farLayerBottom: 180);
         }
 
         private IReadOnlyList<IBackgroundObject> CreateHouses(int farLayerBottom)
         {
             var list = new List<IBackgroundObject>();
 
-            for (var i = 0; i < 4 * 4; i++)
+            const int HOUSE_COUNT = 4 * 4;
+            var indeces = _dice.RollFromList(Enumerable.Range(0, HOUSE_COUNT).ToArray(), HOUSE_COUNT).ToArray();
+
+            for (var i = 0; i < HOUSE_COUNT; i++)
             {
+                var objectIndex = indeces[i];
                 if (_dice.RollD100() > 25)
                 {
-                    var objectIndex = _dice.Roll(4) - 1;
+                    var objectSpriteIndex = _dice.Roll(4) - 1;
                     const int COL_COUNT = 2;
-                    var position = new Vector2(i * 256, farLayerBottom);
-                    var col = objectIndex % COL_COUNT;
-                    var row = objectIndex / COL_COUNT;
+                    var position = new Vector2(objectIndex * 64, farLayerBottom);
+                    var col = objectSpriteIndex % COL_COUNT;
+                    var row = objectSpriteIndex / COL_COUNT;
                     var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
                     var houseObject = new PositionalStaticObject(
                         _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),

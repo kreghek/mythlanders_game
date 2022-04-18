@@ -317,8 +317,8 @@ namespace Rpg.Client.GameScreens
                 return new[]
                 {
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Clouds),
-                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Far),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Semi),
+                    LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Far),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Main),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
