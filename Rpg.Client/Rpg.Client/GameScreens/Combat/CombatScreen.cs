@@ -23,7 +23,8 @@ namespace Rpg.Client.GameScreens.Combat
     internal class CombatScreen : GameScreenWithMenuBase
     {
         private const int BACKGROUND_LAYERS_COUNT = 4;
-        private const float BACKGROUND_LAYERS_SPEED = 0.1f;
+        private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
+        private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
         private readonly AnimationManager _animationManager;
         private readonly IList<IInteractionDelivery> _bulletObjects;
@@ -48,7 +49,9 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly Vector2[] _unitPredefinedPositions;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        private float _bgCenterOffsetPercentage;
+        private float _bgCenterOffsetPercentageX;
+        private float _bgCenterOffsetPercentageY;
+
         private bool _bossWasDefeat;
         private double _combatFinishedDelayCounter;
 
@@ -609,16 +612,20 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
-            int backgroundStartOffset,
-            int backgroundMaxOffset)
+            int backgroundStartOffsetX,
+            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
             {
-                var xFloat = backgroundStartOffset + _bgCenterOffsetPercentage * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                    BACKGROUND_LAYERS_SPEED * backgroundMaxOffset;
+                var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
                 var roundedX = (int)Math.Round(xFloat);
 
-                var position = new Vector2(roundedX, 0);
+                var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+                var roundedY = (int)Math.Round(yFloat);
+
+                var position = new Vector2(roundedX, roundedY);
                 var position3d = new Vector3(position, 0);
 
                 var worldTransformationMatrix = _camera.GetViewTransformationMatrix();
@@ -702,14 +709,18 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
-            int backgroundMaxOffset)
+        private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
+            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
         {
-            var xFloat = backgroundStartOffset +
-                         -1 * _bgCenterOffsetPercentage * BACKGROUND_LAYERS_SPEED * 2 * backgroundMaxOffset;
+            var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (- 1) *
+                    BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
             var roundedX = (int)Math.Round(xFloat);
 
-            var position = new Vector2(roundedX, 0);
+            var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (- 1) *
+                BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+            var roundedY = (int)Math.Round(yFloat);
+
+            var position = new Vector2(roundedX, roundedY);
             var position3d = new Vector3(position, 0);
 
             var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
@@ -745,10 +756,12 @@ namespace Rpg.Client.GameScreens.Combat
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
-            const int BG_START_OFFSET = -100;
-            const int BG_MAX_OFFSET = 200;
+            const int BG_START_OFFSET_X = -100;
+            const int BG_MAX_OFFSET_X = 200;
+            const int BG_START_OFFSET_Y = -20;
+            const int BG_MAX_OFFSET_Y = 40;
 
-            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y, BG_MAX_OFFSET_Y);
 
             var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
             var shakeVector3d = new Vector3(shakeVector, 0);
@@ -777,7 +790,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             spriteBatch.End();
 
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET, BG_MAX_OFFSET);
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y, BG_MAX_OFFSET_Y);
         }
 
         private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
@@ -891,9 +904,14 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var mouse = Mouse.GetState();
             var mouseRir = ResolutionIndependentRenderer.ScaleMouseToScreenCoordinates(new Vector2(mouse.X, mouse.Y));
+
             var screenCenterX = ResolutionIndependentRenderer.VirtualBounds.Center.X;
-            var rawPercentage = (mouseRir.X - screenCenterX) / screenCenterX;
-            _bgCenterOffsetPercentage = NormalizePercentage(rawPercentage);
+            var rawPercentageX = (mouseRir.X - screenCenterX) / screenCenterX;
+            _bgCenterOffsetPercentageX = NormalizePercentage(rawPercentageX);
+
+            var screenCenterY = ResolutionIndependentRenderer.VirtualBounds.Center.Y;
+            var rawPercentageY = (mouseRir.Y - screenCenterY) / screenCenterY;
+            _bgCenterOffsetPercentageY = NormalizePercentage(rawPercentageY);
         }
 
         private void HandleBullets(GameTime gameTime)
