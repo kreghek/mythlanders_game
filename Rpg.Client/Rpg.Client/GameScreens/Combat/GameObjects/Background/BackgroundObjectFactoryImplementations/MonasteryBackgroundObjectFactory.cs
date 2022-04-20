@@ -55,8 +55,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 var objectIndex = indeces[i];
                 if (_dice.RollD100() > 25)
                 {
-                    var objectSpriteIndex = _dice.Roll(4) - 1;
-                    const int COL_COUNT = 2;
+                    const int SPRITE_COUNT = 9;
+                    const int COL_COUNT = 3;
+
+                    var objectSpriteIndex = _dice.Roll(SPRITE_COUNT) - 1;
                     var position = new Vector2(objectIndex * 64, farLayerBottom);
                     var col = objectSpriteIndex % COL_COUNT;
                     var row = objectSpriteIndex / COL_COUNT;
