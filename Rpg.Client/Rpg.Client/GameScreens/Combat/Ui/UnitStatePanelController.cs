@@ -101,10 +101,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 const int EFFECT_SIZE = 16;
                 const int EFFECTS_MARGIN = 2;
                 const int EFFECTS_DURATION_OFFSET = 2;
-                
+
                 var effectPosition = panelPosition + new Vector2(index * (EFFECT_SIZE + EFFECTS_MARGIN), 0);
                 var effectRect = new Rectangle(effectPosition.ToPoint(), new Point(EFFECT_SIZE, EFFECT_SIZE));
-                
+
                 spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), effectRect, Color.White);
 
                 if (effect is PeriodicEffectBase periodicEffect)

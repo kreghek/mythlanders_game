@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.SkillEffects
         public virtual bool CanBeMerged(EffectBase testedEffect) => false;
 
         public abstract void MergeWithBase(EffectBase testedEffect);
-        
+
         public override void AddToList(IList<EffectBase> list)
         {
             foreach (var effect in list)
@@ -20,7 +20,7 @@ namespace Rpg.Client.Core.SkillEffects
                     return;
                 }
             }
-            
+
             base.AddToList(list);
         }
 

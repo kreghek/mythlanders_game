@@ -721,11 +721,11 @@ namespace Rpg.Client.GameScreens.Combat
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
             int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
         {
-            var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (- 1) *
+            var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
                     BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
             var roundedX = (int)Math.Round(xFloat);
 
-            var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (- 1) *
+            var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (-1) *
                 BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
             var roundedY = (int)Math.Round(yFloat);
 

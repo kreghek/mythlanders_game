@@ -82,7 +82,7 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 _unitEffects[e.Unit] = new List<EffectBase>();
             }
-            
+
             e.Effect.AddToList(_unitEffects[e.Unit]);
         }
 

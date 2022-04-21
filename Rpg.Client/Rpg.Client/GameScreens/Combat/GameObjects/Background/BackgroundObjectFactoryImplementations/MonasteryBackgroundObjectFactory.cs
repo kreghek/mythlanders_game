@@ -34,10 +34,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         }
 
         public IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
-        { 
+        {
             var mainLayerObjects = new List<IBackgroundObject>();
 
-            const int FLOOR_COUNT = 1024/256;
+            const int FLOOR_COUNT = 1024 / 256;
 
             for (var objectIndex = 0; objectIndex < FLOOR_COUNT; objectIndex++)
             {
