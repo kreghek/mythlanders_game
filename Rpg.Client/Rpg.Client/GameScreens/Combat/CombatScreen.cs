@@ -35,6 +35,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
+        private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -103,6 +104,7 @@ namespace Rpg.Client.GameScreens.Combat
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
             _farLayerObjects = backgroundObjectFactory.CreateFarLayerObjects();
+            _mainLayerObjects = backgroundObjectFactory.CreateMainLayerObjects();
 
             _settings = game.Services.GetService<GameSettings>();
 
@@ -661,6 +663,13 @@ namespace Rpg.Client.GameScreens.Combat
                         obj.Draw(spriteBatch);
                     }
                 }
+                else if (i == 3) // Main layer
+                {
+                    foreach (var obj in _mainLayerObjects)
+                    {
+                        obj.Draw(spriteBatch);
+                    }
+                }
 
                 spriteBatch.End();
             }
@@ -1211,6 +1220,11 @@ namespace Rpg.Client.GameScreens.Combat
         private void UpdateBackgroundObjects(GameTime gameTime)
         {
             foreach (var obj in _foregroundLayerObjects)
+            {
+                obj.Update(gameTime);
+            }
+
+            foreach (var obj in _mainLayerObjects)
             {
                 obj.Update(gameTime);
             }

@@ -158,6 +158,11 @@ namespace Rpg.Client.GameScreens
                     contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0")
                 },
 
+                {
+                    new (BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
+                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0")
+                },
+
                 { 
                     new (BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
                     contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
