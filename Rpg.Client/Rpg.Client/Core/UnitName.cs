@@ -57,9 +57,9 @@
         KosheyTheImmortal3,
         VolkolakWarrior,
         ChineseMonster,
-        EqyptianMonster,
         GreekMonster,
         Marauder,
-        BlackTrooper
+        BlackTrooper,
+        Mummy
     }
 }

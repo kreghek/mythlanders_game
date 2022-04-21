@@ -507,8 +507,16 @@ namespace Rpg.Client.Core
 
             foreach (var monsterSid in playerDto.KnownMonsterSids)
             {
-                var monsterScheme = unitSchemeCatalog.AllMonsters.Single(x => x.Name.ToString() == monsterSid);
-                player.KnownMonsters.Add(monsterScheme);
+                var monsterScheme = unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name.ToString() == monsterSid);
+
+                if (monsterScheme is null)
+                {
+                    Debug.Fail("Make migration of the save");
+                }
+                else
+                {
+                    player.KnownMonsters.Add(monsterScheme);
+                }
             }
         }
 
