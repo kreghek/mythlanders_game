@@ -9,13 +9,46 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 {
     internal sealed class MonasteryBackgroundObjectFactory : IBackgroundObjectFactory
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IDice _dice;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         public MonasteryBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage, IDice dice)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
             _dice = dice;
+        }
+
+        private IReadOnlyList<IBackgroundObject> CreateHouses(int farLayerBottom)
+        {
+            var list = new List<IBackgroundObject>();
+
+            const int HOUSE_COUNT = 4 * 4;
+            var indeces = _dice.RollFromList(Enumerable.Range(0, HOUSE_COUNT).ToArray(), HOUSE_COUNT).ToArray();
+
+            for (var i = 0; i < HOUSE_COUNT; i++)
+            {
+                var objectIndex = indeces[i];
+                if (_dice.RollD100() > 25)
+                {
+                    const int SPRITE_COUNT = 9;
+                    const int COL_COUNT = 3;
+
+                    var objectSpriteIndex = _dice.Roll(SPRITE_COUNT) - 1;
+                    var position = new Vector2(objectIndex * 64, farLayerBottom);
+                    var col = objectSpriteIndex % COL_COUNT;
+                    var row = objectSpriteIndex / COL_COUNT;
+                    var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
+                    var houseObject = new PositionalStaticObject(
+                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                            BackgroundLayerType.Far, 0),
+                        position,
+                        sourceRectangle,
+                        new Vector2(0.5f, 1));
+                    list.Add(houseObject);
+                }
+            }
+
+            return list;
         }
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
@@ -61,10 +94,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 var position = new Vector2(objectIndex * 256, topPosition);
 
                 var floorObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
-                        position,
-                        sourceRectangle,
-                        new Vector2(0, 0));
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                        BackgroundLayerType.Main, 0),
+                    position,
+                    sourceRectangle,
+                    new Vector2(0, 0));
 
                 mainLayerObjects.Add(floorObject);
             }
@@ -80,38 +114,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
         {
             return CreateHouses(farLayerBottom: 180);
-        }
-
-        private IReadOnlyList<IBackgroundObject> CreateHouses(int farLayerBottom)
-        {
-            var list = new List<IBackgroundObject>();
-
-            const int HOUSE_COUNT = 4 * 4;
-            var indeces = _dice.RollFromList(Enumerable.Range(0, HOUSE_COUNT).ToArray(), HOUSE_COUNT).ToArray();
-
-            for (var i = 0; i < HOUSE_COUNT; i++)
-            {
-                var objectIndex = indeces[i];
-                if (_dice.RollD100() > 25)
-                {
-                    const int SPRITE_COUNT = 9;
-                    const int COL_COUNT = 3;
-
-                    var objectSpriteIndex = _dice.Roll(SPRITE_COUNT) - 1;
-                    var position = new Vector2(objectIndex * 64, farLayerBottom);
-                    var col = objectSpriteIndex % COL_COUNT;
-                    var row = objectSpriteIndex / COL_COUNT;
-                    var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
-                    var houseObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
-                        position,
-                        sourceRectangle,
-                        new Vector2(0.5f, 1));
-                    list.Add(houseObject);
-                }
-            }
-
-            return list;
         }
     }
 }

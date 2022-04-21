@@ -13,13 +13,13 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
-        private CombatSoundtrack[] _combatTracks;
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private Texture2D? _buttonTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatPowerIconTextres;
         private Texture2D _combatSkillPanelTextre;
+        private CombatSoundtrack[] _combatTracks;
         private Texture2D _cursonTextures;
         private Song _defeatTrack;
         private Texture2D _equipmentIconsTexture;
@@ -200,9 +200,12 @@ namespace Rpg.Client.Engine
                 new CombatSoundtrack(BiomeType.Slavic, contentManager.Load<Song>("Audio/Background/Combat_Slavic02")),
                 new CombatSoundtrack(BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese01")),
                 new CombatSoundtrack(BiomeType.Chinese, contentManager.Load<Song>("Audio/Background/Combat_Chinese02")),
-                new CombatSoundtrack(BiomeType.Egyptian, contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
-                new CombatSoundtrack(BiomeType.Egyptian, contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
-                new CombatSoundtrack(BiomeType.Egyptian, CombatSoundtrackRole.Intro, contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro")),
+                new CombatSoundtrack(BiomeType.Egyptian,
+                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01")),
+                new CombatSoundtrack(BiomeType.Egyptian,
+                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
+                new CombatSoundtrack(BiomeType.Egyptian, CombatSoundtrackRole.Intro,
+                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"))
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");
@@ -288,7 +291,8 @@ namespace Rpg.Client.Engine
 
         public IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome)
         {
-            return _combatTracks.Where(x => x.ApplicableBiome == currentBiome && x.Role == CombatSoundtrackRole.Regular).ToList();
+            return _combatTracks.Where(x => x.ApplicableBiome == currentBiome && x.Role == CombatSoundtrackRole.Regular)
+                .ToList();
         }
 
         public Song GetVictorySong()

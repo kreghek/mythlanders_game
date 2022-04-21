@@ -35,7 +35,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
-        private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
@@ -43,6 +42,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
+        private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly GameSettings _settings;
         private readonly IUiContentStorage _uiContentStorage;
@@ -722,7 +722,7 @@ namespace Rpg.Client.GameScreens.Combat
             int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
         {
             var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
-                    BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
+                BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
             var roundedX = (int)Math.Round(xFloat);
 
             var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (-1) *
@@ -770,7 +770,8 @@ namespace Rpg.Client.GameScreens.Combat
             const int BG_START_OFFSET_Y = -20;
             const int BG_MAX_OFFSET_Y = 40;
 
-            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y, BG_MAX_OFFSET_Y);
+            DrawBackgroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
+                BG_MAX_OFFSET_Y);
 
             var shakeVector = _screenShaker.GetOffset().GetValueOrDefault(Vector2.Zero);
             var shakeVector3d = new Vector3(shakeVector, 0);
@@ -799,7 +800,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             spriteBatch.End();
 
-            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y, BG_MAX_OFFSET_Y);
+            DrawForegroundLayers(spriteBatch, backgrounds, BG_START_OFFSET_X, BG_MAX_OFFSET_X, BG_START_OFFSET_Y,
+                BG_MAX_OFFSET_Y);
         }
 
         private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)

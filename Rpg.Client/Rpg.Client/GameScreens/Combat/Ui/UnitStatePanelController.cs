@@ -115,13 +115,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         {
                             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                                 periodicEffect.Duration.ToString(),
-                                effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET, EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + new Vector2(i, j), Color.Black);
+                                effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
+                                    EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + new Vector2(i, j), Color.Black);
                         }
                     }
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                         periodicEffect.Duration.ToString(),
-                        effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET, EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
+                        effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
+                            EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
                 }
             }
         }

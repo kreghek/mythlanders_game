@@ -23,6 +23,11 @@ namespace Rpg.Client.Core.SkillEffects
         public override IEnumerable<ModifierBase> Modifiers { get; }
         public float Multiplier { get; }
 
+        public override void MergeWithBase(EffectBase testedEffect)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void AfterDispel()
         {
             Target.ChangeState(CombatUnitState.Idle);
@@ -31,11 +36,6 @@ namespace Rpg.Client.Core.SkillEffects
         protected override void AfterImpose()
         {
             Target.ChangeState(CombatUnitState.Defense);
-        }
-
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            throw new NotImplementedException();
         }
     }
 }

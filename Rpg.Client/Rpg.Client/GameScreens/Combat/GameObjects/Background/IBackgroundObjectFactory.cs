@@ -16,11 +16,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
             return new List<IBackgroundObject>(0);
         }
 
+        IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();
+
         IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
         {
             return new List<IBackgroundObject>(0);
         }
-
-        IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects();
     }
 }

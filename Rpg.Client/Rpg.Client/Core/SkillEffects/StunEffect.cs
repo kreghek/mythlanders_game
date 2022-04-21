@@ -4,6 +4,11 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class StunEffect : PeriodicEffectBase
     {
+        public override bool CanBeMerged(EffectBase testedEffect)
+        {
+            return testedEffect is StunEffect;
+        }
+
         public override void MergeWithBase(EffectBase testedEffect)
         {
             if (testedEffect is StunEffect stunEffect)
@@ -14,11 +19,6 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 throw new InvalidOperationException("can be merged only with stun effect.");
             }
-        }
-
-        public override bool CanBeMerged(EffectBase testedEffect)
-        {
-            return testedEffect is StunEffect;
         }
 
         protected override void InfluenceAction()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
 
@@ -21,9 +22,10 @@ namespace Rpg.Client.Core.SkillEffects
         public int Bonus { get; }
 
         public override IEnumerable<ModifierBase> Modifiers { get; }
+
         public override void MergeWithBase(EffectBase testedEffect)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
