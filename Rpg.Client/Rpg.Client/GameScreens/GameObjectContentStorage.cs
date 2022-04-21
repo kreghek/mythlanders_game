@@ -307,7 +307,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/UndefinedFace") },
                 { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
                 { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
-                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") }
+                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") },
+                { UnitName.Maosin, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/MonkFace") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
