@@ -10,6 +10,7 @@ namespace Rpg.Client.Engine
     internal sealed class SoundtrackManager
     {
         private readonly Random _random;
+        private readonly float MUSIC_VOLUME = 1.0f;
 
         private bool _changeTrack;
 
@@ -19,7 +20,6 @@ namespace Rpg.Client.Engine
         private SoundtrackType _state;
 
         private IUiContentStorage? _uiContentStorage;
-        private readonly float MUSIC_VOLUME = 1.0f;
 
         public SoundtrackManager()
         {
