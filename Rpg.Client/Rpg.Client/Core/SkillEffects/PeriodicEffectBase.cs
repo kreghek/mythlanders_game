@@ -5,25 +5,6 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
-        public virtual bool CanBeMerged(EffectBase testedEffect) => false;
-
-        public abstract void MergeWithBase(EffectBase testedEffect);
-        
-        public override void AddToList(IList<EffectBase> list)
-        {
-            foreach (var effect in list)
-            {
-                var canBeMerged = CanBeMerged(effect);
-                if (canBeMerged)
-                {
-                    MergeWithBase(effect);
-                    return;
-                }
-            }
-            
-            base.AddToList(list);
-        }
-
         private int _value = -1;
 
         /// <summary>
@@ -46,6 +27,28 @@ namespace Rpg.Client.Core.SkillEffects
                 }
             }
         }
+
+        public override void AddToList(IList<EffectBase> list)
+        {
+            foreach (var effect in list)
+            {
+                var canBeMerged = CanBeMerged(effect);
+                if (canBeMerged)
+                {
+                    MergeWithBase(effect);
+                    return;
+                }
+            }
+
+            base.AddToList(list);
+        }
+
+        public virtual bool CanBeMerged(EffectBase testedEffect)
+        {
+            return false;
+        }
+
+        public abstract void MergeWithBase(EffectBase testedEffect);
 
         protected override void InfluenceAction()
         {

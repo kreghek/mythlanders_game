@@ -151,23 +151,27 @@ namespace Rpg.Client.GameScreens
             _combatBackgroundObjectsDict = new Dictionary<(BackgroundType, BackgroundLayerType, int), Texture2D>
             {
                 {
-                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Closest, 0),
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0")
+                    new(BackgroundType.SlavicBattleground, BackgroundLayerType.Closest, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Closest256x256_0")
                 },
 
                 {
-                    new (BackgroundType.SlavicBattleground, BackgroundLayerType.Clouds, 0),
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0")
+                    new(BackgroundType.SlavicBattleground, BackgroundLayerType.Clouds, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/Clouds256x256_0")
                 },
 
                 {
-                    new (BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0")
+                    new(BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0")
                 },
 
-                { 
-                    new (BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
-                    contentManager.Load<Texture2D>("Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
+                {
+                    new(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
                 }
             };
 
@@ -343,7 +347,8 @@ namespace Rpg.Client.GameScreens
             return _arrowTexture;
         }
 
-        internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType, BackgroundLayerType layerType, int spritesheetIndex)
+        internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType,
+            BackgroundLayerType layerType, int spritesheetIndex)
         {
             return _combatBackgroundObjectsDict[new(backgroundType, layerType, spritesheetIndex)];
         }

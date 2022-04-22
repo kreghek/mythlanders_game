@@ -20,8 +20,10 @@ namespace Rpg.Client.Engine
             Soundtrack = soundtrack;
         }
 
-        public CombatSoundtrack(BiomeType applicableBiome, Song soundtrack): this(applicableBiome, CombatSoundtrackRole.Regular, soundtrack)
-        { }
+        public CombatSoundtrack(BiomeType applicableBiome, Song soundtrack) : this(applicableBiome,
+            CombatSoundtrackRole.Regular, soundtrack)
+        {
+        }
 
         public override bool Equals(object? obj)
         {

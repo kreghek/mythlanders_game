@@ -49,10 +49,8 @@ namespace Rpg.Client.Core.SkillEffects
 
                 return false;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public override void MergeWithBase(EffectBase testedEffect)

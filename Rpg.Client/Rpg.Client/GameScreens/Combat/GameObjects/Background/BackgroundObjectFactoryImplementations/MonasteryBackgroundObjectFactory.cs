@@ -9,77 +9,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 {
     internal sealed class MonasteryBackgroundObjectFactory : IBackgroundObjectFactory
     {
-        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IDice _dice;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
 
         public MonasteryBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage, IDice dice)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
             _dice = dice;
-        }
-
-        public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
-        {
-            var list = new List<IBackgroundObject>();
-
-            for (var i = 0; i < 100; i++)
-            {
-                var weatherObject = new DemonicFireAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
-                    new Rectangle(0, 32, 32, 32),
-                    new Vector2(i * 10, 240));
-                list.Add(weatherObject);
-            }
-
-            return list;
-        }
-
-        public IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
-        { 
-            var mainLayerObjects = new List<IBackgroundObject>();
-
-            const int FLOOR_COUNT = 1024/256;
-
-            for (var objectIndex = 0; objectIndex < FLOOR_COUNT; objectIndex++)
-            {
-                var sourceRectangle = new Rectangle(0, 0, 256, 256);
-
-                if (_dice.RollD100() < 25)
-                {
-                    const int SPRITE_COUNT = 3;
-                    const int COL_COUNT = 2;
-
-                    var objectSpriteIndex = _dice.Roll(2, SPRITE_COUNT) - 1;
-
-                    var col = objectSpriteIndex % COL_COUNT;
-                    var row = objectSpriteIndex / COL_COUNT;
-
-                    sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
-                }
-
-                var topPosition = 180;
-
-                var position = new Vector2(objectIndex * 256, topPosition);
-
-                var floorObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery, BackgroundLayerType.Main, 0),
-                        position,
-                        sourceRectangle,
-                        new Vector2(0, 0));
-
-                mainLayerObjects.Add(floorObject);
-            }
-
-            return mainLayerObjects;
-        }
-
-        public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
-        {
-            return new List<IBackgroundObject>(0);
-        }
-
-        public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
-        {
-            return CreateHouses(farLayerBottom: 180);
         }
 
         private IReadOnlyList<IBackgroundObject> CreateHouses(int farLayerBottom)
@@ -103,7 +39,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                     var row = objectSpriteIndex / COL_COUNT;
                     var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
                     var houseObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
+                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                            BackgroundLayerType.Far, 0),
                         position,
                         sourceRectangle,
                         new Vector2(0.5f, 1));
@@ -112,6 +49,71 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             }
 
             return list;
+        }
+
+        public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
+        {
+            var list = new List<IBackgroundObject>();
+
+            for (var i = 0; i < 100; i++)
+            {
+                var weatherObject = new DemonicFireAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
+                    new Rectangle(0, 32, 32, 32),
+                    new Vector2(i * 10, 240));
+                list.Add(weatherObject);
+            }
+
+            return list;
+        }
+
+        public IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
+        {
+            var mainLayerObjects = new List<IBackgroundObject>();
+
+            const int FLOOR_COUNT = 1024 / 256;
+
+            for (var objectIndex = 0; objectIndex < FLOOR_COUNT; objectIndex++)
+            {
+                var sourceRectangle = new Rectangle(0, 0, 256, 256);
+
+                if (_dice.RollD100() < 25)
+                {
+                    const int SPRITE_COUNT = 3;
+                    const int COL_COUNT = 2;
+
+                    var objectSpriteIndex = _dice.Roll(2, SPRITE_COUNT) - 1;
+
+                    var col = objectSpriteIndex % COL_COUNT;
+                    var row = objectSpriteIndex / COL_COUNT;
+
+                    sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
+                }
+
+                var topPosition = 180;
+
+                var position = new Vector2(objectIndex * 256, topPosition);
+
+                var floorObject = new PositionalStaticObject(
+                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
+                        BackgroundLayerType.Main, 0),
+                    position,
+                    sourceRectangle,
+                    new Vector2(0, 0));
+
+                mainLayerObjects.Add(floorObject);
+            }
+
+            return mainLayerObjects;
+        }
+
+        public IReadOnlyList<IBackgroundObject> CreateForegroundLayerObjects()
+        {
+            return new List<IBackgroundObject>(0);
+        }
+
+        public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
+        {
+            return CreateHouses(farLayerBottom: 180);
         }
     }
 }

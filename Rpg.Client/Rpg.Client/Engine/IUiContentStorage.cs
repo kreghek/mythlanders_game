@@ -10,13 +10,13 @@ namespace Rpg.Client.Engine
 {
     internal interface IUiContentStorage
     {
-        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonIndicatorsTexture();
         Texture2D GetButtonTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
+        IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
         Texture2D GetCursorsTexture();
         Song GetDefeatSong();
         Texture2D GetDisabledTexture();
