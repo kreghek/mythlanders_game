@@ -9,10 +9,13 @@
         public EquipmentItemType? EquipmentItem { get; set; }
 
         public bool IsAvailable { get; set; }
+
         public bool IsLast { get; internal set; }
 
         public GlobeNodeSid Sid { get; set; }
 
         public GlobeNodeSid? UnlockNodeSid { get; set; }
+
+        public BiomeType BiomeType { get; init; }
     }
 }

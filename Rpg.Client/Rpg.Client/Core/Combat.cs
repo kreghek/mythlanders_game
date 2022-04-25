@@ -19,13 +19,11 @@ namespace Rpg.Client.Core
 
         private int _round;
 
-        public Combat(Group playerGroup, GlobeNode node, CombatSource combat, Biome biome, IDice dice,
-            bool isAutoplay)
+        public Combat(Group playerGroup, GlobeNode node, CombatSource combat, IDice dice, bool isAutoplay)
         {
             _playerGroup = playerGroup;
             Node = node;
             CombatSource = combat;
-            Biome = biome;
             Dice = dice;
             IsAutoplay = isAutoplay;
             _unitQueue = new List<CombatUnit>();

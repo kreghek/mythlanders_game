@@ -142,7 +142,7 @@ namespace Rpg.Client.Core
 
             LoadBiomes(progressDto.Biomes, Globe.Biomes);
 
-            Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+            Globe.UpdateNodes(_dice, _eventCatalog);
         }
 
         public void StoreCurrentGlobe()
@@ -221,10 +221,8 @@ namespace Rpg.Client.Core
             {
                 yield return new BiomeDto
                 {
-                    Level = biome.Level,
                     Type = biome.Type,
                     IsComplete = biome.IsComplete,
-                    IsAvailable = biome.IsAvailable,
                     Nodes = GetNodeDtos(biome)
                 };
             }
@@ -355,8 +353,6 @@ namespace Rpg.Client.Core
 
                 var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);
                 targetBiome.IsComplete = biomeDto.IsComplete;
-                targetBiome.IsAvailable = biomeDto.IsAvailable;
-                targetBiome.Level = biomeDto.Level;
 
                 LoadNodes(targetBiome, biomeDto);
             }

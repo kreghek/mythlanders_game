@@ -66,8 +66,7 @@ namespace BalanceGenerator
 
             playerGroup.Slots[0].Unit = new Unit(playerUnitScheme, 1) { IsPlayerControlled = true };
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, biome, dice,
-                isAutoplay: true);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: true);
 
             combat.Initialize();
 

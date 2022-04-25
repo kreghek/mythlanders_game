@@ -8,14 +8,14 @@ namespace Rpg.Client.Core
     internal static class MonsterGeneratorHelper
     {
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int monsterLevel,
-            IUnitSchemeCatalog unitSchemeCatalog)
+            IUnitSchemeCatalog unitSchemeCatalog, GlobeLevel globeLevel)
         {
             var availableAllRegularMonsters =
                 unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
             var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x =>
                 HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
                 x.MinRequiredBiomeLevel is not null &&
-                x.MinRequiredBiomeLevel.Value <= biome.Level);
+                x.MinRequiredBiomeLevel.Value <= globeLevel.Level);
 
             var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
 
@@ -37,7 +37,7 @@ namespace Rpg.Client.Core
 
             var rolledUnits = new List<UnitScheme>();
 
-            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(biome.Level);
+            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(globeLevel.Level);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
             var monsterCount = GetMonsterCount(node, biome, predefinedMinMonsterCount);
 

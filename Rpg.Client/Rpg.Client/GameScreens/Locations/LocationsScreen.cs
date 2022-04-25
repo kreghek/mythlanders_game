@@ -155,7 +155,7 @@ namespace Rpg.Client.GameScreens.Locations
 
             if (!_globe.IsNodeInitialied)
             {
-                _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                _globe.UpdateNodes(_dice, _eventCatalog);
                 _globe.IsNodeInitialied = true;
             }
             else
@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.Locations
             var availableEvent = globeNode.AssignedEvent;
 
             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, globeNode,
-                combatSource, _biome, _dice, isAutoplay: autoCombat);
+                combatSource, _dice, isAutoplay: autoCombat);
 
             if (availableEvent is not null)
             {

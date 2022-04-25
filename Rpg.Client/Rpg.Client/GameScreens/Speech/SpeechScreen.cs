@@ -397,7 +397,7 @@ namespace Rpg.Client.GameScreens.Speech
 
                             _globe.CurrentEvent = null;
                             _globe.CurrentEventNode = null;
-                            _globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globe.UpdateNodes(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
 
                             if (_settings.Mode == GameMode.Full)

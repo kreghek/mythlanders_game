@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
+
     internal sealed class BiomeGenerator : IBiomeGenerator
     {
         private const int BIOME_NODE_COUNT = 8;
@@ -94,15 +95,16 @@ namespace Rpg.Client.Core
         }
 
         private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
-            IList<GlobeNode> availableNodes)
+            IList<GlobeNode> availableNodes, GlobeLevel globeLevel, IEnumerable<Biome> biomes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
-            var BOSS_LOCATION_SIDS = new[] { GlobeNodeSid.Castle, GlobeNodeSid.SkyTower };
+            var BOSS_LOCATION_SIDS = biomes.SelectMany(x => x.Nodes).Where(x => x.IsLast).Select(x => x.Sid).ToArray();
+            var completeBiomesCount = biomes.Count();
 
             var nodeList = new List<(GlobeNode, bool)>(3);
             var bossLocation = availableNodes.SingleOrDefault(x => BOSS_LOCATION_SIDS.Contains(x.Sid));
             int targetCount;
-            if (biome.Level >= 10 && bossLocation is not null && !biome.IsComplete)
+            if (IsBossLevel(globeLevel, completeBiomesCount) && bossLocation is not null && !biome.IsComplete)
             {
                 nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
@@ -121,13 +123,16 @@ namespace Rpg.Client.Core
             return nodeList.ToArray();
         }
 
+        private static bool IsBossLevel(GlobeLevel globeLevel, int completeBiomesCount)
+        {
+            return globeLevel.Level >= 10 + completeBiomesCount * 12;
+        }
+
         public IReadOnlyList<Biome> Generate()
         {
-            const int BIOME_MIN_LEVEL_STEP = 12;
-
             return new[]
             {
-                new Biome(0, BiomeType.Slavic)
+                new Biome(BiomeType.Slavic)
                 {
                     IsAvailable = true,
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
@@ -137,13 +142,12 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Slavic),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic)
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
+                            BiomeType = BiomeType.Slavic,
                         }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Chinese,
-                    IsStart = true
+                    ).ToArray()
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP, BiomeType.Chinese)
+                new Biome(BiomeType.Chinese)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
@@ -152,12 +156,12 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Chinese),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Chinese)
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Chinese),
+                            BiomeType=BiomeType.Chinese,
                         }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Egyptian
+                    ).ToArray()
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP * 2, BiomeType.Egyptian)
+                new Biome(BiomeType.Egyptian)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
@@ -166,12 +170,12 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Egyptian),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Egyptian)
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Egyptian),
+                            BiomeType=BiomeType.Egyptian,
                         }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Greek
+                    ).ToArray()
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP * 3, BiomeType.Greek)
+                new Biome(BiomeType.Greek)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
@@ -180,12 +184,12 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Greek),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Greek)
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Greek),
+                               BiomeType=BiomeType.Greek,
                         }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Cosmos
+                    ).ToArray()
                 },
-                new Biome(BIOME_MIN_LEVEL_STEP * 4, BiomeType.Cosmos)
+                new Biome(BiomeType.Cosmos)
                 {
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
@@ -194,23 +198,23 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Cosmos),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Cosmos)
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Cosmos),
+                            BiomeType=BiomeType.Cosmos,
                         }
-                    ).ToArray(),
-                    IsFinal = true
+                    ).ToArray()
                 }
             };
         }
 
-        public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes)
+        public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel)
         {
             foreach (var biome in biomes)
             {
                 var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
                 Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes);
+                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel, biomes);
 
-                var combatCounts = GetCombatSequenceLength(biome.Level);
+                var combatCounts = GetCombatSequenceLength(globeLevel.Level);
                 var combatLevelAdditionalList = new[]
                 {
                     0, -1, 3
@@ -225,12 +229,12 @@ namespace Rpg.Client.Core
                     var selectedNode = nodesWithCombats[locationIndex];
                     var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
-                    var combatLevel = biome.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
+                    var combatLevel = globeLevel.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
                         var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog)
+                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog, globeLevel)
                             .ToArray();
 
                         var combat = new CombatSource

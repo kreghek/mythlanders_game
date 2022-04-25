@@ -352,7 +352,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _combat.Biome,
                         _dice,
                         _combat.IsAutoplay);
 
@@ -372,7 +371,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         }
                         else
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                             _globeProvider.Globe.CurrentBiome =
                                 _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
                             var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
@@ -383,7 +382,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
                             var combatSource = startGlobeNode.CombatSequence.Combats.First();
                             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
-                                combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
+                                combatSource, _dice, isAutoplay: false);
 
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
@@ -392,7 +391,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     {
                         if (_globe.CurrentEventNode is null)
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
                             _globeProvider.StoreCurrentGlobe();
                         }
@@ -406,7 +405,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
                 RestoreGroupAfterCombat();
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
             else
@@ -416,7 +415,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                 RestoreGroupAfterCombat();
 
                 // Fallback is just show biome.
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
         }

@@ -22,17 +22,17 @@ namespace Rpg.Client.Core
             var biomes = biomeGenerator.Generate();
 
             Biomes = biomes;
-            CurrentBiome = biomes.Single(x => x.IsStart);
 
             _globeEvents = new List<IGlobeEvent>();
+
+            GlobeLevel = new GlobeLevel();
         }
 
+        public GlobeLevel GlobeLevel { get; }
+
         public Combat? ActiveCombat { get; set; }
-        public VoiceCombat? ActiveVoiceCombat { get; set; }
 
         public IReadOnlyCollection<Biome> Biomes { get; }
-
-        public Biome? CurrentBiome { get; set; }
 
         public Event? CurrentEvent { get; internal set; }
 
@@ -50,21 +50,21 @@ namespace Rpg.Client.Core
             globalEvent.Initialize(this);
         }
 
-        public void Update(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
+        public void Update(IDice dice, IEventCatalog eventCatalog)
         {
             UpdateGlobeEvents();
-            UpdateNodes(dice, unitSchemeCatalog, eventCatalog);
+            UpdateNodes(dice, eventCatalog);
         }
 
-        public void UpdateNodes(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
+        public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
         {
             var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
 
             RefreshBiomeStates(biomes);
 
-            _biomeGenerator.CreateCombatsInBiomeNodes(biomes);
+            _biomeGenerator.CreateCombatsInBiomeNodes(biomes, GlobeLevel);
 
-            CreateEventsInBiomeNodes(dice: dice, eventCatalog: eventCatalog, biomes: biomes);
+            CreateEventsInBiomeNodes(dice, eventCatalog, biomes, GlobeLevel);
 
             Updated?.Invoke(this, EventArgs.Empty);
         }
@@ -81,12 +81,12 @@ namespace Rpg.Client.Core
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
         private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
-            IEventCatalog eventCatalog)
+            IEventCatalog eventCatalog, GlobeLevel globeLevel)
         {
             var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
                 .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
-                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= biome.Level) ||
+                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= globeLevel.Level) ||
                             (x.RequiredBiomeLevel is null))
                 .Where(x => IsUnlocked(x, eventCatalog.Events));
             var availableEventList = availableEvents.ToList();
@@ -139,14 +139,14 @@ namespace Rpg.Client.Core
         }
 
 
-        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes)
+        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes, GlobeLevel globeLevel)
         {
             // create dialogs of nodes with combat
             foreach (var biome in biomes)
             {
                 var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
 
-                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog);
+                AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }
         }
 
@@ -180,21 +180,7 @@ namespace Rpg.Client.Core
             foreach (var biome in biomes)
             {
                 ClearNodeStates(biome);
-
-                UnlockNextBiomeIfComplete(biome);
             }
-        }
-
-        private void UnlockNextBiomeIfComplete(Biome biome)
-        {
-            if (!biome.IsComplete || biome.UnlockBiome is null)
-            {
-                return;
-            }
-
-            var unlockedBiome = Biomes.Single(x => x.Type == biome.UnlockBiome);
-
-            unlockedBiome.IsAvailable = true;
         }
 
         private void UpdateGlobeEvents()

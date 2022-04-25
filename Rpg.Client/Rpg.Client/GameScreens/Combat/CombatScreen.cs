@@ -82,7 +82,7 @@ namespace Rpg.Client.GameScreens.Combat
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _combat.Node;
-            soundtrackManager.PlayCombatTrack(_globe.CurrentBiome.Type);
+            soundtrackManager.PlayCombatTrack(_globeNode.BiomeType);
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -215,7 +215,7 @@ namespace Rpg.Client.GameScreens.Combat
             IEnumerable<CombatSource> completedCombats,
             GlobeNode globeNode,
             Player player,
-            Core.Biome biome)
+            GlobeLevel globeLevel)
         {
             var completedCombatsShortInfos = completedCombats.Select(x =>
                 new CombatRewardInfo(x.EnemyGroup.GetUnits()
@@ -225,8 +225,8 @@ namespace Rpg.Client.GameScreens.Combat
                 player.Inventory,
                 globeNode.EquipmentItem,
                 completedCombatsShortInfos,
-                biome.Level,
-                biome.MinLevel + 15
+                globeLevel.Level,
+                15
             );
 
             var rewards = CombatScreenHelper.CalculateRewards(rewardCalculationContext);
@@ -398,7 +398,6 @@ namespace Rpg.Client.GameScreens.Combat
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
-                        _combat.Biome,
                         _dice,
                         _combat.IsAutoplay);
 
@@ -421,11 +420,8 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
-                            _globeProvider.Globe.CurrentBiome =
-                                _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
-                            var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
-                            _globe.CurrentEvent = startGlobeNode.AssignedEvent;
+                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
+                            
                             if (_globe.CurrentEvent is not null)
                             {
                                 _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
@@ -433,11 +429,11 @@ namespace Rpg.Client.GameScreens.Combat
                                 _globe.CurrentEvent.Counter++;
                             }
 
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
 
                             var combatSource = startGlobeNode.CombatSequence.Combats.First();
                             _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
-                                combatSource, _globeProvider.Globe.CurrentBiome, _dice, isAutoplay: false);
+                                combatSource, _dice, isAutoplay: false);
 
                             if (_globe.CurrentEvent is not null)
                             {
@@ -453,7 +449,7 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         if (_globe.CurrentEventNode is null)
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
 
                             if (_settings.Mode == GameMode.Full)
@@ -471,7 +467,7 @@ namespace Rpg.Client.GameScreens.Combat
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
                 RestoreGroupAfterCombat();
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
             else
@@ -481,7 +477,7 @@ namespace Rpg.Client.GameScreens.Combat
                 RestoreGroupAfterCombat();
 
                 // Fallback is just show biome.
-                _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
             }
         }

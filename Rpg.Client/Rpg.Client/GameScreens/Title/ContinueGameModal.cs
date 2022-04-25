@@ -182,7 +182,7 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
-            _globeProvider.Globe.UpdateNodes(_dice, _unitSchemeCatalog, _eventCatalog);
+            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
             _globeProvider.Globe.IsNodeInitialied = true;
 
             var biomes = _globeProvider.Globe.Biomes.Where(x => x.IsAvailable).ToArray();
@@ -195,8 +195,7 @@ namespace Rpg.Client.GameScreens.Title
 
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
-                firstAvailableNodeInBiome.CombatSequence.Combats.First(), startBiome,
-                _dice,
+                firstAvailableNodeInBiome.CombatSequence.Combats.First(), _dice,
                 isAutoplay: false);
 
             if (firstAvailableNodeInBiome?.AssignedEvent is not null)

@@ -42,8 +42,7 @@ namespace Rpg.Client.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
             using var monitor = combat.Monitor();
 
             combat.Initialize();
@@ -122,8 +121,7 @@ namespace Rpg.Client.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
             using var monitor = combat.Monitor();
 
             var finishEventWasRaised = false;
@@ -202,8 +200,7 @@ namespace Rpg.Client.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
 
             combat.Initialize();
             combat.Update();
@@ -272,8 +269,7 @@ namespace Rpg.Client.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
 
             combat.Initialize();
             combat.Update();
@@ -368,8 +364,7 @@ namespace Rpg.Client.Tests
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var combat = new Combat(playerGroup, globeNode, combatSource, new Biome(0, BiomeType.Slavic), dice,
-                isAutoplay: false);
+            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
 
             combat.Initialize();
             combat.Update();

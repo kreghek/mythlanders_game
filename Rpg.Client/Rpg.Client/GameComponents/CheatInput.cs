@@ -204,7 +204,7 @@ namespace Rpg.Client.GameComponents
             var globe = globeProvider.Globe;
 
             var dice = Game.Services.GetService<IDice>();
-            globe.Update(dice, _unitSchemeCatalog, _eventCatalog);
+            globe.Update(dice, _eventCatalog);
         }
 
         /// <summary>
