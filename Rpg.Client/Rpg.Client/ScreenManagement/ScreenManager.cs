@@ -8,15 +8,11 @@ using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
-using Rpg.Client.GameScreens.Event;
 using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
-using Rpg.Client.GameScreens.Locations;
-using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
-using Rpg.Client.GameScreens.VoiceCombat;
 
 namespace Rpg.Client.ScreenManagement
 {
@@ -108,13 +104,10 @@ namespace Rpg.Client.ScreenManagement
             return targetTransition switch
             {
                 ScreenTransition.Title => new TitleScreen(_game),
-                ScreenTransition.Map => new MapScreen(_game),
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => _gameSettings.Mode == GameMode.Full
-                    ? new SpeechScreen(_game)
-                    : new EventScreen(_game),
+                ScreenTransition.Event => new SpeechScreen(_game),
                 ScreenTransition.Combat => new CombatScreen(_game),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),

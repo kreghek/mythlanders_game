@@ -84,7 +84,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _combat.Node;
-            soundtrackManager.PlayCombatTrack(_globe.CurrentBiome.Type);
+            soundtrackManager.PlayCombatTrack(_globe.ActiveCombat.Biome.Type);
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -372,17 +372,9 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         else
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            _globeProvider.Globe.CurrentBiome =
-                                _globe.Biomes.Single(x => x.Type == _combat.Biome.UnlockBiome);
-                            var startGlobeNode = _globeProvider.Globe.CurrentBiome.Nodes.Single(x => x.IsAvailable);
-                            _globe.CurrentEvent = startGlobeNode.AssignedEvent;
                             _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                             _globe.CurrentEvent.Counter++;
-
-                            var combatSource = startGlobeNode.CombatSequence.Combats.First();
-                            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
-                                combatSource, _dice, isAutoplay: false);
 
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
                         }
@@ -806,21 +798,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             switch (result)
             {
                 case CombatResult.Victory:
-                    if (!_combat.CombatSource.IsTrainingOnly)
-                    {
-                        _combat.Biome.Level++;
-                    }
-
-                    var nodeIndex = (int)_globeNode.Sid;
-                    var unlockedLocationIndex = nodeIndex + 1;
-                    var unlockedLocationSid = (GlobeNodeSid)unlockedLocationIndex;
-
-                    var unlockedNode = _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == unlockedLocationSid);
-                    if (unlockedNode is not null)
-                    {
-                        unlockedNode.IsAvailable = true;
-                    }
-
                     if (_globe.CurrentEvent is not null)
                     {
                         _globe.CurrentEvent.Completed = true;
@@ -835,17 +812,13 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         // Then the player defeat first boss he can split characters on a tanks and dd+support line.
                         _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.AvailableTanks);
 
-                        if (_combat.Biome.IsFinal)
-                        {
-                            _finalBossWasDefeat = true;
-                        }
+                       
                     }
 
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _combat.Biome.Level - _combat.Biome.MinLevel;
-                    _combat.Biome.Level = Math.Max(levelDiff / 2, _combat.Biome.MinLevel);
+                   
 
                     break;
 
@@ -881,7 +854,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             {
                 BiomeProgress = new ResourceReward
                 {
-                    StartValue = _combat.Biome.Level,
+                    StartValue = 1,
                     Amount = 1
                 },
                 InventoryRewards = rewardList
@@ -1089,8 +1062,8 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     {
                         BiomeProgress = new ResourceReward
                         {
-                            StartValue = _combat.Biome.Level,
-                            Amount = -_combat.Biome.Level / 2
+                            StartValue = 1,
+                            Amount = 1
                         },
                         InventoryRewards = Array.Empty<ResourceReward>()
                     });

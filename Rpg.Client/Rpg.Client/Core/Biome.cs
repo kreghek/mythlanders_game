@@ -9,8 +9,6 @@ namespace Rpg.Client.Core
             Type = type;
         }
 
-        public bool IsAvailable { get; set; }
-
         public bool IsComplete { get; set; }
 
         public IEnumerable<GlobeNode> Nodes { get; init; }

@@ -134,7 +134,6 @@ namespace Rpg.Client.Core
             {
                 new Biome(BiomeType.Slavic)
                 {
-                    IsAvailable = true,
                     Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {

@@ -17,7 +17,9 @@ namespace BalanceGenerator
                 EnemyGroup = new Group()
             };
 
-            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog);
+            var globeLevel = new GlobeLevel { Level = 1 };
+
+            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog, globeLevel);
             for (var i = 0; i < monsters.Count; i++)
             {
                 var monster = monsters[i];
@@ -40,13 +42,13 @@ namespace BalanceGenerator
             };
 
             var dice = new LinearDice();
-            var biome = new Biome(1, BiomeType.Slavic);
+            var biome = new Biome(BiomeType.Slavic);
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
             for (var i = 0; i < 10; i++)
             {
                 var combatSource = CreateCombatSource(globeNode, biome, dice, unitSchemeCatalog);
-                var result = PlayIteration(balanceTable, globeNode, biome, dice, combatSource);
+                var result = PlayIteration(balanceTable, globeNode, dice, combatSource);
                 results.Add(result);
             }
 
@@ -56,8 +58,7 @@ namespace BalanceGenerator
             }
         }
 
-        private static IterationsResult PlayIteration(DynamicBalanceTable balanceTable, GlobeNode globeNode,
-            Biome biome, IDice dice, CombatSource combatSource)
+        private static IterationsResult PlayIteration(IBalanceTable balanceTable, GlobeNode globeNode, IDice dice, CombatSource combatSource)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 

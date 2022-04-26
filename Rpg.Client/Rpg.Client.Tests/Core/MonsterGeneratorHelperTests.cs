@@ -26,9 +26,8 @@ namespace Rpg.Client.Tests.Core
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default)
+            var biome = new Biome(default)
             {
-                Level = 0,
                 IsComplete = true
             };
 
@@ -54,9 +53,11 @@ namespace Rpg.Client.Tests.Core
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
+            var globeLevel = new GlobeLevel { Level = 1 };
+
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog);
+            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog, globeLevel);
 
             // ASSERT
 
@@ -76,9 +77,8 @@ namespace Rpg.Client.Tests.Core
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default, default)
+            var biome = new Biome(default)
             {
-                Level = 0,
                 IsComplete = false
             };
 
@@ -103,10 +103,12 @@ namespace Rpg.Client.Tests.Core
                 bossUnitScheme
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
+            
+            var globeLevel = new GlobeLevel { Level = 1 };
 
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog);
+            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog, globeLevel);
 
             // ASSERT
 
@@ -126,7 +128,7 @@ namespace Rpg.Client.Tests.Core
             // Roll 2 to get non-single monster count.
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 2);
 
-            var biome = new Biome(minLevel: default, type: default);
+            var biome = new Biome(default);
 
             var bigUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
@@ -148,11 +150,13 @@ namespace Rpg.Client.Tests.Core
                 bigUnitScheme
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
+            
+            var globeLevel = new GlobeLevel { Level = 1 };
 
             // ACT
 
             var factMonsters =
-                MonsterGeneratorHelper.CreateMonsters(node, dice, biome, monsterLevel: default, unitCatalog);
+                MonsterGeneratorHelper.CreateMonsters(node, dice, biome, monsterLevel: default, unitCatalog, globeLevel);
 
             // ASSERT
 

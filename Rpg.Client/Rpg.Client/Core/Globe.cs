@@ -58,7 +58,7 @@ namespace Rpg.Client.Core
 
         public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
         {
-            var biomes = Biomes.Where(x => x.IsAvailable).ToArray();
+            var biomes = Biomes.ToArray();
 
             RefreshBiomeStates(biomes);
 

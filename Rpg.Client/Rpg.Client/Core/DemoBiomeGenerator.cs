@@ -111,7 +111,7 @@ namespace Rpg.Client.Core
         }
 
         private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
-            IList<GlobeNode> availableNodes)
+            IList<GlobeNode> availableNodes, GlobeLevel globeLevel)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
             const GlobeNodeSid BOSS_LOCATION_SID = GlobeNodeSid.Swamp;
@@ -119,7 +119,7 @@ namespace Rpg.Client.Core
             var nodeList = new List<(GlobeNode, bool)>(3);
             var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
             int targetCount;
-            if (biome.Level >= 5 && bossLocation is not null && !biome.IsComplete)
+            if (IsBossAvailable(biome, globeLevel) && bossLocation is not null && !biome.IsComplete)
             {
                 nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
@@ -138,41 +138,20 @@ namespace Rpg.Client.Core
             return nodeList.ToArray();
         }
 
-        public IReadOnlyList<Biome> Generate()
+        private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
         {
-            const int BIOME_NODE_COUNT = 4;
-
-            return new[]
-            {
-                new Biome(0, BiomeType.Slavic)
-                {
-                    IsAvailable = true,
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            Sid = GetNodeSid(x, BiomeType.Slavic),
-                            IsAvailable = GetStartAvailability(x),
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
-                            IsLast = x == BIOME_NODE_COUNT - 1
-                        }
-                    ).ToArray(),
-                    UnlockBiome = BiomeType.Chinese,
-                    IsStart = true,
-                    IsFinal = true
-                }
-            };
+            return globeLevel.Level >= 5;
         }
 
-        public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes)
+        public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel)
         {
             foreach (var biome in biomes)
             {
                 var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
                 Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes);
+                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel);
 
-                var combatCounts = GetCombatSequenceLength(biome.Level);
+                var combatCounts = GetCombatSequenceLength(globeLevel.Level);
                 var combatLevelAdditionalList = new[]
                 {
                     0, -1, 3
@@ -187,12 +166,12 @@ namespace Rpg.Client.Core
                     var selectedNode = nodesWithCombats[locationIndex];
                     var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
-                    var combatLevel = biome.Level + combatLevelAdditionalList[combatLevelAdditional];
+                    var combatLevel = globeLevel.Level + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
                         var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog)
+                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog, globeLevel)
                             .ToArray();
 
                         var combat = new CombatSource
@@ -223,6 +202,28 @@ namespace Rpg.Client.Core
                     combatLevelAdditional++;
                 }
             }
+        }
+
+        public IReadOnlyList<Biome> Generate()
+        {
+            const int BIOME_NODE_COUNT = 4;
+
+            return new[]
+            {
+                new Biome(BiomeType.Slavic)
+                {
+                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
+                        new GlobeNode
+                        {
+                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
+                            Sid = GetNodeSid(x, BiomeType.Slavic),
+                            IsAvailable = GetStartAvailability(x),
+                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
+                            IsLast = x == BIOME_NODE_COUNT - 1
+                        }
+                    ).ToArray()
+                }
+            };
         }
     }
 }

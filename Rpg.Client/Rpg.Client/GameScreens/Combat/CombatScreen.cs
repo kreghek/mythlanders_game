@@ -431,10 +431,6 @@ namespace Rpg.Client.GameScreens.Combat
 
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
 
-                            var combatSource = startGlobeNode.CombatSequence.Combats.First();
-                            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, startGlobeNode,
-                                combatSource, _dice, isAutoplay: false);
-
                             if (_globe.CurrentEvent is not null)
                             {
                                 ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
@@ -960,14 +956,7 @@ namespace Rpg.Client.GameScreens.Combat
                 case CombatResult.Victory:
                     if (!_combat.CombatSource.IsTrainingOnly)
                     {
-                        _combat.Biome.Level++;
-                    }
-
-                    var unlockedNode =
-                        _globe.CurrentBiome.Nodes.SingleOrDefault(x => x.Sid == _globeNode.UnlockNodeSid);
-                    if (unlockedNode is not null)
-                    {
-                        unlockedNode.IsAvailable = true;
+                        _globe.GlobeLevel.Level++;
                     }
 
                     if (_globe.CurrentEvent is not null)
@@ -977,30 +966,25 @@ namespace Rpg.Client.GameScreens.Combat
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
-                    if (_combat.CombatSource.IsBossLevel)
-                    {
-                        _combat.Biome.IsComplete = true;
-                        _bossWasDefeat = true;
-                        // Then the player defeat first boss he can split characters on a tanks and dd+support line.
-                        _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.AvailableTanks);
-
-                        if (_combat.Biome.IsFinal)
-                        {
-                            _finalBossWasDefeat = true;
-                        }
-                    }
-
                     break;
 
                 case CombatResult.Defeat:
-                    var levelDiff = _combat.Biome.Level - _combat.Biome.MinLevel;
-                    _combat.Biome.Level = Math.Max(levelDiff / 2, _combat.Biome.MinLevel);
+                    var minLevel = GetUnbreakableLevel();
+                    var levelDiff = _globe.GlobeLevel.Level - minLevel;
+                    _globe.GlobeLevel.Level = minLevel + levelDiff / 2;
 
                     break;
 
                 default:
                     throw new InvalidOperationException("Unknown combat result.");
             }
+        }
+
+        private int GetUnbreakableLevel()
+        {
+            // TODO Like in How wants to be millionaire?
+            // The reaching of some of levels gains unbreakable level.
+            return 0;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -1158,8 +1142,9 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
-                    var rewardItems = CalculateRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player,
-                        _combat.Biome);
+                    var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
+                        _globeProvider.Globe.Player, 
+                        _globeProvider.Globe.GlobeLevel);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
 
@@ -1203,8 +1188,8 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         BiomeProgress = new ResourceReward
                         {
-                            StartValue = _combat.Biome.Level,
-                            Amount = _combat.Biome.Level / 2
+                            StartValue = _globe.GlobeLevel.Level,
+                            Amount = _globe.GlobeLevel.Level / 2
                         },
                         InventoryRewards = Array.Empty<ResourceReward>()
                     });
