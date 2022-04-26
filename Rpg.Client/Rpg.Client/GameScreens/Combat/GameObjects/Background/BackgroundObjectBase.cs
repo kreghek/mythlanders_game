@@ -1,3 +1,6 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 {
     internal abstract class BackgroundObjectBase

@@ -129,8 +129,6 @@ namespace Rpg.Client
 
             var bgofSelector = Services.GetService<BackgroundObjectFactorySelector>();
 
-            bgofSelector.Initialize(gameObjectContentStorage, Services.GetService<IDice>());
-
             var backgroundObjectCatalog = new BackgroundObjectCatalog(gameObjectContentStorage);
 
             var dice = Services.GetService<IDice>();

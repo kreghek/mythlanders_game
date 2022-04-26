@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
+﻿using System.Collections.Generic;
+
+namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 {
     internal interface IBackgroundObjectFactory
     {
