@@ -206,6 +206,7 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 Globe = _globe,
                 SelectedNodeGameObject = hoverNodeGameObject,
+                AvailableEvent = hoverNodeGameObject.AvailableEvent,
                 CombatDelegate = CombatDelegate,
                 AutoCombatDelegate = AutoCombatDelegate
             };
@@ -231,9 +232,9 @@ namespace Rpg.Client.GameScreens.Biome
             _locationInfoHints[hoverNodeGameObject] = locationInfoHint;
         }
 
-        private void AutoCombatDelegate(GlobeNode _)
+        private void AutoCombatDelegate(GlobeNode node, Core.Event? availableEvent)
         {
-            CombatDelegateInner(true);
+            CombatDelegateInner(true, node, availableEvent);
         }
 
         private void ClearEventHandlerToGlobeObjects()
@@ -241,24 +242,23 @@ namespace Rpg.Client.GameScreens.Biome
             _globe.Updated -= Globe_Updated;
         }
 
-        private void CombatDelegate(GlobeNode _)
+        private void CombatDelegate(GlobeNode node, Core.Event? availableEvent)
         {
-            CombatDelegateInner(false);
+            CombatDelegateInner(false, node, availableEvent);
         }
 
-        private void CombatDelegateInner(bool autoCombat)
+        private void CombatDelegateInner(bool autoCombat, GlobeNode node, Core.Event? availableEvent)
         {
             _screenTransition = true;
 
-            var globeNode = _hoverNodeGameObject.GlobeNode;
+            var globeNode = node;
             var combatSource = globeNode.CombatSequence.Combats.First();
-            var availableEvent = _hoverNodeGameObject.AvailableEvent;
 
             // var playerUnit = new VoiceCombatUnit(_globe.Player.Party.GetUnits().First());
             // var enemyUnit = new VoiceCombatUnit(combatSource.EnemyGroup.GetUnits().First());
             // _globe.ActiveVoiceCombat = new Core.VoiceCombat(playerUnit, enemyUnit, globeNode, _biome, _dice);
 
-            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, globeNode,
+            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, node,
                 combatSource, _dice, isAutoplay: autoCombat);
 
             if (availableEvent is not null)

@@ -55,6 +55,36 @@
 /processorParam:Quality=Best
 /build:Audio/Background/Combat_Egyptian02.ogg
 
+#begin Audio/Background/Combat_Egyptian02_Intro.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Egyptian02_Intro.ogg
+
+#begin Audio/Background/Combat_Greek01.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Greek01.ogg
+
+#begin Audio/Background/Combat_Greek01_Intro.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Greek01_Intro.ogg
+
+#begin Audio/Background/Combat_Greek02.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Greek02.ogg
+
+#begin Audio/Background/Combat_Greek02_Intro.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/Background/Combat_Greek02_Intro.ogg
+
 #begin Audio/Background/Defeat.ogg
 /importer:OggImporter
 /processor:SongProcessor

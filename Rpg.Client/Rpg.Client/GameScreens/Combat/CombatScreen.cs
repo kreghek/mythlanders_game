@@ -48,7 +48,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IUiContentStorage _uiContentStorage;
 
         private readonly Vector2[] _unitPredefinedPositions;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -96,7 +95,6 @@ namespace Rpg.Client.GameScreens.Combat
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeNode.Sid);

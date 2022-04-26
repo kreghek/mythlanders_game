@@ -32,8 +32,6 @@ namespace Rpg.Client.Core
             ModifiersProcessor = new ModifiersProcessor();
         }
 
-        public Biome Biome { get; }
-
         public CombatUnit? CurrentUnit
         {
             get => _currentUnit;

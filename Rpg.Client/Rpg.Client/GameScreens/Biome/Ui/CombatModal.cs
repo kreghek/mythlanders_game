@@ -12,14 +12,6 @@ using Rpg.Client.GameScreens.Biome.GameObjects;
 
 namespace Rpg.Client.GameScreens.Biome.Ui
 {
-    internal sealed class CombatModalContext
-    {
-        public Action<GlobeNode> AutoCombatDelegate { get; set; }
-        public Action<GlobeNode> CombatDelegate { get; set; }
-        public Globe Globe { get; set; }
-        public GlobeNodeMarkerGameObject SelectedNodeGameObject { get; set; }
-    }
-
     internal sealed class CombatModal : ModalDialogBase
     {
         private readonly IList<ButtonBase> _buttons;
@@ -43,7 +35,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 _uiContentStorage.GetMainFont(), Rectangle.Empty);
             combatButton.OnClick += (s, e) =>
             {
-                context.CombatDelegate(context.SelectedNodeGameObject.GlobeNode);
+                context.CombatDelegate(context.SelectedNodeGameObject.GlobeNode, context.AvailableEvent);
             };
             _buttons.Add(combatButton);
 
@@ -105,7 +97,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
                 autocombatButton.OnClick += (s, e) =>
                 {
-                    context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode);
+                    context.AutoCombatDelegate(context.SelectedNodeGameObject.GlobeNode, context.AvailableEvent);
                 };
                 _buttons.Add(autocombatButton);
             }

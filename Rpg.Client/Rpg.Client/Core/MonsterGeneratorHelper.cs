@@ -7,19 +7,19 @@ namespace Rpg.Client.Core
 {
     internal static class MonsterGeneratorHelper
     {
-        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, Biome biome, int monsterLevel,
+        public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, int monsterLevel,
             IUnitSchemeCatalog unitSchemeCatalog, GlobeLevel globeLevel)
         {
             var availableAllRegularMonsters =
                 unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
             var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x =>
-                HasPerk<BossMonster>(x, monsterLevel) && !biome.IsComplete &&
+                HasPerk<BossMonster>(x, monsterLevel) && /*!biome.IsComplete &&*/
                 x.MinRequiredBiomeLevel is not null &&
                 x.MinRequiredBiomeLevel.Value <= globeLevel.Level);
 
             var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
 
-            var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == biome.Type);
+            var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == node.BiomeType);
 
             var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x =>
                 (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));
@@ -39,7 +39,7 @@ namespace Rpg.Client.Core
 
             var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(globeLevel.Level);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
-            var monsterCount = GetMonsterCount(node, biome, predefinedMinMonsterCount);
+            var monsterCount = GetMonsterCount(node, predefinedMinMonsterCount);
 
             for (var i = 0; i < monsterCount; i++)
             {
@@ -82,10 +82,10 @@ namespace Rpg.Client.Core
             return units;
         }
 
-        private static int GetMonsterCount(GlobeNode node, Biome biome,
+        private static int GetMonsterCount(GlobeNode node,
             int predefinedMinMonsterCount)
         {
-            if (node.IsLast && !biome.IsComplete)
+            if (node.IsLast/* && !biome.IsComplete*/)
             {
                 return 1;
             }

@@ -205,7 +205,16 @@ namespace Rpg.Client.Engine
                 new CombatSoundtrack(BiomeType.Egyptian,
                     contentManager.Load<Song>("Audio/Background/Combat_Egyptian02")),
                 new CombatSoundtrack(BiomeType.Egyptian, CombatSoundtrackRole.Intro,
-                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro"))
+                    contentManager.Load<Song>("Audio/Background/Combat_Egyptian01_Intro")),
+
+                new CombatSoundtrack(BiomeType.Greek,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek01")),
+                new CombatSoundtrack(BiomeType.Greek, CombatSoundtrackRole.Intro,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek01_Intro")),
+                new CombatSoundtrack(BiomeType.Greek,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek02")),
+                new CombatSoundtrack(BiomeType.Greek, CombatSoundtrackRole.Intro,
+                    contentManager.Load<Song>("Audio/Background/Combat_Greek02_Intro")),
             };
 
             _victoryTrack = contentManager.Load<Song>("Audio/Background/Victory");

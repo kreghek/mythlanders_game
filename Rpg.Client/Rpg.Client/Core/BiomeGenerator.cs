@@ -94,7 +94,7 @@ namespace Rpg.Client.Core
             return sidToUnlock;
         }
 
-        private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
+        private static (GlobeNode, bool)[] RollNodesWithCombats(IDice dice,
             IList<GlobeNode> availableNodes, GlobeLevel globeLevel, IEnumerable<Biome> biomes)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
@@ -102,9 +102,9 @@ namespace Rpg.Client.Core
             var completeBiomesCount = biomes.Count();
 
             var nodeList = new List<(GlobeNode, bool)>(3);
-            var bossLocation = availableNodes.SingleOrDefault(x => BOSS_LOCATION_SIDS.Contains(x.Sid));
+            GlobeNode? bossLocation = null; //availableNodes.SingleOrDefault(x => BOSS_LOCATION_SIDS.Contains(x.Sid));
             int targetCount;
-            if (IsBossLevel(globeLevel, completeBiomesCount) && bossLocation is not null && !biome.IsComplete)
+            if (IsBossLevel(globeLevel, completeBiomesCount) && bossLocation is not null /*&& !biome.IsComplete*/)
             {
                 nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
@@ -207,62 +207,59 @@ namespace Rpg.Client.Core
 
         public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel)
         {
-            foreach (var biome in biomes)
-            {
-                var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
-                Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
-                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel, biomes);
+            var availableNodes = biomes.SelectMany(x => x.Nodes).Where(x => x.IsAvailable).ToArray();
+            Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
+            var nodesWithCombats = RollNodesWithCombats(_dice, availableNodes, globeLevel, biomes);
 
-                var combatCounts = GetCombatSequenceLength(globeLevel.Level);
-                var combatLevelAdditionalList = new[]
-                {
+            var combatCounts = GetCombatSequenceLength(globeLevel.Level);
+            var combatLevelAdditionalList = new[]
+            {
                     0, -1, 3
                 };
-                var selectedNodeCombatCount = _dice.RollFromList(combatCounts, 3).ToArray();
-                var combatLevelAdditional = 0;
+            var selectedNodeCombatCount = _dice.RollFromList(combatCounts, 3).ToArray();
+            var combatLevelAdditional = 0;
 
-                var combatToTrainingIndex = _dice.RollArrayIndex(nodesWithCombats);
+            var combatToTrainingIndex = _dice.RollArrayIndex(nodesWithCombats);
 
-                for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
+            for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
+            {
+                var selectedNode = nodesWithCombats[locationIndex];
+                var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
+
+                var combatLevel = globeLevel.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
+                var combatList = new List<CombatSource>();
+                for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                 {
-                    var selectedNode = nodesWithCombats[locationIndex];
-                    var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
+                    var units = MonsterGeneratorHelper
+                        .CreateMonsters(selectedNode.Item1, _dice, combatLevel, _unitSchemeCatalog, globeLevel)
+                        .ToArray();
 
-                    var combatLevel = globeLevel.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
-                    var combatList = new List<CombatSource>();
-                    for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
+                    var combat = new CombatSource
                     {
-                        var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, _dice, biome, combatLevel, _unitSchemeCatalog, globeLevel)
-                            .ToArray();
-
-                        var combat = new CombatSource
-                        {
-                            Level = combatLevel,
-                            EnemyGroup = new Group(),
-                            IsTrainingOnly = combatToTrainingIndex == locationIndex &&
-                                             biome.Nodes.Where(x => x.IsAvailable).Count() == 4,
-                            IsBossLevel = selectedNode.Item2
-                        };
-
-                        for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
-                        {
-                            var unit = units[slotIndex];
-                            combat.EnemyGroup.Slots[slotIndex].Unit = unit;
-                        }
-
-                        combatList.Add(combat);
-                    }
-
-                    var combatSequence = new CombatSequence
-                    {
-                        Combats = combatList
+                        Level = combatLevel,
+                        EnemyGroup = new Group(),
+                        IsTrainingOnly = /*combatToTrainingIndex == locationIndex &&
+                                         biome.Nodes.Where(x => x.IsAvailable).Count() == 4*/ false,
+                        IsBossLevel = selectedNode.Item2
                     };
 
-                    selectedNode.Item1.CombatSequence = combatSequence;
+                    for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
+                    {
+                        var unit = units[slotIndex];
+                        combat.EnemyGroup.Slots[slotIndex].Unit = unit;
+                    }
 
-                    combatLevelAdditional++;
+                    combatList.Add(combat);
                 }
+
+                var combatSequence = new CombatSequence
+                {
+                    Combats = combatList
+                };
+
+                selectedNode.Item1.CombatSequence = combatSequence;
+
+                combatLevelAdditional++;
             }
         }
     }

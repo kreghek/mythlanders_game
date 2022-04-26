@@ -84,7 +84,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                           nameof(_globe.ActiveCombat) + " can't be null in this screen.");
 
             _globeNode = _combat.Node;
-            soundtrackManager.PlayCombatTrack(_globe.ActiveCombat.Biome.Type);
+            soundtrackManager.PlayCombatTrack(_globe.ActiveCombat.Node.BiomeType);
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -803,16 +803,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         _globe.CurrentEvent.Completed = true;
 
                         _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
-                    }
-
-                    if (_combat.CombatSource.IsBossLevel)
-                    {
-                        _combat.Biome.IsComplete = true;
-                        _bossWasDefeat = true;
-                        // Then the player defeat first boss he can split characters on a tanks and dd+support line.
-                        _globeProvider.Globe.Player.AddPlayerAbility(PlayerAbility.AvailableTanks);
-
-                       
                     }
 
                     break;
