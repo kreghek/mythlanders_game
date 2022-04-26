@@ -31,12 +31,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
             return _empty;
         }
 
-        public void Initialize(GameObjectContentStorage gameObjectContentStorage, BackgroundObjectCatalog backgroundObjectCatalog, IDice dice)
+        public void Initialize(GameObjectContentStorage gameObjectContentStorage)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
 
             _backgroundObjectFactory = new BattlegroundtBackgroundObjectFactory(_gameObjectContentStorage);
-            _thicketOjectFactory = new ThicketBackgroundObjectFactory(_gameObjectContentStorage, backgroundObjectCatalog, dice);
+            _thicketOjectFactory = new ThicketBackgroundObjectFactory(_gameObjectContentStorage);
             _monasteryObjectFactory = new MonasteryBackgroundObjectFactory(_gameObjectContentStorage);
             _empty = new EmptyBackgroundObjectFactory();
         }

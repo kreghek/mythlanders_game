@@ -1,24 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
-
-using Rpg.Client.Core;
-using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {
     internal sealed class ThicketBackgroundObjectFactory : IBackgroundObjectFactory
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly BackgroundObjectCatalog _backgroundObjectCatalog;
-        private readonly IDice _dice;
 
-        public ThicketBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage, BackgroundObjectCatalog backgroundObjectCatalog, IDice dice)
+        public ThicketBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
-            _backgroundObjectCatalog = backgroundObjectCatalog;
-            _dice = dice;
         }
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
@@ -37,30 +29,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             list.Add(weatherObject);
 
             return list;
-        }
-
-        public void GenerateMainLayerObjects(SpriteContainer spriteContainer)
-        { 
-
-        }
-
-        public void GenerateFarLayerObjects(SpriteContainer spriteContainer)
-        {
-            var availableObjects = _backgroundObjectCatalog.GetObjects();
-
-            for (var i = 0; i < 4 * 4; i++)
-            {
-                if (_dice.RollD100() > 25)
-                {
-                    var rolledObjectInfo = _dice.RollFromList(availableObjects.ToArray());
-
-                    var sprite = new Sprite(rolledObjectInfo.SpriteAtlas);
-                    sprite.SourceRectangle = rolledObjectInfo.SourceRectangle;
-                    sprite.Position = new Vector2(i * 64, 256);
-                    sprite.Origin = new Vector2(0.5f, 1);
-                    spriteContainer.AddChild(sprite);
-                }
-            }
         }
     }
 }
