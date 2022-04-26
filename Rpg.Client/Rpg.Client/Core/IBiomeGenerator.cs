@@ -6,6 +6,6 @@ namespace Rpg.Client.Core
     {
         void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel);
 
-        IReadOnlyList<Biome> Generate();
+        IReadOnlyList<Biome> GenerateStartState();
     }
 }

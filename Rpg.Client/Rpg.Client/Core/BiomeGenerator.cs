@@ -128,7 +128,7 @@ namespace Rpg.Client.Core
             return globeLevel.Level >= 10 + completeBiomesCount * 12;
         }
 
-        public IReadOnlyList<Biome> Generate()
+        public IReadOnlyList<Biome> GenerateStartState()
         {
             return new[]
             {

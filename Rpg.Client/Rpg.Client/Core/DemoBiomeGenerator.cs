@@ -204,7 +204,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IReadOnlyList<Biome> Generate()
+        public IReadOnlyList<Biome> GenerateStartState()
         {
             const int BIOME_NODE_COUNT = 4;
 
