@@ -38,12 +38,12 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
 
             if (node.CombatSequence is not null)
             {
-                NodeModel = new GlobeNodeGameObject(node, graphicObjectPosition - new Vector2(64, 0),
+                NodeModel = new GlobeNodeMarkerGameObject(node, graphicObjectPosition - new Vector2(64, 0),
                     gameObjectContentStorage);
             }
         }
 
-        internal GlobeNodeGameObject? NodeModel { get; }
+        internal GlobeNodeMarkerGameObject? NodeModel { get; }
 
         public void Draw(SpriteBatch spriteBatch)
         {

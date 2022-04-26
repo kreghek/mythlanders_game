@@ -1,15 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Biome.GameObjects
 {
-    internal class GlobeNodeGameObject
+    internal class GlobeNodeMarkerGameObject
     {
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private const double ANIMATION_RATE = 1f / 8;
         private const double EVENT_ANIMATION_RATE = 1f / 30;
         private readonly Sprite _combatMarker;
@@ -21,9 +24,11 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
         private int _currentEventAnimationIndex;
         private int _eventAnimationDirection = 1;
 
-        public GlobeNodeGameObject(GlobeNode globeNode, Vector2 position,
-            GameObjectContentStorage gameObjectContentStorage)
+        public GlobeNodeMarkerGameObject(GlobeNode globeNode, Vector2 position,
+            GameObjectContentStorage gameObjectContentStorage,
+            ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _root = new SpriteContainer
             {
                 Position = position
@@ -56,6 +61,13 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
         public GlobeNode GlobeNode { get; }
         public Vector2 Position { get; }
 
+        public event EventHandler? MouseEnter;
+        public event EventHandler? MouseExit;
+        public event EventHandler? Click;
+
+        private bool _isHover;
+        private MouseState _lastMouseState;
+
         public void Draw(SpriteBatch spriteBatch)
         {
             _combatMarker.SourceRectangle = GetCombatMarkerSourceRect(_currentCombatAnimationIndex);
@@ -68,6 +80,42 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
         {
             UpdateCombatMarkerAnimation(gameTime);
             UpdateEventMarkerAnimation(gameTime);
+
+            HandleInteraction();
+        }
+
+        private void HandleInteraction()
+        {
+            var mouseState = Mouse.GetState();
+            var mousePositionRir =
+                _resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(
+                    mouseState.Position.ToVector2());
+
+            if (IsNodeOnHover(mousePositionRir))
+            {
+                if (!_isHover)
+                {
+                    _isHover = true;
+                    MouseEnter?.Invoke(this, EventArgs.Empty);
+                }
+                else
+                {
+                    if (mouseState.LeftButton == ButtonState.Released && _lastMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        Click?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+            }
+            else
+            {
+                if (_isHover)
+                {
+                    _isHover = false;
+                    MouseExit?.Invoke(this, EventArgs.Empty);
+                }
+            }
+
+            _lastMouseState = mouseState;
         }
 
         private static Rectangle GetCombatMarkerSourceRect(int currentAnimationIndex)
@@ -132,6 +180,11 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
                     _eventAnimationDirection = 1;
                 }
             }
+        }
+        
+        private bool IsNodeOnHover(Vector2 mousePositionRir)
+        {
+            return (mousePositionRir - Position).Length() <= 16;
         }
     }
 }

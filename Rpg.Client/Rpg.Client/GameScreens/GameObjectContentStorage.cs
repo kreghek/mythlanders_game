@@ -444,5 +444,10 @@ namespace Rpg.Client.GameScreens
             var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
             return contentManager.Load<Texture2D>(path);
         }
+
+        public Texture2D GetMapTexture()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

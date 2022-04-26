@@ -22,9 +22,7 @@ namespace Rpg.Client.GameScreens.Biome
         private const int CLOUD_COUNT = 20;
         private const double MAX_CLOUD_SPEED = 0.2;
         private const int CLOUD_TEXTURE_COUNT = 3;
-        private readonly Texture2D _backgroundTexture;
 
-        private readonly Core.Biome _biome;
         private readonly Camera2D _camera;
 
         private readonly Cloud[] _clouds;
@@ -34,19 +32,20 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
 
-        private readonly IList<LocationGameObject> _locationObjectList;
-
         private readonly Random _random;
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private GlobeNodeGameObject? _hoverNodeGameObject;
 
         private bool _isNodeModelsCreated;
 
-        private TextHint? _locationInfoHint;
-        private GlobeNodeGameObject? _locationInHint;
+        private IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
+        private GlobeNodeMarkerGameObject? _locationInHint;
         private bool _screenTransition;
+
+        private IDictionary<GlobeNodeSid, Vector2> _positions;
+        private readonly IList<GlobeNodeMarkerGameObject> _markerList;
+        private GlobeNodeMarkerGameObject? _hoverNodeGameObject;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -62,9 +61,6 @@ namespace Rpg.Client.GameScreens.Biome
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
 
-            _biome = _globe.CurrentBiome ??
-                     throw new InvalidOperationException("The screen requires current biome is assigned.");
-
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _dice = Game.Services.GetService<IDice>();
@@ -72,34 +68,15 @@ namespace Rpg.Client.GameScreens.Biome
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
-            _locationObjectList = new List<LocationGameObject>();
-
-            _clouds = new Cloud[CLOUD_COUNT];
-            for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
-            {
-                var cloud = CreateCloud(cloudIndex, screenInitStage: true);
-                _clouds[cloudIndex] = cloud;
-            }
-
+            _markerList = new List<GlobeNodeMarkerGameObject>();
+            _locationInfoHints = new Dictionary<GlobeNodeMarkerGameObject, TextHint>();
+            
             _globe.Updated += Globe_Updated;
-
-            var data = new[] { Color.Gray };
-            _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
-            _backgroundTexture.SetData(data);
         }
 
         protected override IList<ButtonBase> CreateMenu()
         {
             var menuButtons = new List<ButtonBase>();
-
-            var mapButton = new ResourceTextButton(nameof(UiResource.BackToMapMenuButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
-            mapButton.OnClick += (_, _) =>
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map);
-            };
-            menuButtons.Add(mapButton);
 
             var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle),
                 _uiContentStorage.GetButtonTexture(),
@@ -145,16 +122,6 @@ namespace Rpg.Client.GameScreens.Biome
         {
             _resolutionIndependenceRenderer.BeginDraw();
 
-            spriteBatch.Begin(
-                sortMode: SpriteSortMode.Deferred,
-                blendState: BlendState.AlphaBlend,
-                samplerState: SamplerState.PointClamp,
-                depthStencilState: DepthStencilState.None,
-                rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
-            spriteBatch.Draw(_backgroundTexture, _resolutionIndependenceRenderer.VirtualBounds, Color.White);
-            spriteBatch.End();
-
             if (!_isNodeModelsCreated)
             {
                 return;
@@ -190,8 +157,18 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var nodeList = _biome.Nodes.ToList();
+                    var nodeList = _globe.Biomes.SelectMany(x => x.Nodes).Where(x => x.IsAvailable && x.CombatSequence is not null);
 
+                    foreach (var node in nodeList)
+                    {
+                        var position = _positions[node.Sid];
+                        var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage, _resolutionIndependenceRenderer);
+                        markerObject.MouseEnter += MarkerObject_MouseEnter;
+                        markerObject.MouseExit += MarkerObject_MouseExit;
+                        markerObject.Click += MarkerObject_Click;
+                        _markerList.Add(markerObject);
+                    }
+                    
                     for (var nodeIndex = 0; nodeIndex < nodeList.Count; nodeIndex++)
                     {
                         var node = nodeList[nodeIndex];
@@ -212,63 +189,46 @@ namespace Rpg.Client.GameScreens.Biome
                 }
                 else
                 {
-                    UpdateClouds(gameTime);
-                    UpdateNodeGameObjects(gameTime);
-
                     if (!_screenTransition)
                     {
-                        var mouseState = Mouse.GetState();
-                        var mousePositionRir =
-                            _resolutionIndependenceRenderer.ScaleMouseToScreenCoordinates(
-                                mouseState.Position.ToVector2());
-
-                        _hoverNodeGameObject = null;
-                        foreach (var location in _locationObjectList)
-                        {
-                            if (location.NodeModel?.CombatSource is null)
-                            {
-                                continue;
-                            }
-
-                            var detectNode = IsNodeOnHover(location.NodeModel, mousePositionRir);
-
-                            if (detectNode)
-                            {
-                                _hoverNodeGameObject = location.NodeModel;
-
-                                if (_hoverNodeGameObject != _locationInHint)
-                                {
-                                    _locationInHint = _hoverNodeGameObject;
-                                    _locationInfoHint = CreateLocationInfoHint(_locationInHint);
-                                }
-
-                                break;
-                            }
-
-                            if (_locationInHint is not null)
-                            {
-                                _locationInHint = null;
-                                _locationInfoHint = null;
-                            }
-                        }
-
-                        if (mouseState.LeftButton == ButtonState.Pressed && _hoverNodeGameObject is not null)
-                        {
-                            var context = new CombatModalContext
-                            {
-                                Globe = _globe,
-                                SelectedNodeGameObject = _hoverNodeGameObject,
-                                CombatDelegate = CombatDelegate,
-                                AutoCombatDelegate = AutoCombatDelegate
-                            };
-
-                            var combatModal = new CombatModal(context, _uiContentStorage,
-                                _resolutionIndependenceRenderer, _unitSchemeCatalog);
-                            AddModal(combatModal, isLate: false);
-                        }
+                        UpdateClouds(gameTime);
+                        UpdateNodeGameObjects(gameTime);
                     }
                 }
             }
+        }
+
+        private void MarkerObject_Click(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+            
+            var context = new CombatModalContext
+            {
+                Globe = _globe,
+                SelectedNodeGameObject = hoverNodeGameObject,
+                CombatDelegate = CombatDelegate,
+                AutoCombatDelegate = AutoCombatDelegate
+            };
+
+            var combatModal = new CombatModal(context, _uiContentStorage,
+                _resolutionIndependenceRenderer, _unitSchemeCatalog);
+            AddModal(combatModal, isLate: false);
+        }
+
+        private void MarkerObject_MouseExit(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+            
+            var locationInfoHint = CreateLocationInfoHint(hoverNodeGameObject);
+            
+            _locationInfoHints[hoverNodeGameObject] = locationInfoHint;
+        }
+
+        private void MarkerObject_MouseEnter(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+            
+            _locationInfoHints.Remove(hoverNodeGameObject);
         }
 
         private void AutoCombatDelegate(GlobeNode _)
@@ -320,29 +280,7 @@ namespace Rpg.Client.GameScreens.Biome
             }
         }
 
-        private Cloud CreateCloud(int index, bool screenInitStage)
-        {
-            var endPosition = new Vector2(
-                _resolutionIndependenceRenderer.VirtualWidth * 1.5f / CLOUD_COUNT * index -
-                _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
-                _resolutionIndependenceRenderer.VirtualHeight);
-            const float START_VIEWPORT_Y_POSITION = -100f;
-            var startPosition = new Vector2(endPosition.X + _resolutionIndependenceRenderer.VirtualWidth * 0.5f,
-                START_VIEWPORT_Y_POSITION);
-
-            var textureIndex = _random.Next(0, CLOUD_TEXTURE_COUNT);
-            var speed = _random.NextDouble() + MAX_CLOUD_SPEED;
-            var cloud = new Cloud(_gameObjectContentStorage.GetBiomeClouds(),
-                textureIndex,
-                startPosition,
-                endPosition,
-                speed,
-                screenInitStage);
-
-            return cloud;
-        }
-
-        private TextHint CreateLocationInfoHint(GlobeNodeGameObject locationInHint)
+        private TextHint CreateLocationInfoHint(GlobeNodeMarkerGameObject locationInHint)
         {
             var localizedName = GameObjectHelper.GetLocalized(locationInHint.GlobeNode.Sid);
 
@@ -459,28 +397,6 @@ namespace Rpg.Client.GameScreens.Biome
 
         private void DrawObjects(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            var spriteList = new List<Sprite>();
-            foreach (var location in _locationObjectList)
-            {
-                var sprites = location.GetSprites();
-                foreach (var sprite in sprites)
-                {
-                    spriteList.Add(sprite);
-                }
-            }
-
-            var orderedSprites = spriteList.OrderByDescending(x => x.Position.Y).ToArray();
-
-            var landscapeSpriteList = new List<Sprite>();
-            foreach (var location in _locationObjectList)
-            {
-                var sprites = location.GetLandscapeSprites();
-                foreach (var sprite in sprites)
-                {
-                    landscapeSpriteList.Add(sprite);
-                }
-            }
-
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
@@ -488,6 +404,10 @@ namespace Rpg.Client.GameScreens.Biome
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
+            
+            spriteBatch.Draw(_gameObjectContentStorage.GetMapTexture(), contentRect, Color.White);
+            
+            spriteBatch.End();
 
             foreach (var location in _locationObjectList)
             {
@@ -528,7 +448,7 @@ namespace Rpg.Client.GameScreens.Biome
             spriteBatch.End();
         }
 
-        private string GetCombatRewards(GlobeNodeGameObject nodeGameObject, GlobeNodeGameObject node)
+        private string GetCombatRewards(GlobeNodeMarkerGameObject nodeGameObject, GlobeNodeMarkerGameObject node)
         {
             if (node.GlobeNode.CombatSequence is null)
             {
@@ -559,7 +479,7 @@ namespace Rpg.Client.GameScreens.Biome
             return summaryReward;
         }
 
-        private static string GetSummaryXpAwardLabel(GlobeNodeGameObject node)
+        private static string GetSummaryXpAwardLabel(GlobeNodeMarkerGameObject node)
         {
             var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
             var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
@@ -583,11 +503,6 @@ namespace Rpg.Client.GameScreens.Biome
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
 
-        private static bool IsNodeOnHover(GlobeNodeGameObject node, Vector2 mousePositionRir)
-        {
-            return (mousePositionRir - node.Position).Length() <= 16;
-        }
-
         private void UpdateClouds(GameTime gameTime)
         {
             for (var cloudIndex = 0; cloudIndex < CLOUD_COUNT; cloudIndex++)
@@ -603,9 +518,9 @@ namespace Rpg.Client.GameScreens.Biome
 
         private void UpdateNodeGameObjects(GameTime gameTime)
         {
-            foreach (var locationObject in _locationObjectList)
+            foreach (var globeNodeMarkerGameObject in _markerList)
             {
-                locationObject.Update(gameTime);
+                globeNodeMarkerGameObject.Update(gameTime);
             }
         }
     }

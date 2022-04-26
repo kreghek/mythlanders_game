@@ -17,14 +17,14 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         public Action<GlobeNode> AutoCombatDelegate { get; set; }
         public Action<GlobeNode> CombatDelegate { get; set; }
         public Globe Globe { get; set; }
-        public GlobeNodeGameObject SelectedNodeGameObject { get; set; }
+        public GlobeNodeMarkerGameObject SelectedNodeGameObject { get; set; }
     }
 
     internal sealed class CombatModal : ModalDialogBase
     {
         private readonly IList<ButtonBase> _buttons;
         private readonly Globe _globe;
-        private readonly GlobeNodeGameObject _nodeGameObject;
+        private readonly GlobeNodeMarkerGameObject _nodeGameObject;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
@@ -120,8 +120,8 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             return !lockedSlavicNodes.Any();
         }
 
-        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeGameObject nodeGameObject,
-            Vector2 rewardBlockPosition, GlobeNodeGameObject node)
+        private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject nodeGameObject,
+            Vector2 rewardBlockPosition, GlobeNodeMarkerGameObject node)
         {
             if (node.GlobeNode.CombatSequence is null)
             {
@@ -200,7 +200,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         }
 
         private void DrawEquipmentRewards(SpriteBatch spriteBatch,
-            GlobeNodeGameObject nodeGameObject, Vector2 toolTipPosition)
+            GlobeNodeMarkerGameObject nodeGameObject, Vector2 toolTipPosition)
         {
             var equipmentType = nodeGameObject.GlobeNode.EquipmentItem;
             if (equipmentType is null)
@@ -243,7 +243,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             //throw new NotImplementedException();
         }
 
-        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeGameObject node, Vector2 toolTipPosition)
+        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject node, Vector2 toolTipPosition)
         {
             var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x => x.EnemyGroup.GetUnits())
                 .Sum(x => x.XpReward);
