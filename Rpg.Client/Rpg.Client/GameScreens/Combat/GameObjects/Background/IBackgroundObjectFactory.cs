@@ -1,6 +1,4 @@
-﻿using Rpg.Client.Engine;
-
-namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
+﻿namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 {
     internal interface IBackgroundObjectFactory
     {
