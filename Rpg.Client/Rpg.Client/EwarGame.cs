@@ -131,6 +131,12 @@ namespace Rpg.Client
 
             bgofSelector.Initialize(gameObjectContentStorage, Services.GetService<IDice>());
 
+            var backgroundObjectCatalog = new BackgroundObjectCatalog(gameObjectContentStorage);
+
+            var dice = Services.GetService<IDice>();
+
+            bgofSelector.Initialize(gameObjectContentStorage, backgroundObjectCatalog, dice);
+
 #if DEBUG
             if (_gameSettings.Mode == GameMode.Full)
             {
