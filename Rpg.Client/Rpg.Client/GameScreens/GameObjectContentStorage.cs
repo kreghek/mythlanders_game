@@ -32,8 +32,7 @@ namespace Rpg.Client.GameScreens
         private Texture2D _equipmentIcons;
         private SpriteFont _font;
         private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
-        private Texture2D _locationObjectTextures;
-        private Dictionary<GlobeNodeSid, Texture2D> _locationTextureDict;
+        private Texture2D _mapTexture;
 
         private Texture2D? _mapNodes;
         private Texture2D? _monsterUnit;
@@ -287,12 +286,7 @@ namespace Rpg.Client.GameScreens
 
             _arrowTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Arrow");
 
-            _locationTextureDict = new Dictionary<GlobeNodeSid, Texture2D>
-            {
-                { GlobeNodeSid.Thicket, contentManager.Load<Texture2D>("Sprites/GameObjects/Map/DeepThicket") }
-            };
-
-            _locationObjectTextures = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/MapObjects");
+            _mapTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Map/Map");
 
             _particlesTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/SfxObjects/Particles");
 
@@ -383,14 +377,9 @@ namespace Rpg.Client.GameScreens
             return _font;
         }
 
-        internal Texture2D GetLocationObjectTextures()
+        internal Texture2D GetMapTexture()
         {
-            return _locationObjectTextures;
-        }
-
-        internal Texture2D GetLocationTextures(GlobeNodeSid globeNodeSid)
-        {
-            return _locationTextureDict[GlobeNodeSid.Thicket];
+            return _mapTexture;
         }
 
         internal Texture2D GetNodeMarker()
@@ -443,11 +432,6 @@ namespace Rpg.Client.GameScreens
         {
             var path = Path.Combine("Sprites", "GameObjects", "MonsterUnits", spriteName);
             return contentManager.Load<Texture2D>(path);
-        }
-
-        public Texture2D GetMapTexture()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
