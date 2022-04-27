@@ -203,7 +203,7 @@ namespace Rpg.Client.GameScreens.Title
             loadGameButton.OnClick += (_, _) =>
             {
                 var continueDialog = new ContinueGameModal(_uiContentStorage, _resolutionIndependentRenderer,
-                    _globeProvider, _dice, _unitSchemeCatalog, _eventCatalog, ScreenManager, this);
+                    _globeProvider, _dice, _eventCatalog, ScreenManager, this);
                 AddModal(continueDialog, isLate: true);
                 continueDialog.Show();
             };

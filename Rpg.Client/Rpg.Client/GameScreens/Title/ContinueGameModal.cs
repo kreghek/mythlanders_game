@@ -26,14 +26,12 @@ namespace Rpg.Client.GameScreens.Title
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IScreen _screen;
         private readonly IScreenManager _screenManager;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private int _pageIndex;
 
         public ContinueGameModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
-            IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog, IScreenManager screenManager,
-            IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
+            IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             _continueGameButtons = new List<ButtonBase>();
             _pageButtons = new List<ButtonBase>();
@@ -41,7 +39,6 @@ namespace Rpg.Client.GameScreens.Title
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _globeProvider = globeProvider;
             _dice = dice;
-            _unitSchemeCatalog = unitSchemeCatalog;
             _eventCatalog = eventCatalog;
             _screenManager = screenManager;
             _screen = screen;

@@ -19,13 +19,8 @@ namespace Rpg.Client.GameScreens.Biome
 {
     internal class BiomeScreen : GameScreenWithMenuBase
     {
-        private const int CLOUD_COUNT = 20;
-        private const double MAX_CLOUD_SPEED = 0.2;
-        private const int CLOUD_TEXTURE_COUNT = 3;
-
         private readonly Camera2D _camera;
 
-        private readonly Cloud[] _clouds;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -43,7 +38,6 @@ namespace Rpg.Client.GameScreens.Biome
 
         private IDictionary<GlobeNodeSid, Vector2> _markerPositions;
         private readonly IList<GlobeNodeMarkerGameObject> _markerList;
-        private GlobeNodeMarkerGameObject? _hoverNodeGameObject;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -75,7 +69,15 @@ namespace Rpg.Client.GameScreens.Biome
         {
             return new Dictionary<GlobeNodeSid, Vector2>
             {
-                { GlobeNodeSid.Thicket, new Vector2(342, 378) }
+                // Slavic
+                { GlobeNodeSid.Thicket, new Vector2(524, 188) },
+                { GlobeNodeSid.Battleground, new Vector2(500, 208) },
+                { GlobeNodeSid.Swamp, new Vector2(503, 180) },
+                { GlobeNodeSid.Pit, new Vector2(466, 153) },
+                { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
+                { GlobeNodeSid.Mines, new Vector2(400, 145) },
+                { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
+                { GlobeNodeSid.Castle, new Vector2(446, 201) }
             };
         }
 
