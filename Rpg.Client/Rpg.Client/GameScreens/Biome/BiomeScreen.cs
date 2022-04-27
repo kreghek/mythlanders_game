@@ -203,7 +203,7 @@ namespace Rpg.Client.GameScreens.Biome
         private void MarkerObject_Click(object? sender, EventArgs e)
         {
             var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
-            
+
             var context = new CombatModalContext
             {
                 Globe = _globe,
@@ -405,14 +405,14 @@ namespace Rpg.Client.GameScreens.Biome
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
-            
+
             spriteBatch.Draw(_gameObjectContentStorage.GetMapTexture(), contentRect, Color.White);
 
             foreach (var marker in _markerList)
             {
                 marker.Draw(spriteBatch);
             }
-            
+
             spriteBatch.End();
         }
 

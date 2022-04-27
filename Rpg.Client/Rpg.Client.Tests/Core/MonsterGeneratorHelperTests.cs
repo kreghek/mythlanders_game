@@ -103,7 +103,7 @@ namespace Rpg.Client.Tests.Core
                 bossUnitScheme
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
-            
+
             var globeLevel = new GlobeLevel { Level = 1 };
 
             // ACT
@@ -150,7 +150,7 @@ namespace Rpg.Client.Tests.Core
                 bigUnitScheme
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
-            
+
             var globeLevel = new GlobeLevel { Level = 1 };
 
             // ACT

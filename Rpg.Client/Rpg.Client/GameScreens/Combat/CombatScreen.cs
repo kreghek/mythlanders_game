@@ -419,7 +419,7 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            
+
                             if (_globe.CurrentEvent is not null)
                             {
                                 _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
@@ -1141,7 +1141,7 @@ namespace Rpg.Client.GameScreens.Combat
                 if (currentCombatList.Count == 1)
                 {
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
-                        _globeProvider.Globe.Player, 
+                        _globeProvider.Globe.Player,
                         _globeProvider.Globe.GlobeLevel);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);

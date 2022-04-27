@@ -181,7 +181,7 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
                 }
             }
         }
-        
+
         private bool IsNodeOnHover(Vector2 mousePositionRir)
         {
             return (mousePositionRir - Position).Length() <= 16;
