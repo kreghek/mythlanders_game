@@ -875,6 +875,13 @@ namespace Rpg.Client.GameScreens.Combat
             return nextIndex;
         }
 
+        private int GetUnbreakableLevel()
+        {
+            // TODO Like in How wants to be millionaire?
+            // The reaching of some of levels gains unbreakable level.
+            return 0;
+        }
+
         private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.CombatUnit == combatUnit);
@@ -976,13 +983,6 @@ namespace Rpg.Client.GameScreens.Combat
                 default:
                     throw new InvalidOperationException("Unknown combat result.");
             }
-        }
-
-        private int GetUnbreakableLevel()
-        {
-            // TODO Like in How wants to be millionaire?
-            // The reaching of some of levels gains unbreakable level.
-            return 0;
         }
 
         private void HandleUnits(GameTime gameTime)

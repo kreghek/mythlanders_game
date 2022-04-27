@@ -19,7 +19,8 @@ namespace BalanceGenerator
 
             var globeLevel = new GlobeLevel { Level = 1 };
 
-            var monsters = MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog, globeLevel);
+            var monsters =
+                MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog, globeLevel);
             for (var i = 0; i < monsters.Count; i++)
             {
                 var monster = monsters[i];
@@ -58,7 +59,8 @@ namespace BalanceGenerator
             }
         }
 
-        private static IterationsResult PlayIteration(IBalanceTable balanceTable, GlobeNode globeNode, IDice dice, CombatSource combatSource)
+        private static IterationsResult PlayIteration(IBalanceTable balanceTable, GlobeNode globeNode, IDice dice,
+            CombatSource combatSource)
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 

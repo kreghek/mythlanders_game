@@ -28,8 +28,6 @@ namespace Rpg.Client.Core
             GlobeLevel = new GlobeLevel();
         }
 
-        public GlobeLevel GlobeLevel { get; }
-
         public Combat? ActiveCombat { get; set; }
 
         public IReadOnlyCollection<Biome> Biomes { get; }
@@ -39,6 +37,8 @@ namespace Rpg.Client.Core
         public EventNode? CurrentEventNode { get; set; }
 
         public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
+
+        public GlobeLevel GlobeLevel { get; }
 
         public bool IsNodeInitialied { get; set; }
 
@@ -139,7 +139,8 @@ namespace Rpg.Client.Core
         }
 
 
-        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes, GlobeLevel globeLevel)
+        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
+            GlobeLevel globeLevel)
         {
             // create dialogs of nodes with combat
             foreach (var biome in biomes)

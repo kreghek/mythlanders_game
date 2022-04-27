@@ -26,6 +26,7 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
+        private readonly IList<GlobeNodeMarkerGameObject> _markerList;
 
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
@@ -33,11 +34,10 @@ namespace Rpg.Client.GameScreens.Biome
 
         private bool _isNodeModelsCreated;
 
-        private IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
-        private bool _screenTransition;
+        private readonly IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
 
-        private IDictionary<GlobeNodeSid, Vector2> _markerPositions;
-        private readonly IList<GlobeNodeMarkerGameObject> _markerList;
+        private readonly IDictionary<GlobeNodeSid, Vector2> _markerPositions;
+        private bool _screenTransition;
 
         public BiomeScreen(EwarGame game) : base(game)
         {
@@ -63,22 +63,6 @@ namespace Rpg.Client.GameScreens.Biome
             _locationInfoHints = new Dictionary<GlobeNodeMarkerGameObject, TextHint>();
 
             _globe.Updated += Globe_Updated;
-        }
-
-        private static Dictionary<GlobeNodeSid, Vector2> CreateMapMarkerPositions()
-        {
-            return new Dictionary<GlobeNodeSid, Vector2>
-            {
-                // Slavic
-                { GlobeNodeSid.Thicket, new Vector2(524, 188) },
-                { GlobeNodeSid.Battleground, new Vector2(500, 208) },
-                { GlobeNodeSid.Swamp, new Vector2(503, 180) },
-                { GlobeNodeSid.Pit, new Vector2(466, 153) },
-                { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
-                { GlobeNodeSid.Mines, new Vector2(400, 145) },
-                { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
-                { GlobeNodeSid.Castle, new Vector2(446, 201) }
-            };
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -164,14 +148,16 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var nodeList = _globe.Biomes.SelectMany(x => x.Nodes).Where(x => x.IsAvailable && x.CombatSequence is not null).ToArray();
+                    var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
+                        .Where(x => x.IsAvailable && x.CombatSequence is not null).ToArray();
 
                     for (var i = 0; i < nodeList.Length; i++)
                     {
                         var node = nodeList[i];
 
                         var position = GetLocationMarkerPosition(node, i);
-                        var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage, _resolutionIndependenceRenderer);
+                        var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage,
+                            _resolutionIndependenceRenderer);
                         markerObject.MouseEnter += MarkerObject_MouseEnter;
                         markerObject.MouseExit += MarkerObject_MouseExit;
                         markerObject.Click += MarkerObject_Click;
@@ -188,50 +174,6 @@ namespace Rpg.Client.GameScreens.Biome
                     }
                 }
             }
-        }
-
-        private Vector2 GetLocationMarkerPosition(GlobeNode node, int i)
-        {
-            if (_markerPositions.TryGetValue(node.Sid, out var position))
-            {
-                return position;
-            }
-
-            return Vector2.UnitY * i * 128 + new Vector2(100, 100);
-        }
-
-        private void MarkerObject_Click(object? sender, EventArgs e)
-        {
-            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
-
-            var context = new CombatModalContext
-            {
-                Globe = _globe,
-                SelectedNodeGameObject = hoverNodeGameObject,
-                AvailableEvent = hoverNodeGameObject.AvailableEvent,
-                CombatDelegate = CombatDelegate,
-                AutoCombatDelegate = AutoCombatDelegate
-            };
-
-            var combatModal = new CombatModal(context, _uiContentStorage,
-                _resolutionIndependenceRenderer, _unitSchemeCatalog);
-            AddModal(combatModal, isLate: false);
-        }
-
-        private void MarkerObject_MouseExit(object? sender, EventArgs e)
-        {
-            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
-
-            _locationInfoHints.Remove(hoverNodeGameObject);
-        }
-
-        private void MarkerObject_MouseEnter(object? sender, EventArgs e)
-        {
-            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
-
-            var locationInfoHint = CreateLocationInfoHint(hoverNodeGameObject);
-
-            _locationInfoHints[hoverNodeGameObject] = locationInfoHint;
         }
 
         private void AutoCombatDelegate(GlobeNode node, Core.Event? availableEvent)
@@ -307,6 +249,22 @@ namespace Rpg.Client.GameScreens.Biome
                 _uiContentStorage.GetMainFont(),
                 sb.ToString());
             return hint;
+        }
+
+        private static Dictionary<GlobeNodeSid, Vector2> CreateMapMarkerPositions()
+        {
+            return new Dictionary<GlobeNodeSid, Vector2>
+            {
+                // Slavic
+                { GlobeNodeSid.Thicket, new Vector2(524, 188) },
+                { GlobeNodeSid.Battleground, new Vector2(500, 208) },
+                { GlobeNodeSid.Swamp, new Vector2(503, 180) },
+                { GlobeNodeSid.Pit, new Vector2(466, 153) },
+                { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
+                { GlobeNodeSid.Mines, new Vector2(400, 145) },
+                { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
+                { GlobeNodeSid.Castle, new Vector2(446, 201) }
+            };
         }
 
         private void DrawBiomeLevel(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -447,6 +405,16 @@ namespace Rpg.Client.GameScreens.Biome
             return summaryReward;
         }
 
+        private Vector2 GetLocationMarkerPosition(GlobeNode node, int i)
+        {
+            if (_markerPositions.TryGetValue(node.Sid, out var position))
+            {
+                return position;
+            }
+
+            return Vector2.UnitY * i * 128 + new Vector2(100, 100);
+        }
+
         private static string GetSummaryXpAwardLabel(GlobeNodeMarkerGameObject node)
         {
             var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
@@ -470,6 +438,40 @@ namespace Rpg.Client.GameScreens.Biome
             return character.Equipments.Any(equipment =>
                 equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
+        }
+
+        private void MarkerObject_Click(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+
+            var context = new CombatModalContext
+            {
+                Globe = _globe,
+                SelectedNodeGameObject = hoverNodeGameObject,
+                AvailableEvent = hoverNodeGameObject.AvailableEvent,
+                CombatDelegate = CombatDelegate,
+                AutoCombatDelegate = AutoCombatDelegate
+            };
+
+            var combatModal = new CombatModal(context, _uiContentStorage,
+                _resolutionIndependenceRenderer, _unitSchemeCatalog);
+            AddModal(combatModal, isLate: false);
+        }
+
+        private void MarkerObject_MouseEnter(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+
+            var locationInfoHint = CreateLocationInfoHint(hoverNodeGameObject);
+
+            _locationInfoHints[hoverNodeGameObject] = locationInfoHint;
+        }
+
+        private void MarkerObject_MouseExit(object? sender, EventArgs e)
+        {
+            var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
+
+            _locationInfoHints.Remove(hoverNodeGameObject);
         }
 
         private void UpdateNodeGameObjects(GameTime gameTime)

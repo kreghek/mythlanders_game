@@ -31,7 +31,8 @@ namespace Rpg.Client.GameScreens.Title
 
         public ContinueGameModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, GlobeProvider globeProvider, IDice dice,
-            IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage, resolutionIndependentRenderer)
+            IEventCatalog eventCatalog, IScreenManager screenManager, IScreen screen) : base(uiContentStorage,
+            resolutionIndependentRenderer)
         {
             _continueGameButtons = new List<ButtonBase>();
             _pageButtons = new List<ButtonBase>();
@@ -182,7 +183,8 @@ namespace Rpg.Client.GameScreens.Title
             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
             _globeProvider.Globe.IsNodeInitialied = true;
 
-            var firstAvailableNodeInBiome = _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.IsAvailable && x.BiomeType == BiomeType.Slavic);
+            var firstAvailableNodeInBiome = _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+                .SingleOrDefault(x => x.IsAvailable && x.BiomeType == BiomeType.Slavic);
 
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
