@@ -1,12 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     public interface IUnitStateEngine
     {
-        public bool CanBeReplaced { get; }
-        public bool IsComplete { get; }
+        bool CanBeReplaced { get; }
+        bool IsComplete { get; }
         void Cancel();
-        public void Update(GameTime gameTime);
+        void Update(GameTime gameTime);
+
+        event EventHandler? Completed;
     }
 }
