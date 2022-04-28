@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -16,9 +15,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private int _subStateIndex;
 
-        public UnitDistantAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker,
-            Action attackInteraction, IInteractionDelivery? interactionDelivery,
+        public UnitDistantAttackState(UnitGraphics graphics,
+            AnimationBlocker blocker, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {

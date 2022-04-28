@@ -16,6 +16,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         IList<IInteractionDelivery> interactionDeliveryList { get; }
 
-        SoundEffectInstance GetHitSound(GameObjectSoundType);
+        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
+
+        GameObjectContentStorage GameObjectContentStorage { get; }
     }
 }

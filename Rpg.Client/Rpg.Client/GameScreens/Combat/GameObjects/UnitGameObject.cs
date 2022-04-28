@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
@@ -21,7 +20,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        private readonly UnitGraphics _graphics;
+        public readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position,
@@ -294,9 +293,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                     state = new UnitDistantAttackState(
                         graphics: _graphics,
-                        targetGraphicsRoot: target._graphics.Root,
                         blocker: animationBlocker,
-                        attackInteraction: interaction,
                         interactionDelivery: singleBullet,
                         interactionDeliveryList: interactionDeliveryList,
                         hitSound: hitSound,
@@ -412,9 +409,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                     {
                         state = new UnitDistantAttackState(
                             graphics: _graphics,
-                            targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
-                            attackInteraction: interaction,
                             interactionDelivery: null,
                             interactionDeliveryList: interactionDeliveryList,
                             hitSound: hitSound,

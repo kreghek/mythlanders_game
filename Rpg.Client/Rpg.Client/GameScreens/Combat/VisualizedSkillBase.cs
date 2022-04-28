@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
@@ -16,8 +19,9 @@ namespace Rpg.Client.GameScreens.Combat
         {
         }
 
-        public IUnitStateEngine CreateState(
-            UnitGameObject targetGameObject,
+        public virtual IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
             ISkillVisualizationContext context)
         {
             var skill = this;
@@ -31,50 +35,120 @@ namespace Rpg.Client.GameScreens.Combat
             switch (skill.Visualization.Type)
             {
                 case SkillVisualizationStateType.Melee:
-                    var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-
-                    animationBlocker.Released += (s, e) =>
                     {
-                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                    };
+                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-                    if (CombatUnit.Unit.UnitScheme.Name == UnitName.Maosin)
-                    {
-                        var skillAnimationInfo = new SkillAnimationInfo
+                        if (animatedUnitGameObject.CombatUnit.Unit.UnitScheme.Name == UnitName.Maosin)
                         {
-                            Items = new[]
+                            var skillAnimationInfo = new SkillAnimationInfo
                             {
-                                new SkillAnimationInfoItem
+                                Items = new[]
                                 {
-                                    Duration = 1.75f / 3,
-                                    HitSound = hitSound,
-                                    Interaction = interaction,
-                                    InteractTime = 0
-                                },
-                                new SkillAnimationInfoItem
-                                {
-                                    Duration = 1.75f / 3,
-                                    HitSound = hitSound,
-                                    Interaction = interaction,
-                                    InteractTime = 0
-                                },
-                                new SkillAnimationInfoItem
-                                {
-                                    Duration = 1.75f / 3,
-                                    HitSound = hitSound,
-                                    Interaction = interaction,
-                                    InteractTime = 0
+                                    new SkillAnimationInfoItem
+                                    {
+                                        Duration = 1.75f / 3,
+                                        HitSound = hitSound,
+                                        Interaction = context.Interaction,
+                                        InteractTime = 0
+                                    },
+                                    new SkillAnimationInfoItem
+                                    {
+                                        Duration = 1.75f / 3,
+                                        HitSound = hitSound,
+                                        Interaction = context.Interaction,
+                                        InteractTime = 0
+                                    },
+                                    new SkillAnimationInfoItem
+                                    {
+                                        Duration = 1.75f / 3,
+                                        HitSound = hitSound,
+                                        Interaction = context.Interaction,
+                                        InteractTime = 0
+                                    }
                                 }
-                            }
+                            };
+
+                            state = new UnitMeleeAttackState(
+                                animatedUnitGameObject._graphics,
+                                animatedUnitGameObject._graphics.Root,
+                                targetUnitGameObject._graphics.Root,
+                                animationBlocker,
+                                skillAnimationInfo, animationSid);
+                        }
+                        else
+                        {
+                            var skillAnimationInfo = new SkillAnimationInfo
+                            {
+                                Items = new[]
+                                {
+                                    new SkillAnimationInfoItem
+                                    {
+                                        Duration = 0.75f,
+                                        HitSound = hitSound,
+                                        Interaction = context.Interaction,
+                                        InteractTime = 0
+                                    }
+                                }
+                            };
+
+                            state = new UnitMeleeAttackState(
+                                animatedUnitGameObject._graphics,
+                                animatedUnitGameObject._graphics.Root,
+                                targetUnitGameObject._graphics.Root,
+                                animationBlocker,
+                                skillAnimationInfo, animationSid);
+                        }
+                    }
+                    break;
+
+                case SkillVisualizationStateType.Range:
+                    {
+                        var bulletBlocker = context.AnimationManager.CreateAndUseBlocker();
+                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+                        IInteractionDelivery singleBullet;
+
+                        if (skill.Sid == SkillSid.HealingSalve)
+                        {
+                            singleBullet = new HealLightObject(
+                                targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
+                                context.GameObjectContentStorage, bulletBlocker);
+                        }
+                        else if (skill.Sid == SkillSid.ToxicGas)
+                        {
+                            singleBullet = new GasBomb(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                                targetUnitGameObject.Position,
+                                context.GameObjectContentStorage,
+                                bulletBlocker);
+                        }
+                        else
+                        {
+                            singleBullet = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                                targetUnitGameObject.Position,
+                                context.GameObjectContentStorage,
+                                bulletBlocker);
+                        }
+
+                        bulletBlocker.Released += (s, e) =>
+                        {
+                            context.Interaction.Invoke();
                         };
 
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                            animationBlocker,
-                            skillAnimationInfo, animationSid);
+                        state = new UnitDistantAttackState(
+                            graphics: animatedUnitGameObject._graphics,
+                            blocker: animationBlocker,
+                            interactionDelivery: singleBullet,
+                            interactionDeliveryList: context.interactionDeliveryList,
+                            hitSound: hitSound,
+                            animationSid: animationSid);
                     }
-                    else
+                    break;
+
+                case SkillVisualizationStateType.MassMelee:
                     {
-                        var skillAnimationInfo = new SkillAnimationInfo
+                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+                        var skillAnimationInfoMass = new SkillAnimationInfo
                         {
                             Items = new[]
                             {
@@ -90,80 +164,8 @@ namespace Rpg.Client.GameScreens.Combat
 
                         state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
                             animationBlocker,
-                            skillAnimationInfo, animationSid);
+                            skillAnimationInfoMass, animationSid);
                     }
-
-                    break;
-
-                case SkillVisualizationStateType.Range:
-                    if (bulletBlocker is null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    IInteractionDelivery singleBullet;
-
-                    if (skill.Sid == SkillSid.HealingSalve)
-                    {
-                        singleBullet = new HealLightObject(target.Position - Vector2.UnitY * (64 + 32),
-                            _gameObjectContentStorage, bulletBlocker);
-                    }
-                    else if (skill.Sid == SkillSid.ToxicGas)
-                    {
-                        singleBullet = new GasBomb(Position - Vector2.UnitY * (64), target.Position,
-                            _gameObjectContentStorage,
-                            bulletBlocker);
-                    }
-                    else
-                    {
-                        singleBullet = new BulletGameObject(Position - Vector2.UnitY * (64), target.Position,
-                            _gameObjectContentStorage,
-                            bulletBlocker);
-                    }
-
-                    bulletBlocker.Released += (s, e) =>
-                    {
-                        interaction.Invoke();
-                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                    };
-
-                    state = new UnitDistantAttackState(
-                        graphics: _graphics,
-                        targetGraphicsRoot: target._graphics.Root,
-                        blocker: animationBlocker,
-                        attackInteraction: interaction,
-                        interactionDelivery: singleBullet,
-                        interactionDeliveryList: interactionDeliveryList,
-                        hitSound: hitSound,
-                        animationSid: animationSid);
-
-                    break;
-
-                case SkillVisualizationStateType.MassMelee:
-                    bulletBlocker?.Release();
-
-                    animationBlocker.Released += (s, e) =>
-                    {
-                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                    };
-
-                    var skillAnimationInfoMass = new SkillAnimationInfo
-                    {
-                        Items = new[]
-                        {
-                            new SkillAnimationInfoItem
-                            {
-                                Duration = 0.75f,
-                                HitSound = hitSound,
-                                Interaction = interaction,
-                                InteractTime = 0
-                            }
-                        }
-                    };
-
-                    state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
-                        animationBlocker,
-                        skillAnimationInfoMass, animationSid);
                     break;
 
                 case SkillVisualizationStateType.MassRange:
@@ -247,9 +249,7 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         state = new UnitDistantAttackState(
                             graphics: _graphics,
-                            targetGraphicsRoot: target._graphics.Root,
                             blocker: animationBlocker,
-                            attackInteraction: interaction,
                             interactionDelivery: null,
                             interactionDeliveryList: interactionDeliveryList,
                             hitSound: hitSound,

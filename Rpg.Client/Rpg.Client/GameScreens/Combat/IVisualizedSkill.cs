@@ -8,7 +8,9 @@ namespace Rpg.Client.GameScreens.Combat
         
         SkillVisualization Visualization { get; }
 
-        IUnitStateEngine CreateState(UnitGameObject targetGameObject,
+        IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
             ISkillVisualizationContext context);
     }
 }
