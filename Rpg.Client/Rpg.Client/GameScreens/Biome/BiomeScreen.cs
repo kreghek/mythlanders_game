@@ -139,10 +139,10 @@ namespace Rpg.Client.GameScreens.Biome
                 AddModal(tutorialModal, isLate: false);
             }
 
-            if (!_globe.IsNodeInitialied)
+            if (!_globe.IsNodeInitialized)
             {
                 _globe.UpdateNodes(_dice, _eventCatalog);
-                _globe.IsNodeInitialied = true;
+                _globe.IsNodeInitialized = true;
             }
             else
             {

@@ -8,14 +8,15 @@ namespace Rpg.Client.Core
     internal static class MonsterGeneratorHelper
     {
         public static IReadOnlyList<Unit> CreateMonsters(GlobeNode node, IDice dice, int monsterLevel,
-            IUnitSchemeCatalog unitSchemeCatalog, GlobeLevel globeLevel)
+            IUnitSchemeCatalog unitSchemeCatalog, IMonsterGenerationGlobeContext globeContext)
         {
             var availableAllRegularMonsters =
                 unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
             var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x =>
-                HasPerk<BossMonster>(x, monsterLevel) && /*!biome.IsComplete &&*/
+                globeContext.BiomesWithBosses.Contains(x.Biome) &&
+                HasPerk<BossMonster>(x, monsterLevel) &&
                 x.MinRequiredBiomeLevel is not null &&
-                x.MinRequiredBiomeLevel.Value <= globeLevel.Level);
+                x.MinRequiredBiomeLevel.Value <= globeContext.GlobeProgressLevel);
 
             var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
 
@@ -37,7 +38,7 @@ namespace Rpg.Client.Core
 
             var rolledUnits = new List<UnitScheme>();
 
-            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(globeLevel.Level);
+            var predefinedMinMonsterCounts = GetPredefinedMonsterCounts(globeContext.GlobeProgressLevel);
             var predefinedMinMonsterCount = dice.RollFromList(predefinedMinMonsterCounts, 1).Single();
             var monsterCount = GetMonsterCount(node, predefinedMinMonsterCount);
 
@@ -93,9 +94,9 @@ namespace Rpg.Client.Core
             return predefinedMinMonsterCount;
         }
 
-        private static int[] GetPredefinedMonsterCounts(int biomeLevel)
+        private static int[] GetPredefinedMonsterCounts(int globeProgressLevel)
         {
-            return biomeLevel switch
+            return globeProgressLevel switch
             {
                 >= 0 and <= 10 => new[] { 2, 3 },
                 > 10 => new[] { 3, 3, 4, 4, 5 },
