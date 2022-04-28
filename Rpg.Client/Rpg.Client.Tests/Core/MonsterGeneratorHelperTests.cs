@@ -51,7 +51,7 @@ namespace Rpg.Client.Tests.Core
             var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
                                                                             x.BiomesWithBosses == new[]
                                                                             {
-                                                                                BiomeType.Slavic
+                                                                                BiomeType.Undefined
                                                                             });
 
             // ACT
@@ -101,7 +101,7 @@ namespace Rpg.Client.Tests.Core
             var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
                                                                             x.BiomesWithBosses == new[]
                                                                             {
-                                                                                BiomeType.Slavic
+                                                                                BiomeType.Undefined
                                                                             });
 
             // ACT
@@ -150,7 +150,7 @@ namespace Rpg.Client.Tests.Core
             var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
                                                                             x.BiomesWithBosses == new[]
                                                                             {
-                                                                                BiomeType.Slavic
+                                                                                BiomeType.Undefined
                                                                             });
 
             // ACT
