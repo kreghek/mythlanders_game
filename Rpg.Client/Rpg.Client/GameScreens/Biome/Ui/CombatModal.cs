@@ -235,7 +235,8 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             //throw new NotImplementedException();
         }
 
-        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject node, Vector2 toolTipPosition)
+        private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject node,
+            Vector2 toolTipPosition)
         {
             var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x => x.EnemyGroup.GetUnits())
                 .Sum(x => x.XpReward);

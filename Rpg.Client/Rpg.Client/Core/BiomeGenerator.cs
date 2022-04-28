@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-
     internal sealed class BiomeGenerator : IBiomeGenerator
     {
         private const int BIOME_NODE_COUNT = 8;
@@ -94,6 +93,11 @@ namespace Rpg.Client.Core
             return sidToUnlock;
         }
 
+        private static bool IsBossLevel(GlobeLevel globeLevel, int completeBiomesCount)
+        {
+            return globeLevel.Level >= 10 + completeBiomesCount * 12;
+        }
+
         private static (GlobeNode, bool)[] RollNodesWithCombats(IDice dice,
             IList<GlobeNode> availableNodes, GlobeLevel globeLevel, IEnumerable<Biome> biomes)
         {
@@ -123,11 +127,6 @@ namespace Rpg.Client.Core
             return nodeList.ToArray();
         }
 
-        private static bool IsBossLevel(GlobeLevel globeLevel, int completeBiomesCount)
-        {
-            return globeLevel.Level >= 10 + completeBiomesCount * 12;
-        }
-
         public IReadOnlyList<Biome> GenerateStartState()
         {
             return new[]
@@ -142,7 +141,7 @@ namespace Rpg.Client.Core
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
                             UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
-                            BiomeType = BiomeType.Slavic,
+                            BiomeType = BiomeType.Slavic
                         }
                     ).ToArray()
                 },
@@ -156,7 +155,7 @@ namespace Rpg.Client.Core
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
                             UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Chinese),
-                            BiomeType=BiomeType.Chinese,
+                            BiomeType = BiomeType.Chinese
                         }
                     ).ToArray()
                 },
@@ -170,7 +169,7 @@ namespace Rpg.Client.Core
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
                             UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Egyptian),
-                            BiomeType=BiomeType.Egyptian,
+                            BiomeType = BiomeType.Egyptian
                         }
                     ).ToArray()
                 },
@@ -184,7 +183,7 @@ namespace Rpg.Client.Core
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
                             UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Greek),
-                               BiomeType=BiomeType.Greek,
+                            BiomeType = BiomeType.Greek
                         }
                     ).ToArray()
                 },
@@ -198,7 +197,7 @@ namespace Rpg.Client.Core
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
                             UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Cosmos),
-                            BiomeType=BiomeType.Cosmos,
+                            BiomeType = BiomeType.Cosmos
                         }
                     ).ToArray()
                 }
@@ -214,8 +213,8 @@ namespace Rpg.Client.Core
             var combatCounts = GetCombatSequenceLength(globeLevel.Level);
             var combatLevelAdditionalList = new[]
             {
-                    0, -1, 3
-                };
+                0, -1, 3
+            };
             var selectedNodeCombatCount = _dice.RollFromList(combatCounts, 3).ToArray();
             var combatLevelAdditional = 0;
 

@@ -4,6 +4,8 @@
     {
         public Event? AssignedEvent { get; set; }
 
+        public BiomeType BiomeType { get; init; }
+
         public CombatSequence? CombatSequence { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }
@@ -15,7 +17,5 @@
         public GlobeNodeSid Sid { get; set; }
 
         public GlobeNodeSid? UnlockNodeSid { get; set; }
-
-        public BiomeType BiomeType { get; init; }
     }
 }

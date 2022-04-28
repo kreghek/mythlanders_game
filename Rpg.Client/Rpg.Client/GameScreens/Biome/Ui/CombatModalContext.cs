@@ -8,9 +8,9 @@ namespace Rpg.Client.GameScreens.Biome.Ui
     internal sealed class CombatModalContext
     {
         public Action<GlobeNode, Core.Event> AutoCombatDelegate { get; set; }
+        public Core.Event? AvailableEvent { get; internal set; }
         public Action<GlobeNode, Core.Event> CombatDelegate { get; set; }
         public Globe Globe { get; set; }
         public GlobeNodeMarkerGameObject SelectedNodeGameObject { get; set; }
-        public Core.Event? AvailableEvent { get; internal set; }
     }
 }

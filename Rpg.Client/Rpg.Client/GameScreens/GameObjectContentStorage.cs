@@ -32,9 +32,9 @@ namespace Rpg.Client.GameScreens
         private Texture2D _equipmentIcons;
         private SpriteFont _font;
         private IDictionary<UnitName, Texture2D> _heroFaceTextureDict;
-        private Texture2D _mapTexture;
 
         private Texture2D? _mapNodes;
+        private Texture2D _mapTexture;
         private Texture2D? _monsterUnit;
         private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
         private Texture2D _particlesTexture;

@@ -110,6 +110,11 @@ namespace Rpg.Client.Core
             return demoLocationsDict[biomeType][nodeIndex + 1];
         }
 
+        private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
+        {
+            return globeLevel.Level >= 5;
+        }
+
         private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
             IList<GlobeNode> availableNodes, GlobeLevel globeLevel)
         {
@@ -136,11 +141,6 @@ namespace Rpg.Client.Core
             }
 
             return nodeList.ToArray();
-        }
-
-        private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
-        {
-            return globeLevel.Level >= 5;
         }
 
         public void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel)

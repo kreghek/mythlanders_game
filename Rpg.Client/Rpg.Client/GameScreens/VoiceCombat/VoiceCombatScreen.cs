@@ -808,7 +808,6 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     break;
 
                 case CombatResult.Defeat:
-                   
 
                     break;
 

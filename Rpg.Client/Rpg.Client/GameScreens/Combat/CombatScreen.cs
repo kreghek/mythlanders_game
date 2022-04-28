@@ -419,7 +419,7 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            
+
                             if (_globe.CurrentEvent is not null)
                             {
                                 _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
@@ -875,6 +875,13 @@ namespace Rpg.Client.GameScreens.Combat
             return nextIndex;
         }
 
+        private int GetUnbreakableLevel()
+        {
+            // TODO Like in How wants to be millionaire?
+            // The reaching of some of levels gains unbreakable level.
+            return 0;
+        }
+
         private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.CombatUnit == combatUnit);
@@ -976,13 +983,6 @@ namespace Rpg.Client.GameScreens.Combat
                 default:
                     throw new InvalidOperationException("Unknown combat result.");
             }
-        }
-
-        private int GetUnbreakableLevel()
-        {
-            // TODO Like in How wants to be millionaire?
-            // The reaching of some of levels gains unbreakable level.
-            return 0;
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -1141,7 +1141,7 @@ namespace Rpg.Client.GameScreens.Combat
                 if (currentCombatList.Count == 1)
                 {
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
-                        _globeProvider.Globe.Player, 
+                        _globeProvider.Globe.Player,
                         _globeProvider.Globe.GlobeLevel);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
                     HandleGlobe(CombatResult.Victory);
