@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {
-    internal sealed class BattlegroundtBackgroundObjectFactory : IBackgroundObjectFactory
+    internal sealed class BattlegroundBackgroundObjectFactory : IBackgroundObjectFactory
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        public BattlegroundtBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
+        public BattlegroundBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
         }
