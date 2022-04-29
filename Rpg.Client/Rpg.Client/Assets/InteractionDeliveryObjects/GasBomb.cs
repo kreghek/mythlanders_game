@@ -107,5 +107,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 }
             }
         }
+
+        public event EventHandler? InteractionPerformed;
     }
 }

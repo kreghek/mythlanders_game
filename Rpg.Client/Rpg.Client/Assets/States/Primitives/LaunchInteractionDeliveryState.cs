@@ -22,14 +22,14 @@ namespace Rpg.Client.Assets.States.Primitives
         private readonly IList<IInteractionDelivery> _interactionDeliveryList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _createProjectileSound;
-        private readonly IInteractionDelivery? _interactionDelivery;
+        private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
         
         private double _counter;
 
         private bool _interactionDeliveryLaunched;
 
-        public LaunchInteractionDeliveryState(UnitGraphics graphics,
-            IInteractionDelivery? interactionDelivery,
+        private LaunchInteractionDeliveryState(UnitGraphics graphics,
+            IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
             _graphics = graphics;
@@ -37,7 +37,8 @@ namespace Rpg.Client.Assets.States.Primitives
             _interactionDeliveryList = interactionDeliveryList;
         }
 
-        public LaunchInteractionDeliveryState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
+        public LaunchInteractionDeliveryState(UnitGraphics graphics, 
+            IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
             SoundEffectInstance createProjectileSound,
             AnimationSid animationSid) :
@@ -75,10 +76,7 @@ namespace Rpg.Client.Assets.States.Primitives
             {
                 if (!_interactionDeliveryLaunched)
                 {
-                    if (_interactionDelivery != null)
-                    {
-                        LaunchInteractionDelivery(_interactionDelivery);
-                    }
+                    LaunchInteractionDelivery(_interactionDelivery);
 
                     _interactionDeliveryLaunched = true;
 
@@ -87,9 +85,12 @@ namespace Rpg.Client.Assets.States.Primitives
             }
         }
 
-        private void LaunchInteractionDelivery(IInteractionDelivery interactionDelivery)
+        private void LaunchInteractionDelivery(IReadOnlyCollection<IInteractionDelivery> interactionDelivery)
         {
-            _interactionDeliveryList.Add(interactionDelivery);
+            foreach (var delivery in interactionDelivery)
+            {
+                _interactionDeliveryList.Add(delivery);   
+            }
         }
 
         public event EventHandler? Completed;

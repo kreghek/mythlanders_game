@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.States
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
-            AnimationBlocker animationBlocker, IInteractionDelivery? interactionDelivery,
+            AnimationBlocker animationBlocker, IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {

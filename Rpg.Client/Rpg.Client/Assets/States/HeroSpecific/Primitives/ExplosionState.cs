@@ -8,7 +8,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.States
+namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
     internal sealed class ExplosionState : IUnitStateEngine
     {
@@ -24,27 +24,21 @@ namespace Rpg.Client.Assets.States
 
         private bool _interactionExecuted;
 
-        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList)
+        public ExplosionState(UnitGraphics graphics, IInteractionDelivery interactionDelivery,
+            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
+            SoundEffectInstance? hitSound,
+            AnimationSid animationSid, SoundEffectInstance explosionSoundEffect)
         {
             _graphics = graphics;
             _interactionDelivery = interactionDelivery;
             _bulletList = interactionDeliveryList;
-        }
-
-        public ExplosionState(UnitGraphics graphics, IInteractionDelivery? bulletGameObject,
-            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
-            SoundEffectInstance? hitSound,
-            AnimationSid animationSid, SoundEffectInstance explosionSoundEffect) :
-            this(graphics, bulletGameObject, interactionDeliveryList)
-        {
             _animationBlocker = animationBlocker;
             _hitSound = hitSound;
             _animationSid = animationSid;
             _explosionSoundEffect = explosionSoundEffect;
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
@@ -79,10 +73,7 @@ namespace Rpg.Client.Assets.States
             {
                 if (!_interactionExecuted)
                 {
-                    if (_interactionDelivery != null)
-                    {
-                        _bulletList.Add(_interactionDelivery);
-                    }
+                    _bulletList.Add(_interactionDelivery);
 
                     _interactionExecuted = true;
 

@@ -95,5 +95,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _particleSystem.MoveEmitter(_graphics.Position);
             _particleSystem.Update(gameTime);
         }
+
+        public event EventHandler? InteractionPerformed;
     }
 }

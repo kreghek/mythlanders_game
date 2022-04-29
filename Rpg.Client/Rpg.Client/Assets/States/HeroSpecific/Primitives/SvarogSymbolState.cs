@@ -3,34 +3,34 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.States
+namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolBurningState : IUnitStateEngine
+    internal sealed class SvarogSymbolState : IUnitStateEngine
     {
-        private const double DURATION = 3f;
+        private const double DURATION = 2.5f;
         private readonly AnimationBlocker? _animationBlocker;
-        private readonly SoundEffectInstance? _risingPowerSoundEffect;
-        private readonly ScreenShaker _screenShaker;
+        private readonly UnitGraphics _graphics;
+        private readonly SoundEffectInstance? _symbolAppearingSoundEffect;
         private double _counter;
 
-        public SvarogSymbolBurningState(ScreenShaker screenShaker)
+        private SvarogSymbolState(UnitGraphics graphics)
         {
-            _screenShaker = screenShaker;
+            _graphics = graphics;
         }
 
-        public SvarogSymbolBurningState(AnimationBlocker animationBlocker,
-            ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect) :
-            this(screenShaker)
+        public SvarogSymbolState(UnitGraphics graphics, AnimationBlocker animationBlocker,
+            SoundEffectInstance symbolAppearingSoundEffect) :
+            this(graphics)
         {
             _animationBlocker = animationBlocker;
-            _risingPowerSoundEffect = risingPowerSoundEffect;
+            _symbolAppearingSoundEffect = symbolAppearingSoundEffect;
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => true;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
@@ -45,8 +45,8 @@ namespace Rpg.Client.Assets.States
         {
             if (_counter == 0)
             {
-                _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
-                _risingPowerSoundEffect?.Play();
+                _graphics.PlayAnimation(AnimationSid.Ult);
+                _symbolAppearingSoundEffect?.Play();
             }
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;

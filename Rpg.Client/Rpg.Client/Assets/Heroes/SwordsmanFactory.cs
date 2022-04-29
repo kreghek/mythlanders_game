@@ -3,6 +3,7 @@ using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Assets.Skills.Hero;
+using Rpg.Client.Assets.Skills.Hero.Swordman;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

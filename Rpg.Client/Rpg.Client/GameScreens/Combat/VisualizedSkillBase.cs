@@ -38,6 +38,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             switch (skill.Visualization.Type)
             {
+                case SkillVisualizationStateType.MassMelee:
                 case SkillVisualizationStateType.Melee:
                         return CreateCommonMeleeSkillUsageState(animatedUnitGameObject: animatedUnitGameObject,
                             targetUnitGameObject: targetUnitGameObject, context: context, hitSound: hitSound,
@@ -48,121 +49,11 @@ namespace Rpg.Client.GameScreens.Combat
                             targetUnitGameObject: targetUnitGameObject, context: context, hitSound: hitSound,
                             animationSid: animationSid);
 
-                case SkillVisualizationStateType.MassMelee:
-                    {
-                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-
-                        var skillAnimationInfoMass = new SkillAnimationInfo
-                        {
-                            Items = new[]
-                            {
-                                new SkillAnimationInfoItem
-                                {
-                                    Duration = 0.75f,
-                                    HitSound = hitSound,
-                                    Interaction = context.Interaction,
-                                    InteractTime = 0
-                                }
-                            }
-                        };
-
-                        state = new CommonMeleeSkillUsageState(animatedUnitGameObject._graphics, 
-                            animatedUnitGameObject._graphics.Root,
-                            targetUnitGameObject._graphics.Root,
-                            animationBlocker,
-                            skillAnimationInfoMass, animationSid);
-                    }
-                    break;
+                
 
                 case SkillVisualizationStateType.MassRange:
-                    {
-                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-                        var bulletBlocker = context.AnimationManager.CreateAndUseBlocker();
-
-                        bulletBlocker.Released += (_, _) =>
-                        {
-                            context.Interaction.Invoke();
-                        };
-
-                        List<IInteractionDelivery>? bullets;
-
-                        if (skill.Sid == SkillSid.SvarogBlastFurnace)
-                        {
-                            bullets = new List<IInteractionDelivery>
-                            {
-                                new SymbolObject(animatedUnitGameObject.Position - Vector2.UnitY * (128), context.GameObjectContentStorage,
-                                    bulletBlocker)
-                            };
-                        }
-                        else
-                        {
-                            if (animatedUnitGameObject.CombatUnit.Unit.IsPlayerControlled)
-                            {
-                                bullets = new List<IInteractionDelivery>
-                                {
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
-                                        context.GameObjectContentStorage, bulletBlocker),
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
-                                        context.GameObjectContentStorage, null),
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
-                                        context.GameObjectContentStorage, null)
-                                };
-                            }
-                            else
-                            {
-                                bullets = new List<IInteractionDelivery>
-                                {
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
-                                        context.GameObjectContentStorage, bulletBlocker),
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
-                                        context.GameObjectContentStorage, null),
-                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
-                                        context.GameObjectContentStorage, null)
-                                };
-                            }
-                        }
-
-                        foreach (var bullet in bullets)
-                        {
-                            context.InteractionDeliveryList.Add(bullet);
-                        }
-
-                        if (skill.Sid == SkillSid.SvarogBlastFurnace)
-                        {
-                            var svarogSymbolAppearingSound =
-                                context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing);
-                            var risingPowerSound =
-                                context.GetHitSound(GameObjectSoundType.RisingPower);
-                            var firestormSound =
-                                context.GetHitSound(GameObjectSoundType.Firestorm);
-
-                            state = new SvarogBlastFurnaceAttackState(
-                                graphics: animatedUnitGameObject._graphics,
-                                targetGraphicsRoot: targetUnitGameObject._graphics.Root,
-                                blocker: animationBlocker,
-                                attackInteraction: context.Interaction,
-                                interactionDelivery: null,
-                                interactionDeliveryList: context.InteractionDeliveryList,
-                                hitSound: hitSound,
-                                animationSid: animationSid,
-                                context.ScreenShaker,
-                                svarogSymbolAppearingSound,
-                                risingPowerSound,
-                                firestormSound);
-                        }
-                        else
-                        {
-                            state = new CommonDistantSkillUsageState(
-                                graphics: animatedUnitGameObject._graphics,
-                                animationBlocker: animationBlocker,
-                                interactionDelivery: null,
-                                interactionDeliveryList: context.InteractionDeliveryList,
-                                hitSound: hitSound,
-                                animationSid: animationSid);
-                        }
-                    }
-
-                    break;
+                    return CreateCommonMassDistantSkillUsageState(animatedUnitGameObject, context, hitSound,
+                        animationSid);
 
                 case SkillVisualizationStateType.Support:
                     {
@@ -193,7 +84,7 @@ namespace Rpg.Client.GameScreens.Combat
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
             var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            var singleBullet = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+            var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
@@ -203,7 +94,52 @@ namespace Rpg.Client.GameScreens.Combat
             var state = new CommonDistantSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
                 animationBlocker: mainAnimationBlocker,
-                interactionDelivery: singleBullet,
+                interactionDelivery: new[]{ singleInteractionDelivery },
+                interactionDeliveryList: context.InteractionDeliveryList,
+                hitSound: hitSound,
+                animationSid: animationSid);
+            
+            return state;
+        }
+        
+        private static IUnitStateEngine CreateCommonMassDistantSkillUsageState(UnitGameObject animatedUnitGameObject, ISkillVisualizationContext context, SoundEffectInstance hitSound,
+            AnimationSid animationSid)
+        {
+            var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
+            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            
+            List<IInteractionDelivery>? interactionDeliveries;
+            if (animatedUnitGameObject.CombatUnit.Unit.IsPlayerControlled)
+            {
+                interactionDeliveries = new List<IInteractionDelivery>
+                {
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
+                        context.GameObjectContentStorage, interactionDeliveryBlocker),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
+                        context.GameObjectContentStorage, null),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
+                        context.GameObjectContentStorage, null)
+                };
+            }
+            else
+            {
+                interactionDeliveries = new List<IInteractionDelivery>
+                {
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                        context.GameObjectContentStorage, interactionDeliveryBlocker),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                        context.GameObjectContentStorage, null),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                        context.GameObjectContentStorage, null)
+                };
+            }
+            
+            interactionDeliveryBlocker.Released += (_, _) => { context.Interaction.Invoke(); };
+
+            var state = new CommonDistantSkillUsageState(
+                graphics: animatedUnitGameObject._graphics,
+                animationBlocker: mainAnimationBlocker,
+                interactionDelivery: interactionDeliveries,
                 interactionDeliveryList: context.InteractionDeliveryList,
                 hitSound: hitSound,
                 animationSid: animationSid);

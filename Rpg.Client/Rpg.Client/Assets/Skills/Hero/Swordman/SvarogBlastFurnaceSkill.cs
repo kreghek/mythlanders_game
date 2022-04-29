@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Swordman
 {
     internal class SvarogBlastFurnaceSkill : VisualizedSkillBase
     {
@@ -42,5 +44,17 @@ namespace Rpg.Client.Assets.Skills
             SoundEffectType = GameObjectSoundType.FireDamage,
             AnimationSid = AnimationSid.Skill4
         };
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+            ISkillVisualizationContext context)
+        {
+            var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, context.Interaction,
+                context.InteractionDeliveryList, context.GameObjectContentStorage, context.AnimationManager,
+                context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing),
+                context.GetHitSound(GameObjectSoundType.RisingPower),
+                context.GetHitSound(GameObjectSoundType.Firestorm), context.ScreenShaker);
+
+            return state;
+        }
     }
 }

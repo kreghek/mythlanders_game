@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
@@ -109,9 +111,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                         _explosionExecuted = true;
                         _blocker?.Release();
                         IsDestroyed = true;
+                        InteractionPerformed?.Invoke(this, EventArgs.Empty);
                     }
                 }
             }
         }
+
+        public event EventHandler? InteractionPerformed;
     }
 }
