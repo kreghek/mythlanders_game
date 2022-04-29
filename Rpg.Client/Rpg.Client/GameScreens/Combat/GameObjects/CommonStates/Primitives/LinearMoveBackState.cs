@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-    internal class MoveBack : IUnitStateEngine
+    internal class LinearMoveBackState : IUnitStateEngine
     {
         private const double DURATION = 0.25;
         private readonly AnimationBlocker _blocker;
@@ -17,7 +17,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
         private readonly Vector2 _targetPosition;
         private double _counter;
 
-        public MoveBack(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+        public LinearMoveBackState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
             AnimationBlocker blocker)
         {
             _startPosition = graphicsRoot.Position;

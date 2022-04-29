@@ -5,11 +5,11 @@ using Microsoft.Xna.Framework;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-    internal class MoveToTarget : IUnitStateEngine
+    internal class LinearMoveToTargetState : IUnitStateEngine
     {
-        private const double DURATION = 0.25;
+        private const double DURATION_SECONDS = 0.25;
         private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
         private readonly Vector2 _targetPosition;
         private double _counter;
 
-        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+        public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
             AnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
@@ -50,11 +50,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
                 _graphics.PlayAnimation(_animationSid);
             }
 
-            if (_counter <= DURATION)
+            if (_counter <= DURATION_SECONDS)
             {
                 _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                var t = _counter / DURATION;
+                var t = _counter / DURATION_SECONDS;
 
                 var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)t);
 

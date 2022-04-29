@@ -3,21 +3,27 @@
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal class UnitIdleState : IUnitStateEngine
     {
-        public UnitIdleState(UnitGraphics unitGraphics, CombatUnitState state)
+        public UnitIdleState(UnitGraphicsBase unitGraphics, CombatUnitState state)
         {
-            if (state == CombatUnitState.Defense)
+            var animationSid = GetAnimationSidByCombatUnitState(state);
+
+            unitGraphics.PlayAnimation(animationSid);
+        }
+
+        private static AnimationSid GetAnimationSidByCombatUnitState(CombatUnitState state)
+        {
+            return state switch
             {
-                unitGraphics.PlayAnimation(AnimationSid.Defense);
-            }
-            else
-            {
-                unitGraphics.PlayAnimation(AnimationSid.Idle);
-            }
+                CombatUnitState.Defense => AnimationSid.Defense,
+                CombatUnitState.Idle => AnimationSid.Idle,
+                _ => throw new InvalidOperationException()
+            };
         }
 
         /// <inheritdoc />

@@ -17,7 +17,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
         private double _counter;
 
         public ShapeShiftState(UnitGraphics graphics,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
+            SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
         {
             _graphics = graphics;
             _soundEffectInstance = soundEffectInstance;

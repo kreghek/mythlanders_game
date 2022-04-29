@@ -6,6 +6,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States
 {
@@ -25,9 +26,9 @@ namespace Rpg.Client.Assets.States
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(graphics, graphicsRoot, targetPosition, animationSid),
+                new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
                 new MassHitState(graphics, attackInteractions, animationSid),
-                new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
+                new LinearMoveBackState(graphics, graphicsRoot, targetPosition, blocker)
             };
             _graphics = graphics;
             _blocker = blocker;
