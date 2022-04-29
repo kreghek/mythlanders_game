@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States;
@@ -38,74 +39,14 @@ namespace Rpg.Client.GameScreens.Combat
             switch (skill.Visualization.Type)
             {
                 case SkillVisualizationStateType.Melee:
-                    {
-                        var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
-
-                        var skillAnimationInfo = new SkillAnimationInfo
-                        {
-                            Items = new[]
-                            {
-                                new SkillAnimationInfoItem
-                                {
-                                    Duration = 0.75f,
-                                    HitSound = hitSound,
-                                    Interaction = context.Interaction,
-                                    InteractTime = 0
-                                }
-                            }
-                        };
-
-                        state = new CommonMeleeSkillUsageState(
-                            animatedUnitGameObject._graphics,
-                            animatedUnitGameObject._graphics.Root,
-                            targetUnitGameObject._graphics.Root,
-                            mainAnimationBlocker,
-                            skillAnimationInfo, animationSid);
-                    }
-                    break;
+                        return CreateCommonMeleeSkillUsageState(animatedUnitGameObject: animatedUnitGameObject,
+                            targetUnitGameObject: targetUnitGameObject, context: context, hitSound: hitSound,
+                            animationSid: animationSid);
 
                 case SkillVisualizationStateType.Range:
-                    {
-                        var bulletBlocker = context.AnimationManager.CreateAndUseBlocker();
-                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-
-                        IInteractionDelivery singleBullet;
-
-                        if (skill.Sid == SkillSid.HealingSalve)
-                        {
-                            singleBullet = new HealLightObject(
-                                targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
-                                context.GameObjectContentStorage, bulletBlocker);
-                        }
-                        else if (skill.Sid == SkillSid.ToxicGas)
-                        {
-                            singleBullet = new GasBomb(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                                targetUnitGameObject.Position,
-                                context.GameObjectContentStorage,
-                                bulletBlocker);
-                        }
-                        else
-                        {
-                            singleBullet = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                                targetUnitGameObject.Position,
-                                context.GameObjectContentStorage,
-                                bulletBlocker);
-                        }
-
-                        bulletBlocker.Released += (_, _) =>
-                        {
-                            context.Interaction.Invoke();
-                        };
-
-                        state = new CommonDistantSkillUsageState(
-                            graphics: animatedUnitGameObject._graphics,
-                            blocker: animationBlocker,
-                            interactionDelivery: singleBullet,
-                            interactionDeliveryList: context.InteractionDeliveryList,
-                            hitSound: hitSound,
+                        return CreateCommonDistantSkillUsageState(animatedUnitGameObject: animatedUnitGameObject,
+                            targetUnitGameObject: targetUnitGameObject, context: context, hitSound: hitSound,
                             animationSid: animationSid);
-                    }
-                    break;
 
                 case SkillVisualizationStateType.MassMelee:
                     {
@@ -213,7 +154,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             state = new CommonDistantSkillUsageState(
                                 graphics: animatedUnitGameObject._graphics,
-                                blocker: animationBlocker,
+                                animationBlocker: animationBlocker,
                                 interactionDelivery: null,
                                 interactionDeliveryList: context.InteractionDeliveryList,
                                 hitSound: hitSound,
@@ -242,6 +183,58 @@ namespace Rpg.Client.GameScreens.Combat
                     throw new InvalidOperationException();
             }
 
+            return state;
+        }
+
+        private static IUnitStateEngine CreateCommonDistantSkillUsageState(UnitGameObject animatedUnitGameObject,
+            Renderable targetUnitGameObject, ISkillVisualizationContext context, SoundEffectInstance hitSound,
+            AnimationSid animationSid)
+        {
+            var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
+            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+            var singleBullet = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                targetUnitGameObject.Position,
+                context.GameObjectContentStorage,
+                interactionDeliveryBlocker);
+
+            interactionDeliveryBlocker.Released += (_, _) => { context.Interaction.Invoke(); };
+
+            var state = new CommonDistantSkillUsageState(
+                graphics: animatedUnitGameObject._graphics,
+                animationBlocker: mainAnimationBlocker,
+                interactionDelivery: singleBullet,
+                interactionDeliveryList: context.InteractionDeliveryList,
+                hitSound: hitSound,
+                animationSid: animationSid);
+            
+            return state;
+        }
+
+        private static IUnitStateEngine CreateCommonMeleeSkillUsageState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, ISkillVisualizationContext context, SoundEffectInstance hitSound,
+            AnimationSid animationSid)
+        {
+            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+            var skillAnimationInfo = new SkillAnimationInfo
+            {
+                Items = new[]
+                {
+                    new SkillAnimationInfoItem
+                    {
+                        Duration = 0.75f, HitSound = hitSound, Interaction = context.Interaction, InteractTime = 0
+                    }
+                }
+            };
+
+            var state = new CommonMeleeSkillUsageState(
+                animatedUnitGameObject._graphics,
+                animatedUnitGameObject._graphics.Root,
+                targetUnitGameObject._graphics.Root,
+                mainAnimationBlocker,
+                skillAnimationInfo, animationSid);
+            
             return state;
         }
     }

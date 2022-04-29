@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Assets.States;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class ToxicGasSkill : VisualizedSkillBase
     {
@@ -42,5 +44,17 @@ namespace Rpg.Client.Assets.Skills
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.EnergoShot
         };
+        
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+            ISkillVisualizationContext context)
+        {
+            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            
+            var state = new HerbalistToxicGasUsageState(animatedUnitGameObject._graphics, targetUnitGameObject,
+                mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.Heal),
+                context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryList);
+
+            return state;
+        }
     }
 }

@@ -22,18 +22,4 @@ namespace Rpg.Client.GameScreens.Combat
 
         ScreenShaker ScreenShaker { get; }
     }
-    
-    internal class SkillVisualizationContext: ISkillVisualizationContext
-    {
-        public IAnimationManager AnimationManager { get; set; }
-        public Action Interaction { get; set; }
-        public IList<IInteractionDelivery> InteractionDeliveryList { get; set; }
-        public SoundEffectInstance GetHitSound(GameObjectSoundType soundType)
-        {
-            return GameObjectContentStorage.GetSkillUsageSound(soundType).CreateInstance();
-        }
-
-        public GameObjectContentStorage GameObjectContentStorage { get; set; }
-        public ScreenShaker ScreenShaker { get; set; }
-    }
 }

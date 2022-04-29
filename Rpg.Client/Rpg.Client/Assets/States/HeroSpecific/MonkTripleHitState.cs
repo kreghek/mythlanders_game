@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.States
     {
         private readonly CommonMeleeSkillUsageState _innerState;
         
-        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphics targetGraphics, AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
+        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics, AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
