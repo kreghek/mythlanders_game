@@ -37,7 +37,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
-                animationBlocker: mainAnimationBlocker,
+                mainAnimationBlocker: mainAnimationBlocker,
                 interactionDelivery: new[]{toxicGasInteractionDelivery},
                 interactionDeliveryList: interactionDeliveryList,
                 hitSound: skillUsageSound,

@@ -6,15 +6,15 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Monster.Slavic
 {
-    internal class DefenseStanceSkill : VisualizedSkillBase
+    internal class CorpseSelfProtectionSkill : VisualizedSkillBase
     {
-        public DefenseStanceSkill() : this(false)
+        public CorpseSelfProtectionSkill() : this(false)
         {
         }
 
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public CorpseSelfProtectionSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

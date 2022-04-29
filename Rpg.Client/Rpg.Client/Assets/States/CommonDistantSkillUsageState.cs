@@ -19,16 +19,21 @@ namespace Rpg.Client.Assets.States
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
-            AnimationBlocker animationBlocker, IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
+            AnimationBlocker mainAnimationBlocker, IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {
             _subStates = new IUnitStateEngine[]
             {
-                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, animationBlocker, hitSound,
+                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, mainAnimationBlocker, hitSound,
                     animationSid)
             };
-            _blocker = animationBlocker;
+            _blocker = mainAnimationBlocker;
+
+            mainAnimationBlocker.Released += (_, _) =>
+            {
+                Completed?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         public bool CanBeReplaced => false;

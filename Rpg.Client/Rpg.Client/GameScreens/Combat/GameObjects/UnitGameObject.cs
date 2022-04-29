@@ -65,10 +65,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private void MoveIndicatorsToCorpse(Renderable corpse)
         {
-            var indicators = Children.OfType<TextIndicatorBase>();
+            var indicators = Children.OfType<TextIndicatorBase>().ToArray();
             foreach (var indicator in indicators)
             {
-                this.RemoveChild(indicator);
+                RemoveChild(indicator);
                 corpse.AddChild(indicator);
             }
         }

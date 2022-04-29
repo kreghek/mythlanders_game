@@ -8,7 +8,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class UnitSupportState : IUnitStateEngine
+    internal class CommonSupportSkillUsageState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly UnitGraphics _graphics;
@@ -16,8 +16,7 @@ namespace Rpg.Client.Assets.States
 
         private int _subStateIndex;
 
-        public UnitSupportState(UnitGraphics graphics, SpriteContainer graphicsRoot, SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action healInteraction,
+        public CommonSupportSkillUsageState(UnitGraphics graphics, AnimationBlocker blocker, Action interaction,
             Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _graphics = graphics;
@@ -25,7 +24,7 @@ namespace Rpg.Client.Assets.States
 
             _subStates = new IUnitStateEngine[]
             {
-                new HealState(_graphics, healInteraction, hitSound, animationSid)
+                new HealState(_graphics, interaction, hitSound, animationSid)
             };
         }
 
@@ -65,6 +64,7 @@ namespace Rpg.Client.Assets.States
             {
                 IsComplete = true;
                 _blocker.Release();
+                Completed?.Invoke(this, EventArgs.Empty);
             }
         }
 
