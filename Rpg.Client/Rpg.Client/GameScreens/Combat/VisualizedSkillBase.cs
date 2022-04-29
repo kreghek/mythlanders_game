@@ -39,68 +39,28 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 case SkillVisualizationStateType.Melee:
                     {
-                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+                        var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-                        if (animatedUnitGameObject.CombatUnit.Unit.UnitScheme.Name == UnitName.Maosin)
+                        var skillAnimationInfo = new SkillAnimationInfo
                         {
-                            var skillAnimationInfo = new SkillAnimationInfo
+                            Items = new[]
                             {
-                                Items = new[]
+                                new SkillAnimationInfoItem
                                 {
-                                    new SkillAnimationInfoItem
-                                    {
-                                        Duration = 1.75f / 3,
-                                        HitSound = hitSound,
-                                        Interaction = context.Interaction,
-                                        InteractTime = 0
-                                    },
-                                    new SkillAnimationInfoItem
-                                    {
-                                        Duration = 1.75f / 3,
-                                        HitSound = hitSound,
-                                        Interaction = context.Interaction,
-                                        InteractTime = 0
-                                    },
-                                    new SkillAnimationInfoItem
-                                    {
-                                        Duration = 1.75f / 3,
-                                        HitSound = hitSound,
-                                        Interaction = context.Interaction,
-                                        InteractTime = 0
-                                    }
+                                    Duration = 0.75f,
+                                    HitSound = hitSound,
+                                    Interaction = context.Interaction,
+                                    InteractTime = 0
                                 }
-                            };
+                            }
+                        };
 
-                            state = new UnitMeleeAttackState(
-                                animatedUnitGameObject._graphics,
-                                animatedUnitGameObject._graphics.Root,
-                                targetUnitGameObject._graphics.Root,
-                                animationBlocker,
-                                skillAnimationInfo, animationSid);
-                        }
-                        else
-                        {
-                            var skillAnimationInfo = new SkillAnimationInfo
-                            {
-                                Items = new[]
-                                {
-                                    new SkillAnimationInfoItem
-                                    {
-                                        Duration = 0.75f,
-                                        HitSound = hitSound,
-                                        Interaction = context.Interaction,
-                                        InteractTime = 0
-                                    }
-                                }
-                            };
-
-                            state = new UnitMeleeAttackState(
-                                animatedUnitGameObject._graphics,
-                                animatedUnitGameObject._graphics.Root,
-                                targetUnitGameObject._graphics.Root,
-                                animationBlocker,
-                                skillAnimationInfo, animationSid);
-                        }
+                        state = new CommonMeleeSkillUsageState(
+                            animatedUnitGameObject._graphics,
+                            animatedUnitGameObject._graphics.Root,
+                            targetUnitGameObject._graphics.Root,
+                            mainAnimationBlocker,
+                            skillAnimationInfo, animationSid);
                     }
                     break;
 
@@ -137,7 +97,7 @@ namespace Rpg.Client.GameScreens.Combat
                             context.Interaction.Invoke();
                         };
 
-                        state = new UnitDistantAttackState(
+                        state = new CommonDistantSkillUsageState(
                             graphics: animatedUnitGameObject._graphics,
                             blocker: animationBlocker,
                             interactionDelivery: singleBullet,
@@ -165,7 +125,7 @@ namespace Rpg.Client.GameScreens.Combat
                             }
                         };
 
-                        state = new UnitMeleeAttackState(animatedUnitGameObject._graphics, 
+                        state = new CommonMeleeSkillUsageState(animatedUnitGameObject._graphics, 
                             animatedUnitGameObject._graphics.Root,
                             targetUnitGameObject._graphics.Root,
                             animationBlocker,
@@ -251,7 +211,7 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            state = new UnitDistantAttackState(
+                            state = new CommonDistantSkillUsageState(
                                 graphics: animatedUnitGameObject._graphics,
                                 blocker: animationBlocker,
                                 interactionDelivery: null,

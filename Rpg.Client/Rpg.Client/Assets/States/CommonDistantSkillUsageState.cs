@@ -11,14 +11,14 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class UnitDistantAttackState : IUnitStateEngine
+    internal sealed class CommonDistantSkillUsageState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public UnitDistantAttackState(UnitGraphics graphics,
+        public CommonDistantSkillUsageState(UnitGraphics graphics,
             AnimationBlocker blocker, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
             AnimationSid animationSid)

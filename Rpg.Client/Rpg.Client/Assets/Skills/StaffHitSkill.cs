@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Assets.States;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills
 {
@@ -44,5 +46,14 @@ namespace Rpg.Client.Assets.Skills
         public override SkillSid Sid => SkillSid.StaffHit;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+            ISkillVisualizationContext context)
+        {
+            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            var state = new MonkTripleHitState(animatedUnitGameObject._graphics, targetUnitGameObject._graphics,
+                mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.StaffHit));
+            return state;
+        }
     }
 }

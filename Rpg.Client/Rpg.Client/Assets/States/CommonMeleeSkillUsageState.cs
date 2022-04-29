@@ -11,19 +11,20 @@ using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class UnitMeleeAttackState : IUnitStateEngine
+    internal sealed class CommonMeleeSkillUsageState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+        public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
             AnimationBlocker blocker, SkillAnimationInfo animationInfo, AnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
+
             _subStates = new IUnitStateEngine[]
             {
                 new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
@@ -62,6 +63,7 @@ namespace Rpg.Client.Assets.States
             }
             else
             {
+                Completed?.Invoke(this, EventArgs.Empty);
                 IsComplete = true;
             }
         }
