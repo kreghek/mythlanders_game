@@ -4,15 +4,12 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero
 {
-    internal class GroupProtectionSkill : SkillBase
+    internal class GroupProtectionSkill : VisualizedSkillBase
     {
-        public GroupProtectionSkill() : this(false)
-        {
-        }
-
         public GroupProtectionSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }

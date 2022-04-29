@@ -1,40 +1,35 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
-    internal class SvarogBlastFurnaceAttackState : IUnitStateEngine
+    internal class UnitMassAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
+        private readonly UnitGraphics _graphics;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public SvarogBlastFurnaceAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker,
-            Action attackInteraction, IInteractionDelivery? interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
-            AnimationSid animationSid,
-            ScreenShaker screenShaker,
-            SoundEffectInstance symbolAppearingSoundEffect,
-            SoundEffectInstance risingPowerSoundEffect,
-            SoundEffectInstance explosionSoundEffect)
+        public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
+            SpriteContainer targetGraphicsRoot,
+            AnimationBlocker blocker, Action attackInteractions, AnimationSid animationSid)
         {
+            var targetPosition =
+                targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolState(graphics, blocker, symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(blocker,
-                    screenShaker, risingPowerSoundEffect),
-                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
-                    animationSid,
-                    explosionSoundEffect)
+                new MoveToTarget(graphics, graphicsRoot, targetPosition, animationSid),
+                new MassHitState(graphics, attackInteractions, animationSid),
+                new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
             };
+            _graphics = graphics;
             _blocker = blocker;
         }
 
@@ -70,5 +65,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 IsComplete = true;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

@@ -1,28 +1,32 @@
-﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+
+using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
-    internal class UnitMeleeAttackState : IUnitStateEngine
+    internal class UnitDistantAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public UnitMeleeAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
-            SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, SkillAnimationInfo animationInfo, AnimationSid animationSid)
+        public UnitDistantAttackState(UnitGraphics graphics,
+            AnimationBlocker blocker, IInteractionDelivery? interactionDelivery,
+            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
+            AnimationSid animationSid)
         {
-            var targetPosition =
-                targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
             _subStates = new IUnitStateEngine[]
             {
-                new MoveToTarget(graphics, graphicsRoot, targetPosition, animationSid),
-                new HitState(graphics, animationInfo, animationSid),
-                new MoveBack(graphics, graphicsRoot, targetPosition, blocker)
+                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
+                    animationSid)
             };
             _blocker = blocker;
         }
@@ -59,5 +63,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 IsComplete = true;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

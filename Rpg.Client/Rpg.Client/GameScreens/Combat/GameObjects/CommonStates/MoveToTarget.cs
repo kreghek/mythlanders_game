@@ -1,28 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal class MoveBack : IUnitStateEngine
+    internal class MoveToTarget : IUnitStateEngine
     {
         private const double DURATION = 0.25;
-        private readonly AnimationBlocker _blocker;
+        private readonly AnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
+
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
         private double _counter;
 
-        public MoveBack(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
-            AnimationBlocker blocker)
+        public MoveToTarget(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+            AnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;
+            _animationSid = animationSid;
             _graphics = graphics;
             _graphicsRoot = graphicsRoot;
-            _blocker = blocker;
         }
 
         public bool CanBeReplaced => false;
@@ -32,10 +35,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             if (IsComplete)
             {
-                return;
             }
-
-            _blocker.Release();
         }
 
         public void Update(GameTime gameTime)
@@ -47,7 +47,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation(AnimationSid.MoveBackward);
+                _graphics.PlayAnimation(_animationSid);
             }
 
             if (_counter <= DURATION)
@@ -56,16 +56,21 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                 var t = _counter / DURATION;
 
-                _graphicsRoot.Position = Vector2.Lerp(_startPosition, _targetPosition, (float)(1 - t));
+                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)t);
+
+                //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
+
+                //var fullPosition = horizontalPosition + jumpTopPosition;
+
+                _graphicsRoot.Position = horizontalPosition;
             }
             else
             {
                 IsComplete = true;
-
-                _blocker.Release();
-
-                _graphicsRoot.Position = _startPosition;
+                _graphicsRoot.Position = _targetPosition;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

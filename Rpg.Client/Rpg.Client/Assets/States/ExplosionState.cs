@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
     internal sealed class ExplosionState : IUnitStateEngine
     {
@@ -91,5 +93,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 }
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

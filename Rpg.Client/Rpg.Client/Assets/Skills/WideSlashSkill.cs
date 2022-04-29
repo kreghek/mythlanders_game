@@ -4,10 +4,11 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class WideSlashSkill : SkillBase
+    internal class WideSlashSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.WideSwordSlash;
 

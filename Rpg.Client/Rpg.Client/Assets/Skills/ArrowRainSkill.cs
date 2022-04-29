@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ArrowRainSkill : SkillBase
+    internal class ArrowRainSkill : VisualizedSkillBase
     {
         public ArrowRainSkill() : this(false)
         {

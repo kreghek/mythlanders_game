@@ -1,10 +1,12 @@
+using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal class ShapeShiftState : IUnitStateEngine
     {
@@ -54,5 +56,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 _shapeShiftBlocker.Release();
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

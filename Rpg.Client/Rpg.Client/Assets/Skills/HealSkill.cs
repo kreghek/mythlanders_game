@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class HealSkill : SkillBase
+    internal class HealSkill : VisualizedSkillBase
     {
         public HealSkill() : this(false)
         {

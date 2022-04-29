@@ -4,10 +4,11 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Monster
 {
-    internal class FrogDefenseStanceSkill : SkillBase
+    internal class FrogDefenseStanceSkill : VisualizedSkillBase
     {
         public FrogDefenseStanceSkill() : this(false)
         {

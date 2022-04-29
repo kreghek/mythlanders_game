@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class DemonicTauntSkill : SkillBase
+    internal class DemonicTauntSkill : VisualizedSkillBase
     {
         public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {

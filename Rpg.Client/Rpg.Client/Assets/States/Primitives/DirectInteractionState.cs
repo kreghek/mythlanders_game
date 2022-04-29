@@ -5,10 +5,11 @@ using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States.Primitives
 {
-    internal sealed class HitState : IUnitStateEngine
+    internal sealed class DirectInteractionState : IUnitStateEngine
     {
         private readonly AnimationBlocker? _animationBlocker;
         private readonly SkillAnimationInfo _animationInfo;
@@ -21,13 +22,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private bool _interactionExecuted;
 
-        public HitState(UnitGraphics graphics,
+        public DirectInteractionState(UnitGraphics graphics,
             SkillAnimationInfo animationInfo, AnimationSid animationSid)
             : this(graphics, default, animationInfo, animationSid)
         {
         }
 
-        private HitState(
+        private DirectInteractionState(
             UnitGraphics graphics,
             AnimationBlocker? animationBlocker,
             SkillAnimationInfo animationInfo,
@@ -99,5 +100,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 HandleStateEnding();
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

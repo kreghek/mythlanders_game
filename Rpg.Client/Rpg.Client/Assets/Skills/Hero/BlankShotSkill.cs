@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero
 {
-    internal class BlankShotSkill : SkillBase
+    internal class BlankShotSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.BlankShot;
 

@@ -1,29 +1,28 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
-    internal sealed class HealState : IUnitStateEngine
+    internal sealed class MassHitState : IUnitStateEngine
     {
         private const double DURATION = 1;
         private readonly AnimationSid _animationSid;
+        private readonly Action _attackInteractions;
         private readonly UnitGraphics _graphics;
-        private readonly Action _healInteraction;
-        private readonly SoundEffectInstance _hitSound;
+
         private double _counter;
 
         private bool _interactionExecuted;
 
-        public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+        public MassHitState(UnitGraphics graphics, Action attackInteractions, AnimationSid animationSid)
         {
             _graphics = graphics;
-            _healInteraction = healInteraction;
-            _hitSound = hitSound;
+
+            _attackInteractions = attackInteractions;
             _animationSid = animationSid;
         }
 
@@ -52,13 +51,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 if (!_interactionExecuted)
                 {
-                    _healInteraction?.Invoke();
-
                     _interactionExecuted = true;
-                }
 
-                _hitSound.Play();
+                    _attackInteractions?.Invoke();
+                }
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal class UnitIdleState : IUnitStateEngine
     {
@@ -36,5 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             // Looped idle animation was started in constructor.
         }
+
+        public event EventHandler? Completed;
     }
 }

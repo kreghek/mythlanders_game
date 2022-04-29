@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.States;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -208,7 +209,8 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
-            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, e.Skill, e.Action);
+            throw new InvalidOperationException();
+//            actor.UseSkill(target, _bulletObjects, e.Skill, e.Action);
         }
 
         private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)

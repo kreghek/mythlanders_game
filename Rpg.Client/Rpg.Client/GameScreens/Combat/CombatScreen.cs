@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.States;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -237,13 +238,16 @@ namespace Rpg.Client.GameScreens.Combat
             var actor = GetUnitGameObject(e.Actor);
             var target = GetUnitGameObject(e.Target);
 
-            var blocker = _animationManager.CreateAndUseBlocker();
-
             actor.SkillAnimationCompleted += Actor_SkillAnimationCompleted;
 
-            var bulletBlocker = _animationManager.CreateAndUseBlocker();
-
-            actor.UseSkill(target, blocker, bulletBlocker, _bulletObjects, e.Skill, e.Action);
+            if (e.Skill is IVisualizedSkill visualizedSkill)
+            {
+                actor.UseSkill(target, _bulletObjects, visualizedSkill, e.Action);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)

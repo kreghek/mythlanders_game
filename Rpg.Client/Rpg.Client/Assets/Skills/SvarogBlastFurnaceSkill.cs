@@ -4,10 +4,11 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class SvarogBlastFurnaceSkill : SkillBase
+    internal class SvarogBlastFurnaceSkill : VisualizedSkillBase
     {
         public SvarogBlastFurnaceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {

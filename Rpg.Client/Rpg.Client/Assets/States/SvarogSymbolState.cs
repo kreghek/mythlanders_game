@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
     internal sealed class SvarogSymbolState : IUnitStateEngine
     {
@@ -53,5 +56,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 IsComplete = true;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

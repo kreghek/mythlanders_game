@@ -4,8 +4,9 @@ using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
     internal class UnitSupportState : IUnitStateEngine
     {
@@ -66,5 +67,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 _blocker.Release();
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

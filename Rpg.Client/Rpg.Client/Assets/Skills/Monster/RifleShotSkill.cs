@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class BlackRifleShotSkill : SkillBase
+    internal class BlackRifleShotSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.BlackRifleShotSkill;
 

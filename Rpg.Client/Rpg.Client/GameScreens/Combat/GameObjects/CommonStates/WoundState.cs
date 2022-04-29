@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal sealed class WoundState : IUnitStateEngine
     {
@@ -45,5 +45,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 IsComplete = true;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

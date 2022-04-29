@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -5,25 +6,36 @@ using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Rpg.Client.Assets.States
 {
-    internal class UnitDistantAttackState : IUnitStateEngine
+    internal class SvarogBlastFurnaceAttackState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public UnitDistantAttackState(UnitGraphics graphics,
-            AnimationBlocker blocker, IInteractionDelivery? interactionDelivery,
+        public SvarogBlastFurnaceAttackState(UnitGraphics graphics, SpriteContainer targetGraphicsRoot,
+            AnimationBlocker blocker,
+            Action attackInteraction, IInteractionDelivery? interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            AnimationSid animationSid,
+            ScreenShaker screenShaker,
+            SoundEffectInstance symbolAppearingSoundEffect,
+            SoundEffectInstance risingPowerSoundEffect,
+            SoundEffectInstance explosionSoundEffect)
         {
             _subStates = new IUnitStateEngine[]
             {
-                new DistantHitState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
-                    animationSid)
+                new SvarogSymbolState(graphics, blocker, symbolAppearingSoundEffect),
+                new SvarogSymbolBurningState(blocker,
+                    screenShaker, risingPowerSoundEffect),
+                new ExplosionState(graphics, interactionDelivery, interactionDeliveryList, blocker, hitSound,
+                    animationSid,
+                    explosionSoundEffect)
             };
             _blocker = blocker;
         }
@@ -60,5 +72,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 IsComplete = true;
             }
         }
+
+        public event EventHandler? Completed;
     }
 }

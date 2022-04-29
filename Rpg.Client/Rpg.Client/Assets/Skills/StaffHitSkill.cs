@@ -4,10 +4,11 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class StaffHitSkill : SkillBase
+    internal class StaffHitSkill : VisualizedSkillBase
     {
         public StaffHitSkill() : this(false)
         {

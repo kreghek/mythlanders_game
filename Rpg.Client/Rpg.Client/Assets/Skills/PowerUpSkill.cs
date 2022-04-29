@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal sealed class PowerUpSkill : SkillBase
+    internal sealed class PowerUpSkill : VisualizedSkillBase
     {
         public PowerUpSkill() : this(false)
         {
