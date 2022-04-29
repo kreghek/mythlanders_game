@@ -14,10 +14,12 @@ namespace Rpg.Client.GameScreens.Combat
 
         Action Interaction { get; }
 
-        IList<IInteractionDelivery> interactionDeliveryList { get; }
+        IList<IInteractionDelivery> InteractionDeliveryList { get; }
 
         SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
 
         GameObjectContentStorage GameObjectContentStorage { get; }
+
+        ScreenShaker ScreenShaker { get; }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.GameScreens.Combat
@@ -129,7 +130,7 @@ namespace Rpg.Client.GameScreens.Combat
                                 bulletBlocker);
                         }
 
-                        bulletBlocker.Released += (s, e) =>
+                        bulletBlocker.Released += (_, _) =>
                         {
                             context.Interaction.Invoke();
                         };
@@ -138,7 +139,7 @@ namespace Rpg.Client.GameScreens.Combat
                             graphics: animatedUnitGameObject._graphics,
                             blocker: animationBlocker,
                             interactionDelivery: singleBullet,
-                            interactionDeliveryList: context.interactionDeliveryList,
+                            interactionDeliveryList: context.InteractionDeliveryList,
                             hitSound: hitSound,
                             animationSid: animationSid);
                     }
@@ -156,126 +157,127 @@ namespace Rpg.Client.GameScreens.Combat
                                 {
                                     Duration = 0.75f,
                                     HitSound = hitSound,
-                                    Interaction = interaction,
+                                    Interaction = context.Interaction,
                                     InteractTime = 0
                                 }
                             }
                         };
 
-                        state = new UnitMeleeAttackState(_graphics, _graphics.Root, target._graphics.Root,
+                        state = new UnitMeleeAttackState(animatedUnitGameObject._graphics, 
+                            animatedUnitGameObject._graphics.Root,
+                            targetUnitGameObject._graphics.Root,
                             animationBlocker,
                             skillAnimationInfoMass, animationSid);
                     }
                     break;
 
                 case SkillVisualizationStateType.MassRange:
-                    if (bulletBlocker is null)
                     {
-                        throw new InvalidOperationException();
-                    }
+                        var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+                        var bulletBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-                    bulletBlocker.Released += (s, e) =>
-                    {
-                        interaction?.Invoke();
-                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                    };
-
-                    List<IInteractionDelivery>? bullets;
-
-                    if (skill.Sid == SkillSid.SvarogBlastFurnace)
-                    {
-                        bullets = new List<IInteractionDelivery>
+                        bulletBlocker.Released += (_, _) =>
                         {
-                            new SymbolObject(Position - Vector2.UnitY * (128), _gameObjectContentStorage, bulletBlocker)
+                            context.Interaction.Invoke();
                         };
-                    }
-                    else
-                    {
-                        if (CombatUnit.Unit.IsPlayerControlled)
+
+                        List<IInteractionDelivery>? bullets;
+
+                        if (skill.Sid == SkillSid.SvarogBlastFurnace)
                         {
                             bullets = new List<IInteractionDelivery>
                             {
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
-                                    _gameObjectContentStorage, bulletBlocker),
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
-                                    _gameObjectContentStorage, null),
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
-                                    _gameObjectContentStorage, null)
+                                new SymbolObject(animatedUnitGameObject.Position - Vector2.UnitY * (128), context.GameObjectContentStorage,
+                                    bulletBlocker)
                             };
                         }
                         else
                         {
-                            bullets = new List<IInteractionDelivery>
+                            if (animatedUnitGameObject.CombatUnit.Unit.IsPlayerControlled)
                             {
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(100, 100),
-                                    _gameObjectContentStorage, bulletBlocker),
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(200, 200),
-                                    _gameObjectContentStorage, null),
-                                new BulletGameObject(Position - Vector2.UnitY * (64), new Vector2(300, 300),
-                                    _gameObjectContentStorage, null)
-                            };
+                                bullets = new List<IInteractionDelivery>
+                                {
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
+                                        context.GameObjectContentStorage, bulletBlocker),
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
+                                        context.GameObjectContentStorage, null),
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
+                                        context.GameObjectContentStorage, null)
+                                };
+                            }
+                            else
+                            {
+                                bullets = new List<IInteractionDelivery>
+                                {
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                                        context.GameObjectContentStorage, bulletBlocker),
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                                        context.GameObjectContentStorage, null),
+                                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                                        context.GameObjectContentStorage, null)
+                                };
+                            }
+                        }
+
+                        foreach (var bullet in bullets)
+                        {
+                            context.InteractionDeliveryList.Add(bullet);
+                        }
+
+                        if (skill.Sid == SkillSid.SvarogBlastFurnace)
+                        {
+                            var svarogSymbolAppearingSound =
+                                context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing);
+                            var risingPowerSound =
+                                context.GetHitSound(GameObjectSoundType.RisingPower);
+                            var firestormSound =
+                                context.GetHitSound(GameObjectSoundType.Firestorm);
+
+                            state = new SvarogBlastFurnaceAttackState(
+                                graphics: animatedUnitGameObject._graphics,
+                                targetGraphicsRoot: targetUnitGameObject._graphics.Root,
+                                blocker: animationBlocker,
+                                attackInteraction: context.Interaction,
+                                interactionDelivery: null,
+                                interactionDeliveryList: context.InteractionDeliveryList,
+                                hitSound: hitSound,
+                                animationSid: animationSid,
+                                context.ScreenShaker,
+                                svarogSymbolAppearingSound,
+                                risingPowerSound,
+                                firestormSound);
+                        }
+                        else
+                        {
+                            state = new UnitDistantAttackState(
+                                graphics: animatedUnitGameObject._graphics,
+                                blocker: animationBlocker,
+                                interactionDelivery: null,
+                                interactionDeliveryList: context.InteractionDeliveryList,
+                                hitSound: hitSound,
+                                animationSid: animationSid);
                         }
                     }
 
-                    foreach (var bullet in bullets)
-                    {
-                        interactionDeliveryList.Add(bullet);
-                    }
-
-                    if (skill.Sid == SkillSid.SvarogBlastFurnace)
-                    {
-                        var svarogSymbolAppearingSound =
-                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.SvarogSymbolAppearing);
-                        var risingPowerSound =
-                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.RisingPower);
-                        var firestormSound =
-                            _gameObjectContentStorage.GetSkillUsageSound(GameObjectSoundType.Firestorm);
-
-                        state = new SvarogBlastFurnaceAttackState(
-                            graphics: _graphics,
-                            targetGraphicsRoot: target._graphics.Root,
-                            blocker: animationBlocker,
-                            attackInteraction: interaction,
-                            interactionDelivery: null,
-                            interactionDeliveryList: interactionDeliveryList,
-                            hitSound: hitSound,
-                            animationSid: animationSid,
-                            _screenShaker,
-                            svarogSymbolAppearingSound.CreateInstance(),
-                            risingPowerSound.CreateInstance(),
-                            firestormSound.CreateInstance());
-                    }
-                    else
-                    {
-                        state = new UnitDistantAttackState(
-                            graphics: _graphics,
-                            blocker: animationBlocker,
-                            interactionDelivery: null,
-                            interactionDeliveryList: interactionDeliveryList,
-                            hitSound: hitSound,
-                            animationSid: animationSid);
-                    }
-
                     break;
 
-                default:
                 case SkillVisualizationStateType.Support:
-                    bulletBlocker?.Release();
-
-                    animationBlocker.Released += (s, e) =>
                     {
-                        SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-                    };
+                        var animationBlocker = new AnimationBlocker();
 
-                    state = new UnitSupportState(
-                        graphics: _graphics,
-                        graphicsRoot: _graphics.Root,
-                        targetGraphicsRoot: target._graphics.Root,
-                        blocker: animationBlocker,
-                        healInteraction: interaction,
-                        hitSound: hitSound,
-                        animationSid);
-                    break;
+                        state = new UnitSupportState(
+                            graphics: animatedUnitGameObject._graphics,
+                            graphicsRoot: animatedUnitGameObject._graphics.Root,
+                            targetGraphicsRoot: targetUnitGameObject._graphics.Root,
+                            blocker: animationBlocker,
+                            healInteraction: context.Interaction,
+                            hitSound: hitSound,
+                            animationSid);
+                        break;
+                    }
+                
+                default:
+                    throw new InvalidOperationException();
             }
 
             return state;
