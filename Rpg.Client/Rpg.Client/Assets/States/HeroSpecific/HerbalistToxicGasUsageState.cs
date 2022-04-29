@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.States
+namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal sealed class HerbalistToxicGasUsageState: IUnitStateEngine
     {
