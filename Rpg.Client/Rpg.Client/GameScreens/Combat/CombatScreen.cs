@@ -182,9 +182,9 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Actor_SkillAnimationCompleted(object? sender, EventArgs e)
         {
-            if (sender is UnitGameObject unit)
+            if (sender is UnitGameObject unitGameObject)
             {
-                unit.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
+                unitGameObject.SkillAnimationCompleted -= Actor_SkillAnimationCompleted;
             }
 
             _combat.Update();

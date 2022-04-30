@@ -39,12 +39,11 @@ namespace Rpg.Client.Assets.States.Primitives
 
         public LaunchInteractionDeliveryState(UnitGraphics graphics, 
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, AnimationBlocker animationBlocker,
+            IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance createProjectileSound,
             AnimationSid animationSid) :
             this(graphics, interactionDelivery, interactionDeliveryList)
         {
-            _animationBlocker = animationBlocker;
             _createProjectileSound = createProjectileSound;
             _animationSid = animationSid;
         }
@@ -54,7 +53,7 @@ namespace Rpg.Client.Assets.States.Primitives
 
         public void Cancel()
         {
-            _animationBlocker?.Release();
+            throw new NotImplementedException();
         }
 
         public void Update(GameTime gameTime)
@@ -69,8 +68,6 @@ namespace Rpg.Client.Assets.States.Primitives
             if (_counter > DURATION_SECONDS)
             {
                 IsComplete = true;
-
-                _animationBlocker?.Release();
             }
             else if (_counter > DURATION_SECONDS / 2)
             {

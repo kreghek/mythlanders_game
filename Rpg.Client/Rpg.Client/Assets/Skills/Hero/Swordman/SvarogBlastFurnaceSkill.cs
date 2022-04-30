@@ -4,6 +4,7 @@ using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -45,7 +46,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordman
             AnimationSid = AnimationSid.Skill4
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+        public override IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
             var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, context.Interaction,

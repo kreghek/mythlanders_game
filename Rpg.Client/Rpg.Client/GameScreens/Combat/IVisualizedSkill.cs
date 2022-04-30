@@ -1,5 +1,5 @@
-using Rpg.Client.Assets.States;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.GameScreens.Combat
@@ -12,6 +12,7 @@ namespace Rpg.Client.GameScreens.Combat
         IUnitStateEngine CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context);
     }
 }

@@ -4,6 +4,7 @@ using Rpg.Client.Assets.States;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -46,11 +47,12 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             SoundEffectType = GameObjectSoundType.EnergoShot
         };
         
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+        public override IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
-            
             var state = new HerbalistToxicGasUsageState(animatedUnitGameObject._graphics, targetUnitGameObject,
                 mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.Heal),
                 context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryList);

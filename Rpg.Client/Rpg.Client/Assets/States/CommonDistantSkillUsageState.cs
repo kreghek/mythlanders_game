@@ -13,26 +13,18 @@ namespace Rpg.Client.Assets.States
 {
     internal sealed class CommonDistantSkillUsageState : IUnitStateEngine
     {
-        private readonly AnimationBlocker _blocker;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
-            AnimationBlocker mainAnimationBlocker, IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList, SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            IReadOnlyCollection<IInteractionDelivery> interactionDelivery, IList<IInteractionDelivery> interactionDeliveryList,
+            SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _subStates = new IUnitStateEngine[]
             {
-                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, mainAnimationBlocker, hitSound,
+                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, hitSound,
                     animationSid)
-            };
-            _blocker = mainAnimationBlocker;
-
-            mainAnimationBlocker.Released += (_, _) =>
-            {
-                Completed?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -41,12 +33,7 @@ namespace Rpg.Client.Assets.States
 
         public void Cancel()
         {
-            if (IsComplete)
-            {
-                return;
-            }
-
-            _blocker.Release();
+            throw new InvalidOperationException();
         }
 
         public void Update(GameTime gameTime)
@@ -68,7 +55,5 @@ namespace Rpg.Client.Assets.States
                 IsComplete = true;
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

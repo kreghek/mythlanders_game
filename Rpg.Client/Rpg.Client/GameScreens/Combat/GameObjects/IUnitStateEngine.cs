@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
@@ -10,7 +8,5 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         bool IsComplete { get; }
         void Cancel();
         void Update(GameTime gameTime);
-
-        event EventHandler? Completed;
     }
 }

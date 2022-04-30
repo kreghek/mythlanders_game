@@ -106,10 +106,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 GameObjectContentStorage = _gameObjectContentStorage
             };
 
-            var actorStateEngine = skill.CreateState(this, target, context);
+            var mainAnimationBlocker = _animationManager.CreateAndUseBlocker();
 
-            actorStateEngine.Completed += (_, _) => {
-                SkillAnimationCompleted?.Invoke(this, EventArgs.Empty); 
+            var actorStateEngine = skill.CreateState(this, target, mainAnimationBlocker, context);
+
+            mainAnimationBlocker.Released += (_, _) =>
+            {
+                SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
             };
 
             AddStateEngine(actorStateEngine);
