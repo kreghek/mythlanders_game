@@ -73,7 +73,15 @@ namespace Rpg.Client.Core
                 globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
             }
 
+            CreateStartCombat(globe);
+
             Globe = globe;
+        }
+
+        private void CreateStartCombat(Globe globe)
+        {
+            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Slavic);
+            _biomeGenerator.CreateStartCombat(startBiome);
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()

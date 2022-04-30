@@ -218,13 +218,14 @@ namespace Rpg.Client
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-                var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>());
-                Services.AddService<IBiomeGenerator>(biomeGenerator);
-
                 var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IEventInitializer>(eventCatalog);
                 Services.AddService<IEventCatalog>(eventCatalog);
+
+                var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
+                    Services.GetService<IUnitSchemeCatalog>(),
+                    Services.GetService<IEventCatalog>());
+                Services.AddService<IBiomeGenerator>(biomeGenerator);
             }
             else
             {

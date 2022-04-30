@@ -207,6 +207,11 @@ namespace Rpg.Client.Core
             }
         }
 
+        public void CreateStartCombat(Biome startBiome)
+        {
+            throw new NotImplementedException();
+        }
+
         public IReadOnlyList<Biome> GenerateStartState()
         {
             const int BIOME_NODE_COUNT = 4;

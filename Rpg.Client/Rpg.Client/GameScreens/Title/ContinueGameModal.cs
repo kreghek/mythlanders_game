@@ -180,7 +180,6 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.GenerateNew();
-            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
             _globeProvider.Globe.IsNodeInitialized = true;
 
             var firstAvailableNodeInBiome = _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)

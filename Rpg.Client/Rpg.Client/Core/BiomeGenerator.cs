@@ -10,11 +10,13 @@ namespace Rpg.Client.Core
         private const int BIOME_NODE_COUNT = 8;
         private readonly IDice _dice;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
 
-        public BiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
+        public BiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
+            _eventCatalog = eventCatalog;
         }
 
         private static int[] GetCombatSequenceLength(int level)
@@ -261,6 +263,31 @@ namespace Rpg.Client.Core
 
                 combatLevelAdditional++;
             }
+        }
+
+        public void CreateStartCombat(Biome startBiome)
+        {
+            var combat = new CombatSource
+            {
+                Level = 1,
+                EnemyGroup = new Group()
+            };
+
+            var combatSequence = new CombatSequence
+            {
+                Combats = new[] { combat }
+            };
+
+            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.Thicket);
+            startNode.CombatSequence = combatSequence;
+
+            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
+
+            startNode.AssignedEvent = startEvent;
+
+            combat.EnemyGroup.Slots[0].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x=>x.Name == UnitName.Marauder), 2);
+            combat.EnemyGroup.Slots[1].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+            combat.EnemyGroup.Slots[2].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
         }
     }
 }
