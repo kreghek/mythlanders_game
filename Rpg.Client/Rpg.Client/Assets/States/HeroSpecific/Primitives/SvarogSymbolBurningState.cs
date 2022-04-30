@@ -1,9 +1,7 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-using Rpg.Client.Engine;
+using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
@@ -11,23 +9,25 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
     internal sealed class SvarogSymbolBurningState : IUnitStateEngine
     {
-        private const double DURATION = 3f;
-        private readonly AnimationBlocker? _animationBlocker;
-        private readonly SoundEffectInstance? _risingPowerSoundEffect;
+        private const double STATE_DURATION_SECONDS = 3f;
+        private const double SHAKEING_DURATION_SECONDS = STATE_DURATION_SECONDS;
+
+        private readonly SoundEffectInstance _risingPowerSoundEffect;
+        private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
-        private double _counter;
+        private bool _isStarted;
 
-        public SvarogSymbolBurningState(ScreenShaker screenShaker)
+        public SvarogSymbolBurningState(UnitGraphics graphics, SvarogSymbolObject svarogSymbol, ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect)
         {
+            _graphics = graphics;
             _screenShaker = screenShaker;
-        }
-
-        public SvarogSymbolBurningState(AnimationBlocker animationBlocker,
-            ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect) :
-            this(screenShaker)
-        {
-            _animationBlocker = animationBlocker;
             _risingPowerSoundEffect = risingPowerSoundEffect;
+
+            svarogSymbol.RisingPowerCompleted += (_, _) => {
+                IsComplete = true;
+                // 2 stage is exposion!
+                svarogSymbol.SwitchStage(2);
+            };
         }
 
         public bool CanBeReplaced { get; }
@@ -35,28 +35,18 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 
         public void Cancel()
         {
-            if (_animationBlocker is not null)
-            {
-                _animationBlocker.Release();
-            }
+            // Nothing to cancel
         }
 
         public void Update(GameTime gameTime)
         {
-            if (_counter == 0)
+            if (!_isStarted)
             {
-                _screenShaker.Start(DURATION, ShakeDirection.FadeOut);
-                _risingPowerSoundEffect?.Play();
-            }
-
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > DURATION)
-            {
-                IsComplete = true;
+                _graphics.PlayAnimation(AnimationSid.Ult);
+                _isStarted = true;
+                _screenShaker.Start(SHAKEING_DURATION_SECONDS, ShakeDirection.FadeOut);
+                _risingPowerSoundEffect.Play();
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

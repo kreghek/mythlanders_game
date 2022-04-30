@@ -14,6 +14,13 @@ namespace Rpg.Client.Engine
 
         private double _updateCounter;
 
+        private bool _stoped;
+
+        public void Stop()
+        {
+            _stoped = true;
+        }
+
         public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
         {
             _emitterLocation = location;
@@ -36,16 +43,19 @@ namespace Rpg.Client.Engine
 
         public void Update(GameTime gameTime)
         {
-            _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
-            if (_updateCounter > _particleGenerator.GetTimeout())
+            if (!_stoped)
             {
-                _updateCounter = 0;
-
-                var total = _particleGenerator.GetCount();
-
-                for (var i = 0; i < total; i++)
+                _updateCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_updateCounter > _particleGenerator.GetTimeout())
                 {
-                    _particles.Add(GenerateNewParticle());
+                    _updateCounter = 0;
+
+                    var total = _particleGenerator.GetCount();
+
+                    for (var i = 0; i < total; i++)
+                    {
+                        _particles.Add(GenerateNewParticle());
+                    }
                 }
             }
 

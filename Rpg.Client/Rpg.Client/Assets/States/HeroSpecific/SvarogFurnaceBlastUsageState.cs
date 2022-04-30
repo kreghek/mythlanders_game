@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.States.HeroSpecific.Primitives;
-using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -17,9 +16,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
     {
         private int _subStateIndex;
         private readonly IUnitStateEngine[] _subStates;
-        private readonly AnimationBlocker _risingSymbolAnimationBlocker;
+        private readonly AnimationBlocker _svarogSymbolAnimationBlocker;
 
         public SvarogFurnaceBlastUsageState(UnitGameObject actorGameObject,
+            AnimationBlocker mainAnimationBlocker,
             Action interaction,
             IList<IInteractionDelivery> interactionDeliveryList,
             GameObjectContentStorage gameObjectContentStorage,
@@ -27,28 +27,24 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             SoundEffectInstance symbolAppearingSoundEffect,
             SoundEffectInstance risingPowerSoundEffect,
             SoundEffectInstance explosionSoundEffect,
+            SoundEffectInstance fireDamageSoundEffect,
             ScreenShaker screenShaker)
         {
-            _risingSymbolAnimationBlocker = animationManager.CreateAndUseBlocker();
+            _svarogSymbolAnimationBlocker = animationManager.CreateAndUseBlocker();
 
-            var risingSymbol = new SymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
-                gameObjectContentStorage, _risingSymbolAnimationBlocker);
-            interactionDeliveryList.Add(risingSymbol);
+            var svarogSymbol = new SvarogSymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
+                gameObjectContentStorage, _svarogSymbolAnimationBlocker, interaction);
 
-            risingSymbol.InteractionPerformed += (_, _) =>
+            _svarogSymbolAnimationBlocker.Released += (_, _) =>
             {
-                interaction.Invoke();
+                mainAnimationBlocker.Release();
             };
 
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolState(actorGameObject._graphics, _risingSymbolAnimationBlocker, symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(_risingSymbolAnimationBlocker,
-                    screenShaker, risingPowerSoundEffect),
-                new ExplosionState(actorGameObject._graphics, risingSymbol, interactionDeliveryList, _risingSymbolAnimationBlocker, 
-                    explosionSoundEffect,
-                    AnimationSid.Skill1,
-                    explosionSoundEffect)
+                new SvarogSymbolAppearingState(actorGameObject._graphics, svarogSymbol, interactionDeliveryList, symbolAppearingSoundEffect),
+                new SvarogSymbolBurningState(actorGameObject._graphics, svarogSymbol, screenShaker, risingPowerSoundEffect),
+                new SvarogSymbolExplosionState(actorGameObject._graphics, _svarogSymbolAnimationBlocker, explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
             };
         }
 
@@ -61,7 +57,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 return;
             }
 
-            _risingSymbolAnimationBlocker.Release();
+            _svarogSymbolAnimationBlocker.Release();
         }
 
         public void Update(GameTime gameTime)
@@ -80,11 +76,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             }
             else
             {
-                Completed?.Invoke(this, EventArgs.Empty);
                 IsComplete = true;
             }
         }
-
-        public event EventHandler? Completed;
     }
 }
