@@ -105,9 +105,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 InteractionDeliveryList = interactionDeliveryList,
                 GameObjectContentStorage = _gameObjectContentStorage
             };
+
             var actorStateEngine = skill.CreateState(this, target, context);
 
-            actorStateEngine.Completed += (_, _) => { SkillAnimationCompleted?.Invoke(this, EventArgs.Empty); };
+            actorStateEngine.Completed += (_, _) => {
+                SkillAnimationCompleted?.Invoke(this, EventArgs.Empty); 
+            };
 
             AddStateEngine(actorStateEngine);
         }

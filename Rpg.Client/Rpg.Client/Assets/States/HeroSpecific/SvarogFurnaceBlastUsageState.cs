@@ -33,15 +33,11 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             var risingSymbol = new SymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
                 gameObjectContentStorage, _risingSymbolAnimationBlocker);
+            interactionDeliveryList.Add(risingSymbol);
 
             risingSymbol.InteractionPerformed += (_, _) =>
             {
                 interaction.Invoke();
-            };
-
-            _risingSymbolAnimationBlocker.Released += (_, _) =>
-            {
-                Completed?.Invoke(this, EventArgs.Empty);
             };
 
             _subStates = new IUnitStateEngine[]
@@ -84,6 +80,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             }
             else
             {
+                Completed?.Invoke(this, EventArgs.Empty);
                 IsComplete = true;
             }
         }

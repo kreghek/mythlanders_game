@@ -73,8 +73,6 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
             {
                 if (!_interactionExecuted)
                 {
-                    _bulletList.Add(_interactionDelivery);
-
                     _interactionExecuted = true;
 
                     if (_hitSound is not null)

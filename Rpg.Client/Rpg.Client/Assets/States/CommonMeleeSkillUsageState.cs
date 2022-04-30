@@ -6,7 +6,6 @@ using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
-using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States
@@ -20,7 +19,7 @@ namespace Rpg.Client.Assets.States
 
         public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, SkillAnimationInfo animationInfo, AnimationSid animationSid)
+            AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo, AnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
@@ -29,9 +28,9 @@ namespace Rpg.Client.Assets.States
             {
                 new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
                 new DirectInteractionState(graphics, animationInfo, animationSid),
-                new LinearMoveBackState(graphics, graphicsRoot, targetPosition, blocker)
+                new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
             };
-            _blocker = blocker;
+            _blocker = mainAnimationBlocker;
         }
 
         public bool CanBeReplaced => false;
