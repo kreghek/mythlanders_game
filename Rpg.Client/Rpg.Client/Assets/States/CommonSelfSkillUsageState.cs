@@ -8,19 +8,19 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class CommonSupportSkillUsageState : IUnitStateEngine
+    internal class CommonSelfSkillUsageState : IUnitStateEngine
     {
-        private readonly AnimationBlocker _blocker;
+        private readonly AnimationBlocker _mainAnimationBlocker;
         private readonly UnitGraphics _graphics;
         private readonly IUnitStateEngine[] _subStates;
 
         private int _subStateIndex;
 
-        public CommonSupportSkillUsageState(UnitGraphics graphics, AnimationBlocker blocker, Action interaction,
+        public CommonSelfSkillUsageState(UnitGraphics graphics, AnimationBlocker mainAnimationBlocker, Action interaction,
             Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _graphics = graphics;
-            _blocker = blocker;
+            _mainAnimationBlocker = mainAnimationBlocker;
 
             _subStates = new IUnitStateEngine[]
             {
@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.States
                 return;
             }
 
-            _blocker.Release();
+            _mainAnimationBlocker.Release();
         }
 
         public void Update(GameTime gameTime)
@@ -63,11 +63,8 @@ namespace Rpg.Client.Assets.States
             else
             {
                 IsComplete = true;
-                _blocker.Release();
-                Completed?.Invoke(this, EventArgs.Empty);
+                _mainAnimationBlocker.Release();
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills.Monster.Slavic
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support,
+            Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence,
             AnimationSid = AnimationSid.Skill3
         };

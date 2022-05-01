@@ -17,18 +17,39 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public HerbalistToxicGasUsageState(UnitGraphics actorGraphics,
             Renderable targetUnitGameObject,
-            AnimationBlocker mainAnimationBlocker,
+            AnimationBlocker mainStateBlocker,
             Action interaction,
             SoundEffectInstance skillUsageSound,
             GameObjectContentStorage gameObjectContentStorage,
             IAnimationManager animationManager,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
+            var isInteractionDeliveryComplete = false;
+            var isAnimationComplete = false;
+
+            var animationBlocker = animationManager.CreateAndUseBlocker();
+            animationBlocker.Released += (_, _) =>
+            {
+                isAnimationComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+
             _toxicGasAnimationBlocker = animationManager.CreateAndUseBlocker();
 
             _toxicGasAnimationBlocker.Released += (_, _) =>
             {
                 interaction.Invoke();
+
+                isInteractionDeliveryComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
             };
 
             var toxicGasInteractionDelivery = new HealLightObject(
@@ -37,6 +58,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
+                animationBlocker: animationBlocker,
                 interactionDelivery: new[] { toxicGasInteractionDelivery },
                 interactionDeliveryList: interactionDeliveryList,
                 hitSound: skillUsageSound,

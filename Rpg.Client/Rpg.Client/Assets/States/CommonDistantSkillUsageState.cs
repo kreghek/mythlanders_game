@@ -14,10 +14,11 @@ namespace Rpg.Client.Assets.States
     internal sealed class CommonDistantSkillUsageState : IUnitStateEngine
     {
         private readonly IUnitStateEngine[] _subStates;
-
+        private readonly AnimationBlocker _animationBlocker;
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
+            AnimationBlocker animationBlocker,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery, IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance hitSound, AnimationSid animationSid)
         {
@@ -26,6 +27,7 @@ namespace Rpg.Client.Assets.States
                 new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, hitSound,
                     animationSid)
             };
+            _animationBlocker = animationBlocker;
         }
 
         public bool CanBeReplaced => false;
@@ -53,6 +55,7 @@ namespace Rpg.Client.Assets.States
             else
             {
                 IsComplete = true;
+                _animationBlocker.Release();
             }
         }
     }

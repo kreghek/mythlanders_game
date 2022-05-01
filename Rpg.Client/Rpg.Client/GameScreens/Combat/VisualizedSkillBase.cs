@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Combat
         public virtual IUnitStateEngine CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
-            AnimationBlocker mainAnimationBlocker,
+            AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
             var skill = this;
@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat
                         return CreateCommonMeleeSkillUsageState(
                             animatedUnitGameObject: animatedUnitGameObject,
                             targetUnitGameObject: targetUnitGameObject,
-                            mainAnimationBlocker: mainAnimationBlocker,
+                            mainStateBlocker: mainStateBlocker,
                             context: context,
                             hitSound: hitSound,
                             animationSid: animationSid);
@@ -51,31 +51,37 @@ namespace Rpg.Client.GameScreens.Combat
                         return CreateCommonDistantSkillUsageState(
                             animatedUnitGameObject: animatedUnitGameObject,
                             targetUnitGameObject: targetUnitGameObject,
-                            mainAnimationBlocker: mainAnimationBlocker,
+                            mainStateBlocker: mainStateBlocker,
                             context: context,
                             hitSound: hitSound,
                             animationSid: animationSid);
 
                 case SkillVisualizationStateType.MassRange:
-                    return CreateCommonMassDistantSkillUsageState(animatedUnitGameObject, context, hitSound,
+                    return CreateCommonMassDistantSkillUsageState(
+                        animatedUnitGameObject,
+                        mainStateBlocker,
+                        context,
+                        hitSound,
                         animationSid);
 
-                case SkillVisualizationStateType.Support:
-                    return CreateCommonSupportSkillUsageState(animatedUnitGameObject, context, animationSid, hitSound);
+                case SkillVisualizationStateType.Self:
+                    return CreateCommonSupportSkillUsageState(
+                        animatedUnitGameObject,
+                        mainStateBlocker,
+                        context,
+                        animationSid,
+                        hitSound);
                     
                 default:
                     throw new InvalidOperationException();
             }
         }
 
-        private static IUnitStateEngine CreateCommonSupportSkillUsageState(UnitGameObject animatedUnitGameObject, ISkillVisualizationContext context, AnimationSid animationSid, SoundEffectInstance hitSound)
+        private static IUnitStateEngine CreateCommonSupportSkillUsageState(UnitGameObject animatedUnitGameObject, AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid, SoundEffectInstance hitSound)
         {
-            IUnitStateEngine state;
-            var animationBlocker = new AnimationBlocker();
-
-            state = new CommonSupportSkillUsageState(
+            var state = new CommonSelfSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
-                blocker: animationBlocker,
+                mainAnimationBlocker: mainAnimationBlocker,
                 interaction: context.Interaction,
                 hitSound: hitSound,
                 animationSid: animationSid);
@@ -85,7 +91,7 @@ namespace Rpg.Client.GameScreens.Combat
         private static IUnitStateEngine CreateCommonDistantSkillUsageState(
             UnitGameObject animatedUnitGameObject,
             Renderable targetUnitGameObject,
-            AnimationBlocker mainAnimationBlocker,
+            AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
             AnimationSid animationSid)
@@ -97,14 +103,34 @@ namespace Rpg.Client.GameScreens.Combat
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
 
-            interactionDeliveryBlocker.Released += (_, _) =>
-            {
+            var isInteractionDeliveryComplete = false;
+            var isAnimationComplete = false;
+
+            interactionDeliveryBlocker.Released += (_, _) => {
                 context.Interaction.Invoke();
-                mainAnimationBlocker.Release();
+
+                isInteractionDeliveryComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+
+            var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            animationBlocker.Released += (_, _) =>
+            {
+                isAnimationComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
             };
 
             var state = new CommonDistantSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
+                animationBlocker,
                 interactionDelivery: new[] { singleInteractionDelivery },
                 interactionDeliveryList: context.InteractionDeliveryList,
                 hitSound: hitSound,
@@ -113,11 +139,13 @@ namespace Rpg.Client.GameScreens.Combat
             return state;
         }
         
-        private static IUnitStateEngine CreateCommonMassDistantSkillUsageState(UnitGameObject animatedUnitGameObject, ISkillVisualizationContext context, SoundEffectInstance hitSound,
+        private static IUnitStateEngine CreateCommonMassDistantSkillUsageState(UnitGameObject animatedUnitGameObject,
+            AnimationBlocker mainStateBlocker,
+            ISkillVisualizationContext context,
+            SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
-            var mainAnimationBlocker = context.AnimationManager.CreateAndUseBlocker();
             
             List<IInteractionDelivery>? interactionDeliveries;
             if (animatedUnitGameObject.CombatUnit.Unit.IsPlayerControlled)
@@ -144,11 +172,35 @@ namespace Rpg.Client.GameScreens.Combat
                         context.GameObjectContentStorage, null)
                 };
             }
-            
-            interactionDeliveryBlocker.Released += (_, _) => { context.Interaction.Invoke(); };
+
+            var isInteractionDeliveryComplete = false;
+            var isAnimationComplete = false;
+
+            interactionDeliveryBlocker.Released += (_, _) => {
+                context.Interaction.Invoke();
+
+                isInteractionDeliveryComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                { 
+                    mainStateBlocker.Release();
+                }
+            };
+
+            var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            animationBlocker.Released += (_, _) =>
+            {
+                isAnimationComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
 
             var state = new CommonDistantSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
+                animationBlocker,
                 interactionDelivery: interactionDeliveries,
                 interactionDeliveryList: context.InteractionDeliveryList,
                 hitSound: hitSound,
@@ -160,7 +212,7 @@ namespace Rpg.Client.GameScreens.Combat
         private static IUnitStateEngine CreateCommonMeleeSkillUsageState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
-            AnimationBlocker mainAnimationBlocker,
+            AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context, 
             SoundEffectInstance hitSound,
             AnimationSid animationSid)
@@ -180,7 +232,7 @@ namespace Rpg.Client.GameScreens.Combat
                 animatedUnitGameObject._graphics,
                 animatedUnitGameObject._graphics.Root,
                 targetUnitGameObject._graphics.Root,
-                mainAnimationBlocker,
+                mainStateBlocker,
                 skillAnimationInfo, animationSid);
             
             return state;

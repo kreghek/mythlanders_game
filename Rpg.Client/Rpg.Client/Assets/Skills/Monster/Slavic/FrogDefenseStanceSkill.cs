@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills.Monster
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support,
+            Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.FrogHornsUp,
             AnimationSid = AnimationSid.Skill3
         };
