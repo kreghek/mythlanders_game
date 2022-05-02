@@ -19,73 +19,9 @@ namespace Rpg.Client.GameScreens.Combat
         {
         }
 
-        protected VisualizedSkillBase(SkillVisualization visualization, bool costRequired) : base(visualization, costRequired)
+        protected VisualizedSkillBase(SkillVisualization visualization, bool costRequired) : base(visualization,
+            costRequired)
         {
-        }
-
-        public virtual IUnitStateEngine CreateState(
-            UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject,
-            AnimationBlocker mainStateBlocker,
-            ISkillVisualizationContext context)
-        {
-            var skill = this;
-
-            var animationSid = skill.Visualization.AnimationSid;
-
-            var hitSound = context.GetHitSound(skill.Visualization.SoundEffectType);
-
-            switch (skill.Visualization.Type)
-            {
-                case SkillVisualizationStateType.MassMelee:
-                case SkillVisualizationStateType.Melee:
-                    return CreateCommonMeleeSkillUsageState(
-                        animatedUnitGameObject: animatedUnitGameObject,
-                        targetUnitGameObject: targetUnitGameObject,
-                        mainStateBlocker: mainStateBlocker,
-                        context: context,
-                        hitSound: hitSound,
-                        animationSid: animationSid);
-
-                case SkillVisualizationStateType.Range:
-                    return CreateCommonDistantSkillUsageState(
-                        animatedUnitGameObject: animatedUnitGameObject,
-                        targetUnitGameObject: targetUnitGameObject,
-                        mainStateBlocker: mainStateBlocker,
-                        context: context,
-                        hitSound: hitSound,
-                        animationSid: animationSid);
-
-                case SkillVisualizationStateType.MassRange:
-                    return CreateCommonMassDistantSkillUsageState(
-                        animatedUnitGameObject,
-                        mainStateBlocker,
-                        context,
-                        hitSound,
-                        animationSid);
-
-                case SkillVisualizationStateType.Self:
-                    return CreateCommonSupportSkillUsageState(
-                        animatedUnitGameObject,
-                        mainStateBlocker,
-                        context,
-                        animationSid,
-                        hitSound);
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-
-        private static IUnitStateEngine CreateCommonSupportSkillUsageState(UnitGameObject animatedUnitGameObject, AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid, SoundEffectInstance hitSound)
-        {
-            var state = new CommonSelfSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
-                mainAnimationBlocker: mainAnimationBlocker,
-                interaction: context.Interaction,
-                hitSound: hitSound,
-                animationSid: animationSid);
-            return state;
         }
 
         private static IUnitStateEngine CreateCommonDistantSkillUsageState(
@@ -153,11 +89,14 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100 + 400, 100),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                        new Vector2(100 + 400, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200 + 400, 200),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                        new Vector2(200 + 400, 200),
                         context.GameObjectContentStorage, null),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300 + 400, 300),
+                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                        new Vector2(300 + 400, 300),
                         context.GameObjectContentStorage, null)
                 };
             }
@@ -238,6 +177,73 @@ namespace Rpg.Client.GameScreens.Combat
                 skillAnimationInfo, animationSid);
 
             return state;
+        }
+
+        private static IUnitStateEngine CreateCommonSupportSkillUsageState(UnitGameObject animatedUnitGameObject,
+            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
+            SoundEffectInstance hitSound)
+        {
+            var state = new CommonSelfSkillUsageState(
+                graphics: animatedUnitGameObject._graphics,
+                mainAnimationBlocker: mainAnimationBlocker,
+                interaction: context.Interaction,
+                hitSound: hitSound,
+                animationSid: animationSid);
+            return state;
+        }
+
+        public virtual IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainStateBlocker,
+            ISkillVisualizationContext context)
+        {
+            var skill = this;
+
+            var animationSid = skill.Visualization.AnimationSid;
+
+            var hitSound = context.GetHitSound(skill.Visualization.SoundEffectType);
+
+            switch (skill.Visualization.Type)
+            {
+                case SkillVisualizationStateType.MassMelee:
+                case SkillVisualizationStateType.Melee:
+                    return CreateCommonMeleeSkillUsageState(
+                        animatedUnitGameObject: animatedUnitGameObject,
+                        targetUnitGameObject: targetUnitGameObject,
+                        mainStateBlocker: mainStateBlocker,
+                        context: context,
+                        hitSound: hitSound,
+                        animationSid: animationSid);
+
+                case SkillVisualizationStateType.Range:
+                    return CreateCommonDistantSkillUsageState(
+                        animatedUnitGameObject: animatedUnitGameObject,
+                        targetUnitGameObject: targetUnitGameObject,
+                        mainStateBlocker: mainStateBlocker,
+                        context: context,
+                        hitSound: hitSound,
+                        animationSid: animationSid);
+
+                case SkillVisualizationStateType.MassRange:
+                    return CreateCommonMassDistantSkillUsageState(
+                        animatedUnitGameObject,
+                        mainStateBlocker,
+                        context,
+                        hitSound,
+                        animationSid);
+
+                case SkillVisualizationStateType.Self:
+                    return CreateCommonSupportSkillUsageState(
+                        animatedUnitGameObject,
+                        mainStateBlocker,
+                        context,
+                        animationSid,
+                        hitSound);
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

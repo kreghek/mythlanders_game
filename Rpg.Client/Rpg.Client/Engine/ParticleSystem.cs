@@ -12,14 +12,9 @@ namespace Rpg.Client.Engine
 
         private Vector2 _emitterLocation;
 
-        private double _updateCounter;
-
         private bool _stoped;
 
-        public void Stop()
-        {
-            _stoped = true;
-        }
+        private double _updateCounter;
 
         public ParticleSystem(Vector2 location, IParticleGenerator particleGenerator)
         {
@@ -39,6 +34,11 @@ namespace Rpg.Client.Engine
         public void MoveEmitter(Vector2 newEmitterPosition)
         {
             _emitterLocation = newEmitterPosition;
+        }
+
+        public void Stop()
+        {
+            _stoped = true;
         }
 
         public void Update(GameTime gameTime)

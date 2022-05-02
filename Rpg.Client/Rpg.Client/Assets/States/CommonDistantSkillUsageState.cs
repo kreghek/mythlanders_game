@@ -13,13 +13,14 @@ namespace Rpg.Client.Assets.States
 {
     internal sealed class CommonDistantSkillUsageState : IUnitStateEngine
     {
-        private readonly IUnitStateEngine[] _subStates;
         private readonly AnimationBlocker _animationBlocker;
+        private readonly IUnitStateEngine[] _subStates;
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
             AnimationBlocker animationBlocker,
-            IReadOnlyCollection<IInteractionDelivery> interactionDelivery, IList<IInteractionDelivery> interactionDeliveryList,
+            IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
+            IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance hitSound, AnimationSid animationSid)
         {
             _subStates = new IUnitStateEngine[]

@@ -63,16 +63,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             return corpse;
         }
 
-        private void MoveIndicatorsToCorpse(Renderable corpse)
-        {
-            var indicators = Children.OfType<TextIndicatorBase>().ToArray();
-            foreach (var indicator in indicators)
-            {
-                RemoveChild(indicator);
-                corpse.AddChild(indicator);
-            }
-        }
-
         public int? GetCurrentIndicatorIndex()
         {
             var currentIndicatorCount = Children.OfType<TextIndicatorBase>().Count();
@@ -97,7 +87,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         public void UseSkill(UnitGameObject target,
             IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, Action action)
         {
-            var context = new SkillVisualizationContext()
+            var context = new SkillVisualizationContext
             {
                 Interaction = action,
                 AnimationManager = _animationManager,
@@ -217,6 +207,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 }
 
                 ResetActorRootSpritePosition();
+            }
+        }
+
+        private void MoveIndicatorsToCorpse(Renderable corpse)
+        {
+            var indicators = Children.OfType<TextIndicatorBase>().ToArray();
+            foreach (var indicator in indicators)
+            {
+                RemoveChild(indicator);
+                corpse.AddChild(indicator);
             }
         }
 

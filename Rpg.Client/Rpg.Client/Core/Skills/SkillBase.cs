@@ -24,6 +24,8 @@ namespace Rpg.Client.Core.Skills
 
         public int? BaseGreenEnergyCost { get; }
 
+        public SkillVisualization Visualization { get; }
+
         public int? BaseEnergyCost { get; }
 
 
@@ -34,7 +36,5 @@ namespace Rpg.Client.Core.Skills
         public abstract SkillTargetType TargetType { get; }
 
         public abstract SkillType Type { get; }
-
-        public SkillVisualization Visualization { get; }
     }
 }

@@ -172,7 +172,6 @@ namespace Rpg.Client.Core
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
-
                         var units = MonsterGeneratorHelper
                             .CreateMonsters(selectedNode.Item1, _dice, combatLevel, _unitSchemeCatalog, globeContext)
                             .ToArray();

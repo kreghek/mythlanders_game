@@ -14,6 +14,9 @@ namespace Rpg.Client.Assets.States.HeroSpecific
     internal sealed class HerbalistToxicGasUsageState : IUnitStateEngine
     {
         private readonly CommonDistantSkillUsageState _innerState;
+        private readonly AnimationBlocker _toxicGasAnimationBlocker;
+
+        private bool _completionHandled;
 
         public HerbalistToxicGasUsageState(UnitGraphics actorGraphics,
             Renderable targetUnitGameObject,
@@ -67,14 +70,12 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
+
         public void Cancel()
         {
             _toxicGasAnimationBlocker.Release();
             _innerState.Cancel();
         }
-
-        private bool _completionHandled;
-        private readonly AnimationBlocker _toxicGasAnimationBlocker;
 
         public void Update(GameTime gameTime)
         {

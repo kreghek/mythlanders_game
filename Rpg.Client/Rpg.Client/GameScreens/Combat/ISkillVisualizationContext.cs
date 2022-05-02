@@ -12,14 +12,14 @@ namespace Rpg.Client.GameScreens.Combat
     {
         IAnimationManager AnimationManager { get; }
 
+        GameObjectContentStorage GameObjectContentStorage { get; }
+
         Action Interaction { get; }
 
         IList<IInteractionDelivery> InteractionDeliveryList { get; }
 
-        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
-
-        GameObjectContentStorage GameObjectContentStorage { get; }
-
         ScreenShaker ScreenShaker { get; }
+
+        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
     }
 }

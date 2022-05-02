@@ -13,7 +13,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
     {
         private readonly CommonMeleeSkillUsageState _innerState;
 
-        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics, AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
+        private bool _completionHandled;
+
+        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics,
+            AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -54,12 +57,11 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
+
         public void Cancel()
         {
             _innerState.Cancel();
         }
-
-        private bool _completionHandled;
 
         public void Update(GameTime gameTime)
         {

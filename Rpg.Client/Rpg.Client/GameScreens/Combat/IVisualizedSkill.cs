@@ -6,7 +6,6 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal interface IVisualizedSkill : ISkill
     {
-
         SkillVisualization Visualization { get; }
 
         IUnitStateEngine CreateState(

@@ -14,25 +14,43 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private const int SYMBOL_COL_COUNT = 4;
 
         private const int APPEARING_FRAME_COUNT = 9;
+
         // -1 to concert count to index
         // +1 to move index to next frame
         private const int BURNING_START_FRAME_INDEX = APPEARING_FRAME_COUNT - 1 + 1;
         private const int BURNING_FRAME_COUNT = 8;
         private const int BURNING_FRAME_LAST_INDEX = BURNING_START_FRAME_INDEX + BURNING_FRAME_COUNT;
         private const int BURNING_LOOP_START_FRAME_INDEX = 14;
+        private const double EXPLOSION_DELAY_DURATION_SECONDS = 1.5;
+        private const double EXPLOSION_AFTER_DELAY_DURATION_SECONDS = 1.5;
+        private const int BURNING_LOOP_ITERATION_COUNT = 4;
 
 
         private readonly AnimationBlocker _animationBlocker;
-        private readonly Action _interaction;
         private readonly GameObjectContentStorage _contentStorage;
         private readonly Sprite _graphics;
+        private readonly Action _interaction;
         private readonly Vector2 _targetPosition;
 
+        private bool _appearingEventRaised;
+
+        private double _explosionAfterDelayCounterSeconds;
+
+        private double _explosionDelayCounterSeconds;
+
         private bool _explosionExecuted;
+        private ParticleSystem? _explosionParticleSystem;
+
+        private bool _explosionParticleSystemStarted;
+
+        private int _finalBurningIterations;
         private double _frameCounter;
         private int _frameIndex;
+
+        private bool _risingPowerEventRaised;
         private ParticleSystem? _risingPowerParticleSystem;
-        private ParticleSystem? _explosionParticleSystem;
+
+        private bool _risingPowerParticleSystemIsStarted;
 
         private int _stageIndex;
 
@@ -49,62 +67,36 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _graphics.SourceRectangle = new Rectangle(0, 0, SYMBOL_SIZE, SYMBOL_SIZE);
         }
 
-        public bool IsDestroyed { get; private set; }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (IsDestroyed)
-            {
-                return;
-            }
-
-            _graphics.Draw(spriteBatch);
-
-            _risingPowerParticleSystem?.Draw(spriteBatch);
-            _explosionParticleSystem?.Draw(spriteBatch);
-        }
-
         public void SwitchStage(int stageIndex)
         {
             _stageIndex = stageIndex;
             _frameCounter = 0;
         }
 
-        public event EventHandler AppearingCompleted;
-
-        public void Update(GameTime gameTime)
+        private void HandleApparingStage(GameTime gameTime)
         {
-            if (IsDestroyed)
+            if (_frameCounter >= FRAMERATE)
             {
-                return;
-            }
+                _frameCounter = 0;
 
-            _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (_frameIndex % SYMBOL_COL_COUNT),
-                SYMBOL_SIZE * (_frameIndex / SYMBOL_COL_COUNT),
-                SYMBOL_SIZE, SYMBOL_SIZE);
-
-            if (_stageIndex == 0)
-            {
-                HandleApparingStage(gameTime);
+                if (_frameIndex < APPEARING_FRAME_COUNT - 1)
+                {
+                    _frameIndex++;
+                }
+                else
+                {
+                    if (!_appearingEventRaised)
+                    {
+                        _appearingEventRaised = true;
+                        AppearingCompleted?.Invoke(this, EventArgs.Empty);
+                    }
+                }
             }
-            else if (_stageIndex == 1)
+            else
             {
-                HandleRisingPowerStage(gameTime);
-            }
-            else if (_stageIndex == 2)
-            {
-                HandleExplosingStage(gameTime);
+                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
             }
         }
-
-        private bool _explosionParticleSystemStarted;
-
-        private double _explosionDelayCounterSeconds;
-        private const double EXPLOSION_DELAY_DURATION_SECONDS = 1.5;
-
-        private double _explosionAfterDelayCounterSeconds;
-        private const double EXPLOSION_AFTER_DELAY_DURATION_SECONDS = 1.5;
-        private const int BURNING_LOOP_ITERATION_COUNT = 4;
 
         private void HandleExplosingStage(GameTime gameTime)
         {
@@ -114,7 +106,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 var explosionParticleGenerator =
                     new ExplosionParticleGenerator(new[] { _contentStorage.GetParticlesTexture() },
-                    new Rectangle(0, 64, 32, 32));
+                        new Rectangle(0, 64, 32, 32));
                 _explosionParticleSystem = new ParticleSystem(_targetPosition, explosionParticleGenerator);
 
                 _explosionParticleSystemStarted = true;
@@ -123,7 +115,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 if (_explosionParticleSystem is null)
                 {
-                    throw new InvalidOperationException("The particle system should be assigned as start of the stage.");
+                    throw new InvalidOperationException(
+                        "The particle system should be assigned as start of the stage.");
                 }
 
                 _explosionParticleSystem.Update(gameTime);
@@ -153,12 +146,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
         }
 
-        private bool _risingPowerParticleSystemIsStarted;
-
-        private int _finalBurningIterations;
-
-        private bool _risingPowerEventRaised;
-
         private void HandleRisingPowerStage(GameTime gameTime)
         {
             if (!_risingPowerParticleSystemIsStarted)
@@ -173,7 +160,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 if (_risingPowerParticleSystem is null)
                 {
-                    throw new InvalidOperationException("The particle system should be assigned as start of the stage.");
+                    throw new InvalidOperationException(
+                        "The particle system should be assigned as start of the stage.");
                 }
 
                 _risingPowerParticleSystem.Update(gameTime);
@@ -209,35 +197,50 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
         }
 
-        public event EventHandler RisingPowerCompleted;
+        public bool IsDestroyed { get; private set; }
 
-        private bool _appearingEventRaised;
-
-        private void HandleApparingStage(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if (_frameCounter >= FRAMERATE)
+            if (IsDestroyed)
             {
-                _frameCounter = 0;
-
-                if (_frameIndex < APPEARING_FRAME_COUNT - 1)
-                {
-                    _frameIndex++;
-                }
-                else
-                {
-                    if (!_appearingEventRaised)
-                    {
-                        _appearingEventRaised = true;
-                        AppearingCompleted?.Invoke(this, EventArgs.Empty);
-                    }
-                }
+                return;
             }
-            else
+
+            _graphics.Draw(spriteBatch);
+
+            _risingPowerParticleSystem?.Draw(spriteBatch);
+            _explosionParticleSystem?.Draw(spriteBatch);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (IsDestroyed)
             {
-                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                return;
+            }
+
+            _graphics.SourceRectangle = new Rectangle(SYMBOL_SIZE * (_frameIndex % SYMBOL_COL_COUNT),
+                SYMBOL_SIZE * (_frameIndex / SYMBOL_COL_COUNT),
+                SYMBOL_SIZE, SYMBOL_SIZE);
+
+            if (_stageIndex == 0)
+            {
+                HandleApparingStage(gameTime);
+            }
+            else if (_stageIndex == 1)
+            {
+                HandleRisingPowerStage(gameTime);
+            }
+            else if (_stageIndex == 2)
+            {
+                HandleExplosingStage(gameTime);
             }
         }
 
         public event EventHandler? InteractionPerformed;
+
+        public event EventHandler AppearingCompleted;
+
+        public event EventHandler RisingPowerCompleted;
     }
 }

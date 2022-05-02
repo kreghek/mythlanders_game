@@ -19,10 +19,10 @@ namespace Rpg.Client.Assets.States.Primitives
 
         private readonly AnimationBlocker? _animationBlocker;
         private readonly AnimationSid _animationSid;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryList;
-        private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _createProjectileSound;
+        private readonly UnitGraphics _graphics;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
+        private readonly IList<IInteractionDelivery> _interactionDeliveryList;
 
         private double _counter;
 
@@ -46,6 +46,14 @@ namespace Rpg.Client.Assets.States.Primitives
         {
             _createProjectileSound = createProjectileSound;
             _animationSid = animationSid;
+        }
+
+        private void LaunchInteractionDelivery(IReadOnlyCollection<IInteractionDelivery> interactionDelivery)
+        {
+            foreach (var delivery in interactionDelivery)
+            {
+                _interactionDeliveryList.Add(delivery);
+            }
         }
 
         public bool CanBeReplaced => false;
@@ -79,14 +87,6 @@ namespace Rpg.Client.Assets.States.Primitives
 
                     _createProjectileSound?.Play();
                 }
-            }
-        }
-
-        private void LaunchInteractionDelivery(IReadOnlyCollection<IInteractionDelivery> interactionDelivery)
-        {
-            foreach (var delivery in interactionDelivery)
-            {
-                _interactionDeliveryList.Add(delivery);
             }
         }
 

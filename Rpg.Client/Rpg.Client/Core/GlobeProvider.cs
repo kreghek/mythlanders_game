@@ -78,12 +78,6 @@ namespace Rpg.Client.Core
             Globe = globe;
         }
 
-        private void CreateStartCombat(Globe globe)
-        {
-            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Slavic);
-            _biomeGenerator.CreateStartCombat(startBiome);
-        }
-
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
             if (!Directory.Exists(_storagePath))
@@ -202,6 +196,12 @@ namespace Rpg.Client.Core
                 JsonSerializer.Serialize(saveDto, options: new JsonSerializerOptions { WriteIndented = true });
 
             return serializedSaveData;
+        }
+
+        private void CreateStartCombat(Globe globe)
+        {
+            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Slavic);
+            _biomeGenerator.CreateStartCombat(startBiome);
         }
 
         private Unit[] CreateStartUnits()
