@@ -6,6 +6,6 @@
         Range,
         MassMelee,
         MassRange,
-        Support
+        Self
     }
 }

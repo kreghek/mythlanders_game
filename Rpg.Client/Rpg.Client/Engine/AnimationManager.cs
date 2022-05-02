@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Rpg.Client.Engine
 {
-    internal class AnimationManager
+    internal class AnimationManager : IAnimationManager
     {
         private readonly IList<AnimationBlocker> _blockers = new List<AnimationBlocker>();
 
         public bool HasBlockers => _blockers.Count > 0;
 
-        public void AddBlocker(AnimationBlocker blocker)
+        private void AddBlocker(AnimationBlocker blocker)
         {
             _blockers.Add(blocker);
-            blocker.Released += (s, e) =>
+            blocker.Released += (_, _) =>
             {
                 _blockers.Remove(blocker);
-                if (_blockers.Count == 0)
-                {
-                    AllBlockersReleased?.Invoke(this, EventArgs.Empty);
-                }
             };
         }
 
@@ -31,11 +26,9 @@ namespace Rpg.Client.Engine
             return blocker;
         }
 
-        internal void DropBlockers()
+        public void DropBlockers()
         {
             _blockers.Clear();
         }
-
-        public event EventHandler? AllBlockersReleased;
     }
 }

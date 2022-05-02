@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ZduhachMightSkill : SkillBase
+    internal class ZduhachMightSkill : VisualizedSkillBase
     {
         public ZduhachMightSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
@@ -32,7 +33,7 @@ namespace Rpg.Client.Assets.Skills
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support,
+            Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence
         };
     }

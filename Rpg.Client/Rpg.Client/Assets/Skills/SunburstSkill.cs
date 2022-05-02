@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class SunburstSkill : SkillBase
+    internal class SunburstSkill : VisualizedSkillBase
     {
         public SunburstSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {

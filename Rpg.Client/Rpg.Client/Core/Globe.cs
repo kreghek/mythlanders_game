@@ -40,7 +40,7 @@ namespace Rpg.Client.Core
 
         public GlobeLevel GlobeLevel { get; }
 
-        public bool IsNodeInitialied { get; set; }
+        public bool IsNodeInitialized { get; set; }
 
         public Player? Player { get; set; }
 

@@ -177,7 +177,7 @@ namespace Rpg.Client.Engine
         public void AddChild(Renderable child)
         {
             // if child already got a parent throw exception
-            if (child.Parent != null)
+            if (child.Parent is not null)
             {
                 throw new Exception("Renderable to add as child already have a parent!");
             }

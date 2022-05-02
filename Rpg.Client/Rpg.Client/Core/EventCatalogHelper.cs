@@ -136,10 +136,11 @@ namespace Rpg.Client.Core
 
         private static EventTextFragment CreateEventTextFragment(EventTextFragmentStorageModel fragmentStorageModel)
         {
+            var fixedText = StringHelper.FixText(fragmentStorageModel.Text);
+            var splitedText = StringHelper.LineBreaking(fixedText, SPEECH_TEXT_MAX_SYMBOL_COUNT);
             return new EventTextFragment
             {
-                Text = StringHelper.LineBreaking(fragmentStorageModel.Text,
-                    SPEECH_TEXT_MAX_SYMBOL_COUNT),
+                Text = StringHelper.LineBreaking(splitedText, SPEECH_TEXT_MAX_SYMBOL_COUNT),
                 Speaker = ParseSpeaker(fragmentStorageModel)
             };
         }

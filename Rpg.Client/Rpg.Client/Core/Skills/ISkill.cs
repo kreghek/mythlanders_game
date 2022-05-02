@@ -9,6 +9,5 @@ namespace Rpg.Client.Core.Skills
         SkillSid Sid { get; }
         SkillTargetType TargetType { get; }
         SkillType Type { get; }
-        SkillVisualization Visualization { get; }
     }
 }

@@ -3,10 +3,11 @@
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class CouosLegacySkill : SkillBase
+    internal class CouosLegacySkill : VisualizedSkillBase
     {
         public CouosLegacySkill() : this(false)
         {
@@ -36,7 +37,7 @@ namespace Rpg.Client.Assets.Skills
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            Type = SkillVisualizationStateType.Support,
+            Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence
         };
     }

@@ -9,7 +9,7 @@ namespace BalanceGenerator
 {
     internal static class Program
     {
-        private static CombatSource CreateCombatSource(GlobeNode globeNode, Biome biome, LinearDice dice,
+        private static CombatSource CreateCombatSource(GlobeNode globeNode, IDice dice,
             UnitSchemeCatalog unitSchemeCatalog)
         {
             var combatSource = new CombatSource
@@ -19,8 +19,10 @@ namespace BalanceGenerator
 
             var globeLevel = new GlobeLevel { Level = 1 };
 
+            var globeContext = new MonsterGenerationGlobeContext(globeLevel, new[] { new Biome(BiomeType.Slavic) });
+
             var monsters =
-                MonsterGeneratorHelper.CreateMonsters(globeNode, dice, biome, 1, unitSchemeCatalog, globeLevel);
+                MonsterGeneratorHelper.CreateMonsters(globeNode, dice, 1, unitSchemeCatalog, globeContext);
             for (var i = 0; i < monsters.Count; i++)
             {
                 var monster = monsters[i];
@@ -43,12 +45,11 @@ namespace BalanceGenerator
             };
 
             var dice = new LinearDice();
-            var biome = new Biome(BiomeType.Slavic);
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
             for (var i = 0; i < 10; i++)
             {
-                var combatSource = CreateCombatSource(globeNode, biome, dice, unitSchemeCatalog);
+                var combatSource = CreateCombatSource(globeNode, dice, unitSchemeCatalog);
                 var result = PlayIteration(balanceTable, globeNode, dice, combatSource);
                 results.Add(result);
             }

@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Assets.States;
+using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class StaffHitSkill : SkillBase
+    internal class StaffHitSkill : VisualizedSkillBase
     {
         public StaffHitSkill() : this(false)
         {
@@ -43,5 +48,16 @@ namespace Rpg.Client.Assets.Skills
         public override SkillSid Sid => SkillSid.StaffHit;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
+
+        public override IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainAnimationBlocker,
+            ISkillVisualizationContext context)
+        {
+            var state = new MonkTripleHitState(animatedUnitGameObject._graphics, targetUnitGameObject._graphics,
+                mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.StaffHit));
+            return state;
+        }
     }
 }

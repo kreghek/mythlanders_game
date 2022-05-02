@@ -26,14 +26,9 @@ namespace Rpg.Client.Tests.Core
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default)
-            {
-                IsComplete = true
-            };
-
             var bossUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
-                MinRequiredBiomeLevel = 0,
+                MinRequiredBiomeLevel = 1,
                 LocationSids = new[] { GlobeNodeSid.Castle },
                 Levels = new[]
                 {
@@ -53,11 +48,15 @@ namespace Rpg.Client.Tests.Core
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
-            var globeLevel = new GlobeLevel { Level = 1 };
+            var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
+                                                                            x.BiomesWithBosses == new[]
+                                                                            {
+                                                                                BiomeType.Undefined
+                                                                            });
 
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog, globeLevel);
+            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, 8, unitCatalog, globeContext);
 
             // ASSERT
 
@@ -77,11 +76,6 @@ namespace Rpg.Client.Tests.Core
 
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
 
-            var biome = new Biome(default)
-            {
-                IsComplete = false
-            };
-
             var bossUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
                 MinRequiredBiomeLevel = 0,
@@ -104,11 +98,15 @@ namespace Rpg.Client.Tests.Core
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
-            var globeLevel = new GlobeLevel { Level = 1 };
+            var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
+                                                                            x.BiomesWithBosses == new[]
+                                                                            {
+                                                                                BiomeType.Undefined
+                                                                            });
 
             // ACT
 
-            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, biome, 8, unitCatalog, globeLevel);
+            var factMonsters = MonsterGeneratorHelper.CreateMonsters(node, dice, 8, unitCatalog, globeContext);
 
             // ASSERT
 
@@ -127,8 +125,6 @@ namespace Rpg.Client.Tests.Core
 
             // Roll 2 to get non-single monster count.
             var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 2);
-
-            var biome = new Biome(default);
 
             var bigUnitScheme = new UnitScheme(new CommonUnitBasics())
             {
@@ -151,13 +147,17 @@ namespace Rpg.Client.Tests.Core
             };
             var unitCatalog = Mock.Of<IUnitSchemeCatalog>(x => x.AllMonsters == predefinedMonsters);
 
-            var globeLevel = new GlobeLevel { Level = 1 };
+            var globeContext = Mock.Of<IMonsterGenerationGlobeContext>(x => x.GlobeProgressLevel == 0 &&
+                                                                            x.BiomesWithBosses == new[]
+                                                                            {
+                                                                                BiomeType.Undefined
+                                                                            });
 
             // ACT
 
             var factMonsters =
-                MonsterGeneratorHelper.CreateMonsters(node, dice, biome, monsterLevel: default, unitCatalog,
-                    globeLevel);
+                MonsterGeneratorHelper.CreateMonsters(node, dice, monsterLevel: default, unitCatalog,
+                    globeContext);
 
             // ASSERT
 

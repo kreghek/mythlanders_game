@@ -2,6 +2,7 @@ using Rpg.Client.Assets.Equipments;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -30,7 +31,6 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new BlankShotSkill()),
-                new AddSkillUnitLevel(1, new DefenseStanceSkill(true)),
                 new AddPerkUnitLevel(2, new Evasion()),
                 new AddSkillUnitLevel(3, new GroupProtectionSkill(true))
             };

@@ -49,7 +49,7 @@ namespace Rpg.Client.Core
         {
             if (!isFirstInLine)
             {
-                sb.Append(" ");
+                sb.Append(' ');
             }
 
             sb.Append(word);
@@ -59,6 +59,11 @@ namespace Rpg.Client.Core
         {
             singleSb?.Clear();
             mainSb.AppendLine();
+        }
+
+        internal static string FixText(string text)
+        {
+            return text.Replace('¸', 'å').Replace('¨', 'Å').Replace("…", "...");
         }
     }
 }
