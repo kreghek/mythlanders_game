@@ -8,7 +8,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.GameScreens.Combat
 {
-    internal class SkillVisualizationContext: ISkillVisualizationContext
+    internal class SkillVisualizationContext : ISkillVisualizationContext
     {
         public IAnimationManager AnimationManager { get; init; } = null!;
         public Action Interaction { get; init; } = null!;

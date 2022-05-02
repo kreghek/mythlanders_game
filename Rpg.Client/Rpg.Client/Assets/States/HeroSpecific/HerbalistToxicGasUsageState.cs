@@ -11,7 +11,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class HerbalistToxicGasUsageState: IUnitStateEngine
+    internal sealed class HerbalistToxicGasUsageState : IUnitStateEngine
     {
         private readonly CommonDistantSkillUsageState _innerState;
 
@@ -55,7 +55,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             var toxicGasInteractionDelivery = new HealLightObject(
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
                 gameObjectContentStorage, _toxicGasAnimationBlocker);
-            
+
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
                 animationBlocker: animationBlocker,
@@ -87,7 +87,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                     Completed?.Invoke(this, EventArgs.Empty);
                 }
             }
-            
+
             _innerState.Update(gameTime);
         }
 

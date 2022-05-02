@@ -66,7 +66,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public void SwitchStage(int stageIndex)
         {
-            _stageIndex = stageIndex; 
+            _stageIndex = stageIndex;
             _frameCounter = 0;
         }
 
@@ -145,7 +145,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 _explosionAfterDelayCounterSeconds += gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (_explosionAfterDelayCounterSeconds >= EXPLOSION_AFTER_DELAY_DURATION_SECONDS)
-                { 
+                {
                     _animationBlocker.Release();
                     IsDestroyed = true;
                     InteractionPerformed?.Invoke(this, EventArgs.Empty);

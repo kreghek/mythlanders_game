@@ -162,7 +162,7 @@ namespace Rpg.Client.Core
                 var combatToTrainingIndex = _dice.RollArrayIndex(nodesWithCombats);
 
                 var globeContext = new MonsterGenerationGlobeContext(globeLevel, biomes);
-                
+
                 for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
                 {
                     var selectedNode = nodesWithCombats[locationIndex];
@@ -172,7 +172,7 @@ namespace Rpg.Client.Core
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
-                        
+
                         var units = MonsterGeneratorHelper
                             .CreateMonsters(selectedNode.Item1, _dice, combatLevel, _unitSchemeCatalog, globeContext)
                             .ToArray();

@@ -12,7 +12,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class SvarogFurnaceBlastUsageState:IUnitStateEngine
+    internal sealed class SvarogFurnaceBlastUsageState : IUnitStateEngine
     {
         private int _subStateIndex;
         private readonly IUnitStateEngine[] _subStates;

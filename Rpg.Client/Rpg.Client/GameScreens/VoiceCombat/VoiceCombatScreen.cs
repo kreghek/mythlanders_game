@@ -210,7 +210,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             var bulletBlocker = _animationManager.CreateAndUseBlocker();
 
             throw new InvalidOperationException();
-//            actor.UseSkill(target, _bulletObjects, e.Skill, e.Action);
+            //            actor.UseSkill(target, _bulletObjects, e.Skill, e.Action);
         }
 
         private void Combat_CombatUnitRemoved(object? sender, CombatUnit combatUnit)

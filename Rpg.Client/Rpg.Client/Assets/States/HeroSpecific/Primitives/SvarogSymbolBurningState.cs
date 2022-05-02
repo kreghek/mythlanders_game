@@ -23,7 +23,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
             _screenShaker = screenShaker;
             _risingPowerSoundEffect = risingPowerSoundEffect;
 
-            svarogSymbol.RisingPowerCompleted += (_, _) => {
+            svarogSymbol.RisingPowerCompleted += (_, _) =>
+            {
                 IsComplete = true;
                 // 2 stage is exposion!
                 svarogSymbol.SwitchStage(2);

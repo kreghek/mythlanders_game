@@ -16,14 +16,14 @@ namespace Rpg.Client.Assets.States.Primitives
     internal sealed class LaunchInteractionDeliveryState : IUnitStateEngine
     {
         private const double DURATION_SECONDS = 1;
-        
+
         private readonly AnimationBlocker? _animationBlocker;
         private readonly AnimationSid _animationSid;
         private readonly IList<IInteractionDelivery> _interactionDeliveryList;
         private readonly UnitGraphics _graphics;
         private readonly SoundEffectInstance? _createProjectileSound;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
-        
+
         private double _counter;
 
         private bool _interactionDeliveryLaunched;
@@ -37,7 +37,7 @@ namespace Rpg.Client.Assets.States.Primitives
             _interactionDeliveryList = interactionDeliveryList;
         }
 
-        public LaunchInteractionDeliveryState(UnitGraphics graphics, 
+        public LaunchInteractionDeliveryState(UnitGraphics graphics,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance createProjectileSound,
@@ -86,7 +86,7 @@ namespace Rpg.Client.Assets.States.Primitives
         {
             foreach (var delivery in interactionDelivery)
             {
-                _interactionDeliveryList.Add(delivery);   
+                _interactionDeliveryList.Add(delivery);
             }
         }
 
