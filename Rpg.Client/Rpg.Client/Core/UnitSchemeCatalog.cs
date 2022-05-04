@@ -6,7 +6,9 @@ using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Swordman;
 using Rpg.Client.Assets.Skills.Monster;
+using Rpg.Client.Assets.Skills.Monster.Slavic;
 
 namespace Rpg.Client.Core
 {

@@ -1,4 +1,4 @@
-﻿namespace Rpg.Client.GameScreens.Event.Ui
+﻿namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal interface ISpeechSoundWrapper
     {

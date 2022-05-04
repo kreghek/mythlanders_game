@@ -5,17 +5,17 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero
+namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 {
-    internal class ShotgunSkill : VisualizedSkillBase
+    internal class SuppressiveFireSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.Shotgun;
+        private const SkillSid SID = SkillSid.SuppressiveFire;
 
-        public ShotgunSkill() : this(false)
+        public SuppressiveFireSkill() : this(false)
         {
         }
 
-        public ShotgunSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private SuppressiveFireSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -34,6 +34,15 @@ namespace Rpg.Client.Assets.Skills.Hero
                     };
 
                     return res;
+                })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new DecreaseDamageEffect(0.5f);
+                    return effect;
                 })
             }
         };

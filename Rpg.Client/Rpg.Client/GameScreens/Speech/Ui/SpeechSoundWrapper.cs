@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 
-namespace Rpg.Client.GameScreens.Event.Ui
+namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal sealed class SpeechSoundWrapper : ISpeechSoundWrapper
     {

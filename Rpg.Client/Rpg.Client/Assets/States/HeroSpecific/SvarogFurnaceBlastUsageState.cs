@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
+using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.HeroSpecific.Primitives;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;

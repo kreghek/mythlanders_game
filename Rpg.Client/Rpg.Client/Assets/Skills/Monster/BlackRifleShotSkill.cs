@@ -5,11 +5,11 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Monster
 {
     internal class BlackRifleShotSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.BlackRifleShotSkill;
+        private const SkillSid SID = SkillSid.BlackRifleShot;
 
         public BlackRifleShotSkill() : this(false)
         {

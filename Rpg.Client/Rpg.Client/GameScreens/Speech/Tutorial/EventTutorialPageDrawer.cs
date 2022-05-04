@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Common;
 
-namespace Rpg.Client.GameScreens.Event.Tutorial
+namespace Rpg.Client.GameScreens.Speech.Tutorial
 {
     internal class EventTutorialPageDrawer : TutorialPageDrawerBase
     {

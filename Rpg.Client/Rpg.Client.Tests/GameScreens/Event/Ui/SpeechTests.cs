@@ -6,7 +6,7 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.GameScreens.Event.Ui;
+using Rpg.Client.GameScreens.Speech.Ui;
 
 namespace Rpg.Client.Tests.GameScreens.Event.Ui
 {

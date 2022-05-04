@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -6,17 +6,17 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Monster
+namespace Rpg.Client.Assets.Skills.Hero.Sergeant
 {
-    internal class UnholyHitSkill : VisualizedSkillBase
+    internal class InspiringRushSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.UnholyHit;
+        private const SkillSid SID = SkillSid.InspiringRush;
 
-        public UnholyHitSkill() : this(false)
+        public InspiringRushSkill() : this(false)
         {
         }
 
-        public UnholyHitSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public InspiringRushSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -27,13 +27,25 @@ namespace Rpg.Client.Assets.Skills.Monster
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 1
+                        DamageMultiplier = 1 * equipmentMultiplier
                     };
 
                     return res;
+                })
+            },
+            
+            new EffectRule
+            {
+                Direction = SkillDirection.RandomFriendly,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new IncreaseAttackEffect(5);
+                    return effect;
                 })
             }
         };
@@ -41,8 +53,6 @@ namespace Rpg.Client.Assets.Skills.Monster
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
-
-        public virtual int Weight => BASE_WEIGHT * 2;
 
         private static SkillVisualization PredefinedVisualization => new()
         {

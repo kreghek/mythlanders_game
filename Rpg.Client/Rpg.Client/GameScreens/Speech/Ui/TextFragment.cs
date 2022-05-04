@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Event.Ui
+namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal sealed class TextFragment : ControlBase
     {

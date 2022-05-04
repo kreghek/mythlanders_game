@@ -5,17 +5,17 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero
+namespace Rpg.Client.Assets.Skills.Hero.Sergeant
 {
-    internal class BlindDefenseSkill : VisualizedSkillBase
+    internal class BlankShotSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.BlindDefense;
+        private const SkillSid SID = SkillSid.BlankShot;
 
-        public BlindDefenseSkill() : this(false)
+        public BlankShotSkill() : this(false)
         {
         }
 
-        public BlindDefenseSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public BlankShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -23,28 +23,14 @@ namespace Rpg.Client.Assets.Skills.Hero
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(multiplier: 1f)
-                    {
-                        Duration = 1
-                    };
-
-                    return effect;
-                })
-            },
-
-            new EffectRule
-            {
-                Direction = SkillDirection.RandomEnemy,
+                Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = 0.1f * equipmentMultiplier
+                        DamageMultiplier = 1f * equipmentMultiplier
                     };
 
                     return res;
@@ -53,7 +39,7 @@ namespace Rpg.Client.Assets.Skills.Hero
         };
 
         public override SkillSid Sid => SID;
-        public override SkillTargetType TargetType => SkillTargetType.Self;
+        public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
