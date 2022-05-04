@@ -240,7 +240,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (e.Skill is IVisualizedSkill visualizedSkill)
             {
-                actor.UseSkill(target, _bulletObjects, visualizedSkill, e.Action);
+                actor.UseSkill(target, _bulletObjects, visualizedSkill, e.Action, _gameObjects);
             }
             else
             {

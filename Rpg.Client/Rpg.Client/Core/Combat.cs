@@ -130,16 +130,24 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            var interactionList = new List<Action>();
-            for (var ruleIndex = 0; ruleIndex < skill.Skill.Rules.Count(); ruleIndex++)
+            var interactionList = new List<SkillEffectExecutionItem>();
+            for (var ruleIndex = 0; ruleIndex < skill.Skill.Rules.Count; ruleIndex++)
             {
                 var localRuleIndex = ruleIndex;
-                Action ruleAction = () =>
+                var effectRule = skill.Skill.Rules[localRuleIndex];
+                
+                Action<ICombatUnit> ruleAction = materializedTarget =>
                 {
-                    EffectProcessor.Impose(new[] {skill.Skill.Rules[localRuleIndex]}, CurrentUnit, targetUnit);
+                    EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget);
+                };
+
+                var item = new SkillEffectExecutionItem
+                {
+                    Action = ruleAction,
+                    Targets = EffectProcessor.GetTargets(effectRule, CurrentUnit, targetUnit)
                 };
                 
-                interactionList.Add(ruleAction);
+                interactionList.Add(item);
             }
 
             Action completeSkillAction = () =>

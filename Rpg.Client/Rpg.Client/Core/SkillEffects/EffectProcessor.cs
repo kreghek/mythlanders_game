@@ -38,7 +38,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             foreach (var influence in influences)
             {
-                ImposeSingleRule(influence, actor, target);
+                ImposeSingleRule(influence.EffectCreator, actor, target);
             }
         }
 
@@ -96,78 +96,46 @@ namespace Rpg.Client.Core.SkillEffects
             effect.Impose(target);
         }
 
-        private void ImposeSingleRule(EffectRule influence, ICombatUnit actor, ICombatUnit? target)
+        public IReadOnlyList<ICombatUnit> GetTargets(EffectRule influence, ICombatUnit actor, ICombatUnit target)
         {
             switch (influence.Direction)
             {
                 case SkillDirection.All:
-                    foreach (var unit in _combat.AliveUnits)
-                    {
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
-                    }
-
-                    break;
+                    return _combat.AliveUnits.ToArray();
 
                 case SkillDirection.AllEnemies:
-                    foreach (var unit in _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled))
-                    {
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
-                    }
-
-                    break;
+                    return _combat.AliveUnits.Where(x =>
+                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToArray();
 
                 case SkillDirection.AllFriendly:
-                    foreach (var unit in _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled))
-                    {
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
-                    }
-
-                    break;
+                    return _combat.AliveUnits.Where(x =>
+                        x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
 
                 case SkillDirection.Other:
-                    foreach (var unit in _combat.AliveUnits.Where(x =>
-                        x != actor))
-                    {
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
-                    }
-
-                    break;
+                    return _combat.AliveUnits.Where(x => x != actor).ToArray();
 
                 case SkillDirection.OtherFriendly:
-                    foreach (var unit in _combat.AliveUnits.Where(x =>
-                        x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled))
-                    {
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
-                    }
-
-                    break;
+                    return _combat.AliveUnits.Where(x =>
+                        x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
 
                 case SkillDirection.Self:
-                    ImposeByCreator(influence.EffectCreator, actor, actor);
-
-                    break;
+                    return new[] { actor };
 
                 case SkillDirection.RandomEnemy:
                     {
                         var unit = _dice.RollFromList(_combat.AliveUnits
                             .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
 
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
+                        return new[] { unit };
                     }
-
-                    break;
 
                 case SkillDirection.RandomFriendly:
                     {
                         var unit = _dice.RollFromList(_combat.AliveUnits
                             .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
 
-                        ImposeByCreator(influence.EffectCreator, actor, unit);
+                        return new[] { unit };
                     }
-
-                    break;
 
                 case SkillDirection.Target:
                     if (target is null)
@@ -175,13 +143,16 @@ namespace Rpg.Client.Core.SkillEffects
                         throw new InvalidOperationException();
                     }
 
-                    ImposeByCreator(influence.EffectCreator, actor, target);
-
-                    break;
+                    return new[] { target };
 
                 default:
                     throw new InvalidOperationException();
             }
+        }
+    
+        private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget)
+        {
+            ImposeByCreator(effectCreator, actor, materializedTarget);
         }
     }
 }

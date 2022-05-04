@@ -1,5 +1,6 @@
 using System;
 
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 

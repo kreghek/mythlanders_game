@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -34,7 +34,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
                 gameObjectContentStorage, _toxicGasAnimationBlocker);
             
-            HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
+            StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
                 _toxicGasAnimationBlocker, animationBlocker);
 
             _innerState = new CommonDistantSkillUsageState(
@@ -67,43 +67,6 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             }
 
             _innerState.Update(gameTime);
-        }
-        
-        private static void HandleStateWithInteractionDelivery(IReadOnlyList<Action> skillRuleInteractions,
-            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
-        {
-            var isInteractionDeliveryComplete = false;
-            var isAnimationComplete = false;
-
-            interactionDeliveryBlocker.Released += (_, _) =>
-            {
-                InvokeRuleInteractions(skillRuleInteractions);
-
-                isInteractionDeliveryComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-
-            animationBlocker.Released += (_, _) =>
-            {
-                isAnimationComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-        }
-        
-        private static void InvokeRuleInteractions(IReadOnlyList<Action> skillRuleInteractions)
-        {
-            foreach (var ruleInteraction in skillRuleInteractions)
-            {
-                ruleInteraction();
-            }
         }
     }
 }

@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States;
+using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -41,9 +43,8 @@ namespace Rpg.Client.GameScreens.Combat
             
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            HandleStateWithInteractionDelivery(
-                context,
-                mainStateBlocker,
+            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
+                mainStateBlocker, 
                 interactionDeliveryBlocker,
                 animationBlocker);
 
@@ -56,43 +57,6 @@ namespace Rpg.Client.GameScreens.Combat
                 animationSid: animationSid);
 
             return state;
-        }
-
-        private static void HandleStateWithInteractionDelivery(ISkillVisualizationContext context,
-            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
-        {
-            var isInteractionDeliveryComplete = false;
-            var isAnimationComplete = false;
-
-            interactionDeliveryBlocker.Released += (_, _) =>
-            {
-                InvokeRuleInteractions(context);
-
-                isInteractionDeliveryComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-
-            animationBlocker.Released += (_, _) =>
-            {
-                isAnimationComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-        }
-
-        private static void InvokeRuleInteractions(ISkillVisualizationContext context)
-        {
-            foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
-            {
-                ruleInteraction();
-            }
         }
 
         private static IUnitStateEngine CreateCommonMassDistantSkillUsageState(UnitGameObject animatedUnitGameObject,
@@ -131,32 +95,11 @@ namespace Rpg.Client.GameScreens.Combat
                         context.GameObjectContentStorage, null)
                 };
             }
-
-            var isInteractionDeliveryComplete = false;
-            var isAnimationComplete = false;
-
-            interactionDeliveryBlocker.Released += (_, _) =>
-            {
-                InvokeRuleInteractions(context);
-
-                isInteractionDeliveryComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-
+            
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-            animationBlocker.Released += (_, _) =>
-            {
-                isAnimationComplete = true;
 
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
+            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions, mainStateBlocker,
+                interactionDeliveryBlocker, animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
@@ -177,21 +120,16 @@ namespace Rpg.Client.GameScreens.Combat
             SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {
-            void Interaction()
-            {
-                foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
-                {
-                    ruleInteraction();
-                }
-            }
-
             var skillAnimationInfo = new SkillAnimationInfo
             {
                 Items = new[]
                 {
                     new SkillAnimationInfoItem
                     {
-                        Duration = 0.75f, HitSound = hitSound, Interaction = Interaction, InteractTime = 0
+                        Duration = 0.75f, 
+                        HitSound = hitSound, 
+                        Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),
+                        InteractTime = 0
                     }
                 }
             };
@@ -206,22 +144,26 @@ namespace Rpg.Client.GameScreens.Combat
             return state;
         }
 
+        private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
+        {
+            foreach (var ruleInteraction in skillRuleInteractions)
+            {
+                foreach (var target in ruleInteraction.Targets)
+                {
+                    ruleInteraction.Action(target);   
+                }
+            }
+        }
+        
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
             AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
-            void Interaction()
-            {
-                foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
-                {
-                    ruleInteraction();
-                }
-            }
-            
+          
             var state = new CommonSelfSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
                 mainAnimationBlocker: mainAnimationBlocker,
-                interaction: Interaction,
+                interaction: () => Interaction(context.Interaction.SkillRuleInteractions),
                 hitSound: hitSound,
                 animationSid: animationSid);
             return state;

@@ -6,18 +6,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal sealed class SkillExecution
-    {
-        public Action SkillComplete { get; set; }
-        public IReadOnlyList<Action> SkillRuleInteractions { get; set; }
-    }
-    
     internal sealed class UnitGameObject : EwarRenderableBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
@@ -91,9 +86,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public void UseSkill(UnitGameObject target,
-            IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, SkillExecution action)
+            IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, SkillExecution action,
+            IList<UnitGameObject> unitGameObjects)
         {
-            var context = new SkillVisualizationContext
+            var context = new SkillVisualizationContext(unitGameObjects)
             {
                 Interaction = action,
                 AnimationManager = _animationManager,

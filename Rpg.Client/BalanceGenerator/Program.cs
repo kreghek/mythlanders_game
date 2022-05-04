@@ -78,7 +78,10 @@ namespace BalanceGenerator
             {
                 foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
                 {
-                    skillRuleInteraction();
+                    foreach (var target in skillRuleInteraction.Targets)
+                    {
+                        skillRuleInteraction.Action(target);   
+                    }
                 }
 
                 args.Action.SkillComplete();

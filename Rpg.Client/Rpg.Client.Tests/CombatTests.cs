@@ -50,12 +50,8 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
-                {
-                    skillRuleInteraction();
-                }
-
-                args.Action.SkillComplete();
+                var skillExecution = args.Action;
+                HandleInteraction(skillExecution);
             };
 
             // ACT
@@ -72,6 +68,21 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             takenDamageMount.Should().BeGreaterThan(2);
+        }
+
+        private static void HandleInteraction(SkillExecution skillExecution)
+        {
+            var actionSkillRuleInteractions = skillExecution.SkillRuleInteractions;
+
+            foreach (var skillRuleInteraction in actionSkillRuleInteractions)
+            {
+                foreach (var target in skillRuleInteraction.Targets)
+                {
+                    skillRuleInteraction.Action(target);
+                }
+            }
+
+            skillExecution.SkillComplete();
         }
 
         [Test]
@@ -137,15 +148,7 @@ namespace Rpg.Client.Tests
 
             combat.Initialize();
             combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
-                {
-                    skillRuleInteraction();
-                }
-
-                args.Action.SkillComplete();
-            };
+            combat.ActionGenerated += DefaultActionGeneratedEventHandler;
 
             // ACT
             var attacker = combat.CurrentUnit;
@@ -214,15 +217,7 @@ namespace Rpg.Client.Tests
 
             combat.Initialize();
             combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
-                {
-                    skillRuleInteraction();
-                }
-
-                args.Action.SkillComplete();
-            };
+            combat.ActionGenerated += DefaultActionGeneratedEventHandler;
 
             // ACT
             var attacker = combat.CurrentUnit;
@@ -288,15 +283,7 @@ namespace Rpg.Client.Tests
 
             combat.Initialize();
             combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
-                {
-                    skillRuleInteraction();
-                }
-
-                args.Action.SkillComplete();
-            };
+            combat.ActionGenerated += DefaultActionGeneratedEventHandler;
 
             // ACT
             var attacker = combat.CurrentUnit;
@@ -388,15 +375,7 @@ namespace Rpg.Client.Tests
 
             combat.Initialize();
             combat.Update();
-            combat.ActionGenerated += (_, args) =>
-            {
-                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
-                {
-                    skillRuleInteraction();
-                }
-
-                args.Action.SkillComplete();
-            };
+            combat.ActionGenerated += DefaultActionGeneratedEventHandler;
 
             // ACT 1
             var attacker = combat.CurrentUnit;
@@ -429,6 +408,12 @@ namespace Rpg.Client.Tests
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().BeLessThan(targetHitPointsDiff);
+        }
+
+        private static void DefaultActionGeneratedEventHandler(object _, ActionEventArgs args)
+        {
+            var skillExecution = args.Action;
+            HandleInteraction(skillExecution);
         }
 
         private static UnitScheme GetVolkolakBeastFormScheme(IUnitSchemeCatalog demoUnitCatalog)

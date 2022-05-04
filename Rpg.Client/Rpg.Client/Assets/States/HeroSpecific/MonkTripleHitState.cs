@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
@@ -26,21 +27,21 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction.SkillRuleInteractions[0],
+                        Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 0),
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction.SkillRuleInteractions[1],
+                        Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 1),
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction.SkillRuleInteractions[2],
+                        Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 2),
                         InteractTime = 0
                     }
                 }
@@ -53,6 +54,16 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 mainAnimationBlocker,
                 skillAnimationInfo,
                 AnimationSid.Skill1);
+        }
+
+        private static void HandleInteractionByIndex(SkillExecution interaction, int interactionIndex)
+        {
+            var interactionSkillRuleInteraction = interaction.SkillRuleInteractions[interactionIndex];
+            var targets = interactionSkillRuleInteraction.Targets;
+            foreach (var target in targets)
+            {
+                interactionSkillRuleInteraction.Action(target);
+            }
         }
 
         public bool CanBeReplaced => false;

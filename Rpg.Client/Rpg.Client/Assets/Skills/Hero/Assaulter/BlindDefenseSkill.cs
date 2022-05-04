@@ -1,9 +1,17 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Assets.InteractionDeliveryObjects;
+using Rpg.Client.Assets.States;
+using Rpg.Client.Assets.States.HeroSpecific;
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 {
@@ -19,38 +27,48 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
         }
 
-        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IReadOnlyList<EffectRule> Rules { get; } = CreateRules();
+
+        private static List<EffectRule> CreateRules()
         {
-            new EffectRule
+            var list =  new List<EffectRule>
             {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
+                new()
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 1f)
+                    Direction = SkillDirection.Self,
+                    EffectCreator = new EffectCreator(u =>
                     {
-                        Duration = 1
-                    };
+                        var effect = new DecreaseDamageEffect(multiplier: 1f)
+                        {
+                            Duration = 1
+                        };
 
-                    return effect;
-                })
-            },
+                        return effect;
+                    })
+                }
+            };
 
-            new EffectRule
+            for (var i = 0; i < 10; i++)
             {
-                Direction = SkillDirection.RandomEnemy,
-                EffectCreator = new EffectCreator(u =>
+                list.Add(new EffectRule
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new DamageEffect
+                    Direction = SkillDirection.RandomEnemy,
+                    EffectCreator = new EffectCreator(u =>
                     {
-                        Actor = u,
-                        DamageMultiplier = 0.1f * equipmentMultiplier
-                    };
+                        var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                        var res = new DamageEffect
+                        {
+                            Actor = u,
+                            DamageMultiplier = 0.01f * equipmentMultiplier
+                        };
 
-                    return res;
-                })
+                        return res;
+                    })
+                });
             }
-        };
+
+            return list;
+        }
 
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
@@ -61,5 +79,36 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.Gunshot
         };
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        {
+            var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+            var materializedTarget = context.Interaction.SkillRuleInteractions[1].Targets[0];
+            var materializedTargetGameObject = context.GetGameObject(materializedTarget).Position - Vector2.UnitY * (64);
+            
+            var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                materializedTargetGameObject,
+                context.GameObjectContentStorage,
+                interactionDeliveryBlocker);
+            
+            var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+
+            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
+                mainStateBlocker, 
+                interactionDeliveryBlocker,
+                animationBlocker);
+
+            var state = new CommonDistantSkillUsageState(
+                graphics: animatedUnitGameObject._graphics,
+                animationBlocker,
+                interactionDelivery: new[] { singleInteractionDelivery },
+                interactionDeliveryList: context.InteractionDeliveryList,
+                hitSound: context.GetHitSound(GameObjectSoundType.Gunshot),
+                animationSid: AnimationSid.Skill1);
+
+            return state;
+        }
     }
 }

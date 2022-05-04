@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.HeroSpecific.Primitives;
+using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -36,7 +37,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             {
                 foreach (var ruleInteraction in interaction.SkillRuleInteractions)
                 {
-                    ruleInteraction();
+                    foreach (var target in ruleInteraction.Targets)
+                    {
+                        ruleInteraction.Action(target);   
+                    }
                 }
             }
 
