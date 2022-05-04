@@ -11,19 +11,21 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
     {
         private const double STATE_DURATION_SECONDS = 3f;
         private const double SHAKEING_DURATION_SECONDS = STATE_DURATION_SECONDS;
+        private readonly UnitGraphics _graphics;
 
         private readonly SoundEffectInstance _risingPowerSoundEffect;
-        private readonly UnitGraphics _graphics;
         private readonly ScreenShaker _screenShaker;
         private bool _isStarted;
 
-        public SvarogSymbolBurningState(UnitGraphics graphics, SvarogSymbolObject svarogSymbol, ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect)
+        public SvarogSymbolBurningState(UnitGraphics graphics, SvarogSymbolObject svarogSymbol,
+            ScreenShaker screenShaker, SoundEffectInstance risingPowerSoundEffect)
         {
             _graphics = graphics;
             _screenShaker = screenShaker;
             _risingPowerSoundEffect = risingPowerSoundEffect;
 
-            svarogSymbol.RisingPowerCompleted += (_, _) => {
+            svarogSymbol.RisingPowerCompleted += (_, _) =>
+            {
                 IsComplete = true;
                 // 2 stage is exposion!
                 svarogSymbol.SwitchStage(2);

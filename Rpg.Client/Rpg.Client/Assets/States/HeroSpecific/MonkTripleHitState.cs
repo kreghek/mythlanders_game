@@ -9,11 +9,14 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal class MonkTripleHitState: IUnitStateEngine
+    internal class MonkTripleHitState : IUnitStateEngine
     {
         private readonly CommonMeleeSkillUsageState _innerState;
-        
-        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics, AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
+
+        private bool _completionHandled;
+
+        public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics,
+            AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -54,13 +57,12 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
+
         public void Cancel()
         {
             _innerState.Cancel();
         }
 
-        private bool _completionHandled; 
-            
         public void Update(GameTime gameTime)
         {
             if (_innerState.IsComplete)

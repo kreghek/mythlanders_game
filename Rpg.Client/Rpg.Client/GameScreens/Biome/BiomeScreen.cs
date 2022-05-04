@@ -26,17 +26,17 @@ namespace Rpg.Client.GameScreens.Biome
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
+
+        private readonly IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
         private readonly IList<GlobeNodeMarkerGameObject> _markerList;
+
+        private readonly IDictionary<GlobeNodeSid, Vector2> _markerPositions;
 
         private readonly ResolutionIndependentRenderer _resolutionIndependenceRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private bool _isNodeModelsCreated;
-
-        private readonly IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
-
-        private readonly IDictionary<GlobeNodeSid, Vector2> _markerPositions;
         private bool _screenTransition;
 
         public BiomeScreen(EwarGame game) : base(game)

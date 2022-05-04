@@ -46,7 +46,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.EnergoShot
         };
-        
+
         public override IUnitStateEngine CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,

@@ -9,8 +9,8 @@ namespace Rpg.Client.Core
     {
         private const int BIOME_NODE_COUNT = 8;
         private readonly IDice _dice;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private readonly IEventCatalog _eventCatalog;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public BiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
@@ -221,7 +221,7 @@ namespace Rpg.Client.Core
             var combatLevelAdditional = 0;
 
             var globeContext = new MonsterGenerationGlobeContext(globeLevel, biomes);
-            
+
             for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
             {
                 var selectedNode = nodesWithCombats[locationIndex];
@@ -229,7 +229,7 @@ namespace Rpg.Client.Core
 
                 var combatLevel = globeLevel.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
                 var combatList = new List<CombatSource>();
-                
+
                 for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                 {
                     var units = MonsterGeneratorHelper
@@ -285,9 +285,12 @@ namespace Rpg.Client.Core
 
             startNode.AssignedEvent = startEvent;
 
-            combat.EnemyGroup.Slots[0].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x=>x.Name == UnitName.Marauder), 2);
-            combat.EnemyGroup.Slots[1].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
-            combat.EnemyGroup.Slots[2].Unit = new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+            combat.EnemyGroup.Slots[0].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);
+            combat.EnemyGroup.Slots[1].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+            combat.EnemyGroup.Slots[2].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
         }
     }
 }

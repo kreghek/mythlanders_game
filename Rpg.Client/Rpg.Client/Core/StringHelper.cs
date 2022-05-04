@@ -45,6 +45,11 @@ namespace Rpg.Client.Core
             return mainSb.ToString().Trim();
         }
 
+        internal static string FixText(string text)
+        {
+            return text.Replace('ï¿½', 'ï¿½').Replace('ï¿½', 'ï¿½').Replace("ï¿½", "...");
+        }
+
         private static void AppendWord(string word, StringBuilder sb, bool isFirstInLine)
         {
             if (!isFirstInLine)
@@ -59,11 +64,6 @@ namespace Rpg.Client.Core
         {
             singleSb?.Clear();
             mainSb.AppendLine();
-        }
-
-        internal static string FixText(string text)
-        {
-            return text.Replace('¸', 'å').Replace('¨', 'Å').Replace("…", "...");
         }
     }
 }

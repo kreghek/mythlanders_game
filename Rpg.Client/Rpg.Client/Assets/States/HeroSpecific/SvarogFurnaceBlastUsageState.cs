@@ -12,11 +12,11 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class SvarogFurnaceBlastUsageState:IUnitStateEngine
+    internal sealed class SvarogFurnaceBlastUsageState : IUnitStateEngine
     {
-        private int _subStateIndex;
         private readonly IUnitStateEngine[] _subStates;
         private readonly AnimationBlocker _svarogSymbolAnimationBlocker;
+        private int _subStateIndex;
 
         public SvarogFurnaceBlastUsageState(UnitGameObject actorGameObject,
             AnimationBlocker mainAnimationBlocker,
@@ -42,14 +42,18 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolAppearingState(actorGameObject._graphics, svarogSymbol, interactionDeliveryList, symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(actorGameObject._graphics, svarogSymbol, screenShaker, risingPowerSoundEffect),
-                new SvarogSymbolExplosionState(actorGameObject._graphics, _svarogSymbolAnimationBlocker, explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
+                new SvarogSymbolAppearingState(actorGameObject._graphics, svarogSymbol, interactionDeliveryList,
+                    symbolAppearingSoundEffect),
+                new SvarogSymbolBurningState(actorGameObject._graphics, svarogSymbol, screenShaker,
+                    risingPowerSoundEffect),
+                new SvarogSymbolExplosionState(actorGameObject._graphics, _svarogSymbolAnimationBlocker,
+                    explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
             };
         }
 
         public bool CanBeReplaced { get; set; }
         public bool IsComplete { get; set; }
+
         public void Cancel()
         {
             if (IsComplete)

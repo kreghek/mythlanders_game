@@ -52,7 +52,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordman
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, mainAnimationBlocker, context.Interaction,
+            var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, mainAnimationBlocker,
+                context.Interaction,
                 context.InteractionDeliveryList, context.GameObjectContentStorage, context.AnimationManager,
                 context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing),
                 context.GetHitSound(GameObjectSoundType.RisingPower),

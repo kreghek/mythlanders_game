@@ -11,8 +11,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
     internal sealed class SvarogSymbolAppearingState : IUnitStateEngine
     {
         private readonly UnitGraphics _graphics;
-        private readonly SvarogSymbolObject _svarogSymbol;
         private readonly IList<IInteractionDelivery> _interactionDeliveryList;
+        private readonly SvarogSymbolObject _svarogSymbol;
         private readonly SoundEffectInstance? _symbolAppearingSoundEffect;
         private bool _started;
 

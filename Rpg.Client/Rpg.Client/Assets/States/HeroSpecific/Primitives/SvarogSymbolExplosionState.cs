@@ -9,13 +9,14 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
     internal sealed class SvarogSymbolExplosionState : IUnitStateEngine
     {
-        private readonly AnimationBlocker? _symbolAnimationBlocker;
         private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly UnitGraphics _graphics;
+        private readonly AnimationBlocker? _symbolAnimationBlocker;
         private bool _started;
 
         public SvarogSymbolExplosionState(UnitGraphics graphics,
-            AnimationBlocker symbolAnimationBlocker, SoundEffectInstance explosionSoundEffect, SoundEffectInstance fireDamageEffect, SvarogSymbolObject svarogSymbolObject)
+            AnimationBlocker symbolAnimationBlocker, SoundEffectInstance explosionSoundEffect,
+            SoundEffectInstance fireDamageEffect, SvarogSymbolObject svarogSymbolObject)
         {
             _graphics = graphics;
             _symbolAnimationBlocker = symbolAnimationBlocker;

@@ -11,9 +11,12 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class HerbalistHealingSalveUsageState: IUnitStateEngine
+    internal sealed class HerbalistHealingSalveUsageState : IUnitStateEngine
     {
+        private readonly AnimationBlocker _healingLightAnimationBlocker;
         private readonly CommonDistantSkillUsageState _innerState;
+
+        private bool _completionHandled;
 
         public HerbalistHealingSalveUsageState(UnitGraphics actorGraphics,
             Renderable targetUnitGameObject,
@@ -55,7 +58,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             var healingLightInteractionDelivery = new HealLightObject(
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
                 gameObjectContentStorage, _healingLightAnimationBlocker);
-            
+
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
                 animationBlocker: animationBlocker,
@@ -67,14 +70,12 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
+
         public void Cancel()
         {
             _healingLightAnimationBlocker.Release();
             _innerState.Cancel();
         }
-
-        private bool _completionHandled;
-        private readonly AnimationBlocker _healingLightAnimationBlocker;
 
         public void Update(GameTime gameTime)
         {
@@ -87,7 +88,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                     Completed?.Invoke(this, EventArgs.Empty);
                 }
             }
-            
+
             _innerState.Update(gameTime);
         }
 

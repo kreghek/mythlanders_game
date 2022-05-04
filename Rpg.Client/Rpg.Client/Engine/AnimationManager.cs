@@ -6,8 +6,6 @@ namespace Rpg.Client.Engine
     {
         private readonly IList<AnimationBlocker> _blockers = new List<AnimationBlocker>();
 
-        public bool HasBlockers => _blockers.Count > 0;
-
         private void AddBlocker(AnimationBlocker blocker)
         {
             _blockers.Add(blocker);
@@ -16,6 +14,8 @@ namespace Rpg.Client.Engine
                 _blockers.Remove(blocker);
             };
         }
+
+        public bool HasBlockers => _blockers.Count > 0;
 
         public AnimationBlocker CreateAndUseBlocker()
         {
