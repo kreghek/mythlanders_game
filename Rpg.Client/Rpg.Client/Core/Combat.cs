@@ -372,6 +372,11 @@ namespace Rpg.Client.Core
             var oldCombatUnit = e.OldUnit;
             if (oldCombatUnit is not null)
             {
+                if (!oldCombatUnit.Unit.IsDead)
+                {
+                    EffectProcessor.Influence(oldCombatUnit);
+                }
+
                 if (!oldCombatUnit.Unit.IsDead && !oldCombatUnit.Unit.IsPlayerControlled)
                 {
                     AssignCpuTarget((CombatUnit)oldCombatUnit, Dice);
@@ -383,8 +388,6 @@ namespace Rpg.Client.Core
             {
                 return;
             }
-
-            EffectProcessor.Influence(combatUnit);
 
             combatUnit.Unit.RestoreShields();
             ((CombatUnit)combatUnit).IsWaiting = false;
