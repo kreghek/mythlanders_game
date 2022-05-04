@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 {
-    internal class EnergyShotSkill : VisualizedSkillBase
+    internal class SuppressiveFireSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.EnergyShot;
+        private const SkillSid SID = SkillSid.SuppressiveFire;
 
-        public EnergyShotSkill() : this(false)
+        public SuppressiveFireSkill() : this(false)
         {
         }
 
-        public EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private SuppressiveFireSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -35,6 +35,15 @@ namespace Rpg.Client.Assets.Skills
 
                     return res;
                 })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new DecreaseDamageEffect(0.5f);
+                    return effect;
+                })
             }
         };
 
@@ -45,7 +54,7 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.EnergoShot
+            SoundEffectType = GameObjectSoundType.Gunshot
         };
     }
 }

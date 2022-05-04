@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new[]
+        public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-
-using Castle.Core.Logging;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

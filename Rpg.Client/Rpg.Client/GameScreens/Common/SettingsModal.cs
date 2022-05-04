@@ -10,9 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Biome;
-using Rpg.Client.GameScreens.Combat;
-using Rpg.Client.GameScreens.Event;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Common

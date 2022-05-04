@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Assets.States;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -27,7 +26,7 @@ namespace Rpg.Client.Assets.Skills
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new[]
+        public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {
@@ -38,6 +37,34 @@ namespace Rpg.Client.Assets.Skills
                     {
                         Actor = u,
                         DamageMultiplier = 0.25f
+                    };
+
+                    return res;
+                })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var res = new DamageEffect
+                    {
+                        Actor = u,
+                        DamageMultiplier = 0.25f
+                    };
+
+                    return res;
+                })
+            },
+            new EffectRule
+            {
+                Direction = SkillDirection.Target,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var res = new DamageEffect
+                    {
+                        Actor = u,
+                        DamageMultiplier = 0.5f
                     };
 
                     return res;

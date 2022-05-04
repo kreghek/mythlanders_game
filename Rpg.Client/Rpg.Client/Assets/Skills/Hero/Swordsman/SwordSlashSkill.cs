@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Swordman
+namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
     internal class SwordSlashSkill : VisualizedSkillBase
     {
@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordman
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new[]
+        public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
             new EffectRule
             {

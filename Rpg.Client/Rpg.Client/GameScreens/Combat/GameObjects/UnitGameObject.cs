@@ -12,7 +12,13 @@ using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
-    internal class UnitGameObject : EwarRenderableBase
+    internal sealed class SkillExecution
+    {
+        public Action SkillComplete { get; set; }
+        public IReadOnlyList<Action> SkillRuleInteractions { get; set; }
+    }
+    
+    internal sealed class UnitGameObject : EwarRenderableBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly AnimationManager _animationManager;
@@ -85,7 +91,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public void UseSkill(UnitGameObject target,
-            IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, Action action)
+            IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, SkillExecution action)
         {
             var context = new SkillVisualizationContext
             {
@@ -102,6 +108,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             mainAnimationBlocker.Released += (_, _) =>
             {
+                action.SkillComplete();
                 SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
             };
 

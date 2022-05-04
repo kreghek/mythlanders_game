@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rpg.Client.Core
+﻿namespace Rpg.Client.Core
 {
     public class Stat
     {

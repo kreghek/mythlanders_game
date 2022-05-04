@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Skills.Monster.Slavic
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {

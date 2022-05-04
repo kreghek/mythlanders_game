@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private bool _completionHandled;
 
         public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics,
-            AnimationBlocker mainAnimationBlocker, Action interaction, SoundEffectInstance hitSound)
+            AnimationBlocker mainAnimationBlocker, SkillExecution interaction, SoundEffectInstance hitSound)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -26,21 +26,21 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction,
+                        Interaction = interaction.SkillRuleInteractions[0],
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction,
+                        Interaction = interaction.SkillRuleInteractions[1],
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
                         Duration = 1.75f / 3,
                         HitSound = hitSound,
-                        Interaction = interaction,
+                        Interaction = interaction.SkillRuleInteractions[2],
                         InteractTime = 0
                     }
                 }

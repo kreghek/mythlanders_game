@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {

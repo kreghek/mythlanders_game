@@ -1,12 +1,13 @@
 using System;
 
 using Rpg.Client.Core.Skills;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Core
 {
     internal class ActionEventArgs : EventArgs
     {
-        public ActionEventArgs(Action action, ICombatUnit actor, ISkill skill, ICombatUnit target)
+        public ActionEventArgs(SkillExecution action, ICombatUnit actor, ISkill skill, ICombatUnit target)
         {
             Action = action;
             Actor = actor;
@@ -14,7 +15,7 @@ namespace Rpg.Client.Core
             Target = target;
         }
 
-        public Action Action { get; }
+        public SkillExecution Action { get; }
         public ICombatUnit Actor { get; }
         public ISkill Skill { get; }
         public ICombatUnit Target { get; }

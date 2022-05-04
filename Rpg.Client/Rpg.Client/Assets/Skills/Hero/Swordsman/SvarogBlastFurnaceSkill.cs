@@ -9,7 +9,7 @@ using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.Skills.Hero.Swordman
+namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
     internal class SvarogBlastFurnaceSkill : VisualizedSkillBase
     {
@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordman
         {
         }
 
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {

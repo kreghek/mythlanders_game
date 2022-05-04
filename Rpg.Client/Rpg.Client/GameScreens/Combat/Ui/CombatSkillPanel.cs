@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.Ui

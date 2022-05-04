@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Audio;
@@ -14,7 +13,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         GameObjectContentStorage GameObjectContentStorage { get; }
 
-        Action Interaction { get; }
+        SkillExecution Interaction { get; }
 
         IList<IInteractionDelivery> InteractionDeliveryList { get; }
 

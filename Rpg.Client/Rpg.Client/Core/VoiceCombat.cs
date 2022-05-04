@@ -7,6 +7,7 @@ using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Core
 {
@@ -126,15 +127,28 @@ namespace Rpg.Client.Core
                 Debug.Fail("CurrentUnit is required to be assigned.");
             }
 
-            Action action = () =>
+            var interactionList = new List<Action>();
+            Action ruleAction = () =>
             {
                 EffectProcessor.Impose(skill.Rules, CurrentUnit, targetUnit);
+            };
+            
+            interactionList.Add(ruleAction);
+
+            Action completeSkillAction = () =>
+            {
                 CompleteStep();
+            };
+
+            var skillExecution = new SkillExecution
+            {
+                SkillComplete = completeSkillAction,
+                SkillRuleInteractions = interactionList
             };
 
             var actionEventArgs = new ActionEventArgs
             (
-                action,
+                skillExecution,
                 CurrentUnit,
                 skill,
                 targetUnit

@@ -76,7 +76,12 @@ namespace BalanceGenerator
 
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             var isHeroesVictory = false;

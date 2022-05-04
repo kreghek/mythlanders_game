@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.Skills
         public int? BaseEnergyCost { get; }
 
 
-        public abstract IEnumerable<EffectRule> Rules { get; }
+        public abstract IReadOnlyList<EffectRule> Rules { get; }
 
         public abstract SkillSid Sid { get; }
 

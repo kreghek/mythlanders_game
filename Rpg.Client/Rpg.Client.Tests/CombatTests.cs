@@ -50,7 +50,12 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             // ACT
@@ -134,7 +139,12 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             // ACT
@@ -206,7 +216,12 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             // ACT
@@ -275,7 +290,12 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             // ACT
@@ -370,7 +390,12 @@ namespace Rpg.Client.Tests
             combat.Update();
             combat.ActionGenerated += (_, args) =>
             {
-                args.Action();
+                foreach (var skillRuleInteraction in args.Action.SkillRuleInteractions)
+                {
+                    skillRuleInteraction();
+                }
+
+                args.Action.SkillComplete();
             };
 
             // ACT 1

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -21,7 +20,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public SvarogFurnaceBlastUsageState(UnitGameObject actorGameObject,
             AnimationBlocker mainAnimationBlocker,
-            Action interaction,
+            SkillExecution interaction,
             IList<IInteractionDelivery> interactionDeliveryList,
             GameObjectContentStorage gameObjectContentStorage,
             IAnimationManager animationManager,
@@ -33,8 +32,16 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         {
             _svarogSymbolAnimationBlocker = animationManager.CreateAndUseBlocker();
 
+            void FullInteractionAction()
+            {
+                foreach (var ruleInteraction in interaction.SkillRuleInteractions)
+                {
+                    ruleInteraction();
+                }
+            }
+
             var svarogSymbol = new SvarogSymbolObject(actorGameObject.Position - Vector2.UnitY * (128),
-                gameObjectContentStorage, _svarogSymbolAnimationBlocker, interaction);
+                gameObjectContentStorage, _svarogSymbolAnimationBlocker, FullInteractionAction);
 
             _svarogSymbolAnimationBlocker.Released += (_, _) =>
             {
@@ -52,8 +59,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             };
         }
 
-        public bool CanBeReplaced { get; set; }
-        public bool IsComplete { get; set; }
+        public bool CanBeReplaced => false;
+        public bool IsComplete { get; private set; }
 
         public void Cancel()
         {

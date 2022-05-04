@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics;
 
-using Rpg.Client.Core;
-
 namespace Rpg.Client.GameScreens.Biome
 {
     internal static class BiomeScreenTextHelper

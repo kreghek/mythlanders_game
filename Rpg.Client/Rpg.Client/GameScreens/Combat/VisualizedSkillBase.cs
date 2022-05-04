@@ -38,32 +38,14 @@ namespace Rpg.Client.GameScreens.Combat
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
-
-            var isInteractionDeliveryComplete = false;
-            var isAnimationComplete = false;
-
-            interactionDeliveryBlocker.Released += (_, _) =>
-            {
-                context.Interaction.Invoke();
-
-                isInteractionDeliveryComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-
+            
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
-            animationBlocker.Released += (_, _) =>
-            {
-                isAnimationComplete = true;
 
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
+            HandleStateWithInteractionDelivery(
+                context,
+                mainStateBlocker,
+                interactionDeliveryBlocker,
+                animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
@@ -74,6 +56,43 @@ namespace Rpg.Client.GameScreens.Combat
                 animationSid: animationSid);
 
             return state;
+        }
+
+        private static void HandleStateWithInteractionDelivery(ISkillVisualizationContext context,
+            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
+        {
+            var isInteractionDeliveryComplete = false;
+            var isAnimationComplete = false;
+
+            interactionDeliveryBlocker.Released += (_, _) =>
+            {
+                InvokeRuleInteractions(context);
+
+                isInteractionDeliveryComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+
+            animationBlocker.Released += (_, _) =>
+            {
+                isAnimationComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+        }
+
+        private static void InvokeRuleInteractions(ISkillVisualizationContext context)
+        {
+            foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
+            {
+                ruleInteraction();
+            }
         }
 
         private static IUnitStateEngine CreateCommonMassDistantSkillUsageState(UnitGameObject animatedUnitGameObject,
@@ -118,7 +137,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             interactionDeliveryBlocker.Released += (_, _) =>
             {
-                context.Interaction.Invoke();
+                InvokeRuleInteractions(context);
 
                 isInteractionDeliveryComplete = true;
 
@@ -158,13 +177,21 @@ namespace Rpg.Client.GameScreens.Combat
             SoundEffectInstance hitSound,
             AnimationSid animationSid)
         {
+            void Interaction()
+            {
+                foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
+                {
+                    ruleInteraction();
+                }
+            }
+
             var skillAnimationInfo = new SkillAnimationInfo
             {
                 Items = new[]
                 {
                     new SkillAnimationInfoItem
                     {
-                        Duration = 0.75f, HitSound = hitSound, Interaction = context.Interaction, InteractTime = 0
+                        Duration = 0.75f, HitSound = hitSound, Interaction = Interaction, InteractTime = 0
                     }
                 }
             };
@@ -179,14 +206,22 @@ namespace Rpg.Client.GameScreens.Combat
             return state;
         }
 
-        private static IUnitStateEngine CreateCommonSupportSkillUsageState(UnitGameObject animatedUnitGameObject,
+        private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
             AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
+            void Interaction()
+            {
+                foreach (var ruleInteraction in context.Interaction.SkillRuleInteractions)
+                {
+                    ruleInteraction();
+                }
+            }
+            
             var state = new CommonSelfSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
                 mainAnimationBlocker: mainAnimationBlocker,
-                interaction: context.Interaction,
+                interaction: Interaction,
                 hitSound: hitSound,
                 animationSid: animationSid);
             return state;
@@ -234,7 +269,7 @@ namespace Rpg.Client.GameScreens.Combat
                         animationSid);
 
                 case SkillVisualizationStateType.Self:
-                    return CreateCommonSupportSkillUsageState(
+                    return CreateCommonSelfSkillUsageState(
                         animatedUnitGameObject,
                         mainStateBlocker,
                         context,

@@ -6,36 +6,29 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Swordman
+namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
-    internal class DefenseStanceSkill : VisualizedSkillBase
+    internal class GroupProtectionSkill : VisualizedSkillBase
     {
-        public DefenseStanceSkill() : this(false)
+        public GroupProtectionSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
-        {
-        }
-
-        public override IEnumerable<EffectRule> Rules { get; } = new List<EffectRule>
+        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             new EffectRule
             {
-                Direction = SkillDirection.Self,
+                Direction = SkillDirection.AllFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f)
-                    {
-                        Duration = 1
-                    };
+                    var effect = new DecreaseDamageEffect(multiplier: 0.5f) { Duration = 1 };
 
                     return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
+        public override SkillSid Sid => SkillSid.GroupProtection;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

@@ -57,7 +57,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private int _stageIndex;
 
         public SvarogSymbolObject(Vector2 targetPosition, GameObjectContentStorage contentStorage,
-            AnimationBlocker? animationBlocker, Action interaction)
+            AnimationBlocker animationBlocker, Action interaction)
         {
             _graphics = new Sprite(contentStorage.GetSymbolSprite());
 
@@ -75,7 +75,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameCounter = 0;
         }
 
-        private void HandleApparingStage(GameTime gameTime)
+        private void HandleAppearingStage(GameTime gameTime)
         {
             if (_frameCounter >= FRAMERATE)
             {
@@ -100,7 +100,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             }
         }
 
-        private void HandleExplosingStage(GameTime gameTime)
+        private void HandleExplodingStage(GameTime gameTime)
         {
             _risingPowerParticleSystem?.Stop();
 
@@ -227,7 +227,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
             if (_stageIndex == 0)
             {
-                HandleApparingStage(gameTime);
+                HandleAppearingStage(gameTime);
             }
             else if (_stageIndex == 1)
             {
@@ -235,14 +235,14 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             }
             else if (_stageIndex == 2)
             {
-                HandleExplosingStage(gameTime);
+                HandleExplodingStage(gameTime);
             }
         }
 
         public event EventHandler? InteractionPerformed;
 
-        public event EventHandler AppearingCompleted;
+        public event EventHandler? AppearingCompleted;
 
-        public event EventHandler RisingPowerCompleted;
+        public event EventHandler? RisingPowerCompleted;
     }
 }

@@ -21,43 +21,21 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         public HerbalistToxicGasUsageState(UnitGraphics actorGraphics,
             Renderable targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
-            Action interaction,
+            SkillExecution interaction,
             SoundEffectInstance skillUsageSound,
             GameObjectContentStorage gameObjectContentStorage,
             IAnimationManager animationManager,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
-            var isInteractionDeliveryComplete = false;
-            var isAnimationComplete = false;
-
             var animationBlocker = animationManager.CreateAndUseBlocker();
-            animationBlocker.Released += (_, _) =>
-            {
-                isAnimationComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
-
             _toxicGasAnimationBlocker = animationManager.CreateAndUseBlocker();
-
-            _toxicGasAnimationBlocker.Released += (_, _) =>
-            {
-                interaction.Invoke();
-
-                isInteractionDeliveryComplete = true;
-
-                if (isAnimationComplete && isInteractionDeliveryComplete)
-                {
-                    mainStateBlocker.Release();
-                }
-            };
 
             var toxicGasInteractionDelivery = new HealLightObject(
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
                 gameObjectContentStorage, _toxicGasAnimationBlocker);
+            
+            HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
+                _toxicGasAnimationBlocker, animationBlocker);
 
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
@@ -85,13 +63,47 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 {
                     _completionHandled = true;
                     IsComplete = true;
-                    Completed?.Invoke(this, EventArgs.Empty);
                 }
             }
 
             _innerState.Update(gameTime);
         }
+        
+        private static void HandleStateWithInteractionDelivery(IReadOnlyList<Action> skillRuleInteractions,
+            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
+        {
+            var isInteractionDeliveryComplete = false;
+            var isAnimationComplete = false;
 
-        public event EventHandler? Completed;
+            interactionDeliveryBlocker.Released += (_, _) =>
+            {
+                InvokeRuleInteractions(skillRuleInteractions);
+
+                isInteractionDeliveryComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+
+            animationBlocker.Released += (_, _) =>
+            {
+                isAnimationComplete = true;
+
+                if (isAnimationComplete && isInteractionDeliveryComplete)
+                {
+                    mainStateBlocker.Release();
+                }
+            };
+        }
+        
+        private static void InvokeRuleInteractions(IReadOnlyList<Action> skillRuleInteractions)
+        {
+            foreach (var ruleInteraction in skillRuleInteractions)
+            {
+                ruleInteraction();
+            }
+        }
     }
 }
