@@ -65,6 +65,7 @@ namespace Rpg.Client.Core.Skills
         Shotgun,
         UnholyHit,
         BlackRifleShotSkill,
-        BlindDefense
+        BlindDefense,
+        InspiringExample
     }
 }
