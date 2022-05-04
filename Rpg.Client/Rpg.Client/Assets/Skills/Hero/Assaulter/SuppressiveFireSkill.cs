@@ -19,33 +19,36 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
         }
 
-        public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
-        {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier
-                    };
+        public override IReadOnlyList<EffectRule> Rules { get; } = CreateRules();
 
-                    return res;
-                })
-            },
-            new EffectRule
+        private static List<EffectRule> CreateRules()
+        {
+            var list = new List<EffectRule>
             {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
+                SkillRuleFactory.CreatePowerDown(SID, 1, SkillDirection.Target)
+            };
+
+            for (var i = 0; i < 5; i++)
+            {
+                list.Add(new EffectRule
                 {
-                    var effect = new DecreaseDamageEffect(u, duration: 1, multiplier: 0.5f);
-                    return effect;
-                })
+                    Direction = SkillDirection.Target,
+                    EffectCreator = new EffectCreator(u =>
+                    {
+                        var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                        var res = new DamageEffect
+                        {
+                            Actor = u,
+                            DamageMultiplier = 0.1f * equipmentMultiplier
+                        };
+
+                        return res;
+                    })
+                });
             }
-        };
+
+            return list;
+        }
 
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;

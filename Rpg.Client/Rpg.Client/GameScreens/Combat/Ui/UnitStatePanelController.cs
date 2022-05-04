@@ -87,12 +87,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (_tempShowEffects)
                 {
-                    DrawEffects(spriteBatch, panelPosition, combatUnit);
+                    DrawEffects(spriteBatch, panelPosition, combatUnit, side);
                 }
             }
         }
 
-        private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, ICombatUnit combatUnit)
+        private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, ICombatUnit combatUnit, Side side)
         {
             const int EFFECT_SIZE = 16;
             const int EFFECTS_MARGIN = 2;
@@ -105,6 +105,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 var effect = effects[index];
 
                 var effectPosition = panelPosition + new Vector2(PANEL_WIDTH + index * (EFFECT_SIZE + EFFECTS_MARGIN), 0);
+
+                if (side == Side.Right)
+                {
+                    effectPosition += new Vector2(-148, 0);
+                }
+
                 var effectRect = new Rectangle(effectPosition.ToPoint(), new Point(EFFECT_SIZE, EFFECT_SIZE));
                 var effectSourceRect = GetEffectSourceRect(effect);
 

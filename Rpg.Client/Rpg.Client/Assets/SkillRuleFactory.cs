@@ -67,6 +67,22 @@ namespace Rpg.Client.Assets
             };
         }
 
+        public static EffectRule CreatePowerDown(SkillSid sid, int duration, SkillDirection direction)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effect = new IncreaseAttackEffect(u, duration: duration, bonus: -u.Unit.Support)
+                    {
+                        Visualization = EffectVisualizations.PowerUp
+                    };
+                    return effect;
+                })
+            };
+        }
+
         public static EffectRule CreateProtection(SkillSid sid, float multiplier,
             SkillDirection direction)
         {

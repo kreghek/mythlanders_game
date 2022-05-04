@@ -31,38 +31,26 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
         private static List<EffectRule> CreateRules()
         {
-            var list =  new List<EffectRule>
+            var list = new List<EffectRule>
             {
-                new()
-                {
-                    Direction = SkillDirection.Self,
-                    EffectCreator = new EffectCreator(u =>
-                    {
-                        var effect = new DecreaseDamageEffect(u, duration: 1, multiplier: 1f);
-
-                        return effect;
-                    })
-                }
+                SkillRuleFactory.CreateProtection(SID, multiplier: 1f, SkillDirection.Self)
             };
 
-            for (var i = 0; i < 10; i++)
+            list.Add(new EffectRule
             {
-                list.Add(new EffectRule
+                Direction = SkillDirection.RandomEnemy,
+                EffectCreator = new EffectCreator(u =>
                 {
-                    Direction = SkillDirection.RandomEnemy,
-                    EffectCreator = new EffectCreator(u =>
+                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var res = new DamageEffect
                     {
-                        var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                        var res = new DamageEffect
-                        {
-                            Actor = u,
-                            DamageMultiplier = 0.01f * equipmentMultiplier
-                        };
+                        Actor = u,
+                        DamageMultiplier = 0.01f * equipmentMultiplier
+                    };
 
-                        return res;
-                    })
-                });
-            }
+                    return res;
+                })
+            });
 
             return list;
         }
