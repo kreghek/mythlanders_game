@@ -59,6 +59,8 @@ namespace Rpg.Client.Core.SkillEffects
                 MergeWithBase(periodicEffect);
                 return;
             }
+
+            base.AddToList(list);
         }
 
         private bool CanBeMerged(PeriodicEffectBase testedEffect)

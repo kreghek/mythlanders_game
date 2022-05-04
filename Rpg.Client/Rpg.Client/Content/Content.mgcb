@@ -829,7 +829,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/EquipmentIcons.png
 
-#begin Sprites/GameObjects/SkillEffectIcons.png
+#begin Sprites/Ui/SkillEffectIcons.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -839,7 +839,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/SkillEffectIcons.png
+/build:Sprites/Ui/SkillEffectIcons.png
 
 #begin Sprites/GameObjects/Map/Map.png
 /importer:TextureImporter
