@@ -40,6 +40,7 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+        private Texture2D _effectIconsTexture;
 
         private static string GetLanguageKey()
         {
@@ -84,6 +85,11 @@ namespace Rpg.Client.Engine
         public Texture2D GetButtonTexture()
         {
             return _buttonTexture;
+        }
+
+        public Texture2D GetEffectIconsTexture()
+        {
+            return _effectIconsTexture;
         }
 
         public Texture2D GetSkillButtonTexture()
@@ -225,6 +231,8 @@ namespace Rpg.Client.Engine
             _unitPanelTexture = contentManager.Load<Texture2D>("Sprites/Ui/UnitPanel");
 
             _buttonIndicatorsTexture = contentManager.Load<Texture2D>("Sprites/Ui/ButtonIndicators");
+
+            _effectIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillEffectIcons");
 
             var introVideoTextures = new List<Texture2D>(150);
             for (var i = 1; i <= 150; i++)

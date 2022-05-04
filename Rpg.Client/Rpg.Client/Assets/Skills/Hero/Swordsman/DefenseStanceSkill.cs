@@ -10,6 +10,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
     internal class DefenseStanceSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.DefenseStance;
+
         public DefenseStanceSkill() : this(false)
         {
         }
@@ -20,19 +22,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, duration: 1, multiplier: 0.5f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SID, 0.5f, SkillDirection.Self)
         };
 
-        public override SkillSid Sid => SkillSid.DefenseStance;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

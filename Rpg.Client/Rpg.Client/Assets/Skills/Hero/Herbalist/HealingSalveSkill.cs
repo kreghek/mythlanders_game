@@ -12,6 +12,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class HealingSalveSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.HealingSalve;
+
         public HealingSalveSkill() : base(PredefinedVisualization, costRequired: false)
         {
         }
@@ -31,23 +33,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
                     return effect;
                 })
             },
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new PeriodicHealEffect(u, 2)
-                    {
-                        SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.3f
-                    };
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreatePeriodicHealing(SID, 0.3f, 2, SkillDirection.Target)
         };
 
-        public override SkillSid Sid => SkillSid.HealingSalve;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Friendly;
         public override SkillType Type => SkillType.Range;
 

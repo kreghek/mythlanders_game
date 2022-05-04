@@ -6,10 +6,14 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
+    internal interface IEffectVisualization
+    {
+    }
+
     internal abstract class EffectBase
     {
+        public IEffectVisualization? Visualization { get; set; }
         public CombatEffectContext? CombatContext { get; set; }
-
         public virtual IEnumerable<EffectRule>? DispelRules => default;
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;

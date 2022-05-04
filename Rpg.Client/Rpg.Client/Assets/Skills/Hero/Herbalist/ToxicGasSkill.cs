@@ -12,25 +12,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class ToxicGasSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.ToxicGas;
+
         public ToxicGasSkill() : base(PredefinedVisualization, costRequired: false)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new PeriodicDamageEffect(u, 3);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreatePeriodicDamage(SID, 2, SkillDirection.Target)
         };
 
-        public override SkillSid Sid => SkillSid.ToxicGas;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

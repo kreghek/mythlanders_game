@@ -10,25 +10,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
     internal class GroupProtectionSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.GroupProtection;
+
         public GroupProtectionSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllFriendly,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, duration:1, multiplier: 0.5f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SID, 0.5f, SkillDirection.AllFriendly)
         };
 
-        public override SkillSid Sid => SkillSid.GroupProtection;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 

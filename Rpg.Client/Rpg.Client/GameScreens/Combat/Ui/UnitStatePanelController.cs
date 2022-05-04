@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
@@ -90,22 +92,23 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
+        private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, ICombatUnit combatUnit)
         {
+            const int EFFECT_SIZE = 16;
+            const int EFFECTS_MARGIN = 2;
+            const int EFFECTS_DURATION_OFFSET = 2;
+            
             var effects = _activeCombat.EffectProcessor.GetCurrentEffect(combatUnit).ToArray();
 
             for (var index = 0; index < effects.Length; index++)
             {
                 var effect = effects[index];
 
-                const int EFFECT_SIZE = 16;
-                const int EFFECTS_MARGIN = 2;
-                const int EFFECTS_DURATION_OFFSET = 2;
-
-                var effectPosition = panelPosition + new Vector2(index * (EFFECT_SIZE + EFFECTS_MARGIN), 0);
+                var effectPosition = panelPosition + new Vector2(PANEL_WIDTH + index * (EFFECT_SIZE + EFFECTS_MARGIN), 0);
                 var effectRect = new Rectangle(effectPosition.ToPoint(), new Point(EFFECT_SIZE, EFFECT_SIZE));
+                var effectSourceRect = GetEffectSourceRect(effect);
 
-                spriteBatch.Draw(_uiContentStorage.GetButtonTexture(), effectRect, Color.White);
+                spriteBatch.Draw(_uiContentStorage.GetEffectIconsTexture(), effectRect, effectSourceRect, Color.White);
 
                 if (effect is PeriodicEffectBase periodicEffect)
                 {
@@ -126,6 +129,32 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                             EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
                 }
             }
+        }
+
+        private static Rectangle GetEffectSourceRect(EffectBase effect)
+        {
+            const int EFFECT_SIZE = 16;
+            const int COL_COUNT = 2;
+
+            var index = GetEffectSourceBaseOneIndex(effect) - 1;
+            
+            Debug.Assert(index >= 0);
+
+            var col = index % COL_COUNT;
+            var row = index / COL_COUNT;
+
+            return new Rectangle(col * EFFECT_SIZE, row * EFFECT_SIZE, EFFECT_SIZE, EFFECT_SIZE);
+        }
+
+        private static int GetEffectSourceBaseOneIndex(EffectBase effect)
+        {
+            if (effect.Visualization is null)
+            {
+                return int.MinValue;
+            }
+
+            var visualization = (EffectVisualization)effect.Visualization;
+            return visualization.BasedOneIndex;
         }
 
         private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)

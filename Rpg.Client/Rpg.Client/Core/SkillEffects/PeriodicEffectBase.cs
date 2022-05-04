@@ -61,7 +61,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        protected virtual bool CanBeMerged(PeriodicEffectBase testedEffect)
+        private bool CanBeMerged(PeriodicEffectBase testedEffect)
         {
             if (CombatContext is null)
             {
@@ -80,7 +80,7 @@ namespace Rpg.Client.Core.SkillEffects
             return isSameType && isSameActor && isSameSkill;
         }
 
-        protected virtual void MergeWithBase(PeriodicEffectBase targetEffect)
+        private void MergeWithBase(PeriodicEffectBase targetEffect)
         {
             targetEffect.Duration += Duration;
         }

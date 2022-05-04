@@ -35,15 +35,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
                 })
             },
             
-            new EffectRule
-            {
-                Direction = SkillDirection.RandomFriendly,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new IncreaseAttackEffect(u, duration:1, bonus:5);
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreatePowerUp(SID, 1, SkillDirection.RandomFriendly)
         };
 
         public override SkillSid Sid => SID;
