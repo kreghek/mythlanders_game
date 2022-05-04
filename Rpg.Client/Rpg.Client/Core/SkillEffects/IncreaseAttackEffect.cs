@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
 
@@ -7,7 +6,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class IncreaseAttackEffect : ModifiersEffect
     {
-        public IncreaseAttackEffect(int bonus)
+        public IncreaseAttackEffect(ICombatUnit actor, int duration, int bonus) : base(actor, duration)
         {
             Modifiers = new List<ModifierBase>
             {
@@ -21,11 +20,6 @@ namespace Rpg.Client.Core.SkillEffects
 
         public int Bonus { get; }
 
-        public override IEnumerable<ModifierBase> Modifiers { get; }
-
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            throw new NotImplementedException();
-        }
+        protected override IEnumerable<ModifierBase> Modifiers { get; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
 
@@ -7,7 +6,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class DecreaseDamageEffect : ModifiersEffect
     {
-        public DecreaseDamageEffect(float multiplier)
+        public DecreaseDamageEffect(ICombatUnit actor, int duration, float multiplier) : base(actor, duration)
         {
             Multiplier = multiplier;
 
@@ -20,13 +19,8 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
-        public override IEnumerable<ModifierBase> Modifiers { get; }
+        protected override IEnumerable<ModifierBase> Modifiers { get; }
         public float Multiplier { get; }
-
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void AfterDispel()
         {

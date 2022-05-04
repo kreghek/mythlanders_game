@@ -38,10 +38,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                     Direction = SkillDirection.Self,
                     EffectCreator = new EffectCreator(u =>
                     {
-                        var effect = new DecreaseDamageEffect(multiplier: 1f)
-                        {
-                            Duration = 1
-                        };
+                        var effect = new DecreaseDamageEffect(u, duration: 1, multiplier: 1f);
 
                         return effect;
                     })

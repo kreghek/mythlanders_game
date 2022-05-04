@@ -12,11 +12,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
     {
         private const SkillSid SID = SkillSid.InspiringRush;
 
-        public InspiringRushSkill() : this(false)
-        {
-        }
-
-        public InspiringRushSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public InspiringRushSkill() : base(PredefinedVisualization, false)
         {
         }
 
@@ -44,7 +40,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
                 Direction = SkillDirection.RandomFriendly,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(5);
+                    var effect = new IncreaseAttackEffect(u, duration:1, bonus:5);
                     return effect;
                 })
             }

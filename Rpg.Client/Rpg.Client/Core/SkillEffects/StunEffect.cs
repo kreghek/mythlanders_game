@@ -1,30 +1,19 @@
-﻿using System;
-
-namespace Rpg.Client.Core.SkillEffects
+﻿namespace Rpg.Client.Core.SkillEffects
 {
     internal class StunEffect : PeriodicEffectBase
     {
-        public override bool CanBeMerged(EffectBase testedEffect)
-        {
-            return testedEffect is StunEffect;
-        }
-
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            if (testedEffect is StunEffect stunEffect)
-            {
-                stunEffect.Duration += Duration;
-            }
-            else
-            {
-                throw new InvalidOperationException("can be merged only with stun effect.");
-            }
-        }
-
         protected override void InfluenceAction()
         {
-            Combat.Pass();
+            CombatContext.Combat.Pass();
             base.InfluenceAction();
+        }
+
+        public StunEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        {
+        }
+        
+        public StunEffect(ICombatUnit actor) : base(actor)
+        {
         }
     }
 }

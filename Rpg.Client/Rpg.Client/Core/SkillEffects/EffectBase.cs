@@ -8,7 +8,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class EffectBase
     {
-        public ICombat? Combat { get; set; }
+        public CombatEffectContext? CombatContext { get; set; }
 
         public virtual IEnumerable<EffectRule>? DispelRules => default;
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
 
             IsImposed = false;
-            Combat.EffectProcessor.Impose(DispelRules, Target, null);
+            CombatContext.Combat.EffectProcessor.Impose(DispelRules, Target, null, CombatContext.SourceSkill);
             Dispelled?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterDispel();
         }
@@ -46,7 +46,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             Target = target;
             IsImposed = true;
-            Combat.EffectProcessor.Impose(ImposeRules, Target, null);
+            CombatContext.Combat.EffectProcessor.Impose(ImposeRules, Target, null, CombatContext.SourceSkill);
             Imposed?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             AfterImpose();
         }
@@ -65,7 +65,7 @@ namespace Rpg.Client.Core.SkillEffects
             Influenced?.Invoke(this, new UnitEffectEventArgs { Unit = Target, Effect = this });
             InfluenceAction();
 
-            Combat.EffectProcessor.Impose(InfluenceRules, Target, null);
+            CombatContext.Combat.EffectProcessor.Impose(InfluenceRules, actor: Target, target: null, skill: CombatContext.SourceSkill);
         }
 
         protected virtual void AfterDispel()

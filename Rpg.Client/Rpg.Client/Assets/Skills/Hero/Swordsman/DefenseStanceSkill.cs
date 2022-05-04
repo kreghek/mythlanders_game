@@ -25,10 +25,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
                 Direction = SkillDirection.Self,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(multiplier: 0.5f)
-                    {
-                        Duration = 1
-                    };
+                    var effect = new DecreaseDamageEffect(u, duration: 1, multiplier: 0.5f);
 
                     return effect;
                 })

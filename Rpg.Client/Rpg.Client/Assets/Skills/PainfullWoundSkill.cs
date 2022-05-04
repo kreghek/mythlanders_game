@@ -42,11 +42,9 @@ namespace Rpg.Client.Assets.Skills
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new PeriodicDamageEffect
+                    var res = new PeriodicDamageEffect(u, 3)
                     {
-                        Actor = u,
-                        PowerMultiplier = 1f * equipmentMultiplier,
-                        Duration = 3
+                        PowerMultiplier = 1f * equipmentMultiplier
                     };
 
                     return res;

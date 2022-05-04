@@ -6,10 +6,10 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicHealEffect : PeriodicEffectBase
     {
-        public float PowerMultiplier { get; init; }
+        public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
-        public int SourceSupport { get; set; }
+        public int SourceSupport { get; init; }
 
         public MinMax<int> CalculateHeal()
         {
@@ -17,12 +17,12 @@ namespace Rpg.Client.Core.SkillEffects
             var min = absoluteSupport - Scatter * absoluteSupport;
             var max = absoluteSupport + Scatter * absoluteSupport;
 
-            if (Combat is not null)
+            if (CombatContext is not null)
             {
                 if (Target != null)
                 {
-                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
-                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
+                    min = CombatContext.Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
+                    max = CombatContext.Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
                 }
             }
 
@@ -36,18 +36,18 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void InfluenceAction()
         {
             var heal = CalculateHeal();
-            var rolledHeal = Combat.Dice.Roll(heal.Min, heal.Max);
+            var rolledHeal = CombatContext.Combat.Dice.Roll(heal.Min, heal.Max);
             Target.Unit.RestoreHitPoints(rolledHeal);
 
             base.InfluenceAction();
+        }
+
+        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        {
+            SourceSupport = actor.Unit.Support;
         }
     }
 }

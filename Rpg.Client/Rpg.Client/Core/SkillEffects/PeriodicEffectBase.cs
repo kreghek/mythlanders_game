@@ -1,11 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
+        public ICombatUnit Actor { get; private set; }
+
         private int _value = -1;
+
+        protected PeriodicEffectBase(ICombatUnit actor, int startDuration)
+        {
+            Actor = actor;
+            Duration = startDuration;
+        }
+
+        protected PeriodicEffectBase(ICombatUnit actor) : this(actor, 1)
+        {
+        }
 
         /// <summary>
         /// Duration of effect in combat rounds.
@@ -32,23 +45,45 @@ namespace Rpg.Client.Core.SkillEffects
         {
             foreach (var effect in list)
             {
-                var canBeMerged = CanBeMerged(effect);
-                if (canBeMerged)
+                if (effect is not PeriodicEffectBase periodicEffect)
                 {
-                    MergeWithBase(effect);
-                    return;
+                    continue;
                 }
+
+                var canBeMerged = CanBeMerged(periodicEffect);
+                if (!canBeMerged)
+                {
+                    continue;
+                }
+
+                MergeWithBase(periodicEffect);
+                return;
+            }
+        }
+
+        protected virtual bool CanBeMerged(PeriodicEffectBase testedEffect)
+        {
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException("CombatContext is not assigned. Use this method onl in combat environment.");
+            }
+            
+            if (testedEffect.CombatContext is null)
+            {
+                throw new InvalidOperationException("CombatContext of tested effect is not assigned. Use this method onl in combat environment.");
             }
 
-            base.AddToList(list);
+            var isSameType = testedEffect.GetType() != GetType();
+            var isSameActor = Actor != testedEffect.Actor;
+            var isSameSkill = CombatContext.SourceSkill == testedEffect.CombatContext.SourceSkill;
+
+            return isSameType && isSameActor && isSameSkill;
         }
 
-        public virtual bool CanBeMerged(EffectBase testedEffect)
+        protected virtual void MergeWithBase(PeriodicEffectBase targetEffect)
         {
-            return false;
+            targetEffect.Duration += Duration;
         }
-
-        public abstract void MergeWithBase(EffectBase testedEffect);
 
         protected override void InfluenceAction()
         {

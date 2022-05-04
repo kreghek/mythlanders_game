@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Rpg.Client.Core.Skills;
+
 namespace Rpg.Client.Core.SkillEffects
 {
     internal class EffectCreator
@@ -11,10 +13,13 @@ namespace Rpg.Client.Core.SkillEffects
             _factory = factory;
         }
 
-        public EffectBase Create(ICombatUnit actor, ICombat combat)
+        public EffectBase Create(ICombatUnit actor, ICombat combat, ISkill sourceSkill)
         {
             var effect = _factory(actor);
-            effect.Combat = combat;
+
+            var context = new CombatEffectContext(combat, sourceSkill);
+            
+            effect.CombatContext = context;
 
             return effect;
         }

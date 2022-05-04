@@ -6,13 +6,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class ModifiersEffect : PeriodicEffectBase
     {
-        public ModifiersEffect()
+        public ModifiersEffect(ICombatUnit actor, int duration) : base(actor, duration)
         {
             Imposed += ModifiersEffect_Imposed;
             Dispelled += ModifiersEffect_Dispelled;
         }
 
-        public abstract IEnumerable<ModifierBase> Modifiers { get; }
+        protected abstract IEnumerable<ModifierBase> Modifiers { get; }
 
         private void ModifiersEffect_Dispelled(object? sender, UnitEffectEventArgs e)
         {
@@ -31,7 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             foreach (var modifier in Modifiers)
             {
-                Combat.ModifiersProcessor.RemoveModifier(Target, modifier);
+                CombatContext.Combat.ModifiersProcessor.RemoveModifier(Target, modifier);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             foreach (var modifier in Modifiers)
             {
-                Combat.ModifiersProcessor.RegisterModifier(Target, modifier);
+                CombatContext.Combat.ModifiersProcessor.RegisterModifier(Target, modifier);
             }
         }
     }

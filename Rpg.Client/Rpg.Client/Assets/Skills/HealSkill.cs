@@ -24,9 +24,8 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var res = new HealEffect
+                    var res = new HealEffect(u)
                     {
-                        Actor = u,
                         PowerMultiplier = 1
                     };
 

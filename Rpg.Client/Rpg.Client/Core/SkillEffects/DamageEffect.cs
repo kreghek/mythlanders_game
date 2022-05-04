@@ -25,15 +25,15 @@ namespace Rpg.Client.Core.SkillEffects
             var min = absoluteDamage - Scatter * absoluteDamage;
             var max = absoluteDamage + Scatter * absoluteDamage;
 
-            if (Combat is not null)
+            if (CombatContext is not null)
             {
-                min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
-                max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);
+                min = CombatContext.Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
+                max = CombatContext.Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);
 
                 if (Target is not null)
                 {
-                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
-                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
+                    min = CombatContext.Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
+                    max = CombatContext.Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
                 }
             }
 
@@ -51,7 +51,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             foreach (var perk in Target.Unit.Perks)
             {
-                if (perk.HandleEvasion(Combat.Dice))
+                if (perk.HandleEvasion(CombatContext.Combat.Dice))
                 {
                     Target.Unit.AvoidDamage();
                     return;
@@ -59,12 +59,12 @@ namespace Rpg.Client.Core.SkillEffects
             }
 
             var damage = CalculateDamage();
-            var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
+            var rolledDamage = CombatContext.Combat.Dice.Roll(damage.Min, damage.Max);
 
             var accumulatedDamage = rolledDamage;
             foreach (var perk in Actor.Unit.Perks)
             {
-                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, Combat.Dice);
+                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, CombatContext.Combat.Dice);
                 accumulatedDamage = modifiedDamage;
             }
 

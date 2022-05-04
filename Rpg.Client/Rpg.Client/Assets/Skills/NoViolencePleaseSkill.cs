@@ -24,10 +24,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new StunEffect
-                    {
-                        Duration = 1
-                    };
+                    var effect = new StunEffect(u);
 
                     return effect;
                 })

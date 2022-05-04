@@ -12,11 +12,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class HealingSalveSkill : VisualizedSkillBase
     {
-        public HealingSalveSkill() : this(false)
-        {
-        }
-
-        public HealingSalveSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public HealingSalveSkill() : base(PredefinedVisualization, costRequired: false)
         {
         }
 
@@ -27,11 +23,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new HealEffect
+                    var effect = new HealEffect(u)
                     {
-                        Actor = u,
-                        SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.3f
+                        PowerMultiplier = 0.6f
                     };
 
                     return effect;
@@ -42,11 +36,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicHealEffect
+                    var effect = new PeriodicHealEffect(u, 2)
                     {
                         SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.2f,
-                        Duration = 2
+                        PowerMultiplier = 0.3f
                     };
 
                     return effect;

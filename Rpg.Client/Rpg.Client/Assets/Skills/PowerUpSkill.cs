@@ -24,10 +24,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(u.Unit.Support)
-                    {
-                        Duration = 3
-                    };
+                    var effect = new IncreaseAttackEffect(u, 3, 5);
 
                     return effect;
                 })

@@ -25,13 +25,13 @@ namespace Rpg.Client.Core.SkillEffects
             var min = absoluteDamage - Scatter * absoluteDamage;
             var max = absoluteDamage + Scatter * absoluteDamage;
 
-            min = Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
-            max = Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);
+            min = CombatContext.Combat.ModifiersProcessor.Modify(Actor, min, ModifierType.GivenDamage);
+            max = CombatContext.Combat.ModifiersProcessor.Modify(Actor, max, ModifierType.GivenDamage);
 
             if (Target is not null)
             {
-                min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
-                max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
+                min = CombatContext.Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenDamage);
+                max = CombatContext.Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenDamage);
             }
 
             var absoluteMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);
@@ -47,12 +47,12 @@ namespace Rpg.Client.Core.SkillEffects
         protected override void InfluenceAction()
         {
             var damage = CalculateDamage();
-            var rolledDamage = Combat.Dice.Roll(damage.Min, damage.Max);
+            var rolledDamage = CombatContext.Combat.Dice.Roll(damage.Min, damage.Max);
 
             var accumulatedDamage = rolledDamage;
             foreach (var perk in Actor.Unit.Perks)
             {
-                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, Combat.Dice);
+                var modifiedDamage = perk.ModifyDamage(accumulatedDamage, CombatContext.Combat.Dice);
                 accumulatedDamage = modifiedDamage;
             }
 
@@ -64,7 +64,7 @@ namespace Rpg.Client.Core.SkillEffects
             var accumulatedhpToSteal = hpToSteal.ValueFinal.Value;
             foreach (var perk in Actor.Unit.Perks)
             {
-                var modifiedHeal = perk.ModifyHeal(accumulatedhpToSteal, Combat.Dice);
+                var modifiedHeal = perk.ModifyHeal(accumulatedhpToSteal, CombatContext.Combat.Dice);
                 accumulatedhpToSteal = modifiedHeal;
             }
 

@@ -23,13 +23,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicSupportAttackEffect
-                    {
-                        Actor = u,
-                        SourceSupport = u.Unit.Support,
-                        PowerMultiplier = 0.3f,
-                        Duration = 3
-                    };
+                    var effect = new PeriodicDamageEffect(u, 3);
 
                     return effect;
                 })

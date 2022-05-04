@@ -26,7 +26,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 new DamageEffectDrawer(font),
                 new PeriodicDamageEffectDrawer(font),
-                new PeriodicSupportDamageEffectDrawer(font),
                 new HealEffectDrawer(font),
                 new PeriodicHealEffectDrawer(font),
                 new StunEffectDrawer(font),

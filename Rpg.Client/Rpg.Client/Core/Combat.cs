@@ -7,7 +7,6 @@ using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Core
 {
@@ -138,7 +137,7 @@ namespace Rpg.Client.Core
                 
                 Action<ICombatUnit> ruleAction = materializedTarget =>
                 {
-                    EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget);
+                    EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget, skill.Skill);
                 };
 
                 var item = new SkillEffectExecutionItem

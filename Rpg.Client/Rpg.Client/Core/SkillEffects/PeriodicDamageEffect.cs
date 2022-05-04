@@ -4,26 +4,22 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicDamageEffect : PeriodicEffectBase
     {
-        public ICombatUnit Actor { get; set; }
-        public float PowerMultiplier { get; init; }
+        public PeriodicDamageEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        {
+            SourceDamage = actor.Unit.Damage;
+        }
+
+        public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
-        public int SourceDamage { get; set; }
+        
+        public int SourceDamage { get; init; }
 
         public MinMax<int> CalculateDamage()
         {
             var absoluteDamage = SourceDamage * PowerMultiplier;
             var min = absoluteDamage - Scatter * absoluteDamage;
             var max = absoluteDamage + Scatter * absoluteDamage;
-
-            // if (Combat is not null)
-            // {
-            //     if (Target != null)
-            //     {
-            //         min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
-            //         max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
-            //     }
-            // }
 
             var absoluteMin = (int)Math.Round(min, MidpointRounding.AwayFromZero);
             var absoluteMax = (int)Math.Round(max, MidpointRounding.AwayFromZero);
@@ -35,15 +31,10 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
-        public override void MergeWithBase(EffectBase testedEffect)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void InfluenceAction()
         {
             var damageRange = CalculateDamage();
-            var rolledDamage = Combat.Dice.Roll(damageRange.Min, damageRange.Max);
+            var rolledDamage = CombatContext.Combat.Dice.Roll(damageRange.Min, damageRange.Max);
             Target.Unit.TakeDamage(Actor, rolledDamage);
 
             base.InfluenceAction();

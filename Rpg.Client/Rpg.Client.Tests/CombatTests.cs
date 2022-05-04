@@ -97,12 +97,10 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new PeriodicDamageEffect
+                        return new PeriodicDamageEffect(unit, 1)
                         {
-                            Duration = 1,
                             PowerMultiplier = 10000,
                             SourceDamage = 1,
-                            Actor = unit
                         };
                     })
                 }
@@ -162,74 +160,6 @@ namespace Rpg.Client.Tests
             // ASSERT
             target.Unit.IsDead.Should().BeTrue();
             finishEventWasRaised.Should().BeTrue();
-        }
-
-        [Test]
-        public void UseSkill_PeriodicSupportDamageDefeatMonster_NotThrowException()
-        {
-            // ARRANGE
-
-            var hugePeriodicDamageRule = new List<EffectRule>
-            {
-                new EffectRule
-                {
-                    Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator(u =>
-                    {
-                        return new PeriodicSupportAttackEffect
-                        {
-                            Duration = 1,
-                            PowerMultiplier = 10000,
-                            SourceSupport = 1,
-                            Actor = u
-                        };
-                    })
-                }
-            };
-
-            var playerGroup = new Group();
-            var unitScheme = new UnitScheme(new CommonUnitBasics())
-            {
-                SupportRank = 1,
-                Levels = new[]
-                {
-                    new AddSkillUnitLevel(1,
-                        Mock.Of<ISkill>(skill =>
-                            skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy))
-                }
-            };
-
-            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
-
-            playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
-
-            var globeNode = new GlobeNode();
-
-            var combatSource = new CombatSource
-            {
-                EnemyGroup = new Group()
-            };
-            combatSource.EnemyGroup.Slots[0].Unit = new Unit(monsterUnitScheme, 1) { IsPlayerControlled = false };
-
-            var dice = Mock.Of<IDice>(x => x.Roll(It.IsAny<int>()) == 1);
-
-            var combat = new Combat(playerGroup, globeNode, combatSource, dice, isAutoplay: false);
-
-            combat.Initialize();
-            combat.Update();
-            combat.ActionGenerated += DefaultActionGeneratedEventHandler;
-
-            // ACT
-            var attacker = combat.CurrentUnit;
-            var skill = attacker.CombatCards.First();
-            var target = combat.AliveUnits.Single(x => x != attacker);
-
-            combat.UseSkill(skill, target);
-
-            combat.Update();
-
-            // ASSERT
-            target.Unit.IsDead.Should().BeTrue();
         }
 
         [Test]
@@ -340,10 +270,7 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DecreaseDamageEffect(multiplier: 0f)
-                        {
-                            Duration = 1
-                        };
+                        return new DecreaseDamageEffect(unit, 1, multiplier: 0f);
                     })
                 }
             };

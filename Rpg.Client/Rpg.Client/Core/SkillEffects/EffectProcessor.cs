@@ -29,7 +29,7 @@ namespace Rpg.Client.Core.SkillEffects
             return effects.ToArray();
         }
 
-        public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target)
+        public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target, ISkill skill)
         {
             if (influences is null)
             {
@@ -38,7 +38,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             foreach (var influence in influences)
             {
-                ImposeSingleRule(influence.EffectCreator, actor, target);
+                ImposeSingleRule(influence.EffectCreator, actor, target, skill);
             }
         }
 
@@ -86,9 +86,9 @@ namespace Rpg.Client.Core.SkillEffects
             e.Effect.AddToList(_unitEffects[e.Unit]);
         }
 
-        private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target)
+        private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target, ISkill skill)
         {
-            var effect = creator.Create(self, _combat);
+            var effect = creator.Create(self, _combat, skill);
 
             effect.Imposed += Effect_Imposed;
             effect.Dispelled += Effect_Dispelled;
@@ -150,9 +150,9 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
     
-        private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget)
+        private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget, ISkill skill)
         {
-            ImposeByCreator(effectCreator, actor, materializedTarget);
+            ImposeByCreator(effectCreator, actor, materializedTarget, skill);
         }
     }
 }

@@ -8,16 +8,22 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class HealEffect : InstantaneousEffectBase
     {
+        public HealEffect(ICombatUnit actor)
+        {
+            Actor = actor;
+            SourceSupport = actor.Unit.Support;
+        }
+
         public ICombatUnit Actor { get; set; }
         public override IEnumerable<EffectRule> DispelRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> ImposeRules { get; } = new List<EffectRule>();
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
-        public float PowerMultiplier { get; init; }
+        public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
 
-        public int SourceSupport { get; set; }
+        public int SourceSupport { get; init; }
 
         public MinMax<int> CalculateHeal()
         {
@@ -25,12 +31,12 @@ namespace Rpg.Client.Core.SkillEffects
             var min = absoluteSupport - Scatter * absoluteSupport;
             var max = absoluteSupport + Scatter * absoluteSupport;
 
-            if (Combat is not null)
+            if (CombatContext is not null)
             {
                 if (Target != null)
                 {
-                    min = Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
-                    max = Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
+                    min = CombatContext.Combat.ModifiersProcessor.Modify(Target, min, ModifierType.TakenHeal);
+                    max = CombatContext.Combat.ModifiersProcessor.Modify(Target, max, ModifierType.TakenHeal);
                 }
             }
 
@@ -47,12 +53,12 @@ namespace Rpg.Client.Core.SkillEffects
         protected override void InfluenceAction()
         {
             var heal = CalculateHeal();
-            var rolledValue = Combat.Dice.Roll(heal.Min, heal.Max);
+            var rolledValue = CombatContext.Combat.Dice.Roll(heal.Min, heal.Max);
 
             var accumulatedValue = rolledValue;
             foreach (var perk in Actor.Unit.Perks)
             {
-                var modifiedDamage = perk.ModifyHeal(accumulatedValue, Combat.Dice);
+                var modifiedDamage = perk.ModifyHeal(accumulatedValue, CombatContext.Combat.Dice);
                 accumulatedValue = modifiedDamage;
             }
 
