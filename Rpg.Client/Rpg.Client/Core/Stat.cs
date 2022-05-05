@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿using System;
+
+namespace Rpg.Client.Core
 {
     public class Stat
     {
@@ -22,7 +24,12 @@
             Current = newBase;
         }
 
-        public void Descrease(int value)
+        public void CurrentChange(int newCurrent)
+        {
+            Current = Math.Min(newCurrent, ActualBase);
+        }
+
+        public void Consume(int value)
         {
             Current -= value;
 
@@ -32,7 +39,7 @@
             }
         }
 
-        public void Increase(int value)
+        public void Restore(int value)
         {
             Current += value;
 

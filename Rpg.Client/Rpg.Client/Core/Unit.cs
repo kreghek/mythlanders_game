@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -15,18 +16,19 @@ namespace Rpg.Client.Core
         public Unit(UnitScheme unitScheme, int level)
         {
             UnitScheme = unitScheme;
+            Level = level;
 
+            HitPoints = new Stat(0);
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
+            
             var equipments = new List<Equipment>();
             InitEquipment(equipments);
             Equipments = equipments;
 
+            InitBaseStats(unitScheme);
+            
             ShieldPoints = new Stat(Armor);
-
-            Level = level;
-
-            InitStats(unitScheme);
 
             _globalEffects = new List<GlobalUnitEffect>();
         }
@@ -51,9 +53,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        public int HitPoints { get; set; }
+        public Stat HitPoints { get; }
 
-        public bool IsDead => HitPoints <= 0;
+        public bool IsDead => HitPoints.Current <= 0;
 
         public bool IsPlayerControlled { get; init; }
 
@@ -61,8 +63,6 @@ namespace Rpg.Client.Core
 
         public int LevelUpXpAmount => (int)Math.Pow(UnitScheme.UnitBasics.LEVEL_BASE, Level) *
                                       UnitScheme.UnitBasics.LEVEL_MULTIPLICATOR;
-
-        public int MaxHitPoints { get; private set; }
 
         public IList<IPerk> Perks { get; }
 
@@ -97,7 +97,7 @@ namespace Rpg.Client.Core
         {
             Level++;
 
-            InitStats(UnitScheme);
+            InitBaseStats(UnitScheme);
         }
 
         public void RemoveGlobalEffect(GlobalUnitEffect effect)
@@ -107,21 +107,16 @@ namespace Rpg.Client.Core
 
         public void RestoreHitPoints(int heal)
         {
-            HitPoints += Math.Min(MaxHitPoints - HitPoints, heal);
+            HitPoints.Restore(heal);
             HasBeenHitPointsRestored?.Invoke(this, heal);
         }
 
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(MaxHitPoints * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
+            var hpBonus = (int)Math.Round(HitPoints.ActualBase * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
                 MidpointRounding.ToEven);
 
-            HitPoints += hpBonus;
-
-            if (HitPoints > MaxHitPoints)
-            {
-                HitPoints = MaxHitPoints;
-            }
+            HitPoints.Restore(hpBonus);
         }
 
         public void RestoreShields()
@@ -136,12 +131,12 @@ namespace Rpg.Client.Core
 
         public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
         {
-            var armor = 0;
+            var absorbtion = GetAbsorbedDamage(damageSource);
 
-            var damageAbsorbedByArmor = Math.Max(damageSource - armor, 0);
+            var damageAbsorbedByPerks = Math.Max(damageSource - absorbtion, 0);
 
-            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByArmor);
-            var damageToHitPoints = damageAbsorbedByArmor - damageToShield;
+            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByPerks);
+            var damageToHitPoints = damageAbsorbedByPerks - damageToShield;
 
             var blocked = true;
             if (damageToShield > 0)
@@ -161,7 +156,7 @@ namespace Rpg.Client.Core
                 Blocked?.Invoke(this, EventArgs.Empty);
             }
 
-            if (HitPoints <= 0)
+            if (HitPoints.Current <= 0)
             {
                 Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
             }
@@ -171,13 +166,13 @@ namespace Rpg.Client.Core
                 if (autoTransition is not null)
                 {
                     var transformShare = autoTransition.HpShare;
-                    var currentHpShare = (float)HitPoints / MaxHitPoints;
+                    var currentHpShare = HitPoints.Share;
 
                     if (currentHpShare <= transformShare)
                     {
                         var sourceScheme = UnitScheme;
                         UnitScheme = autoTransition.NextScheme;
-                        InitStats(UnitScheme);
+                        InitBaseStats(UnitScheme);
                         SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
                     }
                 }
@@ -188,6 +183,12 @@ namespace Rpg.Client.Core
                 ValueSource = damageSource,
                 ValueFinal = damageToHitPoints
             };
+        }
+
+        private int GetAbsorbedDamage(int damage)
+        {
+            var absorptionPerks = Perks.OfType<Absorption>();
+            return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
         private void ApplyLevels()
@@ -272,7 +273,7 @@ namespace Rpg.Client.Core
 
         private void Equipment_GainLevelUp(object? sender, EventArgs e)
         {
-            InitStats(UnitScheme);
+            InitBaseStats(UnitScheme);
         }
 
         private void InitEquipment(IList<Equipment> equipments)
@@ -292,7 +293,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void InitStats(UnitScheme unitScheme)
+        private void InitBaseStats(UnitScheme unitScheme)
         {
             var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
 
@@ -307,20 +308,21 @@ namespace Rpg.Client.Core
             {
                 maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
             }
-
-            MaxHitPoints = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
+            
+            var maxHitPointsRounded = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
+            HitPoints.ChangeBase(maxHitPointsRounded);
 
             RestoreHp();
         }
 
         private void RestoreHp()
         {
-            HitPoints = MaxHitPoints;
+            HitPoints.Restore();
         }
 
         private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
         {
-            HitPoints -= Math.Min(HitPoints, damageAbsorbedByShields);
+            HitPoints.Consume(damageAbsorbedByShields);
 
             var result = new DamageResult
             {
@@ -336,7 +338,7 @@ namespace Rpg.Client.Core
 
         private void TakeDamageToShields(int damageSource, int damageActual)
         {
-            ShieldPoints.Descrease(damageActual);
+            ShieldPoints.Consume(damageActual);
 
             var result = new DamageResult
             {
@@ -360,20 +362,5 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
-    }
-
-    internal static class UnitExtensions
-    {
-        public static float GetEquipmentDamageMultiplierBonus(this Unit unit, SkillSid skillSid)
-        {
-            var bonuses = unit.Equipments.Select(x => x.Scheme.GetDamageMultiplierBonus(skillSid, x.Level));
-            return bonuses.Sum();
-        }
-        
-        public static float GetEquipmentHealMultiplierBonus(this Unit unit, SkillSid skillSid)
-        {
-            var bonuses = unit.Equipments.Select(x => x.Scheme.GetHealMultiplierBonus(skillSid, x.Level));
-            return bonuses.Sum();
-        }
     }
 }

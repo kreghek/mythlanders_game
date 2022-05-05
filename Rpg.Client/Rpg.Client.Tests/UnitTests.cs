@@ -36,7 +36,7 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             var expectedValue = (int)(scheme.HitPointsBase * 2f);
-            unit.MaxHitPoints.Should().Be(expectedValue);
+            unit.HitPoints.ActualBase.Should().Be(expectedValue);
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace Rpg.Client.Tests
 
             var unit = new Unit(sourceScheme, 0);
 
-            var halfOfHitPoints = Math.Round(unit.MaxHitPoints * 0.5f, MidpointRounding.AwayFromZero);
+            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualBase * 0.5f, MidpointRounding.AwayFromZero);
             var damage = (int)halfOfHitPoints;
 
             var damageDealer = Mock.Of<ICombatUnit>();
@@ -191,7 +191,7 @@ namespace Rpg.Client.Tests
 
             var unit = new Unit(sourceScheme, 0);
 
-            var halfOfHitPoints = Math.Round(unit.MaxHitPoints * 0.5f, MidpointRounding.AwayFromZero);
+            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualBase * 0.5f, MidpointRounding.AwayFromZero);
             var damage = (int)halfOfHitPoints;
 
             var damageDealer = Mock.Of<ICombatUnit>();
@@ -203,6 +203,36 @@ namespace Rpg.Client.Tests
             // ASSERT
 
             unit.UnitScheme.Should().BeSameAs(nextScheme);
+        }
+
+        [Test]
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(10, 10)]
+        public void ShieldPoints_DifferentLevels_ShieldPointsGrowWithLevel(int level, int expectedMaxSp)
+        {
+            // ARRANGE
+            var basics = new CommonUnitBasics
+            {
+                ARMOR_BASE = 1,
+                POWER_BASE = 0,
+                POWER_PER_LEVEL_BASE = 1,
+                HERO_POWER_MULTIPLICATOR = 1
+            };
+            var sourceScheme = new UnitScheme(basics)
+            {
+                TankRank = 1f
+            };
+
+            var unit = new Unit(sourceScheme, level);
+
+            // ACT
+
+            var factSp = unit.ShieldPoints;
+            
+            // ASSERT
+
+            factSp.ActualBase.Should().Be(expectedMaxSp);
         }
     }
 }

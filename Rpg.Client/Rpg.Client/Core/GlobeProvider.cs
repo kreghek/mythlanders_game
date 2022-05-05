@@ -285,7 +285,7 @@ namespace Rpg.Client.Core
                 unit => new PlayerUnitDto
                 {
                     SchemeSid = unit.UnitScheme.Name.ToString(),
-                    Hp = unit.HitPoints,
+                    Hp = unit.HitPoints.Current,
                     Level = unit.Level,
                     //ManaPool = unit.ManaPool,
                     Equipments = GetCharacterEquipmentToSave(unit)

@@ -121,7 +121,18 @@ namespace Rpg.Client.Tests
                 }
             };
 
-            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics());
+            var monsterUnitScheme = new UnitScheme(new CommonUnitBasics())
+            {
+                Levels = new[]
+                {
+                    new AddSkillUnitLevel(1,
+                        Mock.Of<ISkill>(skill =>
+                            // ReSharper disable once PossibleUnintendedReferenceComparison
+                            // Justification: Used to mock creating.
+                            skill.Rules == hugePeriodicDamageRule && skill.TargetType == SkillTargetType.Enemy)
+                    )
+                }
+            };
 
             playerGroup.Slots[0].Unit = new Unit(unitScheme, 1) { IsPlayerControlled = true };
 
@@ -155,6 +166,8 @@ namespace Rpg.Client.Tests
 
             combat.UseSkill(skill, target);
 
+            combat.Update();
+            
             combat.Update();
 
             // ASSERT
@@ -219,12 +232,12 @@ namespace Rpg.Client.Tests
             var attacker = combat.CurrentUnit;
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints;
+            var targetSourceHitPoints = target.Unit.HitPoints.Current;
 
             combat.UseSkill(skill, target);
 
             // ASSERT
-            var targetCurrentHitPoints = target.Unit.HitPoints;
+            var targetCurrentHitPoints = target.Unit.HitPoints.Current;
             targetCurrentHitPoints.Should().BeLessThan(targetSourceHitPoints);
         }
 
@@ -308,11 +321,11 @@ namespace Rpg.Client.Tests
             var attacker = combat.CurrentUnit;
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints;
+            var targetSourceHitPoints = target.Unit.HitPoints.Current;
 
             combat.UseSkill(skill, target);
 
-            var targetCurrentHitPoints = target.Unit.HitPoints;
+            var targetCurrentHitPoints = target.Unit.HitPoints.Current;
             // Update combat will move turn to next unit in the queue.
             // It will invoke Ai-turn.
             // Ai will cast defence on yourself. 
@@ -325,13 +338,13 @@ namespace Rpg.Client.Tests
             var attacker3 = combat.CurrentUnit;
             var skill3 = attacker3.CombatCards.First();
             var target3 = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints3 = target3.Unit.HitPoints;
+            var targetSourceHitPoints3 = target3.Unit.HitPoints.Current;
 
             combat.UseSkill(skill3, target3);
             combat.Update();
 
             // ASSERT
-            var targetCurrentHitPoints3 = target.Unit.HitPoints;
+            var targetCurrentHitPoints3 = target.Unit.HitPoints.Current;
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().BeLessThan(targetHitPointsDiff);

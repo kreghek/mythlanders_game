@@ -114,7 +114,7 @@ namespace Rpg.Client.GameScreens.Bestiary
             var sb = new List<string>
             {
                 name,
-                string.Format(UiResource.HitPointsLabelTemplate, monster.MaxHitPoints),
+                string.Format(UiResource.HitPointsLabelTemplate, monster.HitPoints.ActualBase),
                 string.Format(UiResource.DamageLabelTemplate, monster.Damage),
                 string.Format(UiResource.ArmorLabelTemplate, monster.Armor)
             };
