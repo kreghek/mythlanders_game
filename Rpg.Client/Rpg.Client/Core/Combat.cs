@@ -243,15 +243,8 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (Finished)
+            if (CheckAndHandleFinish())
             {
-                var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
-                var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
-
-                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
-                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
-                var eventArgs = new CombatFinishEventArgs { Victory = anyPlayerUnitsAlive && allMonstersAreDead };
-                Finish?.Invoke(this, eventArgs);
                 return;
             }
 
@@ -265,6 +258,28 @@ namespace Rpg.Client.Core
 
             var currentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
             CurrentUnit = currentUnit;
+
+            CheckAndHandleFinish();
+        }
+
+        private bool CheckAndHandleFinish()
+        {
+            if (Finished)
+            {
+                var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
+                var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
+
+                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
+                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
+                var eventArgs = new CombatFinishEventArgs
+                {
+                    Victory = anyPlayerUnitsAlive && allMonstersAreDead
+                };
+                Finish?.Invoke(this, eventArgs);
+                return true;
+            }
+
+            return false;
         }
 
         private void Ai()
