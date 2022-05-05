@@ -52,12 +52,12 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        public static Rectangle GetIconRect(SkillSid sid)
+        public static Rectangle GetIconRect(SkillSid sid, SkillVisualization visualization)
         {
             const int SPRITE_SHEET_COLUMN_COUNT = 5;
             const int ICON_SIZE = 64;
 
-            var iconIndexNullable = GetIconOneBasedIndex(sid);
+            var iconIndexNullable = GetIconOneBasedIndex(sid, visualization);
 
             Debug.Assert(iconIndexNullable is not null,
                 $"Don't forget add combat power in {nameof(GetIconOneBasedIndex)}");
@@ -105,8 +105,13 @@ namespace Rpg.Client.GameScreens
             return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
         }
 
-        private static int? GetIconOneBasedIndex(SkillSid sid)
+        private static int? GetIconOneBasedIndex(SkillSid sid, SkillVisualization skillVisualization)
         {
+            if (skillVisualization.IconOneBasedIndex > 0)
+            {
+                return skillVisualization.IconOneBasedIndex;
+            }
+
             return sid switch
             {
                 SkillSid.SuppressiveFire => 16,

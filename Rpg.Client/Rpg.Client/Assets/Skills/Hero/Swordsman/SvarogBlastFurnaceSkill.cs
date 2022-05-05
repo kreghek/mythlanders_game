@@ -43,7 +43,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.FireDamage,
-            AnimationSid = AnimationSid.Skill4
+            AnimationSid = AnimationSid.Skill4,
+            IconOneBasedIndex = 4
         };
 
         public override IUnitStateEngine CreateState(

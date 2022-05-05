@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
@@ -28,7 +29,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             {
                 var skill = hero.Skills[index];
 
-                var iconRect = UnsortedHelpers.GetIconRect(skill.Sid);
+                var skillVisualization = ((IVisualizedSkill)skill).Visualization;
+                var iconRect = UnsortedHelpers.GetIconRect(skill.Sid, skillVisualization);
                 var iconData = new IconData(skillIconsTexture, iconRect);
 
                 var skillIconButton = new EntityIconButton<ISkill>(controlTexture, iconData, skill);

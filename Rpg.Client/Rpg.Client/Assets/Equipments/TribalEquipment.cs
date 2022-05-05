@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class TribalEquipment : SimpleAttackEquipmentBase
+    internal sealed class TribalEquipment : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Scorpion;
         public override EquipmentSid Sid => EquipmentSid.TribalEquipment;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.SwordSlash, SkillSid.PoisonedSpear };
 
         protected override float MultiplicatorByLevel => 0.5f;

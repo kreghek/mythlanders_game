@@ -16,28 +16,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
         }
 
-        public SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1 * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID)
         };
 
         public override SkillSid Sid => SID;
@@ -48,7 +33,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
             AnimationSid = AnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            SoundEffectType = GameObjectSoundType.SwordSlash,
+            IconOneBasedIndex = 1
         };
     }
 }

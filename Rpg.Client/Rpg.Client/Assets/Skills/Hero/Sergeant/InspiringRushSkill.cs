@@ -23,7 +23,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
 
                     var res = new DamageEffect
                     {
@@ -46,7 +46,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
         {
             AnimationSid = AnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            SoundEffectType = GameObjectSoundType.SwordSlash,
+            IconOneBasedIndex = 1
         };
     }
 }

@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 Direction = SkillDirection.RandomEnemy,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
                     var res = new DamageEffect
                     {
                         Actor = u,
@@ -62,7 +62,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.Gunshot
+            SoundEffectType = GameObjectSoundType.Gunshot,
+            IconOneBasedIndex = 3
         };
 
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,

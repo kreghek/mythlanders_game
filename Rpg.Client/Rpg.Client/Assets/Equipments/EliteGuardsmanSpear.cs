@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class EliteGuardsmanSpear : SimpleAttackEquipmentBase
+    internal sealed class EliteGuardsmanSpear : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Spearman;
         public override EquipmentSid Sid => EquipmentSid.EliteGuardsmanSpear;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.PenetrationStrike, SkillSid.StonePath };
 
         protected override float MultiplicatorByLevel => 0.5f;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -26,7 +27,7 @@ namespace Rpg.Client.Assets.Skills
                 Direction = SkillDirection.Target,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
+                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
                     var res = new DamageEffect
                     {
                         Actor = u,
@@ -46,7 +47,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.EnergoShot
+            SoundEffectType = GameObjectSoundType.EnergoShot,
+            IconOneBasedIndex = 6
         };
     }
 }

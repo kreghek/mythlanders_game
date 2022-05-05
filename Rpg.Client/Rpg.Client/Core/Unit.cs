@@ -93,18 +93,6 @@ namespace Rpg.Client.Core
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
-        public float GetEquipmentAttackMultiplier(SkillSid skillSid)
-        {
-            var m = 1f;
-
-            foreach (var equipment in Equipments)
-            {
-                m *= equipment.Scheme.GetDamageMultiplier(skillSid, equipment.Level);
-            }
-
-            return m;
-        }
-
         public void LevelUp()
         {
             Level++;
@@ -372,5 +360,14 @@ namespace Rpg.Client.Core
         public event EventHandler<UnitDamagedEventArgs>? Dead;
 
         public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
+    }
+
+    internal static class UnitExtensions
+    {
+        public static float GetEquipmentDamageMultiplierBonus(this Unit unit, SkillSid skillSid)
+        {
+            var bonuses = unit.Equipments.Select(x => x.Scheme.GetDamageMultiplierBonus(skillSid, x.Level));
+            return bonuses.Sum();
+        }
     }
 }

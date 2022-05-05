@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class SergantFactory : HeroFactoryBase
+    internal class SergeantFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Thar;
 

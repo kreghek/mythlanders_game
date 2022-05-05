@@ -43,7 +43,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.Heal
+            SoundEffectType = GameObjectSoundType.Heal,
+            IconOneBasedIndex = 9
         };
 
         public override IUnitStateEngine CreateState(

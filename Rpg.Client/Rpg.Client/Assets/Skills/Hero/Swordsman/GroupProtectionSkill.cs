@@ -29,7 +29,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence,
-            AnimationSid = AnimationSid.Skill3
+            AnimationSid = AnimationSid.Skill3,
+            IconOneBasedIndex = 15
         };
     }
 }

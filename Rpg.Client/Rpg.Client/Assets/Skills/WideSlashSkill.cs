@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -22,22 +21,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-
-                    var res = new DamageEffect
-                    {
-                        DamageMultiplier = 0.5f * equipmentMultiplier,
-                        Actor = u
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllTankingEnemies, 0.5f)
         };
 
         public override SkillSid Sid => SkillSid.WideSwordSlash;
@@ -48,7 +32,8 @@ namespace Rpg.Client.Assets.Skills
         {
             AnimationSid = AnimationSid.Skill2,
             Type = SkillVisualizationStateType.MassMelee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            SoundEffectType = GameObjectSoundType.SwordSlash,
+            IconOneBasedIndex = 2
         };
     }
 }

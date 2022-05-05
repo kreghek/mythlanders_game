@@ -38,7 +38,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Self,
-            SoundEffectType = GameObjectSoundType.MagicDust
+            SoundEffectType = GameObjectSoundType.MagicDust,
+            IconOneBasedIndex = 11
         };
     }
 }

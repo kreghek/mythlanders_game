@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -15,27 +16,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
         {
         }
 
-        public BlankShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private BlankShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentAttackMultiplier(SID);
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID)
         };
 
         public override SkillSid Sid => SID;
@@ -45,7 +32,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.Gunshot
+            SoundEffectType = GameObjectSoundType.Gunshot,
+            IconOneBasedIndex = 16
         };
     }
 }

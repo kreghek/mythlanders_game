@@ -1,28 +1,30 @@
+using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.Equipments
 {
-    internal abstract class SimpleAttackEquipmentBase : IEquipmentScheme
+    internal abstract class SimpleBonusEquipmentBase : IEquipmentScheme
     {
-        protected abstract SkillSid[] AffectedAttackingSkills { get; }
+        protected abstract IReadOnlyCollection<SkillSid> AffectedSkills { get; }
 
-        protected abstract float MultiplicatorByLevel { get; }
+        protected virtual float MultiplicatorByLevel => 0.25f;
+
         public abstract EquipmentSid Sid { get; }
 
         public abstract string GetDescription();
 
 
-        public float GetDamageMultiplier(SkillSid skillSid, int level)
+        public float GetDamageMultiplierBonus(SkillSid skillSid, int level)
         {
-            if (!AffectedAttackingSkills.Contains(skillSid))
+            if (!AffectedSkills.Contains(skillSid))
             {
                 // Unaffected skill.
-                return 1;
+                return 0;
             }
 
-            return 1 + level * MultiplicatorByLevel;
+            return level * MultiplicatorByLevel;
         }
 
         public abstract EquipmentItemType RequiredResourceToLevelUp { get; }

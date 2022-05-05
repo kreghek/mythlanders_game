@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class VoiceModulator : SimpleAttackEquipmentBase
+    internal sealed class VoiceModulator : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Liberator;
         public override EquipmentSid Sid => EquipmentSid.VoiceModulator;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.Liberation };
 
         protected override float MultiplicatorByLevel => 0.5f;

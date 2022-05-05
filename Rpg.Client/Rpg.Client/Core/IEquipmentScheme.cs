@@ -8,9 +8,9 @@ namespace Rpg.Client.Core
 
         EquipmentSid Sid { get; }
 
-        float GetDamageMultiplier(SkillSid skillSid, int level)
+        float GetDamageMultiplierBonus(SkillSid skillSid, int level)
         {
-            return 1f;
+            return 0;
         }
 
         string GetDescription();

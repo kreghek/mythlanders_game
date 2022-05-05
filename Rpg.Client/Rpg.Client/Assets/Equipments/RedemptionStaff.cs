@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class RedemptionStaff : SimpleAttackEquipmentBase
+    internal sealed class RedemptionStaff : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.StaffHit, SkillSid.MasterStaffHit };
 
         protected override float MultiplicatorByLevel => 0.5f;

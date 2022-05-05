@@ -296,7 +296,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             foreach (var card in _unit.CombatCards)
             {
-                var iconRect = UnsortedHelpers.GetIconRect(card.Skill.Sid);
+                var skillVisualization = ((IVisualizedSkill)card.Skill).Visualization;
+                var iconRect = UnsortedHelpers.GetIconRect(card.Skill.Sid, skillVisualization);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
                 var button = new CombatSkillButton<CombatSkill>(_uiContentStorage.GetSkillButtonTexture(), iconData,
                     card, this);

@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class FlameThrower : SimpleAttackEquipmentBase
+    internal sealed class FlameThrower : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
         public override EquipmentSid Sid => EquipmentSid.FlameThrower;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.FlameThrowing, SkillSid.PipeBludgeon };
 
         protected override float MultiplicatorByLevel => 0.5f;

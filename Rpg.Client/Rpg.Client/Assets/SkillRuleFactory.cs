@@ -1,3 +1,4 @@
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 
@@ -103,6 +104,36 @@ namespace Rpg.Client.Assets
                     };
 
                     return effect;
+                })
+            };
+        }
+
+        public static EffectRule CreateDamage(SkillSid sid)
+        {
+            return CreateDamage(sid, SkillDirection.Target, 1f);
+        }
+        
+        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction)
+        {
+            return CreateDamage(sid, direction, 1f);
+        }
+
+        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var equipmentMultiplierBonus = u.Unit.GetEquipmentDamageMultiplierBonus(sid);
+
+                    var res = new DamageEffect
+                    {
+                        Actor = u,
+                        DamageMultiplier = multiplier * (1 + equipmentMultiplierBonus)
+                    };
+
+                    return res;
                 })
             };
         }

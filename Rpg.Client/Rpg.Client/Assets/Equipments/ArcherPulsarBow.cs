@@ -4,12 +4,12 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class ArcherPulsarBow : SimpleAttackEquipmentBase
+    internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
         public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
 
-        protected override SkillSid[] AffectedAttackingSkills =>
+        protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.EnergyShot, SkillSid.RapidShot };
 
         protected override float MultiplicatorByLevel => 0.25f;

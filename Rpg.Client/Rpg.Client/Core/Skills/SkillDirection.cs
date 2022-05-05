@@ -6,6 +6,7 @@
         Self,
         OtherFriendly,
         AllEnemies,
+        AllTankingEnemies,
         AllFriendly,
         RandomEnemy,
         RandomFriendly,
