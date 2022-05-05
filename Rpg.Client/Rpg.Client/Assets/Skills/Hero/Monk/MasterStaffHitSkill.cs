@@ -5,19 +5,18 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Monk
 {
     internal class MasterStaffHitSkill : VisualizedSkillBase
     {
-        public MasterStaffHitSkill() : this(false)
-        {
-        }
-
-        public MasterStaffHitSkill(bool costRequired) : base(new SkillVisualization
+        private static readonly SkillVisualization _predefinedSkillVisualization = new()
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.StaffHit
-        }, costRequired)
+            SoundEffectType = GameObjectSoundType.StaffHit,
+            IconOneBasedIndex = 17
+        };
+
+        public MasterStaffHitSkill(bool costRequired) : base(_predefinedSkillVisualization, costRequired)
         {
         }
 

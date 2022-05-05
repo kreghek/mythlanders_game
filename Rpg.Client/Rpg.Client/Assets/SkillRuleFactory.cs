@@ -13,9 +13,11 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    var equipmentMultiplierBonus = u.Unit.GetEquipmentHealMultiplierBonus(sid);
+                    
                     var effect = new PeriodicHealEffect(u, duration)
                     {
-                        PowerMultiplier = power,
+                        PowerMultiplier = power * (1 + equipmentMultiplierBonus),
                         Visualization = EffectVisualizations.Healing
                     };
 

@@ -369,5 +369,11 @@ namespace Rpg.Client.Core
             var bonuses = unit.Equipments.Select(x => x.Scheme.GetDamageMultiplierBonus(skillSid, x.Level));
             return bonuses.Sum();
         }
+        
+        public static float GetEquipmentHealMultiplierBonus(this Unit unit, SkillSid skillSid)
+        {
+            var bonuses = unit.Equipments.Select(x => x.Scheme.GetHealMultiplierBonus(skillSid, x.Level));
+            return bonuses.Sum();
+        }
     }
 }
