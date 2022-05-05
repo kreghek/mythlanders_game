@@ -26,10 +26,5 @@ namespace Rpg.Client.Core.SkillEffects
         {
             Target.ChangeState(CombatUnitState.Idle);
         }
-
-        protected override void AfterImpose()
-        {
-            Target.ChangeState(CombatUnitState.Defense);
-        }
     }
 }

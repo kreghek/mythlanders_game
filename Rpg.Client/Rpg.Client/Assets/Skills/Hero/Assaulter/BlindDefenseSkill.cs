@@ -6,7 +6,6 @@ using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -33,24 +32,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var list = new List<EffectRule>
             {
-                SkillRuleFactory.CreateProtection(SID, multiplier: 1f, SkillDirection.Self)
+                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f),
+                SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, multiplier: 0.5f),
             };
-
-            list.Add(new EffectRule
-            {
-                Direction = SkillDirection.RandomEnemy,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 0.01f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            });
 
             return list;
         }

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -26,26 +24,12 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var list = new List<EffectRule>
             {
-                SkillRuleFactory.CreatePowerDown(SID, 1, SkillDirection.Target)
+                SkillRuleFactory.CreatePowerDown(SID, SkillDirection.Target, 1)
             };
 
             for (var i = 0; i < 5; i++)
             {
-                list.Add(new EffectRule
-                {
-                    Direction = SkillDirection.Target,
-                    EffectCreator = new EffectCreator(u =>
-                    {
-                        var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-                        var res = new DamageEffect
-                        {
-                            Actor = u,
-                            DamageMultiplier = 0.1f * equipmentMultiplier
-                        };
-
-                        return res;
-                    })
-                });
+                list.Add(SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, 0.1f));
             }
 
             return list;

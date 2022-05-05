@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -18,7 +17,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            SkillRuleFactory.CreateProtection(SID, 0.5f, SkillDirection.AllFriendly)
+            SkillRuleFactory.CreateProtection(SID, SkillDirection.AllFriendly, 0.5f)
         };
 
         public override SkillSid Sid => SID;

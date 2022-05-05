@@ -51,10 +51,10 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction)
         {
-            return CreatePowerUp(sid, duration: 1, direction);
+            return CreatePowerUp(sid, direction, duration: 1);
         }
 
-        public static EffectRule CreatePowerUp(SkillSid sid, int duration, SkillDirection direction)
+        public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction, int duration)
         {
             return new EffectRule
             {
@@ -70,7 +70,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerDown(SkillSid sid, int duration, SkillDirection direction)
+        public static EffectRule CreatePowerDown(SkillSid sid, SkillDirection direction, int duration)
         {
             return new EffectRule
             {
@@ -86,21 +86,21 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreateProtection(SkillSid sid, float multiplier,
-            SkillDirection direction)
+        public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction,
+            float multiplier)
         {
-            return CreateProtection(sid, 1, multiplier, direction);
+            return CreateProtection(sid, direction, 1, multiplier);
         }
 
-        public static EffectRule CreateProtection(SkillSid sid, int duration, float multiplier,
-            SkillDirection direction)
+        public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction, int duration,
+            float multiplier)
         {
             return new EffectRule
             {
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(u, duration, multiplier)
+                    var effect = new DecreaseDamageEffect(u, duration + 1, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection
                     };

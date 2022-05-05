@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
@@ -22,7 +23,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            SkillRuleFactory.CreateProtection(SID, 0.5f, SkillDirection.Self)
+            SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, 0.5f)
         };
 
         public override SkillSid Sid => SID;
@@ -36,5 +37,11 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
             AnimationSid = AnimationSid.Skill3,
             IconOneBasedIndex = 3
         };
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        {
+            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
+            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
+        }
     }
 }
