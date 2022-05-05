@@ -131,13 +131,13 @@ namespace Rpg.Client.Core
             {
                 EffectProcessor.Impose(skill.Rules, CurrentUnit, materializedTarget, skill);
             };
-            
+
             var item = new SkillEffectExecutionItem
             {
                 Action = ruleAction,
                 Targets = EffectProcessor.GetTargets(skill.Rules[0], CurrentUnit, targetUnit)
             };
-            
+
             interactionList.Add(item);
 
             var skillExecution = new SkillExecution

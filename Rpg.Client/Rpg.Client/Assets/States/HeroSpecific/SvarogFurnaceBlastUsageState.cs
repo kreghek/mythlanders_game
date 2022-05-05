@@ -39,7 +39,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 {
                     foreach (var target in ruleInteraction.Targets)
                     {
-                        ruleInteraction.Action(target);   
+                        ruleInteraction.Action(target);
                     }
                 }
             }

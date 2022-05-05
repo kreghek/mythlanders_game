@@ -97,7 +97,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int EFFECT_SIZE = 16;
             const int EFFECTS_MARGIN = 2;
             const int EFFECTS_DURATION_OFFSET = 2;
-            
+
             var effects = _activeCombat.EffectProcessor.GetCurrentEffect(combatUnit).ToArray();
 
             for (var index = 0; index < effects.Length; index++)
@@ -143,7 +143,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             const int COL_COUNT = 2;
 
             var index = GetEffectSourceBaseOneIndex(effect) - 1;
-            
+
             Debug.Assert(index >= 0);
 
             var col = index % COL_COUNT;

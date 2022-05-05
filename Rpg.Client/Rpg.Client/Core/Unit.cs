@@ -21,13 +21,13 @@ namespace Rpg.Client.Core
             HitPoints = new Stat(0);
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
-            
+
             var equipments = new List<Equipment>();
             InitEquipment(equipments);
             Equipments = equipments;
 
             InitBaseStats(unitScheme);
-            
+
             ShieldPoints = new Stat(Armor);
 
             _globalEffects = new List<GlobalUnitEffect>();
@@ -308,7 +308,7 @@ namespace Rpg.Client.Core
             {
                 maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
             }
-            
+
             var maxHitPointsRounded = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
             HitPoints.ChangeBase(maxHitPointsRounded);
 

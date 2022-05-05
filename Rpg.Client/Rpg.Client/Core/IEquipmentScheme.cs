@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
         {
             return 0;
         }
-        
+
         float GetHealMultiplierBonus(SkillSid skillSid, int level)
         {
             return 0;

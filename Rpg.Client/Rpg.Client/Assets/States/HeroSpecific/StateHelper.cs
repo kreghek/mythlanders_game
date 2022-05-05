@@ -35,14 +35,14 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 }
             };
         }
-        
+
         private static void InvokeRuleInteractions(IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions)
         {
             foreach (var ruleInteraction in skillRuleInteractions)
             {
                 foreach (var target in ruleInteraction.Targets)
                 {
-                    ruleInteraction.Action(target);   
+                    ruleInteraction.Action(target);
                 }
             }
         }

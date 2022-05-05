@@ -229,7 +229,7 @@ namespace Rpg.Client.Tests
             // ACT
 
             var factSp = unit.ShieldPoints;
-            
+
             // ASSERT
 
             factSp.ActualBase.Should().Be(expectedMaxSp);

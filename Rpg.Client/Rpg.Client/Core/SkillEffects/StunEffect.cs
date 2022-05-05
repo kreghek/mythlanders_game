@@ -11,7 +11,7 @@
         public StunEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
         {
         }
-        
+
         public StunEffect(ICombatUnit actor) : base(actor)
         {
         }

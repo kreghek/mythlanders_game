@@ -80,7 +80,7 @@ namespace BalanceGenerator
                 {
                     foreach (var target in skillRuleInteraction.Targets)
                     {
-                        skillRuleInteraction.Action(target);   
+                        skillRuleInteraction.Action(target);
                     }
                 }
 

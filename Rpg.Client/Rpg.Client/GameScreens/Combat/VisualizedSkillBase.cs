@@ -40,11 +40,11 @@ namespace Rpg.Client.GameScreens.Combat
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
-            
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
-                mainStateBlocker, 
+                mainStateBlocker,
                 interactionDeliveryBlocker,
                 animationBlocker);
 
@@ -95,7 +95,7 @@ namespace Rpg.Client.GameScreens.Combat
                         context.GameObjectContentStorage, null)
                 };
             }
-            
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions, mainStateBlocker,
@@ -126,8 +126,8 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     new SkillAnimationInfoItem
                     {
-                        Duration = 0.75f, 
-                        HitSound = hitSound, 
+                        Duration = 0.75f,
+                        HitSound = hitSound,
                         Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),
                         InteractTime = 0
                     }
@@ -150,16 +150,16 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 foreach (var target in ruleInteraction.Targets)
                 {
-                    ruleInteraction.Action(target);   
+                    ruleInteraction.Action(target);
                 }
             }
         }
-        
+
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
             AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
-          
+
             var state = new CommonSelfSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
                 mainAnimationBlocker: mainAnimationBlocker,

@@ -149,7 +149,7 @@ namespace Rpg.Client.Core.SkillEffects
                     throw new InvalidOperationException();
             }
         }
-    
+
         private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget, ISkill skill)
         {
             ImposeByCreator(effectCreator, actor, materializedTarget, skill);

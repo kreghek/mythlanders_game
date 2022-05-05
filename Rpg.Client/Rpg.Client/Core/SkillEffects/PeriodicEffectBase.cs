@@ -69,7 +69,7 @@ namespace Rpg.Client.Core.SkillEffects
             {
                 throw new InvalidOperationException("CombatContext is not assigned. Use this method onl in combat environment.");
             }
-            
+
             if (testedEffect.CombatContext is null)
             {
                 throw new InvalidOperationException("CombatContext of tested effect is not assigned. Use this method onl in combat environment.");

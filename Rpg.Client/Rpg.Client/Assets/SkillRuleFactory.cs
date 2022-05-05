@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var equipmentMultiplierBonus = u.Unit.GetEquipmentHealMultiplierBonus(sid);
-                    
+
                     var effect = new PeriodicHealEffect(u, duration)
                     {
                         PowerMultiplier = power * (1 + equipmentMultiplierBonus),
@@ -114,7 +114,7 @@ namespace Rpg.Client.Assets
         {
             return CreateDamage(sid, SkillDirection.Target, 1f);
         }
-        
+
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction)
         {
             return CreateDamage(sid, direction, 1f);

@@ -134,7 +134,7 @@ namespace Rpg.Client.Core
             {
                 var localRuleIndex = ruleIndex;
                 var effectRule = skill.Skill.Rules[localRuleIndex];
-                
+
                 Action<ICombatUnit> ruleAction = materializedTarget =>
                 {
                     EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget, skill.Skill);
@@ -146,7 +146,7 @@ namespace Rpg.Client.Core
                     Targets = EffectProcessor.GetTargets(effectRule, CurrentUnit, targetUnit),
                     Metadata = effectRule.EffectMetadata
                 };
-                
+
                 interactionList.Add(item);
             }
 

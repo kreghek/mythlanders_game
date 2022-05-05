@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             var toxicGasInteractionDelivery = new HealLightObject(
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
                 gameObjectContentStorage, _toxicGasAnimationBlocker);
-            
+
             StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
                 _toxicGasAnimationBlocker, animationBlocker);
 

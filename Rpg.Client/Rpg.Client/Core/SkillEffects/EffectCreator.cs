@@ -18,7 +18,7 @@ namespace Rpg.Client.Core.SkillEffects
             var effect = _factory(actor);
 
             var context = new CombatEffectContext(combat, sourceSkill);
-            
+
             effect.CombatContext = context;
 
             return effect;

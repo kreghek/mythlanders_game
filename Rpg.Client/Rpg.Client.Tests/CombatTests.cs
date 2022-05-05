@@ -167,7 +167,7 @@ namespace Rpg.Client.Tests
             combat.UseSkill(skill, target);
 
             combat.Update();
-            
+
             combat.Update();
 
             // ASSERT
