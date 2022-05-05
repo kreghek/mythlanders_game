@@ -70,21 +70,6 @@ namespace Rpg.Client.Tests
             takenDamageMount.Should().BeGreaterThan(2);
         }
 
-        private static void HandleInteraction(SkillExecution skillExecution)
-        {
-            var actionSkillRuleInteractions = skillExecution.SkillRuleInteractions;
-
-            foreach (var skillRuleInteraction in actionSkillRuleInteractions)
-            {
-                foreach (var target in skillRuleInteraction.Targets)
-                {
-                    skillRuleInteraction.Action(target);
-                }
-            }
-
-            skillExecution.SkillComplete();
-        }
-
         [Test]
         public void UseSkill_PeriodicDamageDefeatsMonster_NotThrowException()
         {
@@ -100,7 +85,7 @@ namespace Rpg.Client.Tests
                         return new PeriodicDamageEffect(unit, 1)
                         {
                             PowerMultiplier = 10000,
-                            SourceDamage = 1,
+                            SourceDamage = 1
                         };
                     })
                 }
@@ -367,6 +352,21 @@ namespace Rpg.Client.Tests
             }
 
             return volkolakTransition.NextScheme;
+        }
+
+        private static void HandleInteraction(SkillExecution skillExecution)
+        {
+            var actionSkillRuleInteractions = skillExecution.SkillRuleInteractions;
+
+            foreach (var skillRuleInteraction in actionSkillRuleInteractions)
+            {
+                foreach (var target in skillRuleInteraction.Targets)
+                {
+                    skillRuleInteraction.Action(target);
+                }
+            }
+
+            skillExecution.SkillComplete();
         }
     }
 }

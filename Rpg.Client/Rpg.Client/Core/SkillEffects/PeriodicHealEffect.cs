@@ -6,6 +6,11 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicHealEffect : PeriodicEffectBase
     {
+        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        {
+            SourceSupport = actor.Unit.Support;
+        }
+
         public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
@@ -43,11 +48,6 @@ namespace Rpg.Client.Core.SkillEffects
             Target.Unit.RestoreHitPoints(rolledHeal);
 
             base.InfluenceAction();
-        }
-
-        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
-        {
-            SourceSupport = actor.Unit.Support;
         }
     }
 }

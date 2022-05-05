@@ -6,8 +6,6 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
-        public ICombatUnit Actor { get; private set; }
-
         private int _value = -1;
 
         protected PeriodicEffectBase(ICombatUnit actor, int startDuration)
@@ -19,6 +17,8 @@ namespace Rpg.Client.Core.SkillEffects
         protected PeriodicEffectBase(ICombatUnit actor) : this(actor, 1)
         {
         }
+
+        public ICombatUnit Actor { get; }
 
         /// <summary>
         /// Duration of effect in combat rounds.
@@ -63,16 +63,28 @@ namespace Rpg.Client.Core.SkillEffects
             base.AddToList(list);
         }
 
+        protected override void InfluenceAction()
+        {
+            if (Duration < 0)
+            {
+                Debug.Fail($"{nameof(Duration)} is not defined.");
+            }
+
+            Duration--;
+        }
+
         private bool CanBeMerged(PeriodicEffectBase testedEffect)
         {
             if (CombatContext is null)
             {
-                throw new InvalidOperationException("CombatContext is not assigned. Use this method onl in combat environment.");
+                throw new InvalidOperationException(
+                    "CombatContext is not assigned. Use this method onl in combat environment.");
             }
 
             if (testedEffect.CombatContext is null)
             {
-                throw new InvalidOperationException("CombatContext of tested effect is not assigned. Use this method onl in combat environment.");
+                throw new InvalidOperationException(
+                    "CombatContext of tested effect is not assigned. Use this method onl in combat environment.");
             }
 
             var isSameType = testedEffect.GetType() != GetType();
@@ -85,16 +97,6 @@ namespace Rpg.Client.Core.SkillEffects
         private void MergeWithBase(PeriodicEffectBase targetEffect)
         {
             targetEffect.Duration += Duration;
-        }
-
-        protected override void InfluenceAction()
-        {
-            if (Duration < 0)
-            {
-                Debug.Fail($"{nameof(Duration)} is not defined.");
-            }
-
-            Duration--;
         }
     }
 }

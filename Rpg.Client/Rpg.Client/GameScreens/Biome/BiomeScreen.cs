@@ -175,7 +175,7 @@ namespace Rpg.Client.GameScreens.Biome
             }
         }
 
-        private void AutoCombatDelegate(GlobeNode node, Core.Event? availableEvent)
+        private void AutoCombatDelegate(GlobeNode node, Event? availableEvent)
         {
             CombatDelegateInner(true, node, availableEvent);
         }
@@ -185,12 +185,12 @@ namespace Rpg.Client.GameScreens.Biome
             _globe.Updated -= Globe_Updated;
         }
 
-        private void CombatDelegate(GlobeNode node, Core.Event? availableEvent)
+        private void CombatDelegate(GlobeNode node, Event? availableEvent)
         {
             CombatDelegateInner(false, node, availableEvent);
         }
 
-        private void CombatDelegateInner(bool autoCombat, GlobeNode node, Core.Event? availableEvent)
+        private void CombatDelegateInner(bool autoCombat, GlobeNode node, Event? availableEvent)
         {
             _screenTransition = true;
 

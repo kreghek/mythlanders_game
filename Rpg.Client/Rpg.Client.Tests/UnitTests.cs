@@ -141,6 +141,36 @@ namespace Rpg.Client.Tests
         }
 
         [Test]
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(10, 10)]
+        public void ShieldPoints_DifferentLevels_ShieldPointsGrowWithLevel(int level, int expectedMaxSp)
+        {
+            // ARRANGE
+            var basics = new CommonUnitBasics
+            {
+                ARMOR_BASE = 1,
+                POWER_BASE = 0,
+                POWER_PER_LEVEL_BASE = 1,
+                HERO_POWER_MULTIPLICATOR = 1
+            };
+            var sourceScheme = new UnitScheme(basics)
+            {
+                TankRank = 1f
+            };
+
+            var unit = new Unit(sourceScheme, level);
+
+            // ACT
+
+            var factSp = unit.ShieldPoints;
+
+            // ASSERT
+
+            factSp.ActualBase.Should().Be(expectedMaxSp);
+        }
+
+        [Test]
         public void TakeDamage_UnitHasTransformation_EventFired()
         {
             // ARRANGE
@@ -203,36 +233,6 @@ namespace Rpg.Client.Tests
             // ASSERT
 
             unit.UnitScheme.Should().BeSameAs(nextScheme);
-        }
-
-        [Test]
-        [TestCase(1, 1)]
-        [TestCase(2, 2)]
-        [TestCase(10, 10)]
-        public void ShieldPoints_DifferentLevels_ShieldPointsGrowWithLevel(int level, int expectedMaxSp)
-        {
-            // ARRANGE
-            var basics = new CommonUnitBasics
-            {
-                ARMOR_BASE = 1,
-                POWER_BASE = 0,
-                POWER_PER_LEVEL_BASE = 1,
-                HERO_POWER_MULTIPLICATOR = 1
-            };
-            var sourceScheme = new UnitScheme(basics)
-            {
-                TankRank = 1f
-            };
-
-            var unit = new Unit(sourceScheme, level);
-
-            // ACT
-
-            var factSp = unit.ShieldPoints;
-
-            // ASSERT
-
-            factSp.ActualBase.Should().Be(expectedMaxSp);
         }
     }
 }

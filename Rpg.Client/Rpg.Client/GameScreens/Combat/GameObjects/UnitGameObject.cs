@@ -43,9 +43,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public CombatUnit CombatUnit { get; }
 
-        public bool IsActive { get; set; }
-
         public Vector2 InteractionPoint => Position - Vector2.UnitY * 64;
+
+        public bool IsActive { get; set; }
         public Vector2 LaunchPoint => Position - Vector2.UnitY * 64;
 
         public void AnimateWound()

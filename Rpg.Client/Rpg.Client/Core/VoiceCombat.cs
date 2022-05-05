@@ -127,7 +127,7 @@ namespace Rpg.Client.Core
             }
 
             var interactionList = new List<SkillEffectExecutionItem>();
-            Action<ICombatUnit> ruleAction = (materializedTarget) =>
+            Action<ICombatUnit> ruleAction = materializedTarget =>
             {
                 EffectProcessor.Impose(skill.Rules, CurrentUnit, materializedTarget, skill);
             };

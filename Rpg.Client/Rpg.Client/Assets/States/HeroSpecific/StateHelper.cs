@@ -7,8 +7,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal static class StateHelper
     {
-        public static void HandleStateWithInteractionDelivery(IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions,
-            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
+        public static void HandleStateWithInteractionDelivery(
+            IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions,
+            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker,
+            AnimationBlocker animationBlocker)
         {
             var isInteractionDeliveryComplete = false;
             var isAnimationComplete = false;

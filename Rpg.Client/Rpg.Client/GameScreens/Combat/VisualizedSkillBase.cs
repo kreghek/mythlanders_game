@@ -144,6 +144,19 @@ namespace Rpg.Client.GameScreens.Combat
             return state;
         }
 
+        private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
+            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
+            SoundEffectInstance hitSound)
+        {
+            var state = new CommonSelfSkillUsageState(
+                graphics: animatedUnitGameObject._graphics,
+                mainAnimationBlocker: mainAnimationBlocker,
+                interaction: () => Interaction(context.Interaction.SkillRuleInteractions),
+                hitSound: hitSound,
+                animationSid: animationSid);
+            return state;
+        }
+
         private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
         {
             foreach (var ruleInteraction in skillRuleInteractions)
@@ -153,20 +166,6 @@ namespace Rpg.Client.GameScreens.Combat
                     ruleInteraction.Action(target);
                 }
             }
-        }
-
-        private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
-            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
-            SoundEffectInstance hitSound)
-        {
-
-            var state = new CommonSelfSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
-                mainAnimationBlocker: mainAnimationBlocker,
-                interaction: () => Interaction(context.Interaction.SkillRuleInteractions),
-                hitSound: hitSound,
-                animationSid: animationSid);
-            return state;
         }
 
         public virtual IUnitStateEngine CreateState(

@@ -12,6 +12,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
 {
     internal class StaffHitSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.StaffHit;
+
         private static readonly SkillVisualization _predefinedSkillVisualization = new()
         {
             Type = SkillVisualizationStateType.Melee,
@@ -19,8 +21,6 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
             AnimationSid = AnimationSid.Skill1,
             IconOneBasedIndex = 12
         };
-
-        private const SkillSid SID = SkillSid.StaffHit;
 
         public StaffHitSkill() : this(false)
         {

@@ -19,8 +19,9 @@ namespace Rpg.Client.Core.SkillEffects
             };
         }
 
-        protected override IEnumerable<ModifierBase> Modifiers { get; }
         public float Multiplier { get; }
+
+        protected override IEnumerable<ModifierBase> Modifiers { get; }
 
         protected override void AfterDispel()
         {

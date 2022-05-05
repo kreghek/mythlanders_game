@@ -26,17 +26,18 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             SoundEffectInstance rifleShotSound,
             AnimationSid animationSid)
         {
-            Debug.Assert(interactionDeliveries.Any(), "Empty interaction list leads to empty sub-states and game freeze.");
+            Debug.Assert(interactionDeliveries.Any(),
+                "Empty interaction list leads to empty sub-states and game freeze.");
 
             rifleShotSound.Play();
 
             _subStates = interactionDeliveries.Select(x => new LaunchInteractionDeliveryState(
-                    graphics,
-                    new[] { x },
-                    interactionDeliveryManager,
-                    createProjectileSound: null,
-                    animationSid,
-                    animationDuration: 0.2)).ToArray();
+                graphics,
+                new[] { x },
+                interactionDeliveryManager,
+                createProjectileSound: null,
+                animationSid,
+                animationDuration: 0.2)).ToArray();
             _animationBlocker = animationBlocker;
         }
 

@@ -12,7 +12,6 @@ namespace Rpg.Client.GameScreens.Combat
     internal interface ISkillVisualizationContext
     {
         IAnimationManager AnimationManager { get; }
-        AnimationBlocker AddAnimationBlocker();
 
         GameObjectContentStorage GameObjectContentStorage { get; }
 
@@ -21,9 +20,10 @@ namespace Rpg.Client.GameScreens.Combat
         IList<IInteractionDelivery> InteractionDeliveryList { get; }
 
         ScreenShaker ScreenShaker { get; }
-
-        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
+        AnimationBlocker AddAnimationBlocker();
 
         UnitGameObject GetGameObject(ICombatUnit combatUnit);
+
+        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
     }
 }

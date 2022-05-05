@@ -26,23 +26,6 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
         public override IReadOnlyList<EffectRule> Rules { get; } = CreateRules();
 
-        private static List<EffectRule> CreateRules()
-        {
-            var list = new List<EffectRule>
-            {
-                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f)
-            };
-
-            for (var i = 0; i < 5; i++)
-            {
-                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
-                rule.EffectMetadata = new BlindDefenseSkillRuleMetadata() { IsShot = true };
-                list.Add(rule);
-            }
-
-            return list;
-        }
-
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.Range;
@@ -54,11 +37,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             IconOneBasedIndex = 3
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             var mainShotingBlocker = context.AddAnimationBlocker();
-            var interactionItems = context.Interaction.SkillRuleInteractions.Where(x => (x.Metadata is BlindDefenseSkillRuleMetadata meta) && meta.IsShot).ToArray();
+            var interactionItems = context.Interaction.SkillRuleInteractions
+                .Where(x => (x.Metadata is BlindDefenseSkillRuleMetadata meta) && meta.IsShot).ToArray();
             var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
             for (var i = 0; i < interactionItems.Length; i++)
             {
@@ -104,6 +89,24 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 animationSid: AnimationSid.Skill1);
 
             return state;
+        }
+
+        private static List<EffectRule> CreateRules()
+        {
+            var list = new List<EffectRule>
+            {
+                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f)
+            };
+
+            for (var i = 0; i < 5; i++)
+            {
+                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
+                rule.EffectMetadata = new BlindDefenseSkillRuleMetadata
+                    { IsShot = true };
+                list.Add(rule);
+            }
+
+            return list;
         }
     }
 }
