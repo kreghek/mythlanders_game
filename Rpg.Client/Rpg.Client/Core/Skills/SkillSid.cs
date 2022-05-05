@@ -64,7 +64,6 @@ namespace Rpg.Client.Core.Skills
         BlankShot,
         SuppressiveFire,
         UnholyHit,
-        InspiringExample
         BlackRifleShot,
         BlindDefense,
         InspiringRush

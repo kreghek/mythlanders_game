@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
         }
 
-        public BlackRifleShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private BlackRifleShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
