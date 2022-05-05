@@ -12,6 +12,7 @@ namespace Rpg.Client.GameScreens.Combat
     internal interface ISkillVisualizationContext
     {
         IAnimationManager AnimationManager { get; }
+        AnimationBlocker AddAnimationBlocker();
 
         GameObjectContentStorage GameObjectContentStorage { get; }
 

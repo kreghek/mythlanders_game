@@ -6,10 +6,6 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal interface IEffectVisualization
-    {
-    }
-
     internal abstract class EffectBase
     {
         public IEffectVisualization? Visualization { get; set; }

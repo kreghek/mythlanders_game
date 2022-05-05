@@ -7,5 +7,7 @@ namespace Rpg.Client.Core.Skills
         public SkillDirection Direction { get; init; }
 
         public EffectCreator EffectCreator { get; init; }
+
+        public ISkillEffectMetadata? EffectMetadata { get; set; }
     }
 }

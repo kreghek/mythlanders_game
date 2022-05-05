@@ -7,5 +7,6 @@ namespace Rpg.Client.Core.SkillEffects
     {
         public Action<ICombatUnit> Action { get; set; }
         public IReadOnlyList<ICombatUnit> Targets { get; set; }
+        public ISkillEffectMetadata? Metadata { get; set; }
     }
 }

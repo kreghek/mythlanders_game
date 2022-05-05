@@ -248,6 +248,10 @@ namespace Rpg.Client.GameScreens
                 {
                     GameObjectSoundType.Gunshot,
                     contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Gunshot")
+                },
+                {
+                    GameObjectSoundType.AssaultRifleBurst,
+                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/AssaultRifleBurst")
                 }
             };
 

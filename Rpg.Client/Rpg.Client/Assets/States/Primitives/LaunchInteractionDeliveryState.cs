@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.Primitives
@@ -15,14 +14,14 @@ namespace Rpg.Client.Assets.States.Primitives
     /// </summary>
     internal sealed class LaunchInteractionDeliveryState : IUnitStateEngine
     {
-        private const double DURATION_SECONDS = 1;
+        private const double DEFAULT_DURATION_SECONDS = 1;
 
-        private readonly AnimationBlocker? _animationBlocker;
         private readonly AnimationSid _animationSid;
+        private readonly double _animationDuration;
         private readonly SoundEffectInstance? _createProjectileSound;
         private readonly UnitGraphics _graphics;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryList;
+        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
 
         private double _counter;
 
@@ -30,29 +29,31 @@ namespace Rpg.Client.Assets.States.Primitives
 
         private LaunchInteractionDeliveryState(UnitGraphics graphics,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList)
+            IList<IInteractionDelivery> interactionDeliveryManager)
         {
             _graphics = graphics;
             _interactionDelivery = interactionDelivery;
-            _interactionDeliveryList = interactionDeliveryList;
+            _interactionDeliveryManager = interactionDeliveryManager;
         }
 
         public LaunchInteractionDeliveryState(UnitGraphics graphics,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
-            SoundEffectInstance createProjectileSound,
-            AnimationSid animationSid) :
+            SoundEffectInstance? createProjectileSound,
+            AnimationSid animationSid,
+            double animationDuration = DEFAULT_DURATION_SECONDS) :
             this(graphics, interactionDelivery, interactionDeliveryList)
         {
             _createProjectileSound = createProjectileSound;
             _animationSid = animationSid;
+            _animationDuration = animationDuration;
         }
 
         private void LaunchInteractionDelivery(IReadOnlyCollection<IInteractionDelivery> interactionDelivery)
         {
             foreach (var delivery in interactionDelivery)
             {
-                _interactionDeliveryList.Add(delivery);
+                _interactionDeliveryManager.Add(delivery);
             }
         }
 
@@ -73,11 +74,11 @@ namespace Rpg.Client.Assets.States.Primitives
 
             _counter += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_counter > DURATION_SECONDS)
+            if (_counter > _animationDuration)
             {
                 IsComplete = true;
             }
-            else if (_counter > DURATION_SECONDS / 2)
+            else if (_counter > _animationDuration / 2)
             {
                 if (!_interactionDeliveryLaunched)
                 {
@@ -89,7 +90,5 @@ namespace Rpg.Client.Assets.States.Primitives
                 }
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

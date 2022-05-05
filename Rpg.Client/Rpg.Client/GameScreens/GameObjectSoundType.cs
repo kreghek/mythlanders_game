@@ -20,6 +20,7 @@
         StaffHit,
         BearBludgeon,
         FrogHornsUp,
-        Gunshot
+        Gunshot,
+        AssaultRifleBurst
     }
 }

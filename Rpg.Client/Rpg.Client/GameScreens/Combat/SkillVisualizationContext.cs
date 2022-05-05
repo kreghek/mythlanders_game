@@ -33,6 +33,11 @@ namespace Rpg.Client.GameScreens.Combat
             return _unitGameObjects.Single(x => x.CombatUnit == combatUnit);
         }
 
+        public AnimationBlocker AddAnimationBlocker()
+        {
+            return AnimationManager.CreateAndUseBlocker();
+        }
+
         public GameObjectContentStorage GameObjectContentStorage { get; init; } = null!;
         public ScreenShaker ScreenShaker { get; init; } = null!;
     }

@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -17,16 +18,22 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private const int FRAME_COUNT = 4;
 
         private readonly AnimationBlocker? _blocker;
+        private readonly ICombatUnit? _targetCombatUnit;
+        private readonly Action<ICombatUnit>? _interaction;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
-        private readonly ParticleSystem _particleSystem;
+        private readonly ParticleSystem _tailParticleSystem;
         private readonly Vector2 _startPosition;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;
 
-        public BulletGameObject(Vector2 startPosition, Vector2 endPosition, GameObjectContentStorage contentStorage,
-            AnimationBlocker? blocker)
+        public BulletGameObject(Vector2 startPosition,
+            Vector2 endPosition,
+            GameObjectContentStorage contentStorage,
+            AnimationBlocker? blocker,
+            ICombatUnit? targetCombatUnit = null,
+            Action<ICombatUnit>? interaction = null)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics())
             {
@@ -37,12 +44,15 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _startPosition = startPosition;
             _endPosition = endPosition;
             _blocker = blocker;
-
+            _targetCombatUnit = targetCombatUnit;
+            _interaction = interaction;
             var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
-            _particleSystem = new ParticleSystem(_startPosition, particleGenerator);
+            _tailParticleSystem = new ParticleSystem(_startPosition, particleGenerator);
         }
 
         public bool IsDestroyed { get; private set; }
+
+        public event EventHandler? InteractionPerformed;
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -52,7 +62,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             }
 
             _graphics.Draw(spriteBatch);
-            _particleSystem.Draw(spriteBatch);
+            _tailParticleSystem.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -89,13 +99,15 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 {
                     IsDestroyed = true;
                     _blocker?.Release();
+                    if (_targetCombatUnit is not null)
+                    {
+                        _interaction?.Invoke(_targetCombatUnit);
+                    }
                 }
             }
 
-            _particleSystem.MoveEmitter(_graphics.Position);
-            _particleSystem.Update(gameTime);
+            _tailParticleSystem.MoveEmitter(_graphics.Position);
+            _tailParticleSystem.Update(gameTime);
         }
-
-        public event EventHandler? InteractionPerformed;
     }
 }

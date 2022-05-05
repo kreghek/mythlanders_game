@@ -143,7 +143,8 @@ namespace Rpg.Client.Core
                 var item = new SkillEffectExecutionItem
                 {
                     Action = ruleAction,
-                    Targets = EffectProcessor.GetTargets(effectRule, CurrentUnit, targetUnit)
+                    Targets = EffectProcessor.GetTargets(effectRule, CurrentUnit, targetUnit),
+                    Metadata = effectRule.EffectMetadata
                 };
                 
                 interactionList.Add(item);

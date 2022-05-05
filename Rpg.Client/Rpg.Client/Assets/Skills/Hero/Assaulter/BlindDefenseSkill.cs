@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+using System.Linq;
 
 using Rpg.Client.Assets.InteractionDeliveryObjects;
-using Rpg.Client.Assets.States;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -32,9 +30,15 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var list = new List<EffectRule>
             {
-                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f),
-                SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, multiplier: 0.5f),
+                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f)
             };
+
+            for (var i = 0; i < 5; i++)
+            {
+                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
+                rule.EffectMetadata = new BlindDefenseSkillRuleMetadata() { IsShot = true };
+                list.Add(rule);
+            }
 
             return list;
         }
@@ -53,29 +57,50 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
+            var mainShotingBlocker = context.AddAnimationBlocker();
+            var interactionItems = context.Interaction.SkillRuleInteractions.Where(x => (x.Metadata is BlindDefenseSkillRuleMetadata meta) && meta.IsShot).ToArray();
+            var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
+            for (var i = 0; i < interactionItems.Length; i++)
+            {
+                var item = interactionItems[i];
+                var bulletAnimationBlocker = context.AddAnimationBlocker();
 
-            var materializedTarget = context.Interaction.SkillRuleInteractions[1].Targets[0];
-            var materializedTargetGameObject = context.GetGameObject(materializedTarget).Position - Vector2.UnitY * (64);
-            
-            var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                materializedTargetGameObject,
-                context.GameObjectContentStorage,
-                interactionDeliveryBlocker);
-            
+                var materializedTarget = interactionItems[i].Targets[0];
+                var materializedTargetGameObject = context.GetGameObject(materializedTarget);
+                var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
+
+                var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.LaunchPoint,
+                    materializedTargetGameObjectPosition,
+                    context.GameObjectContentStorage,
+                    bulletAnimationBlocker,
+                    materializedTarget,
+                    item.Action);
+
+                bulletDataList.Add(new(bulletAnimationBlocker, singleInteractionDelivery));
+
+                bulletAnimationBlocker.Released += (_, _) =>
+                {
+                    var allBuletBlockerIsReleased = !bulletDataList.Any(x => !x.Item1.IsReleased);
+                    if (allBuletBlockerIsReleased)
+                    {
+                        mainShotingBlocker.Release();
+                    }
+                };
+            }
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
-                mainStateBlocker, 
-                interactionDeliveryBlocker,
+                mainStateBlocker,
+                mainShotingBlocker,
                 animationBlocker);
 
-            var state = new CommonDistantSkillUsageState(
+            var state = new AssaultRifleBurstState(
                 graphics: animatedUnitGameObject._graphics,
                 animationBlocker,
-                interactionDelivery: new[] { singleInteractionDelivery },
-                interactionDeliveryList: context.InteractionDeliveryList,
-                hitSound: context.GetHitSound(GameObjectSoundType.Gunshot),
+                bulletDataList.Select(x => x.Item2).ToList(),
+                interactionDeliveryManager: context.InteractionDeliveryList,
+                rifleShotSound: context.GetHitSound(GameObjectSoundType.AssaultRifleBurst),
                 animationSid: AnimationSid.Skill1);
 
             return state;
