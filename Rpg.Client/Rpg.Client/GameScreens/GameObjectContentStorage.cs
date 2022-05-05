@@ -174,85 +174,32 @@ namespace Rpg.Client.GameScreens
                 }
             };
 
+            SoundEffect LoadSkillEffect(string name)
+            {
+                return contentManager.Load<SoundEffect>($"Audio/GameObjects/Skills/{name}");
+            }
+
             _skillSoundDict = new Dictionary<GameObjectSoundType, SoundEffect>
             {
-                {
-                    GameObjectSoundType.SwordSlash,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SwordHitEffect")
-                },
-                {
-                    GameObjectSoundType.Defence,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/ShieldEffect3")
-                },
-                {
-                    GameObjectSoundType.EnergoShot,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BowStrikeEffect")
-                },
-                {
-                    GameObjectSoundType.Heal, contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/HealEffect")
-                },
-                {
-                    GameObjectSoundType.StaffHit,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/StaffHitEffect")
-                },
-                {
-                    GameObjectSoundType.MagicDust,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/DustEffect")
-                },
-                {
-                    GameObjectSoundType.EgyptianDarkMagic,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/EgyptMassStunEffect")
-                },
-
-                {
-                    GameObjectSoundType.WolfBite,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WolfHitEffect")
-                },
-                {
-                    GameObjectSoundType.AspidBite,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/SnakeHitEffect")
-                },
-                {
-                    GameObjectSoundType.BearBludgeon,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/BearBludgeon")
-                },
-                {
-                    GameObjectSoundType.WispEnergy,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/WispStrikeEffect")
-                },
-                {
-                    GameObjectSoundType.VampireBite,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/VampireHitEffect")
-                },
-
-                {
-                    GameObjectSoundType.SvarogSymbolAppearing,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Lasers")
-                },
-                {
-                    GameObjectSoundType.RisingPower,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Shake")
-                },
-                {
-                    GameObjectSoundType.Firestorm,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Explosion")
-                },
-                {
-                    GameObjectSoundType.FireDamage,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FireDamage")
-                },
-                {
-                    GameObjectSoundType.FrogHornsUp,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/FrogHornsUp")
-                },
-                {
-                    GameObjectSoundType.Gunshot,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/Gunshot")
-                },
-                {
-                    GameObjectSoundType.AssaultRifleBurst,
-                    contentManager.Load<SoundEffect>("Audio/GameObjects/Skills/AssaultRifleBurst")
-                }
+                {                    GameObjectSoundType.SwordSlash,                    LoadSkillEffect("SwordHitEffect") },
+                {                    GameObjectSoundType.Defence,                    LoadSkillEffect("ShieldEffect3")                },
+                {                    GameObjectSoundType.EnergoShot,                    LoadSkillEffect("BowStrikeEffect")                },
+                {                    GameObjectSoundType.Heal, LoadSkillEffect("HealEffect")                },
+                {                    GameObjectSoundType.StaffHit,                    LoadSkillEffect("StaffHitEffect")                },
+                {                    GameObjectSoundType.MagicDust,                    LoadSkillEffect("DustEffect")                },
+                {                    GameObjectSoundType.EgyptianDarkMagic,                    LoadSkillEffect("EgyptMassStunEffect")                },
+                {                    GameObjectSoundType.WolfBite,                    LoadSkillEffect("WolfHitEffect")                },
+                {                    GameObjectSoundType.AspidBite,                    LoadSkillEffect("SnakeHitEffect")                },
+                {                    GameObjectSoundType.BearBludgeon,                    LoadSkillEffect("BearBludgeon")                },
+                {                    GameObjectSoundType.WispEnergy,                   LoadSkillEffect("WispStrikeEffect")                },
+                {                    GameObjectSoundType.VampireBite,                    LoadSkillEffect("VampireHitEffect")                },
+                {                    GameObjectSoundType.SvarogSymbolAppearing,                    LoadSkillEffect("Lasers")                },
+                {                    GameObjectSoundType.RisingPower,                    LoadSkillEffect("Shake")                },
+                {                    GameObjectSoundType.Firestorm,                    LoadSkillEffect("Explosion")                },
+                {                    GameObjectSoundType.FireDamage,                    LoadSkillEffect("FireDamage")                },
+                {                    GameObjectSoundType.FrogHornsUp,                    LoadSkillEffect("FrogHornsUp")                },
+                {                    GameObjectSoundType.Gunshot,                    LoadSkillEffect("Gunshot")                },
+                {                    GameObjectSoundType.AssaultRifleBurst,                    LoadSkillEffect("AssaultRifleBurst")                }
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
@@ -275,6 +222,9 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Leonidas, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Diana, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+
+                { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
                 { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
