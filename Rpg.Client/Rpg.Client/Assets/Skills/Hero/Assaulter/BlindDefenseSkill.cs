@@ -88,6 +88,11 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 };
             }
 
+            mainShotingBlocker.Released += (_, _) =>
+            {
+                context.Interaction.SkillRuleInteractions[0].Action(context.Interaction.SkillRuleInteractions[0].Targets[0]);
+            };
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
