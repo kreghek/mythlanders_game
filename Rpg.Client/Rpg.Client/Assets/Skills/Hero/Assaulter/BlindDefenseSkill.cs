@@ -102,7 +102,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             {
                 var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
                 rule.EffectMetadata = new BlindDefenseSkillRuleMetadata
-                    { IsShot = true };
+                { IsShot = true };
                 list.Add(rule);
             }
 
