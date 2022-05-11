@@ -37,7 +37,7 @@ namespace Rpg.Client.GameScreens
                 return null;
             }
 
-            if (equipmentType == EquipmentItemType.ExpiriencePoints)
+            if (equipmentType == EquipmentItemType.ExperiencePoints)
             {
                 return "Xp";
             }

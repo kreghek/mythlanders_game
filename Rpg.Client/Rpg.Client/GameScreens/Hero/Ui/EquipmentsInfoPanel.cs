@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.Equipments;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 
@@ -40,7 +41,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             for (var index = 0; index < hero.Equipments.Count; index++)
             {
                 var equipment = hero.Equipments[index];
-                var equipmentIconRect = GetEquipmentIconRect(equipment.Scheme.Sid);
+                var equipmentIconRect = GetEquipmentIconRect(equipment.Scheme.Metadata);
 
                 var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
                     new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
@@ -154,26 +155,24 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             CreateHint((EntityIconButton<Equipment>)sender, equipment);
         }
 
-        private static int? GetEquipmentIconOneBasedIndex(EquipmentSid schemeSid)
+        private static int? GetEquipmentIconOneBasedIndex(IEquipmentSchemeMetadata metadata)
         {
-            return schemeSid switch
+            if (metadata is EquipmentSchemeMetadata equipmentSchemeMetadata)
             {
-                EquipmentSid.CombatSword => 1,
-                EquipmentSid.Mk2MediumPowerArmor => 2,
-                EquipmentSid.WoodenHandSculpture => 3,
-                EquipmentSid.ArcherPulsarBow => 4,
-                EquipmentSid.ArcherMk3ScoutPowerArmor => 5,
-                EquipmentSid.SilverWindNecklace => 6,
-                EquipmentSid.HerbBag => 7,
-                EquipmentSid.WomanShort => 8,
-                EquipmentSid.BookOfHerbs => 9,
-                _ => null
-            };
+                return equipmentSchemeMetadata.IconOneBasedIndex;
+            }
+
+            return null;
         }
 
-        private static Rectangle GetEquipmentIconRect(EquipmentSid schemeSid)
+        private static Rectangle GetEquipmentIconRect(IEquipmentSchemeMetadata? metadata)
         {
-            var index = GetEquipmentIconOneBasedIndex(schemeSid);
+            if (metadata is null)
+            {
+                return new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);
+            }
+
+            var index = GetEquipmentIconOneBasedIndex(metadata);
             if (index is null)
             {
                 return new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);

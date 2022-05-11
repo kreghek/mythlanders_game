@@ -195,7 +195,7 @@ namespace Rpg.Client.GameComponents
 
             var xpAmount = int.Parse(args[0]);
 
-            globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount += xpAmount;
+            globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount += xpAmount;
         }
 
         private void HandleUpdateGlobe()

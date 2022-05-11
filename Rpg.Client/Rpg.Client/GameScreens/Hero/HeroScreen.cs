@@ -184,7 +184,7 @@ namespace Rpg.Client.GameScreens.Hero
 
         private void InitUpgradeButtons(Unit character, Player player)
         {
-            var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount;
+            var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
             if (xpAmount >= character.LevelUpXpAmount)
             {
                 var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle),
@@ -193,7 +193,7 @@ namespace Rpg.Client.GameScreens.Hero
 
                 levelUpButton.OnClick += (_, _) =>
                 {
-                    player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount -=
+                    player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount -=
                         character.LevelUpXpAmount;
                     character.LevelUp();
 

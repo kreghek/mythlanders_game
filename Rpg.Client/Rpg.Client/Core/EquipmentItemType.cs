@@ -2,7 +2,7 @@
 {
     internal enum EquipmentItemType
     {
-        ExpiriencePoints,
+        ExperiencePoints,
         Warrior,
         Archer,
         Herbalist,

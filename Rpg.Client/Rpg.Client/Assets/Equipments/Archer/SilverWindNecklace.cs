@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class Mk3ScoutPowerArmor : IEquipmentScheme
+    internal sealed class SilverWindNecklace : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.ArcherMk3ScoutPowerArmor;
+        public EquipmentSid Sid => EquipmentSid.SilverWindNecklace;
 
         public string GetDescription()
         {
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
+        
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 6
+        };
     }
 }

@@ -18,5 +18,10 @@ namespace Rpg.Client.Assets.Equipments
         {
             return GameObjectResources.Hawk;
         }
+        
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

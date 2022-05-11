@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Equipments
 {
-    internal sealed class Mk2MediumPowerArmor : IEquipmentScheme
+    internal sealed class WoodenHandSculpture : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+        public EquipmentSid Sid => EquipmentSid.WoodenHandSculpture;
 
         public string GetDescription()
         {
@@ -15,9 +15,14 @@ namespace Rpg.Client.Assets.Equipments
 
         float IEquipmentScheme.GetHitPointsMultiplier(int level)
         {
-            return 1 + level * 0.1f;
+            return 1 + level * 0.05f;
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
+        
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 3
+        };
     }
 }
