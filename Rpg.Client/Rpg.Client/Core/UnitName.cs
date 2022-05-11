@@ -11,6 +11,7 @@
 
         Thar,
         Dull,
+        Zoologist,
 
         Berimir,
         Hawk,

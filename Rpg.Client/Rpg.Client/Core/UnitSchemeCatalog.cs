@@ -20,6 +20,7 @@ namespace Rpg.Client.Core
             {
                 new SergeantFactory(),
                 new AssaulterFactory(),
+                new CryptoZoologistFactory(),
 
                 new SwordsmanFactory(),
                 new ArcherFactory(),
