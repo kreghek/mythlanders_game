@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var mainShotingBlocker = context.AddAnimationBlocker();
             var interactionItems = context.Interaction.SkillRuleInteractions
-                .Where(x => (x.Metadata is BlindDefenseSkillRuleMetadata meta) && meta.IsShot).ToArray();
+                .Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
             var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
             for (var i = 0; i < interactionItems.Length; i++)
             {
@@ -73,14 +73,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 };
             }
 
-            mainShotingBlocker.Released += (_, _) =>
-            {
-                context.Interaction.SkillRuleInteractions[0].Action(context.Interaction.SkillRuleInteractions[0].Targets[0]);
-            };
-
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
+            StateHelper.HandleStateWithInteractionDelivery(
+                context.Interaction.SkillRuleInteractions.First(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
                 mainStateBlocker,
                 mainShotingBlocker,
                 animationBlocker);
@@ -98,16 +94,22 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
         private static List<EffectRule> CreateRules()
         {
-            var list = new List<EffectRule>
+            var list = new List<EffectRule>();
+
+            var buffEffect = SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f);
+            buffEffect.EffectMetadata = new AssaultSkillRuleMetadata
             {
-                SkillRuleFactory.CreateProtection(SID, SkillDirection.Self, multiplier: 1f)
+                IsBuff = true
             };
+            list.Add(buffEffect);
 
             for (var i = 0; i < 5; i++)
             {
                 var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
-                rule.EffectMetadata = new BlindDefenseSkillRuleMetadata
-                { IsShot = true };
+                rule.EffectMetadata = new AssaultSkillRuleMetadata
+                { 
+                    IsShot = true
+                };
                 list.Add(rule);
             }
 

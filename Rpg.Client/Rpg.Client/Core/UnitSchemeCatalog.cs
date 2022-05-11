@@ -246,7 +246,7 @@ namespace Rpg.Client.Core
                     TankRank = 0.25f,
                     DamageDealerRank = 0.75f,
                     SupportRank = 0.0f,
-                    Resolve = 11,
+                    Resolve = 9,
 
                     Name = UnitName.BlackTrooper,
                     Biome = biomeType,

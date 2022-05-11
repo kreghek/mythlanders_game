@@ -18,6 +18,11 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier)
         {
+            return CreateDamage(sid, direction, multiplier, 1f);
+        }
+
+        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier, float scatter)
+        {
             return new EffectRule
             {
                 Direction = direction,
@@ -28,7 +33,8 @@ namespace Rpg.Client.Assets
                     var res = new DamageEffect
                     {
                         Actor = u,
-                        DamageMultiplier = multiplier * (1 + equipmentMultiplierBonus)
+                        DamageMultiplier = multiplier * (1 + equipmentMultiplierBonus),
+                        Scatter = scatter
                     };
 
                     return res;
