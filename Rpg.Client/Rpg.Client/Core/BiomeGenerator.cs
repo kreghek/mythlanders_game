@@ -225,12 +225,12 @@ namespace Rpg.Client.Core
             for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
             {
                 var selectedNode = nodesWithCombats[locationIndex];
-                var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
+                var targetCombatSequenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
 
                 var combatLevel = globeLevel.MonsterLevel + combatLevelAdditionalList[combatLevelAdditional];
                 var combatList = new List<CombatSource>();
 
-                for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
+                for (var combatIndex = 0; combatIndex < targetCombatSequenceLength; combatIndex++)
                 {
                     var units = MonsterGeneratorHelper
                         .CreateMonsters(selectedNode.Item1, _dice, combatLevel, _unitSchemeCatalog, globeContext)
