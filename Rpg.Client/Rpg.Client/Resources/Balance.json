@@ -1,9 +1,9 @@
 {
   "UnitBasics": {
-    "ARMOR_BASE": 16,
+    "ARMOR_BASE": 6,
     "BASE_MANA_POOL_SIZE": 3,
     "COMBAT_RESTORE_SHARE": 1,
-    "DAMAGE_BASE": 16,
+    "DAMAGE_BASE": 10,
     "HERO_POWER_MULTIPLICATOR": 1,
     "HITPOINTS_BASE": 16,
     "HITPOINTS_PER_LEVEL_BASE": 4,
@@ -26,10 +26,18 @@
       "Type": false
     },
     {
-      "DamageDealerRank": 0.8,
+      "DamageDealerRank": 0.2,
       "Demo": false,
       "Sid": "Dull",
       "SupportRank": 0,
+      "TankRank": 0.8,
+      "Type": false
+    },
+    {
+      "DamageDealerRank": 0.2,
+      "Demo": false,
+      "Sid": "Zoologist",
+      "SupportRank": 0.6,
       "TankRank": 0.2,
       "Type": false
     },
