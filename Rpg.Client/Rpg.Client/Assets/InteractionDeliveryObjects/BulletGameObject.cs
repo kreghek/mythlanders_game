@@ -18,12 +18,12 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private const int FRAME_COUNT = 4;
 
         private readonly AnimationBlocker? _blocker;
-        private readonly ICombatUnit? _targetCombatUnit;
-        private readonly Action<ICombatUnit>? _interaction;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
-        private readonly ParticleSystem _tailParticleSystem;
+        private readonly Action<ICombatUnit>? _interaction;
         private readonly Vector2 _startPosition;
+        private readonly ParticleSystem _tailParticleSystem;
+        private readonly ICombatUnit? _targetCombatUnit;
         private double _counter;
         private double _frameCounter;
         private int _frameIndex;

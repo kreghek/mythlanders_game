@@ -7,8 +7,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal static class StateHelper
     {
-        public static void HandleStateWithInteractionDelivery(IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions,
-            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker, AnimationBlocker animationBlocker)
+        public static void HandleStateWithInteractionDelivery(
+            IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions,
+            AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker,
+            AnimationBlocker animationBlocker)
         {
             var isInteractionDeliveryComplete = false;
             var isAnimationComplete = false;
@@ -35,14 +37,14 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 }
             };
         }
-        
+
         private static void InvokeRuleInteractions(IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions)
         {
             foreach (var ruleInteraction in skillRuleInteractions)
             {
                 foreach (var target in ruleInteraction.Targets)
                 {
-                    ruleInteraction.Action(target);   
+                    ruleInteraction.Action(target);
                 }
             }
         }

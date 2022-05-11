@@ -24,11 +24,6 @@ namespace Rpg.Client.Core
             Current = newBase;
         }
 
-        public void CurrentChange(int newCurrent)
-        {
-            Current = Math.Min(newCurrent, ActualBase);
-        }
-
         public void Consume(int value)
         {
             Current -= value;
@@ -37,6 +32,11 @@ namespace Rpg.Client.Core
             {
                 Current = 0;
             }
+        }
+
+        public void CurrentChange(int newCurrent)
+        {
+            Current = Math.Min(newCurrent, ActualBase);
         }
 
         public void Restore(int value)

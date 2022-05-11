@@ -134,7 +134,7 @@ namespace Rpg.Client.Core
             {
                 var localRuleIndex = ruleIndex;
                 var effectRule = skill.Skill.Rules[localRuleIndex];
-                
+
                 Action<ICombatUnit> ruleAction = materializedTarget =>
                 {
                     EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget, skill.Skill);
@@ -146,7 +146,7 @@ namespace Rpg.Client.Core
                     Targets = EffectProcessor.GetTargets(effectRule, CurrentUnit, targetUnit),
                     Metadata = effectRule.EffectMetadata
                 };
-                
+
                 interactionList.Add(item);
             }
 
@@ -263,26 +263,6 @@ namespace Rpg.Client.Core
             CheckAndHandleFinish();
         }
 
-        private bool CheckAndHandleFinish()
-        {
-            if (Finished)
-            {
-                var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
-                var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
-
-                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
-                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
-                var eventArgs = new CombatFinishEventArgs
-                {
-                    Victory = anyPlayerUnitsAlive && allMonstersAreDead
-                };
-                Finish?.Invoke(this, eventArgs);
-                return true;
-            }
-
-            return false;
-        }
-
         private void Ai()
         {
             var dice = GetDice();
@@ -362,6 +342,26 @@ namespace Rpg.Client.Core
             {
                 //AssignCpuTarget(cpuUnit, dice);
             }
+        }
+
+        private bool CheckAndHandleFinish()
+        {
+            if (Finished)
+            {
+                var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
+                var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
+
+                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
+                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
+                var eventArgs = new CombatFinishEventArgs
+                {
+                    Victory = anyPlayerUnitsAlive && allMonstersAreDead
+                };
+                Finish?.Invoke(this, eventArgs);
+                return true;
+            }
+
+            return false;
         }
 
         private static bool CheckUnitIsAvailable(Unit unit)

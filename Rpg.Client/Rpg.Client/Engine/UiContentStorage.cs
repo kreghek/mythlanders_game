@@ -22,6 +22,7 @@ namespace Rpg.Client.Engine
         private CombatSoundtrack[] _combatTracks;
         private Texture2D _cursonTextures;
         private Song _defeatTrack;
+        private Texture2D _effectIconsTexture;
         private Texture2D _equipmentIconsTexture;
         private Song _introTrack;
         private Texture2D[] _introVideoTextures;
@@ -40,7 +41,6 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
-        private Texture2D _effectIconsTexture;
 
         private static string GetLanguageKey()
         {

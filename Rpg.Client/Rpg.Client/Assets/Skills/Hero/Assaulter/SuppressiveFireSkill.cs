@@ -26,6 +26,17 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
         public override IReadOnlyList<EffectRule> Rules { get; } = CreateRules();
 
+        public override SkillSid Sid => SID;
+        public override SkillTargetType TargetType => SkillTargetType.Enemy;
+        public override SkillType Type => SkillType.Range;
+
+        private static SkillVisualization PredefinedVisualization => new()
+        {
+            Type = SkillVisualizationStateType.Range,
+            SoundEffectType = GameObjectSoundType.Gunshot,
+            IconOneBasedIndex = 16
+        };
+
         private static List<EffectRule> CreateRules()
         {
             var list = new List<EffectRule>
@@ -42,17 +53,6 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             return list;
         }
-
-        public override SkillSid Sid => SID;
-        public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Range;
-
-        private static SkillVisualization PredefinedVisualization => new()
-        {
-            Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.Gunshot,
-            IconOneBasedIndex = 16
-        };
 
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)

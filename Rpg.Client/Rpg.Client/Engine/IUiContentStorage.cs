@@ -13,8 +13,6 @@ namespace Rpg.Client.Engine
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonIndicatorsTexture();
         Texture2D GetButtonTexture();
-
-        Texture2D GetEffectIconsTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
@@ -22,6 +20,8 @@ namespace Rpg.Client.Engine
         Texture2D GetCursorsTexture();
         Song GetDefeatSong();
         Texture2D GetDisabledTexture();
+
+        Texture2D GetEffectIconsTexture();
         Texture2D GetEnvSpeechTexture();
         Texture2D GetEquipmentTextures();
         Song GetIntroSong();

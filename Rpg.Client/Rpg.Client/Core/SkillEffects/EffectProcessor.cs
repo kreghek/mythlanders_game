@@ -29,6 +29,60 @@ namespace Rpg.Client.Core.SkillEffects
             return effects.ToArray();
         }
 
+        public IReadOnlyList<ICombatUnit> GetTargets(EffectRule influence, ICombatUnit actor, ICombatUnit target)
+        {
+            switch (influence.Direction)
+            {
+                case SkillDirection.All:
+                    return _combat.AliveUnits.ToArray();
+
+                case SkillDirection.AllEnemies:
+                    return _combat.AliveUnits.Where(x =>
+                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToArray();
+
+                case SkillDirection.AllFriendly:
+                    return _combat.AliveUnits.Where(x =>
+                        x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
+
+                case SkillDirection.Other:
+                    return _combat.AliveUnits.Where(x => x != actor).ToArray();
+
+                case SkillDirection.OtherFriendly:
+                    return _combat.AliveUnits.Where(x =>
+                        x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
+
+                case SkillDirection.Self:
+                    return new[] { actor };
+
+                case SkillDirection.RandomEnemy:
+                    {
+                        var unit = _dice.RollFromList(_combat.AliveUnits
+                            .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
+
+                        return new[] { unit };
+                    }
+
+                case SkillDirection.RandomFriendly:
+                    {
+                        var unit = _dice.RollFromList(_combat.AliveUnits
+                            .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
+
+                        return new[] { unit };
+                    }
+
+                case SkillDirection.Target:
+                    if (target is null)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    return new[] { target };
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
         public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target, ISkill skill)
         {
             if (influences is null)
@@ -96,61 +150,8 @@ namespace Rpg.Client.Core.SkillEffects
             effect.Impose(target);
         }
 
-        public IReadOnlyList<ICombatUnit> GetTargets(EffectRule influence, ICombatUnit actor, ICombatUnit target)
-        {
-            switch (influence.Direction)
-            {
-                case SkillDirection.All:
-                    return _combat.AliveUnits.ToArray();
-
-                case SkillDirection.AllEnemies:
-                    return _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.AllFriendly:
-                    return _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.Other:
-                    return _combat.AliveUnits.Where(x => x != actor).ToArray();
-
-                case SkillDirection.OtherFriendly:
-                    return _combat.AliveUnits.Where(x =>
-                        x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.Self:
-                    return new[] { actor };
-
-                case SkillDirection.RandomEnemy:
-                    {
-                        var unit = _dice.RollFromList(_combat.AliveUnits
-                            .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
-
-                        return new[] { unit };
-                    }
-
-                case SkillDirection.RandomFriendly:
-                    {
-                        var unit = _dice.RollFromList(_combat.AliveUnits
-                            .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
-
-                        return new[] { unit };
-                    }
-
-                case SkillDirection.Target:
-                    if (target is null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    return new[] { target };
-
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-    
-        private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget, ISkill skill)
+        private void ImposeSingleRule(EffectCreator effectCreator, ICombatUnit actor, ICombatUnit materializedTarget,
+            ISkill skill)
         {
             ImposeByCreator(effectCreator, actor, materializedTarget, skill);
         }

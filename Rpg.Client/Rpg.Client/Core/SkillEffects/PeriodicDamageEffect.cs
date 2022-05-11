@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.SkillEffects
         public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
-        
+
         public int SourceDamage { get; init; }
 
         public MinMax<int> CalculateDamage()

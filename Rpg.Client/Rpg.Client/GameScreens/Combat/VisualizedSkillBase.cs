@@ -40,11 +40,11 @@ namespace Rpg.Client.GameScreens.Combat
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
-            
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
-                mainStateBlocker, 
+                mainStateBlocker,
                 interactionDeliveryBlocker,
                 animationBlocker);
 
@@ -95,7 +95,7 @@ namespace Rpg.Client.GameScreens.Combat
                         context.GameObjectContentStorage, null)
                 };
             }
-            
+
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions, mainStateBlocker,
@@ -126,8 +126,8 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     new SkillAnimationInfoItem
                     {
-                        Duration = 0.75f, 
-                        HitSound = hitSound, 
+                        Duration = 0.75f,
+                        HitSound = hitSound,
                         Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),
                         InteractTime = 0
                     }
@@ -144,22 +144,10 @@ namespace Rpg.Client.GameScreens.Combat
             return state;
         }
 
-        private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
-        {
-            foreach (var ruleInteraction in skillRuleInteractions)
-            {
-                foreach (var target in ruleInteraction.Targets)
-                {
-                    ruleInteraction.Action(target);   
-                }
-            }
-        }
-        
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
             AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
-          
             var state = new CommonSelfSkillUsageState(
                 graphics: animatedUnitGameObject._graphics,
                 mainAnimationBlocker: mainAnimationBlocker,
@@ -167,6 +155,17 @@ namespace Rpg.Client.GameScreens.Combat
                 hitSound: hitSound,
                 animationSid: animationSid);
             return state;
+        }
+
+        private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
+        {
+            foreach (var ruleInteraction in skillRuleInteractions)
+            {
+                foreach (var target in ruleInteraction.Targets)
+                {
+                    ruleInteraction.Action(target);
+                }
+            }
         }
 
         public virtual IUnitStateEngine CreateState(

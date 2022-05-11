@@ -15,9 +15,9 @@ namespace Rpg.Client.Assets.States.Primitives
     internal sealed class LaunchInteractionDeliveryState : IUnitStateEngine
     {
         private const double DEFAULT_DURATION_SECONDS = 1;
+        private readonly double _animationDuration;
 
         private readonly AnimationSid _animationSid;
-        private readonly double _animationDuration;
         private readonly SoundEffectInstance? _createProjectileSound;
         private readonly UnitGraphics _graphics;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;

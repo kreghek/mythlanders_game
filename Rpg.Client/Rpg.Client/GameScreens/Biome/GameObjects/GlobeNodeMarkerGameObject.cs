@@ -58,7 +58,7 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
             AvailableEvent = globeNode.AssignedEvent;
         }
 
-        public Core.Event? AvailableEvent { get; }
+        public Event? AvailableEvent { get; }
 
         public CombatSource? CombatSource { get; }
         public GlobeNode GlobeNode { get; }

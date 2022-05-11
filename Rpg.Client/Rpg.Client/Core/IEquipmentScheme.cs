@@ -12,13 +12,13 @@ namespace Rpg.Client.Core
         {
             return 0;
         }
-        
+
+        string GetDescription();
+
         float GetHealMultiplierBonus(SkillSid skillSid, int level)
         {
             return 0;
         }
-
-        string GetDescription();
 
         float GetHitPointsMultiplier(int level)
         {

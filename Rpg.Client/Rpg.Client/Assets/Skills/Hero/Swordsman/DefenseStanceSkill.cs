@@ -38,7 +38,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
             IconOneBasedIndex = 3
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
             return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);

@@ -21,13 +21,13 @@ namespace Rpg.Client.Core
             HitPoints = new Stat(0);
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
-            
+
             var equipments = new List<Equipment>();
             InitEquipment(equipments);
             Equipments = equipments;
 
             InitBaseStats(unitScheme);
-            
+
             ShieldPoints = new Stat(Armor);
 
             _globalEffects = new List<GlobalUnitEffect>();
@@ -185,12 +185,6 @@ namespace Rpg.Client.Core
             };
         }
 
-        private int GetAbsorbedDamage(int damage)
-        {
-            var absorptionPerks = Perks.OfType<Absorption>();
-            return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
-        }
-
         private void ApplyLevels()
         {
             var levels = UnitScheme.Levels;
@@ -276,21 +270,10 @@ namespace Rpg.Client.Core
             InitBaseStats(UnitScheme);
         }
 
-        private void InitEquipment(IList<Equipment> equipments)
+        private int GetAbsorbedDamage(int damage)
         {
-            if (UnitScheme.Equipments is null)
-            {
-                return;
-            }
-
-            foreach (var equipmentScheme in UnitScheme.Equipments)
-            {
-                var equipment = new Equipment(equipmentScheme);
-
-                equipment.GainLevelUp += Equipment_GainLevelUp;
-
-                equipments.Add(equipment);
-            }
+            var absorptionPerks = Perks.OfType<Absorption>();
+            return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
         private void InitBaseStats(UnitScheme unitScheme)
@@ -308,11 +291,28 @@ namespace Rpg.Client.Core
             {
                 maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
             }
-            
+
             var maxHitPointsRounded = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
             HitPoints.ChangeBase(maxHitPointsRounded);
 
             RestoreHp();
+        }
+
+        private void InitEquipment(IList<Equipment> equipments)
+        {
+            if (UnitScheme.Equipments is null)
+            {
+                return;
+            }
+
+            foreach (var equipmentScheme in UnitScheme.Equipments)
+            {
+                var equipment = new Equipment(equipmentScheme);
+
+                equipment.GainLevelUp += Equipment_GainLevelUp;
+
+                equipments.Add(equipment);
+            }
         }
 
         private void RestoreHp()
