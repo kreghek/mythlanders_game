@@ -18,5 +18,10 @@ namespace Rpg.Client.Assets.Equipments.Zoologist
         {
             return GameObjectResources.Aspid;
         }
+
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

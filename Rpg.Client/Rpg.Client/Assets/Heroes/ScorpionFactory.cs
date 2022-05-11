@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IEquipmentScheme[]
             {
-                new TribalEquipment(),
+                new UltraLightSpear(),
                 new FireResistBlackArmor(),
                 new GreenTattoo()
             };

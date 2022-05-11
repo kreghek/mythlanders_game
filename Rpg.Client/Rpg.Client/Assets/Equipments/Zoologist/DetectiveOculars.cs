@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments.Zoologist
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Spearman;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

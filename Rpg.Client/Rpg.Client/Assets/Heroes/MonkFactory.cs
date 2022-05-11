@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IEquipmentScheme[]
             {
                 new RedemptionStaff(),
-                new AsceticRobe(),
+                new AsceticCape(),
                 new SymbolOfGod()
             };
         }

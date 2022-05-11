@@ -13,9 +13,9 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IEquipmentScheme[]
             {
-                new ArcherPulsarBow2(),
-                new Mk3ScoutPowerArmor2(),
-                new OldShiningGem()
+                new HunterRifle(),
+                new TribeHunterScoutArmor(),
+                new TheClawKnife()
             };
         }
 

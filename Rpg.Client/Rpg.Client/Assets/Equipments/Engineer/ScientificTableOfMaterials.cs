@@ -2,7 +2,7 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Engineer
 {
     internal sealed class ScientificTableOfMaterials : IEquipmentScheme
     {
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

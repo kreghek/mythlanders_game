@@ -2,7 +2,7 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Archer
 {
     internal sealed class Mk3ScoutPowerArmor : IEquipmentScheme
     {
@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
-        
+
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 5

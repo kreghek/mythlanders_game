@@ -2,9 +2,9 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Amazon
 {
-    internal sealed class Mk3ScoutPowerArmor2 : IEquipmentScheme
+    internal sealed class TribeHunterScoutArmor : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.ArcherMk3ScoutPowerArmor2;
 
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

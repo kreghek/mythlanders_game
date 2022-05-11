@@ -2,7 +2,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Swordsman
 {
     internal sealed class CombatSword : SimpleBonusEquipmentBase
     {

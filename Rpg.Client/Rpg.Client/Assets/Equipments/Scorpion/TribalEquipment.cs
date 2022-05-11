@@ -2,9 +2,9 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Scorpion
 {
-    internal sealed class TribalEquipment : SimpleBonusEquipmentBase
+    internal sealed class UltraLightSpear : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Scorpion;
         public override EquipmentSid Sid => EquipmentSid.TribalEquipment;
@@ -18,5 +18,10 @@ namespace Rpg.Client.Assets.Equipments
         {
             return GameObjectResources.Aspid;
         }
+
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

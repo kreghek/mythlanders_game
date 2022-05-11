@@ -2,11 +2,11 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Monk
 {
-    internal sealed class SymbolOfGod : IEquipmentScheme
+    internal sealed class AsceticCape : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.SymbolOfGod;
+        public EquipmentSid Sid => EquipmentSid.AsceticRobe;
 
         public string GetDescription()
         {
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

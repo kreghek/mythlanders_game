@@ -2,9 +2,9 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Amazon
 {
-    internal sealed class OldShiningGem : IEquipmentScheme
+    internal sealed class TheClawKnife : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.OldShiningGem;
 
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IEquipmentScheme[]
             {
                 new EmberGladius(),
-                new Mk2MediumPowerArmor2(),
+                new EmpoweredMk2MediumPowerArmor(),
                 new BrokenAresSculpture()
             };
         }

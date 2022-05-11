@@ -2,9 +2,9 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Legionnaire
 {
-    internal sealed class Mk2MediumPowerArmor2 : IEquipmentScheme
+    internal sealed class EmpoweredMk2MediumPowerArmor : IEquipmentScheme
     {
         public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor2;
 
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

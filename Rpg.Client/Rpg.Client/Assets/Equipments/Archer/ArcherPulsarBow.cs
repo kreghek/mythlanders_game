@@ -2,7 +2,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Archer
 {
     internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
     {
@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Equipments
         {
             return GameObjectResources.Hawk;
         }
-        
+
         public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4

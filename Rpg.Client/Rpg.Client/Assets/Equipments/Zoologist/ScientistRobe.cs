@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments.Zoologist
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Sage
 {
-    internal sealed class MagicAndMechanicalBox : IEquipmentScheme
+    internal sealed class DeceptivelyLightRobe : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.MagicAndMechanicalBox;
+        public EquipmentSid Sid => EquipmentSid.DeceptivelyLightRobe;
 
         public string GetDescription()
         {
@@ -19,5 +19,10 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
+
+        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

@@ -2,9 +2,9 @@
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Amazon
 {
-    internal sealed class ArcherPulsarBow2 : SimpleBonusEquipmentBase
+    internal sealed class HunterRifle : SimpleBonusEquipmentBase
     {
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
         public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow2;
@@ -18,5 +18,10 @@ namespace Rpg.Client.Assets.Equipments
         {
             return GameObjectResources.Hawk;
         }
+
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
     }
 }

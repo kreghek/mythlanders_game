@@ -2,7 +2,7 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Herbalist
 {
     internal sealed class BookOfHerbs : IEquipmentScheme
     {
@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
-        
+
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 9

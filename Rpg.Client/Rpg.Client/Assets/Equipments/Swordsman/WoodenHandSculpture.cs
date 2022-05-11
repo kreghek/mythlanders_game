@@ -2,7 +2,7 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments
+namespace Rpg.Client.Assets.Equipments.Swordsman
 {
     internal sealed class WoodenHandSculpture : IEquipmentScheme
     {
@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Equipments
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
-        
+
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 3
