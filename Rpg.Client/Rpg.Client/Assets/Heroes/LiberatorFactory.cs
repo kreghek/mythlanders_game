@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.Equipments.Liberator;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;

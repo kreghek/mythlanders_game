@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.Equipments.Sergeant;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Hero.Sergeant;
@@ -14,9 +14,9 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IEquipmentScheme[]
             {
-                new CombatSword(),
-                new Mk2MediumPowerArmor(),
-                new WoodenHandSculpture()
+                new CompactSaber(),
+                new RedMediumPowerArmor(),
+                new MultifunctionalClocks()
             };
         }
 
