@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Sage
 {
     internal sealed class EmptinessInTheHand : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
         public override EquipmentSid Sid => EquipmentSid.EmptinessInTheHand;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Sage
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

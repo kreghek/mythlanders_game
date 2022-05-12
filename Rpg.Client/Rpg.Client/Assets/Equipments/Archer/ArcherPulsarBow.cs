@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Archer
 {
     internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
         public override EquipmentSid Sid => EquipmentSid.ArcherPulsarBow;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Archer
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

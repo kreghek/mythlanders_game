@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
 {
     internal sealed class HerbBag : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 7
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 7
-        };
     }
 }

@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Zoologist
 {
     internal sealed class BioExtractor : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
         public override EquipmentSid Sid => EquipmentSid.CombatSword;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Zoologist
         {
             return GameObjectResources.Aspid;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

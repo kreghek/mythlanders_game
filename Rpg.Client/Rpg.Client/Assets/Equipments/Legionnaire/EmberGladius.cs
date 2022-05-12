@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
 {
     internal sealed class EmberGladius : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;
         public override EquipmentSid Sid => EquipmentSid.EmberGladius;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
         {
             return GameObjectResources.Aspid;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

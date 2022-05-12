@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 {
     internal sealed class AssaultRifle : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 1
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
         public override EquipmentSid Sid => EquipmentSid.CombatSword;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
         {
             return GameObjectResources.Aspid;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 1
-        };
     }
 }

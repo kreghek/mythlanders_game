@@ -4,6 +4,7 @@ namespace Rpg.Client.Core
 {
     internal interface IEquipmentScheme
     {
+        IEquipmentSchemeMetadata? Metadata { get; }
         public EquipmentItemType RequiredResourceToLevelUp { get; }
 
         EquipmentSid Sid { get; }
@@ -24,7 +25,5 @@ namespace Rpg.Client.Core
         {
             return 1f;
         }
-
-        IEquipmentSchemeMetadata? Metadata { get; }
     }
 }

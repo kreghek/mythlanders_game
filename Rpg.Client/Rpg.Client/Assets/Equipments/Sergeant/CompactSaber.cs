@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 {
     internal sealed class CompactSaber : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 1
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
         public override EquipmentSid Sid => EquipmentSid.CombatSword;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         {
             return GameObjectResources.Aspid;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 1
-        };
     }
 }
