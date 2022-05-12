@@ -16,9 +16,9 @@ namespace Rpg.Client.Engine
         private readonly Vector2 _position;
         private readonly Sprite _selectedMarker;
 
-        private IDictionary<AnimationSid, AnimationFrameSet> _predefinedAnimationFrameSets;
+        private IDictionary<AnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
 
-        private AnimationFrameSet _currentAnimationFrameSet = null!;
+        private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
@@ -47,12 +47,12 @@ namespace Rpg.Client.Engine
             Root.Draw(spriteBatch);
         }
 
-        public AnimationFrameSet GetAnimationInfo(AnimationSid sid)
+        public IAnimationFrameSet GetAnimationInfo(AnimationSid sid)
         {
             return _predefinedAnimationFrameSets[sid];
         }
 
-        public void PlayAnimation(AnimationFrameSet animation)
+        public void PlayAnimation(IAnimationFrameSet animation)
         {
             _currentAnimationFrameSet = animation;
         }

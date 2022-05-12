@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public KocheyDeadFormGraphicsConfig()
         {
-            PredefinedAnimations = new Dictionary<AnimationSid, AnimationFrameSet>
+            PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
             {
                 { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1, isIdle: true, isLoop: true) },
                 { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },

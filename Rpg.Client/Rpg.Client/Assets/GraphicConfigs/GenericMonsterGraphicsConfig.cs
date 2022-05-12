@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public GenericMonsterGraphicsConfig()
         {
-            PredefinedAnimations = new Dictionary<AnimationSid, AnimationFrameSet>
+            PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
             {
                 { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 8, speedMultiplicator: 8, isIdle: true, isLoop: true) },
                 { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
