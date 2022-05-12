@@ -16,12 +16,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
             _graphics = graphics;
         }
 
-        public bool CanBeReplaced => false;
+        public bool CanBeReplaced => true;
         public bool IsComplete { get; private set; }
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            IsComplete = true;
         }
 
         public void Update(GameTime gameTime)
@@ -45,7 +45,5 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
                 IsComplete = true;
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

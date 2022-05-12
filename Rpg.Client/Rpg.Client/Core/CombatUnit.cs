@@ -76,6 +76,7 @@ namespace Rpg.Client.Core
         {
             Debug.Assert(e.Result is not null);
             Debug.Assert(e.Result?.ValueFinal is not null);
+
             var args = new UnitHitPointsChangedEventArgs
             {
                 CombatUnit = this,

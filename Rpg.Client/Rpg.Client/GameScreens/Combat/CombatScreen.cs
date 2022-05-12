@@ -310,13 +310,6 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.Blocked += CombatUnit_Blocked;
         }
 
-        private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
-        {
-            var unitGameObject = GetUnitGameObject(e);
-
-            unitGameObject.AnimateWound();
-        }
-
         private void Combat_UnitPassed(object? sender, CombatUnit e)
         {
             var unitGameObject = GetUnitGameObject(e);
@@ -365,14 +358,12 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitDied += Combat_UnitDied;
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
-            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
 
             var settings = Game.Services.GetService<GameSettings>();
-            // TODO Remove settings.Mode == GameMode.Full then effects would be developed.
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage, settings.Mode == GameMode.Full);
+                _uiContentStorage, _gameObjectContentStorage);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -555,6 +546,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
+            unitGameObject.AnimateWound();
+
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
@@ -586,23 +579,6 @@ namespace Rpg.Client.GameScreens.Combat
                 new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
-        }
-
-        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory,
-            EquipmentItemType resourceType, int amount)
-        {
-            var inventoryItem = inventory.Single(x => x.Type == resourceType);
-            var item = new CombatRewardsItem
-            {
-                Xp = new ResourceReward
-                {
-                    StartValue = inventoryItem.Amount,
-                    Amount = amount,
-                    Type = resourceType
-                }
-            };
-
-            return item;
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
