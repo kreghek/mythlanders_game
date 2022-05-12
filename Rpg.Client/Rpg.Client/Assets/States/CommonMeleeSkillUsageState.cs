@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.States
 
         public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo, AnimationSid animationSid)
+            AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo, PredefinedAnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);

@@ -48,7 +48,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
             if (!_started)
             {
                 _started = true;
-                _graphics.PlayAnimation(AnimationSid.Skill3);
+                _graphics.PlayAnimation(PredefinedAnimationSid.Skill3);
                 _symbolAppearingSoundEffect?.Play();
                 _interactionDeliveryList.Add(_svarogSymbol);
             }

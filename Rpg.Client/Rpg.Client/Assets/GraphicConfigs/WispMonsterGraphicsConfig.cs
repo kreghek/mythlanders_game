@@ -8,16 +8,16 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public WispMonsterGraphicsConfig()
         {
-            PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(speedMultiplicator: 12) },
-                { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
-                { AnimationSid.MoveBackward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
-                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 12) },
-                { AnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
-                { AnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
-                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 2, speedMultiplicator: 8) },
-                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) }
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(speedMultiplicator: 12) },
+                { PredefinedAnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.MoveBackward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 12) },
+                { PredefinedAnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 2, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) }
             };
         }
     }

@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.States
 
         public CommonSelfSkillUsageState(UnitGraphics graphics, AnimationBlocker mainAnimationBlocker,
             Action interaction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, AnimationSid animationSid)
+            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
         {
             _graphics = graphics;
             _mainAnimationBlocker = mainAnimationBlocker;

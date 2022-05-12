@@ -88,7 +88,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 bulletDataList.Select(x => x.Item2).ToList(),
                 interactionDeliveryManager: context.InteractionDeliveryList,
                 rifleShotSound: context.GetHitSound(GameObjectSoundType.AssaultRifleBurst),
-                animationSid: AnimationSid.Skill1);
+                animationSid: PredefinedAnimationSid.Skill1);
 
             return state;
         }

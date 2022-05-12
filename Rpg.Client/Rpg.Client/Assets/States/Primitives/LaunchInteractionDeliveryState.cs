@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.States.Primitives
         private const double DEFAULT_DURATION_SECONDS = 1;
         private readonly double _animationDuration;
 
-        private readonly AnimationSid _animationSid;
+        private readonly PredefinedAnimationSid _animationSid;
         private readonly SoundEffectInstance? _createProjectileSound;
         private readonly UnitGraphics _graphics;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDelivery;
@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.States.Primitives
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance? createProjectileSound,
-            AnimationSid animationSid,
+            PredefinedAnimationSid animationSid,
             double animationDuration = DEFAULT_DURATION_SECONDS) :
             this(graphics, interactionDelivery, interactionDeliveryList)
         {

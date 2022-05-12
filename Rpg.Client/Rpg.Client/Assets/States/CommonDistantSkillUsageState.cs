@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.States
             AnimationBlocker animationBlocker,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
             IList<IInteractionDelivery> interactionDeliveryList,
-            SoundEffectInstance hitSound, AnimationSid animationSid)
+            SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
         {
             _subStates = new IUnitStateEngine[]
             {

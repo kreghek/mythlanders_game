@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 interactionDelivery: new[] { toxicGasInteractionDelivery },
                 interactionDeliveryList: interactionDeliveryList,
                 hitSound: skillUsageSound,
-                animationSid: AnimationSid.Skill2);
+                animationSid: PredefinedAnimationSid.Skill2);
         }
 
         public bool CanBeReplaced => false;

@@ -32,7 +32,7 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
@@ -118,7 +118,7 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -145,7 +145,7 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
-            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
+            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, PredefinedAnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
             var state = new CommonSelfSkillUsageState(

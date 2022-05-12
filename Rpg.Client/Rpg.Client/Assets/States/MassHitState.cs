@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.States
     internal sealed class MassHitState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly AnimationSid _animationSid;
+        private readonly PredefinedAnimationSid _animationSid;
         private readonly Action _attackInteractions;
         private readonly UnitGraphics _graphics;
 
@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.States
 
         private bool _interactionExecuted;
 
-        public MassHitState(UnitGraphics graphics, Action attackInteractions, AnimationSid animationSid)
+        public MassHitState(UnitGraphics graphics, Action attackInteractions, PredefinedAnimationSid animationSid)
         {
             _graphics = graphics;
 

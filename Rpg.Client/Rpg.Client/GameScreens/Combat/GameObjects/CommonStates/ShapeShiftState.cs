@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
             _graphics = graphics;
             _soundEffectInstance = soundEffectInstance;
             _shapeShiftBlocker = shapeShiftBlocker;
-            var shapeShiftAnimation = graphics.GetAnimationInfo(AnimationSid.ShapeShift);
+            var shapeShiftAnimation = graphics.GetAnimationInfo(PredefinedAnimationSid.ShapeShift);
 
             shapeShiftAnimation.End += (_, _) =>
             {
@@ -52,7 +52,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
             }
 
             _isStarted = true;
-            _graphics.PlayAnimation(AnimationSid.ShapeShift);
+            _graphics.PlayAnimation(PredefinedAnimationSid.ShapeShift);
             _soundEffectInstance.Play();
         }
     }

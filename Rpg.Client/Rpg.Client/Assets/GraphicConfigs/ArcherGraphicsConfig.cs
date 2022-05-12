@@ -8,17 +8,17 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public ArcherGraphicsConfig()
         {
-            PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
-                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Ult, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, speedMultiplicator: 1) }
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Ult, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, speedMultiplicator: 1) }
             };
         }
     }

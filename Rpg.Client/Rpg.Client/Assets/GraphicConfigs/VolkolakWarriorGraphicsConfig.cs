@@ -8,13 +8,13 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public VolkolakWarriorGraphicsConfig()
         {
-            PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
-                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
-                { AnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 16, speedMultiplicator: 8) }
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 16, speedMultiplicator: 8) }
             };
         }
     }

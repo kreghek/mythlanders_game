@@ -43,12 +43,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             {
                 _startToDeath = true;
                 _graphics.IsDamaged = false;
-                _graphics.PlayAnimation(AnimationSid.Death);
+                _graphics.PlayAnimation(PredefinedAnimationSid.Death);
             }
 
             if (!_startToWound)
             {
-                _graphics.PlayAnimation(AnimationSid.Wound);
+                _graphics.PlayAnimation(PredefinedAnimationSid.Wound);
                 _startToWound = true;
             }
         }

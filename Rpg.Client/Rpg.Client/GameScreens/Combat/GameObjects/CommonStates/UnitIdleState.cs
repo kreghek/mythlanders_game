@@ -16,12 +16,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
             unitGraphics.PlayAnimation(animationSid);
         }
 
-        private static AnimationSid GetAnimationSidByCombatUnitState(CombatUnitState state)
+        private static PredefinedAnimationSid GetAnimationSidByCombatUnitState(CombatUnitState state)
         {
             return state switch
             {
-                CombatUnitState.Defense => AnimationSid.Defense,
-                CombatUnitState.Idle => AnimationSid.Idle,
+                CombatUnitState.Defense => PredefinedAnimationSid.Defense,
+                CombatUnitState.Idle => PredefinedAnimationSid.Idle,
                 _ => throw new InvalidOperationException()
             };
         }

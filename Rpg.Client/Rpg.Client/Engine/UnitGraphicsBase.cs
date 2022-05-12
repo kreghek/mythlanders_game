@@ -16,7 +16,7 @@ namespace Rpg.Client.Engine
         private readonly Vector2 _position;
         private readonly Sprite _selectedMarker;
 
-        private IDictionary<AnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
+        private IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
 
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
@@ -35,7 +35,7 @@ namespace Rpg.Client.Engine
             _predefinedAnimationFrameSets = unit.UnitScheme.UnitGraphicsConfig.PredefinedAnimations;
             InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
 
-            PlayAnimation(AnimationSid.Idle);
+            PlayAnimation(PredefinedAnimationSid.Idle);
         }
 
         public SpriteContainer Root { get; private set; }
@@ -47,17 +47,20 @@ namespace Rpg.Client.Engine
             Root.Draw(spriteBatch);
         }
 
-        public IAnimationFrameSet GetAnimationInfo(AnimationSid sid)
+        public IAnimationFrameSet GetAnimationInfo(PredefinedAnimationSid sid)
         {
             return _predefinedAnimationFrameSets[sid];
         }
 
         public void PlayAnimation(IAnimationFrameSet animation)
         {
-            _currentAnimationFrameSet = animation;
-            _currentAnimationFrameSet.Reset();
+            if (_currentAnimationFrameSet != animation)
+            {
+                _currentAnimationFrameSet = animation;
+                _currentAnimationFrameSet.Reset();
+            }
         }
-        public void PlayAnimation(AnimationSid sid)
+        public void PlayAnimation(PredefinedAnimationSid sid)
         {
             var animation = _predefinedAnimationFrameSets[sid];
             PlayAnimation(animation);
@@ -70,6 +73,13 @@ namespace Rpg.Client.Engine
 
         public void Update(GameTime gameTime)
         {
+            HandleSelectionMarker();
+
+            UpdateAnimation(gameTime);
+        }
+
+        private void HandleSelectionMarker()
+        {
             if (_currentAnimationFrameSet.IsIdle)
             {
                 _selectedMarker.Visible = ShowActiveMarker;
@@ -78,15 +88,6 @@ namespace Rpg.Client.Engine
             {
                 _selectedMarker.Visible = false;
             }
-
-            UpdateAnimation(gameTime);
-        }
-
-        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
-        {
-            var col = (frameIndex + startIndex) % cols;
-            var row = (frameIndex + startIndex) / cols;
-            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
         }
 
         private void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)

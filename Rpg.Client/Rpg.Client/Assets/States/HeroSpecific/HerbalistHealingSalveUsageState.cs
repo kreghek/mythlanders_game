@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 interactionDelivery: new[] { healingLightInteractionDelivery },
                 interactionDeliveryList: interactionDeliveryList,
                 hitSound: skillUsageSound,
-                animationSid: AnimationSid.Skill1);
+                animationSid: PredefinedAnimationSid.Skill1);
         }
 
         public bool CanBeReplaced => false;
