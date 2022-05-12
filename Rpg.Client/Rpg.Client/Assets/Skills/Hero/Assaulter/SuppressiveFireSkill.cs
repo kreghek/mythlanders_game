@@ -28,7 +28,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
         public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
-        public override SkillType Type => SkillType.Range;        
+        public override SkillType Type => SkillType.Range;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
@@ -37,32 +37,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             IconOneBasedIndex = 16
         };
 
-        private static List<EffectRule> CreateRules()
-        {
-            var list = new List<EffectRule>();
-
-            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.Target, 1);
-            buffEffect.EffectMetadata = new AssaultSkillRuleMetadata
-            {
-                IsBuff = true
-            };
-            list.Add(buffEffect);
-
-            for (var i = 0; i < 5; i++)
-            {
-                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, multiplier: 0.1f, scatter: 0.3f);
-                rule.EffectMetadata = new AssaultSkillRuleMetadata() { IsShot = true };
-                list.Add(rule);
-            }
-
-            return list;
-        }
-
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject,
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             var mainShotingBlocker = context.AddAnimationBlocker();
-            var interactionItems = context.Interaction.SkillRuleInteractions.Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
+            var interactionItems = context.Interaction.SkillRuleInteractions
+                .Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
             var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
             for (var i = 0; i < interactionItems.Length; i++)
             {
@@ -95,7 +76,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(
-                context.Interaction.SkillRuleInteractions.First(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
+                context.Interaction.SkillRuleInteractions.First(x =>
+                    (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
                 mainStateBlocker,
                 mainShotingBlocker,
                 animationBlocker);
@@ -109,6 +91,28 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 animationSid: AnimationSid.Skill1);
 
             return state;
+        }
+
+        private static List<EffectRule> CreateRules()
+        {
+            var list = new List<EffectRule>();
+
+            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.Target, 1);
+            buffEffect.EffectMetadata = new AssaultSkillRuleMetadata
+            {
+                IsBuff = true
+            };
+            list.Add(buffEffect);
+
+            for (var i = 0; i < 5; i++)
+            {
+                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, multiplier: 0.1f, scatter: 0.3f);
+                rule.EffectMetadata = new AssaultSkillRuleMetadata
+                    { IsShot = true };
+                list.Add(rule);
+            }
+
+            return list;
         }
     }
 }

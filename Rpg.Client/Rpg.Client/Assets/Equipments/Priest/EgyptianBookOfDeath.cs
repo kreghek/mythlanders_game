@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Priest
 {
     internal sealed class EgyptianBookOfDeath : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Priest;
         public override EquipmentSid Sid => EquipmentSid.EgyptianBookOfDeath;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Priest
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Monk
 {
     internal sealed class RedemptionStaff : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
         public override EquipmentSid Sid => EquipmentSid.HerbBag;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Monk
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

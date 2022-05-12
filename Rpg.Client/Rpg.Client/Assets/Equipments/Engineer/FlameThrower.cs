@@ -6,6 +6,11 @@ namespace Rpg.Client.Assets.Equipments.Engineer
 {
     internal sealed class FlameThrower : SimpleBonusEquipmentBase
     {
+        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        {
+            IconOneBasedIndex = 4
+        };
+
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Engineer;
         public override EquipmentSid Sid => EquipmentSid.FlameThrower;
 
@@ -18,10 +23,5 @@ namespace Rpg.Client.Assets.Equipments.Engineer
         {
             return GameObjectResources.Hawk;
         }
-
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
-        {
-            IconOneBasedIndex = 4
-        };
     }
 }

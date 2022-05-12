@@ -76,7 +76,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(
-                context.Interaction.SkillRuleInteractions.First(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
+                context.Interaction.SkillRuleInteractions.First(x =>
+                    (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
                 mainStateBlocker,
                 mainShotingBlocker,
                 animationBlocker);
@@ -107,7 +108,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             {
                 var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
                 rule.EffectMetadata = new AssaultSkillRuleMetadata
-                { 
+                {
                     IsShot = true
                 };
                 list.Add(rule);
