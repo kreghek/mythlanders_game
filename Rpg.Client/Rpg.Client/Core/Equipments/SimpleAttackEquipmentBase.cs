@@ -14,7 +14,7 @@ namespace Rpg.Client.Core.Equipments
         public abstract EquipmentSid Sid { get; }
 
         public abstract string GetDescription();
-        
+
         public abstract IEquipmentSchemeMetadata? Metadata { get; }
 
 
