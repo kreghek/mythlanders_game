@@ -29,11 +29,6 @@ namespace Rpg.Client.Core.AnimationFrameSets
         public bool IsIdle { get; init; }
         private float SpeedMultiplicator { get; }
 
-        public double GetDuration()
-        {
-            return 1 / SpeedMultiplicator * _frames.Count;
-        }
-
         public Rectangle GetFrameRect()
         {
             return CalcRect(_frames[_frameListIndex], _textureColumns, _frameWidth, _frameHeight);

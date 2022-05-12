@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         };
 
         public override EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
-        public override EquipmentSid Sid => EquipmentSid.CombatSword;
+        public override EquipmentSid Sid => EquipmentSid.CompactSaber;
 
         protected override SkillSid[] AffectedSkills =>
             new[] { SkillSid.SwordSlash, SkillSid.WideSwordSlash };

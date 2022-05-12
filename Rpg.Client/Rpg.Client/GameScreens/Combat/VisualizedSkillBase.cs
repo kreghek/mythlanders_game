@@ -36,7 +36,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+            var singleInteractionDelivery = new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
@@ -72,13 +72,13 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                         new Vector2(100 + 400, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                         new Vector2(200 + 400, 200),
                         context.GameObjectContentStorage, null),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                         new Vector2(300 + 400, 300),
                         context.GameObjectContentStorage, null)
                 };
@@ -87,11 +87,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
                         context.GameObjectContentStorage, null),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
                         context.GameObjectContentStorage, null)
                 };
             }

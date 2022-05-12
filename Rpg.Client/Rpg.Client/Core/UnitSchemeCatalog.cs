@@ -96,7 +96,6 @@ namespace Rpg.Client.Core
                         new AddPerkUnitLevel(1, new BossMonster(2)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -150,8 +149,7 @@ namespace Rpg.Client.Core
                     {
                         new AddPerkUnitLevel(1, new BossMonster(3)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
-                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill())
+                        new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -203,8 +201,7 @@ namespace Rpg.Client.Core
                     {
                         new AddPerkUnitLevel(1, new BossMonster(4)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
-                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill())
+                        new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
@@ -499,8 +496,7 @@ namespace Rpg.Client.Core
                     {
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
                         new AddPerkUnitLevel(1, new BossMonster(1)),
-                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
-                        new AddSkillUnitLevel(1, new ArrowRainSkill())
+                        new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),

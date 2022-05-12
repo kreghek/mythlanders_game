@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 {
     internal sealed class RedMediumPowerArmor : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+        public EquipmentSid Sid => EquipmentSid.RedMediumPowerArmor;
 
         public string GetDescription()
         {

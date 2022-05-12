@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs
 {
-    internal sealed class HawkGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class ArcherGraphicsConfig : UnitGraphicsConfigBase
     {
-        public HawkGraphicsConfig()
+        public ArcherGraphicsConfig()
         {
             PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
             {

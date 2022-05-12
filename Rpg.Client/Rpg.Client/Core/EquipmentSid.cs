@@ -38,6 +38,12 @@ namespace Rpg.Client.Core
         ArcherMk3ScoutPowerArmor2,
         OldShiningGem,
         ScientistRobe,
-        DetectiveOculars
+        DetectiveOculars,
+        MultifunctionalClocks,
+        CompactSaber,
+        RedMediumPowerArmor,
+        AssaultRifle,
+        LuckyPlayCard,
+        Mk4HeavyPowerArmor
     }
 }

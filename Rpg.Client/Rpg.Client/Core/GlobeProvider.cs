@@ -380,7 +380,7 @@ namespace Rpg.Client.Core
 
                 if (equipment is null)
                 {
-                    Debug.Fail($"{dto.Sid} is invalid equipment in the storage.");
+                    Debug.Fail($"{dto.Sid} is invalid equipment in the storage. Make migration of the save.");
                     continue;
                 }
 
@@ -538,7 +538,13 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var resource = inventory.Single(x => x.Type.ToString() == resourceDto.Type);
+                var resource = inventory.SingleOrDefault(x => x.Type.ToString() == resourceDto.Type);
+                if (resource is null)
+                {
+                    Debug.Fail("Every resouce in inventory must be same as in the save. Make migration of the save.");
+                    continue;
+                }
+
                 resource.Amount = resourceDto.Amount;
             }
         }

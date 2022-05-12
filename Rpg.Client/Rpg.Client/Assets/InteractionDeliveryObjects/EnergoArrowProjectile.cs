@@ -10,10 +10,11 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
-    internal sealed class BulletGameObject : IInteractionDelivery
+    internal sealed class EnergoArrowProjectile : IInteractionDelivery
     {
         private const double DURATION_SECONDS = 0.3;
-        private const double FRAMERATE = 1f / (8f * 3);
+        private const int FPS = 8 * 3;
+        private const double FRAMERATE = 1f / FPS;
 
         private const int FRAME_COUNT = 4;
 
@@ -24,11 +25,13 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private readonly Vector2 _startPosition;
         private readonly ParticleSystem _tailParticleSystem;
         private readonly ICombatUnit? _targetCombatUnit;
-        private double _counter;
+        private double _lifetimeCounter;
         private double _frameCounter;
         private int _frameIndex;
 
-        public BulletGameObject(Vector2 startPosition,
+        private readonly IAnimationFrameSet _frameSet;
+
+        public EnergoArrowProjectile(Vector2 startPosition,
             Vector2 endPosition,
             GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker,
@@ -48,6 +51,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _interaction = interaction;
             var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
             _tailParticleSystem = new ParticleSystem(_startPosition, particleGenerator);
+
+            _frameSet = AnimationFrameSetFactory.CreateSequential(0, frameCount:4, speedMultiplicator: FPS, frameWidth: 64, frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: true);
         }
 
         public bool IsDestroyed { get; private set; }
@@ -72,10 +77,12 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 return;
             }
 
-            if (_counter < DURATION_SECONDS)
+            _frameSet.Update(gameTime);
+            _graphics.SourceRectangle = _frameSet.GetFrameRect();
+
+            if (_lifetimeCounter < DURATION_SECONDS)
             {
-                _counter += gameTime.ElapsedGameTime.TotalSeconds;
-                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                _lifetimeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (_frameCounter >= FRAMERATE)
                 {
@@ -88,9 +95,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                     }
                 }
 
-                var t = _counter / DURATION_SECONDS;
+                var t = _lifetimeCounter / DURATION_SECONDS;
                 _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
-                _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
                 _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }
             else

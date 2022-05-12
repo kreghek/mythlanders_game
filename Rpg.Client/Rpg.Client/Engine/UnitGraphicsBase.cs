@@ -55,6 +55,7 @@ namespace Rpg.Client.Engine
         public void PlayAnimation(IAnimationFrameSet animation)
         {
             _currentAnimationFrameSet = animation;
+            _currentAnimationFrameSet.Reset();
         }
         public void PlayAnimation(AnimationSid sid)
         {
