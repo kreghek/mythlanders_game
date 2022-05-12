@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier)
         {
-            return CreateDamage(sid, direction, multiplier, 1f);
+            return CreateDamage(sid, direction, multiplier, scatter: 0.1f);
         }
 
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier, float scatter)
