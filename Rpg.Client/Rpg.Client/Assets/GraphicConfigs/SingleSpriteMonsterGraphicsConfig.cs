@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
         {
             PredefinedAnimations = new Dictionary<AnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1, isIdle: true, isLoop: true) },
+                { AnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
                 { AnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
 
                 { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
