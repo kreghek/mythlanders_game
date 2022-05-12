@@ -8,20 +8,20 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public KocheyDeadFormGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<AnimationSid, AnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.MoveForward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.MoveBackward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill4, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Ult, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) { IsFinal = true } },
-                { AnimationSid.Defense, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) }
+                { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1, isIdle: true, isLoop: true) },
+                { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.MoveBackward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Ult, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) }
             };
         }
     }

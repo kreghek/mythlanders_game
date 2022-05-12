@@ -8,27 +8,27 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public SpearmanGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<AnimationSid, AnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { AnimationSid.Defense, new AnimationInfo(startFrame: 39, frames: 1, speed: 0) },
+                { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 8, speedMultiplicator: 8, isIdle: true) },
+                { AnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 39, frameCount: 1, speedMultiplicator: 0) },
                 {
-                    AnimationSid.MoveForward, new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
+                    AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, speedMultiplicator: 6)
                 },
                 {
                     AnimationSid.MoveBackward,
-                    new AnimationInfo(startFrame: 32, frames: 8, speed: 6) { IsFinal = true }
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, speedMultiplicator: 6)
                 },
 
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill4, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
+                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
 
-                { AnimationSid.Ult, new AnimationInfo(startFrame: 59, frames: 2, speed: 8) },
+                { AnimationSid.Ult, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 59, frameCount: 2, speedMultiplicator: 8) },
 
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 48, frames: 8, speed: 8) { IsFinal = true } }
+                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, speedMultiplicator: 8) }
             };
         }
     }

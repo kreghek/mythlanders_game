@@ -8,19 +8,19 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public VolkolakGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<AnimationSid, AnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) },
-                { AnimationSid.MoveForward, new AnimationInfo(startFrame: 40, frames: 1, speed: 1) },
+                { AnimationSid.Idle, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, speedMultiplicator: 8, isIdle: true, isLoop: true) },
+                { AnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 1, speedMultiplicator: 1) },
                 {
-                    AnimationSid.MoveBackward, new AnimationInfo(startFrame: 16, frames: 8, speed: 6) { IsFinal = true }
+                    AnimationSid.MoveBackward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 6)
                 },
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 56, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 64, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 72, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 24, frames: 16, speed: 8) { IsFinal = true } }
+                { AnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 56, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { AnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 64, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 72, frameCount: 8, speedMultiplicator: 8) },
+                { AnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 16, speedMultiplicator: 8) }
             };
         }
     }
