@@ -13,7 +13,8 @@ namespace Rpg.Client.GameScreens.Party
 {
     internal sealed class PartyScreen : GameScreenWithMenuBase
     {
-        private const int CHARACTER_COUNT = 12;
+        private const int MARGIN = 5;
+        private const int COLUMN_COUNT = 5;
         private const int PANEL_WIDTH = 128;
         private const int PANEL_HEIGHT = 128;
         private readonly IList<HeroPanel> _characterPanels;
@@ -110,9 +111,9 @@ namespace Rpg.Client.GameScreens.Party
             for (var i = 0; i < _characterPanels.Count; i++)
             {
                 var panel = _characterPanels[i];
-                var col = i % CHARACTER_COUNT;
-                var row = i / CHARACTER_COUNT;
-                var panelOffset = new Point(col * (PANEL_WIDTH + 5), row * (PANEL_HEIGHT + 5));
+                var col = i % COLUMN_COUNT;
+                var row = i / COLUMN_COUNT;
+                var panelOffset = new Point(col * (PANEL_WIDTH + MARGIN), row * (PANEL_HEIGHT + MARGIN));
 
                 panel.Rect =
                     new Rectangle(
@@ -124,27 +125,22 @@ namespace Rpg.Client.GameScreens.Party
 
         private void DrawInventory(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            const int COL = 5;
+            const int RESOURCE_PANEL_X_POS = COLUMN_COUNT * (PANEL_WIDTH + MARGIN);
+            const int TEXT_HEIGHT = 20;
+
             var resources = _globeProvider.Globe.Player.Inventory
-                //TODO Demo fix
-                .Where(x => x.Type == EquipmentItemType.ExperiencePoints ||
-                            x.Type == EquipmentItemType.Warrior ||
-                            x.Type == EquipmentItemType.Archer ||
-                            x.Type == EquipmentItemType.Herbalist)
+                .Where(x=>x.Amount > 0)
                 .ToArray();
 
             for (var i = 0; i < resources.Length; i++)
             {
                 var resourceItem = resources[i];
 
-                var col = i % COL;
-                var row = i / COL;
-
                 var resourceName = GameObjectHelper.GetLocalized(resourceItem.Type);
-
+                
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     $"{resourceName} x {resourceItem.Amount}",
-                    new Vector2(120 * col, (contentRect.Bottom - 60) + (row * 20)), Color.Wheat);
+                    new Vector2(contentRect.Left + RESOURCE_PANEL_X_POS, i * TEXT_HEIGHT), Color.Wheat);
             }
         }
 
