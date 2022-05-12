@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.Equipments.Monk;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IEquipmentScheme[]
             {
                 new RedemptionStaff(),
-                new AsceticRobe(),
+                new AsceticCape(),
                 new SymbolOfGod()
             };
         }

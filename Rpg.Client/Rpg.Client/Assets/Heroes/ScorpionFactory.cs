@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.Equipments.Scorpion;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IEquipmentScheme[]
             {
-                new TribalEquipment(),
+                new UltraLightSpear(),
                 new FireResistBlackArmor(),
                 new GreenTattoo()
             };

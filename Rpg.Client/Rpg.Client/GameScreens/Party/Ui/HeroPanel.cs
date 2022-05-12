@@ -37,7 +37,7 @@ namespace Rpg.Client.GameScreens.Party.Ui
             infoButton.IndicatingSelector = () =>
             {
                 return character.LevelUpXpAmount <=
-                       player.Inventory.Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                       player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount ||
                        IsAnyEquipmentToUpgrade(character: character, player: player);
             };
 

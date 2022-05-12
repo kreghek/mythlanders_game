@@ -81,7 +81,7 @@ namespace Rpg.Client.GameScreens.Biome
                 {
                     var readyToUpgrade = unit.LevelUpXpAmount <=
                                          _globe.Player.Inventory
-                                             .Single(x => x.Type == EquipmentItemType.ExpiriencePoints).Amount ||
+                                             .Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount ||
                                          IsAnyEquipmentToUpgrade(character: unit, player: _globe.Player);
                     if (readyToUpgrade)
                     {

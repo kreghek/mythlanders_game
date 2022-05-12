@@ -36,6 +36,8 @@ namespace Rpg.Client.Core
         ScintificTableOfMaterials,
         ArcherPulsarBow2,
         ArcherMk3ScoutPowerArmor2,
-        OldShiningGem
+        OldShiningGem,
+        ScientistRobe,
+        DetectiveOculars
     }
 }

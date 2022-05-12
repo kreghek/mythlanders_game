@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Assets.Equipments;
+﻿using Rpg.Client.Assets.Equipments.Amazon;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
@@ -13,9 +13,9 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IEquipmentScheme[]
             {
-                new ArcherPulsarBow2(),
-                new Mk3ScoutPowerArmor2(),
-                new OldShiningGem()
+                new HunterRifle(),
+                new TribeHunterScoutArmor(),
+                new TheClawKnife()
             };
         }
 

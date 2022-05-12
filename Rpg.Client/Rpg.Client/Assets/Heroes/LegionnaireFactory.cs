@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments;
+using Rpg.Client.Assets.Equipments.Legionnaire;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
 using Rpg.Client.Core;
@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IEquipmentScheme[]
             {
                 new EmberGladius(),
-                new Mk2MediumPowerArmor2(),
+                new EmpoweredMk2MediumPowerArmor(),
                 new BrokenAresSculpture()
             };
         }

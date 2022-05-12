@@ -64,7 +64,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private static ResourceReward CreateXpReward(IEnumerable<ResourceItem> inventory, int amount)
         {
-            const EquipmentItemType EXPERIENCE_POINTS_TYPE = EquipmentItemType.ExpiriencePoints;
+            const EquipmentItemType EXPERIENCE_POINTS_TYPE = EquipmentItemType.ExperiencePoints;
             return CreateReward(inventory, EXPERIENCE_POINTS_TYPE, amount);
         }
     }

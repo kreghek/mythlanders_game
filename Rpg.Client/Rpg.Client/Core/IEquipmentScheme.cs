@@ -24,5 +24,7 @@ namespace Rpg.Client.Core
         {
             return 1f;
         }
+
+        IEquipmentSchemeMetadata? Metadata { get; }
     }
 }

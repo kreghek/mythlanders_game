@@ -16,14 +16,14 @@ namespace Rpg.Client.Core.SkillEffects
 
         public override IEnumerable<EffectRule> InfluenceRules { get; } = new List<EffectRule>();
 
-        public float Scatter { get; init; } = 0.1f;
+        public virtual float Scatter { get; init; } = 0.1f;
 
         public MinMax<int> CalculateDamage()
         {
             var absoluteDamage = Actor.Unit.Damage * DamageMultiplier;
 
-            var min = absoluteDamage - Scatter * absoluteDamage;
-            var max = absoluteDamage + Scatter * absoluteDamage;
+            var min = Math.Max(absoluteDamage - Scatter * absoluteDamage, 1);
+            var max = Math.Max(absoluteDamage + Scatter * absoluteDamage, 1);
 
             if (CombatContext is not null)
             {
