@@ -53,7 +53,7 @@ namespace Rpg.Client.GameScreens.Combat
                 animationBlocker,
                 interactionDelivery: new[] { singleInteractionDelivery },
                 interactionDeliveryList: context.InteractionDeliveryList,
-                hitSound: hitSound,
+                createProjectileSound: hitSound,
                 animationSid: animationSid);
 
             return state;
@@ -106,7 +106,7 @@ namespace Rpg.Client.GameScreens.Combat
                 animationBlocker,
                 interactionDelivery: interactionDeliveries,
                 interactionDeliveryList: context.InteractionDeliveryList,
-                hitSound: hitSound,
+                createProjectileSound: hitSound,
                 animationSid: animationSid);
 
             return state;

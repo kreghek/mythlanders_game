@@ -2,8 +2,10 @@
 
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
@@ -43,8 +45,17 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.EnergoShot,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1,
+            AnimationSid = Core.PredefinedAnimationSid.Skill3,
             IconOneBasedIndex = 7
         };
+
+        public override IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainStateBlocker,
+            ISkillVisualizationContext context)
+        {
+            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
+        }
     }
 }
