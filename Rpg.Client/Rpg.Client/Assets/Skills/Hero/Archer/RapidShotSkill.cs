@@ -48,7 +48,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.EnergoShot,
-            IconOneBasedIndex = 6
+            IconOneBasedIndex = 6,
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }
