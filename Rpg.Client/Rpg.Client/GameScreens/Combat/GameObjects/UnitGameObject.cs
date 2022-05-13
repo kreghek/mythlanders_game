@@ -97,7 +97,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 Interaction = action,
                 AnimationManager = _animationManager,
                 ScreenShaker = _screenShaker,
-                InteractionDeliveryList = interactionDeliveryList,
+                InteractionDeliveryManager = interactionDeliveryList,
                 GameObjectContentStorage = _gameObjectContentStorage
             };
 

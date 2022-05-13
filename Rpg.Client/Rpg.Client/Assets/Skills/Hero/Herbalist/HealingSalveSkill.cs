@@ -55,7 +55,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
         {
             var state = new HerbalistHealingSalveUsageState(animatedUnitGameObject._graphics, targetUnitGameObject,
                 mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.Heal),
-                context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryList);
+                context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
 
             return state;
         }

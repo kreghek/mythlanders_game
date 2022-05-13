@@ -17,7 +17,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         SkillExecution Interaction { get; }
 
-        IList<IInteractionDelivery> InteractionDeliveryList { get; }
+        IList<IInteractionDelivery> InteractionDeliveryManager { get; }
 
         ScreenShaker ScreenShaker { get; }
         AnimationBlocker AddAnimationBlocker();

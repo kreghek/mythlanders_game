@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Assets.InteractionDeliveryObjects;
+using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -55,7 +59,32 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
-            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
+            var mainDeliveryBlocker = context.AddAnimationBlocker();
+            
+            var interactionDeliveries = new List<IInteractionDelivery>
+            {
+                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100 + 400, 100),
+                    context.GameObjectContentStorage, mainDeliveryBlocker),
+                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200 + 400, 200),
+                    context.GameObjectContentStorage, null),
+                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300 + 400, 300),
+                    context.GameObjectContentStorage, null)
+            };
+
+            var stateAnimationBlocker = context.AddAnimationBlocker();
+            
+            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
+                mainStateBlocker, 
+                mainDeliveryBlocker,
+                stateAnimationBlocker);
+
+            var state = new ArrowRainUsageState(animatedUnitGameObject._graphics,
+                stateAnimationBlocker,
+                interactionDeliveries,
+                context.InteractionDeliveryManager,
+                context.GetHitSound(GameObjectSoundType.EnergoShot));
+
+            return state;
         }
     }
 }

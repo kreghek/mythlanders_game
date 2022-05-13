@@ -52,7 +52,7 @@ namespace Rpg.Client.GameScreens.Combat
                 graphics: animatedUnitGameObject._graphics,
                 animationBlocker,
                 interactionDelivery: new[] { singleInteractionDelivery },
-                interactionDeliveryList: context.InteractionDeliveryList,
+                interactionDeliveryList: context.InteractionDeliveryManager,
                 createProjectileSound: hitSound,
                 animationSid: animationSid);
 
@@ -72,14 +72,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(100 + 400, 100),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100 + 400, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(200 + 400, 200),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200 + 400, 200),
                         context.GameObjectContentStorage, null),
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(300 + 400, 300),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300 + 400, 300),
                         context.GameObjectContentStorage, null)
                 };
             }
@@ -87,11 +84,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200, 200),
                         context.GameObjectContentStorage, null),
-                    new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300, 300),
                         context.GameObjectContentStorage, null)
                 };
             }
@@ -105,7 +102,7 @@ namespace Rpg.Client.GameScreens.Combat
                 graphics: animatedUnitGameObject._graphics,
                 animationBlocker,
                 interactionDelivery: interactionDeliveries,
-                interactionDeliveryList: context.InteractionDeliveryList,
+                interactionDeliveryList: context.InteractionDeliveryManager,
                 createProjectileSound: hitSound,
                 animationSid: animationSid);
 

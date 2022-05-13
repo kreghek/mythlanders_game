@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -9,12 +8,12 @@ namespace Rpg.Client.Assets.States
 {
     internal class SequentialState : IUnitStateEngine
     {
-        private readonly IUnitStateEngine[] _subStates;
+        private readonly IReadOnlyList<IUnitStateEngine> _subStates;
         private int _subStateIndex;
 
         public SequentialState(IReadOnlyList<IUnitStateEngine> subStates)
         {
-            _subStates = subStates.ToArray();
+            _subStates = subStates;
         }
 
         public bool CanBeReplaced => true;
@@ -28,7 +27,12 @@ namespace Rpg.Client.Assets.States
 
         public void Update(GameTime gameTime)
         {
-            if (_subStateIndex < _subStates.Length)
+            if (IsComplete)
+            {
+                return;
+            }
+
+            if (_subStateIndex < _subStates.Count)
             {
                 var currentSubState = _subStates[_subStateIndex];
                 if (currentSubState.IsComplete)

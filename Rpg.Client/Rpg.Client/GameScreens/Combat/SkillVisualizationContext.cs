@@ -21,7 +21,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         public IAnimationManager AnimationManager { get; init; } = null!;
         public SkillExecution Interaction { get; init; } = null!;
-        public IList<IInteractionDelivery> InteractionDeliveryList { get; init; } = null!;
+        public IList<IInteractionDelivery> InteractionDeliveryManager { get; init; } = null!;
 
         public SoundEffectInstance GetHitSound(GameObjectSoundType soundType)
         {
