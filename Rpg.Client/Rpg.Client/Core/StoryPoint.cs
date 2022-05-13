@@ -7,6 +7,8 @@ namespace Rpg.Client.Core
     public interface IStoryPoint: IJobExecutable
     {
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; }
+
+        public bool IsComplete { get; }
     }
     
     internal sealed class StoryPoint: IStoryPoint
@@ -30,16 +32,42 @@ namespace Rpg.Client.Core
             {
                 storyPointAftermath.Apply(_aftermathContext);
             }
+
+            IsComplete = true;
         }
 
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
+        public bool IsComplete { get; private set; }
     }
 
-    internal sealed class StoryPointGenerator
+    internal sealed class StoryPointCatalog
     {
         public IReadOnlyCollection<IStoryPoint> Create(Globe globe)
         {
             var list = new List<IStoryPoint>();
+
+            var story2 = new StoryPoint(new StoryPointAftermathContext())
+            {
+                CurrentJobs = new[]
+                {
+                    new Job
+                    {
+                        Scheme = new JobScheme
+                        {
+                            Scope = JobScope.Global,
+                            Type = JobType.Combats,
+                            Value = 3
+                        }
+                    }
+                },
+                Aftermaths = new IStoryPointAftermath[]
+                {
+                    new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Swamp)),
+                    new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.GreatWall)),
+                    new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.ScreamValey)),
+                    new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Oasis)),
+                }
+            };
 
             var story1 = new StoryPoint(new StoryPointAftermathContext())
             {
@@ -55,12 +83,13 @@ namespace Rpg.Client.Core
                         }
                     }
                 },
-                Aftermaths = new []
+                Aftermaths = new IStoryPointAftermath[]
                 {
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Battleground)),
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.GaintBamboo)),
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Obelisk)),
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Vines)),
+                    new ActivateStoryPoint(story2, globe)
                 }
             };
             
@@ -87,6 +116,23 @@ namespace Rpg.Client.Core
         public void Apply(IStoryPointAftermathContext context)
         {
             _location.IsAvailable = true;
+        }
+    }
+
+    internal sealed class ActivateStoryPoint: IStoryPointAftermath
+    {
+        private readonly IStoryPoint _newStoryPoint;
+        private readonly Globe _globe;
+
+        public ActivateStoryPoint(IStoryPoint newStoryPoint, Globe globe)
+        {
+            _newStoryPoint = newStoryPoint;
+            _globe = globe;
+        }
+
+        public void Apply(IStoryPointAftermathContext context)
+        {
+            _globe.ActiveStoryPoints = _globe.ActiveStoryPoints.Concat(new[] { _newStoryPoint }).ToArray();
         }
     }
 
@@ -197,12 +243,12 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="currentJobs"> Текущий набор работ, к которым необходимо применить прогресс. </param>
         /// <returns> Возвращает набор работ, которые были изменены. </returns>
-        IJob[] ApplyToJobs(IEnumerable<IJob> currentJobs);
+        IEnumerable<IJob> ApplyToJobs(IEnumerable<IJob> currentJobs);
     }
     
     internal sealed class CombatCompleteJobProgress : IJobProgress
     {
-        public IJob[] ApplyToJobs(IEnumerable<IJob> currentJobs)
+        public IEnumerable<IJob> ApplyToJobs(IEnumerable<IJob> currentJobs)
         {
             if (currentJobs is null)
             {
@@ -223,7 +269,7 @@ namespace Rpg.Client.Core
             return modifiedJobs.ToArray();
         }
 
-        private static void ProcessJob(IJob job, List<IJob> modifiedJobs)
+        private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
         {
             job.Progress++;
             modifiedJobs.Add(job);

@@ -25,6 +25,8 @@ namespace Rpg.Client.Core
             _globeEvents = new List<IGlobeEvent>();
 
             GlobeLevel = new GlobeLevel();
+            
+            ActiveStoryPoints = ArraySegment<IStoryPoint>.Empty;
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -43,6 +45,8 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
+        public IEnumerable<IStoryPoint> ActiveStoryPoints { get; set; }
+
         public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
             _globeEvents.Add(globalEvent);
@@ -53,6 +57,14 @@ namespace Rpg.Client.Core
         {
             UpdateGlobeEvents();
             UpdateNodes(dice, eventCatalog);
+            UpdateStoryPoints();
+        }
+
+        private void UpdateStoryPoints()
+        {
+            var list = ActiveStoryPoints.Where(storyPoint => !storyPoint.IsComplete).ToList();
+
+            ActiveStoryPoints = list;
         }
 
         public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)

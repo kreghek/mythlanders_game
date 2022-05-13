@@ -62,10 +62,14 @@ namespace Rpg.Client.Core
 
         public void GenerateNew()
         {
+            var storyPointCatalog = new StoryPointCatalog();
+                
             var globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
             };
+
+            InitStartStoryPoint(globe, storyPointCatalog);
 
             var startUnits = CreateStartUnits();
             for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
@@ -76,6 +80,11 @@ namespace Rpg.Client.Core
             CreateStartCombat(globe);
 
             Globe = globe;
+        }
+
+        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
+        {
+            globe.ActiveStoryPoints = storyPointCatalog.Create(globe);
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()

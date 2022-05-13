@@ -65,6 +65,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
+        private readonly IJobProgressResolver _jobProgressResolver;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -116,6 +117,8 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             _screenShaker = new ScreenShaker();
+
+            _jobProgressResolver = new JobProgressResolver();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -1202,6 +1205,12 @@ namespace Rpg.Client.GameScreens.Combat
         private void UpdateCombatFinished(GameTime gameTime)
         {
             _combatFinishedDelayCounter += gameTime.ElapsedGameTime.TotalSeconds;
+
+            var progress = new CombatCompleteJobProgress();
+            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);   
+            }
 
             if (_combatFinishedDelayCounter >= 2 && !_combatResultModalShown)
             {
