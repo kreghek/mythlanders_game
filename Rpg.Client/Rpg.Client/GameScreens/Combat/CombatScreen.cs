@@ -300,7 +300,7 @@ namespace Rpg.Client.GameScreens.Combat
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
-                    _animationManager);
+                    _animationManager, _dice);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
             combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;

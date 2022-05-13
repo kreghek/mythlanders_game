@@ -83,7 +83,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 animationBlocker);
 
             var state = new AssaultRifleBurstState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 bulletDataList.Select(x => x.Item2).ToList(),
                 interactionDeliveryManager: context.InteractionDeliveryManager,

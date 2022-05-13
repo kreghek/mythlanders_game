@@ -53,7 +53,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var state = new HerbalistHealingSalveUsageState(animatedUnitGameObject._graphics, targetUnitGameObject,
+            var state = new HerbalistHealingSalveUsageState(animatedUnitGameObject.Graphics, targetUnitGameObject,
                 mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.Heal),
                 context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
 

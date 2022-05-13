@@ -17,19 +17,21 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly AnimationManager _animationManager;
+        private readonly IDice _dice;
         private readonly Camera2D _camera;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        public readonly UnitGraphics _graphics;
+        public UnitGraphics Graphics { get; }
         private readonly ScreenShaker _screenShaker;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position,
             GameObjectContentStorage gameObjectContentStorage,
-            Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager)
+            Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager,
+            IDice dice)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
-            _graphics = new UnitGraphics(combatUnit.Unit, position, gameObjectContentStorage);
+            Graphics = new UnitGraphics(combatUnit.Unit, position, gameObjectContentStorage);
 
             CombatUnit = combatUnit;
             Position = position;
@@ -37,6 +39,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _camera = camera;
             _screenShaker = screenShaker;
             _animationManager = animationManager;
+            _dice = dice;
 
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
@@ -50,7 +53,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public void AnimateWound()
         {
-            AddStateEngine(new WoundState(_graphics));
+            AddStateEngine(new WoundState(Graphics));
         }
 
         public CorpseGameObject CreateCorpse()
@@ -60,7 +63,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             deathSoundEffect.Play();
 
-            var corpse = new CorpseGameObject(_graphics, _camera, _screenShaker, _gameObjectContentStorage);
+            var corpse = new CorpseGameObject(Graphics, _camera, _screenShaker, _gameObjectContentStorage);
 
             MoveIndicatorsToCorpse(corpse);
 
@@ -85,7 +88,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             HandleEngineStates(gameTime);
 
-            _graphics.Update(gameTime);
+            Graphics.Update(gameTime);
         }
 
         public void UseSkill(UnitGameObject target,
@@ -98,7 +101,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 AnimationManager = _animationManager,
                 ScreenShaker = _screenShaker,
                 InteractionDeliveryManager = interactionDeliveryList,
-                GameObjectContentStorage = _gameObjectContentStorage
+                GameObjectContentStorage = _gameObjectContentStorage,
+                Dice = _dice
             };
 
             var mainAnimationBlocker = _animationManager.CreateAndUseBlocker();
@@ -118,9 +122,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             base.DoDraw(spriteBatch, zindex);
 
-            _graphics.ShowActiveMarker = IsActive;
+            Graphics.ShowActiveMarker = IsActive;
 
-            if (_graphics.IsDamaged)
+            if (Graphics.IsDamaged)
             {
                 var allWhite = _gameObjectContentStorage.GetAllWhiteEffect();
                 spriteBatch.End();
@@ -163,7 +167,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                     transformMatrix: matrix);
             }
 
-            _graphics.Draw(spriteBatch);
+            Graphics.Draw(spriteBatch);
 
             spriteBatch.End();
 
@@ -175,7 +179,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 transformMatrix: _camera.GetViewTransformationMatrix());
         }
 
-        internal void AddStateEngine(IUnitStateEngine actorStateEngine)
+        private void AddStateEngine(IUnitStateEngine actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
             {
@@ -190,7 +194,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         internal float GetZIndex()
         {
-            return _graphics.Root.Position.Y;
+            return Graphics.Root.Position.Y;
         }
 
         private void HandleEngineStates(GameTime gameTime)
@@ -209,7 +213,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                 if (!_actorStateEngineList.Any())
                 {
-                    AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
+                    AddStateEngine(new UnitIdleState(Graphics, CombatUnit.State));
                 }
 
                 ResetActorRootSpritePosition();
@@ -228,19 +232,19 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         private void ResetActorRootSpritePosition()
         {
-            _graphics.Root.Position = Position;
+            Graphics.Root.Position = Position;
         }
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         {
             var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
             var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
-            AddStateEngine(new ShapeShiftState(_graphics, deathSound.CreateInstance(), shapeShiftBlocker));
+            AddStateEngine(new ShapeShiftState(Graphics, deathSound.CreateInstance(), shapeShiftBlocker));
 
             shapeShiftBlocker.Released += (_, _) =>
             {
-                _graphics.SwitchSourceUnit(CombatUnit.Unit);
-                AddStateEngine(new UnitIdleState(_graphics, CombatUnit.State));
+                Graphics.SwitchSourceUnit(CombatUnit.Unit);
+                AddStateEngine(new UnitIdleState(Graphics, CombatUnit.State));
             };
         }
 

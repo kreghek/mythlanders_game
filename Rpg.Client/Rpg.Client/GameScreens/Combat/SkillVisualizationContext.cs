@@ -17,6 +17,8 @@ namespace Rpg.Client.GameScreens.Combat
         public SkillVisualizationContext(IList<UnitGameObject> unitGameObjects)
         {
             _unitGameObjects = unitGameObjects;
+
+            BattlefieldInteractionContext = new BattlefieldInteractionContext();
         }
 
         public IAnimationManager AnimationManager { get; init; } = null!;
@@ -28,10 +30,14 @@ namespace Rpg.Client.GameScreens.Combat
             return GameObjectContentStorage.GetSkillUsageSound(soundType).CreateInstance();
         }
 
+        public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+
         public UnitGameObject GetGameObject(ICombatUnit combatUnit)
         {
             return _unitGameObjects.Single(x => x.CombatUnit == combatUnit);
         }
+
+        public IDice Dice { get; init; } = null!;
 
         public AnimationBlocker AddAnimationBlocker()
         {

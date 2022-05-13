@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat
                 animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 interactionDelivery: new[] { singleInteractionDelivery },
                 interactionDeliveryList: context.InteractionDeliveryManager,
@@ -99,7 +99,7 @@ namespace Rpg.Client.GameScreens.Combat
                 interactionDeliveryBlocker, animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 interactionDelivery: interactionDeliveries,
                 interactionDeliveryList: context.InteractionDeliveryManager,
@@ -132,9 +132,9 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             var state = new CommonMeleeSkillUsageState(
-                animatedUnitGameObject._graphics,
-                animatedUnitGameObject._graphics.Root,
-                targetUnitGameObject._graphics.Root,
+                animatedUnitGameObject.Graphics,
+                animatedUnitGameObject.Graphics.Root,
+                targetUnitGameObject.Graphics.Root,
                 mainStateBlocker,
                 skillAnimationInfo, animationSid);
 
@@ -146,7 +146,7 @@ namespace Rpg.Client.GameScreens.Combat
             SoundEffectInstance hitSound)
         {
             var state = new CommonSelfSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 mainAnimationBlocker: mainAnimationBlocker,
                 interaction: () => Interaction(context.Interaction.SkillRuleInteractions),
                 hitSound: hitSound,

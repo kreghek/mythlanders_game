@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
-
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.HeroSpecific;
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -49,7 +48,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.EnergoShot,
-            AnimationSid = Core.PredefinedAnimationSid.Skill3,
+            AnimationSid = PredefinedAnimationSid.Skill3,
             IconOneBasedIndex = 7
         };
 
@@ -61,15 +60,24 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
         {
             var mainDeliveryBlocker = context.AddAnimationBlocker();
             
-            var interactionDeliveries = new List<IInteractionDelivery>
+            var interactionDeliveries = new List<IInteractionDelivery>();
+
+            for (var i = 0; i < 10; i++)
             {
-                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100 + 400, 100),
-                    context.GameObjectContentStorage, mainDeliveryBlocker),
-                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200 + 400, 200),
-                    context.GameObjectContentStorage, null),
-                new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300 + 400, 300),
-                    context.GameObjectContentStorage, null)
-            };
+                AnimationBlocker? blocker = null;
+                if (i == 0)
+                {
+                    blocker = mainDeliveryBlocker;
+                }
+
+                var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
+                var targetRandomPosition = context.Dice.RollPoint(targetArea);
+
+                var arrow = new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, targetRandomPosition,
+                    context.GameObjectContentStorage, blocker);
+                
+                interactionDeliveries.Add(arrow);
+            }
 
             var stateAnimationBlocker = context.AddAnimationBlocker();
             
@@ -78,7 +86,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
                 mainDeliveryBlocker,
                 stateAnimationBlocker);
 
-            var state = new ArrowRainUsageState(animatedUnitGameObject._graphics,
+            var state = new ArrowRainUsageState(animatedUnitGameObject.Graphics,
                 stateAnimationBlocker,
                 interactionDeliveries,
                 context.InteractionDeliveryManager,
