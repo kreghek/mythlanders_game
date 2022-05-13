@@ -225,7 +225,6 @@ namespace Rpg.Client.Core
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
                             Sid = GetNodeSid(x, BiomeType.Slavic),
                             IsAvailable = GetStartAvailability(x),
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
                             IsLast = x == BIOME_NODE_COUNT - 1
                         }
                     ).ToArray()

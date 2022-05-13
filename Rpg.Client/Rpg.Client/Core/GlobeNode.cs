@@ -15,7 +15,5 @@
         public bool IsLast { get; internal set; }
 
         public GlobeNodeSid Sid { get; set; }
-
-        public GlobeNodeSid? UnlockNodeSid { get; set; }
     }
 }
