@@ -25,7 +25,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
         public event EventHandler? InteractionPerformed;
 
-        public ProjectileBase(Vector2 startPosition,
+        protected ProjectileBase(Vector2 startPosition,
             Vector2 endPosition,
             Texture2D texture,
             IAnimationFrameSet frameSet,

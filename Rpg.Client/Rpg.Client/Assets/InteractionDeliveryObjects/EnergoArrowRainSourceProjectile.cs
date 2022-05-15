@@ -3,6 +3,7 @@
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.AnimationFrameSets;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
@@ -25,7 +26,27 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
         private static IAnimationFrameSet CreateFrameSet()
         {
-            return AnimationFrameSetFactory.CreateSequential(startFrameIndex: 9, frameCount: 5, speedMultiplicator: FPS, frameWidth: 64, frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: true);
+            var rising = AnimationFrameSetFactory.CreateSequential(
+                startFrameIndex: 4,
+                frameCount: 5,
+                speedMultiplicator: FPS,
+                frameWidth: SfxSpriteConsts.Size64x32.WIDTH,
+                frameHeight: SfxSpriteConsts.Size64x32.HEIGHT,
+                textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
+                isLoop: false);
+
+            var body = AnimationFrameSetFactory.CreateSequential(
+                startFrameIndex: 9,
+                frameCount: 5,
+                speedMultiplicator: FPS,
+                frameWidth: SfxSpriteConsts.Size64x32.WIDTH,
+                frameHeight: SfxSpriteConsts.Size64x32.HEIGHT,
+                textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
+                isLoop: true);
+
+            var full = new CompositeAnimationFrameSet(new[] { rising, body });
+
+            return full;
         }
     }
 }
