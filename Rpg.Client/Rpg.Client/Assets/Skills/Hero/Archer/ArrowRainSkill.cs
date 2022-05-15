@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -58,40 +57,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
-            var mainDeliveryBlocker = context.AddAnimationBlocker();
-            
-            var interactionDeliveries = new List<IInteractionDelivery>();
-
-            for (var i = 0; i < 10; i++)
-            {
-                AnimationBlocker? blocker = null;
-                if (i == 0)
-                {
-                    blocker = mainDeliveryBlocker;
-                }
-
-                var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
-                var targetRandomPosition = context.Dice.RollPoint(targetArea);
-                var startPosition = targetRandomPosition - Microsoft.Xna.Framework.Vector2.UnitY * 1000;
-
-                var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
-                    context.GameObjectContentStorage, blocker, lifetimeDuration: 1);
-                
-                interactionDeliveries.Add(arrow);
-            }
-
-            var stateAnimationBlocker = context.AddAnimationBlocker();
-            
-            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
-                mainStateBlocker, 
-                mainDeliveryBlocker,
-                stateAnimationBlocker);
-
-            var state = new ArrowRainUsageState(animatedUnitGameObject.Graphics,
-                stateAnimationBlocker,
-                interactionDeliveries,
-                context.InteractionDeliveryManager,
-                context.GetHitSound(GameObjectSoundType.EnergoShot));
+            var state = new ArrowRainUsageState(animatedUnitGameObject,
+                mainStateBlocker,
+                context);
 
             return state;
         }
