@@ -47,7 +47,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            SoundEffectType = GameObjectSoundType.SwordSlash,
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }
