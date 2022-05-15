@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -34,6 +35,8 @@ namespace Rpg.Client.Assets.States.Primitives
             _graphics = graphics;
             _interactionDelivery = interactionDelivery;
             _interactionDeliveryManager = interactionDeliveryManager;
+
+            _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDelivery);
         }
 
         public LaunchInteractionDeliveryState(UnitGraphics graphics,
@@ -54,8 +57,19 @@ namespace Rpg.Client.Assets.States.Primitives
             foreach (var delivery in interactionDelivery)
             {
                 _interactionDeliveryManager.Add(delivery);
+                delivery.InteractionPerformed += (sender, args) =>
+                {
+                    if (sender is null)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
+                };
             }
         }
+
+        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
 
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
@@ -76,10 +90,16 @@ namespace Rpg.Client.Assets.States.Primitives
 
             if (_counter > _animationDuration)
             {
-                IsComplete = true;
+                // Unit animation is completed
+                if (!_activeInteractionDeliveryList.Any())
+                {
+                    // And all interaction delivery animations are completed
+                    IsComplete = true;
+                }
             }
             else if (_counter > _animationDuration / 2)
             {
+
                 if (!_interactionDeliveryLaunched)
                 {
                     LaunchInteractionDelivery(_interactionDelivery);

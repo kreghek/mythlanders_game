@@ -21,9 +21,13 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
+            var arrowRainSourceBlocker = context.AddAnimationBlocker();
+            var arrowRainSource = new EnergoArrowRainSourceProjectile(animatedUnitGameObject.LaunchPoint,
+                context.GameObjectContentStorage, arrowRainSourceBlocker, lifetimeDuration: 2);
+
             var mainDeliveryBlocker = context.AddAnimationBlocker();
 
-            var interactionDeliveries = new List<IInteractionDelivery>();
+            var fallingArrowList = new List<IInteractionDelivery>();
 
             for (var i = 0; i < 10; i++)
             {
@@ -35,12 +39,12 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
                 var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
                 var targetRandomPosition = context.Dice.RollPoint(targetArea);
-                var startPosition = targetRandomPosition - Vector2.UnitY * 500;
+                var startPosition = targetRandomPosition - Vector2.UnitY * 200;
 
                 var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
-                    context.GameObjectContentStorage, blocker, lifetimeDuration: 1);
+                    context.GameObjectContentStorage, blocker, lifetimeDuration: 2);
 
-                interactionDeliveries.Add(arrow);
+                fallingArrowList.Add(arrow);
             }
 
             var stateAnimationBlocker = context.AddAnimationBlocker();
@@ -56,10 +60,12 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             {
                 new LaunchInteractionDeliveryState(
                     animatedObjectGraphics, 
-                    interactionDeliveries,
+                    new []{ arrowRainSource },
                     context.InteractionDeliveryManager,
                     context.GetHitSound(GameScreens.GameObjectSoundType.EnergoShot),
-                    PredefinedAnimationSid.Skill3)
+                    PredefinedAnimationSid.Skill3),
+
+                new CreateImmeditlyInteractionDeliveryState(fallingArrowList, context.InteractionDeliveryManager)
             };
             _mainStateBlocker = mainStateBlocker;
 

@@ -23,6 +23,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
         private readonly IAnimationFrameSet _frameSet;
 
+        public event EventHandler? InteractionPerformed;
+
         public ProjectileBase(Vector2 startPosition,
             Vector2 endPosition,
             Texture2D texture,
@@ -34,7 +36,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         {
             _graphics = new Sprite(texture)
             {
-                Position = startPosition
+                Position = startPosition,
+                SourceRectangle = new Rectangle(0, 0, 1, 1)
             };
 
             _startPosition = startPosition;
@@ -86,6 +89,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 {
                     IsDestroyed = true;
                     _blocker?.Release();
+                    InteractionPerformed?.Invoke(this, EventArgs.Empty);
                     if (_targetCombatUnit is not null)
                     {
                         _interaction?.Invoke(_targetCombatUnit);
