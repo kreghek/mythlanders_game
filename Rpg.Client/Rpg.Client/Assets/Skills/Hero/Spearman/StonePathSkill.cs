@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Spearman
 {
     internal class StonePathSkill : VisualizedSkillBase
     {
