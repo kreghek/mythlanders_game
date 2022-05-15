@@ -9,6 +9,8 @@ namespace Rpg.Client.Core
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; }
 
         public bool IsComplete { get; }
+
+        public string Title { get; }
     }
     
     internal sealed class StoryPoint: IStoryPoint
@@ -38,6 +40,8 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
         public bool IsComplete { get; private set; }
+
+        public string Title { get; init; }
     }
 
     internal sealed class StoryPointCatalog
