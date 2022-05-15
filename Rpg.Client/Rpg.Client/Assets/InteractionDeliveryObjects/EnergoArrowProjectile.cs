@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
     internal sealed class EnergoArrowProjectile : IInteractionDelivery
     {
-        private const double DURATION_SECONDS = 0.3;
+        private const double LIFETIME_DURATION_SECONDS = 0.3;
         private const int FPS = 8 * 3;
         private const double FRAMERATE = 1f / FPS;
 
@@ -22,6 +22,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Action<ICombatUnit>? _interaction;
+        private readonly double _lifetimeDuration;
         private readonly Vector2 _startPosition;
         private readonly ParticleSystem _tailParticleSystem;
         private readonly ICombatUnit? _targetCombatUnit;
@@ -36,7 +37,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             GameObjectContentStorage contentStorage,
             AnimationBlocker? blocker,
             ICombatUnit? targetCombatUnit = null,
-            Action<ICombatUnit>? interaction = null)
+            Action<ICombatUnit>? interaction = null,
+            double lifetimeDuration = LIFETIME_DURATION_SECONDS)
         {
             _graphics = new Sprite(contentStorage.GetBulletGraphics())
             {
@@ -49,6 +51,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _blocker = blocker;
             _targetCombatUnit = targetCombatUnit;
             _interaction = interaction;
+            _lifetimeDuration = lifetimeDuration;
             var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
             _tailParticleSystem = new ParticleSystem(_startPosition, particleGenerator);
 
@@ -56,8 +59,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         }
 
         public bool IsDestroyed { get; private set; }
-
-        public event EventHandler? InteractionPerformed;
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -80,7 +81,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameSet.Update(gameTime);
             _graphics.SourceRectangle = _frameSet.GetFrameRect();
 
-            if (_lifetimeCounter < DURATION_SECONDS)
+            if (_lifetimeCounter < _lifetimeDuration)
             {
                 _lifetimeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -95,7 +96,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                     }
                 }
 
-                var t = _lifetimeCounter / DURATION_SECONDS;
+                var t = _lifetimeCounter / _lifetimeDuration;
                 _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
                 _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }

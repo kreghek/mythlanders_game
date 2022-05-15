@@ -11,7 +11,5 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         void Draw(SpriteBatch spriteBatch);
         void Update(GameTime gameTime);
-
-        event EventHandler? InteractionPerformed;
     }
 }

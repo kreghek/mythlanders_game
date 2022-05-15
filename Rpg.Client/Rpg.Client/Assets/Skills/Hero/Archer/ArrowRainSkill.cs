@@ -72,9 +72,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
 
                 var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
                 var targetRandomPosition = context.Dice.RollPoint(targetArea);
+                var startPosition = targetRandomPosition - Microsoft.Xna.Framework.Vector2.UnitY * 1000;
 
-                var arrow = new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, targetRandomPosition,
-                    context.GameObjectContentStorage, blocker);
+                var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
+                    context.GameObjectContentStorage, blocker, lifetimeDuration: 1);
                 
                 interactionDeliveries.Add(arrow);
             }
