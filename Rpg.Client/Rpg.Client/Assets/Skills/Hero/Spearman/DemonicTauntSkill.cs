@@ -9,26 +9,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Spearman
 {
     internal class DemonicTauntSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.DemonicTaunt;
+
         public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                //TODO Make taunt effect
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 1, multiplier: 0.5f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SID, 0.5f)
         };
 
-        public override SkillSid Sid => SkillSid.DemonicTaunt;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 
