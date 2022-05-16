@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.StoryPoints
             _location = location;
         }
 
-        public void Apply(IStoryPointAftermathContext context)
+        public void Apply()
         {
             _location.IsAvailable = true;
         }

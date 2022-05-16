@@ -9,9 +9,9 @@ namespace Rpg.Client.Assets.StoryPoints
     {
         public IReadOnlyCollection<IStoryPoint> Create(Globe globe)
         {
-            var list = new List<IStoryPoint>();
+            var activeList = new List<IStoryPoint>();
 
-            var story2 = new StoryPoint(new StoryPointAftermathContext())
+            var story2 = new StoryPoint
             {
                 TitleSid = "История2",
                 CurrentJobs = new[]
@@ -35,7 +35,7 @@ namespace Rpg.Client.Assets.StoryPoints
                 }
             };
 
-            var story1 = new StoryPoint(new StoryPointAftermathContext())
+            var story1 = new StoryPoint
             {
                 TitleSid = "История1",
                 CurrentJobs = new[]
@@ -60,9 +60,9 @@ namespace Rpg.Client.Assets.StoryPoints
                 }
             };
             
-            list.Add(story1);
+            activeList.Add(story1);
             
-            return list;
+            return activeList;
         }
     }
 }

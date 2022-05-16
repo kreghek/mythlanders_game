@@ -7,13 +7,6 @@ namespace Rpg.Client.Core
 {
     internal sealed class StoryPoint: IStoryPoint
     {
-        private readonly IStoryPointAftermathContext _aftermathContext;
-
-        public StoryPoint(IStoryPointAftermathContext aftermathContext)
-        {
-            _aftermathContext = aftermathContext;
-        }
-
         public IReadOnlyCollection<IJob>? CurrentJobs { get; init; }
         public void HandleCompletion()
         {
@@ -24,7 +17,7 @@ namespace Rpg.Client.Core
 
             foreach (var storyPointAftermath in Aftermaths)
             {
-                storyPointAftermath.Apply(_aftermathContext);
+                storyPointAftermath.Apply();
             }
 
             IsComplete = true;
@@ -83,7 +76,7 @@ namespace Rpg.Client.Core
             _globe = globe;
         }
 
-        public void Apply(IStoryPointAftermathContext context)
+        public void Apply()
         {
             _globe.ActiveStoryPoints = _globe.ActiveStoryPoints.Concat(new[] { _newStoryPoint }).ToArray();
         }
