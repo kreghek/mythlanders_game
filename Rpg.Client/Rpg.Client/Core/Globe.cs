@@ -28,7 +28,7 @@ namespace Rpg.Client.Core
 
             GlobeLevel = new GlobeLevel();
             
-            ActiveStoryPoints = ArraySegment<IStoryPoint>.Empty;
+            _activeStoryPointsList = new List<IStoryPoint>();
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -47,7 +47,28 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
-        public IEnumerable<IStoryPoint> ActiveStoryPoints { get; set; }
+        public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
+
+        private readonly IList<IStoryPoint> _activeStoryPointsList;
+
+        public void AddActiveStoryPoint(IStoryPoint storyPoint)
+        {
+            storyPoint.Completed += StoryPoint_Completed;
+            _activeStoryPointsList.Add(storyPoint);
+        }
+
+        private void StoryPoint_Completed(object? sender, EventArgs e)
+        {
+            var storyPoint = sender as IStoryPoint;
+
+            if (storyPoint is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            storyPoint.Completed -= StoryPoint_Completed;
+            _activeStoryPointsList.Remove(storyPoint);
+        }
 
         public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
@@ -64,10 +85,6 @@ namespace Rpg.Client.Core
 
         private void UpdateStoryPoints()
         {
-            var list = ActiveStoryPoints.Where(storyPoint => !storyPoint.IsComplete).ToList();
-
-            ActiveStoryPoints = list;
-
             ResetCombatScopeJobsProgress();
         }
 

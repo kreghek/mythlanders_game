@@ -7,6 +7,7 @@ namespace Rpg.Client.Core
     /// </summary>
     public interface IJobExecutable
     {
+        bool IsComplete { get; }
         IReadOnlyCollection<IJob>? CurrentJobs { get; }
 
         void HandleCompletion();

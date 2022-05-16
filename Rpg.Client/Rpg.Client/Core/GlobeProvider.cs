@@ -85,7 +85,11 @@ namespace Rpg.Client.Core
 
         private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
         {
-            globe.ActiveStoryPoints = storyPointCatalog.Create(globe);
+            var startStoryPoints = storyPointCatalog.Create(globe);
+            foreach (var storyPoint in startStoryPoints)
+            {
+                globe.AddActiveStoryPoint(storyPoint);
+            } 
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()

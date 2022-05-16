@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,7 @@ namespace Rpg.Client.Core
     internal sealed class StoryPoint: IStoryPoint
     {
         public IReadOnlyCollection<IJob>? CurrentJobs { get; init; }
+
         public void HandleCompletion()
         {
             if (Aftermaths is null)
@@ -21,6 +23,7 @@ namespace Rpg.Client.Core
             }
 
             IsComplete = true;
+            Completed?.Invoke(this, EventArgs.Empty);
         }
 
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
@@ -62,23 +65,8 @@ namespace Rpg.Client.Core
                 new Point(concreteContext.TargetRectangle.Width, TITLE_HEIGHT + jobsHeight));
         }
 
+        public event EventHandler? Completed;
+
         public string? TitleSid { get; init; }
-    }
-
-    internal sealed class ActivateStoryPoint: IStoryPointAftermath
-    {
-        private readonly IStoryPoint _newStoryPoint;
-        private readonly Globe _globe;
-
-        public ActivateStoryPoint(IStoryPoint newStoryPoint, Globe globe)
-        {
-            _newStoryPoint = newStoryPoint;
-            _globe = globe;
-        }
-
-        public void Apply()
-        {
-            _globe.ActiveStoryPoints = _globe.ActiveStoryPoints.Concat(new[] { _newStoryPoint }).ToArray();
-        }
     }
 }

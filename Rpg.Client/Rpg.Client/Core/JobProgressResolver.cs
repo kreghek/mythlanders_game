@@ -26,7 +26,12 @@ namespace Rpg.Client.Core
                     job.IsComplete = true;
                 }
             }
-            
+
+            if (target.IsComplete)
+            {
+                return;
+            }
+
             // Опеределяем, все ли работы выполнены.
             var allJobsAreComplete = target.CurrentJobs.All(x => x.IsComplete);
 

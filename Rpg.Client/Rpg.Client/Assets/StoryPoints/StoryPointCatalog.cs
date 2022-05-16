@@ -56,7 +56,7 @@ namespace Rpg.Client.Assets.StoryPoints
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.GaintBamboo)),
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Obelisk)),
                     new UnlockLocation(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Vines)),
-                    new ActivateStoryPoint(story2, globe)
+                    new AddActivateStoryPoint(story2, globe)
                 }
             };
             
