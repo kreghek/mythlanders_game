@@ -266,8 +266,19 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel = null;
 
             _combatFinishedVictory = e.Victory;
+            
+            CountCombatFinished();
 
             // See UpdateCombatFinished next
+        }
+
+        private void CountCombatFinished()
+        {
+            var progress = new CombatCompleteJobProgress();
+            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
@@ -1205,12 +1216,6 @@ namespace Rpg.Client.GameScreens.Combat
         private void UpdateCombatFinished(GameTime gameTime)
         {
             _combatFinishedDelayCounter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            var progress = new CombatCompleteJobProgress();
-            foreach (var storyPoint in _globe.ActiveStoryPoints)
-            {
-                _jobProgressResolver.ApplyProgress(progress, storyPoint);   
-            }
 
             if (_combatFinishedDelayCounter >= 2 && !_combatResultModalShown)
             {

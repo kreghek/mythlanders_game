@@ -282,7 +282,7 @@ namespace Rpg.Client.GameScreens.Biome
         private void DrawCurrentGoalEvent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
 
-            const int GOAL_PANEL_WIDTH = 300;
+            const int GOAL_PANEL_WIDTH = 200;
             const int GOAL_TITLE_HEIGHT = 10;
 
             var activeStoryPointList = _globe.ActiveStoryPoints.ToArray();
@@ -291,20 +291,16 @@ namespace Rpg.Client.GameScreens.Biome
                 var storyPoint = activeStoryPointList[i];
 
                 var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) + (i * Vector2.UnitY * 20);
-                var goalFont = _uiContentStorage.GetMainFont();
 
-                var goalTitle = storyPoint.ToString();
-                if (!string.IsNullOrWhiteSpace(goalTitle))
+                var drawingContext = new StoryPointDrawingContext
                 {
-                    spriteBatch.DrawString(goalFont, goalTitle, position, Color.White);
-                }
-
-                //var goalDescription = _globe.Player.CurrentGoalEvent.GoalDescription;
-                //if (!string.IsNullOrWhiteSpace(goalDescription))
-                //{
-                //    spriteBatch.DrawString(goalFont, goalDescription,
-                //        position + new Vector2(0, GOAL_TITLE_HEIGHT), Color.White);
-                //}
+                    TargetSpriteBatch = spriteBatch,
+                    TargetRectangle = new Rectangle(position.ToPoint(), new Point(GOAL_PANEL_WIDTH, GOAL_TITLE_HEIGHT)),
+                    StoryTitleFont = _uiContentStorage.GetMainFont(),
+                    StoryJobsFont = _uiContentStorage.GetMainFont()
+                };
+                
+                storyPoint.Draw(drawingContext);
             }
         }
 

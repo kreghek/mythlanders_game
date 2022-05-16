@@ -2,15 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace Rpg.Client.Core
 {
     public interface IStoryPoint: IJobExecutable
     {
-        public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; }
+        IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; }
 
-        public bool IsComplete { get; }
+        bool IsComplete { get; }
 
-        public string Title { get; }
+        void Draw(IStoryPointDrawingContext context);
+    }
+
+    public interface IStoryPointDrawingContext
+    {
+    }
+
+    internal sealed class StoryPointDrawingContext: IStoryPointDrawingContext
+    {
+        public SpriteBatch TargetSpriteBatch { get; init; }
+        public Rectangle TargetRectangle { get; init; }
+        public Rectangle? ResultRectangle { get; set; }
+        public SpriteFont StoryTitleFont { get; init; }
+        public SpriteFont StoryJobsFont { get; init; }
     }
     
     internal sealed class StoryPoint: IStoryPoint
@@ -40,8 +56,44 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
         public bool IsComplete { get; private set; }
+        public void Draw(IStoryPointDrawingContext context)
+        {
+            var concreteContext = (StoryPointDrawingContext)context;
+            
+            const int TITLE_TEXT_HEIGHT = 20;
+            const int TITLE_TEXT_MARGIN = 5;
+            const int TITLE_HEIGHT = TITLE_TEXT_HEIGHT + TITLE_TEXT_MARGIN;
+            
+            concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryTitleFont, 
+                TitleSid, 
+                concreteContext.TargetRectangle.Location.ToVector2(), 
+                Color.White);
 
-        public string Title { get; init; }
+            var jobsHeight = 0;
+            const int JOB_TEXT_HEIGHT = 20;
+            const int JOB_TEXT_MARGIN = 5;
+            const int JOB_HEIGHT = JOB_TEXT_HEIGHT + JOB_TEXT_MARGIN;
+            if (CurrentJobs is not null)
+            {
+                var currentJobList = CurrentJobs.ToArray();
+                for (var index = 0; index < currentJobList.Length; index++)
+                {
+                    var currentJob = currentJobList[index];
+                    
+                    concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryJobsFont, 
+                        $"{currentJob.Scheme.Type}: {currentJob.Progress}/{currentJob.Scheme.Value}", 
+                        (concreteContext.TargetRectangle.Location + new Point(0, index * JOB_HEIGHT)).ToVector2(),
+                        Color.White);
+                }
+
+                jobsHeight = currentJobList.Length * JOB_HEIGHT;
+            }
+            
+            concreteContext.ResultRectangle = new Rectangle(concreteContext.TargetRectangle.Location,
+                new Point(concreteContext.TargetRectangle.Width, TITLE_HEIGHT + jobsHeight));
+        }
+
+        public string TitleSid { get; init; }
     }
 
     internal sealed class StoryPointCatalog
@@ -52,6 +104,7 @@ namespace Rpg.Client.Core
 
             var story2 = new StoryPoint(new StoryPointAftermathContext())
             {
+                TitleSid = "История2",
                 CurrentJobs = new[]
                 {
                     new Job
@@ -75,6 +128,7 @@ namespace Rpg.Client.Core
 
             var story1 = new StoryPoint(new StoryPointAftermathContext())
             {
+                TitleSid = "История1",
                 CurrentJobs = new[]
                 {
                     new Job
