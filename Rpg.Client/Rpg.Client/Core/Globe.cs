@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.StoryPoints;
+
 namespace Rpg.Client.Core
 {
     internal sealed class Globe
@@ -65,6 +67,27 @@ namespace Rpg.Client.Core
             var list = ActiveStoryPoints.Where(storyPoint => !storyPoint.IsComplete).ToList();
 
             ActiveStoryPoints = list;
+
+            ResetCombatScopeJobsProgress();
+        }
+
+        private void ResetCombatScopeJobsProgress()
+        {
+            foreach (var storyPoint in ActiveStoryPoints)
+            {
+                if (storyPoint.CurrentJobs is null)
+                {
+                    continue;
+                }
+
+                foreach (var job in storyPoint.CurrentJobs)
+                {
+                    if (job.Scheme.Scope == JobScopeCatalog.Combat)
+                    {
+                        job.Progress = 0;
+                    }
+                }
+            }
         }
 
         public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
