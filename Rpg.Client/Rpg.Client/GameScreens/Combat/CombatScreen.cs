@@ -281,6 +281,15 @@ namespace Rpg.Client.GameScreens.Combat
                 _jobProgressResolver.ApplyProgress(progress, storyPoint);
             }
         }
+        
+        private void CountDefeat()
+        {
+            var progress = new DefeatJobProgress();
+            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
+        }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
         {
@@ -298,6 +307,11 @@ namespace Rpg.Client.GameScreens.Combat
         private void Combat_UnitDied(object? sender, CombatUnit e)
         {
             e.UnsubscribeHandlers();
+
+            if (!e.Unit.IsPlayerControlled)
+            {
+                CountDefeat();
+            }
 
             var unitGameObject = GetUnitGameObject(e);
 

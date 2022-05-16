@@ -21,8 +21,8 @@ namespace Rpg.Client.Assets.StoryPoints
                         Scheme = new JobScheme
                         {
                             Scope = JobScopeCatalog.Global,
-                            Type = JobTypeCatalog.Combats,
-                            Value = 3
+                            Type = JobTypeCatalog.Defeats,
+                            Value = 10
                         }
                     }
                 },
