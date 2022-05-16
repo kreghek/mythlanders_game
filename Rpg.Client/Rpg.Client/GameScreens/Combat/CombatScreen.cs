@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.StoryPoints;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;

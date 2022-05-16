@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Rpg.Client.Assets.StoryPoints;
 using Rpg.Client.Core.ProgressStorage;
 
 namespace Rpg.Client.Core
