@@ -281,7 +281,6 @@ namespace Rpg.Client.GameScreens.Biome
 
         private void DrawCurrentGoalEvent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-
             const int GOAL_PANEL_WIDTH = 200;
             const int GOAL_TITLE_HEIGHT = 10;
 

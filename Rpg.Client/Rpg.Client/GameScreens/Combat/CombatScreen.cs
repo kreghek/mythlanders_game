@@ -276,7 +276,8 @@ namespace Rpg.Client.GameScreens.Combat
         private void CountCombatFinished()
         {
             var progress = new CombatCompleteJobProgress();
-            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
+            foreach (var storyPoint in activeStoryPointsSnapshotList)
             {
                 _jobProgressResolver.ApplyProgress(progress, storyPoint);
             }

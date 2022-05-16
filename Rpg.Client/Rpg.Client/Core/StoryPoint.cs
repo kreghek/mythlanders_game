@@ -51,10 +51,11 @@ namespace Rpg.Client.Core
                 for (var index = 0; index < currentJobList.Length; index++)
                 {
                     var currentJob = currentJobList[index];
-                    
+
+                    var jobTextPosition = concreteContext.TargetRectangle.Location + new Point(0, index * JOB_HEIGHT + TITLE_HEIGHT);
                     concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryJobsFont, 
-                        $"{currentJob.Scheme.Type}: {currentJob.Progress}/{currentJob.Scheme.Value}", 
-                        (concreteContext.TargetRectangle.Location + new Point(0, index * JOB_HEIGHT)).ToVector2(),
+                        currentJob.ToString(),
+                        jobTextPosition.ToVector2(),
                         Color.White);
                 }
 

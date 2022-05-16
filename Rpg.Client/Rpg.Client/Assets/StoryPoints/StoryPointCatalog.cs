@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.StoryPoints
                 TitleSid = "История2",
                 CurrentJobs = new[]
                 {
-                    new Job
+                    new Job("Победа над противниками", "{0}: {1}/{2}", "{0} - завершено")
                     {
                         Scheme = new JobScheme
                         {
@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.StoryPoints
                 TitleSid = "История1",
                 CurrentJobs = new[]
                 {
-                    new Job
+                    new Job("Бои", "{0}: {1}/{2}", "{0} - завершено")
                     {
                         Scheme = new JobScheme
                         {
