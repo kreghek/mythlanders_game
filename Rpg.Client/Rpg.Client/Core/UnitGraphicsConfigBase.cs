@@ -6,9 +6,9 @@ namespace Rpg.Client.Core
     {
         protected UnitGraphicsConfigBase()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>();
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>();
         }
 
-        public Dictionary<AnimationSid, AnimationInfo> Animations { get; protected set; }
+        public IDictionary<PredefinedAnimationSid, IAnimationFrameSet> PredefinedAnimations { get; protected set; }
     }
 }

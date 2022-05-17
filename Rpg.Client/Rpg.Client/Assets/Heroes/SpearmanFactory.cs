@@ -1,7 +1,7 @@
 using Rpg.Client.Assets.Equipments.Spearman;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Spearman;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

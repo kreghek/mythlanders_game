@@ -5,40 +5,39 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
-    internal sealed class BulletGameObject : IInteractionDelivery
+    internal abstract class ProjectileBase : IInteractionDelivery
     {
-        private const double DURATION_SECONDS = 0.3;
-        private const double FRAMERATE = 1f / (8f * 3);
-
-        private const int FRAME_COUNT = 4;
-
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
         private readonly Sprite _graphics;
         private readonly Action<ICombatUnit>? _interaction;
+        private readonly double _lifetimeDuration;
         private readonly Vector2 _startPosition;
-        private readonly ParticleSystem _tailParticleSystem;
         private readonly ICombatUnit? _targetCombatUnit;
-        private double _counter;
-        private double _frameCounter;
-        private int _frameIndex;
 
-        public BulletGameObject(Vector2 startPosition,
+        private double _lifetimeCounter;
+
+        private readonly IAnimationFrameSet _frameSet;
+
+        public event EventHandler? InteractionPerformed;
+
+        protected ProjectileBase(Vector2 startPosition,
             Vector2 endPosition,
-            GameObjectContentStorage contentStorage,
+            Texture2D texture,
+            IAnimationFrameSet frameSet,
+            double lifetimeDuration,
             AnimationBlocker? blocker,
             ICombatUnit? targetCombatUnit = null,
             Action<ICombatUnit>? interaction = null)
         {
-            _graphics = new Sprite(contentStorage.GetBulletGraphics())
+            _graphics = new Sprite(texture)
             {
                 Position = startPosition,
-                SourceRectangle = new Rectangle(0, 0, 64, 32)
+                SourceRectangle = new Rectangle(0, 0, 1, 1)
             };
 
             _startPosition = startPosition;
@@ -46,13 +45,12 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _blocker = blocker;
             _targetCombatUnit = targetCombatUnit;
             _interaction = interaction;
-            var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
-            _tailParticleSystem = new ParticleSystem(_startPosition, particleGenerator);
+            _lifetimeDuration = lifetimeDuration;
+
+            _frameSet = frameSet;
         }
 
         public bool IsDestroyed { get; private set; }
-
-        public event EventHandler? InteractionPerformed;
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -62,8 +60,11 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             }
 
             _graphics.Draw(spriteBatch);
-            _tailParticleSystem.Draw(spriteBatch);
+
+            DrawForegroundAdditionalEffects(spriteBatch);
         }
+
+        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
 
         public void Update(GameTime gameTime)
         {
@@ -72,25 +73,14 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 return;
             }
 
-            if (_counter < DURATION_SECONDS)
+            _frameSet.Update(gameTime);
+            _graphics.SourceRectangle = _frameSet.GetFrameRect();
+
+            if (_lifetimeCounter < _lifetimeDuration)
             {
-                _counter += gameTime.ElapsedGameTime.TotalSeconds;
-                _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                _lifetimeCounter += gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (_frameCounter >= FRAMERATE)
-                {
-                    _frameCounter = 0;
-                    _frameIndex++;
-
-                    if (_frameIndex > FRAME_COUNT - 1)
-                    {
-                        _frameIndex = 0;
-                    }
-                }
-
-                var t = _counter / DURATION_SECONDS;
-                _graphics.Position = Vector2.Lerp(_startPosition, _endPosition, (float)t);
-                _graphics.SourceRectangle = new Rectangle(0, 32 * _frameIndex, 64, 32);
+                _graphics.Position = CurrentPosition;
                 _graphics.Rotation = MathF.Atan2(_endPosition.Y - _startPosition.Y, _endPosition.X - _startPosition.X);
             }
             else
@@ -99,6 +89,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 {
                     IsDestroyed = true;
                     _blocker?.Release();
+                    InteractionPerformed?.Invoke(this, EventArgs.Empty);
                     if (_targetCombatUnit is not null)
                     {
                         _interaction?.Invoke(_targetCombatUnit);
@@ -106,8 +97,18 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 }
             }
 
-            _tailParticleSystem.MoveEmitter(_graphics.Position);
-            _tailParticleSystem.Update(gameTime);
+            UpdateAdditionalEffects(gameTime);
         }
+
+        protected Vector2 CurrentPosition
+        {
+            get
+            {
+                var t = _lifetimeCounter / _lifetimeDuration;
+                return Vector2.Lerp(_startPosition, _endPosition, (float)t);
+            }
+        }
+
+        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
     }
 }

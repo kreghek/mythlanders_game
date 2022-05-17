@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Assets.States.HeroSpecific;
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
     internal class ArrowRainSkill : VisualizedSkillBase
     {
@@ -43,7 +47,21 @@ namespace Rpg.Client.Assets.Skills
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.EnergoShot,
+            AnimationSid = PredefinedAnimationSid.Skill3,
             IconOneBasedIndex = 7
         };
+
+        public override IUnitStateEngine CreateState(
+            UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject,
+            AnimationBlocker mainStateBlocker,
+            ISkillVisualizationContext context)
+        {
+            var state = new ArrowRainUsageState(animatedUnitGameObject,
+                mainStateBlocker,
+                context);
+
+            return state;
+        }
     }
 }

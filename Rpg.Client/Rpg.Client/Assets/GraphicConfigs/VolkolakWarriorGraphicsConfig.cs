@@ -8,13 +8,13 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public VolkolakWarriorGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 24, frames: 16, speed: 8) { IsFinal = true } }
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 16, speedMultiplicator: 8) }
             };
         }
     }

@@ -326,7 +326,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             _combat.Update();
 
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage, false);
+                _uiContentStorage, _gameObjectContentStorage);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)

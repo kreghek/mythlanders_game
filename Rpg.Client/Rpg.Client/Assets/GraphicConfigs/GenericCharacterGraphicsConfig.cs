@@ -8,15 +8,15 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public GenericCharacterGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 8, speed: 8) },
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 8, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 16, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Skill4, new AnimationInfo(startFrame: 24, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 32, frames: 8, speed: 8) { IsFinal = true } },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 40, frames: 8, speed: 8) { IsFinal = true } }
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, speedMultiplicator: 8) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, speedMultiplicator: 8) }
             };
         }
     }

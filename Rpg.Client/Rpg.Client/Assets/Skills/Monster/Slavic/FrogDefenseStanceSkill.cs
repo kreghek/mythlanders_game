@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.Skills.Monster.Slavic
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.FrogHornsUp,
-            AnimationSid = AnimationSid.Skill3
+            AnimationSid = PredefinedAnimationSid.Skill3
         };
     }
 }

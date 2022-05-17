@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             IReadOnlyList<IInteractionDelivery> interactionDeliveries,
             IList<IInteractionDelivery> interactionDeliveryManager,
             SoundEffectInstance rifleShotSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             Debug.Assert(interactionDeliveries.Any(),
                 "Empty interaction list leads to empty sub-states and game freeze.");

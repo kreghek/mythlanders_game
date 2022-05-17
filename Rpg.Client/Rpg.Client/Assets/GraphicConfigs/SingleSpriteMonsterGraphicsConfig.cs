@@ -8,22 +8,22 @@ namespace Rpg.Client.Assets.GraphicConfigs
     {
         public SingleSpriteMonsterGraphicsConfig()
         {
-            Animations = new Dictionary<AnimationSid, AnimationInfo>
+            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { AnimationSid.Idle, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Defense, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Defense, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
 
-                { AnimationSid.MoveForward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.MoveBackward, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { PredefinedAnimationSid.MoveForward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.MoveBackward, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
 
-                { AnimationSid.Skill1, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill2, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill3, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Skill4, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
+                { PredefinedAnimationSid.Skill1, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Skill2, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Skill3, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Skill4, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
 
-                { AnimationSid.ShapeShift, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Wound, new AnimationInfo(startFrame: 0, frames: 1, speed: 1) },
-                { AnimationSid.Death, new AnimationInfo(startFrame: 1000, frames: 1, speed: 1) { IsFinal = true } }
+                { PredefinedAnimationSid.ShapeShift, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Wound, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, speedMultiplicator: 1) },
+                { PredefinedAnimationSid.Death, AnimationFrameSetFactory.CreateSequential(startFrameIndex: 1000, frameCount: 1, speedMultiplicator: 1) }
             };
         }
     }

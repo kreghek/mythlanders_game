@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.StoryPoints;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
@@ -65,6 +66,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
+        private readonly IJobProgressResolver _jobProgressResolver;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -116,6 +118,8 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             _screenShaker = new ScreenShaker();
+
+            _jobProgressResolver = new JobProgressResolver();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -263,8 +267,29 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel = null;
 
             _combatFinishedVictory = e.Victory;
+            
+            CountCombatFinished();
 
             // See UpdateCombatFinished next
+        }
+
+        private void CountCombatFinished()
+        {
+            var progress = new CombatCompleteJobProgress();
+            var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
+            foreach (var storyPoint in activeStoryPointsSnapshotList)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
+        }
+        
+        private void CountDefeat()
+        {
+            var progress = new DefeatJobProgress();
+            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
@@ -284,6 +309,11 @@ namespace Rpg.Client.GameScreens.Combat
         {
             e.UnsubscribeHandlers();
 
+            if (!e.Unit.IsPlayerControlled)
+            {
+                CountDefeat();
+            }
+
             var unitGameObject = GetUnitGameObject(e);
 
             var corpse = unitGameObject.CreateCorpse();
@@ -300,7 +330,7 @@ namespace Rpg.Client.GameScreens.Combat
             var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
-                    _animationManager);
+                    _animationManager, _dice);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
             combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenShieldPointsDamage;
@@ -308,13 +338,6 @@ namespace Rpg.Client.GameScreens.Combat
             combatUnit.HasBeenShieldPointsRestored += CombatUnit_HasBeenShieldPointsRestored;
             combatUnit.HasAvoidedDamage += CombatUnit_HasAvoidedDamage;
             combatUnit.Blocked += CombatUnit_Blocked;
-        }
-
-        private void Combat_UnitHasBeenDamaged(object? sender, CombatUnit e)
-        {
-            var unitGameObject = GetUnitGameObject(e);
-
-            unitGameObject.AnimateWound();
         }
 
         private void Combat_UnitPassed(object? sender, CombatUnit e)
@@ -365,14 +388,12 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitDied += Combat_UnitDied;
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
-            _combat.UnitHasBeenDamaged += Combat_UnitHasBeenDamaged;
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
 
             var settings = Game.Services.GetService<GameSettings>();
-            // TODO Remove settings.Mode == GameMode.Full then effects would be developed.
             _unitStatePanelController = new UnitStatePanelController(_combat,
-                _uiContentStorage, _gameObjectContentStorage, settings.Mode == GameMode.Full);
+                _uiContentStorage, _gameObjectContentStorage);
         }
 
         private void CombatResultModal_Closed(object? sender, EventArgs e)
@@ -555,6 +576,8 @@ namespace Rpg.Client.GameScreens.Combat
 
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
+            unitGameObject.AnimateWound();
+
             var font = _uiContentStorage.GetCombatIndicatorFont();
             var position = unitGameObject.Position;
 
@@ -586,23 +609,6 @@ namespace Rpg.Client.GameScreens.Combat
                 new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
-        }
-
-        private static CombatRewardsItem CreateReward(IReadOnlyCollection<ResourceItem> inventory,
-            EquipmentItemType resourceType, int amount)
-        {
-            var inventoryItem = inventory.Single(x => x.Type == resourceType);
-            var item = new CombatRewardsItem
-            {
-                Xp = new ResourceReward
-                {
-                    StartValue = inventoryItem.Amount,
-                    Amount = amount,
-                    Type = resourceType
-                }
-            };
-
-            return item;
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,

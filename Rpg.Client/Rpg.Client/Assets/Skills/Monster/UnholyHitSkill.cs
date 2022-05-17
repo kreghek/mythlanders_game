@@ -32,7 +32,7 @@ namespace Rpg.Client.Assets.Skills.Monster
 
         private static SkillVisualization PredefinedVisualization => new()
         {
-            AnimationSid = AnimationSid.Skill1,
+            AnimationSid = PredefinedAnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash
         };

@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier)
         {
-            return CreateDamage(sid, direction, multiplier, 1f);
+            return CreateDamage(sid, direction, multiplier, scatter: 0.1f);
         }
 
         public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier, float scatter)
@@ -123,10 +123,21 @@ namespace Rpg.Client.Assets
             };
         }
 
+        /// <summary>
+        /// Create protection rule with single turn duration.
+        /// </summary>
         public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction,
             float multiplier)
         {
             return CreateProtection(sid, direction, 1, multiplier);
+        }
+
+        /// <summary>
+        /// Create protection rule with single turn duration to youself.
+        /// </summary>
+        public static EffectRule CreateProtection(SkillSid sid, float multiplier)
+        {
+            return CreateProtection(sid, SkillDirection.Self, 1, multiplier);
         }
 
         public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction, int duration,
@@ -137,6 +148,7 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
+                    // TODO +1 is durty fix
                     var effect = new DecreaseDamageEffect(u, duration + 1, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection

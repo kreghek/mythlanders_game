@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
     internal class RapidShotSkill : VisualizedSkillBase
     {
@@ -48,7 +48,8 @@ namespace Rpg.Client.Assets.Skills
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.EnergoShot,
-            IconOneBasedIndex = 6
+            IconOneBasedIndex = 6,
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }

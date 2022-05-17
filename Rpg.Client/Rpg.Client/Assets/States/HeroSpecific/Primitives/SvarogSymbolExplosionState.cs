@@ -46,7 +46,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
         {
             if (!_started)
             {
-                _graphics.PlayAnimation(AnimationSid.Skill1);
+                _graphics.PlayAnimation(PredefinedAnimationSid.Skill1);
 
                 _explosionSoundEffect.Play();
 

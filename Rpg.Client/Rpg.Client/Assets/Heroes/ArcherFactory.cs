@@ -2,6 +2,7 @@ using Rpg.Client.Assets.Equipments.Archer;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Archer;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -22,7 +23,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new HawkGraphicsConfig();
+            return new ArcherGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()

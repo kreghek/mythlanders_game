@@ -10,7 +10,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
     internal class LinearMoveToTargetState : IUnitStateEngine
     {
         private const double DURATION_SECONDS = 0.25;
-        private readonly AnimationSid _animationSid;
+        private readonly PredefinedAnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
 
@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
         private double _counter;
 
         public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;

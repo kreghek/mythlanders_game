@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.States
     internal sealed class HealState : IUnitStateEngine
     {
         private const double DURATION = 1;
-        private readonly AnimationSid _animationSid;
+        private readonly PredefinedAnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
         private readonly Action _healInteraction;
         private readonly SoundEffectInstance _hitSound;
@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.States
         private bool _interactionExecuted;
 
         public HealState(UnitGraphics graphics, Action healInteraction, SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             _graphics = graphics;
             _healInteraction = healInteraction;

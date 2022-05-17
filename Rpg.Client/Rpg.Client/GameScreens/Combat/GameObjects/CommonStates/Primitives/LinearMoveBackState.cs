@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation(AnimationSid.MoveBackward);
+                _graphics.PlayAnimation(PredefinedAnimationSid.MoveBackward);
             }
 
             if (_counter <= DURATION)

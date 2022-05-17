@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 {
     internal sealed class LuckyPlayCard : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.WoodenHandSculpture;
+        public EquipmentSid Sid => EquipmentSid.LuckyPlayCard;
 
         public string GetDescription()
         {

@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.StaffHit,
-            AnimationSid = AnimationSid.Skill1,
+            AnimationSid = PredefinedAnimationSid.Skill1,
             IconOneBasedIndex = 12
         };
 
@@ -47,7 +47,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var state = new MonkTripleHitState(animatedUnitGameObject._graphics, targetUnitGameObject._graphics,
+            var state = new MonkTripleHitState(animatedUnitGameObject.Graphics, targetUnitGameObject.Graphics,
                 mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.StaffHit));
             return state;
         }

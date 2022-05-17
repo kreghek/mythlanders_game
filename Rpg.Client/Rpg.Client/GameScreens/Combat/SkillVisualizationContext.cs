@@ -17,21 +17,27 @@ namespace Rpg.Client.GameScreens.Combat
         public SkillVisualizationContext(IList<UnitGameObject> unitGameObjects)
         {
             _unitGameObjects = unitGameObjects;
+
+            BattlefieldInteractionContext = new BattlefieldInteractionContext();
         }
 
         public IAnimationManager AnimationManager { get; init; } = null!;
         public SkillExecution Interaction { get; init; } = null!;
-        public IList<IInteractionDelivery> InteractionDeliveryList { get; init; } = null!;
+        public IList<IInteractionDelivery> InteractionDeliveryManager { get; init; } = null!;
 
         public SoundEffectInstance GetHitSound(GameObjectSoundType soundType)
         {
             return GameObjectContentStorage.GetSkillUsageSound(soundType).CreateInstance();
         }
 
+        public IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+
         public UnitGameObject GetGameObject(ICombatUnit combatUnit)
         {
             return _unitGameObjects.Single(x => x.CombatUnit == combatUnit);
         }
+
+        public IDice Dice { get; init; } = null!;
 
         public AnimationBlocker AddAnimationBlocker()
         {

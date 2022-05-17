@@ -54,11 +54,11 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             _subStates = new IUnitStateEngine[]
             {
-                new SvarogSymbolAppearingState(actorGameObject._graphics, svarogSymbol, interactionDeliveryList,
+                new SvarogSymbolAppearingState(actorGameObject.Graphics, svarogSymbol, interactionDeliveryList,
                     symbolAppearingSoundEffect),
-                new SvarogSymbolBurningState(actorGameObject._graphics, svarogSymbol, screenShaker,
+                new SvarogSymbolBurningState(actorGameObject.Graphics, svarogSymbol, screenShaker,
                     risingPowerSoundEffect),
-                new SvarogSymbolExplosionState(actorGameObject._graphics, _svarogSymbolAnimationBlocker,
+                new SvarogSymbolExplosionState(actorGameObject.Graphics, _svarogSymbolAnimationBlocker,
                     explosionSoundEffect, fireDamageSoundEffect, svarogSymbol)
             };
         }

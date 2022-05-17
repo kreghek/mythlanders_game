@@ -16,11 +16,9 @@ namespace Rpg.Client.Engine
         private readonly Vector2 _position;
         private readonly Sprite _selectedMarker;
 
-        private IDictionary<AnimationSid, AnimationInfo> _animationInfos;
+        private IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
 
-        private AnimationSid _animationSid;
-        private double _frameCounter;
-        private int _frameIndex;
+        private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
@@ -34,9 +32,10 @@ namespace Rpg.Client.Engine
                 SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
 
-            InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
+            _predefinedAnimationFrameSets = unit.UnitScheme.UnitGraphicsConfig.PredefinedAnimations;
+            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
 
-            PlayAnimation(AnimationSid.Idle);
+            PlayAnimation(PredefinedAnimationSid.Idle);
         }
 
         public SpriteContainer Root { get; private set; }
@@ -48,31 +47,40 @@ namespace Rpg.Client.Engine
             Root.Draw(spriteBatch);
         }
 
-        public AnimationInfo GetAnimationInfo(AnimationSid sid)
+        public IAnimationFrameSet GetAnimationInfo(PredefinedAnimationSid sid)
         {
-            return _animationInfos[sid];
+            return _predefinedAnimationFrameSets[sid];
         }
 
-        public void PlayAnimation(AnimationSid sid)
+        public void PlayAnimation(IAnimationFrameSet animation)
         {
-            if (sid == _animationSid)
+            if (_currentAnimationFrameSet != animation)
             {
-                return;
+                _currentAnimationFrameSet = animation;
+                _currentAnimationFrameSet.Reset();
             }
-
-            _frameCounter = 0;
-            _frameIndex = 0;
-            _animationSid = sid;
+        }
+        public void PlayAnimation(PredefinedAnimationSid sid)
+        {
+            var animation = _predefinedAnimationFrameSets[sid];
+            PlayAnimation(animation);
         }
 
         public void SwitchSourceUnit(Unit unit)
         {
-            InitializeGraphics(unit.UnitScheme, unit.IsPlayerControlled);
+            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
         }
 
         public void Update(GameTime gameTime)
         {
-            if (_animationSid == AnimationSid.Idle || _animationSid == AnimationSid.Defense)
+            HandleSelectionMarker();
+
+            UpdateAnimation(gameTime);
+        }
+
+        private void HandleSelectionMarker()
+        {
+            if (_currentAnimationFrameSet.IsIdle)
             {
                 _selectedMarker.Visible = ShowActiveMarker;
             }
@@ -80,18 +88,9 @@ namespace Rpg.Client.Engine
             {
                 _selectedMarker.Visible = false;
             }
-
-            UpdateAnimation(gameTime);
         }
 
-        private static Rectangle CalcRect(int frameIndex, int startIndex, int cols, int frameWidth, int frameHeight)
-        {
-            var col = (frameIndex + startIndex) % cols;
-            var row = (frameIndex + startIndex) / cols;
-            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-        }
-
-        private void InitializeGraphics(UnitScheme unitScheme, bool isPlayerSide)
+        private void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
         {
             if (Root is not null)
             {
@@ -120,32 +119,12 @@ namespace Rpg.Client.Engine
                 Position = new Vector2(FRAME_WIDTH * 0.25f, 0)
             };
             Root.AddChild(_graphics);
-
-            _animationInfos = unitScheme.UnitGraphicsConfig.Animations;
         }
 
         private void UpdateAnimation(GameTime gameTime)
         {
-            _frameCounter += gameTime.ElapsedGameTime.TotalSeconds * _animationInfos[_animationSid].Speed;
-            if (_frameCounter > 1)
-            {
-                _frameCounter = 0;
-                _frameIndex++;
-                if (_frameIndex > _animationInfos[_animationSid].Frames - 1)
-                {
-                    if (!_animationInfos[_animationSid].IsFinal)
-                    {
-                        _frameIndex = 0;
-                    }
-                    else
-                    {
-                        _frameIndex = _animationInfos[_animationSid].Frames - 1;
-                    }
-                }
-            }
-
-            _graphics.SourceRectangle = CalcRect(_frameIndex, _animationInfos[_animationSid].StartFrame, 8, FRAME_WIDTH,
-                FRAME_HEIGHT);
+            _currentAnimationFrameSet.Update(gameTime);
+            _graphics.SourceRectangle = _currentAnimationFrameSet.GetFrameRect();
         }
     }
 }

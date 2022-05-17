@@ -5,11 +5,11 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
-    internal class DemonicTauntSkill : VisualizedSkillBase
+    internal class ZduhachMightSkill : VisualizedSkillBase
     {
-        public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ZduhachMightSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
@@ -17,25 +17,25 @@ namespace Rpg.Client.Assets.Skills
         {
             new EffectRule
             {
-                //TODO Make taunt effect
                 Direction = SkillDirection.Self,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(u, 1, multiplier: 0.5f);
+                    var effect = new DecreaseDamageEffect(u, 2, multiplier: 1f);
 
                     return effect;
                 })
             }
         };
 
-        public override SkillSid Sid => SkillSid.DemonicTaunt;
+        public override SkillSid Sid => SkillSid.ZduhachMight;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Self,
-            SoundEffectType = GameObjectSoundType.Defence
+            SoundEffectType = GameObjectSoundType.Defence,
+            IconOneBasedIndex = 8
         };
     }
 }

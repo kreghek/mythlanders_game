@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.StoryPoints;
+
 namespace Rpg.Client.Core
 {
     internal sealed class Globe
@@ -25,6 +27,8 @@ namespace Rpg.Client.Core
             _globeEvents = new List<IGlobeEvent>();
 
             GlobeLevel = new GlobeLevel();
+            
+            _activeStoryPointsList = new List<IStoryPoint>();
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -43,6 +47,29 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
+        public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
+
+        private readonly IList<IStoryPoint> _activeStoryPointsList;
+
+        public void AddActiveStoryPoint(IStoryPoint storyPoint)
+        {
+            storyPoint.Completed += StoryPoint_Completed;
+            _activeStoryPointsList.Add(storyPoint);
+        }
+
+        private void StoryPoint_Completed(object? sender, EventArgs e)
+        {
+            var storyPoint = sender as IStoryPoint;
+
+            if (storyPoint is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            storyPoint.Completed -= StoryPoint_Completed;
+            _activeStoryPointsList.Remove(storyPoint);
+        }
+
         public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
             _globeEvents.Add(globalEvent);
@@ -53,6 +80,31 @@ namespace Rpg.Client.Core
         {
             UpdateGlobeEvents();
             UpdateNodes(dice, eventCatalog);
+            UpdateStoryPoints();
+        }
+
+        private void UpdateStoryPoints()
+        {
+            ResetCombatScopeJobsProgress();
+        }
+
+        private void ResetCombatScopeJobsProgress()
+        {
+            foreach (var storyPoint in ActiveStoryPoints)
+            {
+                if (storyPoint.CurrentJobs is null)
+                {
+                    continue;
+                }
+
+                foreach (var job in storyPoint.CurrentJobs)
+                {
+                    if (job.Scheme.Scope == JobScopeCatalog.Combat)
+                    {
+                        job.Progress = 0;
+                    }
+                }
+            }
         }
 
         public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)

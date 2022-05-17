@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
@@ -17,13 +18,44 @@ namespace Rpg.Client.GameScreens.Combat
 
         SkillExecution Interaction { get; }
 
-        IList<IInteractionDelivery> InteractionDeliveryList { get; }
+        IList<IInteractionDelivery> InteractionDeliveryManager { get; }
 
         ScreenShaker ScreenShaker { get; }
+
+        IDice Dice { get; }
+
         AnimationBlocker AddAnimationBlocker();
 
         UnitGameObject GetGameObject(ICombatUnit combatUnit);
 
         SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
+
+        IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+    }
+
+    internal interface IBattlefieldInteractionContext
+    {
+        public Rectangle GetArea(Team side);
+    }
+
+    internal sealed class BattlefieldInteractionContext : IBattlefieldInteractionContext
+    {
+        public Rectangle GetArea(Team side)
+        {
+            if (side == Team.Cpu)
+            {
+                return new Rectangle(new Point(100 + 400, 100), new Point(200, 200));
+            }
+            else
+            {
+                return new Rectangle(new Point(100, 100), new Point(200, 200));
+            }
+        }
+    }
+
+    internal enum Team
+    {
+        Player,
+        Cpu
     }
 }

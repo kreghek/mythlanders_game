@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.States
 
         public UnitMassAttackState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             SpriteContainer targetGraphicsRoot,
-            AnimationBlocker blocker, Action attackInteractions, AnimationSid animationSid)
+            AnimationBlocker blocker, Action attackInteractions, PredefinedAnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);

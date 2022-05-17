@@ -1,5 +1,3 @@
-using System;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -10,11 +8,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal class ShapeShiftState : IUnitStateEngine
     {
-        private readonly double _duration;
         private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _shapeShiftBlocker;
         private readonly SoundEffectInstance _soundEffectInstance;
-        private double _counter;
+        private bool _isStarted;
 
         public ShapeShiftState(UnitGraphics graphics,
             SoundEffectInstance soundEffectInstance, AnimationBlocker shapeShiftBlocker)
@@ -22,7 +19,14 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
             _graphics = graphics;
             _soundEffectInstance = soundEffectInstance;
             _shapeShiftBlocker = shapeShiftBlocker;
-            _duration = graphics.GetAnimationInfo(AnimationSid.ShapeShift).GetDuration();
+            var shapeShiftAnimation = graphics.GetAnimationInfo(PredefinedAnimationSid.ShapeShift);
+
+            shapeShiftAnimation.End += (_, _) =>
+            {
+                _graphics.IsDamaged = false;
+                IsComplete = true;
+                _shapeShiftBlocker.Release();
+            };
         }
 
         /// <inheritdoc />
@@ -41,22 +45,15 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 
         public void Update(GameTime gameTime)
         {
-            if (_counter == 0)
+            if (_isStarted)
             {
-                _graphics.PlayAnimation(AnimationSid.ShapeShift);
-                _soundEffectInstance.Play();
+                // Just wait until animation will end.
+                return;
             }
 
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_counter > _duration)
-            {
-                _graphics.IsDamaged = false;
-                IsComplete = true;
-                _shapeShiftBlocker.Release();
-            }
+            _isStarted = true;
+            _graphics.PlayAnimation(PredefinedAnimationSid.ShapeShift);
+            _soundEffectInstance.Play();
         }
-
-        public event EventHandler? Completed;
     }
 }

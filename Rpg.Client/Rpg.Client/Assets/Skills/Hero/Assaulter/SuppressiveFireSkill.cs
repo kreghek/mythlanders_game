@@ -54,7 +54,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 var materializedTargetGameObject = context.GetGameObject(materializedTarget);
                 var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
 
-                var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.LaunchPoint,
+                var singleInteractionDelivery = new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint,
                     materializedTargetGameObjectPosition,
                     context.GameObjectContentStorage,
                     bulletAnimationBlocker,
@@ -83,12 +83,12 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 animationBlocker);
 
             var state = new AssaultRifleBurstState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 bulletDataList.Select(x => x.Item2).ToList(),
-                interactionDeliveryManager: context.InteractionDeliveryList,
+                interactionDeliveryManager: context.InteractionDeliveryManager,
                 rifleShotSound: context.GetHitSound(GameObjectSoundType.AssaultRifleBurst),
-                animationSid: AnimationSid.Skill1);
+                animationSid: PredefinedAnimationSid.Skill1);
 
             return state;
         }

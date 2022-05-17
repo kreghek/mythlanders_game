@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.States.Primitives
     {
         private readonly AnimationBlocker? _animationBlocker;
         private readonly SkillAnimationInfo _animationInfo;
-        private readonly AnimationSid _animationSid;
+        private readonly PredefinedAnimationSid _animationSid;
         private readonly UnitGraphics _graphics;
 
         private int _animationItemIndex;
@@ -23,7 +23,7 @@ namespace Rpg.Client.Assets.States.Primitives
         private bool _interactionExecuted;
 
         public DirectInteractionState(UnitGraphics graphics,
-            SkillAnimationInfo animationInfo, AnimationSid animationSid)
+            SkillAnimationInfo animationInfo, PredefinedAnimationSid animationSid)
             : this(graphics, default, animationInfo, animationSid)
         {
         }
@@ -32,7 +32,7 @@ namespace Rpg.Client.Assets.States.Primitives
             UnitGraphics graphics,
             AnimationBlocker? animationBlocker,
             SkillAnimationInfo animationInfo,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             _animationBlocker = animationBlocker;
             _animationInfo = animationInfo;

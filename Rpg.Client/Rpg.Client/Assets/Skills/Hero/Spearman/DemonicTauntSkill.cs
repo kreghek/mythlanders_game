@@ -5,29 +5,22 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Spearman
 {
-    internal class ZduhachMightSkill : VisualizedSkillBase
+    internal class DemonicTauntSkill : VisualizedSkillBase
     {
-        public ZduhachMightSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private const SkillSid SID = SkillSid.DemonicTaunt;
+
+        public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 2, multiplier: 1f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SID, 0.5f)
         };
 
-        public override SkillSid Sid => SkillSid.ZduhachMight;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Self;
         public override SkillType Type => SkillType.None;
 
@@ -35,7 +28,7 @@ namespace Rpg.Client.Assets.Skills
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence,
-            IconOneBasedIndex = 8
+            AnimationSid = Core.PredefinedAnimationSid.Skill2
         };
     }
 }

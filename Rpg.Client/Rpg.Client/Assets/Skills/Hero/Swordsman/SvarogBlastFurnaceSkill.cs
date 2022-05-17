@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.FireDamage,
-            AnimationSid = AnimationSid.Skill4,
+            AnimationSid = PredefinedAnimationSid.Skill4,
             IconOneBasedIndex = 4
         };
 
@@ -55,7 +55,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         {
             var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, mainAnimationBlocker,
                 context.Interaction,
-                context.InteractionDeliveryList, context.GameObjectContentStorage, context.AnimationManager,
+                context.InteractionDeliveryManager, context.GameObjectContentStorage, context.AnimationManager,
                 context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing),
                 context.GetHitSound(GameObjectSoundType.RisingPower),
                 context.GetHitSound(GameObjectSoundType.Firestorm),

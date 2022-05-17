@@ -39,11 +39,11 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             _innerState = new CommonDistantSkillUsageState(
                 graphics: actorGraphics,
-                animationBlocker: animationBlocker,
+                mainStateBlocker: animationBlocker,
                 interactionDelivery: new[] { healingLightInteractionDelivery },
                 interactionDeliveryList: interactionDeliveryList,
-                hitSound: skillUsageSound,
-                animationSid: AnimationSid.Skill1);
+                createProjectileSound: skillUsageSound,
+                animationSid: PredefinedAnimationSid.Skill1);
         }
 
         public bool CanBeReplaced => false;

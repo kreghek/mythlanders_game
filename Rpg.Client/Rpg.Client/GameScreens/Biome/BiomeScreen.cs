@@ -281,29 +281,25 @@ namespace Rpg.Client.GameScreens.Biome
 
         private void DrawCurrentGoalEvent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (_globe.Player.CurrentGoalEvent is null)
-            {
-                return;
-            }
-
-            const int GOAL_PANEL_WIDTH = 300;
+            const int GOAL_PANEL_WIDTH = 200;
             const int GOAL_TITLE_HEIGHT = 10;
 
-            var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top);
-            var goalFont = _uiContentStorage.GetMainFont();
-
-            var goalTitle = _globe.Player.CurrentGoalEvent.Title;
-            if (!string.IsNullOrWhiteSpace(goalTitle))
+            var activeStoryPointList = _globe.ActiveStoryPoints.ToArray();
+            for (var i = 0; i < activeStoryPointList.Length; i++)
             {
-                spriteBatch.DrawString(goalFont, goalTitle, position,
-                    Color.White);
-            }
+                var storyPoint = activeStoryPointList[i];
 
-            var goalDescription = _globe.Player.CurrentGoalEvent.GoalDescription;
-            if (!string.IsNullOrWhiteSpace(goalDescription))
-            {
-                spriteBatch.DrawString(goalFont, goalDescription,
-                    position + new Vector2(0, GOAL_TITLE_HEIGHT), Color.White);
+                var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) + (i * Vector2.UnitY * 20);
+
+                var drawingContext = new StoryPointDrawingContext
+                {
+                    TargetSpriteBatch = spriteBatch,
+                    TargetRectangle = new Rectangle(position.ToPoint(), new Point(GOAL_PANEL_WIDTH, GOAL_TITLE_HEIGHT)),
+                    StoryTitleFont = _uiContentStorage.GetMainFont(),
+                    StoryJobsFont = _uiContentStorage.GetMainFont()
+                };
+                
+                storyPoint.Draw(drawingContext);
             }
         }
 

@@ -32,11 +32,11 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            var singleInteractionDelivery = new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+            var singleInteractionDelivery = new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
@@ -49,11 +49,11 @@ namespace Rpg.Client.GameScreens.Combat
                 animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 interactionDelivery: new[] { singleInteractionDelivery },
-                interactionDeliveryList: context.InteractionDeliveryList,
-                hitSound: hitSound,
+                interactionDeliveryList: context.InteractionDeliveryManager,
+                createProjectileSound: hitSound,
                 animationSid: animationSid);
 
             return state;
@@ -63,7 +63,7 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
@@ -72,14 +72,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(100 + 400, 100),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100 + 400, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(200 + 400, 200),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200 + 400, 200),
                         context.GameObjectContentStorage, null),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64),
-                        new Vector2(300 + 400, 300),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300 + 400, 300),
                         context.GameObjectContentStorage, null)
                 };
             }
@@ -87,11 +84,11 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(100, 100),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(100, 100),
                         context.GameObjectContentStorage, interactionDeliveryBlocker),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(200, 200),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(200, 200),
                         context.GameObjectContentStorage, null),
-                    new BulletGameObject(animatedUnitGameObject.Position - Vector2.UnitY * (64), new Vector2(300, 300),
+                    new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint, new Vector2(300, 300),
                         context.GameObjectContentStorage, null)
                 };
             }
@@ -102,11 +99,11 @@ namespace Rpg.Client.GameScreens.Combat
                 interactionDeliveryBlocker, animationBlocker);
 
             var state = new CommonDistantSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 animationBlocker,
                 interactionDelivery: interactionDeliveries,
-                interactionDeliveryList: context.InteractionDeliveryList,
-                hitSound: hitSound,
+                interactionDeliveryList: context.InteractionDeliveryManager,
+                createProjectileSound: hitSound,
                 animationSid: animationSid);
 
             return state;
@@ -118,7 +115,7 @@ namespace Rpg.Client.GameScreens.Combat
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context,
             SoundEffectInstance hitSound,
-            AnimationSid animationSid)
+            PredefinedAnimationSid animationSid)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -135,9 +132,9 @@ namespace Rpg.Client.GameScreens.Combat
             };
 
             var state = new CommonMeleeSkillUsageState(
-                animatedUnitGameObject._graphics,
-                animatedUnitGameObject._graphics.Root,
-                targetUnitGameObject._graphics.Root,
+                animatedUnitGameObject.Graphics,
+                animatedUnitGameObject.Graphics.Root,
+                targetUnitGameObject.Graphics.Root,
                 mainStateBlocker,
                 skillAnimationInfo, animationSid);
 
@@ -145,11 +142,11 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
-            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, AnimationSid animationSid,
+            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, PredefinedAnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
             var state = new CommonSelfSkillUsageState(
-                graphics: animatedUnitGameObject._graphics,
+                graphics: animatedUnitGameObject.Graphics,
                 mainAnimationBlocker: mainAnimationBlocker,
                 interaction: () => Interaction(context.Interaction.SkillRuleInteractions),
                 hitSound: hitSound,

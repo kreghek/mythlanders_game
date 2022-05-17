@@ -81,20 +81,6 @@ namespace Rpg.Client.Core
             return nodeIndex == 0;
         }
 
-        private static GlobeNodeSid? GetUnlockNodeSid(int nodeIndex, BiomeType biomeType)
-        {
-            if ((nodeIndex == BIOME_NODE_COUNT - 1 && biomeType != BiomeType.Cosmos) ||
-                (nodeIndex == 2 && biomeType == BiomeType.Cosmos))
-            {
-                return null;
-            }
-
-            var sidIndex = (int)biomeType + nodeIndex + 1;
-            var nextSidIndex = sidIndex + 1;
-            var sidToUnlock = (GlobeNodeSid)nextSidIndex;
-            return sidToUnlock;
-        }
-
         private static bool IsBossLevel(GlobeLevel globeLevel, int completeBiomesCount)
         {
             return globeLevel.Level >= 10 + completeBiomesCount * 12;
@@ -142,7 +128,6 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Slavic),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Slavic),
                             BiomeType = BiomeType.Slavic
                         }
                     ).ToArray()
@@ -156,7 +141,6 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Chinese),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Chinese),
                             BiomeType = BiomeType.Chinese
                         }
                     ).ToArray()
@@ -170,7 +154,6 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Egyptian),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Egyptian),
                             BiomeType = BiomeType.Egyptian
                         }
                     ).ToArray()
@@ -184,7 +167,6 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Greek),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Greek),
                             BiomeType = BiomeType.Greek
                         }
                     ).ToArray()
@@ -198,7 +180,6 @@ namespace Rpg.Client.Core
                             Sid = GetNodeSid(x, BiomeType.Cosmos),
                             IsAvailable = GetStartAvailability(x),
                             IsLast = x == BIOME_NODE_COUNT - 1,
-                            UnlockNodeSid = GetUnlockNodeSid(x, BiomeType.Cosmos),
                             BiomeType = BiomeType.Cosmos
                         }
                     ).ToArray()

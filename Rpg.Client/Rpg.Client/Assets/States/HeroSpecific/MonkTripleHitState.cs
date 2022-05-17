@@ -53,7 +53,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 targetGraphics.Root,
                 mainAnimationBlocker,
                 skillAnimationInfo,
-                AnimationSid.Skill1);
+                PredefinedAnimationSid.Skill1);
         }
 
         private static void HandleInteractionByIndex(SkillExecution interaction, int interactionIndex)

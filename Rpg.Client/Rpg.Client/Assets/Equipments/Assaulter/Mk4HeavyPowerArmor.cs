@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 {
     internal sealed class Mk4HeavyPowerArmor : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+        public EquipmentSid Sid => EquipmentSid.Mk4HeavyPowerArmor;
 
         public string GetDescription()
         {

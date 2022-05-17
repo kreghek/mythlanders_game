@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 {
     internal sealed class MultifunctionalClocks : IEquipmentScheme
     {
-        public EquipmentSid Sid => EquipmentSid.Mk2MediumPowerArmor;
+        public EquipmentSid Sid => EquipmentSid.MultifunctionalClocks;
 
         public string GetDescription()
         {
