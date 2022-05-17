@@ -129,7 +129,7 @@ namespace Rpg.Client.GameScreens.Party
             const int TEXT_HEIGHT = 20;
 
             var resources = _globeProvider.Globe.Player.Inventory
-                .Where(x=>x.Amount > 0)
+                .Where(x => x.Amount > 0)
                 .ToArray();
 
             for (var i = 0; i < resources.Length; i++)
@@ -137,7 +137,7 @@ namespace Rpg.Client.GameScreens.Party
                 var resourceItem = resources[i];
 
                 var resourceName = GameObjectHelper.GetLocalized(resourceItem.Type);
-                
+
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                     $"{resourceName} x {resourceItem.Amount}",
                     new Vector2(contentRect.Left + RESOURCE_PANEL_X_POS, i * TEXT_HEIGHT), Color.Wheat);

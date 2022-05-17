@@ -1,6 +1,6 @@
 namespace Rpg.Client.Core
 {
-    internal sealed class JobScheme: IJobSubScheme
+    internal sealed class JobScheme : IJobSubScheme
     {
         public IJobScope Scope { get; set; }
         public IJobType Type { get; set; }

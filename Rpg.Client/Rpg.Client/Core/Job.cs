@@ -1,6 +1,6 @@
 namespace Rpg.Client.Core
 {
-    internal sealed class Job: IJob
+    internal sealed class Job : IJob
     {
         private readonly string _pattern;
         private readonly string _completePattern;

@@ -59,9 +59,9 @@ namespace Rpg.Client.Assets.StoryPoints
                     new AddActivateStoryPoint(story2, globe)
                 }
             };
-            
+
             activeList.Add(story1);
-            
+
             return activeList;
         }
     }

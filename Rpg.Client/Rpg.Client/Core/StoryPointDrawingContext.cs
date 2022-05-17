@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class StoryPointDrawingContext: IStoryPointDrawingContext
+    internal sealed class StoryPointDrawingContext : IStoryPointDrawingContext
     {
         public SpriteBatch TargetSpriteBatch { get; init; }
         public Rectangle TargetRectangle { get; init; }

@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
     {
         private const double LIFETIME_DURATION_SECONDS = 0.3;
         private const int FPS = 8 * 3;
-        
+
         private readonly ParticleSystem _tailParticleSystem;
 
         public EnergoArrowProjectile(Vector2 startPosition,
@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             AnimationBlocker? blocker,
             ICombatUnit? targetCombatUnit = null,
             Action<ICombatUnit>? interaction = null,
-            double lifetimeDuration = LIFETIME_DURATION_SECONDS):
+            double lifetimeDuration = LIFETIME_DURATION_SECONDS) :
             base(startPosition, endPosition, contentStorage.GetBulletGraphics(), CreateFrameSet(), lifetimeDuration, blocker, targetCombatUnit, interaction)
         {
             var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });

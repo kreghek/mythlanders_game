@@ -267,7 +267,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatSkillsPanel = null;
 
             _combatFinishedVictory = e.Victory;
-            
+
             CountCombatFinished();
 
             // See UpdateCombatFinished next
@@ -282,7 +282,7 @@ namespace Rpg.Client.GameScreens.Combat
                 _jobProgressResolver.ApplyProgress(progress, storyPoint);
             }
         }
-        
+
         private void CountDefeat()
         {
             var progress = new DefeatJobProgress();

@@ -2,7 +2,7 @@ using System;
 
 namespace Rpg.Client.Core
 {
-    public interface IStoryPoint: IJobExecutable
+    public interface IStoryPoint : IJobExecutable
     {
         void Draw(IStoryPointDrawingContext context);
 

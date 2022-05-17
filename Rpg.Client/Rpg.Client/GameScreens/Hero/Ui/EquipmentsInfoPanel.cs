@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _player = player;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _equipmentButtons = new List<EntityIconButton<Equipment>>();
-            
+
             InitEquipmentButtons(hero, controlTexture, equipmentIconsTexture);
         }
 
@@ -233,7 +233,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var marginVector = new Vector2(10, 15) * 2;
 
                 Debug.Assert(_equipmentButtonUnderHint is not null, "_equipmentButtonUnderHint always assigned with _equipmentHint");
-                
+
                 var position = _equipmentButtonUnderHint.Rect.Location -
                                new Point(5, (int)(textSize.Y + marginVector.Y));
                 _equipmentHint.Rect = new Rectangle(position, (textSize + marginVector).ToPoint());

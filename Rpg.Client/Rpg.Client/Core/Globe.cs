@@ -27,7 +27,7 @@ namespace Rpg.Client.Core
             _globeEvents = new List<IGlobeEvent>();
 
             GlobeLevel = new GlobeLevel();
-            
+
             _activeStoryPointsList = new List<IStoryPoint>();
         }
 

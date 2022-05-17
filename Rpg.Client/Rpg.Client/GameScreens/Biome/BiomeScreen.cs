@@ -298,7 +298,7 @@ namespace Rpg.Client.GameScreens.Biome
                     StoryTitleFont = _uiContentStorage.GetMainFont(),
                     StoryJobsFont = _uiContentStorage.GetMainFont()
                 };
-                
+
                 storyPoint.Draw(drawingContext);
             }
         }

@@ -59,7 +59,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             var subStates = new IUnitStateEngine[]
             {
                 new LaunchInteractionDeliveryState(
-                    animatedObjectGraphics, 
+                    animatedObjectGraphics,
                     new []{ arrowRainSource },
                     context.InteractionDeliveryManager,
                     context.GetHitSound(GameScreens.GameObjectSoundType.EnergoShot),

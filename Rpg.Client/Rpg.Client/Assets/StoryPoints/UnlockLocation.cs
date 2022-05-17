@@ -2,7 +2,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.StoryPoints
 {
-    internal sealed class UnlockLocation: IStoryPointAftermath
+    internal sealed class UnlockLocation : IStoryPointAftermath
     {
         private readonly GlobeNode _location;
 

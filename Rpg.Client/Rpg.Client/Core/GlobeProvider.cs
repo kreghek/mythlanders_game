@@ -64,7 +64,7 @@ namespace Rpg.Client.Core
         public void GenerateNew()
         {
             var storyPointCatalog = new StoryPointCatalog();
-                
+
             var globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
@@ -89,7 +89,7 @@ namespace Rpg.Client.Core
             foreach (var storyPoint in startStoryPoints)
             {
                 globe.AddActiveStoryPoint(storyPoint);
-            } 
+            }
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
