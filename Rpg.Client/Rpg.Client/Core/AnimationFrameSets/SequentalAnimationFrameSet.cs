@@ -14,10 +14,10 @@ namespace Rpg.Client.Core.AnimationFrameSets
         private readonly int _frameHeight;
         private readonly int _textureColumns;
 
-        public SequentalAnimationFrameSet(IReadOnlyList<int> frames, int speedMultiplicator, int frameWidth, int frameHeight, int textureColumns)
+        public SequentalAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth, int frameHeight, int textureColumns)
         {
             _frames = frames;
-            SpeedMultiplicator = speedMultiplicator;
+            _fps = fps;
             _frameWidth = frameWidth;
             _frameHeight = frameHeight;
             _textureColumns = textureColumns;
@@ -27,7 +27,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
 
         public bool IsLoop { get; init; }
         public bool IsIdle { get; init; }
-        private float SpeedMultiplicator { get; }
+        private float _fps { get; }
 
         public Rectangle GetFrameRect()
         {
@@ -54,8 +54,8 @@ namespace Rpg.Client.Core.AnimationFrameSets
                 return;
             }
 
-            _frameCounter += gameTime.ElapsedGameTime.TotalSeconds * SpeedMultiplicator;
-            if (_frameCounter > 1)
+            _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            if (_frameCounter > 1 / _fps)
             {
                 _frameCounter = 0;
                 _frameListIndex++;

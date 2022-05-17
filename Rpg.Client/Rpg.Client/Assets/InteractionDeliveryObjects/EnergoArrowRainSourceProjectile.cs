@@ -29,7 +29,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             var rising = AnimationFrameSetFactory.CreateSequential(
                 startFrameIndex: 4,
                 frameCount: 5,
-                speedMultiplicator: FPS,
+                fps: FPS,
                 frameWidth: SfxSpriteConsts.Size64x32.WIDTH,
                 frameHeight: SfxSpriteConsts.Size64x32.HEIGHT,
                 textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             var body = AnimationFrameSetFactory.CreateSequential(
                 startFrameIndex: 9,
                 frameCount: 5,
-                speedMultiplicator: FPS,
+                fps: FPS,
                 frameWidth: SfxSpriteConsts.Size64x32.WIDTH,
                 frameHeight: SfxSpriteConsts.Size64x32.HEIGHT,
                 textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT,
