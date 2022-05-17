@@ -95,7 +95,7 @@ namespace Rpg.Client.Core
                     {
                         new AddPerkUnitLevel(1, new BossMonster(2)),
                         new AddSkillUnitLevel(1, new MonsterAttackSkill()),
-                        new AddSkillUnitLevel(1, new DopeHerbSkill()),
+                        new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()

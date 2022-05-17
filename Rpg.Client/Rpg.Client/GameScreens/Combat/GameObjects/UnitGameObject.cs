@@ -17,11 +17,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly AnimationManager _animationManager;
-        private readonly IDice _dice;
         private readonly Camera2D _camera;
+        private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-
-        public UnitGraphics Graphics { get; }
         private readonly ScreenShaker _screenShaker;
 
         public UnitGameObject(CombatUnit combatUnit, Vector2 position,
@@ -45,6 +43,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public CombatUnit CombatUnit { get; }
+
+        public UnitGraphics Graphics { get; }
 
         public Vector2 InteractionPoint => Position - Vector2.UnitY * 64;
 
@@ -179,6 +179,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 transformMatrix: _camera.GetViewTransformationMatrix());
         }
 
+        internal float GetZIndex()
+        {
+            return Graphics.Root.Position.Y;
+        }
+
         private void AddStateEngine(IUnitStateEngine actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
@@ -190,11 +195,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
 
             _actorStateEngineList.Add(actorStateEngine);
-        }
-
-        internal float GetZIndex()
-        {
-            return Graphics.Root.Position.Y;
         }
 
         private void HandleEngineStates(GameTime gameTime)

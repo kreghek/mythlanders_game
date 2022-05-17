@@ -36,7 +36,8 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            var singleInteractionDelivery = new EnergoArrowProjectile(animatedUnitGameObject.Position - Vector2.UnitY * (64),
+            var singleInteractionDelivery = new EnergoArrowProjectile(
+                animatedUnitGameObject.Position - Vector2.UnitY * (64),
                 targetUnitGameObject.Position,
                 context.GameObjectContentStorage,
                 interactionDeliveryBlocker);
@@ -142,7 +143,8 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private static IUnitStateEngine CreateCommonSelfSkillUsageState(UnitGameObject animatedUnitGameObject,
-            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context, PredefinedAnimationSid animationSid,
+            AnimationBlocker mainAnimationBlocker, ISkillVisualizationContext context,
+            PredefinedAnimationSid animationSid,
             SoundEffectInstance hitSound)
         {
             var state = new CommonSelfSkillUsageState(

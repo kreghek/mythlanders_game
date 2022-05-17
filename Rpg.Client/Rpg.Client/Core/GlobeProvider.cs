@@ -83,15 +83,6 @@ namespace Rpg.Client.Core
             Globe = globe;
         }
 
-        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
-        {
-            var startStoryPoints = storyPointCatalog.Create(globe);
-            foreach (var storyPoint in startStoryPoints)
-            {
-                globe.AddActiveStoryPoint(storyPoint);
-            }
-        }
-
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
             if (!Directory.Exists(_storagePath))
@@ -351,6 +342,15 @@ namespace Rpg.Client.Core
                 };
 
                 yield return dto;
+            }
+        }
+
+        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
+        {
+            var startStoryPoints = storyPointCatalog.Create(globe);
+            foreach (var storyPoint in startStoryPoints)
+            {
+                globe.AddActiveStoryPoint(storyPoint);
             }
         }
 

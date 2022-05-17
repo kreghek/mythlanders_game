@@ -16,10 +16,10 @@ namespace Rpg.Client.Engine
         private readonly Vector2 _position;
         private readonly Sprite _selectedMarker;
 
-        private IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
-
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
+
+        private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
@@ -60,6 +60,7 @@ namespace Rpg.Client.Engine
                 _currentAnimationFrameSet.Reset();
             }
         }
+
         public void PlayAnimation(PredefinedAnimationSid sid)
         {
             var animation = _predefinedAnimationFrameSets[sid];

@@ -6,6 +6,7 @@ using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
@@ -13,8 +14,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal class ArrowRainUsageState : IUnitStateEngine
     {
-        private readonly AnimationBlocker _mainStateBlocker;
         private readonly IUnitStateEngine _mainSequentialState;
+        private readonly AnimationBlocker _mainStateBlocker;
 
         public ArrowRainUsageState(
             UnitGameObject animatedUnitGameObject,
@@ -60,9 +61,9 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             {
                 new LaunchInteractionDeliveryState(
                     animatedObjectGraphics,
-                    new []{ arrowRainSource },
+                    new[] { arrowRainSource },
                     context.InteractionDeliveryManager,
-                    context.GetHitSound(GameScreens.GameObjectSoundType.EnergoShot),
+                    context.GetHitSound(GameObjectSoundType.EnergoShot),
                     PredefinedAnimationSid.Skill3),
 
                 new CreateImmeditlyInteractionDeliveryState(fallingArrowList, context.InteractionDeliveryManager)

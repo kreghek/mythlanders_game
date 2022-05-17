@@ -20,7 +20,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             ICombatUnit? targetCombatUnit = null,
             Action<ICombatUnit>? interaction = null,
             double lifetimeDuration = LIFETIME_DURATION_SECONDS) :
-            base(startPosition, startPosition - Vector2.UnitY * 400, contentStorage.GetBulletGraphics(), CreateFrameSet(), lifetimeDuration, blocker, targetCombatUnit, interaction)
+            base(startPosition, startPosition - Vector2.UnitY * 400, contentStorage.GetBulletGraphics(),
+                CreateFrameSet(), lifetimeDuration, blocker, targetCombatUnit, interaction)
         {
         }
 

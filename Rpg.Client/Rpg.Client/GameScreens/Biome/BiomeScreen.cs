@@ -289,7 +289,8 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 var storyPoint = activeStoryPointList[i];
 
-                var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) + (i * Vector2.UnitY * 20);
+                var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) +
+                               (i * Vector2.UnitY * 20);
 
                 var drawingContext = new StoryPointDrawingContext
                 {

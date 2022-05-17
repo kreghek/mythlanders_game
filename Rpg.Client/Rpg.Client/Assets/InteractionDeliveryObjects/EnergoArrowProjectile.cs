@@ -23,15 +23,11 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             ICombatUnit? targetCombatUnit = null,
             Action<ICombatUnit>? interaction = null,
             double lifetimeDuration = LIFETIME_DURATION_SECONDS) :
-            base(startPosition, endPosition, contentStorage.GetBulletGraphics(), CreateFrameSet(), lifetimeDuration, blocker, targetCombatUnit, interaction)
+            base(startPosition, endPosition, contentStorage.GetBulletGraphics(), CreateFrameSet(), lifetimeDuration,
+                blocker, targetCombatUnit, interaction)
         {
             var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() });
             _tailParticleSystem = new ParticleSystem(startPosition, particleGenerator);
-        }
-
-        private static IAnimationFrameSet CreateFrameSet()
-        {
-            return AnimationFrameSetFactory.CreateSequential(0, frameCount: 4, speedMultiplicator: FPS, frameWidth: 64, frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: true);
         }
 
         protected override void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch)
@@ -47,6 +43,12 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
             _tailParticleSystem.MoveEmitter(CurrentPosition);
             _tailParticleSystem.Update(gameTime);
+        }
+
+        private static IAnimationFrameSet CreateFrameSet()
+        {
+            return AnimationFrameSetFactory.CreateSequential(0, frameCount: 4, speedMultiplicator: FPS, frameWidth: 64,
+                frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: true);
         }
     }
 }

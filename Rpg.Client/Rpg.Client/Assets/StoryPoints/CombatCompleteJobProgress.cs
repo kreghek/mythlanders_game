@@ -7,6 +7,12 @@ namespace Rpg.Client.Assets.StoryPoints
 {
     internal sealed class CombatCompleteJobProgress : IJobProgress
     {
+        private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
+        {
+            job.Progress++;
+            modifiedJobs.Add(job);
+        }
+
         public IEnumerable<IJob> ApplyToJobs(IEnumerable<IJob> currentJobs)
         {
             if (currentJobs is null)
@@ -26,12 +32,6 @@ namespace Rpg.Client.Assets.StoryPoints
             }
 
             return modifiedJobs.ToArray();
-        }
-
-        private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
-        {
-            job.Progress++;
-            modifiedJobs.Add(job);
         }
     }
 }

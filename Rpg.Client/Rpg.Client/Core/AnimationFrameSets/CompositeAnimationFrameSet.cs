@@ -18,6 +18,8 @@ namespace Rpg.Client.Core.AnimationFrameSets
             current.End += CurrentAnimationFrameSet_End;
         }
 
+        public bool IsLoop { get; init; }
+
         private void CurrentAnimationFrameSet_End(object? sender, EventArgs e)
         {
             var current = GetCurrentAnimationFrameSet();
@@ -41,13 +43,16 @@ namespace Rpg.Client.Core.AnimationFrameSets
             }
         }
 
-        public bool IsLoop { get; init; }
-        public bool IsIdle { get; init; }
-        public Rectangle GetFrameRect() => GetCurrentAnimationFrameSet().GetFrameRect();
-
         private IAnimationFrameSet GetCurrentAnimationFrameSet()
         {
             return _animationSequence[_index];
+        }
+
+        public bool IsIdle { get; init; }
+
+        public Rectangle GetFrameRect()
+        {
+            return GetCurrentAnimationFrameSet().GetFrameRect();
         }
 
         public void Reset()

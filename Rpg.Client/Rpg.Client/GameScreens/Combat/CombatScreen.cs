@@ -42,6 +42,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
+        private readonly IJobProgressResolver _jobProgressResolver;
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly GameSettings _settings;
@@ -66,7 +67,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
-        private readonly IJobProgressResolver _jobProgressResolver;
 
         public CombatScreen(EwarGame game) : base(game)
         {
@@ -271,25 +271,6 @@ namespace Rpg.Client.GameScreens.Combat
             CountCombatFinished();
 
             // See UpdateCombatFinished next
-        }
-
-        private void CountCombatFinished()
-        {
-            var progress = new CombatCompleteJobProgress();
-            var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
-            foreach (var storyPoint in activeStoryPointsSnapshotList)
-            {
-                _jobProgressResolver.ApplyProgress(progress, storyPoint);
-            }
-        }
-
-        private void CountDefeat()
-        {
-            var progress = new DefeatJobProgress();
-            foreach (var storyPoint in _globe.ActiveStoryPoints)
-            {
-                _jobProgressResolver.ApplyProgress(progress, storyPoint);
-            }
         }
 
         private void Combat_UnitChanged(object? sender, UnitChangedEventArgs e)
@@ -609,6 +590,25 @@ namespace Rpg.Client.GameScreens.Combat
                 new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
             unitGameObject.AddChild(damageIndicator);
+        }
+
+        private void CountCombatFinished()
+        {
+            var progress = new CombatCompleteJobProgress();
+            var activeStoryPointsSnapshotList = _globe.ActiveStoryPoints.ToArray();
+            foreach (var storyPoint in activeStoryPointsSnapshotList)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
+        }
+
+        private void CountDefeat()
+        {
+            var progress = new DefeatJobProgress();
+            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            {
+                _jobProgressResolver.ApplyProgress(progress, storyPoint);
+            }
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,

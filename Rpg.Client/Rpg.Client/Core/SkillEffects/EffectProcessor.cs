@@ -42,7 +42,9 @@ namespace Rpg.Client.Core.SkillEffects
 
                 case SkillDirection.AllTankingEnemies:
                     return _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled && ((CombatUnit)actor).IsInTankLine).ToArray();
+                            x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled &&
+                            ((CombatUnit)actor).IsInTankLine)
+                        .ToArray();
 
                 case SkillDirection.AllFriendly:
                     return _combat.AliveUnits.Where(x =>
