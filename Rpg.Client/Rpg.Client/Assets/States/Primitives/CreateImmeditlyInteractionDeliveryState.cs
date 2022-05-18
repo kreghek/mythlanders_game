@@ -10,6 +10,12 @@ namespace Rpg.Client.Assets.States.Primitives
 {
     internal class CreateImmeditlyInteractionDeliveryState : IUnitStateEngine
     {
+        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
+        private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;
+        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
+
+        private bool _isCreated;
+
         public CreateImmeditlyInteractionDeliveryState(
             IReadOnlyList<IInteractionDelivery> interactionDeliveries,
             IList<IInteractionDelivery> interactionDeliveryManager)
@@ -19,10 +25,6 @@ namespace Rpg.Client.Assets.States.Primitives
             _interactionDeliveries = interactionDeliveries;
             _interactionDeliveryManager = interactionDeliveryManager;
         }
-
-        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
-        private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;
-        private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
 
         private void Item_InteractionPerformed(object? sender, EventArgs e)
         {
@@ -45,8 +47,6 @@ namespace Rpg.Client.Assets.States.Primitives
         {
             throw new NotImplementedException();
         }
-
-        private bool _isCreated;
 
         public void Update(GameTime gameTime)
         {

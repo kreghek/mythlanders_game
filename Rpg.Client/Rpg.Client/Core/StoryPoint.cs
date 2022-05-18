@@ -6,8 +6,11 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class StoryPoint: IStoryPoint
+    internal sealed class StoryPoint : IStoryPoint
     {
+        public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
+
+        public string? TitleSid { get; init; }
         public IReadOnlyCollection<IJob>? CurrentJobs { get; init; }
 
         public void HandleCompletion()
@@ -26,19 +29,19 @@ namespace Rpg.Client.Core
             Completed?.Invoke(this, EventArgs.Empty);
         }
 
-        public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
         public bool IsComplete { get; private set; }
+
         public void Draw(IStoryPointDrawingContext context)
         {
             var concreteContext = (StoryPointDrawingContext)context;
-            
+
             const int TITLE_TEXT_HEIGHT = 20;
             const int TITLE_TEXT_MARGIN = 5;
             const int TITLE_HEIGHT = TITLE_TEXT_HEIGHT + TITLE_TEXT_MARGIN;
-            
-            concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryTitleFont, 
-                TitleSid, 
-                concreteContext.TargetRectangle.Location.ToVector2(), 
+
+            concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryTitleFont,
+                TitleSid,
+                concreteContext.TargetRectangle.Location.ToVector2(),
                 Color.White);
 
             var jobsHeight = 0;
@@ -52,8 +55,9 @@ namespace Rpg.Client.Core
                 {
                     var currentJob = currentJobList[index];
 
-                    var jobTextPosition = concreteContext.TargetRectangle.Location + new Point(0, index * JOB_HEIGHT + TITLE_HEIGHT);
-                    concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryJobsFont, 
+                    var jobTextPosition = concreteContext.TargetRectangle.Location +
+                                          new Point(0, index * JOB_HEIGHT + TITLE_HEIGHT);
+                    concreteContext.TargetSpriteBatch.DrawString(concreteContext.StoryJobsFont,
                         currentJob.ToString(),
                         jobTextPosition.ToVector2(),
                         Color.White);
@@ -61,13 +65,11 @@ namespace Rpg.Client.Core
 
                 jobsHeight = currentJobList.Length * JOB_HEIGHT;
             }
-            
+
             concreteContext.ResultRectangle = new Rectangle(concreteContext.TargetRectangle.Location,
                 new Point(concreteContext.TargetRectangle.Width, TITLE_HEIGHT + jobsHeight));
         }
 
         public event EventHandler? Completed;
-
-        public string? TitleSid { get; init; }
     }
 }

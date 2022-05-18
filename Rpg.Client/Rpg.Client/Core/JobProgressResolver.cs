@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    public sealed class JobProgressResolver: IJobProgressResolver
+    public sealed class JobProgressResolver : IJobProgressResolver
     {
         public void ApplyProgress(IJobProgress progress, IJobExecutable target)
         {

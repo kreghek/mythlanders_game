@@ -25,7 +25,8 @@ namespace Rpg.Client.Assets.States
         {
             _subStates = new IUnitStateEngine[]
             {
-                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList, createProjectileSound,
+                new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList,
+                    createProjectileSound,
                     animationSid)
             };
             _mainStateBlocker = mainStateBlocker;

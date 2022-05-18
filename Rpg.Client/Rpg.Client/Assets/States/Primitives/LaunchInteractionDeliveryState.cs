@@ -16,6 +16,8 @@ namespace Rpg.Client.Assets.States.Primitives
     internal sealed class LaunchInteractionDeliveryState : IUnitStateEngine
     {
         private const double DEFAULT_DURATION_SECONDS = 1;
+
+        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
         private readonly double _animationDuration;
 
         private readonly PredefinedAnimationSid _animationSid;
@@ -69,8 +71,6 @@ namespace Rpg.Client.Assets.States.Primitives
             }
         }
 
-        private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
-
         public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
@@ -99,7 +99,6 @@ namespace Rpg.Client.Assets.States.Primitives
             }
             else if (_counter > _animationDuration / 2)
             {
-
                 if (!_interactionDeliveryLaunched)
                 {
                     LaunchInteractionDelivery(_interactionDelivery);

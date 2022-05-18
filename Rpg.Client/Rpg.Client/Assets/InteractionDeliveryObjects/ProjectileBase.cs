@@ -13,6 +13,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
     {
         private readonly AnimationBlocker? _blocker;
         private readonly Vector2 _endPosition;
+
+        private readonly IAnimationFrameSet _frameSet;
         private readonly Sprite _graphics;
         private readonly Action<ICombatUnit>? _interaction;
         private readonly double _lifetimeDuration;
@@ -20,10 +22,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
         private readonly ICombatUnit? _targetCombatUnit;
 
         private double _lifetimeCounter;
-
-        private readonly IAnimationFrameSet _frameSet;
-
-        public event EventHandler? InteractionPerformed;
 
         protected ProjectileBase(Vector2 startPosition,
             Vector2 endPosition,
@@ -50,6 +48,21 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameSet = frameSet;
         }
 
+        protected Vector2 CurrentPosition
+        {
+            get
+            {
+                var t = _lifetimeCounter / _lifetimeDuration;
+                return Vector2.Lerp(_startPosition, _endPosition, (float)t);
+            }
+        }
+
+        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
+
+        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
+
+        public event EventHandler? InteractionPerformed;
+
         public bool IsDestroyed { get; private set; }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -63,8 +76,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
             DrawForegroundAdditionalEffects(spriteBatch);
         }
-
-        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
 
         public void Update(GameTime gameTime)
         {
@@ -99,16 +110,5 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 
             UpdateAdditionalEffects(gameTime);
         }
-
-        protected Vector2 CurrentPosition
-        {
-            get
-            {
-                var t = _lifetimeCounter / _lifetimeDuration;
-                return Vector2.Lerp(_startPosition, _endPosition, (float)t);
-            }
-        }
-
-        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
     }
 }

@@ -8,6 +8,7 @@ namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
+        private readonly IList<IStoryPoint> _activeStoryPointsList;
         private readonly IBiomeGenerator _biomeGenerator;
         private readonly List<IGlobeEvent> _globeEvents;
 
@@ -27,11 +28,13 @@ namespace Rpg.Client.Core
             _globeEvents = new List<IGlobeEvent>();
 
             GlobeLevel = new GlobeLevel();
-            
+
             _activeStoryPointsList = new List<IStoryPoint>();
         }
 
         public Combat? ActiveCombat { get; set; }
+
+        public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
 
         public IReadOnlyCollection<Biome> Biomes { get; }
 
@@ -47,27 +50,10 @@ namespace Rpg.Client.Core
 
         public Player? Player { get; set; }
 
-        public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
-
-        private readonly IList<IStoryPoint> _activeStoryPointsList;
-
         public void AddActiveStoryPoint(IStoryPoint storyPoint)
         {
             storyPoint.Completed += StoryPoint_Completed;
             _activeStoryPointsList.Add(storyPoint);
-        }
-
-        private void StoryPoint_Completed(object? sender, EventArgs e)
-        {
-            var storyPoint = sender as IStoryPoint;
-
-            if (storyPoint is null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            storyPoint.Completed -= StoryPoint_Completed;
-            _activeStoryPointsList.Remove(storyPoint);
         }
 
         public void AddGlobalEvent(IGlobeEvent globalEvent)
@@ -81,30 +67,6 @@ namespace Rpg.Client.Core
             UpdateGlobeEvents();
             UpdateNodes(dice, eventCatalog);
             UpdateStoryPoints();
-        }
-
-        private void UpdateStoryPoints()
-        {
-            ResetCombatScopeJobsProgress();
-        }
-
-        private void ResetCombatScopeJobsProgress()
-        {
-            foreach (var storyPoint in ActiveStoryPoints)
-            {
-                if (storyPoint.CurrentJobs is null)
-                {
-                    continue;
-                }
-
-                foreach (var job in storyPoint.CurrentJobs)
-                {
-                    if (job.Scheme.Scope == JobScopeCatalog.Combat)
-                    {
-                        job.Progress = 0;
-                    }
-                }
-            }
         }
 
         public void UpdateNodes(IDice dice, IEventCatalog eventCatalog)
@@ -235,6 +197,38 @@ namespace Rpg.Client.Core
             }
         }
 
+        private void ResetCombatScopeJobsProgress()
+        {
+            foreach (var storyPoint in ActiveStoryPoints)
+            {
+                if (storyPoint.CurrentJobs is null)
+                {
+                    continue;
+                }
+
+                foreach (var job in storyPoint.CurrentJobs)
+                {
+                    if (job.Scheme.Scope == JobScopeCatalog.Combat)
+                    {
+                        job.Progress = 0;
+                    }
+                }
+            }
+        }
+
+        private void StoryPoint_Completed(object? sender, EventArgs e)
+        {
+            var storyPoint = sender as IStoryPoint;
+
+            if (storyPoint is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            storyPoint.Completed -= StoryPoint_Completed;
+            _activeStoryPointsList.Remove(storyPoint);
+        }
+
         private void UpdateGlobeEvents()
         {
             var eventsSnapshot = _globeEvents.ToArray();
@@ -261,6 +255,11 @@ namespace Rpg.Client.Core
                     }
                 }
             }
+        }
+
+        private void UpdateStoryPoints()
+        {
+            ResetCombatScopeJobsProgress();
         }
 
         public event EventHandler? Updated;

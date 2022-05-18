@@ -7,14 +7,19 @@ namespace Rpg.Client.Core.AnimationFrameSets
 {
     internal class SequentalAnimationFrameSet : IAnimationFrameSet
     {
+        private readonly int _frameHeight;
+
+        private readonly IReadOnlyList<int> _frames;
+
+        private readonly int _frameWidth;
+        private readonly int _textureColumns;
         private double _frameCounter;
         private int _frameListIndex;
 
-        private readonly int _frameWidth;
-        private readonly int _frameHeight;
-        private readonly int _textureColumns;
+        private bool _isEnded;
 
-        public SequentalAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth, int frameHeight, int textureColumns)
+        public SequentalAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth,
+            int frameHeight, int textureColumns)
         {
             _frames = frames;
             _fps = fps;
@@ -23,11 +28,17 @@ namespace Rpg.Client.Core.AnimationFrameSets
             _textureColumns = textureColumns;
         }
 
-        private readonly IReadOnlyList<int> _frames;
-
         public bool IsLoop { get; init; }
-        public bool IsIdle { get; init; }
         private float _fps { get; }
+
+        private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
+        {
+            var col = frameIndex % cols;
+            var row = frameIndex / cols;
+            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        }
+
+        public bool IsIdle { get; init; }
 
         public Rectangle GetFrameRect()
         {
@@ -38,13 +49,6 @@ namespace Rpg.Client.Core.AnimationFrameSets
         {
             _frameCounter = 0;
             _frameListIndex = 0;
-        }
-
-        private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
-        {
-            var col = frameIndex % cols;
-            var row = frameIndex / cols;
-            return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
         }
 
         public void Update(GameTime gameTime)
@@ -74,8 +78,6 @@ namespace Rpg.Client.Core.AnimationFrameSets
                 }
             }
         }
-
-        private bool _isEnded;
 
         public event EventHandler? End;
     }

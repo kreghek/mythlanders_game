@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -31,7 +32,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Spearman
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence,
-            AnimationSid = Core.PredefinedAnimationSid.Skill3
+            AnimationSid = PredefinedAnimationSid.Skill3
         };
     }
 }

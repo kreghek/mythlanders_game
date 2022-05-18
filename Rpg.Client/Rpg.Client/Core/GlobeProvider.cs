@@ -64,7 +64,7 @@ namespace Rpg.Client.Core
         public void GenerateNew()
         {
             var storyPointCatalog = new StoryPointCatalog();
-                
+
             var globe = new Globe(_biomeGenerator)
             {
                 Player = new Player()
@@ -81,15 +81,6 @@ namespace Rpg.Client.Core
             CreateStartCombat(globe);
 
             Globe = globe;
-        }
-
-        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
-        {
-            var startStoryPoints = storyPointCatalog.Create(globe);
-            foreach (var storyPoint in startStoryPoints)
-            {
-                globe.AddActiveStoryPoint(storyPoint);
-            } 
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
@@ -351,6 +342,15 @@ namespace Rpg.Client.Core
                 };
 
                 yield return dto;
+            }
+        }
+
+        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
+        {
+            var startStoryPoints = storyPointCatalog.Create(globe);
+            foreach (var storyPoint in startStoryPoints)
+            {
+                globe.AddActiveStoryPoint(storyPoint);
             }
         }
 

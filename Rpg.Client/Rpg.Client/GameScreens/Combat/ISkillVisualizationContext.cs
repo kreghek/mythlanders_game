@@ -14,6 +14,10 @@ namespace Rpg.Client.GameScreens.Combat
     {
         IAnimationManager AnimationManager { get; }
 
+        IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
+
+        IDice Dice { get; }
+
         GameObjectContentStorage GameObjectContentStorage { get; }
 
         SkillExecution Interaction { get; }
@@ -22,15 +26,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         ScreenShaker ScreenShaker { get; }
 
-        IDice Dice { get; }
-
         AnimationBlocker AddAnimationBlocker();
 
         UnitGameObject GetGameObject(ICombatUnit combatUnit);
 
         SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
-
-        IBattlefieldInteractionContext BattlefieldInteractionContext { get; }
     }
 
     internal interface IBattlefieldInteractionContext
@@ -46,10 +46,8 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 return new Rectangle(new Point(100 + 400, 100), new Point(200, 200));
             }
-            else
-            {
-                return new Rectangle(new Point(100, 100), new Point(200, 200));
-            }
+
+            return new Rectangle(new Point(100, 100), new Point(200, 200));
         }
     }
 

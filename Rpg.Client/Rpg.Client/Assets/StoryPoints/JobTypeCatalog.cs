@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.StoryPoints
         /// Complete combats with any results.
         /// </summary>
         public static readonly IJobType Combats = new JobType();
-        
+
         /// <summary>
         /// Defeat any enemies.
         /// </summary>

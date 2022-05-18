@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.States
         public bool IsComplete { get; private set; }
 
         public void Cancel()
-        { 
+        {
             // Nothing to release.
         }
 
