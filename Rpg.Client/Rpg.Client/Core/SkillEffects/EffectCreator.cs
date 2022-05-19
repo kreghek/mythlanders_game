@@ -13,11 +13,11 @@ namespace Rpg.Client.Core.SkillEffects
             _factory = factory;
         }
 
-        public EffectBase Create(ICombatUnit actor, ICombat combat, ISkill sourceSkill)
+        public EffectBase Create(ICombatUnit actor, ICombat combat, IEffectSource effectSource)
         {
             var effect = _factory(actor);
 
-            var context = new CombatEffectContext(combat, sourceSkill);
+            var context = new CombatEffectContext(combat, effectSource);
 
             effect.CombatContext = context;
 

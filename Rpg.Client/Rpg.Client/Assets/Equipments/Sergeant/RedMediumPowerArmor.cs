@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Sergeant
 {
@@ -13,9 +16,22 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
+        public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(int equipmentLevel)
         {
-            return 1 + level * 0.1f;
+            return new[] {
+                new EffectRule
+                {
+                    Direction = SkillDirection.AllFriendly,
+                    EffectCreator = new EffectCreator(u =>
+                    {
+                        var effect = new IncreaseDamagePercentEffect(u, duration: 100, multiplier: (equipmentLevel + 1) * 0.5f)
+                        {
+                            Visualization = EffectVisualizations.PowerUp
+                        };
+                        return effect;
+                    })
+                }
+            };
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;

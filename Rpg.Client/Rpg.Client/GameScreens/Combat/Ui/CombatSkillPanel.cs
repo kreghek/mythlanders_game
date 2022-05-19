@@ -21,6 +21,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private readonly IList<EntityButtonBase<CombatSkill>> _buttons;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly ICombat _combat;
         private SkillHint? _activeSkillHint;
         private KeyboardState _currentKeyboardState;
 
@@ -29,12 +30,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatSkill? _selectedSkill;
         private ICombatUnit? _unit;
 
-        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage) : base(texture)
+        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage, ICombat combat) : base(texture)
         {
             _buttons = new List<EntityButtonBase<CombatSkill>>();
 
             _uiContentStorage = uiContentStorage;
-
+            _combat = combat;
             IsEnabled = true;
         }
 
@@ -144,7 +145,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             if (_hoverButton is not null && _hoverButton != oldHoverButton && _unit is not null)
             {
                 _activeSkillHint = new SkillHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
-                    _hoverButton.Entity, _unit);
+                    _hoverButton.Entity, _unit, _combat);
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {

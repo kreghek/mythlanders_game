@@ -195,6 +195,7 @@ namespace Rpg.Client.Core
 
                 var combatUnit = new CombatUnit(unit, slot);
                 _allUnitList.Add(combatUnit);
+
                 CombatUnitEntered?.Invoke(this, combatUnit);
             }
 
@@ -221,6 +222,8 @@ namespace Rpg.Client.Core
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.IsWaiting = true;
 
+                HandleEquipmentCombatBeginingEffects(combatUnit);
+
                 if (!combatUnit.Unit.IsPlayerControlled)
                 {
                     AssignCpuTarget(combatUnit, Dice);
@@ -235,6 +238,23 @@ namespace Rpg.Client.Core
             Update();
 
             AssignCpuTargetUnits();
+        }
+
+        private void HandleEquipmentCombatBeginingEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var effects = equipment.Scheme.CreateCombatBeginingEffects(equipment.Level);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
         }
 
         internal void Update()

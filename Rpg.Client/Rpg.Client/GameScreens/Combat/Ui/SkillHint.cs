@@ -15,13 +15,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
         private readonly ICombatUnit _unit;
+        private readonly ICombat _combat;
 
-        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit) : base(texture)
+        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit, ICombat combat) : base(texture)
         {
             _font = font;
             _skill = skill;
             _unit = unit;
-
+            _combat = combat;
             _effectDrawers = new ISkillEffectDrawer[]
             {
                 new DamageEffectDrawer(font),
@@ -61,7 +62,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             {
                 var rule = skillRules[ruleIndex];
                 var effectCreator = rule.EffectCreator;
-                var effectToDisplay = effectCreator.Create(_unit);
+                var effectToDisplay = effectCreator.Create(_unit, _combat, _skill.Skill);
 
                 var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 

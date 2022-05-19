@@ -89,7 +89,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             var isSameType = testedEffect.GetType() != GetType();
             var isSameActor = Actor != testedEffect.Actor;
-            var isSameSkill = CombatContext.SourceSkill == testedEffect.CombatContext.SourceSkill;
+            var isSameSkill = CombatContext.EffectSource == testedEffect.CombatContext.EffectSource;
 
             return isSameType && isSameActor && isSameSkill;
         }

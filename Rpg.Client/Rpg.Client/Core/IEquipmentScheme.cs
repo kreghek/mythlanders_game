@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Generic;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal interface IEquipmentScheme
+    internal interface IEquipmentScheme: IEffectSource
     {
         IEquipmentSchemeMetadata? Metadata { get; }
         public EquipmentItemType RequiredResourceToLevelUp { get; }
@@ -19,6 +22,11 @@ namespace Rpg.Client.Core
         float GetHealMultiplierBonus(SkillSid skillSid, int level)
         {
             return 0;
+        }
+
+        IReadOnlyList<EffectRule> CreateCombatBeginingEffects(int equipmentLevel)
+        {
+            return Array.Empty<EffectRule>();
         }
 
         float GetHitPointsMultiplier(int level)
