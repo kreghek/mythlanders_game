@@ -16,13 +16,14 @@ namespace Rpg.Client.GameScreens.Hero
         private const int GRID_CELL_MARGIN = 5;
         private readonly IList<ButtonBase> _buttonList;
         private readonly Unit _hero;
-        private readonly Player? _player;
+        private readonly Player _player;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitGraphics _unitGraphics;
-        private EquipmentsInfoPanel _equipmentPanel;
-        private GeneralInfoPanel _generalInfoPanel;
-        private PerkInfoPanel _perkInfoPanel;
-        private SkillsInfoPanel _skillsInfoPanel;
+
+        private EquipmentsInfoPanel _equipmentPanel = null!;
+        private GeneralInfoPanel _generalInfoPanel = null!;
+        private PerkInfoPanel _perkInfoPanel = null!;
+        private SkillsInfoPanel _skillsInfoPanel = null!;
 
         public HeroScreen(EwarGame game) : base(game)
         {
@@ -34,7 +35,8 @@ namespace Rpg.Client.GameScreens.Hero
             _buttonList = new List<ButtonBase>();
 
             _hero = screenService.Selected;
-            _player = globeProvider.Globe.Player!;
+
+            _player = globeProvider.Globe.Player;
 
             _unitGraphics = new UnitGraphics(_hero,
                 new Vector2(),

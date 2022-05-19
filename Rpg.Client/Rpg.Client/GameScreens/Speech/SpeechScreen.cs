@@ -46,7 +46,6 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private double _counter;
 
@@ -89,8 +88,6 @@ namespace Rpg.Client.GameScreens.Speech
             _textFragments = new List<TextFragment>();
 
             _dialogContext = new EventContext(_globe);
-
-            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();

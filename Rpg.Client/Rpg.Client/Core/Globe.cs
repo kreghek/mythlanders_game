@@ -12,9 +12,10 @@ namespace Rpg.Client.Core
         private readonly IBiomeGenerator _biomeGenerator;
         private readonly List<IGlobeEvent> _globeEvents;
 
-        public Globe(IBiomeGenerator biomeGenerator)
+        public Globe(IBiomeGenerator biomeGenerator, Player player)
         {
             _biomeGenerator = biomeGenerator;
+            Player = player;
             // First variant of the names.
             /*
              * "Поле брани", "Дикое болото", "Черные топи", "Лес колдуна", "Нечистивая\nяма",
@@ -48,7 +49,7 @@ namespace Rpg.Client.Core
 
         public bool IsNodeInitialized { get; set; }
 
-        public Player? Player { get; set; }
+        public Player Player { get; }
 
         public void AddActiveStoryPoint(IStoryPoint storyPoint)
         {
@@ -189,7 +190,7 @@ namespace Rpg.Client.Core
             return true;
         }
 
-        private void RefreshBiomeStates(IEnumerable<Biome> biomes)
+        private static void RefreshBiomeStates(IEnumerable<Biome> biomes)
         {
             foreach (var biome in biomes)
             {
