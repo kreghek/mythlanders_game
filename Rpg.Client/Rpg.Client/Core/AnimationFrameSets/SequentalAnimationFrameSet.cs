@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 
@@ -30,6 +31,8 @@ namespace Rpg.Client.Core.AnimationFrameSets
 
         public bool IsLoop { get; init; }
         private float _fps { get; }
+
+        public IReadOnlyCollection<IAnimationKeyFrame>? KeyFrames { get; set; }
 
         private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
         {
@@ -63,6 +66,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
             {
                 _frameCounter = 0;
                 _frameListIndex++;
+
                 if (_frameListIndex > _frames.Count - 1)
                 {
                     if (IsLoop)
@@ -76,9 +80,26 @@ namespace Rpg.Client.Core.AnimationFrameSets
                         End?.Invoke(this, EventArgs.Empty);
                     }
                 }
+
+                HandleKeyFrames(_frames[_frameListIndex]);
+            }
+        }
+
+        private void HandleKeyFrames(int currentFrameIndex)
+        {
+            if (KeyFrames is null)
+            {
+                return;
+            }
+
+            var currentKeyFrame = KeyFrames.SingleOrDefault(x => x.Index == currentFrameIndex);
+            if (currentKeyFrame is not null)
+            {
+                KeyFrameHandled?.Invoke(this, new AnimationKeyFrameEventArgs(currentKeyFrame));
             }
         }
 
         public event EventHandler? End;
+        public event EventHandler<AnimationKeyFrameEventArgs>? KeyFrameHandled;
     }
 }

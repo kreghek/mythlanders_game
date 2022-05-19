@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -17,7 +18,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private bool _completionHandled;
 
         public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics,
-            AnimationBlocker mainAnimationBlocker, SkillExecution interaction, SoundEffectInstance hitSound)
+            AnimationBlocker mainAnimationBlocker, SkillExecution interaction, IReadOnlyList<SoundEffectInstance> hitSounds)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {
@@ -25,22 +26,22 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 {
                     new SkillAnimationInfoItem
                     {
-                        Duration = 1.75f / 3,
-                        HitSound = hitSound,
+                        Duration = 1.75f / 4,
+                        HitSound = hitSounds[0],
                         Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 0),
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
-                        Duration = 1.75f / 3,
-                        HitSound = hitSound,
+                        Duration = 1.75f / 4,
+                        HitSound = hitSounds[1],
                         Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 1),
                         InteractTime = 0
                     },
                     new SkillAnimationInfoItem
                     {
-                        Duration = 1.75f / 3,
-                        HitSound = hitSound,
+                        Duration = 1.75f / 2,
+                        HitSound = hitSounds[2],
                         Interaction = () => HandleInteractionByIndex(interaction, interactionIndex: 2),
                         InteractTime = 0
                     }

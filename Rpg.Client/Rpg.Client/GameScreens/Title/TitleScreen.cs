@@ -320,7 +320,7 @@ namespace Rpg.Client.GameScreens.Title
             _globeProvider.Globe.IsNodeInitialized = true;
 
             var firstAvailableNodeInBiome =
-                _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.IsAvailable);
+                _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.Sid == GlobeNodeSid.Thicket);
 
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
