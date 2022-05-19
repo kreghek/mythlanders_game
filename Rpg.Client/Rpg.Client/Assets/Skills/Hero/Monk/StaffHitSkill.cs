@@ -48,7 +48,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
             ISkillVisualizationContext context)
         {
             var state = new MonkTripleHitState(animatedUnitGameObject.Graphics, targetUnitGameObject.Graphics,
-                mainAnimationBlocker, context.Interaction, new[]{
+                mainAnimationBlocker, context.Interaction, new[]
+                {
                     context.GetHitSound(GameObjectSoundType.StaffHit),
                     context.GetHitSound(GameObjectSoundType.StaffHit),
                     context.GetHitSound(GameObjectSoundType.StaffHit)

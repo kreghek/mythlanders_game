@@ -30,15 +30,29 @@ namespace Rpg.Client.Core.AnimationFrameSets
         }
 
         public bool IsLoop { get; init; }
-        private float _fps { get; }
 
         public IReadOnlyCollection<IAnimationKeyFrame>? KeyFrames { get; set; }
+        private float _fps { get; }
 
         private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
         {
             var col = frameIndex % cols;
             var row = frameIndex / cols;
             return new Rectangle(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        }
+
+        private void HandleKeyFrames(int currentFrameIndex)
+        {
+            if (KeyFrames is null)
+            {
+                return;
+            }
+
+            var currentKeyFrame = KeyFrames.SingleOrDefault(x => x.Index == currentFrameIndex);
+            if (currentKeyFrame is not null)
+            {
+                KeyFrameHandled?.Invoke(this, new AnimationKeyFrameEventArgs(currentKeyFrame));
+            }
         }
 
         public bool IsIdle { get; init; }
@@ -82,20 +96,6 @@ namespace Rpg.Client.Core.AnimationFrameSets
                 }
 
                 HandleKeyFrames(_frames[_frameListIndex]);
-            }
-        }
-
-        private void HandleKeyFrames(int currentFrameIndex)
-        {
-            if (KeyFrames is null)
-            {
-                return;
-            }
-
-            var currentKeyFrame = KeyFrames.SingleOrDefault(x => x.Index == currentFrameIndex);
-            if (currentKeyFrame is not null)
-            {
-                KeyFrameHandled?.Invoke(this, new AnimationKeyFrameEventArgs(currentKeyFrame));
             }
         }
 

@@ -131,17 +131,6 @@ namespace Rpg.Client.Assets
             };
         }
 
-        private static int GetCompensatedDuration(SkillDirection direction, int duration)
-        {
-            var compensationDuration = duration;
-            if (direction == SkillDirection.Self)
-            {
-                compensationDuration = duration + 1;
-            }
-
-            return compensationDuration;
-        }
-
         /// <summary>
         /// Create protection rule with single turn duration.
         /// </summary>
@@ -178,6 +167,17 @@ namespace Rpg.Client.Assets
                     return effect;
                 })
             };
+        }
+
+        private static int GetCompensatedDuration(SkillDirection direction, int duration)
+        {
+            var compensationDuration = duration;
+            if (direction == SkillDirection.Self)
+            {
+                compensationDuration = duration + 1;
+            }
+
+            return compensationDuration;
         }
     }
 }
