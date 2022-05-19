@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Engine;
+using Rpg.Client.Rpg.Client;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Intro

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.Rpg.Client;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Settings
