@@ -88,28 +88,6 @@ namespace Rpg.Client.Core
             return nodeIndex == 0;
         }
 
-        private static GlobeNodeSid? GetUnlockNodeSid(int nodeIndex, BiomeType biomeType)
-        {
-            var demoLocationsDict = new Dictionary<BiomeType, GlobeNodeSid[]>
-            {
-                {
-                    BiomeType.Slavic,
-                    new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
-                        GlobeNodeSid.Swamp
-                    }
-                }
-            };
-
-            if (nodeIndex == 3)
-            {
-                return null;
-            }
-
-            return demoLocationsDict[biomeType][nodeIndex + 1];
-        }
-
         private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
         {
             return globeLevel.Level >= 5;

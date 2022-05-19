@@ -111,7 +111,7 @@ namespace BalanceGenerator
                     throw new InvalidOperationException("Current unit can't be null after the combat starts.");
                 }
 
-                var skill = attacker.CombatCards.First();
+                var skill = attacker.CombatCards[0];
                 var target = combat.AliveUnits.FirstOrDefault(x => x != attacker);
 
                 if (target is null)
