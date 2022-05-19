@@ -11,5 +11,6 @@ namespace Rpg.Client.Core
         void Reset();
         void Update(GameTime gameTime);
         event EventHandler? End;
+        event EventHandler<AnimationKeyFrameEventArgs>? KeyFrameHandled;
     }
 }

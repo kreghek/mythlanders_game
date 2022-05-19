@@ -72,5 +72,6 @@ namespace Rpg.Client.Core.AnimationFrameSets
         }
 
         public event EventHandler? End;
+        public event EventHandler<AnimationKeyFrameEventArgs>? KeyFrameHandled;
     }
 }

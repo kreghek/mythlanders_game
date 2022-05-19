@@ -49,12 +49,14 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreatePeriodicDamage(SkillSid sid, float power, int duration, SkillDirection direction)
         {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
             return new EffectRule
             {
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicDamageEffect(u, duration)
+                    var effect = new PeriodicDamageEffect(u, compensationDuration)
                     {
                         PowerMultiplier = power,
                         Visualization = EffectVisualizations.Damage
@@ -68,6 +70,8 @@ namespace Rpg.Client.Assets
         public static EffectRule CreatePeriodicHealing(SkillSid sid, float power, int duration,
             SkillDirection direction)
         {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
             return new EffectRule
             {
                 Direction = direction,
@@ -75,7 +79,7 @@ namespace Rpg.Client.Assets
                 {
                     var equipmentMultiplierBonus = u.Unit.GetEquipmentHealMultiplierBonus(sid);
 
-                    var effect = new PeriodicHealEffect(u, duration)
+                    var effect = new PeriodicHealEffect(u, compensationDuration)
                     {
                         PowerMultiplier = power * (1 + equipmentMultiplierBonus),
                         Visualization = EffectVisualizations.Healing
@@ -88,12 +92,14 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreatePowerDown(SkillSid sid, SkillDirection direction, int duration)
         {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
             return new EffectRule
             {
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(u, duration: duration, bonus: -u.Unit.Support)
+                    var effect = new IncreaseAttackEffect(u, duration: compensationDuration, bonus: -u.Unit.Support)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };
@@ -109,18 +115,31 @@ namespace Rpg.Client.Assets
 
         public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction, int duration)
         {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
             return new EffectRule
             {
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(u, duration: duration, bonus: u.Unit.Support)
+                    var effect = new IncreaseAttackEffect(u, duration: compensationDuration, bonus: u.Unit.Support)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };
                     return effect;
                 })
             };
+        }
+
+        private static int GetCompensatedDuration(SkillDirection direction, int duration)
+        {
+            var compensationDuration = duration;
+            if (direction == SkillDirection.Self)
+            {
+                compensationDuration = duration + 1;
+            }
+
+            return compensationDuration;
         }
 
         /// <summary>
@@ -143,13 +162,15 @@ namespace Rpg.Client.Assets
         public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction, int duration,
             float multiplier)
         {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
             return new EffectRule
             {
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
                     // TODO +1 is durty fix
-                    var effect = new DecreaseDamageEffect(u, duration + 1, multiplier)
+                    var effect = new DecreaseDamageEffect(u, compensationDuration, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection
                     };
