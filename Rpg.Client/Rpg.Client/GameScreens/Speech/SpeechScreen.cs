@@ -12,7 +12,6 @@ using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech.Tutorial;
 using Rpg.Client.GameScreens.Speech.Ui;
-using Rpg.Client.Rpg.Client;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Speech
