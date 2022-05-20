@@ -258,6 +258,24 @@ namespace Rpg.Client.Core
             }
         }
 
+        private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatHitpointChangeEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
+        }
+
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
@@ -458,7 +476,14 @@ namespace Rpg.Client.Core
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
-            UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
+            var damagedCombatUnit = sender as CombatUnit;
+            if (damagedCombatUnit is null)
+            {
+                throw new InvalidOperationException("Sender must be damaged combat unit");
+            }
+
+            HandleEquipmentHitpointsChangeEffects(damagedCombatUnit);
+            UnitHasBeenDamaged?.Invoke(this, damagedCombatUnit);
         }
 
         private void CompleteStep()

@@ -77,8 +77,9 @@ namespace Rpg.Client.Core.SkillEffects
             var isSameType = testedEffect.GetType() != GetType();
             var isSameActor = Actor != testedEffect.Actor;
             var isSameSkill = CombatContext.EffectSource == testedEffect.CombatContext.EffectSource;
+            var canMergeLifetime = EffectLifetime.CanBeMerged();
 
-            return isSameType && isSameActor && isSameSkill;
+            return isSameType && isSameActor && isSameSkill && canMergeLifetime;
         }
 
         private void MergeWithBase(PeriodicEffectBase targetEffect)

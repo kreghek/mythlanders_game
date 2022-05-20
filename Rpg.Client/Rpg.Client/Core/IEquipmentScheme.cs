@@ -29,6 +29,11 @@ namespace Rpg.Client.Core
             return Array.Empty<EffectRule>();
         }
 
+        IReadOnlyList<EffectRule> CreateCombatHitpointChangeEffects(IEquipmentEffectContext context)
+        {
+            return Array.Empty<EffectRule>();
+        }
+
         float GetHitPointsMultiplier(int level)
         {
             return 1f;

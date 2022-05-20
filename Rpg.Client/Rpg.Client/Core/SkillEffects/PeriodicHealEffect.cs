@@ -6,10 +6,15 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicHealEffect : PeriodicEffectBase
     {
-        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : this(actor, new DurationEffectLifetime(startDuration))
+        {
+        }
+
+        public PeriodicHealEffect(ICombatUnit actor, IEffectLifetime effectLifetime) : base(actor, effectLifetime)
         {
             SourceSupport = actor.Unit.Support;
         }
+
 
         public float PowerMultiplier { get; init; } = 1f;
 
@@ -43,6 +48,16 @@ namespace Rpg.Client.Core.SkillEffects
 
         protected override void InfluenceAction()
         {
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (Target is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var heal = CalculateHeal();
             var rolledHeal = CombatContext.Combat.Dice.Roll(heal.Min, heal.Max);
             Target.Unit.RestoreHitPoints(rolledHeal);

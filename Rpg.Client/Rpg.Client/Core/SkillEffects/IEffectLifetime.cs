@@ -11,5 +11,6 @@ namespace Rpg.Client.Core.SkillEffects
         string GetTextDescription();
 
         void MergeWith(IEffectLifetime effect);
+        bool CanBeMerged();
     }
 }

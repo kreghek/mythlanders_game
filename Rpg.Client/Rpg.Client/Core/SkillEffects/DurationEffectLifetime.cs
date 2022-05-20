@@ -29,6 +29,11 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
+        public bool CanBeMerged()
+        {
+            return true;
+        }
+
         private int _duration;
 
         public DurationEffectLifetime(int duration)
