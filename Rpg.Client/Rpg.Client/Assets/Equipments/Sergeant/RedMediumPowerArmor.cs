@@ -19,18 +19,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(int equipmentLevel)
         {
             return new[] {
-                new EffectRule
-                {
-                    Direction = SkillDirection.AllFriendly,
-                    EffectCreator = new EffectCreator(u =>
-                    {
-                        var effect = new IncreaseDamagePercentEffect(u, effectLifetime: new UnitBoundEffectLifetime(u.Unit), multiplier: (equipmentLevel + 1) * 0.5f)
-                        {
-                            Visualization = EffectVisualizations.PowerUp
-                        };
-                        return effect;
-                    })
-                }
+                SkillRuleFactory.CreatePowerUp(equipmentLevel, SkillDirection.AllFriendly)
             };
         }
 

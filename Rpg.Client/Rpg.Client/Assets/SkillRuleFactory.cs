@@ -108,6 +108,24 @@ namespace Rpg.Client.Assets
             };
         }
 
+        public static EffectRule CreatePowerUp(int equipmentLevel, SkillDirection direction = SkillDirection.AllFriendly, float equipmentMuliplier = 0.5f)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
+                    var effectMultiplier = (equipmentLevel + 1) * equipmentMuliplier;
+                    var effect = new IncreaseDamagePercentEffect(u, effectLifetime, effectMultiplier)
+                    {
+                        Visualization = EffectVisualizations.PowerUp
+                    };
+                    return effect;
+                })
+            };
+        }
+
         public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction)
         {
             return CreatePowerUp(sid, direction, duration: 1);
