@@ -17,6 +17,7 @@ namespace Rpg.Client.Core.SkillEffects
             if (sender is IEffectLifetime effectLifetime)
             {
                 effectLifetime.Disposed -= EffectLifetime_Disposed;
+                Dispel();
             }
         }
 

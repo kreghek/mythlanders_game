@@ -293,16 +293,18 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (CurrentUnit.TargetSlotIndex is not null && _allUnitList.SingleOrDefault(x=>x.SlotIndex == CurrentUnit.TargetSlotIndex)?.Unit.IsDead == false)
+            var currentTargetUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
+            if (currentTargetUnit is not null
+                && currentTargetUnit.Unit.IsDead)
             {
-                CurrentUnit.TargetSlotIndex = null;
+                CurrentUnit.TargetSlot = null;
                 CurrentUnit.TargetSkill = null;
             }
 
             var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
-                if (CurrentUnit.TargetSlotIndex is null || CurrentUnit.TargetSkill is null)
+                if (CurrentUnit.TargetSlot is null || CurrentUnit.TargetSkill is null)
                 {
                     var skill = dice.RollFromList(skillsOpenList, 1).Single();
                     skillsOpenList.Remove(skill);
@@ -323,7 +325,12 @@ namespace Rpg.Client.Core
                 }
                 else
                 {
-                    var targetCombatUnit = _allUnitList.SingleOrDefault(x => x.SlotIndex == CurrentUnit.TargetSlotIndex);
+                    var targetCombatUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
+                    if (targetCombatUnit is null)
+                    {
+                        throw new InvalidOperationException("Target combat unit cant be null until target slot assigned");
+                    }
+
                     UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
                 }
 
@@ -332,6 +339,16 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
+        }
+
+        private CombatUnit? GetCurrentTargetUnit(TargetSlot? targetSlot)
+        {
+            if (targetSlot is null)
+            {
+                return null;
+            }
+
+            return _allUnitList.SingleOrDefault(x => x.SlotIndex == targetSlot.SlotIndex && x.Unit.IsPlayerControlled == targetSlot.IsPlayerSide);
         }
 
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
@@ -351,7 +368,7 @@ namespace Rpg.Client.Core
                 }
 
                 var targetUnit = dice.RollFromList(possibleTargetList);
-                unit.TargetSlotIndex = targetUnit.SlotIndex;
+                unit.TargetSlot = new TargetSlot(targetUnit.SlotIndex, targetUnit.Unit.IsPlayerControlled);
 
                 unit.TargetSkill = skill;
             }

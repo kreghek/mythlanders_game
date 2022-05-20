@@ -161,13 +161,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
-            if (combatUnit.TargetSlotIndex is null)
+            if (combatUnit.TargetSlot is null)
             {
                 return;
             }
 
             var unitList = _activeCombat.Units.ToArray();
-            var targetCombatUnit = unitList.Single(x=>x.SlotIndex == combatUnit.TargetSlotIndex);
+            var targetCombatUnit = unitList.Single(x => x.SlotIndex == combatUnit.TargetSlot.SlotIndex && x.Unit.IsPlayerControlled == combatUnit.TargetSlot.IsPlayerSide);
             if (targetCombatUnit is not null)
             {
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(targetCombatUnit.Unit.UnitScheme.Name);
