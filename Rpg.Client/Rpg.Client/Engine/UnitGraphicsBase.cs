@@ -13,7 +13,7 @@ namespace Rpg.Client.Engine
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        private readonly Vector2 _position;
+        protected Vector2 _position;
         private readonly Sprite _selectedMarker;
 
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
@@ -91,7 +91,7 @@ namespace Rpg.Client.Engine
             }
         }
 
-        private void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
+        protected void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
         {
             if (Root is not null)
             {

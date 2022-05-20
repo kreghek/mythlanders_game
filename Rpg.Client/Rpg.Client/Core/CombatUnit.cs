@@ -28,9 +28,16 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public int SlotIndex { get; }
+        internal void ChangeSlot(int slotIndex, bool isInTankLine)
+        {
+            SlotIndex = slotIndex;
+            IsInTankLine = isInTankLine;
+            PositionChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-        public bool IsInTankLine { get; }
+        public int SlotIndex { get; private set; }
+
+        public bool IsInTankLine { get; private set; }
 
         public bool IsWaiting { get; set; }
 
@@ -147,5 +154,7 @@ namespace Rpg.Client.Core
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenShieldPointsRestored;
 
         internal event EventHandler? HasAvoidedDamage;
+
+        internal event EventHandler? PositionChanged;
     }
 }

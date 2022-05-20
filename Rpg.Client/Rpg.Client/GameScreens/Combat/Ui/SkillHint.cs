@@ -32,7 +32,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new StunEffectDrawer(font),
                 new IncreaseDamageEffectDrawer(font),
                 new DecreaseDamageEffectDrawer(font),
-                new LifeDrawEffectDrawer(font)
+                new LifeDrawEffectDrawer(font),
+                new ExchangeSlotEffectDrawer(font)
             };
         }
 

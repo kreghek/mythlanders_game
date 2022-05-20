@@ -46,9 +46,8 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly GameSettings _settings;
+        private readonly UnitPositionProvider _unitPositionProvider;
         private readonly IUiContentStorage _uiContentStorage;
-
-        private readonly Vector2[] _unitPredefinedPositions;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;
@@ -107,15 +106,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _settings = game.Services.GetService<GameSettings>();
 
-            _unitPredefinedPositions = new[]
-            {
-                new Vector2(335, 300),
-                new Vector2(305, 250),
-                new Vector2(305, 350),
-                new Vector2(215, 250),
-                new Vector2(215, 350),
-                new Vector2(245, 300)
-            };
+            _unitPositionProvider = new UnitPositionProvider(ResolutionIndependentRenderer);
 
             _screenShaker = new ScreenShaker();
 
@@ -308,9 +299,8 @@ namespace Rpg.Client.GameScreens.Combat
                 AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
             }
 
-            var position = GetUnitPosition(combatUnit.SlotIndex, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
-                new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
+                new UnitGameObject(combatUnit, _unitPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager, _dice);
             _gameObjects.Add(gameObject);
             combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenHitPointsDamage;
@@ -893,27 +883,6 @@ namespace Rpg.Client.GameScreens.Combat
         private UnitGameObject GetUnitGameObject(ICombatUnit combatUnit)
         {
             return _gameObjects.First(x => x.CombatUnit == combatUnit);
-        }
-
-        private Vector2 GetUnitPosition(int index, bool isPlayerControlled)
-        {
-            var predefinedPosition = _unitPredefinedPositions[index];
-
-            Vector2 calculatedPosition;
-
-            if (isPlayerControlled)
-            {
-                calculatedPosition = predefinedPosition;
-            }
-            else
-            {
-                var width = ResolutionIndependentRenderer.VirtualWidth;
-                // Move from right edge.
-                var xMirror = width - predefinedPosition.X;
-                calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
-            }
-
-            return calculatedPosition;
         }
 
         private void HandleBackgrounds()

@@ -13,25 +13,74 @@ using Rpg.Client.GameScreens.Combat.Ui;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
+    internal interface IUnitPositionProvider
+    {
+        Vector2 GetPosition(int slotIndex, bool isPlayerSide);
+    }
+
+    internal sealed class UnitPositionProvider : IUnitPositionProvider
+    {
+        private readonly Vector2[] _unitPredefinedPositions;
+        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+
+        public UnitPositionProvider(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        {
+            _unitPredefinedPositions = new[]
+            {
+                new Vector2(335, 300),
+                new Vector2(305, 250),
+                new Vector2(305, 350),
+                new Vector2(215, 250),
+                new Vector2(215, 350),
+                new Vector2(245, 300)
+            };
+            _resolutionIndependentRenderer = resolutionIndependentRenderer;
+        }
+
+        public Vector2 GetPosition(int slotIndex, bool isPlayerSide)
+        {
+            var predefinedPosition = _unitPredefinedPositions[slotIndex];
+
+            Vector2 calculatedPosition;
+
+            if (isPlayerSide)
+            {
+                calculatedPosition = predefinedPosition;
+            }
+            else
+            {
+                var width = _resolutionIndependentRenderer.VirtualWidth;
+                // Move from right edge.
+                var xMirror = width - predefinedPosition.X;
+                calculatedPosition = new Vector2(xMirror, predefinedPosition.Y);
+            }
+
+            return calculatedPosition;
+        }
+    }
+
     internal sealed class UnitGameObject : EwarRenderableBase
     {
         private readonly IList<IUnitStateEngine> _actorStateEngineList;
         private readonly AnimationManager _animationManager;
         private readonly Camera2D _camera;
         private readonly IDice _dice;
+        private readonly IUnitPositionProvider _unitPositionProvider;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ScreenShaker _screenShaker;
 
-        public UnitGameObject(CombatUnit combatUnit, Vector2 position,
+        public UnitGameObject(CombatUnit combatUnit, IUnitPositionProvider unitPositionProvider,
             GameObjectContentStorage gameObjectContentStorage,
             Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager,
             IDice dice)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
+            var position = unitPositionProvider.GetPosition(combatUnit.SlotIndex, combatUnit.Unit.IsPlayerControlled);
             Graphics = new UnitGraphics(combatUnit.Unit, position, gameObjectContentStorage);
 
             CombatUnit = combatUnit;
+            _unitPositionProvider = unitPositionProvider;
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
             _camera = camera;
@@ -40,6 +89,14 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _dice = dice;
 
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+            combatUnit.PositionChanged += CombatUnit_PositionChanged;
+        }
+
+        private void CombatUnit_PositionChanged(object? sender, EventArgs e)
+        {
+            var position = _unitPositionProvider.GetPosition(CombatUnit.SlotIndex, CombatUnit.Unit.IsPlayerControlled);
+            Graphics.ChangePosition(position, CombatUnit.Unit);
+            Position = position;
         }
 
         public CombatUnit CombatUnit { get; }

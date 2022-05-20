@@ -13,5 +13,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         }
 
         public bool IsDamaged { get; set; }
+
+        public void ChangePosition(Vector2 position, Unit unit)
+        {
+            _position = position;
+            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
+        }
     }
 }
