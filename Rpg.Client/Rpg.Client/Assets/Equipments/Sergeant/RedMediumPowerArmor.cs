@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
                     Direction = SkillDirection.AllFriendly,
                     EffectCreator = new EffectCreator(u =>
                     {
-                        var effect = new IncreaseDamagePercentEffect(u, duration: 100, multiplier: (equipmentLevel + 1) * 0.5f)
+                        var effect = new IncreaseDamagePercentEffect(u, effectLifetime: new UnitBoundEffectLifetime(u.Unit), multiplier: (equipmentLevel + 1) * 0.5f)
                         {
                             Visualization = EffectVisualizations.PowerUp
                         };

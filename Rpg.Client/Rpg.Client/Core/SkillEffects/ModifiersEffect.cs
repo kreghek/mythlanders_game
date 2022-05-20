@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core.Modifiers;
 
@@ -6,7 +7,11 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class ModifiersEffect : PeriodicEffectBase
     {
-        public ModifiersEffect(ICombatUnit actor, int duration) : base(actor, duration)
+        protected ModifiersEffect(ICombatUnit actor, int duration) : this(actor, new DurationEffectLifetime( duration))
+        {
+        }
+
+        protected ModifiersEffect(ICombatUnit actor, IEffectLifetime effectLifetime) : base(actor, effectLifetime)
         {
             Imposed += ModifiersEffect_Imposed;
             Dispelled += ModifiersEffect_Dispelled;
@@ -29,6 +34,11 @@ namespace Rpg.Client.Core.SkillEffects
                 return;
             }
 
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException("Combat context bust be assigned");
+            }
+
             foreach (var modifier in Modifiers)
             {
                 CombatContext.Combat.ModifiersProcessor.RemoveModifier(Target, modifier);
@@ -45,6 +55,11 @@ namespace Rpg.Client.Core.SkillEffects
             if (Modifiers is null)
             {
                 return;
+            }
+
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException("Combat context bust be assigned");
             }
 
             foreach (var modifier in Modifiers)

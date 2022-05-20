@@ -6,7 +6,11 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class IncreaseDamagePercentEffect : ModifiersEffect
     {
-        public IncreaseDamagePercentEffect(ICombatUnit actor, int duration, float multiplier) : base(actor, duration)
+        public IncreaseDamagePercentEffect(ICombatUnit actor, int duration, float multiplier) : this(actor, new DurationEffectLifetime(duration), multiplier)
+        {
+        }
+
+        public IncreaseDamagePercentEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier): base(actor, effectLifetime)
         {
             Modifiers = new List<ModifierBase>
             {
