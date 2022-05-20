@@ -9,6 +9,13 @@ namespace Rpg.Client.Core.SkillEffects
         public UnitBoundEffectLifetime(Unit boundUnit)
         {
             _boundUnit = boundUnit;
+            _boundUnit.Dead += Unit_Dead;
+        }
+
+        private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
+        {
+            _boundUnit.Dead -= Unit_Dead;
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler? Disposed;
@@ -24,10 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         public void Update()
         {
-            if (_boundUnit.IsDead)
-            {
-                Disposed?.Invoke(this, EventArgs.Empty);
-            }
+            
         }
     }
 }
