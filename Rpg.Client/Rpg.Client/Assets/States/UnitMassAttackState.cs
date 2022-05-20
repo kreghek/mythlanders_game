@@ -65,7 +65,5 @@ namespace Rpg.Client.Assets.States
                 IsComplete = true;
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

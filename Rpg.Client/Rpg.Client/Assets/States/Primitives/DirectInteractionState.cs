@@ -100,7 +100,5 @@ namespace Rpg.Client.Assets.States.Primitives
                 HandleStateEnding();
             }
         }
-
-        public event EventHandler? Completed;
     }
 }
