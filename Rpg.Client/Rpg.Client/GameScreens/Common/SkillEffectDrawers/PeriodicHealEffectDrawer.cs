@@ -27,7 +27,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.PeriodicHealEffectRuleText, heal.Min, heal.Max,
-                    ruleDirectionText, periodicHealEffect.Duration),
+                    ruleDirectionText, periodicHealEffect.EffectLifetime.GetTextDescription()),
                 position, Color.Wheat);
 
             return true;

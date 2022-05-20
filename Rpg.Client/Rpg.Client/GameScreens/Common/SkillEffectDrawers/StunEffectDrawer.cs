@@ -25,7 +25,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
 
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.StunEffectRuleText, stunEffect.Duration,
+                string.Format(UiResource.StunEffectRuleText, stunEffect.EffectLifetime.GetTextDescription(),
                     ruleDirectionText),
                 position, Color.Wheat);
 
