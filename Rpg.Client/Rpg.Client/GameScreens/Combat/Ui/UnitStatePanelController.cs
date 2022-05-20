@@ -161,7 +161,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
-            var targetCombatUnit = combatUnit.Target;
+            var unitList = _activeCombat.Units.ToArray();
+            var targetCombatUnit = unitList.Single(x=>x.SlotIndex == combatUnit.TargetSlotIndex);
             if (targetCombatUnit is not null)
             {
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(targetCombatUnit.Unit.UnitScheme.Name);

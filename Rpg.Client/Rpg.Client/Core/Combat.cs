@@ -293,16 +293,16 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (CurrentUnit.Target is not null && CurrentUnit.Target.Unit.IsDead)
+            if (CurrentUnit.TargetSlotIndex is not null && _allUnitList.SingleOrDefault(x=>x.SlotIndex == CurrentUnit.TargetSlotIndex)?.Unit.IsDead == false)
             {
-                CurrentUnit.Target = null;
+                CurrentUnit.TargetSlotIndex = null;
                 CurrentUnit.TargetSkill = null;
             }
 
             var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
-                if (CurrentUnit.Target is null || CurrentUnit.TargetSkill is null)
+                if (CurrentUnit.TargetSlotIndex is null || CurrentUnit.TargetSkill is null)
                 {
                     var skill = dice.RollFromList(skillsOpenList, 1).Single();
                     skillsOpenList.Remove(skill);
@@ -323,7 +323,8 @@ namespace Rpg.Client.Core
                 }
                 else
                 {
-                    UseSkill(CurrentUnit.TargetSkill, CurrentUnit.Target);
+                    var targetCombatUnit = _allUnitList.SingleOrDefault(x => x.SlotIndex == CurrentUnit.TargetSlotIndex);
+                    UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
                 }
 
                 return;
@@ -350,7 +351,7 @@ namespace Rpg.Client.Core
                 }
 
                 var targetUnit = dice.RollFromList(possibleTargetList);
-                unit.Target = targetUnit;
+                unit.TargetSlotIndex = targetUnit.SlotIndex;
 
                 unit.TargetSkill = skill;
             }

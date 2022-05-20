@@ -43,7 +43,7 @@ namespace Rpg.Client.Core
 
         public CombatUnitState State { get; private set; }
 
-        public CombatUnit? Target { get; set; }
+        public int? TargetSlotIndex { get; set; }
 
         public CombatSkill? TargetSkill { get; set; }
 
@@ -116,7 +116,7 @@ namespace Rpg.Client.Core
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         {
-            Target = null;
+            TargetSlotIndex = null;
             TargetSkill = null;
 
             var skillContext = new CombatSkillContext(this);
