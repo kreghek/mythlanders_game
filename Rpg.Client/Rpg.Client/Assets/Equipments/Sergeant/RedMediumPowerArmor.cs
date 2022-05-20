@@ -16,10 +16,10 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(int equipmentLevel)
+        public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(IEquipmentEffectContext context)
         {
             return new[] {
-                SkillRuleFactory.CreatePowerUp(equipmentLevel, SkillDirection.AllFriendly)
+                SkillRuleFactory.CreatePowerUp(context.EquipmentLevel, SkillDirection.AllFriendly)
             };
         }
 

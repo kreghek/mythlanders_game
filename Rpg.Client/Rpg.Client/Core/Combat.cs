@@ -244,7 +244,8 @@ namespace Rpg.Client.Core
         {
             foreach (var equipment in combatUnit.Unit.Equipments)
             {
-                var effects = equipment.Scheme.CreateCombatBeginingEffects(equipment.Level);
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatBeginingEffects(equipmentEffectContext);
                 foreach (var effect in effects)
                 {
                     var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);

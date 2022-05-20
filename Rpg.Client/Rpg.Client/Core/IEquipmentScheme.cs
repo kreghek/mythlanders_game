@@ -24,7 +24,7 @@ namespace Rpg.Client.Core
             return 0;
         }
 
-        IReadOnlyList<EffectRule> CreateCombatBeginingEffects(int equipmentLevel)
+        IReadOnlyList<EffectRule> CreateCombatBeginingEffects(IEquipmentEffectContext context)
         {
             return Array.Empty<EffectRule>();
         }
@@ -33,5 +33,23 @@ namespace Rpg.Client.Core
         {
             return 1f;
         }
+    }
+
+    internal interface IEquipmentEffectContext
+    {
+        int EquipmentLevel { get; }
+        bool IsInTankingSlot { get; }
+    }
+
+    internal sealed class EquipmentEffectContext : IEquipmentEffectContext
+    {
+        public EquipmentEffectContext(CombatUnit combatUnit, Equipment equipment)
+        {
+            EquipmentLevel = equipment.Level;
+            IsInTankingSlot = combatUnit.IsInTankLine;
+        }
+
+        public int EquipmentLevel { get; }
+        public bool IsInTankingSlot { get; }
     }
 }

@@ -308,7 +308,7 @@ namespace Rpg.Client.GameScreens.Combat
                 AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
             }
 
-            var position = GetUnitPosition(combatUnit.Index, combatUnit.Unit.IsPlayerControlled);
+            var position = GetUnitPosition(combatUnit.SlotIndex, combatUnit.Unit.IsPlayerControlled);
             var gameObject =
                 new UnitGameObject(combatUnit, position, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager, _dice);

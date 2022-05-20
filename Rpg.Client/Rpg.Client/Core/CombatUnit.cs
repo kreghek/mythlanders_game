@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
-            Index = slot.Index;
+            SlotIndex = slot.Index;
             IsInTankLine = slot.IsTankLine;
             EnergyPool = unit.EnergyPoolSize;
 
@@ -28,7 +28,7 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public int Index { get; }
+        public int SlotIndex { get; }
 
         public bool IsInTankLine { get; }
 
