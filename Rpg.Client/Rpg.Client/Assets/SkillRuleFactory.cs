@@ -1,3 +1,4 @@
+using Rpg.Client.Assets.SkillEffects;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;

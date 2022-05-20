@@ -1,6 +1,9 @@
 ﻿using System;
 
-namespace Rpg.Client.Core.SkillEffects
+using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
+
+namespace Rpg.Client.Assets.SkillEffects
 {
     internal sealed class UnitBoundEffectLifetime : IEffectLifetime
     {
