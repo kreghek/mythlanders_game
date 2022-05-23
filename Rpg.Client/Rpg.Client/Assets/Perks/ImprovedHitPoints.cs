@@ -13,18 +13,27 @@ namespace Rpg.Client.Assets.Perks
         {
             maxHitpoints = (float)Math.Round(maxHitpoints * HITPOINTS_BONUS);
         }
-        
-        public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+
+        public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
         {
-            return new (UnitStatType, IUnitStatModifier)[] { };
+            return new (UnitStatType, IUnitStatModifier)[] { 
+                new (UnitStatType.HitPoints, new StatModifier(0.5f))
+            };
         }
     }
     
     internal sealed class StatModifier: IUnitStatModifier
     {
+        private readonly float _multiplier;
+
+        public StatModifier(float multiplier)
+        {
+            _multiplier = multiplier;
+        }
+
         public int GetBonus(int currentBaseValue)
         {
-            return (int)Math.Round(currentBaseValue * 0.5f);
+            return (int)Math.Round(currentBaseValue * _multiplier);
         }
     }
 }

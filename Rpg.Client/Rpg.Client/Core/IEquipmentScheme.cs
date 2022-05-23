@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -21,9 +24,9 @@ namespace Rpg.Client.Core
             return 0;
         }
 
-        float GetHitPointsMultiplier(int level)
+        IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
         {
-            return 1f;
+            return Array.Empty<(UnitStatType, IUnitStatModifier)>();
         }
     }
 
