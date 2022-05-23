@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
