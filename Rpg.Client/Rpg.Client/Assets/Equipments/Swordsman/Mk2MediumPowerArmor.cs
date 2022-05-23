@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Equipments.Swordsman

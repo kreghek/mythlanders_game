@@ -7,36 +7,6 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal enum UnitStatType
-    {
-        HitPoints,
-        ShieldPoints,
-        Evasion
-    }
-
-    internal class UnitStat
-    {
-        public UnitStat(UnitStatType type)
-        {
-            Type = type;
-            Value = new Stat(0);
-        }
-
-        public UnitStat(UnitStatType type, int baseValue)
-        {
-            Type = type;
-            Value = new Stat(baseValue);
-        }
-
-        public UnitStatType Type { get; }
-        public Stat Value { get; }
-    }
-
-    public interface IUnitStatModifier
-    {
-        int GetBonus(int currentBaseValue);
-    }
-
     internal sealed class Unit
     {
         private readonly List<GlobalUnitEffect> _globalEffects;
@@ -62,7 +32,7 @@ namespace Rpg.Client.Core
             InitEquipment(equipments);
             Equipments = equipments;
 
-            InitBaseStats(unitScheme);
+            ModifyStats();
 
             _globalEffects = new List<GlobalUnitEffect>();
         }
@@ -140,7 +110,7 @@ namespace Rpg.Client.Core
         {
             Level++;
 
-            InitBaseStats(UnitScheme);
+            ModifyStats();
         }
 
         public void RemoveGlobalEffect(GlobalUnitEffect effect)
@@ -215,7 +185,7 @@ namespace Rpg.Client.Core
                     {
                         var sourceScheme = UnitScheme;
                         UnitScheme = autoTransition.NextScheme;
-                        InitBaseStats(UnitScheme);
+                        ModifyStats();
                         SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
                     }
                 }
@@ -310,7 +280,7 @@ namespace Rpg.Client.Core
 
         private void Equipment_GainLevelUp(object? sender, EventArgs e)
         {
-            InitBaseStats(UnitScheme);
+            ModifyStats();
         }
 
         private int GetAbsorbedDamage(int damage)
@@ -319,17 +289,17 @@ namespace Rpg.Client.Core
             return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
-        private void InitBaseStats(UnitScheme unitScheme)
+        private void ModifyStats()
         {
             ApplyLevels();
 
-            var maxHitPoints = 0f;
+            var tempMaxHitPoints = 0f;
             foreach (var perk in Perks)
             {
                 var statModifiers = perk.GetStatModifiers();
                 ApplyStatModifiers(statModifiers);
 
-                perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
+                perk.ApplyToStats(ref tempMaxHitPoints, ref _armorBonus);
             }
 
             foreach (var equipment in Equipments)
