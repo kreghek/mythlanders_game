@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             var percentage = (int)Math.Round(decreaseDamageEffect.Multiplier * 100, 0, MidpointRounding.AwayFromZero);
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.DecreaseDamageEffectRuleText, percentage,
-                    decreaseDamageEffect.Duration,
+                    decreaseDamageEffect.EffectLifetime.GetTextDescription(),
                     ruleDirectionText),
                 position, Color.Wheat);
 

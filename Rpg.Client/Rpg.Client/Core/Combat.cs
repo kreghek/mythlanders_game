@@ -195,6 +195,7 @@ namespace Rpg.Client.Core
 
                 var combatUnit = new CombatUnit(unit, slot);
                 _allUnitList.Add(combatUnit);
+
                 CombatUnitEntered?.Invoke(this, combatUnit);
             }
 
@@ -221,6 +222,8 @@ namespace Rpg.Client.Core
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.IsWaiting = true;
 
+                HandleEquipmentCombatBeginingEffects(combatUnit);
+
                 if (!combatUnit.Unit.IsPlayerControlled)
                 {
                     AssignCpuTarget(combatUnit, Dice);
@@ -235,6 +238,42 @@ namespace Rpg.Client.Core
             Update();
 
             AssignCpuTargetUnits();
+        }
+
+        private void HandleEquipmentCombatBeginingEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatBeginingEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
+        }
+
+        private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatHitpointChangeEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
         }
 
         internal void Update()
@@ -272,16 +311,18 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            if (CurrentUnit.Target is not null && CurrentUnit.Target.Unit.IsDead)
+            var currentTargetUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
+            if (currentTargetUnit is not null
+                && currentTargetUnit.Unit.IsDead)
             {
-                CurrentUnit.Target = null;
+                CurrentUnit.TargetSlot = null;
                 CurrentUnit.TargetSkill = null;
             }
 
             var skillsOpenList = CurrentUnit.Unit.Skills.Where(x => x.BaseEnergyCost is null).ToList();
             while (skillsOpenList.Any())
             {
-                if (CurrentUnit.Target is null || CurrentUnit.TargetSkill is null)
+                if (CurrentUnit.TargetSlot is null || CurrentUnit.TargetSkill is null)
                 {
                     var skill = dice.RollFromList(skillsOpenList, 1).Single();
                     skillsOpenList.Remove(skill);
@@ -302,7 +343,13 @@ namespace Rpg.Client.Core
                 }
                 else
                 {
-                    UseSkill(CurrentUnit.TargetSkill, CurrentUnit.Target);
+                    var targetCombatUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
+                    if (targetCombatUnit is null)
+                    {
+                        throw new InvalidOperationException("Target combat unit cant be null until target slot assigned");
+                    }
+
+                    UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
                 }
 
                 return;
@@ -310,6 +357,16 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
+        }
+
+        private CombatUnit? GetCurrentTargetUnit(TargetSlot? targetSlot)
+        {
+            if (targetSlot is null)
+            {
+                return null;
+            }
+
+            return _allUnitList.SingleOrDefault(x => x.SlotIndex == targetSlot.SlotIndex && x.Unit.IsPlayerControlled == targetSlot.IsPlayerSide);
         }
 
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
@@ -329,7 +386,7 @@ namespace Rpg.Client.Core
                 }
 
                 var targetUnit = dice.RollFromList(possibleTargetList);
-                unit.Target = targetUnit;
+                unit.TargetSlot = new TargetSlot(targetUnit.SlotIndex, targetUnit.Unit.IsPlayerControlled);
 
                 unit.TargetSkill = skill;
             }
@@ -419,7 +476,14 @@ namespace Rpg.Client.Core
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
         {
-            UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
+            var damagedCombatUnit = sender as CombatUnit;
+            if (damagedCombatUnit is null)
+            {
+                throw new InvalidOperationException("Sender must be damaged combat unit");
+            }
+
+            HandleEquipmentHitpointsChangeEffects(damagedCombatUnit);
+            UnitHasBeenDamaged?.Invoke(this, damagedCombatUnit);
         }
 
         private void CompleteStep()

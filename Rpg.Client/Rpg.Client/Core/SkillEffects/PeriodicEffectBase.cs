@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class PeriodicEffectBase : EffectBase
     {
-        private int _value = -1;
-
-        protected PeriodicEffectBase(ICombatUnit actor, int startDuration)
+        protected PeriodicEffectBase(ICombatUnit actor, IEffectLifetime effectLifetime)
         {
             Actor = actor;
-            Duration = startDuration;
+            EffectLifetime = effectLifetime;
+            effectLifetime.Disposed += EffectLifetime_Disposed;
+        }
+
+        private void EffectLifetime_Disposed(object? sender, EventArgs e)
+        {
+            if (sender is IEffectLifetime effectLifetime)
+            {
+                effectLifetime.Disposed -= EffectLifetime_Disposed;
+                Dispel();
+            }
+        }
+
+        protected PeriodicEffectBase(ICombatUnit actor, int startDuration): this(actor, new DurationEffectLifetime(startDuration))
+        {
         }
 
         protected PeriodicEffectBase(ICombatUnit actor) : this(actor, 1)
@@ -20,26 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         public ICombatUnit Actor { get; }
 
-        /// <summary>
-        /// Duration of effect in combat rounds.
-        /// </summary>
-        public int Duration
-        {
-            get => _value;
-            set
-            {
-                if (_value == value)
-                {
-                    return;
-                }
-
-                _value = value;
-                if (_value <= 0)
-                {
-                    Dispel();
-                }
-            }
-        }
+        internal IEffectLifetime EffectLifetime { get; }
 
         public override void AddToList(IList<EffectBase> list)
         {
@@ -65,12 +57,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         protected override void InfluenceAction()
         {
-            if (Duration < 0)
-            {
-                Debug.Fail($"{nameof(Duration)} is not defined.");
-            }
-
-            Duration--;
+            EffectLifetime.Update();
         }
 
         private bool CanBeMerged(PeriodicEffectBase testedEffect)
@@ -89,14 +76,15 @@ namespace Rpg.Client.Core.SkillEffects
 
             var isSameType = testedEffect.GetType() != GetType();
             var isSameActor = Actor != testedEffect.Actor;
-            var isSameSkill = CombatContext.SourceSkill == testedEffect.CombatContext.SourceSkill;
+            var isSameSkill = CombatContext.EffectSource == testedEffect.CombatContext.EffectSource;
+            var canMergeLifetime = EffectLifetime.CanBeMerged();
 
-            return isSameType && isSameActor && isSameSkill;
+            return isSameType && isSameActor && isSameSkill && canMergeLifetime;
         }
 
         private void MergeWithBase(PeriodicEffectBase targetEffect)
         {
-            targetEffect.Duration += Duration;
+            EffectLifetime.MergeWith(targetEffect.EffectLifetime);
         }
     }
 }

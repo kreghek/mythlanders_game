@@ -61,7 +61,5 @@ namespace Rpg.Client.Assets.States
                 _hitSound.Play();
             }
         }
-
-        public event EventHandler? Completed;
     }
 }

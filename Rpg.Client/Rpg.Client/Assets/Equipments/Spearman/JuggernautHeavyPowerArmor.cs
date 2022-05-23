@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Spearman
 {
@@ -13,9 +15,18 @@ namespace Rpg.Client.Assets.Equipments.Spearman
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
+        public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(IEquipmentEffectContext context)
         {
-            return 1 + level * 0.05f;
+            if (context.IsInTankingSlot)
+            {
+                return new[] {
+                    SkillRuleFactory.CreateProtection(context.EquipmentLevel, SkillDirection.AllFriendly)
+                };
+            }
+            else
+            {
+                return Array.Empty<EffectRule>();
+            }
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Spearman;

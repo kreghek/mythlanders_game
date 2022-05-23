@@ -12,7 +12,7 @@ namespace Rpg.Client.Core
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
-            Index = slot.Index;
+            SlotIndex = slot.Index;
             IsInTankLine = slot.IsTankLine;
             EnergyPool = unit.EnergyPoolSize;
 
@@ -28,15 +28,22 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public int Index { get; }
+        internal void ChangeSlot(int slotIndex, bool isInTankLine)
+        {
+            SlotIndex = slotIndex;
+            IsInTankLine = isInTankLine;
+            PositionChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-        public bool IsInTankLine { get; }
+        public int SlotIndex { get; private set; }
+
+        public bool IsInTankLine { get; private set; }
 
         public bool IsWaiting { get; set; }
 
         public CombatUnitState State { get; private set; }
 
-        public CombatUnit? Target { get; set; }
+        public TargetSlot? TargetSlot { get; set; }
 
         public CombatSkill? TargetSkill { get; set; }
 
@@ -109,7 +116,7 @@ namespace Rpg.Client.Core
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         {
-            Target = null;
+            TargetSlot = null;
             TargetSkill = null;
 
             var skillContext = new CombatSkillContext(this);
@@ -147,5 +154,7 @@ namespace Rpg.Client.Core
         internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenShieldPointsRestored;
 
         internal event EventHandler? HasAvoidedDamage;
+
+        internal event EventHandler? PositionChanged;
     }
 }

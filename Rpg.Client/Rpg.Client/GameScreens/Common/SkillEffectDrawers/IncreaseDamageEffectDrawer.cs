@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.IncreaseDamageEffectRuleText, increaseDamageEffect.Bonus,
-                    increaseDamageEffect.Duration,
+                    increaseDamageEffect.EffectLifetime.GetTextDescription(),
                     ruleDirectionText),
                 position, Color.Wheat);
 

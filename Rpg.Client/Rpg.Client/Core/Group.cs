@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Rpg.Client.Core
@@ -35,22 +34,5 @@ namespace Rpg.Client.Core
         {
             return slotIndex is >= 0 and < 3;
         }
-    }
-
-    internal sealed class PoolGroup
-    {
-        public PoolGroup()
-        {
-            Units = Array.Empty<Unit>();
-        }
-
-        public IEnumerable<Unit> Units { get; set; }
-    }
-
-    internal sealed class GroupSlot
-    {
-        public int Index { get; init; }
-        public bool IsTankLine { get; init; }
-        public Unit? Unit { get; set; }
     }
 }

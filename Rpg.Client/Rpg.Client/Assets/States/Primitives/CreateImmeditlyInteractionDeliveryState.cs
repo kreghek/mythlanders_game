@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.States.Primitives
         private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;
         private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
 
-        private bool _isCreated;
+        private bool _isLaunched;
 
         public CreateImmeditlyInteractionDeliveryState(
             IReadOnlyList<IInteractionDelivery> interactionDeliveries,
@@ -50,13 +50,15 @@ namespace Rpg.Client.Assets.States.Primitives
 
         public void Update(GameTime gameTime)
         {
-            if (!_isCreated)
+            if (!_isLaunched)
             {
                 foreach (var item in _interactionDeliveries)
                 {
                     _interactionDeliveryManager.Add(item);
                     item.InteractionPerformed += Item_InteractionPerformed;
                 }
+
+                _isLaunched = true;
             }
 
             if (!_activeInteractionDeliveryList.Any())

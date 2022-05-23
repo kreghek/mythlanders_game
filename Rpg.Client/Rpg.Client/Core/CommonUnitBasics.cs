@@ -1,4 +1,4 @@
-namespace Rpg.Client.Assets
+namespace Rpg.Client.Core
 {
     internal class CommonUnitBasics
     {

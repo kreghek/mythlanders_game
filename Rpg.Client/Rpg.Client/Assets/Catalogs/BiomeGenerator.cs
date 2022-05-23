@@ -8,6 +8,7 @@ namespace Rpg.Client.Core
     internal sealed class BiomeGenerator : IBiomeGenerator
     {
         private const int BIOME_NODE_COUNT = 8;
+        private const int COSMIC_BIOME_NODE_COUNT = 4;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
@@ -173,13 +174,13 @@ namespace Rpg.Client.Core
                 },
                 new Biome(BiomeType.Cosmos)
                 {
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
+                    Nodes = Enumerable.Range(0, COSMIC_BIOME_NODE_COUNT).Select(x =>
                         new GlobeNode
                         {
                             EquipmentItem = GetEquipmentItem(x, BiomeType.Cosmos),
                             Sid = GetNodeSid(x, BiomeType.Cosmos),
-                            IsAvailable = GetStartAvailability(x),
-                            IsLast = x == BIOME_NODE_COUNT - 1,
+                            IsAvailable = false,
+                            IsLast = x == COSMIC_BIOME_NODE_COUNT - 1,
                             BiomeType = BiomeType.Cosmos
                         }
                     ).ToArray()

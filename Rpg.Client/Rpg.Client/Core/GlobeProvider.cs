@@ -65,10 +65,7 @@ namespace Rpg.Client.Core
         {
             var storyPointCatalog = new StoryPointCatalog();
 
-            var globe = new Globe(_biomeGenerator)
-            {
-                Player = new Player()
-            };
+            var globe = new Globe(_biomeGenerator, new Player());
 
             InitStartStoryPoint(globe, storyPointCatalog);
 
@@ -128,13 +125,12 @@ namespace Rpg.Client.Core
 
             var progressDto = saveDataDto.Progress;
 
-            Globe = new Globe(_biomeGenerator)
+            var player = new Player(saveDataDto.Name)
             {
-                Player = new Player(saveDataDto.Name)
-                {
-                    CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
-                }
+                CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
             };
+
+            Globe = new Globe(_biomeGenerator, player);
 
             if (progressDto.Player is not null)
             {

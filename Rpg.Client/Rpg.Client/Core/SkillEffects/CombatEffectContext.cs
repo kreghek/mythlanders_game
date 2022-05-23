@@ -4,13 +4,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class CombatEffectContext
     {
-        public CombatEffectContext(ICombat combat, ISkill sourceSkill)
+        public CombatEffectContext(ICombat combat, IEffectSource effectSource)
         {
             Combat = combat;
-            SourceSkill = sourceSkill;
+            EffectSource = effectSource;
         }
 
         public ICombat Combat { get; }
-        public ISkill SourceSkill { get; }
+        public IEffectSource EffectSource { get; }
     }
 }

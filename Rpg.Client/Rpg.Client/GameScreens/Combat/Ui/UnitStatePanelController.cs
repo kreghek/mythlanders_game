@@ -118,14 +118,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                         for (var j = -1; j <= 1; j++)
                         {
                             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                                periodicEffect.Duration.ToString(),
+                                periodicEffect.EffectLifetime.GetTextDescription(),
                                 effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
                                     EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + new Vector2(i, j), Color.Black);
                         }
                     }
 
                     spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        periodicEffect.Duration.ToString(),
+                        periodicEffect.EffectLifetime.GetTextDescription(),
                         effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
                             EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
                 }
@@ -161,7 +161,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTargets(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
         {
-            var targetCombatUnit = combatUnit.Target;
+            if (combatUnit.TargetSlot is null)
+            {
+                return;
+            }
+
+            var unitList = _activeCombat.Units.ToArray();
+            var targetCombatUnit = unitList.Single(x => x.SlotIndex == combatUnit.TargetSlot.SlotIndex && x.Unit.IsPlayerControlled == combatUnit.TargetSlot.IsPlayerSide);
             if (targetCombatUnit is not null)
             {
                 var portraitSourceRect = UnsortedHelpers.GetUnitPortraitRect(targetCombatUnit.Unit.UnitScheme.Name);
