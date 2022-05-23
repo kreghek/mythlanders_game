@@ -4,7 +4,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicDamageEffect : PeriodicEffectBase
     {
-        public PeriodicDamageEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        public PeriodicDamageEffect(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
         {
             SourceDamage = actor.Unit.Damage;
         }

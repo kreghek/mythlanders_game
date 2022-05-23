@@ -7,10 +7,6 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class ModifiersEffect : PeriodicEffectBase
     {
-        protected ModifiersEffect(ICombatUnit actor, int duration) : this(actor, new DurationEffectLifetime( duration))
-        {
-        }
-
         protected ModifiersEffect(ICombatUnit actor, IEffectLifetime effectLifetime) : base(actor, effectLifetime)
         {
             Imposed += ModifiersEffect_Imposed;

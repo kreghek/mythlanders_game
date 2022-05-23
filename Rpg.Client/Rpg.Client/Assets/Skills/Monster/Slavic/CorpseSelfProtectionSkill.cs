@@ -20,16 +20,7 @@ namespace Rpg.Client.Assets.Skills.Monster.Slavic
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 1, multiplier: 0.5f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SkillSid.None, SkillDirection.Self, 1, 0.5f)
         };
 
         public override SkillSid Sid => SkillSid.DefenseStance;

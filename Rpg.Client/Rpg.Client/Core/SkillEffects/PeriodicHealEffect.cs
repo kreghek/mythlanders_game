@@ -6,10 +6,6 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class PeriodicHealEffect : PeriodicEffectBase
     {
-        public PeriodicHealEffect(ICombatUnit actor, int startDuration) : this(actor, new DurationEffectLifetime(startDuration))
-        {
-        }
-
         public PeriodicHealEffect(ICombatUnit actor, IEffectLifetime effectLifetime) : base(actor, effectLifetime)
         {
             SourceSupport = actor.Unit.Support;

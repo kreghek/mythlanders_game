@@ -22,21 +22,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-
-                    var res = new PeriodicDamageEffect(u, 1)
-                    {
-                        PowerMultiplier = 0.5f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreatePeriodicDamage(SkillSid.None, 1, SkillDirection.AllEnemies)
         };
 
         public override SkillSid Sid => SkillSid.WideSwordSlash;

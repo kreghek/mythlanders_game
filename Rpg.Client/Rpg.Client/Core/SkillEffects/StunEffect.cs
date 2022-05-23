@@ -2,7 +2,7 @@
 {
     internal class StunEffect : PeriodicEffectBase
     {
-        public StunEffect(ICombatUnit actor, int startDuration) : base(actor, startDuration)
+        public StunEffect(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
         {
         }
 

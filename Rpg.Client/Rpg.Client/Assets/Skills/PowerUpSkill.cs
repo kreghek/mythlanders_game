@@ -19,16 +19,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new IncreaseAttackEffect(u, 3, 5);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreatePowerUp(SkillSid.None, SkillDirection.Target, 3)
         };
 
         public override SkillSid Sid => SkillSid.PowerUp;

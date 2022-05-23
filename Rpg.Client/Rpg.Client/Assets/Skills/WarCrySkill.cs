@@ -9,26 +9,13 @@ namespace Rpg.Client.Assets.Skills
 {
     internal sealed class WarCrySkill : VisualizedSkillBase
     {
-        public WarCrySkill() : this(false)
-        {
-        }
-
         public WarCrySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllFriendly,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new IncreaseAttackEffect(u, 3, u.Unit.Support);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreatePowerUp(SkillSid.WarCry, SkillDirection.AllFriendly, 3)
         };
 
         public override SkillSid Sid => SkillSid.WarCry;

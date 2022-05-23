@@ -57,7 +57,8 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new PeriodicDamageEffect(u, compensationDuration)
+                    var effectLifetime = new DurationEffectLifetime(compensationDuration);
+                    var effect = new PeriodicDamageEffect(u, effectLifetime)
                     {
                         PowerMultiplier = power,
                         Visualization = EffectVisualizations.Damage
@@ -80,7 +81,9 @@ namespace Rpg.Client.Assets
                 {
                     var equipmentMultiplierBonus = u.Unit.GetEquipmentHealMultiplierBonus(sid);
 
-                    var effect = new PeriodicHealEffect(u, compensationDuration)
+                    var effectLifetime = new DurationEffectLifetime(compensationDuration);
+
+                    var effect = new PeriodicHealEffect(u, effectLifetime)
                     {
                         PowerMultiplier = power * (1 + equipmentMultiplierBonus),
                         Visualization = EffectVisualizations.Healing
@@ -100,7 +103,8 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(u, duration: compensationDuration, bonus: -u.Unit.Support)
+                    var effectLifetime = new DurationEffectLifetime(compensationDuration);
+                    var effect = new IncreaseAttackEffect(u, effectLifetime, bonus: -u.Unit.Support)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };
@@ -176,7 +180,8 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new IncreaseAttackEffect(u, duration: compensationDuration, bonus: u.Unit.Support)
+                    var durationEffectLifetime = new DurationEffectLifetime(compensationDuration);
+                    var effect = new IncreaseAttackEffect(u, durationEffectLifetime, bonus: u.Unit.Support)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };
@@ -185,15 +190,9 @@ namespace Rpg.Client.Assets
             };
         }
 
-        private static int GetCompensatedDuration(SkillDirection direction, int duration)
+        private static EffectDuration GetCompensatedDuration(SkillDirection direction, int duration)
         {
-            var compensationDuration = duration;
-            if (direction == SkillDirection.Self)
-            {
-                compensationDuration = duration + 1;
-            }
-
-            return compensationDuration;
+            return new EffectDuration(duration, direction == SkillDirection.Self);
         }
 
         /// <summary>
@@ -223,7 +222,8 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effect = new DecreaseDamageEffect(u, compensationDuration, multiplier)
+                    var durationEffectLifetime = new DurationEffectLifetime(compensationDuration);
+                    var effect = new DecreaseDamageEffect(u, durationEffectLifetime, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection
                     };
