@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Spearman
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<EffectRule> CreateCombatBeginingEffects(IEquipmentEffectContext context)
+        public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
             if (context.IsInTankingSlot)
             {

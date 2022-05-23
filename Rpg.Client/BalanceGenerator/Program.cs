@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets;
+using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 
 namespace BalanceGenerator

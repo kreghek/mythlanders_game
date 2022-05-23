@@ -222,7 +222,7 @@ namespace Rpg.Client.Core
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.IsWaiting = true;
 
-                HandleEquipmentCombatBeginingEffects(combatUnit);
+                HandleEquipmentCombatBeginningEffects(combatUnit);
 
                 if (!combatUnit.Unit.IsPlayerControlled)
                 {
@@ -240,12 +240,12 @@ namespace Rpg.Client.Core
             AssignCpuTargetUnits();
         }
 
-        private void HandleEquipmentCombatBeginingEffects(CombatUnit combatUnit)
+        private void HandleEquipmentCombatBeginningEffects(CombatUnit combatUnit)
         {
             foreach (var equipment in combatUnit.Unit.Equipments)
             {
                 var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
-                var effects = equipment.Scheme.CreateCombatBeginingEffects(equipmentEffectContext);
+                var effects = equipment.Scheme.CreateCombatBeginningEffects(equipmentEffectContext);
                 foreach (var effect in effects)
                 {
                     var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
@@ -256,6 +256,21 @@ namespace Rpg.Client.Core
                     }
                 }
             }
+            
+            foreach (var perk in combatUnit.Unit.Perks)
+            {
+                var equipmentEffectContext = new EmptyEffectContext(combatUnit);
+                var effects = perk.CreateCombatBeginningEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, perk);
+                    }
+                }
+            }
         }
 
         private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
@@ -263,7 +278,7 @@ namespace Rpg.Client.Core
             foreach (var equipment in combatUnit.Unit.Equipments)
             {
                 var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
-                var effects = equipment.Scheme.CreateCombatHitpointChangeEffects(equipmentEffectContext);
+                var effects = equipment.Scheme.CreateCombatHitPointsChangedEffects(equipmentEffectContext);
                 foreach (var effect in effects)
                 {
                     var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
@@ -397,7 +412,7 @@ namespace Rpg.Client.Core
             var dice = GetDice();
             foreach (var cpuUnit in _unitQueue.Where(x => !x.Unit.IsPlayerControlled).ToArray())
             {
-                //AssignCpuTarget(cpuUnit, dice);
+                AssignCpuTarget(cpuUnit, dice);
             }
         }
 

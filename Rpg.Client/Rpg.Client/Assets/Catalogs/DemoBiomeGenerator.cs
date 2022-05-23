@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Rpg.Client.Core
+using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class DemoBiomeGenerator : IBiomeGenerator
     {

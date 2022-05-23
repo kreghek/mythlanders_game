@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal interface IEquipmentScheme: IEffectSource
+    internal interface IEquipmentScheme: IEffectSource, ICombatConditionEffectSource
     {
         IEquipmentSchemeMetadata? Metadata { get; }
         public EquipmentItemType RequiredResourceToLevelUp { get; }
@@ -22,16 +22,6 @@ namespace Rpg.Client.Core
         float GetHealMultiplierBonus(SkillSid skillSid, int level)
         {
             return 0;
-        }
-
-        IReadOnlyList<EffectRule> CreateCombatBeginingEffects(IEquipmentEffectContext context)
-        {
-            return Array.Empty<EffectRule>();
-        }
-
-        IReadOnlyList<EffectRule> CreateCombatHitpointChangeEffects(IEquipmentEffectContext context)
-        {
-            return Array.Empty<EffectRule>();
         }
 
         float GetHitPointsMultiplier(int level)
@@ -56,5 +46,16 @@ namespace Rpg.Client.Core
 
         public int EquipmentLevel { get; }
         public bool IsInTankingSlot { get; }
+    }
+
+    internal sealed class EmptyEffectContext : IEquipmentEffectContext
+    {
+        public EmptyEffectContext(CombatUnit combatUnit)
+        {
+            IsInTankingSlot = combatUnit.IsInTankLine;
+        }
+        
+        public int EquipmentLevel { get; set; }
+        public bool IsInTankingSlot { get; set; }
     }
 }

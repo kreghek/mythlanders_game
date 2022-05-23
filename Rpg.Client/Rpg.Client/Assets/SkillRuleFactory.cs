@@ -109,7 +109,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerUp(int equipmentLevel, SkillDirection direction = SkillDirection.AllFriendly, float equipmentMuliplier = 0.5f)
+        public static EffectRule CreatePowerUp(int equipmentLevel, SkillDirection direction, float equipmentMultiplier = 0.5f)
         {
             return new EffectRule
             {
@@ -117,7 +117,7 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
-                    var effectMultiplier = (equipmentLevel + 1) * equipmentMuliplier;
+                    var effectMultiplier = (equipmentLevel + 1) * equipmentMultiplier;
                     var effect = new IncreaseDamagePercentEffect(u, effectLifetime, effectMultiplier)
                     {
                         Visualization = EffectVisualizations.PowerUp
@@ -126,8 +126,8 @@ namespace Rpg.Client.Assets
                 })
             };
         }
-
-        public static EffectRule CreateProtection(int equipmentLevel, SkillDirection direction = SkillDirection.AllFriendly, float equipmentMuliplier = 0.5f)
+        
+        public static EffectRule CreatePowerUpAura(SkillDirection direction, float multiplier = 0.5f)
         {
             return new EffectRule
             {
@@ -135,7 +135,24 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
-                    var effectMultiplier = (equipmentLevel + 1) * equipmentMuliplier;
+                    var effect = new IncreaseDamagePercentEffect(u, effectLifetime, multiplier)
+                    {
+                        Visualization = EffectVisualizations.PowerUp
+                    };
+                    return effect;
+                })
+            };
+        }
+
+        public static EffectRule CreateProtection(int equipmentLevel, SkillDirection direction = SkillDirection.AllFriendly, float equipmentMultiplier = 0.5f)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
+                    var effectMultiplier = (equipmentLevel + 1) * equipmentMultiplier;
                     var effect = new DecreaseDamageEffect(u, effectLifetime, effectMultiplier)
                     {
                         Visualization = EffectVisualizations.PowerUp
@@ -189,7 +206,7 @@ namespace Rpg.Client.Assets
         }
 
         /// <summary>
-        /// Create protection rule with single turn duration to youself.
+        /// Create protection rule with single turn duration to yourself.
         /// </summary>
         public static EffectRule CreateProtection(SkillSid sid, float multiplier)
         {
@@ -206,7 +223,6 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    // TODO +1 is durty fix
                     var effect = new DecreaseDamageEffect(u, compensationDuration, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection

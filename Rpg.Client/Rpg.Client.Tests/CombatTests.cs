@@ -9,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 
 using Rpg.Client.Assets;
+using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;

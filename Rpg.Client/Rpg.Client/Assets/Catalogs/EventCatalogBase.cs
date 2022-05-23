@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Assets.Catalogs
 {
     internal abstract class EventCatalogBase : IEventCatalog, IEventInitializer
     {
