@@ -55,7 +55,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             if (CombatContext is null)
             {
-                throw new InvalidOperationException("Combat context bust be assigned");
+                throw new InvalidOperationException("Combat context must be assigned");
             }
 
             foreach (var modifier in Modifiers)

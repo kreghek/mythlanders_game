@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 
+using Rpg.Client.Assets.SkillEffects;
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Archer
 {
@@ -21,10 +24,15 @@ namespace Rpg.Client.Assets.Equipments.Archer
             IconOneBasedIndex = 6
         };
 
-        public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+        public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
-            return new (UnitStatType, IUnitStatModifier)[] {
-                new (UnitStatType.ShieldPoints, new StatModifier(equipmentLevel * 0.2f))
+            return new[] {
+                new EffectRule{
+                    Direction = SkillDirection.OtherFriendly,
+                    EffectCreator = new EffectCreator(u =>{
+                        return new ShieldPointModifyEffect(u, new UnitBoundEffectLifetime(u.Unit));
+                    })
+                }
             };
         }
     }

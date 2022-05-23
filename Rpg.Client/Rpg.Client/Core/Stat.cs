@@ -46,6 +46,11 @@ namespace Rpg.Client.Core
             }
         }
 
+        internal void RemoveModifier(StatModifier modifier)
+        {
+            _modifiers.Remove(modifier);
+        }
+
         public void CurrentChange(int newCurrent)
         {
             Current = Math.Min(newCurrent, ActualBase);

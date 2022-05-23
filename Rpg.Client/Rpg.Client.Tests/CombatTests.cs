@@ -269,7 +269,7 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DecreaseDamageEffect(unit, new DurationEffectLifetime(new EffectDuration(1)), multiplier: 0f);
+                        return new ProtectionEffect(unit, new DurationEffectLifetime(new EffectDuration(1)), multiplier: 0f);
                     })
                 }
             };
