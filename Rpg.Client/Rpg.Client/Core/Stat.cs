@@ -1,16 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Rpg.Client.Core
 {
     public class Stat
     {
+        private readonly IList<IUnitStatModifier> _modifiers;
+        
         public Stat(int baseValue)
         {
             Base = baseValue;
             Current = Base;
+            _modifiers = new List<IUnitStatModifier>();
         }
 
-        public int ActualBase => Base;
+        public IReadOnlyCollection<IUnitStatModifier> Modifiers => _modifiers.ToArray();
+
+        public void AddModifier(IUnitStatModifier modifier)
+        {
+            _modifiers.Add(modifier);
+        }
+
+        public int ActualBase => Base + _modifiers.Sum(x => x.GetBonus(Base));
 
         public int Current { get; private set; }
 

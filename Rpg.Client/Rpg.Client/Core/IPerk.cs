@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -21,6 +23,11 @@ namespace Rpg.Client.Core
         int ModifyHeal(int sourceValue, IDice dice)
         {
             return sourceValue;
+        }
+
+        IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+        {
+            return new (UnitStatType, IUnitStatModifier)[] { };
         }
     }
 }

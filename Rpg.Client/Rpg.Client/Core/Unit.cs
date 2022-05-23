@@ -7,6 +7,27 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
+    internal enum UnitStatType
+    {
+        Evasion
+    }
+
+    internal class UnitStat
+    {
+        public UnitStat(UnitStatType type)
+        {
+            Type = type;
+        }
+
+        public UnitStatType Type { get; }
+        public Stat Value { get; }
+    }
+
+    public interface IUnitStatModifier
+    {
+        int GetBonus(int currentBaseValue);
+    }
+
     internal sealed class Unit
     {
         private readonly List<GlobalUnitEffect> _globalEffects;
@@ -18,7 +39,7 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
             Level = level;
 
-            HitPoints = new Stat(0);
+            HitPoints = new Stat(baseValue: 0);
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
 
@@ -28,10 +49,17 @@ namespace Rpg.Client.Core
 
             InitBaseStats(unitScheme);
 
-            ShieldPoints = new Stat(Armor);
+            ShieldPoints = new Stat(baseValue: Armor);
 
             _globalEffects = new List<GlobalUnitEffect>();
+
+            Stats = new[]
+            {
+                new UnitStat(UnitStatType.Evasion)
+            };
         }
+
+        public IReadOnlyCollection<UnitStat> Stats { get; }
 
         public int Armor => CalcArmor();
 
@@ -276,14 +304,24 @@ namespace Rpg.Client.Core
             return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
+        private IList<(UnitStatType, IUnitStatModifier)> _unitStatModifierList;
+
         private void InitBaseStats(UnitScheme unitScheme)
         {
             var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
+            HitPoints.ChangeBase((int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero));
 
             ApplyLevels();
 
             foreach (var perk in Perks)
             {
+                var statModifiers = perk.GetStatModifiers();
+                foreach (var statModifier in statModifiers)
+                {
+                    var stat = Stats.Single(x => x.Type == statModifier.Item1);
+                    stat.Value.AddModifier(statModifier.Item2);
+                }
+                
                 perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
             }
 
