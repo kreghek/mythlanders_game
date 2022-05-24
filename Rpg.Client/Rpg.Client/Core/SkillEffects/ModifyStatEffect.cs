@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal abstract class ModifyStatEffectBase : PeriodicDamageEffect
+    internal abstract class ModifyStatEffectBase : PeriodicEffectBase
     {
         protected ModifyStatEffectBase(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
         {
@@ -53,19 +53,5 @@ namespace Rpg.Client.Core.SkillEffects
                 stat.Value.AddModifier(modifier.Item2);
             }
         }
-    }
-
-    internal sealed class ShieldPointModifyEffect : ModifyStatEffectBase
-    {
-        private readonly float _modifier;
-
-        public ShieldPointModifyEffect(ICombatUnit actor, IEffectLifetime lifetime, float modifier) : base(actor, lifetime)
-        {
-            _modifier = modifier;
-        }
-
-        protected override IEnumerable<(UnitStatType, StatModifier)> Modifiers => new (UnitStatType, StatModifier)[] {
-            new (UnitStatType.ShieldPoints, new StatModifier(_modifier))
-        };
     }
 }
