@@ -57,9 +57,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public Stat HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
-
-        public bool IsDead => HitPoints.Current <= 0;
+        public bool IsPlayerCombatAvailable => Stats.Single(x=>x.Type == UnitStatType.HitPoints).Value.Current > 0;
 
         public bool IsPlayerControlled { get; init; }
 
@@ -71,8 +69,6 @@ namespace Rpg.Client.Core
         public IList<IPerk> Perks { get; }
 
         public float Power => CalcPower();
-
-        public Stat ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
         public IList<ISkill> Skills { get; }
 
@@ -119,7 +115,7 @@ namespace Rpg.Client.Core
 
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(HitPoints.ActualBase * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
+            var hpBonus = (int)Math.Round(HitPoints.ActualMax * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
                 MidpointRounding.ToEven);
 
             HitPoints.Restore(hpBonus);
@@ -172,7 +168,7 @@ namespace Rpg.Client.Core
                 if (autoTransition is not null)
                 {
                     var transformShare = autoTransition.HpShare;
-                    var currentHpShare = HitPoints.Share;
+                    var currentHpShare = HitPoints.GetShare();
 
                     if (currentHpShare <= transformShare)
                     {

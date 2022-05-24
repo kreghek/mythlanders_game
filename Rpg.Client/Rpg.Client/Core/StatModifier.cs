@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class StatModifier : IUnitStatModifier
+    public sealed class StatModifier : IUnitStatModifier
     {
         private readonly float _multiplier;
 

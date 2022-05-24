@@ -13,5 +13,8 @@ namespace Rpg.Client.Core
         void RestoreEnergyPoint();
 
         event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
+
+        IReadOnlyCollection<IUnitStat> Stats { get; }
+        bool IsDead { get; }
     }
 }

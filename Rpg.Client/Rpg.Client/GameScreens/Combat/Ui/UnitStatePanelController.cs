@@ -325,13 +325,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var hpPosition = panelPosition + backgroundOffset +
                              (side == Side.Left ? new Vector2(46, 22) : new Vector2(26, 22));
-            var hpPercentage = unit.HitPoints.Share;
+            var hpPercentage = unit.HitPoints.GetShare();
             var hpSourceRect = new Rectangle(0, 49, (int)(hpPercentage * BAR_WIDTH), 20);
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White,
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
 
-            var text = $"{unit.HitPoints.Current}/{unit.HitPoints.ActualBase}";
+            var text = $"{unit.HitPoints.Current}/{unit.HitPoints.ActualMax}";
             if (side == Side.Left)
             {
                 for (var xOffset = -1; xOffset <= 1; xOffset++)
@@ -348,7 +348,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     Color.LightCyan);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
+                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualMax}",
                     hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }
@@ -371,7 +371,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualBase}",
+                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualMax}",
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }

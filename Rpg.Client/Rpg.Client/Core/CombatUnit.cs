@@ -16,6 +16,8 @@ namespace Rpg.Client.Core
             IsInTankLine = slot.IsTankLine;
             EnergyPool = unit.EnergyPoolSize;
 
+            Stats = unit.Stats.Select(x => new CombatUnitStat(x)).ToArray();
+
             var skillContext = new CombatSkillContext(this);
             CombatCards = CreateCombatSkills(unit.Skills, skillContext);
 
@@ -27,6 +29,10 @@ namespace Rpg.Client.Core
             unit.Blocked += Unit_Blocked;
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
+
+        public bool IsDead => HitPoints.Current <= 0;
+        public IStatValue ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
+        public IStatValue HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
 
         public bool IsInTankLine { get; private set; }
 
@@ -133,6 +139,8 @@ namespace Rpg.Client.Core
         }
 
         public Unit Unit { get; }
+
+        public IReadOnlyCollection<IUnitStat> Stats { get; }
 
         public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
 

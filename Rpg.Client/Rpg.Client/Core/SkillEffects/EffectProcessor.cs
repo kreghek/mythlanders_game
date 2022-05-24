@@ -107,7 +107,7 @@ namespace Rpg.Client.Core.SkillEffects
                 return;
             }
 
-            if (combatUnit.Unit.IsDead)
+            if (combatUnit.IsDead)
             {
                 if (_unitEffects.ContainsKey(combatUnit))
                 {

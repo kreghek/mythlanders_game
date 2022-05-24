@@ -4,22 +4,24 @@ using System.Linq;
 
 namespace Rpg.Client.Core
 {
-    public class StatValue : IStatValue
+    public class CombatStatValue : IStatValue
     {
+        private readonly IStatValue _baseValue;
+
         private readonly IList<IUnitStatModifier> _modifiers;
 
-        public StatValue(int baseValue)
+        public CombatStatValue(IStatValue baseValue)
         {
-            Base = baseValue;
-            Current = Base;
+            _baseValue = baseValue;
+
+            Current = ActualMax;
+
             _modifiers = new List<IUnitStatModifier>();
         }
 
-        public int ActualMax => Base + _modifiers.Sum(x => x.GetBonus(Base));
+        public int ActualMax => _baseValue.ActualMax + _modifiers.Sum(x => x.GetBonus(_baseValue.ActualMax));
 
         public int Current { get; private set; }
-
-        private int Base { get; set; }
 
         public void AddModifier(IUnitStatModifier modifier)
         {
@@ -28,8 +30,7 @@ namespace Rpg.Client.Core
 
         public void ChangeBase(int newBase)
         {
-            Base = newBase;
-            Current = newBase;
+            _baseValue.ChangeBase(newBase);
         }
 
         public void Consume(int value)
@@ -47,6 +48,11 @@ namespace Rpg.Client.Core
             Current = Math.Min(newCurrent, ActualMax);
         }
 
+        public void RemoveModifier(StatModifier modifier)
+        {
+            _modifiers.Remove(modifier);
+        }
+
         public void Restore(int value)
         {
             Current += value;
@@ -55,11 +61,6 @@ namespace Rpg.Client.Core
             {
                 Current = Base;
             }
-        }
-
-        public void RemoveModifier(StatModifier modifier)
-        {
-            _modifiers.Remove(modifier);
         }
     }
 }

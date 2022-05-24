@@ -52,7 +52,7 @@ namespace Rpg.Client.Core
                 _currentUnit = value;
                 ActiveCombatUnitChanged?.Invoke(this, new UnitChangedEventArgs { NewUnit = value, OldUnit = oldUnit });
 
-                if (_currentUnit.Unit.IsDead)
+                if (_currentUnit.IsDead)
                 {
                     Update();
                 }
@@ -82,10 +82,10 @@ namespace Rpg.Client.Core
         {
             get
             {
-                var playerUnits = _allUnitList.Where(x => !x.Unit.IsDead && x.Unit.IsPlayerControlled);
+                var playerUnits = _allUnitList.Where(x => !x.IsDead && x.Unit.IsPlayerControlled);
                 var hasPlayerUnits = playerUnits.Any();
 
-                var cpuUnits = _allUnitList.Where(x => !x.Unit.IsDead && !x.Unit.IsPlayerControlled);
+                var cpuUnits = _allUnitList.Where(x => !x.IsDead && !x.Unit.IsPlayerControlled);
                 var hasCpuUnits = cpuUnits.Any();
 
                 // TODO Looks like XOR
@@ -260,7 +260,7 @@ namespace Rpg.Client.Core
 
             IsCurrentStepCompleted = false;
 
-            var currentUnit = _unitQueue.FirstOrDefault(x => !x.Unit.IsDead);
+            var currentUnit = _unitQueue.FirstOrDefault(x => !x.IsDead);
             CurrentUnit = currentUnit;
 
             CheckAndHandleFinish();
@@ -277,7 +277,7 @@ namespace Rpg.Client.Core
 
             var currentTargetUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
             if (currentTargetUnit is not null
-                && currentTargetUnit.Unit.IsDead)
+                && currentTargetUnit.IsDead)
             {
                 CurrentUnit.TargetSlot = null;
                 CurrentUnit.TargetSkill = null;
@@ -363,8 +363,8 @@ namespace Rpg.Client.Core
                 var playerUnits = Units.Where(x => x.Unit.IsPlayerControlled).ToArray();
                 var monsterUnits = Units.Where(x => !x.Unit.IsPlayerControlled).ToArray();
 
-                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.Unit.IsDead);
-                var allMonstersAreDead = monsterUnits.All(x => x.Unit.IsDead);
+                var anyPlayerUnitsAlive = playerUnits.Any(x => !x.IsDead);
+                var allMonstersAreDead = monsterUnits.All(x => x.IsDead);
                 var eventArgs = new CombatFinishEventArgs
                 {
                     Victory = anyPlayerUnitsAlive && allMonstersAreDead
@@ -379,7 +379,7 @@ namespace Rpg.Client.Core
         private static bool CheckUnitIsAvailable(Unit unit)
         {
             // Some of the player persons can be killed in previous combat in a combat sequence.
-            if (unit.IsDead)
+            if (!unit.IsPlayerCombatAvailable)
             {
                 return false;
             }
@@ -397,17 +397,17 @@ namespace Rpg.Client.Core
 
         private void Combat_ActiveCombatUnitChanged(object? sender, UnitChangedEventArgs e)
         {
-            var oldCombatUnit = e.OldUnit;
+            var oldCombatUnit = e.OldUnit as CombatUnit;
             if (oldCombatUnit is not null)
             {
-                if (!oldCombatUnit.Unit.IsDead)
+                if (!oldCombatUnit.IsDead)
                 {
                     EffectProcessor.Influence(oldCombatUnit);
                 }
 
-                if (!oldCombatUnit.Unit.IsDead && !oldCombatUnit.Unit.IsPlayerControlled)
+                if (!oldCombatUnit.IsDead && !oldCombatUnit.Unit.IsPlayerControlled)
                 {
-                    AssignCpuTarget((CombatUnit)oldCombatUnit, Dice);
+                    AssignCpuTarget(oldCombatUnit, Dice);
                 }
             }
 
@@ -456,7 +456,7 @@ namespace Rpg.Client.Core
                         {
                             var unitsInTankPosition = Units.Where(x =>
                                     unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled &&
-                                    !x.Unit.IsDead && x.IsInTankLine)
+                                    !x.IsDead && x.IsInTankLine)
                                 .ToList();
 
                             if (unitsInTankPosition.Any())
@@ -465,19 +465,19 @@ namespace Rpg.Client.Core
                             }
 
                             return Units.Where(x =>
-                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                    unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.IsDead)
                                 .ToList();
                         }
 
                         return Units.Where(x =>
-                                unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled != x.Unit.IsPlayerControlled && !x.IsDead)
                             .ToList();
                     }
 
                 case SkillTargetType.Friendly:
                     {
                         return Units.Where(x =>
-                                unit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.Unit.IsDead)
+                                unit.Unit.IsPlayerControlled == x.Unit.IsPlayerControlled && !x.IsDead)
                             .ToList();
                     }
 
@@ -568,7 +568,7 @@ namespace Rpg.Client.Core
 
             foreach (var unit in orderedByResolve)
             {
-                if (!unit.Unit.IsDead)
+                if (!unit.IsDead)
                 {
                     _unitQueue.Add(unit);
                 }
@@ -612,7 +612,7 @@ namespace Rpg.Client.Core
 
             if (e.DamageDealer.Unit.IsPlayerControlled)
             {
-                var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.Unit.IsDead).ToArray();
+                var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.IsDead).ToArray();
 
                 foreach (var unitToRestoreMana in playerUnits)
                 {
@@ -643,7 +643,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.Unit.IsDead);
+        public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.IsDead);
 
         public IDice Dice { get; }
 

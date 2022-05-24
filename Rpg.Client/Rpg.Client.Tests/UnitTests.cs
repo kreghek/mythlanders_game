@@ -36,7 +36,7 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             var expectedValue = (int)(scheme.HitPointsBase * 2f);
-            unit.HitPoints.ActualBase.Should().Be(expectedValue);
+            unit.HitPoints.ActualMax.Should().Be(expectedValue);
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace Rpg.Client.Tests
 
             // ASSERT
 
-            factSp.ActualBase.Should().Be(expectedMaxSp);
+            factSp.ActualMax.Should().Be(expectedMaxSp);
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace Rpg.Client.Tests
 
             var unit = new Unit(sourceScheme, 0);
 
-            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualBase * 0.5f, MidpointRounding.AwayFromZero);
+            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualMax * 0.5f, MidpointRounding.AwayFromZero);
             var damage = (int)halfOfHitPoints;
 
             var damageDealer = Mock.Of<ICombatUnit>();
@@ -221,7 +221,7 @@ namespace Rpg.Client.Tests
 
             var unit = new Unit(sourceScheme, 0);
 
-            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualBase * 0.5f, MidpointRounding.AwayFromZero);
+            var halfOfHitPoints = Math.Round(unit.HitPoints.ActualMax * 0.5f, MidpointRounding.AwayFromZero);
             var damage = (int)halfOfHitPoints;
 
             var damageDealer = Mock.Of<ICombatUnit>();
