@@ -18,7 +18,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private bool _completionHandled;
 
         public MonkTripleHitState(UnitGraphics actorGraphics, UnitGraphicsBase targetGraphics,
-            AnimationBlocker mainAnimationBlocker, SkillExecution interaction, IReadOnlyList<SoundEffectInstance> hitSounds)
+            AnimationBlocker mainAnimationBlocker, SkillExecution interaction,
+            IReadOnlyList<SoundEffectInstance> hitSounds)
         {
             var skillAnimationInfo = new SkillAnimationInfo
             {

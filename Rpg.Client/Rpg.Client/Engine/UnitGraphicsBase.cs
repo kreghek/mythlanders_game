@@ -14,12 +14,12 @@ namespace Rpg.Client.Engine
         private const int FRAME_HEIGHT = 128;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         protected Vector2 _position;
+
+        private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
         private readonly Sprite _selectedMarker;
 
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
-
-        private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {

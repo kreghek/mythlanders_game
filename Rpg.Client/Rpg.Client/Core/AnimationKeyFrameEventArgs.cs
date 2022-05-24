@@ -2,7 +2,8 @@
 
 namespace Rpg.Client.Core
 {
-    internal sealed class AnimationKeyFrameEventArgs : EventArgs {
+    internal sealed class AnimationKeyFrameEventArgs : EventArgs
+    {
         public AnimationKeyFrameEventArgs(IAnimationKeyFrame keyFrame)
         {
             KeyFrame = keyFrame ?? throw new ArgumentNullException(nameof(keyFrame));
