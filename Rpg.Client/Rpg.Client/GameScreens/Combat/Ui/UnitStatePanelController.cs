@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Assets;
 using Rpg.Client.Core;
@@ -34,6 +36,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public void Draw(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
+            _effectInfoList.Clear();
+
             var unitList = _activeCombat.Units.ToArray();
 
             var playerIndex = 0;
@@ -84,7 +88,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 DrawEffects(spriteBatch, panelPosition, combatUnit, side);
             }
+
+            _effectHint?.Draw(spriteBatch);
         }
+
+        private IList<(Rectangle, EffectBase)> _effectInfoList = new List<(Rectangle, EffectBase)>();
 
         private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, ICombatUnit combatUnit, Side side)
         {
@@ -113,23 +121,68 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 if (effect is PeriodicEffectBase periodicEffect)
                 {
-                    for (var i = -1; i <= 1; i++)
-                    {
-                        for (var j = -1; j <= 1; j++)
-                        {
-                            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                                periodicEffect.EffectLifetime.GetTextDescription(),
-                                effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
-                                    EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + new Vector2(i, j), Color.Black);
-                        }
-                    }
+                    DrawLifetime(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect);
+                }
 
-                    spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                        periodicEffect.EffectLifetime.GetTextDescription(),
-                        effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
-                            EFFECT_SIZE - EFFECTS_DURATION_OFFSET), Color.White);
+                _effectInfoList.Add(new(effectRect, effect));
+            }
+        }
+
+        private HintBase? _effectHint;
+        private EffectBase? _lastEffectWithHint;
+
+        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        {
+            var mouse = Mouse.GetState();
+            var mouseRect = new Rectangle(resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(), new Point(1, 1));
+
+            var effectListSnapshotList = _effectInfoList.ToArray();
+            var effectHintFound = false;
+            foreach (var effectInfo in effectListSnapshotList)
+            {
+                if (effectInfo.Item1.Contains(mouseRect))
+                {
+                    effectHintFound = true;
+                    if (_lastEffectWithHint != effectInfo.Item2)
+                    {
+                        _lastEffectWithHint = effectInfo.Item2;
+                        _effectHint = new TextHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(), effectInfo.Item2.GetType().ToString())
+                        {
+                            Rect = new Rectangle(effectInfo.Item1.Location, new Point(200, 40))
+                        };
+                    }
                 }
             }
+
+            if (!effectHintFound)
+            {
+                _lastEffectWithHint = null;
+                _effectHint = null;
+            }
+        }
+
+        private void DrawLifetime(SpriteBatch spriteBatch, int EFFECT_SIZE, int EFFECTS_DURATION_OFFSET, Vector2 effectPosition, PeriodicEffectBase periodicEffect)
+        {
+            for (var i = -1; i <= 1; i++)
+            {
+                for (var j = -1; j <= 1; j++)
+                {
+                    if (i != j)
+                    {
+                        DrawLifetimeInner(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect, new Vector2(i, j));
+                    }
+                }
+            }
+
+            DrawLifetimeInner(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect, Vector2.Zero);
+        }
+
+        private void DrawLifetimeInner(SpriteBatch spriteBatch, int EFFECT_SIZE, int EFFECTS_DURATION_OFFSET, Vector2 effectPosition, PeriodicEffectBase periodicEffect, Vector2 offset)
+        {
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
+                            periodicEffect.EffectLifetime.GetTextDescription(),
+                            effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
+                                EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + offset, Color.White);
         }
 
         private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)
