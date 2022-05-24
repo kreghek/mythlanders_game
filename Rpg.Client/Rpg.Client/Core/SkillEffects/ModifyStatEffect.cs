@@ -5,7 +5,7 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal abstract class ModifyStatEffectBase : PeriodicDamageEffect
     {
-        public ModifyStatEffect(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
+        protected ModifyStatEffectBase(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
         {
             Imposed += ModifiersEffect_Imposed;
             Dispelled += ModifiersEffect_Dispelled;
@@ -57,12 +57,15 @@ namespace Rpg.Client.Core.SkillEffects
 
     internal sealed class ShieldPointModifyEffect : ModifyStatEffectBase
     {
-        public ShieldPointModifyEffect(ICombatUnit actor, IEffectLifetime lifetime) : base(actor, lifetime)
+        private readonly float _modifier;
+
+        public ShieldPointModifyEffect(ICombatUnit actor, IEffectLifetime lifetime, float modifier) : base(actor, lifetime)
         {
+            _modifier = modifier;
         }
 
         protected override IEnumerable<(UnitStatType, StatModifier)> Modifiers => new (UnitStatType, StatModifier)[] {
-            new (UnitStatType.ShieldPoints, new StatModifier(0.2f))
+            new (UnitStatType.ShieldPoints, new StatModifier(_modifier))
         };
     }
 }
