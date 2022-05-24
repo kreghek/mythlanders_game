@@ -417,7 +417,7 @@ namespace Rpg.Client.Core
                 return;
             }
 
-            combatUnit.Unit.RestoreShields();
+            combatUnit.RestoreShields();
             ((CombatUnit)combatUnit).IsWaiting = false;
         }
 
@@ -429,7 +429,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, UnitStatChangedEventArgs e)
         {
             var damagedCombatUnit = sender as CombatUnit;
             if (damagedCombatUnit is null)

@@ -2,7 +2,7 @@ using System;
 
 namespace Rpg.Client.Core
 {
-    internal class UnitHitPointsChangedEventArgs : EventArgs
+    internal class UnitStatChangedEventArgs : EventArgs
     {
         public int Amount { get; init; }
         public CombatUnit? CombatUnit { get; init; }

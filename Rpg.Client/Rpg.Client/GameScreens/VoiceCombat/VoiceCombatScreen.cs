@@ -431,7 +431,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             unitGameObject.AddChild(passIndicator);
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, UnitStatChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
 
@@ -450,7 +450,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_Healed(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_Healed(object? sender, UnitStatChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);

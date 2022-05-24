@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -28,6 +29,128 @@ namespace Rpg.Client.Core
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
             unit.Blocked += Unit_Blocked;
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+        }
+
+        public void RestoreHitPoints(int heal)
+        {
+            HitPoints.Restore(heal);
+            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = heal };
+            HasBeenHitPointsRestored?.Invoke(this, args);
+        }
+
+        public void RestoreShields()
+        {
+            var current = ShieldPoints.Current;
+            ShieldPoints.Restore();
+
+            var diff = ShieldPoints.Current - current;
+            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = diff };
+
+            HasBeenShieldPointsRestored?.Invoke(this, args);
+        }
+        private int GetAbsorbedDamage(int damage)
+        {
+            var absorptionPerks = Unit.Perks.OfType<Absorption>();
+            return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
+        }
+
+        private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
+        {
+            HitPoints.Consume(damageAbsorbedByShields);
+
+            var result = new DamageResult
+            {
+                ValueSource = damageSource, ValueFinal = damageAbsorbedByShields
+            };
+
+            var args = new UnitStatChangedEventArgs
+            {
+                CombatUnit = this,
+                Amount = result.ValueFinal.Value,
+                SourceAmount = result.ValueSource,
+                Direction = HitPointsChangeDirection.Negative
+            };
+
+            HasTakenHitPointsDamage?.Invoke(this, args);
+        }
+
+        private void TakeDamageToShields(int damageSource, int damageActual)
+        {
+            ShieldPoints.Consume(damageActual);
+
+            var result = new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageActual
+            };
+
+            var args = new UnitStatChangedEventArgs
+            {
+                CombatUnit = this,
+                Amount = result.ValueFinal.Value,
+                SourceAmount = result.ValueSource,
+                Direction = HitPointsChangeDirection.Negative
+            };
+
+            HasTakenShieldPointsDamage?.Invoke(this, args);
+        }
+
+        public event EventHandler<UnitDamagedEventArgs>? Dead;
+
+        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
+        {
+            var absorbtion = GetAbsorbedDamage(damageSource);
+
+            var damageAbsorbedByPerks = Math.Max(damageSource - absorbtion, 0);
+
+            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByPerks);
+            var damageToHitPoints = damageAbsorbedByPerks - damageToShield;
+
+            var blocked = true;
+            if (damageToShield > 0)
+            {
+                TakeDamageToShields(damageSource, damageToShield);
+                blocked = false;
+            }
+
+            if (damageToHitPoints > 0)
+            {
+                TakeDamageToHitPoints(damageSource, damageToHitPoints);
+                blocked = false;
+            }
+
+            if (blocked)
+            {
+                Blocked?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (HitPoints.Current <= 0)
+            {
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
+            }
+            else
+            {
+                var autoTransition = UnitScheme.SchemeAutoTransition;
+                if (autoTransition is not null)
+                {
+                    var transformShare = autoTransition.HpShare;
+                    var currentHpShare = HitPoints.GetShare();
+
+                    if (currentHpShare <= transformShare)
+                    {
+                        var sourceScheme = UnitScheme;
+                        UnitScheme = autoTransition.NextScheme;
+                        ModifyStats();
+                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
+                    }
+                }
+            }
+
+            return new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageToHitPoints
+            };
         }
 
         public bool IsDead => HitPoints.Current <= 0;
@@ -72,7 +195,7 @@ namespace Rpg.Client.Core
 
         private void Unit_BeenHealed(object? sender, int e)
         {
-            HasBeenHitPointsRestored?.Invoke(this, new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+            HasBeenHitPointsRestored?.Invoke(this, new UnitStatChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_Blocked(object? sender, EventArgs e)
@@ -90,7 +213,7 @@ namespace Rpg.Client.Core
             Debug.Assert(e.Result is not null);
             Debug.Assert(e.Result?.ValueFinal is not null);
 
-            var args = new UnitHitPointsChangedEventArgs
+            var args = new UnitStatChangedEventArgs
             {
                 CombatUnit = this,
                 Amount = e.Result.ValueFinal.Value,
@@ -104,7 +227,7 @@ namespace Rpg.Client.Core
         {
             Debug.Assert(e.Result is not null);
             Debug.Assert(e.Result?.ValueFinal is not null);
-            var args = new UnitHitPointsChangedEventArgs
+            var args = new UnitStatChangedEventArgs
             {
                 CombatUnit = this,
                 Amount = e.Result.ValueFinal.Value,
@@ -117,7 +240,7 @@ namespace Rpg.Client.Core
         private void Unit_HasBeenShieldRestored(object? sender, int e)
         {
             HasBeenShieldPointsRestored?.Invoke(this,
-                new UnitHitPointsChangedEventArgs { CombatUnit = this, Amount = e });
+                new UnitStatChangedEventArgs { CombatUnit = this, Amount = e });
         }
 
         private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
@@ -142,7 +265,7 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<IUnitStat> Stats { get; }
 
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
+        public event EventHandler<UnitStatChangedEventArgs>? HasTakenHitPointsDamage;
 
         public void RestoreEnergyPoint()
         {
@@ -153,13 +276,13 @@ namespace Rpg.Client.Core
             }
         }
 
-        public event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenShieldPointsDamage;
+        public event EventHandler<UnitStatChangedEventArgs>? HasTakenShieldPointsDamage;
 
         public event EventHandler? Blocked;
 
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenHitPointsRestored;
+        internal event EventHandler<UnitStatChangedEventArgs>? HasBeenHitPointsRestored;
 
-        internal event EventHandler<UnitHitPointsChangedEventArgs>? HasBeenShieldPointsRestored;
+        internal event EventHandler<UnitStatChangedEventArgs>? HasBeenShieldPointsRestored;
 
         internal event EventHandler? HasAvoidedDamage;
 

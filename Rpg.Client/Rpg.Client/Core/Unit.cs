@@ -107,84 +107,13 @@ namespace Rpg.Client.Core
             _globalEffects.Add(effect);
         }
 
-        public void RestoreHitPoints(int heal)
-        {
-            HitPoints.Restore(heal);
-            HasBeenHitPointsRestored?.Invoke(this, heal);
-        }
-
         public void RestoreHitPointsAfterCombat()
         {
-            var hpBonus = (int)Math.Round(HitPoints.ActualMax * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
+            var HitPoints = Stats.Single(x => x.Type == UnitStatType.HitPoints);
+            var hpBonus = (int)Math.Round(HitPoints.Value.ActualMax * UnitScheme.UnitBasics.COMBAT_RESTORE_SHARE,
                 MidpointRounding.ToEven);
 
-            HitPoints.Restore(hpBonus);
-        }
-
-        public void RestoreShields()
-        {
-            var current = ShieldPoints.Current;
-            ShieldPoints.Restore();
-
-            var diff = ShieldPoints.Current - current;
-
-            HasBeenShieldPointsRestored?.Invoke(this, diff);
-        }
-
-        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
-        {
-            var absorbtion = GetAbsorbedDamage(damageSource);
-
-            var damageAbsorbedByPerks = Math.Max(damageSource - absorbtion, 0);
-
-            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByPerks);
-            var damageToHitPoints = damageAbsorbedByPerks - damageToShield;
-
-            var blocked = true;
-            if (damageToShield > 0)
-            {
-                TakeDamageToShields(damageSource, damageToShield);
-                blocked = false;
-            }
-
-            if (damageToHitPoints > 0)
-            {
-                TakeDamageToHitPoints(damageSource, damageToHitPoints);
-                blocked = false;
-            }
-
-            if (blocked)
-            {
-                Blocked?.Invoke(this, EventArgs.Empty);
-            }
-
-            if (HitPoints.Current <= 0)
-            {
-                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
-            }
-            else
-            {
-                var autoTransition = UnitScheme.SchemeAutoTransition;
-                if (autoTransition is not null)
-                {
-                    var transformShare = autoTransition.HpShare;
-                    var currentHpShare = HitPoints.GetShare();
-
-                    if (currentHpShare <= transformShare)
-                    {
-                        var sourceScheme = UnitScheme;
-                        UnitScheme = autoTransition.NextScheme;
-                        ModifyStats();
-                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
-                    }
-                }
-            }
-
-            return new DamageResult
-            {
-                ValueSource = damageSource,
-                ValueFinal = damageToHitPoints
-            };
+            HitPoints.Value.Restore(hpBonus);
         }
 
         private void ApplyLevels()
@@ -281,12 +210,6 @@ namespace Rpg.Client.Core
             ModifyStats();
         }
 
-        private int GetAbsorbedDamage(int damage)
-        {
-            var absorptionPerks = Perks.OfType<Absorption>();
-            return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
-        }
-
         private int GetBaseHitPoint(UnitScheme unitScheme)
         {
             var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
@@ -336,35 +259,6 @@ namespace Rpg.Client.Core
         private void RestoreHp()
         {
             HitPoints.Restore();
-        }
-
-        private void TakeDamageToHitPoints(int damageSource, int damageAbsorbedByShields)
-        {
-            HitPoints.Consume(damageAbsorbedByShields);
-
-            var result = new DamageResult
-            {
-                ValueSource = damageSource, ValueFinal = damageAbsorbedByShields
-            };
-
-            var args = new UnitHasBeenDamagedEventArgs
-            {
-                Result = result
-            };
-            HasBeenHitPointsDamaged?.Invoke(this, args);
-        }
-
-        private void TakeDamageToShields(int damageSource, int damageActual)
-        {
-            ShieldPoints.Consume(damageActual);
-
-            var result = new DamageResult
-            {
-                ValueSource = damageSource,
-                ValueFinal = damageActual
-            };
-
-            HasBeenShieldPointsDamaged?.Invoke(this, new UnitHasBeenDamagedEventArgs { Result = result });
         }
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;

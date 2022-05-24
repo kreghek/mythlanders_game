@@ -501,7 +501,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(passIndicator);
         }
 
-        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitStatChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
@@ -517,7 +517,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitStatChangedEventArgs e)
         {
             if (e.Amount > 0)
             {
@@ -536,7 +536,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenHitPointsDamage(object? sender, UnitStatChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
 
@@ -560,7 +560,7 @@ namespace Rpg.Client.GameScreens.Combat
             unitGameObject.AddChild(damageIndicator);
         }
 
-        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitStatChangedEventArgs e)
         {
             Debug.Assert(e.CombatUnit is not null);
 

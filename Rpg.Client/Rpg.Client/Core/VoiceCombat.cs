@@ -279,7 +279,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void CombatUnit_HasTakenDamage(object? sender, UnitHitPointsChangedEventArgs e)
+        private void CombatUnit_HasTakenDamage(object? sender, UnitStatChangedEventArgs e)
         {
             UnitHasBeenDamaged?.Invoke(this, e.CombatUnit);
         }

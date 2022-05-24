@@ -11,8 +11,11 @@ namespace Rpg.Client.Core
 
         void ChangeState(CombatUnitState targetState);
         void RestoreEnergyPoint();
+        void RestoreHitPoints(int heal);
+        void RestoreShields();
+        DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource);
 
-        event EventHandler<UnitHitPointsChangedEventArgs>? HasTakenHitPointsDamage;
+        event EventHandler<UnitStatChangedEventArgs>? HasTakenHitPointsDamage;
 
         IReadOnlyCollection<IUnitStat> Stats { get; }
         bool IsDead { get; }
