@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Assets.Catalogs
 {
     internal static class EventCatalogHelper
     {

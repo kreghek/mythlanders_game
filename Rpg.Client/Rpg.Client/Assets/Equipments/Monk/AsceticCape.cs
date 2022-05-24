@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.Equipments.Monk
     {
         public EquipmentSid Sid => EquipmentSid.AsceticRobe;
 
-        public IReadOnlyList<EffectRule> CreateCombatHitpointChangeEffects(IEquipmentEffectContext context)
+        public IReadOnlyList<EffectRule> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
             return new[] {
                 new EffectRule{

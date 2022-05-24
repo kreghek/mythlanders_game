@@ -13,11 +13,6 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
-        {
-            return 1 + level * 0.1f;
-        }
-
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Legionnaire;
 
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata

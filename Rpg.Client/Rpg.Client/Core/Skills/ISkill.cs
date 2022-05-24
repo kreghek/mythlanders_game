@@ -2,7 +2,6 @@
 
 namespace Rpg.Client.Core.Skills
 {
-    internal interface IEffectSource { }
     internal interface ISkill: IEffectSource
     {
         int? BaseEnergyCost { get; }

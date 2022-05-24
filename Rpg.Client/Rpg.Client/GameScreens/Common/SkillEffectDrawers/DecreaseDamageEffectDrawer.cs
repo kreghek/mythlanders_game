@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
         public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, EffectRule rule, Vector2 position)
         {
-            if (effectToDisplay is not DecreaseDamageEffect decreaseDamageEffect)
+            if (effectToDisplay is not ProtectionEffect decreaseDamageEffect)
             {
                 return false;
             }

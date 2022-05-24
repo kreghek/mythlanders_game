@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Assets;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
@@ -9,8 +8,9 @@ using Rpg.Client.Assets.Skills;
 using Rpg.Client.Assets.Skills.Hero.Swordsman;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Assets.Skills.Monster.Slavic;
+using Rpg.Client.Core;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class UnitSchemeCatalog : IUnitSchemeCatalog
     {
@@ -401,7 +401,8 @@ namespace Rpg.Client.Core
 
                     Levels = new IUnitLevelScheme[]
                     {
-                        new AddSkillUnitLevel(1, new MassHealSkill())
+                        new AddSkillUnitLevel(1, new MassHealSkill()),
+                        new AddPerkUnitLevel(1, new PowerUpAura())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()

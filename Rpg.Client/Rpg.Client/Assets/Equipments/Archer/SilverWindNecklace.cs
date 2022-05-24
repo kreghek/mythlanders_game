@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 
+using Rpg.Client.Assets.SkillEffects;
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
+using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Archer
 {
@@ -13,16 +17,24 @@ namespace Rpg.Client.Assets.Equipments.Archer
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
-        {
-            return 1 + level * 0.1f;
-        }
-
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
 
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 6
         };
+
+        public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
+        {
+            return new[] {
+                new EffectRule{
+                    Direction = SkillDirection.OtherFriendly,
+                    EffectCreator = new EffectCreator(u =>{
+                        var lifetime = new UnitBoundEffectLifetime(u.Unit);
+                        return new ShieldPointModifyEffect(u, lifetime, 0.2f * context.EquipmentLevel);
+                    })
+                }
+            };
+        }
     }
 }

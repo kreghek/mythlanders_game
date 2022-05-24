@@ -925,6 +925,8 @@ namespace Rpg.Client.GameScreens.Combat
                 }
 
                 _combatSkillsPanel?.Update(ResolutionIndependentRenderer);
+
+                _unitStatePanelController?.Update(ResolutionIndependentRenderer);
             }
         }
 

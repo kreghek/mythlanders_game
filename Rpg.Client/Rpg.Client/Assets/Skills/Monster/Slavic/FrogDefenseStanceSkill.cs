@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -20,16 +19,7 @@ namespace Rpg.Client.Assets.Skills.Monster.Slavic
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 1, multiplier: 0.5f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, 0.5f)
         };
 
         public override SkillSid Sid => SkillSid.DefenseStance;

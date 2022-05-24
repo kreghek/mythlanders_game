@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿using Rpg.Client.Core;
+
+namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class EventCatalog : EventCatalogBase
     {

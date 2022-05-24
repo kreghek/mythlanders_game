@@ -2,6 +2,8 @@ namespace Rpg.Client.Core.Skills
 {
     internal enum SkillSid
     {
+        None,
+        
         Heal,
 
         ArrowRain,

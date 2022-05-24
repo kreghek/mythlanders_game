@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -19,16 +18,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllFriendly,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 3, multiplier: 0.95f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SkillSid.CouosLegacy, SkillDirection.AllFriendly, 0.95f)
         };
 
         public override SkillSid Sid => SkillSid.CouosLegacy;

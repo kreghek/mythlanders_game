@@ -13,11 +13,6 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
-        {
-            return 1 + level * 0.05f;
-        }
-
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
 
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata

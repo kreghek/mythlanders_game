@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
@@ -13,16 +14,18 @@ namespace Rpg.Client.Assets.Equipments.Swordsman
             throw new NotImplementedException();
         }
 
-        float IEquipmentScheme.GetHitPointsMultiplier(int level)
-        {
-            return 1 + level * 0.1f;
-        }
-
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
 
         public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 2
         };
+
+        public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
+        {
+            return new (UnitStatType, IUnitStatModifier)[] {
+                new (UnitStatType.HitPoints, new StatModifier(equipmentLevel * 0.2f))
+            };
+        }
     }
 }

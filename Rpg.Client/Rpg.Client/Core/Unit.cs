@@ -18,7 +18,13 @@ namespace Rpg.Client.Core
             UnitScheme = unitScheme;
             Level = level;
 
-            HitPoints = new Stat(0);
+            Stats = new[]
+            {
+                new UnitStat(UnitStatType.HitPoints, baseValue: GetBaseHitPoint(unitScheme)),
+                new UnitStat(UnitStatType.ShieldPoints, baseValue: Armor),
+                new UnitStat(UnitStatType.Evasion)
+            };
+
             Skills = new List<ISkill>();
             Perks = new List<IPerk>();
 
@@ -26,12 +32,19 @@ namespace Rpg.Client.Core
             InitEquipment(equipments);
             Equipments = equipments;
 
-            InitBaseStats(unitScheme);
-
-            ShieldPoints = new Stat(Armor);
+            ModifyStats();
 
             _globalEffects = new List<GlobalUnitEffect>();
         }
+
+        private int GetBaseHitPoint(UnitScheme unitScheme)
+        {
+            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
+            var newBase = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
+            return newBase;
+        }
+
+        public IReadOnlyCollection<UnitStat> Stats { get; }
 
         public int Armor => CalcArmor();
 
@@ -53,7 +66,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public Stat HitPoints { get; }
+        public Stat HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
 
         public bool IsDead => HitPoints.Current <= 0;
 
@@ -68,7 +81,7 @@ namespace Rpg.Client.Core
 
         public float Power => CalcPower();
 
-        public Stat ShieldPoints { get; }
+        public Stat ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
         public IList<ISkill> Skills { get; }
 
@@ -97,7 +110,7 @@ namespace Rpg.Client.Core
         {
             Level++;
 
-            InitBaseStats(UnitScheme);
+            ModifyStats();
         }
 
         public void RemoveGlobalEffect(GlobalUnitEffect effect)
@@ -172,7 +185,7 @@ namespace Rpg.Client.Core
                     {
                         var sourceScheme = UnitScheme;
                         UnitScheme = autoTransition.NextScheme;
-                        InitBaseStats(UnitScheme);
+                        ModifyStats();
                         SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
                     }
                 }
@@ -267,7 +280,7 @@ namespace Rpg.Client.Core
 
         private void Equipment_GainLevelUp(object? sender, EventArgs e)
         {
-            InitBaseStats(UnitScheme);
+            ModifyStats();
         }
 
         private int GetAbsorbedDamage(int damage)
@@ -276,26 +289,35 @@ namespace Rpg.Client.Core
             return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
-        private void InitBaseStats(UnitScheme unitScheme)
+        private void ModifyStats()
         {
-            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
-
             ApplyLevels();
 
+            var tempMaxHitPoints = 0f;
             foreach (var perk in Perks)
             {
-                perk.ApplyToStats(ref maxHitPoints, ref _armorBonus);
+                var statModifiers = perk.GetStatModifiers();
+                ApplyStatModifiers(statModifiers);
+
+                perk.ApplyToStats(ref tempMaxHitPoints, ref _armorBonus);
             }
 
             foreach (var equipment in Equipments)
             {
-                maxHitPoints *= equipment.Scheme.GetHitPointsMultiplier(equipment.Level);
+                var statModifiers = equipment.Scheme.GetStatModifiers(equipment.Level);
+                ApplyStatModifiers(statModifiers);
             }
 
-            var maxHitPointsRounded = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
-            HitPoints.ChangeBase(maxHitPointsRounded);
-
             RestoreHp();
+        }
+
+        private void ApplyStatModifiers(IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> statModifiers)
+        {
+            foreach (var statModifier in statModifiers)
+            {
+                var stat = Stats.Single(x => x.Type == statModifier.Item1);
+                stat.Value.AddModifier(statModifier.Item2);
+            }
         }
 
         private void InitEquipment(IList<Equipment> equipments)

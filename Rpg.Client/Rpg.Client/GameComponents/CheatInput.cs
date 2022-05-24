@@ -190,12 +190,7 @@ namespace Rpg.Client.GameComponents
 
         private void HandleGainXp(string[] args)
         {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var xpAmount = int.Parse(args[0]);
-
-            globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount += xpAmount;
+            HandleGainRes(new[] { args[0], nameof(EquipmentItemType.ExperiencePoints) });
         }
 
         private void HandleUpdateGlobe()
@@ -344,6 +339,18 @@ namespace Rpg.Client.GameComponents
                         return false;
                     }
 
+                case "gain-res":
+                    try
+                    {
+                        HandleGainRes(commandArgs);
+                        return true;
+                    }
+                    catch (Exception ex) when (
+                        ex is InvalidOperationException or FormatException or InvalidOperationException)
+                    {
+                        return false;
+                    }
+
                 case "change-hp":
                     try
                     {
@@ -369,6 +376,17 @@ namespace Rpg.Client.GameComponents
             }
 
             return false;
+        }
+
+        private void HandleGainRes(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var xpAmount = int.Parse(args[0]);
+            var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
+
+            globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
         }
     }
 }

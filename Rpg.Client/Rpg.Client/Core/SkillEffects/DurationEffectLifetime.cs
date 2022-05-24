@@ -13,9 +13,9 @@ namespace Rpg.Client.Core.SkillEffects
 
         public void Update()
         {
-            _duration--;
+            _duration.Decrease();
 
-            if (_duration <= 0)
+            if (_duration.IsOut)
             {
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
@@ -25,7 +25,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             if (effect is DurationEffectLifetime durationEffectLifetime)
             {
-                _duration += durationEffectLifetime._duration;
+                _duration.Increase(durationEffectLifetime._duration);
             }
         }
 
@@ -34,9 +34,9 @@ namespace Rpg.Client.Core.SkillEffects
             return true;
         }
 
-        private int _duration;
+        private EffectDuration _duration;
 
-        public DurationEffectLifetime(int duration)
+        public DurationEffectLifetime(EffectDuration duration)
         {
             _duration = duration;
         }

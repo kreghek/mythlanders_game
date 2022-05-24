@@ -5,6 +5,7 @@ using FluentAssertions;
 using NUnit.Framework;
 
 using Rpg.Client.Assets;
+using Rpg.Client.Assets.Catalogs;
 
 namespace Rpg.Client.Core.Tests
 {

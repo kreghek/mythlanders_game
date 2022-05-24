@@ -4,13 +4,9 @@ using Rpg.Client.Core.Modifiers;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class DecreaseDamageEffect : ModifiersEffect
+    internal class ProtectionEffect : ModifiersEffect
     {
-        public DecreaseDamageEffect(ICombatUnit actor, int duration, float multiplier) : this(actor, new DurationEffectLifetime(duration), multiplier)
-        {
-        }
-
-        public DecreaseDamageEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(actor, effectLifetime)
+        public ProtectionEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(actor, effectLifetime)
         {
             Multiplier = multiplier;
 

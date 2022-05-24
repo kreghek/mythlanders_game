@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -15,16 +14,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Self,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effect = new DecreaseDamageEffect(u, 2, multiplier: 1f);
-
-                    return effect;
-                })
-            }
+            SkillRuleFactory.CreateProtection(SkillSid.ZduhachMight, SkillDirection.Self, 1, 1)
         };
 
         public override SkillSid Sid => SkillSid.ZduhachMight;

@@ -9,6 +9,7 @@ using Moq;
 using NUnit.Framework;
 
 using Rpg.Client.Assets;
+using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
@@ -82,7 +83,7 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new PeriodicDamageEffect(unit, 1)
+                        return new PeriodicDamageEffect(unit, new DurationEffectLifetime(new EffectDuration(1)))
                         {
                             PowerMultiplier = 10000,
                             SourceDamage = 1
@@ -268,7 +269,7 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DecreaseDamageEffect(unit, 1, multiplier: 0f);
+                        return new ProtectionEffect(unit, new DurationEffectLifetime(new EffectDuration(1)), multiplier: 0f);
                     })
                 }
             };

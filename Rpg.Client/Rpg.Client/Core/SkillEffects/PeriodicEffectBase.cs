@@ -21,11 +21,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        protected PeriodicEffectBase(ICombatUnit actor, int startDuration): this(actor, new DurationEffectLifetime(startDuration))
-        {
-        }
-
-        protected PeriodicEffectBase(ICombatUnit actor) : this(actor, 1)
+        protected PeriodicEffectBase(ICombatUnit actor) : this(actor, new DurationEffectLifetime(new EffectDuration(1)))
         {
         }
 

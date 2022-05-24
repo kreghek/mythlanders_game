@@ -38,20 +38,7 @@ namespace Rpg.Client.Assets.Skills
                 })
             },
 
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-                    var res = new PeriodicDamageEffect(u, 3)
-                    {
-                        PowerMultiplier = 0.2f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.AllTankingEnemies)
         };
 
         public override SkillSid Sid => SID;

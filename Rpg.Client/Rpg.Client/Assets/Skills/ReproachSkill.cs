@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -22,21 +20,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-
-                    var res = new PeriodicDamageEffect(u, 1)
-                    {
-                        PowerMultiplier = 0.5f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreatePeriodicDamage(SkillSid.None, 1, SkillDirection.AllEnemies)
         };
 
         public override SkillSid Sid => SkillSid.WideSwordSlash;
