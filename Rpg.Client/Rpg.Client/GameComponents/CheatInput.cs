@@ -190,12 +190,7 @@ namespace Rpg.Client.GameComponents
 
         private void HandleGainXp(string[] args)
         {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var xpAmount = int.Parse(args[0]);
-
-            globe.Player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount += xpAmount;
+            HandleGainRes(new[] { args[0], nameof(EquipmentItemType.ExperiencePoints) });
         }
 
         private void HandleUpdateGlobe()
