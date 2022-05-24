@@ -9,7 +9,8 @@ namespace Rpg.Client.Assets.Perks
     {
         public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
-            return new[] {
+            return new[]
+            {
                 SkillRuleFactory.CreatePowerUpAura(SkillDirection.AllFriendly)
             };
         }

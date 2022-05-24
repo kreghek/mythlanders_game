@@ -26,10 +26,13 @@ namespace Rpg.Client.Assets.Equipments.Archer
 
         public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
-            return new[] {
-                new EffectRule{
+            return new[]
+            {
+                new EffectRule
+                {
                     Direction = SkillDirection.OtherFriendly,
-                    EffectCreator = new EffectCreator(u =>{
+                    EffectCreator = new EffectCreator(u =>
+                    {
                         var lifetime = new UnitBoundEffectLifetime(u.Unit);
                         return new ShieldPointModifyEffect(u, lifetime, 0.2f * context.EquipmentLevel);
                     })

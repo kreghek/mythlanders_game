@@ -17,7 +17,8 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 
         public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {
-            return new[] {
+            return new[]
+            {
                 SkillRuleFactory.CreatePowerUp(context.EquipmentLevel, SkillDirection.AllFriendly)
             };
         }

@@ -188,6 +188,17 @@ namespace Rpg.Client.GameComponents
             targetUnit.HitPoints.CurrentChange(hpAmount > 0 ? hpAmount : 0);
         }
 
+        private void HandleGainRes(string[] args)
+        {
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+
+            var xpAmount = int.Parse(args[0]);
+            var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
+
+            globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
+        }
+
         private void HandleGainXp(string[] args)
         {
             HandleGainRes(new[] { args[0], nameof(EquipmentItemType.ExperiencePoints) });
@@ -376,17 +387,6 @@ namespace Rpg.Client.GameComponents
             }
 
             return false;
-        }
-
-        private void HandleGainRes(string[] args)
-        {
-            var globeProvider = Game.Services.GetService<GlobeProvider>();
-            var globe = globeProvider.Globe;
-
-            var xpAmount = int.Parse(args[0]);
-            var resType = Enum.Parse<EquipmentItemType>(args[1], ignoreCase: true);
-
-            globe.Player.Inventory.Single(x => x.Type == resType).Amount += xpAmount;
         }
     }
 }

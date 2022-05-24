@@ -6,7 +6,8 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal class ProtectionEffect : ModifiersEffect
     {
-        public ProtectionEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(actor, effectLifetime)
+        public ProtectionEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(actor,
+            effectLifetime)
         {
             Multiplier = multiplier;
 

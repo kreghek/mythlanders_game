@@ -25,8 +25,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>{
-                    return new ExchangeSlotEffect()
+                EffectCreator = new EffectCreator(u =>
+                {
+                    return new ExchangeSlotEffect
                     {
                         Actor = (CombatUnit)u
                     };

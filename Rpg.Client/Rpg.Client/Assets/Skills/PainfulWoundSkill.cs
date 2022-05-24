@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Skills
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             SkillRuleFactory.CreateDamage(SID),
-            SkillRuleFactory.CreatePeriodicDamage(SID, 3,SkillDirection.Target)
+            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.Target)
         };
 
         public override SkillSid Sid => SID;

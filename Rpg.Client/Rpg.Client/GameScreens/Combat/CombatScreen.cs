@@ -46,8 +46,8 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
         private readonly GameSettings _settings;
-        private readonly UnitPositionProvider _unitPositionProvider;
         private readonly IUiContentStorage _uiContentStorage;
+        private readonly UnitPositionProvider _unitPositionProvider;
 
         private float _bgCenterOffsetPercentageX;
         private float _bgCenterOffsetPercentageY;

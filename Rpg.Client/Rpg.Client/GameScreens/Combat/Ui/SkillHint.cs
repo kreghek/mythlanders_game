@@ -11,13 +11,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 {
     internal class SkillHint : HintBase
     {
+        private readonly ICombat _combat;
         private readonly ISkillEffectDrawer[] _effectDrawers;
         private readonly SpriteFont _font;
         private readonly CombatSkill _skill;
         private readonly ICombatUnit _unit;
-        private readonly ICombat _combat;
 
-        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit, ICombat combat) : base(texture)
+        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit, ICombat combat) :
+            base(texture)
         {
             _font = font;
             _skill = skill;

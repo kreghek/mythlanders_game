@@ -15,20 +15,20 @@ namespace Rpg.Client.Core
             _modifiers = new List<IUnitStatModifier>();
         }
 
+        public int ActualBase => Base + _modifiers.Sum(x => x.GetBonus(Base));
+
+        public int Current { get; private set; }
+
         public IReadOnlyCollection<IUnitStatModifier> Modifiers => _modifiers.ToArray();
+
+        public float Share => (float)Current / ActualBase;
+
+        private int Base { get; set; }
 
         public void AddModifier(IUnitStatModifier modifier)
         {
             _modifiers.Add(modifier);
         }
-
-        public int ActualBase => Base + _modifiers.Sum(x => x.GetBonus(Base));
-
-        public int Current { get; private set; }
-
-        public float Share => (float)Current / ActualBase;
-
-        private int Base { get; set; }
 
         public void ChangeBase(int newBase)
         {
@@ -46,11 +46,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        internal void RemoveModifier(StatModifier modifier)
-        {
-            _modifiers.Remove(modifier);
-        }
-
         public void CurrentChange(int newCurrent)
         {
             Current = Math.Min(newCurrent, ActualBase);
@@ -64,6 +59,11 @@ namespace Rpg.Client.Core
             {
                 Current = Base;
             }
+        }
+
+        internal void RemoveModifier(StatModifier modifier)
+        {
+            _modifiers.Remove(modifier);
         }
 
         internal void Restore()

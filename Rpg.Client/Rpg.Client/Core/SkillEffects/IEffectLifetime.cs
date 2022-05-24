@@ -4,13 +4,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal interface IEffectLifetime
     {
-        void Update();
-
-        event EventHandler? Disposed;
+        bool CanBeMerged();
 
         string GetTextDescription();
 
         void MergeWith(IEffectLifetime effect);
-        bool CanBeMerged();
+        void Update();
+
+        event EventHandler? Disposed;
     }
 }

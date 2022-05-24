@@ -86,27 +86,8 @@ namespace Rpg.Client.Core.SkillEffects
             }
         }
 
-        private ICombatUnit[] GetAllTankingEnemies(ICombatUnit actor)
-        {
-            // 1. Attack units on tanking line first.
-            // 2. Attack back line unit if there are no tanks  
-
-            var tankingUnits = _combat.AliveUnits.Where(x =>
-                    x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled &&
-                    ((CombatUnit)actor).IsInTankLine)
-                .ToArray();
-
-            if (!tankingUnits.Any())
-            {
-                tankingUnits = _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled)
-                    .ToArray();
-            }
-
-            return tankingUnits;
-        }
-
-        public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target, IEffectSource effectSource)
+        public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target,
+            IEffectSource effectSource)
         {
             if (influences is null)
             {
@@ -163,7 +144,28 @@ namespace Rpg.Client.Core.SkillEffects
             e.Effect.AddToList(_unitEffects[e.Unit]);
         }
 
-        private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target, IEffectSource effectSource)
+        private ICombatUnit[] GetAllTankingEnemies(ICombatUnit actor)
+        {
+            // 1. Attack units on tanking line first.
+            // 2. Attack back line unit if there are no tanks  
+
+            var tankingUnits = _combat.AliveUnits.Where(x =>
+                    x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled &&
+                    ((CombatUnit)actor).IsInTankLine)
+                .ToArray();
+
+            if (!tankingUnits.Any())
+            {
+                tankingUnits = _combat.AliveUnits.Where(x =>
+                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled)
+                    .ToArray();
+            }
+
+            return tankingUnits;
+        }
+
+        private void ImposeByCreator(EffectCreator creator, ICombatUnit self, ICombatUnit target,
+            IEffectSource effectSource)
         {
             var effect = creator.Create(self, _combat, effectSource);
 

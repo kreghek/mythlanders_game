@@ -10,6 +10,11 @@ namespace Rpg.Client.Core
         {
         }
 
+        IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
+        {
+            return new (UnitStatType, IUnitStatModifier)[] { };
+        }
+
         bool HandleEvasion(IDice dice)
         {
             return false;
@@ -23,11 +28,6 @@ namespace Rpg.Client.Core
         int ModifyHeal(int sourceValue, IDice dice)
         {
             return sourceValue;
-        }
-
-        IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
-        {
-            return new (UnitStatType, IUnitStatModifier)[] { };
         }
     }
 }

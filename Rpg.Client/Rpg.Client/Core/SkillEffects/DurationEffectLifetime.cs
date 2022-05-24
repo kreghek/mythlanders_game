@@ -4,6 +4,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal sealed class DurationEffectLifetime : IEffectLifetime
     {
+        private EffectDuration _duration;
+
+        public DurationEffectLifetime(EffectDuration duration)
+        {
+            _duration = duration;
+        }
+
         public event EventHandler? Disposed;
 
         public string GetTextDescription()
@@ -32,13 +39,6 @@ namespace Rpg.Client.Core.SkillEffects
         public bool CanBeMerged()
         {
             return true;
-        }
-
-        private EffectDuration _duration;
-
-        public DurationEffectLifetime(EffectDuration duration)
-        {
-            _duration = duration;
         }
     }
 }

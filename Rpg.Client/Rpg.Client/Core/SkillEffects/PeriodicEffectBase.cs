@@ -12,15 +12,6 @@ namespace Rpg.Client.Core.SkillEffects
             effectLifetime.Disposed += EffectLifetime_Disposed;
         }
 
-        private void EffectLifetime_Disposed(object? sender, EventArgs e)
-        {
-            if (sender is IEffectLifetime effectLifetime)
-            {
-                effectLifetime.Disposed -= EffectLifetime_Disposed;
-                Dispel();
-            }
-        }
-
         protected PeriodicEffectBase(ICombatUnit actor) : this(actor, new DurationEffectLifetime(new EffectDuration(1)))
         {
         }
@@ -76,6 +67,15 @@ namespace Rpg.Client.Core.SkillEffects
             var canMergeLifetime = EffectLifetime.CanBeMerged();
 
             return isSameType && isSameActor && isSameSkill && canMergeLifetime;
+        }
+
+        private void EffectLifetime_Disposed(object? sender, EventArgs e)
+        {
+            if (sender is IEffectLifetime effectLifetime)
+            {
+                effectLifetime.Disposed -= EffectLifetime_Disposed;
+                Dispel();
+            }
         }
 
         private void MergeWithBase(PeriodicEffectBase targetEffect)

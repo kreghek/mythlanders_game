@@ -19,14 +19,13 @@ namespace Rpg.Client.Assets.Equipments.Spearman
         {
             if (context.IsInTankingSlot)
             {
-                return new[] {
-                    SkillRuleFactory.CreateProtection(context.EquipmentLevel, SkillDirection.AllFriendly)
+                return new[]
+                {
+                    SkillRuleFactory.CreateProtection(context.EquipmentLevel)
                 };
             }
-            else
-            {
-                return Array.Empty<EffectRule>();
-            }
+
+            return Array.Empty<EffectRule>();
         }
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Spearman;

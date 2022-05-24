@@ -240,57 +240,6 @@ namespace Rpg.Client.Core
             AssignCpuTargetUnits();
         }
 
-        private void HandleEquipmentCombatBeginningEffects(CombatUnit combatUnit)
-        {
-            foreach (var equipment in combatUnit.Unit.Equipments)
-            {
-                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
-                var effects = equipment.Scheme.CreateCombatBeginningEffects(equipmentEffectContext);
-                foreach (var effect in effects)
-                {
-                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
-
-                    foreach (var effectTarget in effectTargets)
-                    {
-                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
-                    }
-                }
-            }
-
-            foreach (var perk in combatUnit.Unit.Perks)
-            {
-                var equipmentEffectContext = new EmptyEffectContext(combatUnit);
-                var effects = perk.CreateCombatBeginningEffects(equipmentEffectContext);
-                foreach (var effect in effects)
-                {
-                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
-
-                    foreach (var effectTarget in effectTargets)
-                    {
-                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, perk);
-                    }
-                }
-            }
-        }
-
-        private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
-        {
-            foreach (var equipment in combatUnit.Unit.Equipments)
-            {
-                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
-                var effects = equipment.Scheme.CreateCombatHitPointsChangedEffects(equipmentEffectContext);
-                foreach (var effect in effects)
-                {
-                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
-
-                    foreach (var effectTarget in effectTargets)
-                    {
-                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
-                    }
-                }
-            }
-        }
-
         internal void Update()
         {
             if (!IsCurrentStepCompleted)
@@ -361,7 +310,8 @@ namespace Rpg.Client.Core
                     var targetCombatUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
                     if (targetCombatUnit is null)
                     {
-                        throw new InvalidOperationException("Target combat unit cant be null until target slot assigned");
+                        throw new InvalidOperationException(
+                            "Target combat unit cant be null until target slot assigned");
                     }
 
                     UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
@@ -372,16 +322,6 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
-        }
-
-        private CombatUnit? GetCurrentTargetUnit(TargetSlot? targetSlot)
-        {
-            if (targetSlot is null)
-            {
-                return null;
-            }
-
-            return _allUnitList.SingleOrDefault(x => x.SlotIndex == targetSlot.SlotIndex && x.Unit.IsPlayerControlled == targetSlot.IsPlayerSide);
         }
 
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
@@ -552,9 +492,71 @@ namespace Rpg.Client.Core
             }
         }
 
+        private CombatUnit? GetCurrentTargetUnit(TargetSlot? targetSlot)
+        {
+            if (targetSlot is null)
+            {
+                return null;
+            }
+
+            return _allUnitList.SingleOrDefault(x =>
+                x.SlotIndex == targetSlot.SlotIndex && x.Unit.IsPlayerControlled == targetSlot.IsPlayerSide);
+        }
+
         private IDice GetDice()
         {
             return Dice;
+        }
+
+        private void HandleEquipmentCombatBeginningEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatBeginningEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
+
+            foreach (var perk in combatUnit.Unit.Perks)
+            {
+                var equipmentEffectContext = new EmptyEffectContext(combatUnit);
+                var effects = perk.CreateCombatBeginningEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, perk);
+                    }
+                }
+            }
+        }
+
+        private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
+        {
+            foreach (var equipment in combatUnit.Unit.Equipments)
+            {
+                var equipmentEffectContext = new EquipmentEffectContext(combatUnit, equipment);
+                var effects = equipment.Scheme.CreateCombatHitPointsChangedEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
         }
 
         private void MakeUnitRoundQueue()

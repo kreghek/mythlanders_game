@@ -28,24 +28,17 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        internal void ChangeSlot(int slotIndex, bool isInTankLine)
-        {
-            SlotIndex = slotIndex;
-            IsInTankLine = isInTankLine;
-            PositionChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public int SlotIndex { get; private set; }
-
         public bool IsInTankLine { get; private set; }
 
         public bool IsWaiting { get; set; }
 
+        public int SlotIndex { get; private set; }
+
         public CombatUnitState State { get; private set; }
 
-        public TargetSlot? TargetSlot { get; set; }
-
         public CombatSkill? TargetSkill { get; set; }
+
+        public TargetSlot? TargetSlot { get; set; }
 
         public void UnsubscribeHandlers()
         {
@@ -56,6 +49,13 @@ namespace Rpg.Client.Core
             Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
             Unit.SchemeAutoTransition -= Unit_SchemeAutoTransition;
             Unit.Blocked -= Unit_Blocked;
+        }
+
+        internal void ChangeSlot(int slotIndex, bool isInTankLine)
+        {
+            SlotIndex = slotIndex;
+            IsInTankLine = isInTankLine;
+            PositionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,

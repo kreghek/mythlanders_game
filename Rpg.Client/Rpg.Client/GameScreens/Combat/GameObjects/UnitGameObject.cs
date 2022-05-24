@@ -20,8 +20,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
     internal sealed class UnitPositionProvider : IUnitPositionProvider
     {
-        private readonly Vector2[] _unitPredefinedPositions;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+        private readonly Vector2[] _unitPredefinedPositions;
 
         public UnitPositionProvider(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
@@ -65,9 +65,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly AnimationManager _animationManager;
         private readonly Camera2D _camera;
         private readonly IDice _dice;
-        private readonly IUnitPositionProvider _unitPositionProvider;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ScreenShaker _screenShaker;
+        private readonly IUnitPositionProvider _unitPositionProvider;
 
         public UnitGameObject(CombatUnit combatUnit, IUnitPositionProvider unitPositionProvider,
             GameObjectContentStorage gameObjectContentStorage,
@@ -90,13 +90,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
             combatUnit.PositionChanged += CombatUnit_PositionChanged;
-        }
-
-        private void CombatUnit_PositionChanged(object? sender, EventArgs e)
-        {
-            var position = _unitPositionProvider.GetPosition(CombatUnit.SlotIndex, CombatUnit.Unit.IsPlayerControlled);
-            Graphics.ChangePosition(position, CombatUnit.Unit);
-            Position = position;
         }
 
         public CombatUnit CombatUnit { get; }
@@ -252,6 +245,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             }
 
             _actorStateEngineList.Add(actorStateEngine);
+        }
+
+        private void CombatUnit_PositionChanged(object? sender, EventArgs e)
+        {
+            var position = _unitPositionProvider.GetPosition(CombatUnit.SlotIndex, CombatUnit.Unit.IsPlayerControlled);
+            Graphics.ChangePosition(position, CombatUnit.Unit);
+            Position = position;
         }
 
         private void HandleEngineStates(GameTime gameTime)

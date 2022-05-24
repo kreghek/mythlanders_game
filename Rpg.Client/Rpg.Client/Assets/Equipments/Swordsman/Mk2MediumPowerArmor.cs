@@ -23,8 +23,9 @@ namespace Rpg.Client.Assets.Equipments.Swordsman
 
         public IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers(int equipmentLevel)
         {
-            return new (UnitStatType, IUnitStatModifier)[] {
-                new (UnitStatType.HitPoints, new StatModifier(equipmentLevel * 0.2f))
+            return new (UnitStatType, IUnitStatModifier)[]
+            {
+                new(UnitStatType.HitPoints, new StatModifier(equipmentLevel * 0.2f))
             };
         }
     }

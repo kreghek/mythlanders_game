@@ -20,8 +20,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
         private readonly IList<EntityButtonBase<CombatSkill>> _buttons;
-        private readonly IUiContentStorage _uiContentStorage;
         private readonly ICombat _combat;
+        private readonly IUiContentStorage _uiContentStorage;
         private SkillHint? _activeSkillHint;
         private KeyboardState _currentKeyboardState;
 

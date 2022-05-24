@@ -34,7 +34,6 @@ namespace Rpg.Client.Assets.SkillEffects
 
         public void Update()
         {
-
         }
 
         public bool CanBeMerged()
@@ -77,7 +76,6 @@ namespace Rpg.Client.Assets.SkillEffects
 
         public void Update()
         {
-
         }
 
         public bool CanBeMerged()

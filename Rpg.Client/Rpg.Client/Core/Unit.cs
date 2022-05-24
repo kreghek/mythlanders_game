@@ -37,15 +37,6 @@ namespace Rpg.Client.Core
             _globalEffects = new List<GlobalUnitEffect>();
         }
 
-        private int GetBaseHitPoint(UnitScheme unitScheme)
-        {
-            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
-            var newBase = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
-            return newBase;
-        }
-
-        public IReadOnlyCollection<UnitStat> Stats { get; }
-
         public int Armor => CalcArmor();
 
         public int Damage => CalcDamage();
@@ -84,6 +75,8 @@ namespace Rpg.Client.Core
         public Stat ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
         public IList<ISkill> Skills { get; }
+
+        public IReadOnlyCollection<UnitStat> Stats { get; }
 
         public int Support => CalcSupport();
 
@@ -216,6 +209,15 @@ namespace Rpg.Client.Core
             }
         }
 
+        private void ApplyStatModifiers(IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> statModifiers)
+        {
+            foreach (var statModifier in statModifiers)
+            {
+                var stat = Stats.Single(x => x.Type == statModifier.Item1);
+                stat.Value.AddModifier(statModifier.Item2);
+            }
+        }
+
         private int CalcArmor()
         {
             var power = Power;
@@ -289,6 +291,30 @@ namespace Rpg.Client.Core
             return (int)Math.Round(damage * absorptionPerks.Count() * 0.1f, MidpointRounding.ToNegativeInfinity);
         }
 
+        private int GetBaseHitPoint(UnitScheme unitScheme)
+        {
+            var maxHitPoints = unitScheme.HitPointsBase + unitScheme.HitPointsPerLevelBase * (Level - 1);
+            var newBase = (int)Math.Round(maxHitPoints, MidpointRounding.AwayFromZero);
+            return newBase;
+        }
+
+        private void InitEquipment(IList<Equipment> equipments)
+        {
+            if (UnitScheme.Equipments is null)
+            {
+                return;
+            }
+
+            foreach (var equipmentScheme in UnitScheme.Equipments)
+            {
+                var equipment = new Equipment(equipmentScheme);
+
+                equipment.GainLevelUp += Equipment_GainLevelUp;
+
+                equipments.Add(equipment);
+            }
+        }
+
         private void ModifyStats()
         {
             ApplyLevels();
@@ -309,32 +335,6 @@ namespace Rpg.Client.Core
             }
 
             RestoreHp();
-        }
-
-        private void ApplyStatModifiers(IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> statModifiers)
-        {
-            foreach (var statModifier in statModifiers)
-            {
-                var stat = Stats.Single(x => x.Type == statModifier.Item1);
-                stat.Value.AddModifier(statModifier.Item2);
-            }
-        }
-
-        private void InitEquipment(IList<Equipment> equipments)
-        {
-            if (UnitScheme.Equipments is null)
-            {
-                return;
-            }
-
-            foreach (var equipmentScheme in UnitScheme.Equipments)
-            {
-                var equipment = new Equipment(equipmentScheme);
-
-                equipment.GainLevelUp += Equipment_GainLevelUp;
-
-                equipments.Add(equipment);
-            }
         }
 
         private void RestoreHp()

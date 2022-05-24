@@ -13,13 +13,13 @@ namespace Rpg.Client.Engine
         private const int FRAME_WIDTH = 256;
         private const int FRAME_HEIGHT = 128;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
-        protected Vector2 _position;
 
         private readonly IDictionary<PredefinedAnimationSid, IAnimationFrameSet> _predefinedAnimationFrameSets;
         private readonly Sprite _selectedMarker;
 
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
+        protected Vector2 _position;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
@@ -79,18 +79,6 @@ namespace Rpg.Client.Engine
             UpdateAnimation(gameTime);
         }
 
-        private void HandleSelectionMarker()
-        {
-            if (_currentAnimationFrameSet.IsIdle)
-            {
-                _selectedMarker.Visible = ShowActiveMarker;
-            }
-            else
-            {
-                _selectedMarker.Visible = false;
-            }
-        }
-
         protected void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
         {
             if (Root is not null)
@@ -120,6 +108,18 @@ namespace Rpg.Client.Engine
                 Position = new Vector2(FRAME_WIDTH * 0.25f, 0)
             };
             Root.AddChild(_graphics);
+        }
+
+        private void HandleSelectionMarker()
+        {
+            if (_currentAnimationFrameSet.IsIdle)
+            {
+                _selectedMarker.Visible = ShowActiveMarker;
+            }
+            else
+            {
+                _selectedMarker.Visible = false;
+            }
         }
 
         private void UpdateAnimation(GameTime gameTime)

@@ -14,10 +14,13 @@ namespace Rpg.Client.Assets.Equipments.Monk
 
         public IReadOnlyList<EffectRule> CreateCombatHitPointsChangedEffects(IEquipmentEffectContext context)
         {
-            return new[] {
-                new EffectRule{
+            return new[]
+            {
+                new EffectRule
+                {
                     Direction = SkillDirection.Self,
-                    EffectCreator = new EffectCreator(u =>{
+                    EffectCreator = new EffectCreator(u =>
+                    {
                         return new PeriodicHealEffect(u, new HitpointThresholdEffectLifetime(u.Unit, 0.5f));
                     })
                 }
