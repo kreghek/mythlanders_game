@@ -4,7 +4,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal interface IPerk: ICombatConditionEffectSource
+    internal interface IPerk : ICombatConditionEffectSource
     {
         void ApplyToStats(ref float maxHitpoints, ref float armorBonus)
         {

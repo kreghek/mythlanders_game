@@ -130,7 +130,7 @@ namespace Rpg.Client.Assets
                 })
             };
         }
-        
+
         public static EffectRule CreatePowerUpAura(SkillDirection direction, float multiplier = 0.5f)
         {
             return new EffectRule

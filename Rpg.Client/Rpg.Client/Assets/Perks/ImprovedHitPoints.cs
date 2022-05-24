@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Perks
 
         public override IReadOnlyCollection<(UnitStatType, IUnitStatModifier)> GetStatModifiers()
         {
-            return new (UnitStatType, IUnitStatModifier)[] { 
+            return new (UnitStatType, IUnitStatModifier)[] {
                 new (UnitStatType.HitPoints, new StatModifier(0.5f))
             };
         }

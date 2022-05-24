@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
     public class Stat
     {
         private readonly IList<IUnitStatModifier> _modifiers;
-        
+
         public Stat(int baseValue)
         {
             Base = baseValue;

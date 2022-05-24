@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Perks
 {
-    internal class PowerUpAura: IPerk
+    internal class PowerUpAura : IPerk
     {
         public IReadOnlyList<EffectRule> CreateCombatBeginningEffects(IEquipmentEffectContext context)
         {

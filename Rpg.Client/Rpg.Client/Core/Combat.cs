@@ -256,7 +256,7 @@ namespace Rpg.Client.Core
                     }
                 }
             }
-            
+
             foreach (var perk in combatUnit.Unit.Perks)
             {
                 var equipmentEffectContext = new EmptyEffectContext(combatUnit);

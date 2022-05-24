@@ -6,7 +6,7 @@
         {
             IsInTankingSlot = combatUnit.IsInTankLine;
         }
-        
+
         public int EquipmentLevel { get; set; }
         public bool IsInTankingSlot { get; set; }
     }

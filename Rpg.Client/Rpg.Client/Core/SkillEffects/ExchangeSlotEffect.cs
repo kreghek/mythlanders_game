@@ -6,7 +6,7 @@
 
         protected override void InfluenceAction()
         {
-            if ( Target is CombatUnit materializedTarget)
+            if (Target is CombatUnit materializedTarget)
             {
                 var targetSlotIndex = materializedTarget.SlotIndex;
                 var targetSlotTanking = materializedTarget.IsInTankLine;

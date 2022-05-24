@@ -90,7 +90,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             // 1. Attack units on tanking line first.
             // 2. Attack back line unit if there are no tanks  
-            
+
             var tankingUnits = _combat.AliveUnits.Where(x =>
                     x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled &&
                     ((CombatUnit)actor).IsInTankLine)
