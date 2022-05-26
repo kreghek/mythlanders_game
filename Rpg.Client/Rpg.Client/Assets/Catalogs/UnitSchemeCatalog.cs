@@ -5,6 +5,7 @@ using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Herbalist;
 using Rpg.Client.Assets.Skills.Hero.Swordsman;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Assets.Skills.Monster.Slavic;
@@ -18,7 +19,7 @@ namespace Rpg.Client.Assets.Catalogs
         {
             var heroes = new IHeroFactory[]
             {
-                new SergeantFactory(),
+                new CommissarFactory(),
                 new AssaulterFactory(),
                 new CryptoZoologistFactory(),
 

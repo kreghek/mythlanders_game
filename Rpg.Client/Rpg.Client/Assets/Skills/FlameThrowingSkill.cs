@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.Skills
                 })
             },
 
-            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.AllTankingEnemies)
+            SkillRuleFactory.CreatePeriodicDamage(SID, 3, SkillDirection.AllLineEnemies)
         };
 
         public override SkillSid Sid => SID;

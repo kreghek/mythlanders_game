@@ -6,7 +6,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Sergeant
+namespace Rpg.Client.Assets.Skills.Hero.Commissar
 {
     internal class TacticalManeuverSkill : VisualizedSkillBase
     {
@@ -32,7 +32,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Sergeant
                         Actor = (CombatUnit)u
                     };
                 })
-            }
+            },
+            SkillRuleFactory.CreateProtection(SID,SkillDirection.Target, 1, 0.25f)
         };
 
         public override SkillSid Sid => SID;

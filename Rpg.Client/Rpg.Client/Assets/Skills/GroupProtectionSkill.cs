@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Swordsman
+namespace Rpg.Client.Assets.Skills
 {
     internal class GroupProtectionSkill : VisualizedSkillBase
     {

@@ -260,13 +260,13 @@ namespace Rpg.Client.GameScreens
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Hq, LoadHeroPortrait(contentManager, "Hq") },
-                { UnitName.Undefined, LoadHeroPortrait(contentManager, "Undefined") },
-                { UnitName.Berimir, LoadHeroPortrait(contentManager, "Swordsman") },
-                { UnitName.Hawk, LoadHeroPortrait(contentManager, "Archer") },
-                { UnitName.Rada, LoadHeroPortrait(contentManager, "Herbalist") },
-                { UnitName.Dull, LoadHeroPortrait(contentManager, "Assaulter") },
-                { UnitName.Maosin, LoadHeroPortrait(contentManager, "Monk") }
+                { UnitName.Hq, LoadHeroPortrait("Hq") },
+                { UnitName.Undefined, LoadHeroPortrait("Undefined") },
+                { UnitName.Berimir, LoadHeroPortrait("Swordsman") },
+                { UnitName.Hawk, LoadHeroPortrait("Archer") },
+                { UnitName.Rada, LoadHeroPortrait("Herbalist") },
+                { UnitName.Dull, LoadHeroPortrait("Assaulter") },
+                { UnitName.Maosin, LoadHeroPortrait("Monk") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
@@ -288,7 +288,7 @@ namespace Rpg.Client.GameScreens
                 };
             }
 
-            static Texture2D LoadHeroPortrait(ContentManager contentManager, string name)
+            Texture2D LoadHeroPortrait(string name)
             {
                 return contentManager.Load<Texture2D>($"Sprites/GameObjects/PlayerUnits/{name}Face");
             }

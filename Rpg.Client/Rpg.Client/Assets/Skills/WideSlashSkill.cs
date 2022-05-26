@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllTankingEnemies, 0.5f)
+            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllLineEnemies, 0.5f)
         };
 
         public override SkillSid Sid => SkillSid.WideSwordSlash;

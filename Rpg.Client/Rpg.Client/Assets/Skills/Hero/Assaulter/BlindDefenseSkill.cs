@@ -106,7 +106,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             for (var i = 0; i < 5; i++)
             {
-                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomEnemy, multiplier: 0.1f);
+                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomLineEnemy, multiplier: 0.1f);
                 rule.EffectMetadata = new AssaultSkillRuleMetadata
                 {
                     IsShot = true

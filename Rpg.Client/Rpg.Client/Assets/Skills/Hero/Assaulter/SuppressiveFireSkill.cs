@@ -97,7 +97,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var list = new List<EffectRule>();
 
-            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.Target, 1);
+            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.AllLineEnemies, 1);
             buffEffect.EffectMetadata = new AssaultSkillRuleMetadata
             {
                 IsBuff = true
@@ -106,7 +106,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             for (var i = 0; i < 5; i++)
             {
-                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.Target, multiplier: 0.1f, scatter: 0.3f);
+                var rule = SkillRuleFactory.CreateDamage(SID, SkillDirection.RandomLineEnemy, multiplier: 0.1f, scatter: 0.3f);
                 rule.EffectMetadata = new AssaultSkillRuleMetadata
                     { IsShot = true };
                 list.Add(rule);

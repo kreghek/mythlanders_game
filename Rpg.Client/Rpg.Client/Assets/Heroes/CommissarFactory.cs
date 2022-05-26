@@ -1,12 +1,12 @@
 using Rpg.Client.Assets.Equipments.Sergeant;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills.Hero.Sergeant;
+using Rpg.Client.Assets.Skills.Hero.Commissar;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class SergeantFactory : HeroFactoryBase
+    internal class CommissarFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Thar;
 
@@ -31,8 +31,8 @@ namespace Rpg.Client.Assets.Heroes
             {
                 new AddSkillUnitLevel(1, new InspiringRushSkill()),
                 new AddSkillUnitLevel(1, new TacticalManeuverSkill()),
-                new AddPerkUnitLevel(2, new Evasion()),
-                new AddSkillUnitLevel(2, new BlankShotSkill())
+                new AddSkillUnitLevel(2, new BlankShotSkill()),
+                new AddPerkUnitLevel(3, new Evasion())
             };
         }
     }

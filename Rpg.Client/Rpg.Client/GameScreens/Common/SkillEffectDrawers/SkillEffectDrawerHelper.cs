@@ -24,7 +24,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
                 case SkillDirection.RandomFriendly:
                     //TODO Move to the dict
                     return "[RANDOM_FRIENDLY]";
-                case SkillDirection.AllTankingEnemies:
+                case SkillDirection.AllLineEnemies:
                     //TODO Move to the dict
                     return "[ALL_TANKING_ENEMIES]";
                 default:

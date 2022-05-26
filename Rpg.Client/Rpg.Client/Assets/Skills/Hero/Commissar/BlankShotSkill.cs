@@ -4,7 +4,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Sergeant
+namespace Rpg.Client.Assets.Skills.Hero.Commissar
 {
     internal class BlankShotSkill : VisualizedSkillBase
     {
