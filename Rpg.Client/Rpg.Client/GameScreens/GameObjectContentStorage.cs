@@ -260,13 +260,13 @@ namespace Rpg.Client.GameScreens
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Hq, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HqFace") },
-                { UnitName.Undefined, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/UndefinedFace") },
-                { UnitName.Berimir, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/SwordsmanFace") },
-                { UnitName.Hawk, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/ArcherFace") },
-                { UnitName.Rada, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/HerbalistFace") },
-                { UnitName.Dull, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/AssaulterFace") },
-                { UnitName.Maosin, contentManager.Load<Texture2D>("Sprites/GameObjects/PlayerUnits/MonkFace") }
+                { UnitName.Hq, LoadHeroPortrait(contentManager, "Hq") },
+                { UnitName.Undefined, LoadHeroPortrait(contentManager, "Undefined") },
+                { UnitName.Berimir, LoadHeroPortrait(contentManager, "Swordsman") },
+                { UnitName.Hawk, LoadHeroPortrait(contentManager, "Archer") },
+                { UnitName.Rada, LoadHeroPortrait(contentManager, "Herbalist") },
+                { UnitName.Dull, LoadHeroPortrait(contentManager, "Assaulter") },
+                { UnitName.Maosin, LoadHeroPortrait(contentManager, "Monk") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
@@ -286,6 +286,11 @@ namespace Rpg.Client.GameScreens
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Main),
                     LoadBackgroundLayer(biomeType, locationSid, BackgroundLayerType.Closest)
                 };
+            }
+
+            static Texture2D LoadHeroPortrait(ContentManager contentManager, string name)
+            {
+                return contentManager.Load<Texture2D>($"Sprites/GameObjects/PlayerUnits/{name}Face");
             }
         }
 
