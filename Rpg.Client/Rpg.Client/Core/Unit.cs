@@ -252,7 +252,10 @@ namespace Rpg.Client.Core
             foreach (var perk in Perks)
             {
                 var statModifiers = perk.GetStatModifiers();
-                ApplyStatModifiers(statModifiers);
+                if (statModifiers is not null)
+                {
+                    ApplyStatModifiers(statModifiers);
+                }
 
                 perk.ApplyToStats(ref tempMaxHitPoints, ref _armorBonus);
             }
@@ -260,7 +263,10 @@ namespace Rpg.Client.Core
             foreach (var equipment in Equipments)
             {
                 var statModifiers = equipment.Scheme.GetStatModifiers(equipment.Level);
-                ApplyStatModifiers(statModifiers);
+                if (statModifiers is not null)
+                {
+                    ApplyStatModifiers(statModifiers);
+                }
             }
 
             RestoreHp();

@@ -157,7 +157,7 @@ namespace Rpg.Client.Tests
             combat.Update();
 
             // ASSERT
-            target.Unit.IsDead.Should().BeTrue();
+            target.IsDead.Should().BeTrue();
             finishEventWasRaised.Should().BeTrue();
         }
 
@@ -218,12 +218,12 @@ namespace Rpg.Client.Tests
             var attacker = combat.CurrentUnit;
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints.Current;
+            var targetSourceHitPoints = target.Stats.SingleOrDefault(x=>x.Type == UnitStatType.HitPoints).Value.Current;
 
             combat.UseSkill(skill, target);
 
             // ASSERT
-            var targetCurrentHitPoints = target.Unit.HitPoints.Current;
+            var targetCurrentHitPoints = target.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
             targetCurrentHitPoints.Should().BeLessThan(targetSourceHitPoints);
         }
 
@@ -308,11 +308,11 @@ namespace Rpg.Client.Tests
             var attacker = combat.CurrentUnit;
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints = target.Unit.HitPoints.Current;
+            var targetSourceHitPoints = target.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
 
             combat.UseSkill(skill, target);
 
-            var targetCurrentHitPoints = target.Unit.HitPoints.Current;
+            var targetCurrentHitPoints = target.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
             // Update combat will move turn to next unit in the queue.
             // It will invoke Ai-turn.
             // Ai will cast defence on yourself. 
@@ -325,13 +325,13 @@ namespace Rpg.Client.Tests
             var attacker3 = combat.CurrentUnit;
             var skill3 = attacker3.CombatCards.First();
             var target3 = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints3 = target3.Unit.HitPoints.Current;
+            var targetSourceHitPoints3 = target3.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
 
             combat.UseSkill(skill3, target3);
             combat.Update();
 
             // ASSERT
-            var targetCurrentHitPoints3 = target.Unit.HitPoints.Current;
+            var targetCurrentHitPoints3 = target.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
             var targetHitPointsDiff = targetSourceHitPoints - targetCurrentHitPoints;
             var targetHitPointsDiff3 = targetSourceHitPoints3 - targetCurrentHitPoints3;
             targetHitPointsDiff3.Should().BeLessThan(targetHitPointsDiff);
