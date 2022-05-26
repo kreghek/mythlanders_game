@@ -57,7 +57,7 @@ namespace Rpg.Client.Core.SkillEffects
             }
 
             Debug.Assert(Target is not null);
-            var hpToSteal = Target.Unit.TakeDamage(Actor, accumulatedDamage);
+            var hpToSteal = Target.TakeDamage(Actor, accumulatedDamage);
 
             Debug.Assert(hpToSteal.ValueFinal is not null);
 
@@ -68,7 +68,7 @@ namespace Rpg.Client.Core.SkillEffects
                 accumulatedhpToSteal = modifiedHeal;
             }
 
-            Actor.Unit.RestoreHitPoints(accumulatedhpToSteal);
+            Actor.RestoreHitPoints(accumulatedhpToSteal);
         }
     }
 }

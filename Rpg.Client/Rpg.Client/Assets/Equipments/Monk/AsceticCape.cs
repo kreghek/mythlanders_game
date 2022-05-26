@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Equipments.Monk
                     Direction = SkillDirection.Self,
                     EffectCreator = new EffectCreator(u =>
                     {
-                        return new PeriodicHealEffect(u, new HitpointThresholdEffectLifetime(u.Unit, 0.5f));
+                        return new PeriodicHealEffect(u, new HitpointThresholdEffectLifetime((CombatUnit)u, 0.5f));
                     })
                 }
             };

@@ -16,6 +16,7 @@ namespace Rpg.Client.Core
         DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource);
 
         event EventHandler<UnitStatChangedEventArgs>? HasTakenHitPointsDamage;
+        event EventHandler<UnitDamagedEventArgs>? Dead;
 
         IReadOnlyCollection<IUnitStat> Stats { get; }
         bool IsDead { get; }

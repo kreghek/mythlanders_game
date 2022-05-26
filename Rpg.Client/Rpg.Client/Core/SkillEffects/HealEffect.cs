@@ -62,7 +62,7 @@ namespace Rpg.Client.Core.SkillEffects
                 accumulatedValue = modifiedDamage;
             }
 
-            Target.Unit.RestoreHitPoints(rolledValue);
+            Target.RestoreHitPoints(rolledValue);
         }
     }
 }

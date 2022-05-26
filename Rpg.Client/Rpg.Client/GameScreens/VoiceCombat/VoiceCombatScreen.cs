@@ -435,7 +435,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
         {
             Debug.Assert(e.CombatUnit is not null);
 
-            if (e.CombatUnit.Unit.IsDead)
+            if (e.CombatUnit.IsDead)
             {
                 return;
             }
@@ -915,7 +915,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                 return;
             }
 
-            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead);
+            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.IsDead);
             foreach (var target in availableTargetGameObjects)
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Self)
@@ -946,7 +946,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         else
                         {
                             var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
-                                    !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
+                                    !x.CombatUnit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
                                     x.CombatUnit.IsInTankLine)
                                 .Any();
 

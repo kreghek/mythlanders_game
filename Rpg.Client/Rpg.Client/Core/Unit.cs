@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
@@ -115,6 +114,17 @@ namespace Rpg.Client.Core
 
             HitPoints.Value.Restore(hpBonus);
         }
+
+        public void ChangeScheme(UnitScheme targetUnitScheme)
+        {
+            var sourceScheme = UnitScheme;
+            UnitScheme = targetUnitScheme;
+            ModifyStats();
+
+            SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
+        }
+
+        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
 
         private void ApplyLevels()
         {
@@ -258,7 +268,10 @@ namespace Rpg.Client.Core
 
         private void RestoreHp()
         {
-            HitPoints.Restore();
+            foreach (var stat in Stats)
+            {
+                stat.Value.Restore();
+            }
         }
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
@@ -272,7 +285,5 @@ namespace Rpg.Client.Core
         public event EventHandler<int>? HasBeenShieldPointsRestored;
 
         public event EventHandler<UnitDamagedEventArgs>? Dead;
-
-        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
     }
 }

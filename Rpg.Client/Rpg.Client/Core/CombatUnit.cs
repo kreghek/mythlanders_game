@@ -13,6 +13,7 @@ namespace Rpg.Client.Core
         public CombatUnit(Unit unit, GroupSlot slot)
         {
             Unit = unit ?? throw new ArgumentNullException(nameof(unit));
+            CurrentUnitScheme = unit.UnitScheme;
             SlotIndex = slot.Index;
             IsInTankLine = slot.IsTankLine;
             EnergyPool = unit.EnergyPoolSize;
@@ -28,6 +29,7 @@ namespace Rpg.Client.Core
             unit.HasBeenShieldPointsRestored += Unit_HasBeenShieldRestored;
             unit.HasAvoidedDamage += Unit_HasAvoidedDamage;
             unit.Blocked += Unit_Blocked;
+
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
@@ -130,7 +132,7 @@ namespace Rpg.Client.Core
             }
             else
             {
-                var autoTransition = UnitScheme.SchemeAutoTransition;
+                var autoTransition = CurrentUnitScheme.SchemeAutoTransition;
                 if (autoTransition is not null)
                 {
                     var transformShare = autoTransition.HpShare;
@@ -138,10 +140,7 @@ namespace Rpg.Client.Core
 
                     if (currentHpShare <= transformShare)
                     {
-                        var sourceScheme = UnitScheme;
-                        UnitScheme = autoTransition.NextScheme;
-                        ModifyStats();
-                        SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
+                        Unit.ChangeScheme(autoTransition.NextScheme);
                     }
                 }
             }
@@ -152,6 +151,8 @@ namespace Rpg.Client.Core
                 ValueFinal = damageToHitPoints
             };
         }
+
+        public UnitScheme CurrentUnitScheme { get; private set; }
 
         public bool IsDead => HitPoints.Current <= 0;
         public IStatValue ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;

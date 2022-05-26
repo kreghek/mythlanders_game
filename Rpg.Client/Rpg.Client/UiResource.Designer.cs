@@ -394,7 +394,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HitPoints: {0}.
+        ///   Looks up a localized string similar to Hit points: {0}.
         /// </summary>
         internal static string HitPointsLabelTemplate {
             get {
@@ -579,6 +579,15 @@ namespace Rpg.Client {
         internal static string SettingsButtonTitle {
             get {
                 return ResourceManager.GetString("SettingsButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield points: {0}.
+        /// </summary>
+        internal static string ShieldPointsLabelTemplate {
+            get {
+                return ResourceManager.GetString("ShieldPointsLabelTemplate", resourceCulture);
             }
         }
         

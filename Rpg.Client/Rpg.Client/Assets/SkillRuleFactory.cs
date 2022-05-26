@@ -121,7 +121,7 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
+                    var effectLifetime = new UnitBoundEffectLifetime(u);
                     var effectMultiplier = (equipmentLevel + 1) * equipmentMultiplier;
                     var effect = new IncreaseDamagePercentEffect(u, effectLifetime, effectMultiplier)
                     {
@@ -163,7 +163,7 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
+                    var effectLifetime = new UnitBoundEffectLifetime(u);
                     var effect = new IncreaseDamagePercentEffect(u, effectLifetime, multiplier)
                     {
                         Visualization = EffectVisualizations.PowerUp
@@ -181,7 +181,7 @@ namespace Rpg.Client.Assets
                 Direction = direction,
                 EffectCreator = new EffectCreator(u =>
                 {
-                    var effectLifetime = new UnitBoundEffectLifetime(u.Unit);
+                    var effectLifetime = new UnitBoundEffectLifetime(u);
                     var effectMultiplier = (equipmentLevel + 1) * equipmentMultiplier;
                     var effect = new ProtectionEffect(u, effectLifetime, effectMultiplier)
                     {

@@ -35,7 +35,7 @@ namespace Rpg.Client.Core.SkillEffects
         {
             var damageRange = CalculateDamage();
             var rolledDamage = CombatContext.Combat.Dice.Roll(damageRange.Min, damageRange.Max);
-            Target.Unit.TakeDamage(Actor, rolledDamage);
+            Target.TakeDamage(Actor, rolledDamage);
 
             base.InfluenceAction();
         }

@@ -334,7 +334,7 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            if (e.Unit.IsDead)
+            if (e.IsDead)
             {
                 return;
             }
@@ -343,7 +343,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _combatSkillsPanel.IsEnabled = true;
             _combatSkillsPanel.CombatUnit = selectedUnit;
-            _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards.First();
+            _combatSkillsPanel.SelectedSkill = selectedUnit.CombatCards[0];
             var unitGameObject = GetUnitGameObject(e);
             unitGameObject.IsActive = true;
         }
@@ -540,7 +540,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             Debug.Assert(e.CombatUnit is not null);
 
-            if (e.CombatUnit.Unit.IsDead)
+            if (e.CombatUnit.IsDead)
             {
                 return;
             }
@@ -564,7 +564,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             Debug.Assert(e.CombatUnit is not null);
 
-            if (e.CombatUnit.Unit.IsDead)
+            if (e.CombatUnit.IsDead)
             {
                 return;
             }
@@ -850,7 +850,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DropSelection(ICombatUnit? combatUnit)
         {
-            if (combatUnit is null || combatUnit.Unit.IsDead)
+            if (combatUnit is null || combatUnit.IsDead)
             {
                 // There is no game object of this unit in the scene.
                 return;
@@ -875,7 +875,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private int GetUnbreakableLevel()
         {
-            // TODO Like in How wants to be millionaire?
+            // TODO Like in How wants to be a millionaire?
             // The reaching of some of levels gains unbreakable level.
             return 0;
         }
@@ -1026,7 +1026,7 @@ namespace Rpg.Client.GameScreens.Combat
                 return;
             }
 
-            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.Unit.IsDead);
+            var availableTargetGameObjects = _gameObjects.Where(x => !x.CombatUnit.IsDead);
             foreach (var target in availableTargetGameObjects)
             {
                 if (skillCard.Skill.TargetType == SkillTargetType.Self)
@@ -1057,7 +1057,7 @@ namespace Rpg.Client.GameScreens.Combat
                         else
                         {
                             var isAnyUnitsInTaskPosition = _gameObjects.Where(x =>
-                                    !x.CombatUnit.Unit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
+                                    !x.CombatUnit.IsDead && !x.CombatUnit.Unit.IsPlayerControlled &&
                                     x.CombatUnit.IsInTankLine)
                                 .Any();
 

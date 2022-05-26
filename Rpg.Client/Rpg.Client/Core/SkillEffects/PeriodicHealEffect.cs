@@ -11,7 +11,6 @@ namespace Rpg.Client.Core.SkillEffects
             SourceSupport = actor.Unit.Support;
         }
 
-
         public float PowerMultiplier { get; init; } = 1f;
 
         public float Scatter { get; init; } = 0.1f;
@@ -56,7 +55,7 @@ namespace Rpg.Client.Core.SkillEffects
 
             var heal = CalculateHeal();
             var rolledHeal = CombatContext.Combat.Dice.Roll(heal.Min, heal.Max);
-            Target.Unit.RestoreHitPoints(rolledHeal);
+            Target.RestoreHitPoints(rolledHeal);
 
             base.InfluenceAction();
         }

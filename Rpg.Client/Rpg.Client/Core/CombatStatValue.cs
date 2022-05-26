@@ -12,11 +12,11 @@ namespace Rpg.Client.Core
 
         public CombatStatValue(IStatValue baseValue)
         {
+            _modifiers = new List<IUnitStatModifier>();
+
             _baseValue = baseValue;
 
             Current = ActualMax;
-
-            _modifiers = new List<IUnitStatModifier>();
         }
 
         public int ActualMax => _baseValue.ActualMax + _modifiers.Sum(x => x.GetBonus(_baseValue.ActualMax));
@@ -57,9 +57,9 @@ namespace Rpg.Client.Core
         {
             Current += value;
 
-            if (Current > Base)
+            if (Current > ActualMax)
             {
-                Current = Base;
+                Current = ActualMax;
             }
         }
     }

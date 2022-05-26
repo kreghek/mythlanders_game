@@ -239,7 +239,7 @@
     <value>Skills</value>
   </data>
   <data name="HitPointsLabelTemplate" xml:space="preserve">
-    <value>HitPoints: {0}</value>
+    <value>Hit points: {0}</value>
   </data>
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
     <value>Increase damage on +{0} of {2} on {1} turns</value>
@@ -303,6 +303,9 @@
   </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="ShieldPointsLabelTemplate" xml:space="preserve">
+    <value>Shield points: {0}</value>
   </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Short</value>

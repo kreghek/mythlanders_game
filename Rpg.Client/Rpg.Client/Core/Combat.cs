@@ -110,7 +110,7 @@ namespace Rpg.Client.Core
             var playerCombatUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled).ToArray();
             foreach (var combatUnit in playerCombatUnits)
             {
-                combatUnit.Unit.TakeDamage(playerCombatUnits.First(), 10000);
+                combatUnit.TakeDamage(playerCombatUnits.First(), 10000);
                 Update();
             }
 
@@ -135,10 +135,10 @@ namespace Rpg.Client.Core
                 var localRuleIndex = ruleIndex;
                 var effectRule = skill.Skill.Rules[localRuleIndex];
 
-                Action<ICombatUnit> ruleAction = materializedTarget =>
+                void ruleAction(ICombatUnit materializedTarget)
                 {
                     EffectProcessor.Impose(new[] { effectRule }, CurrentUnit, materializedTarget, skill.Skill);
-                };
+                }
 
                 var item = new SkillEffectExecutionItem
                 {
@@ -150,12 +150,12 @@ namespace Rpg.Client.Core
                 interactionList.Add(item);
             }
 
-            Action completeSkillAction = () =>
+            void completeSkillAction()
             {
                 CurrentUnit.EnergyPool -= skill.EnergyCost;
 
                 CompleteStep();
-            };
+            }
 
             var skillExecution = new SkillExecution
             {
@@ -217,7 +217,7 @@ namespace Rpg.Client.Core
 
             foreach (var combatUnit in _allUnitList)
             {
-                combatUnit.Unit.Dead += Unit_Dead;
+                combatUnit.Dead += CombatUnit_Dead;
                 combatUnit.HasTakenHitPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.HasTakenShieldPointsDamage += CombatUnit_HasTakenDamage;
                 combatUnit.IsWaiting = true;
@@ -431,8 +431,7 @@ namespace Rpg.Client.Core
 
         private void CombatUnit_HasTakenDamage(object? sender, UnitStatChangedEventArgs e)
         {
-            var damagedCombatUnit = sender as CombatUnit;
-            if (damagedCombatUnit is null)
+            if (sender is not CombatUnit damagedCombatUnit)
             {
                 throw new InvalidOperationException("Sender must be damaged combat unit");
             }
@@ -603,9 +602,9 @@ namespace Rpg.Client.Core
             _round++;
         }
 
-        private void Unit_Dead(object? sender, UnitDamagedEventArgs e)
+        private void CombatUnit_Dead(object? sender, UnitDamagedEventArgs e)
         {
-            if (sender is not Unit unit)
+            if (sender is not CombatUnit combatUnit)
             {
                 return;
             }
@@ -620,15 +619,13 @@ namespace Rpg.Client.Core
                 }
             }
 
-            var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x.Unit == unit);
+            var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x == combatUnit);
             if (combatUnitInQueue is not null)
             {
                 _unitQueue.Remove(combatUnitInQueue);
             }
 
-            unit.Dead -= Unit_Dead;
-
-            var combatUnit = _allUnitList.FirstOrDefault(x => x.Unit == unit);
+            combatUnit.Dead -= CombatUnit_Dead;
 
             if (combatUnit is not null)
             {
@@ -637,7 +634,7 @@ namespace Rpg.Client.Core
                 CombatUnitRemoved?.Invoke(this, combatUnit);
             }
 
-            if (unit == CurrentUnit?.Unit)
+            if (combatUnit == CurrentUnit)
             {
                 CompleteStep();
             }

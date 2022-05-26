@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +35,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var sb = new List<string>
             {
                 name,
-                string.Format(UiResource.HitPointsLabelTemplate, _character.HitPoints.ActualMax),
+                string.Format(UiResource.HitPointsLabelTemplate, _character.Stats.Single(x=>x.Type == UnitStatType.HitPoints).Value.ActualMax),
+                string.Format(UiResource.ShieldPointsLabelTemplate, _character.Stats.Single(x=>x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
                 string.Format(UiResource.ManaLabelTemplate, 0,
                     _character.EnergyPoolSize),
                 string.Format(UiResource.CombatLevelTemplate, _character.Level),

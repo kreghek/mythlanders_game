@@ -74,7 +74,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 var backgroundOffset = new Vector2(0, PANEL_BACKGROUND_VERTICAL_OFFSET);
 
-                DrawUnitHitPointsBar(spriteBatch, unit, panelPosition, backgroundOffset, side);
+                DrawUnitHitPointsBar(spriteBatch, combatUnit, panelPosition, backgroundOffset, side);
 
                 DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
 
@@ -263,7 +263,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                                 impactText = $"{damageRange.Min}";
                             }
 
-                            if (targetCombatUnit.Unit.HitPoints.Current <= damageRange.Min)
+                            if (targetCombatUnit.HitPoints.Current <= damageRange.Min)
                             {
                                 impactText += "  X";
                             }
@@ -320,18 +320,18 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Unit unit, Vector2 panelPosition,
+        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, CombatUnit combatUnit, Vector2 panelPosition,
             Vector2 backgroundOffset, Side side)
         {
             var hpPosition = panelPosition + backgroundOffset +
                              (side == Side.Left ? new Vector2(46, 22) : new Vector2(26, 22));
-            var hpPercentage = unit.HitPoints.GetShare();
+            var hpPercentage = combatUnit.HitPoints.GetShare();
             var hpSourceRect = new Rectangle(0, 49, (int)(hpPercentage * BAR_WIDTH), 20);
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White,
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
 
-            var text = $"{unit.HitPoints.Current}/{unit.HitPoints.ActualMax}";
+            var text = $"{combatUnit.HitPoints.Current}/{combatUnit.HitPoints.ActualMax}";
             if (side == Side.Left)
             {
                 for (var xOffset = -1; xOffset <= 1; xOffset++)
@@ -348,7 +348,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     Color.LightCyan);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualMax}",
+                    $"{combatUnit.ShieldPoints.Current}/{combatUnit.ShieldPoints.ActualMax}",
                     hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }
@@ -371,7 +371,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{unit.ShieldPoints.Current}/{unit.ShieldPoints.ActualMax}",
+                    $"{combatUnit.ShieldPoints.Current}/{combatUnit.ShieldPoints.ActualMax}",
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }

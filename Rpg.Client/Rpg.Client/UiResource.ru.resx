@@ -318,6 +318,9 @@
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="ShieldPointsLabelTemplate" xml:space="preserve">
+    <value>Щиты: {0}</value>
+  </data>
   <data name="ShortCombatSequenceText" xml:space="preserve">
     <value>Краткий</value>
   </data>

@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Equipments.Archer
                     Direction = SkillDirection.OtherFriendly,
                     EffectCreator = new EffectCreator(u =>
                     {
-                        var lifetime = new UnitBoundEffectLifetime(u.Unit);
+                        var lifetime = new UnitBoundEffectLifetime(u);
                         return new ShieldPointModifyEffect(u, lifetime, 0.2f * context.EquipmentLevel);
                     })
                 }

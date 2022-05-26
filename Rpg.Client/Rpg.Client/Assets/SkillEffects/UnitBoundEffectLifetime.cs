@@ -7,9 +7,9 @@ namespace Rpg.Client.Assets.SkillEffects
 {
     internal sealed class UnitBoundEffectLifetime : IEffectLifetime
     {
-        private readonly Unit _boundUnit;
+        private readonly ICombatUnit _boundUnit;
 
-        public UnitBoundEffectLifetime(Unit boundUnit)
+        public UnitBoundEffectLifetime(ICombatUnit boundUnit)
         {
             _boundUnit = boundUnit;
             _boundUnit.Dead += Unit_Dead;
@@ -44,21 +44,21 @@ namespace Rpg.Client.Assets.SkillEffects
 
     internal sealed class HitpointThresholdEffectLifetime : IEffectLifetime
     {
-        private readonly Unit _boundUnit;
+        private readonly CombatUnit _boundUnit;
         private readonly float _minShare;
 
-        public HitpointThresholdEffectLifetime(Unit boundUnit, float minShare)
+        public HitpointThresholdEffectLifetime(CombatUnit boundUnit, float minShare)
         {
             _boundUnit = boundUnit;
             _minShare = minShare;
-            _boundUnit.HasBeenHitPointsRestored += Unit_HasBeenHitPointsRestored;
+            _boundUnit.HasBeenShieldPointsRestored += BoundUnit_HasBeenShieldPointsRestored;
         }
 
-        private void Unit_HasBeenHitPointsRestored(object? sender, int e)
+        private void BoundUnit_HasBeenShieldPointsRestored(object? sender, UnitStatChangedEventArgs e)
         {
-            if (_boundUnit.HitPoints.Share >= _minShare)
+            if (_boundUnit.HitPoints.GetShare() >= _minShare)
             {
-                _boundUnit.HasBeenHitPointsRestored -= Unit_HasBeenHitPointsRestored;
+                _boundUnit.HasBeenShieldPointsRestored -= BoundUnit_HasBeenShieldPointsRestored;
                 Disposed?.Invoke(this, EventArgs.Empty);
             }
         }

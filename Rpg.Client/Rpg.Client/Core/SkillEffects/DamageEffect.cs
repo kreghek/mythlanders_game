@@ -49,6 +49,16 @@ namespace Rpg.Client.Core.SkillEffects
 
         protected override void InfluenceAction()
         {
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (Target is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             foreach (var perk in Target.Unit.Perks)
             {
                 if (perk.HandleEvasion(CombatContext.Combat.Dice))
@@ -68,7 +78,7 @@ namespace Rpg.Client.Core.SkillEffects
                 accumulatedDamage = modifiedDamage;
             }
 
-            Target.Unit.TakeDamage(Actor, accumulatedDamage);
+            Target.TakeDamage(Actor, accumulatedDamage);
         }
     }
 }
