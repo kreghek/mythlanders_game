@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
 {
     internal class TacticalManeuverSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.BlankShot;
+        private const SkillSid SID = SkillSid.TacticalManeuver;
 
         public TacticalManeuverSkill() : this(false)
         {

@@ -352,4 +352,25 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
+  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
+    <value>random enemy</value>
+  </data>
+  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
+    <value>random ally</value>
+  </data>
+  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
+    <value>enemies on the line</value>
+  </data>
+  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
+    <value>all other ally</value>
+  </data>
+  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
+    <value>random enemy on the line</value>
+  </data>
+  <data name="SkillDirectionOtherText" xml:space="preserve">
+    <value>all other</value>
+  </data>
+  <data name="SkillDirectionAllText" xml:space="preserve">
+    <value>all</value>
+  </data>
 </root>

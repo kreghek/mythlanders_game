@@ -68,6 +68,7 @@ namespace Rpg.Client.Core.Skills
         UnholyHit,
         BlackRifleShot,
         BlindDefense,
-        InspiringRush
+        InspiringRush,
+        TacticalManeuver
     }
 }

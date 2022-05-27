@@ -81,6 +81,11 @@ namespace Rpg.Client.Core.SkillEffects
 
                     return new[] { target };
 
+                case SkillDirection.RandomLineEnemy:
+                    {
+                        var unit = _dice.RollFromList(GetAllTankingEnemies(actor));
+                        return new[] { unit };
+                    }
                 default:
                     throw new InvalidOperationException();
             }

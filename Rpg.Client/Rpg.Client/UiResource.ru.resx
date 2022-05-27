@@ -363,4 +363,25 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
+    <value>случайному противнику</value>
+  </data>
+  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
+    <value>случайному союзнику</value>
+  </data>
+  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
+    <value>противникам на линии</value>
+  </data>
+  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
+    <value>всем остальным союзникам</value>
+  </data>
+  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
+    <value>случайному противнику на линии</value>
+  </data>
+  <data name="SkillDirectionOtherText" xml:space="preserve">
+    <value>всем остальным</value>
+  </data>
+  <data name="SkillDirectionAllText" xml:space="preserve">
+    <value>всем</value>
+  </data>
 </root>

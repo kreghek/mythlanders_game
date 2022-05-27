@@ -19,14 +19,19 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
                 case SkillDirection.AllFriendly:
                     return UiResource.SkillDirectionAllFriendlyText;
                 case SkillDirection.RandomEnemy:
-                    //TODO Move to the dict
-                    return "[RANDOM_ENEMY]";
+                    return UiResource.SkillDirectionRandomEnemyText;
                 case SkillDirection.RandomFriendly:
-                    //TODO Move to the dict
-                    return "[RANDOM_FRIENDLY]";
+                    return UiResource.SkillDirectionRandomFriendlyText;
                 case SkillDirection.AllLineEnemies:
-                    //TODO Move to the dict
-                    return "[ALL_TANKING_ENEMIES]";
+                    return UiResource.SkillDirectionAllLineEnemiesText;
+                case SkillDirection.OtherFriendly:
+                    return UiResource.SkillDirectionOtherFriendlyText;
+                case SkillDirection.RandomLineEnemy:
+                    return UiResource.SkillDirectionRandomLineEnemyText;
+                case SkillDirection.Other:
+                    return UiResource.SkillDirectionOtherText;
+                case SkillDirection.All:
+                    return UiResource.SkillDirectionAllText;
                 default:
                     throw new ArgumentException($"{direction} is not known direction value.");
             }

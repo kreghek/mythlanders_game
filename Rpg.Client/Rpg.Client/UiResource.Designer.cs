@@ -619,6 +619,69 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to enemies on the line.
+        /// </summary>
+        internal static string SkillDirectionAllLineEnemiesText {
+            get {
+                return ResourceManager.GetString("SkillDirectionAllLineEnemiesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to all.
+        /// </summary>
+        internal static string SkillDirectionAllText {
+            get {
+                return ResourceManager.GetString("SkillDirectionAllText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to all other ally.
+        /// </summary>
+        internal static string SkillDirectionOtherFriendlyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionOtherFriendlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to all other.
+        /// </summary>
+        internal static string SkillDirectionOtherText {
+            get {
+                return ResourceManager.GetString("SkillDirectionOtherText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to random enemy.
+        /// </summary>
+        internal static string SkillDirectionRandomEnemyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionRandomEnemyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to random ally.
+        /// </summary>
+        internal static string SkillDirectionRandomFriendlyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionRandomFriendlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to random enemy on the line.
+        /// </summary>
+        internal static string SkillDirectionRandomLineEnemyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionRandomLineEnemyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to self.
         /// </summary>
         internal static string SkillDirectionSelfText {
