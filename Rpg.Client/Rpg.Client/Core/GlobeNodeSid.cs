@@ -22,11 +22,12 @@
         DragonOolong = 207,
         SkyTower = 208,
 
-        SacredPlace = 301,
-        Temple = 302,
-        Oasis = 303,
-        Obelisk = 304,
-        ScreamValey = 305,
+        Disert = 301,
+        SacredPlace = 302,
+        Temple = 303,
+        Oasis = 304,
+        Obelisk = 305,
+        ScreamValey = 306,
 
         ShipGraveyard = 401,
         Vines = 402,

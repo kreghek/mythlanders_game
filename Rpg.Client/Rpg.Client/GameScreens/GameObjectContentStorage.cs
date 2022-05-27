@@ -143,6 +143,9 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
+                    BackgroundType.EgyptianDisert, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.Disert)
+                },
+                {
                     BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)
                 }
             };

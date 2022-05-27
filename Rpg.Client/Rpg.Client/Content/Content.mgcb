@@ -487,6 +487,66 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/ClosestLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/ClosestLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/CloudsLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/CloudsLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/FarLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/FarLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/MainLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/MainLayer.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/SemiLayer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color16Bit
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/SemiLayer.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
