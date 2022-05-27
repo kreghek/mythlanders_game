@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 using FluentAssertions;
@@ -7,10 +6,7 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Assets;
-using Rpg.Client.Assets.SkillEffects;
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Tests

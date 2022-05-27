@@ -4,7 +4,6 @@ using Moq;
 
 using NUnit.Framework;
 
-using Rpg.Client.Assets;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Core;
 
