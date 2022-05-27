@@ -41,16 +41,15 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            var mainShotingBlocker = context.AddAnimationBlocker();
+            var mainShootingBlocker = context.AddAnimationBlocker();
             var interactionItems = context.Interaction.SkillRuleInteractions
                 .Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
             var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
-            for (var i = 0; i < interactionItems.Length; i++)
+            foreach (var item in interactionItems)
             {
-                var item = interactionItems[i];
                 var bulletAnimationBlocker = context.AddAnimationBlocker();
 
-                var materializedTarget = interactionItems[i].Targets[0];
+                var materializedTarget = item.Targets[0];
                 var materializedTargetGameObject = context.GetGameObject(materializedTarget);
                 var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
 
@@ -65,10 +64,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
                 bulletAnimationBlocker.Released += (_, _) =>
                 {
-                    var allBuletBlockerIsReleased = !bulletDataList.Any(x => !x.Item1.IsReleased);
-                    if (allBuletBlockerIsReleased)
+                    var allBulletBlockerIsReleased = bulletDataList.All(x => x.Item1.IsReleased);
+                    if (allBulletBlockerIsReleased)
                     {
-                        mainShotingBlocker.Release();
+                        mainShootingBlocker.Release();
                     }
                 };
             }
@@ -77,9 +76,9 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             StateHelper.HandleStateWithInteractionDelivery(
                 context.Interaction.SkillRuleInteractions.First(x =>
-                    (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsBuff),
+                    (x.Metadata is AssaultSkillRuleMetadata { IsBuff: true })),
                 mainStateBlocker,
-                mainShotingBlocker,
+                mainShootingBlocker,
                 animationBlocker);
 
             var state = new AssaultRifleBurstState(

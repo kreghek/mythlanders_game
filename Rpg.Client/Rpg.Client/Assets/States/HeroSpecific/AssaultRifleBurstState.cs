@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -15,9 +14,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal class AssaultRifleBurstState : IUnitStateEngine
     {
-        private readonly AnimationBlocker _animationBlocker;
-        private readonly IUnitStateEngine[] _subStates;
-        private int _subStateIndex;
+        private readonly AnimationBlocker _mainStateBlocker;
+        private readonly ParallelState _mainContainerState;
 
         public AssaultRifleBurstState(UnitGraphics graphics,
             AnimationBlocker animationBlocker,
@@ -31,42 +29,39 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             rifleShotSound.Play();
 
-            _subStates = interactionDeliveries.Select(x => new LaunchInteractionDeliveryState(
+            var subStates = interactionDeliveries.Select((x, index) => new DelayedStartStateWrapper(new LaunchInteractionDeliveryState(
                 graphics,
                 new[] { x },
                 interactionDeliveryManager,
                 createProjectileSound: null,
                 animationSid,
-                animationDuration: 0.2)).ToArray();
-            _animationBlocker = animationBlocker;
+                animationDuration: 0.2), index * 0.1f)).ToArray();
+
+            _mainContainerState = new ParallelState(subStates);
+            
+            _mainStateBlocker = animationBlocker;
         }
 
         public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        public bool IsComplete => _mainContainerState.IsComplete;
 
         public void Cancel()
         {
-            throw new InvalidOperationException();
+            _mainContainerState.Cancel();
         }
 
         public void Update(GameTime gameTime)
         {
-            if (_subStateIndex < _subStates.Length)
+            if (IsComplete)
             {
-                var currentSubState = _subStates[_subStateIndex];
-                if (currentSubState.IsComplete)
-                {
-                    _subStateIndex++;
-                }
-                else
-                {
-                    currentSubState.Update(gameTime);
-                }
+                return;
             }
-            else
+
+            _mainContainerState.Update(gameTime);
+
+            if (_mainContainerState.IsComplete)
             {
-                IsComplete = true;
-                _animationBlocker.Release();
+                _mainStateBlocker.Release();
             }
         }
     }

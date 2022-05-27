@@ -2,11 +2,12 @@
 
 using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal class SequentialState : IUnitStateEngine
+    internal sealed class SequentialState : IUnitStateEngine
     {
         private readonly IReadOnlyList<IUnitStateEngine> _subStates;
         private int _subStateIndex;

@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal class ArrowRainUsageState : IUnitStateEngine
     {
-        private readonly IUnitStateEngine _mainSequentialState;
+        private readonly IUnitStateEngine _mainContainerState;
         private readonly AnimationBlocker _mainStateBlocker;
 
         public ArrowRainUsageState(
@@ -70,16 +70,16 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             };
             _mainStateBlocker = mainStateBlocker;
 
-            _mainSequentialState = new SequentialState(subStates);
+            _mainContainerState = new SequentialState(subStates);
         }
 
         public bool CanBeReplaced => false;
 
-        public bool IsComplete => _mainSequentialState.IsComplete;
+        public bool IsComplete => _mainContainerState.IsComplete;
 
         public void Cancel()
         {
-            _mainSequentialState.Cancel();
+            _mainContainerState.Cancel();
         }
 
         public void Update(GameTime gameTime)
@@ -89,9 +89,9 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 return;
             }
 
-            _mainSequentialState.Update(gameTime);
+            _mainContainerState.Update(gameTime);
 
-            if (_mainSequentialState.IsComplete)
+            if (_mainContainerState.IsComplete)
             {
                 _mainStateBlocker.Release();
             }
