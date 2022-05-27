@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, EffectRule rule, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, SkillDirection direction, Vector2 position)
         {
             if (effectToDisplay is not DamageEffect attackEffect)
             {
@@ -24,35 +24,9 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var damage = attackEffect.CalculateDamage();
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.DamageEffectRuleText, damage.Min, damage.Max, ruleDirectionText),
-                position,
-                Color.Wheat);
-
-            return true;
-        }
-    }
-
-    internal class ExchangeSlotEffectDrawer : ISkillEffectDrawer
-    {
-        private readonly SpriteFont _font;
-
-        public ExchangeSlotEffectDrawer(SpriteFont font)
-        {
-            _font = font;
-        }
-
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, EffectRule rule, Vector2 position)
-        {
-            if (effectToDisplay is not ExchangeSlotEffect attackEffect)
-            {
-                return false;
-            }
-
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
-            spriteBatch.DrawString(_font,
-                "EXCHANGE SLOT",
                 position,
                 Color.Wheat);
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.SkillEffects;
@@ -6,29 +6,27 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
-    internal class IncreaseDamageEffectDrawer : ISkillEffectDrawer
+    internal class ExchangeSlotEffectDrawer : ISkillEffectDrawer
     {
         private readonly SpriteFont _font;
 
-        public IncreaseDamageEffectDrawer(SpriteFont font)
+        public ExchangeSlotEffectDrawer(SpriteFont font)
         {
             _font = font;
         }
 
         public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, SkillDirection direction, Vector2 position)
         {
-            if (effectToDisplay is not IncreaseAttackEffect increaseDamageEffect)
+            if (effectToDisplay is not ExchangeSlotEffect exchangeEffect)
             {
                 return false;
             }
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-
             spriteBatch.DrawString(_font,
-                string.Format(UiResource.IncreaseDamageEffectRuleText, increaseDamageEffect.Bonus,
-                    increaseDamageEffect.EffectLifetime.GetTextDescription(),
-                    ruleDirectionText),
-                position, Color.Wheat);
+                "EXCHANGE SLOT",
+                position,
+                Color.Wheat);
 
             return true;
         }

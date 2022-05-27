@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, EffectRule rule, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, SkillDirection direction, Vector2 position)
         {
             if (effectToDisplay is not LifeDrawEffect lifeDrawEffect)
             {
@@ -23,7 +23,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             }
 
             var damage = lifeDrawEffect.CalculateDamage();
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(rule.Direction);
+            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
             spriteBatch.DrawString(_font,
                 string.Format(UiResource.LifeDrawEffectRuleText, damage.Min, damage.Max,

@@ -101,25 +101,24 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             var mouse = Mouse.GetState();
             var mouseRect =
-                new Rectangle(
-                    resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint(),
-                    new Point(1, 1));
+                resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint();
 
+            HandleEffectHint(mouseRect);
+        }
+
+        private void HandleEffectHint(Point mousePosition)
+        {
             var effectListSnapshotList = _effectInfoList.ToArray();
             var effectHintFound = false;
             foreach (var effectInfo in effectListSnapshotList)
             {
-                if (effectInfo.Item1.Contains(mouseRect))
+                if (effectInfo.Item1.Contains(mousePosition))
                 {
                     effectHintFound = true;
                     if (_lastEffectWithHint != effectInfo.Item2)
                     {
                         _lastEffectWithHint = effectInfo.Item2;
-                        _effectHint = new TextHint(_uiContentStorage.GetButtonTexture(),
-                            _uiContentStorage.GetMainFont(), effectInfo.Item2.GetType().ToString())
-                        {
-                            Rect = new Rectangle(effectInfo.Item1.Location, new Point(200, 40))
-                        };
+                        _effectHint = CreateEffectHint(effectInfo);
                     }
                 }
             }
@@ -129,6 +128,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 _lastEffectWithHint = null;
                 _effectHint = null;
             }
+        }
+
+        private HintBase CreateEffectHint((Rectangle, EffectBase) effectInfo)
+        {
+            return new EffectHint(_uiContentStorage.GetButtonTexture(),
+                _uiContentStorage.GetMainFont(), effectInfo.Item2)
+            {
+                Rect = new Rectangle(effectInfo.Item1.Location, new Point(200, 40))
+            };
         }
 
         private void DrawEffects(SpriteBatch spriteBatch, Vector2 panelPosition, ICombatUnit combatUnit, Side side)
@@ -161,11 +169,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     DrawLifetime(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect);
                 }
 
-                _effectInfoList.Add(new(effectRect, effect));
+                _effectInfoList.Add(new ValueTuple<Rectangle, EffectBase>(effectRect, effect));
             }
         }
 
-        private void DrawLifetime(SpriteBatch spriteBatch, int EFFECT_SIZE, int EFFECTS_DURATION_OFFSET,
+        private void DrawLifetime(SpriteBatch spriteBatch, int effectSize, int effectsDurationOffset,
             Vector2 effectPosition, PeriodicEffectBase periodicEffect)
         {
             for (var i = -1; i <= 1; i++)
@@ -174,23 +182,23 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 {
                     if (i != j)
                     {
-                        DrawLifetimeInner(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition,
-                            periodicEffect, new Vector2(i, j));
+                        DrawLifetimeInner(spriteBatch, effectSize, effectsDurationOffset, effectPosition,
+                            periodicEffect, new Vector2(i, j), Color.DarkGray);
                     }
                 }
             }
 
-            DrawLifetimeInner(spriteBatch, EFFECT_SIZE, EFFECTS_DURATION_OFFSET, effectPosition, periodicEffect,
-                Vector2.Zero);
+            DrawLifetimeInner(spriteBatch, effectSize, effectsDurationOffset, effectPosition, periodicEffect,
+                Vector2.Zero, Color.White);
         }
 
-        private void DrawLifetimeInner(SpriteBatch spriteBatch, int EFFECT_SIZE, int EFFECTS_DURATION_OFFSET,
-            Vector2 effectPosition, PeriodicEffectBase periodicEffect, Vector2 offset)
+        private void DrawLifetimeInner(SpriteBatch spriteBatch, int effectSize, int effectsDurationOffset,
+            Vector2 effectPosition, PeriodicEffectBase periodicEffect, Vector2 offset, Color color)
         {
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
                 periodicEffect.EffectLifetime.GetTextDescription(),
-                effectPosition + new Vector2(EFFECT_SIZE - EFFECTS_DURATION_OFFSET,
-                    EFFECT_SIZE - EFFECTS_DURATION_OFFSET) + offset, Color.White);
+                effectPosition + new Vector2(effectSize - effectsDurationOffset,
+                    effectSize - effectsDurationOffset) + offset, color);
         }
 
         private void DrawManaBar(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit)

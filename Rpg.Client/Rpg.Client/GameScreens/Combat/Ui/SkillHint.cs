@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.SkillEffects;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
@@ -70,12 +72,51 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 foreach (var effectDrawer in _effectDrawers)
                 {
-                    if (effectDrawer.Draw(spriteBatch, effectToDisplay, rule, rulePosition))
+                    if (effectDrawer.Draw(spriteBatch, effectToDisplay, rule.Direction, rulePosition))
                     {
                         break;
                     }
                 }
             }
         }
+    }
+    
+    internal class EffectHint : HintBase
+    {
+        private readonly ISkillEffectDrawer[] _effectDrawers;
+        private readonly EffectBase _effect;
+
+        public EffectHint(Texture2D texture, SpriteFont font, EffectBase effect) :
+            base(texture)
+        {
+            _effect = effect;
+            _effectDrawers = new ISkillEffectDrawer[]
+            {
+                new DamageEffectDrawer(font),
+                new PeriodicDamageEffectDrawer(font),
+                new HealEffectDrawer(font),
+                new PeriodicHealEffectDrawer(font),
+                new StunEffectDrawer(font),
+                new IncreaseDamageEffectDrawer(font),
+                new DecreaseDamageEffectDrawer(font),
+                new LifeDrawEffectDrawer(font),
+                new ExchangeSlotEffectDrawer(font)
+            };
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
+        {
+            var color = Color.White;
+
+            foreach (var effectDrawer in _effectDrawers)
+            {
+                if (effectDrawer.Draw(spriteBatch, _effect, SkillDirection.Self, clientRect.Location.ToVector2()))
+                {
+                    break;
+                }
+            }
+        }
+        
+        
     }
 }
