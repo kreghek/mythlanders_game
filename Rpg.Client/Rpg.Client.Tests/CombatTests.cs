@@ -217,7 +217,7 @@ namespace Rpg.Client.Tests
             var attacker = combat.CurrentUnit;
             var skill = attacker.CombatCards.First();
             var target = combat.AliveUnits.Single(x => x != attacker);
-            var targetSourceHitPoints = target.Stats.SingleOrDefault(x=>x.Type == UnitStatType.HitPoints).Value.Current;
+            var targetSourceHitPoints = target.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current;
 
             combat.UseSkill(skill, target);
 

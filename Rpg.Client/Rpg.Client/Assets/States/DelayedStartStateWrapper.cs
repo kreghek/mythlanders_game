@@ -37,7 +37,7 @@ namespace Rpg.Client.Assets.States
             }
             else
             {
-                _mainState.Update(gameTime);   
+                _mainState.Update(gameTime);
             }
         }
     }

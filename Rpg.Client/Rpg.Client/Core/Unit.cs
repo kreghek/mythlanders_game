@@ -56,7 +56,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        public bool IsPlayerCombatAvailable => Stats.Single(x=>x.Type == UnitStatType.HitPoints).Value.Current > 0;
+        public bool IsPlayerCombatAvailable => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current > 0;
 
         public bool IsPlayerControlled { get; init; }
 

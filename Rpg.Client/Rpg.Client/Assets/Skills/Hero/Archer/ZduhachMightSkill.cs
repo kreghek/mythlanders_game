@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
             new EffectRule
             {
                 Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u => 
+                EffectCreator = new EffectCreator(u =>
                 {
                     return new ShieldPointModifyEffect(u, new DurationEffectLifetime(new EffectDuration(3)), 1f);
                 })

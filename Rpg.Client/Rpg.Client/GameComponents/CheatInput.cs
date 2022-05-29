@@ -185,7 +185,7 @@ namespace Rpg.Client.GameComponents
             var targetUnit = globe.Player.GetAll().SingleOrDefault(x => x.UnitScheme == unitScheme);
             var hpAmount = int.Parse(args[1]);
 
-            targetUnit.Stats.Single(x=>x.Type == UnitStatType.HitPoints).Value.CurrentChange(hpAmount > 0 ? hpAmount : 0);
+            targetUnit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.CurrentChange(hpAmount > 0 ? hpAmount : 0);
         }
 
         private void HandleGainRes(string[] args)

@@ -37,7 +37,7 @@ namespace Rpg.Client.Tests
 
             // ASSERT
             var expectedValue = (int)(scheme.HitPointsBase * 2f);
-            unit.Stats.Single(x=>x.Type == UnitStatType.HitPoints).Value.ActualMax.Should().Be(expectedValue);
+            unit.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax.Should().Be(expectedValue);
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace Rpg.Client.Tests
 
             // ACT
 
-            var factSp = unit.Stats.Single(x=>x.Type == UnitStatType.ShieldPoints).Value;
+            var factSp = unit.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
 
             // ASSERT
 

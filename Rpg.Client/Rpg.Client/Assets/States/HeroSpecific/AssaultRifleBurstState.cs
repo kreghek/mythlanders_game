@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 animationDuration: 0.2), index * 0.1f)).ToArray();
 
             _mainContainerState = new ParallelState(subStates);
-            
+
             _mainStateBlocker = animationBlocker;
         }
 

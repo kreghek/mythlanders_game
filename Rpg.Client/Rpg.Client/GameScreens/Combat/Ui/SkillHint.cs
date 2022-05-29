@@ -80,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
     }
-    
+
     internal class EffectHint : HintBase
     {
         private readonly ISkillEffectDrawer[] _effectDrawers;
@@ -116,7 +116,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 }
             }
         }
-        
-        
+
+
     }
 }
