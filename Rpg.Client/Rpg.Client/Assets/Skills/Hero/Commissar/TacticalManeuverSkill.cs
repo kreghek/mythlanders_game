@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
                     };
                 })
             },
-            SkillRuleFactory.CreateProtection(SID,SkillDirection.Target, 1, 0.25f)
+            SkillRuleFactory.CreateProtection(SID, SkillDirection.Target, 1, 0.25f)
         };
 
         public override SkillSid Sid => SID;

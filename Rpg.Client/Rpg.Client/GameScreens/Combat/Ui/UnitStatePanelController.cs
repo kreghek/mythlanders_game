@@ -22,12 +22,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int PANEL_BACKGROUND_VERTICAL_OFFSET = 12;
         private const int MARGIN = 10;
         private readonly Core.Combat _activeCombat;
+
+        private readonly IList<(Rectangle, EffectBase)> _effectInfoList = new List<(Rectangle, EffectBase)>();
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
 
         private HintBase? _effectHint;
-
-        private readonly IList<(Rectangle, EffectBase)> _effectInfoList = new List<(Rectangle, EffectBase)>();
         private EffectBase? _lastEffectWithHint;
 
         public UnitStatePanelController(Core.Combat activeCombat,
@@ -104,30 +104,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 resolutionIndependentRenderer.ScaleMouseToScreenCoordinates(mouse.Position.ToVector2()).ToPoint();
 
             HandleEffectHint(mouseRect);
-        }
-
-        private void HandleEffectHint(Point mousePosition)
-        {
-            var effectListSnapshotList = _effectInfoList.ToArray();
-            var effectHintFound = false;
-            foreach (var effectInfo in effectListSnapshotList)
-            {
-                if (effectInfo.Item1.Contains(mousePosition))
-                {
-                    effectHintFound = true;
-                    if (_lastEffectWithHint != effectInfo.Item2)
-                    {
-                        _lastEffectWithHint = effectInfo.Item2;
-                        _effectHint = CreateEffectHint(effectInfo);
-                    }
-                }
-            }
-
-            if (!effectHintFound)
-            {
-                _lastEffectWithHint = null;
-                _effectHint = null;
-            }
         }
 
         private HintBase CreateEffectHint((Rectangle, EffectBase) effectInfo)
@@ -458,6 +434,30 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             var row = index / COL_COUNT;
 
             return new Rectangle(col * EFFECT_SIZE, row * EFFECT_SIZE, EFFECT_SIZE, EFFECT_SIZE);
+        }
+
+        private void HandleEffectHint(Point mousePosition)
+        {
+            var effectListSnapshotList = _effectInfoList.ToArray();
+            var effectHintFound = false;
+            foreach (var effectInfo in effectListSnapshotList)
+            {
+                if (effectInfo.Item1.Contains(mousePosition))
+                {
+                    effectHintFound = true;
+                    if (_lastEffectWithHint != effectInfo.Item2)
+                    {
+                        _lastEffectWithHint = effectInfo.Item2;
+                        _effectHint = CreateEffectHint(effectInfo);
+                    }
+                }
+            }
+
+            if (!effectHintFound)
+            {
+                _lastEffectWithHint = null;
+                _effectHint = null;
+            }
         }
 
         private static bool HasMana(Unit unit)

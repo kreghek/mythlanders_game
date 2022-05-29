@@ -33,23 +33,46 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public void RestoreHitPoints(int heal)
+        public UnitScheme CurrentUnitScheme { get; }
+        public IStatValue HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
+
+        public bool IsInTankLine { get; private set; }
+
+        public bool IsWaiting { get; set; }
+        public IStatValue ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
+
+        public int SlotIndex { get; private set; }
+
+        public CombatUnitState State { get; private set; }
+
+        public CombatSkill? TargetSkill { get; set; }
+
+        public TargetSlot? TargetSlot { get; set; }
+
+        public void UnsubscribeHandlers()
         {
-            HitPoints.Restore(heal);
-            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = heal };
-            HasBeenHitPointsRestored?.Invoke(this, args);
+            Unit.HasBeenHitPointsDamaged -= Unit_HasBeenHitPointsDamaged;
+            Unit.HasBeenShieldPointsDamaged -= Unit_HasBeenShieldPointsDamaged;
+            Unit.HasBeenHitPointsRestored -= Unit_BeenHealed;
+            Unit.HasBeenShieldPointsRestored -= Unit_HasBeenShieldRestored;
+            Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
+            Unit.SchemeAutoTransition -= Unit_SchemeAutoTransition;
+            Unit.Blocked -= Unit_Blocked;
         }
 
-        public void RestoreShields()
+        internal void ChangeSlot(int slotIndex, bool isInTankLine)
         {
-            var current = ShieldPoints.Current;
-            ShieldPoints.Restore();
-
-            var diff = ShieldPoints.Current - current;
-            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = diff };
-
-            HasBeenShieldPointsRestored?.Invoke(this, args);
+            SlotIndex = slotIndex;
+            IsInTankLine = isInTankLine;
+            PositionChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
+            ICombatSkillContext combatSkillContext)
+        {
+            return unitSkills.Select(skill => new CombatSkill(skill, combatSkillContext)).ToList();
+        }
+
         private int GetAbsorbedDamage(int damage)
         {
             var absorptionPerks = Unit.Perks.OfType<Absorption>();
@@ -95,103 +118,6 @@ namespace Rpg.Client.Core
             };
 
             HasTakenShieldPointsDamage?.Invoke(this, args);
-        }
-
-        public event EventHandler<UnitDamagedEventArgs>? Dead;
-
-        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
-        {
-            var absorbtion = GetAbsorbedDamage(damageSource);
-
-            var damageAbsorbedByPerks = Math.Max(damageSource - absorbtion, 0);
-
-            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByPerks);
-            var damageToHitPoints = damageAbsorbedByPerks - damageToShield;
-
-            var blocked = true;
-            if (damageToShield > 0)
-            {
-                TakeDamageToShields(damageSource, damageToShield);
-                blocked = false;
-            }
-
-            if (damageToHitPoints > 0)
-            {
-                TakeDamageToHitPoints(damageSource, damageToHitPoints);
-                blocked = false;
-            }
-
-            if (blocked)
-            {
-                Blocked?.Invoke(this, EventArgs.Empty);
-            }
-
-            if (HitPoints.Current <= 0)
-            {
-                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
-            }
-            else
-            {
-                var autoTransition = CurrentUnitScheme.SchemeAutoTransition;
-                if (autoTransition is not null)
-                {
-                    var transformShare = autoTransition.HpShare;
-                    var currentHpShare = HitPoints.GetShare();
-
-                    if (currentHpShare <= transformShare)
-                    {
-                        Unit.ChangeScheme(autoTransition.NextScheme);
-                    }
-                }
-            }
-
-            return new DamageResult
-            {
-                ValueSource = damageSource,
-                ValueFinal = damageToHitPoints
-            };
-        }
-
-        public UnitScheme CurrentUnitScheme { get; private set; }
-
-        public bool IsDead => HitPoints.Current <= 0;
-        public IStatValue ShieldPoints => Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value;
-        public IStatValue HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
-
-        public bool IsInTankLine { get; private set; }
-
-        public bool IsWaiting { get; set; }
-
-        public int SlotIndex { get; private set; }
-
-        public CombatUnitState State { get; private set; }
-
-        public CombatSkill? TargetSkill { get; set; }
-
-        public TargetSlot? TargetSlot { get; set; }
-
-        public void UnsubscribeHandlers()
-        {
-            Unit.HasBeenHitPointsDamaged -= Unit_HasBeenHitPointsDamaged;
-            Unit.HasBeenShieldPointsDamaged -= Unit_HasBeenShieldPointsDamaged;
-            Unit.HasBeenHitPointsRestored -= Unit_BeenHealed;
-            Unit.HasBeenShieldPointsRestored -= Unit_HasBeenShieldRestored;
-            Unit.HasAvoidedDamage -= Unit_HasAvoidedDamage;
-            Unit.SchemeAutoTransition -= Unit_SchemeAutoTransition;
-            Unit.Blocked -= Unit_Blocked;
-        }
-
-        internal void ChangeSlot(int slotIndex, bool isInTankLine)
-        {
-            SlotIndex = slotIndex;
-            IsInTankLine = isInTankLine;
-            PositionChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private static IReadOnlyList<CombatSkill> CreateCombatSkills(IEnumerable<ISkill> unitSkills,
-            ICombatSkillContext combatSkillContext)
-        {
-            return unitSkills.Select(skill => new CombatSkill(skill, combatSkillContext)).ToList();
         }
 
         private void Unit_BeenHealed(object? sender, int e)
@@ -252,6 +178,81 @@ namespace Rpg.Client.Core
             var skillContext = new CombatSkillContext(this);
             CombatCards = CreateCombatSkills(Unit.Skills, skillContext);
         }
+
+        public void RestoreHitPoints(int heal)
+        {
+            HitPoints.Restore(heal);
+            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = heal };
+            HasBeenHitPointsRestored?.Invoke(this, args);
+        }
+
+        public void RestoreShields()
+        {
+            var current = ShieldPoints.Current;
+            ShieldPoints.Restore();
+
+            var diff = ShieldPoints.Current - current;
+            var args = new UnitStatChangedEventArgs { CombatUnit = this, Amount = diff };
+
+            HasBeenShieldPointsRestored?.Invoke(this, args);
+        }
+
+        public event EventHandler<UnitDamagedEventArgs>? Dead;
+
+        public DamageResult TakeDamage(ICombatUnit damageDealer, int damageSource)
+        {
+            var absorbtion = GetAbsorbedDamage(damageSource);
+
+            var damageAbsorbedByPerks = Math.Max(damageSource - absorbtion, 0);
+
+            var damageToShield = Math.Min(ShieldPoints.Current, damageAbsorbedByPerks);
+            var damageToHitPoints = damageAbsorbedByPerks - damageToShield;
+
+            var blocked = true;
+            if (damageToShield > 0)
+            {
+                TakeDamageToShields(damageSource, damageToShield);
+                blocked = false;
+            }
+
+            if (damageToHitPoints > 0)
+            {
+                TakeDamageToHitPoints(damageSource, damageToHitPoints);
+                blocked = false;
+            }
+
+            if (blocked)
+            {
+                Blocked?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (HitPoints.Current <= 0)
+            {
+                Dead?.Invoke(this, new UnitDamagedEventArgs(damageDealer));
+            }
+            else
+            {
+                var autoTransition = CurrentUnitScheme.SchemeAutoTransition;
+                if (autoTransition is not null)
+                {
+                    var transformShare = autoTransition.HpShare;
+                    var currentHpShare = HitPoints.GetShare();
+
+                    if (currentHpShare <= transformShare)
+                    {
+                        Unit.ChangeScheme(autoTransition.NextScheme);
+                    }
+                }
+            }
+
+            return new DamageResult
+            {
+                ValueSource = damageSource,
+                ValueFinal = damageToHitPoints
+            };
+        }
+
+        public bool IsDead => HitPoints.Current <= 0;
 
         public IReadOnlyList<CombatSkill> CombatCards { get; private set; }
 

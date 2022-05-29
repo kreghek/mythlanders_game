@@ -7,6 +7,9 @@ namespace Rpg.Client.Core
     {
         IReadOnlyList<CombatSkill> CombatCards { get; }
         int EnergyPool { get; set; }
+        bool IsDead { get; }
+
+        IReadOnlyCollection<IUnitStat> Stats { get; }
         Unit Unit { get; }
 
         void ChangeState(CombatUnitState targetState);
@@ -17,8 +20,5 @@ namespace Rpg.Client.Core
 
         event EventHandler<UnitStatChangedEventArgs>? HasTakenHitPointsDamage;
         event EventHandler<UnitDamagedEventArgs>? Dead;
-
-        IReadOnlyCollection<IUnitStat> Stats { get; }
-        bool IsDead { get; }
     }
 }

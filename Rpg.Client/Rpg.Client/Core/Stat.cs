@@ -15,11 +15,11 @@ namespace Rpg.Client.Core
             _modifiers = new List<IUnitStatModifier>();
         }
 
+        private int Base { get; set; }
+
         public int ActualMax => Base + _modifiers.Sum(x => x.GetBonus(Base));
 
         public int Current { get; private set; }
-
-        private int Base { get; set; }
 
         public void AddModifier(IUnitStatModifier modifier)
         {

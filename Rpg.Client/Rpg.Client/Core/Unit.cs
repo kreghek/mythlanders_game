@@ -94,6 +94,15 @@ namespace Rpg.Client.Core
             HasAvoidedDamage?.Invoke(this, EventArgs.Empty);
         }
 
+        public void ChangeScheme(UnitScheme targetUnitScheme)
+        {
+            var sourceScheme = UnitScheme;
+            UnitScheme = targetUnitScheme;
+            ModifyStats();
+
+            SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
+        }
+
         public void LevelUp()
         {
             Level++;
@@ -114,17 +123,6 @@ namespace Rpg.Client.Core
 
             HitPoints.Value.Restore(hpBonus);
         }
-
-        public void ChangeScheme(UnitScheme targetUnitScheme)
-        {
-            var sourceScheme = UnitScheme;
-            UnitScheme = targetUnitScheme;
-            ModifyStats();
-
-            SchemeAutoTransition?.Invoke(this, new AutoTransitionEventArgs(sourceScheme));
-        }
-
-        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
 
         private void ApplyLevels()
         {
@@ -279,6 +277,8 @@ namespace Rpg.Client.Core
                 stat.Value.Restore();
             }
         }
+
+        public event EventHandler<AutoTransitionEventArgs>? SchemeAutoTransition;
 
         public event EventHandler<UnitHasBeenDamagedEventArgs>? HasBeenHitPointsDamaged;
 

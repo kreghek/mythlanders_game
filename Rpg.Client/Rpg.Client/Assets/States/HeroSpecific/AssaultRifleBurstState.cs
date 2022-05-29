@@ -14,8 +14,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal class AssaultRifleBurstState : IUnitStateEngine
     {
-        private readonly AnimationBlocker _mainStateBlocker;
         private readonly ParallelState _mainContainerState;
+        private readonly AnimationBlocker _mainStateBlocker;
 
         public AssaultRifleBurstState(UnitGraphics graphics,
             AnimationBlocker animationBlocker,
@@ -29,13 +29,14 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
             rifleShotSound.Play();
 
-            var subStates = interactionDeliveries.Select((x, index) => new DelayedStartStateWrapper(new LaunchInteractionDeliveryState(
-                graphics,
-                new[] { x },
-                interactionDeliveryManager,
-                createProjectileSound: null,
-                animationSid,
-                animationDuration: 0.2), index * 0.1f)).ToArray();
+            var subStates = interactionDeliveries.Select((x, index) => new DelayedStartStateWrapper(
+                new LaunchInteractionDeliveryState(
+                    graphics,
+                    new[] { x },
+                    interactionDeliveryManager,
+                    createProjectileSound: null,
+                    animationSid,
+                    animationDuration: 0.2), index * 0.1f)).ToArray();
 
             _mainContainerState = new ParallelState(subStates);
 

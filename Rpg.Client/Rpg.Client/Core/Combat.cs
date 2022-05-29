@@ -429,6 +429,44 @@ namespace Rpg.Client.Core
             }
         }
 
+        private void CombatUnit_Dead(object? sender, UnitDamagedEventArgs e)
+        {
+            if (sender is not CombatUnit combatUnit)
+            {
+                return;
+            }
+
+            if (e.DamageDealer.Unit.IsPlayerControlled)
+            {
+                var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.IsDead).ToArray();
+
+                foreach (var unitToRestoreMana in playerUnits)
+                {
+                    unitToRestoreMana.RestoreEnergyPoint();
+                }
+            }
+
+            var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x == combatUnit);
+            if (combatUnitInQueue is not null)
+            {
+                _unitQueue.Remove(combatUnitInQueue);
+            }
+
+            combatUnit.Dead -= CombatUnit_Dead;
+
+            if (combatUnit is not null)
+            {
+                _allUnitList.Remove(combatUnit);
+                UnitDied?.Invoke(this, combatUnit);
+                CombatUnitRemoved?.Invoke(this, combatUnit);
+            }
+
+            if (combatUnit == CurrentUnit)
+            {
+                CompleteStep();
+            }
+        }
+
         private void CombatUnit_HasTakenDamage(object? sender, UnitStatChangedEventArgs e)
         {
             if (sender is not CombatUnit damagedCombatUnit)
@@ -600,44 +638,6 @@ namespace Rpg.Client.Core
             AssignCpuTargetUnits();
 
             _round++;
-        }
-
-        private void CombatUnit_Dead(object? sender, UnitDamagedEventArgs e)
-        {
-            if (sender is not CombatUnit combatUnit)
-            {
-                return;
-            }
-
-            if (e.DamageDealer.Unit.IsPlayerControlled)
-            {
-                var playerUnits = _allUnitList.Where(x => x.Unit.IsPlayerControlled && !x.IsDead).ToArray();
-
-                foreach (var unitToRestoreMana in playerUnits)
-                {
-                    unitToRestoreMana.RestoreEnergyPoint();
-                }
-            }
-
-            var combatUnitInQueue = _unitQueue.FirstOrDefault(x => x == combatUnit);
-            if (combatUnitInQueue is not null)
-            {
-                _unitQueue.Remove(combatUnitInQueue);
-            }
-
-            combatUnit.Dead -= CombatUnit_Dead;
-
-            if (combatUnit is not null)
-            {
-                _allUnitList.Remove(combatUnit);
-                UnitDied?.Invoke(this, combatUnit);
-                CombatUnitRemoved?.Invoke(this, combatUnit);
-            }
-
-            if (combatUnit == CurrentUnit)
-            {
-                CompleteStep();
-            }
         }
 
         public IEnumerable<ICombatUnit> AliveUnits => Units.Where(x => !x.IsDead);

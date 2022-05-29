@@ -83,8 +83,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
     internal class EffectHint : HintBase
     {
-        private readonly ISkillEffectDrawer[] _effectDrawers;
         private readonly EffectBase _effect;
+        private readonly ISkillEffectDrawer[] _effectDrawers;
 
         public EffectHint(Texture2D texture, SpriteFont font, EffectBase effect) :
             base(texture)
@@ -116,7 +116,5 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 }
             }
         }
-
-
     }
 }

@@ -25,9 +25,11 @@ namespace Rpg.Client.Tests
                 {
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
                     // This is for reflection to make mock.
-                    Mock.Of<IEquipmentScheme>(x => x.GetStatModifiers(It.IsAny<int>()) == new (UnitStatType, IUnitStatModifier)[]{
-                        new (UnitStatType.HitPoints, new StatModifier(1))
-                    })
+                    Mock.Of<IEquipmentScheme>(x => x.GetStatModifiers(It.IsAny<int>()) ==
+                                                   new (UnitStatType, IUnitStatModifier)[]
+                                                   {
+                                                       new(UnitStatType.HitPoints, new StatModifier(1))
+                                                   })
                 }
             };
 
