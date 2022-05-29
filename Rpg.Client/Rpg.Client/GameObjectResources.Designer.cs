@@ -70,6 +70,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hawk.
+        /// </summary>
+        internal static string Archer {
+            get {
+                return ResourceManager.GetString("Archer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Broken arrows.
         /// </summary>
         internal static string ArcherEquipment {
@@ -142,6 +151,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doroh.
+        /// </summary>
+        internal static string Assaulter {
+            get {
+                return ResourceManager.GetString("Assaulter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Battleground.
         /// </summary>
         internal static string Battleground {
@@ -156,15 +174,6 @@ namespace Rpg.Client {
         internal static string Bear {
             get {
                 return ResourceManager.GetString("Bear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Berimir.
-        /// </summary>
-        internal static string Berimir {
-            get {
-                return ResourceManager.GetString("Berimir", resourceCulture);
             }
         }
         
@@ -268,6 +277,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Equentor.
+        /// </summary>
+        internal static string Comissar {
+            get {
+                return ResourceManager.GetString("Comissar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Critical hit.
         /// </summary>
         internal static string CriticalHit {
@@ -336,15 +354,6 @@ namespace Rpg.Client {
         internal static string DopeHerb {
             get {
                 return ResourceManager.GetString("DopeHerb", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dull.
-        /// </summary>
-        internal static string Dull {
-            get {
-                return ResourceManager.GetString("Dull", resourceCulture);
             }
         }
         
@@ -430,20 +439,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hawk.
-        /// </summary>
-        internal static string Hawk {
-            get {
-                return ResourceManager.GetString("Hawk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Healing salve.
         /// </summary>
         internal static string HealingSalve {
             get {
                 return ResourceManager.GetString("HealingSalve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rada The Old.
+        /// </summary>
+        internal static string Herbalist {
+            get {
+                return ResourceManager.GetString("Herbalist", resourceCulture);
             }
         }
         
@@ -547,15 +556,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maosin.
-        /// </summary>
-        internal static string Maosin {
-            get {
-                return ResourceManager.GetString("Maosin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Mass heal.
         /// </summary>
         internal static string MassHeal {
@@ -592,6 +592,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maosin.
+        /// </summary>
+        internal static string Monk {
+            get {
+                return ResourceManager.GetString("Monk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nano-metal long cloths.
         /// </summary>
         internal static string NanoMetalLongCloths {
@@ -624,15 +633,6 @@ namespace Rpg.Client {
         internal static string Pit {
             get {
                 return ResourceManager.GetString("Pit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rada The Old.
-        /// </summary>
-        internal static string Rada {
-            get {
-                return ResourceManager.GetString("Rada", resourceCulture);
             }
         }
         
@@ -682,6 +682,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ping.
+        /// </summary>
+        internal static string Spearman {
+            get {
+                return ResourceManager.GetString("Spearman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Staff hits.
         /// </summary>
         internal static string StaffHit {
@@ -727,20 +736,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Berimir.
+        /// </summary>
+        internal static string Swordsman {
+            get {
+                return ResourceManager.GetString("Swordsman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Symbol of the God.
         /// </summary>
         internal static string SymbolOfGod {
             get {
                 return ResourceManager.GetString("SymbolOfGod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thar Scarus.
-        /// </summary>
-        internal static string Thar {
-            get {
-                return ResourceManager.GetString("Thar", resourceCulture);
             }
         }
         

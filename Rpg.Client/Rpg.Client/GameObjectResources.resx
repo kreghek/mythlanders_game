@@ -99,6 +99,11 @@
   </resheader>
   <data name="AbstractMonsterAttack" xml:space="preserve">
       <value>Abstract monster attack</value>
+    <comment>Skill</comment>
+  </data>
+  <data name="Archer" xml:space="preserve">
+    <value>Hawk</value>
+    <comment>Hero</comment>
   </data>
   <data name="ArcherEquipment" xml:space="preserve">
     <value>Broken arrows</value>
@@ -109,12 +114,14 @@
   </data>
   <data name="ArcherMk3ScoutPowerArmorDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
   </data>
   <data name="ArcherPulsarBow" xml:space="preserve">
     <value>Pulsar bow</value><comment>Equipment</comment>
   </data>
   <data name="ArcherPulsarBowDescription" xml:space="preserve">
     <value />
+    <comment>Skill</comment>
   </data>
   <data name="ArrowRain" xml:space="preserve">
       <value>Arrow rain</value>
@@ -127,6 +134,10 @@
     <value>Aspid</value>
     <comment>Monster</comment>
   </data>
+  <data name="Assaulter" xml:space="preserve">
+    <value>Doroh</value>
+    <comment>Hero</comment>
+  </data>
   <data name="Battleground" xml:space="preserve">
     <value>Battleground</value>
     <comment>Location</comment>
@@ -134,10 +145,6 @@
   <data name="Bear" xml:space="preserve">
     <value>Brown bear</value>
     <comment>Monster</comment>
-  </data>
-  <data name="Berimir" xml:space="preserve">
-    <value>Berimir</value>
-    <comment>Hero</comment>
   </data>
   <data name="BigMonster" xml:space="preserve">
     <value>Big monster</value><comment>Perk</comment>
@@ -150,6 +157,7 @@
   </data>
   <data name="BookOfHerbsDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
   </data>
   <data name="BossMonster" xml:space="preserve">
     <value>The BOSS</value><comment>Perk</comment>
@@ -172,6 +180,11 @@
   </data>
   <data name="CombatSwordDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
+  </data>
+  <data name="Comissar" xml:space="preserve">
+    <value>Equentor</value>
+    <comment>Hero</comment>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Critical hit</value>
@@ -204,9 +217,6 @@
       <value>Dope herb</value>
     <comment>Skill</comment>
   </data>
-  <data name="Dull" xml:space="preserve">
-    <value>Dull</value>
-  </data>
   <data name="EgyptianBookOfDeath" xml:space="preserve">
     <value>Egyptian Book of a dead</value><comment>Equipment</comment>
   </data>
@@ -238,14 +248,15 @@
   </data>
   <data name="GuardianWoman" xml:space="preserve">
     <value>Guardian woman</value>
-  </data>
-  <data name="Hawk" xml:space="preserve">
-    <value>Hawk</value>
     <comment>Hero</comment>
   </data>
   <data name="HealingSalve" xml:space="preserve">
       <value>Healing salve</value>
     <comment>Skill</comment>
+  </data>
+  <data name="Herbalist" xml:space="preserve">
+    <value>Rada The Old</value>
+    <comment>Hero</comment>
   </data>
   <data name="HerbalistEquipment" xml:space="preserve">
     <value>Wild herbs</value>
@@ -256,6 +267,7 @@
   </data>
   <data name="HerbBagDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
   </data>
   <data name="Hermitage" xml:space="preserve">
     <value>Hermitage</value>
@@ -267,6 +279,7 @@
   </data>
   <data name="Hq" xml:space="preserve">
     <value>HQ</value>
+    <comment>Hero</comment>
   </data>
   <data name="ImprovedArmor" xml:space="preserve">
     <value>Improved armor</value>
@@ -287,9 +300,9 @@
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
   </data>
-  <data name="Maosin" xml:space="preserve">
-    <value>Maosin</value>
-    <comment>Hero</comment>
+  <data name="MassHeal" xml:space="preserve">
+    <value>Mass heal</value>
+    <comment>Skill</comment>
   </data>
   <data name="Mines" xml:space="preserve">
     <value>The Mines</value>
@@ -300,12 +313,18 @@
   </data>
   <data name="Mk2MediumPowerArmorDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
+  </data>
+  <data name="Monk" xml:space="preserve">
+    <value>Maosin</value>
+    <comment>Hero</comment>
   </data>
   <data name="NanoMetalLongCloths" xml:space="preserve">
     <value>Nano-metal long cloths</value><comment>Equipment</comment>
   </data>
   <data name="Oldman" xml:space="preserve">
     <value>Oldman</value>
+    <comment>Hero</comment>
   </data>
   <data name="ParaliticChor" xml:space="preserve">
       <value>Paralitic Chor</value>
@@ -314,10 +333,6 @@
   <data name="Pit" xml:space="preserve">
     <value>The Pit</value>
     <comment>Location</comment>
-  </data>
-  <data name="Rada" xml:space="preserve">
-    <value>Rada The Old</value>
-    <comment>Hero</comment>
   </data>
   <data name="RapidShot" xml:space="preserve">
     <value>Rapid shot</value>
@@ -334,6 +349,11 @@
   </data>
   <data name="SilverWindNecklaceDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
+  </data>
+  <data name="Spearman" xml:space="preserve">
+    <value>Ping</value>
+    <comment>Hero</comment>
   </data>
   <data name="StaffHit" xml:space="preserve">
       <value>Staff hits</value>
@@ -355,11 +375,12 @@
       <value>Sword slash</value>
     <comment>Skill</comment>
   </data>
+  <data name="Swordsman" xml:space="preserve">
+    <value>Berimir</value>
+    <comment>Hero</comment>
+  </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value><comment>Equipment</comment>
-  </data>
-  <data name="Thar" xml:space="preserve">
-    <value>Thar Scarus</value>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>The Thicket</value>
@@ -402,18 +423,17 @@
   </data>
   <data name="WomanShortDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
   </data>
   <data name="WoodenHandSculpture" xml:space="preserve">
     <value>Wooden hand sculpture</value><comment>Equipment</comment>
   </data>
   <data name="WoodenHandSculptureDescription" xml:space="preserve">
     <value />
+    <comment>Equipment</comment>
   </data>
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="MassHeal" xml:space="preserve">
-    <value>Mass heal</value>
   </data>
 </root>

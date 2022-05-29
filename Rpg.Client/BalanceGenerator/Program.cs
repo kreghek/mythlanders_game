@@ -67,7 +67,7 @@ namespace BalanceGenerator
             var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
 
             var playerGroup = new Group();
-            var playerUnitScheme = unitSchemeCatalog.Heroes[UnitName.Berimir];
+            var playerUnitScheme = unitSchemeCatalog.Heroes[UnitName.Swordsman];
 
             playerGroup.Slots[0].Unit = new Unit(playerUnitScheme, 1) { IsPlayerControlled = true };
 

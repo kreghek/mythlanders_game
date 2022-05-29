@@ -209,15 +209,15 @@ namespace Rpg.Client.Core
         {
             return new[]
             {
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Berimir], level: 1)
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Swordsman], level: 1)
                 {
                     IsPlayerControlled = true
                 },
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Thar], level: 1)
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Comissar], level: 1)
                 {
                     IsPlayerControlled = true
                 },
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Dull], level: 1)
+                new Unit(_unitSchemeCatalog.Heroes[UnitName.Assaulter], level: 1)
                 {
                     IsPlayerControlled = true
                 }

@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Heroes
 {
     internal class AssaulterFactory : HeroFactoryBase
     {
-        public override UnitName HeroName => UnitName.Dull;
+        public override UnitName HeroName => UnitName.Assaulter;
 
         protected override IEquipmentScheme[] GetEquipment()
         {

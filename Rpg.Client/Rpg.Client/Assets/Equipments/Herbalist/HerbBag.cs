@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
 
         public override string GetDescription()
         {
-            return GameObjectResources.Hawk;
+            throw new System.InvalidOperationException();
         }
     }
 }

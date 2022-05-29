@@ -20,7 +20,7 @@
     {
       "DamageDealerRank": 0.5,
       "Demo": false,
-      "Sid": "Thar",
+      "Sid": "Comissar",
       "SupportRank": 0.1,
       "TankRank": 0.4,
       "Type": false
@@ -28,7 +28,7 @@
     {
       "DamageDealerRank": 0.2,
       "Demo": false,
-      "Sid": "Dull",
+      "Sid": "Assaulter",
       "SupportRank": 0,
       "TankRank": 0.8,
       "Type": false
@@ -44,7 +44,7 @@
     {
       "DamageDealerRank": 0.4,
       "Demo": false,
-      "Sid": "Berimir",
+      "Sid": "Swordsman",
       "SupportRank": 0.1,
       "TankRank": 0.5,
       "Type": false
@@ -52,7 +52,7 @@
     {
       "DamageDealerRank": 0.7,
       "Demo": false,
-      "Sid": "Hawk",
+      "Sid": "Archer",
       "SupportRank": 0,
       "TankRank": 0.3,
       "Type": false
@@ -60,7 +60,7 @@
     {
       "DamageDealerRank": 0,
       "Demo": false,
-      "Sid": "Rada",
+      "Sid": "Herbalist",
       "SupportRank": 1,
       "TankRank": 0,
       "Type": false
@@ -68,7 +68,7 @@
     {
       "DamageDealerRank": 0.6,
       "Demo": false,
-      "Sid": "Maosin",
+      "Sid": "Monk",
       "SupportRank": 0.2,
       "TankRank": 0.2,
       "Type": false
@@ -76,7 +76,7 @@
     {
       "DamageDealerRank": 0.1,
       "Demo": false,
-      "Sid": "Ping",
+      "Sid": "Spearman",
       "SupportRank": 0.1,
       "TankRank": 0.8,
       "Type": false
@@ -84,7 +84,7 @@
     {
       "DamageDealerRank": 0.1,
       "Demo": false,
-      "Sid": "Cheng",
+      "Sid": "Sage",
       "SupportRank": 0.7,
       "TankRank": 0.2,
       "Type": false
@@ -92,7 +92,7 @@
     {
       "DamageDealerRank": 0.9,
       "Demo": false,
-      "Sid": "Kakhotep",
+      "Sid": "Priest",
       "SupportRank": 0,
       "TankRank": 0.1,
       "Type": false
@@ -100,7 +100,7 @@
     {
       "DamageDealerRank": 0.8,
       "Demo": false,
-      "Sid": "Amun",
+      "Sid": "Scorpion",
       "SupportRank": 0.1,
       "TankRank": 0.1,
       "Type": false
@@ -108,7 +108,7 @@
     {
       "DamageDealerRank": 0.1,
       "Demo": false,
-      "Sid": "Nubiti",
+      "Sid": "Liberator",
       "SupportRank": 0.7,
       "TankRank": 0.2,
       "Type": false
@@ -116,7 +116,7 @@
     {
       "DamageDealerRank": 0.4,
       "Demo": false,
-      "Sid": "Leonidas",
+      "Sid": "Legionnaire",
       "SupportRank": 0.1,
       "TankRank": 0.5,
       "Type": false
@@ -124,7 +124,7 @@
     {
       "DamageDealerRank": 0.8,
       "Demo": false,
-      "Sid": "Diana",
+      "Sid": "Amazon",
       "SupportRank": 0.2,
       "TankRank": 0,
       "Type": false
@@ -132,7 +132,7 @@
     {
       "DamageDealerRank": 0.5,
       "Demo": false,
-      "Sid": "Geron",
+      "Sid": "Engineer",
       "SupportRank": 0.15,
       "TankRank": 0.35,
       "Type": false

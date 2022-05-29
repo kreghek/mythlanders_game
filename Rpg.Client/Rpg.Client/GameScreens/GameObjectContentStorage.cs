@@ -94,13 +94,13 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Thar, LoadHeroTexture(contentManager, "Sergant") },
-                { UnitName.Dull, LoadHeroTexture(contentManager, "Assaulter") },
-                { UnitName.Berimir, LoadHeroTexture(contentManager, "Warrior") },
-                { UnitName.Rada, LoadHeroTexture(contentManager, "Herbalist") },
-                { UnitName.Hawk, LoadHeroTexture(contentManager, "Archer") },
-                { UnitName.Maosin, LoadHeroTexture(contentManager, "Monk") },
-                { UnitName.Ping, LoadHeroTexture(contentManager, "Spearman") }
+                { UnitName.Comissar, LoadHeroTexture(contentManager, "Sergant") },
+                { UnitName.Assaulter, LoadHeroTexture(contentManager, "Assaulter") },
+                { UnitName.Swordsman, LoadHeroTexture(contentManager, "Swordsman") },
+                { UnitName.Herbalist, LoadHeroTexture(contentManager, "Herbalist") },
+                { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
+                { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
+                { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -207,24 +207,24 @@ namespace Rpg.Client.GameScreens
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
             {
-                { UnitName.Thar, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Dull, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Comissar, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Assaulter, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
-                { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Rada, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
+                { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BerimirDeath") },
+                { UnitName.Archer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Herbalist, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
-                { UnitName.Maosin, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Ping, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Cheng, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Monk, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Spearman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Sage, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.Amun, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Kakhotep, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Nubiti, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Scorpion, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Priest, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.Leonidas, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Diana, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Geron, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Legionnaire, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Amazon, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Engineer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
@@ -256,20 +256,21 @@ namespace Rpg.Client.GameScreens
             _textSoundDict = new Dictionary<UnitName, SoundEffect>
             {
                 { UnitName.Environment, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Environment") },
-                { UnitName.Berimir, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
+                { UnitName.Swordsman, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Berimir") },
                 { UnitName.Hq, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hq") },
-                { UnitName.Hawk, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
+                { UnitName.Archer, contentManager.Load<SoundEffect>("Audio/GameObjects/Text/Hawk") }
             };
 
             _heroFaceTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Hq, LoadHeroPortrait("Hq") },
                 { UnitName.Undefined, LoadHeroPortrait("Undefined") },
-                { UnitName.Berimir, LoadHeroPortrait("Swordsman") },
-                { UnitName.Hawk, LoadHeroPortrait("Archer") },
-                { UnitName.Rada, LoadHeroPortrait("Herbalist") },
-                { UnitName.Dull, LoadHeroPortrait("Assaulter") },
-                { UnitName.Maosin, LoadHeroPortrait("Monk") }
+                { UnitName.Swordsman, LoadHeroPortrait("Swordsman") },
+                { UnitName.Archer, LoadHeroPortrait("Archer") },
+                { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
+                { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
+                { UnitName.Monk, LoadHeroPortrait("Monk") },
+                { UnitName.Spearman, LoadHeroPortrait("Spearman") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)
@@ -372,7 +373,7 @@ namespace Rpg.Client.GameScreens
         {
             if (!_textSoundDict.TryGetValue(unitName, out var soundEffect))
             {
-                return _textSoundDict[UnitName.Berimir];
+                return _textSoundDict[UnitName.Swordsman];
             }
 
             return soundEffect;

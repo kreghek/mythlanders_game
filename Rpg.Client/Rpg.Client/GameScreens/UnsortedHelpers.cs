@@ -32,7 +32,7 @@ namespace Rpg.Client.GameScreens
         {
             return new[]
             {
-                new Tuple<UnitName, GlobeRule>(UnitName.Berimir, GlobeRule.DisableBerimir)
+                new Tuple<UnitName, GlobeRule>(UnitName.Swordsman, GlobeRule.DisableBerimir)
             };
         }
 
@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens
         {
             switch (unitScheme.Name)
             {
-                case UnitName.Berimir:
+                case UnitName.Swordsman:
                     return EquipmentItemType.Warrior;
                 default:
                     return null;
@@ -81,10 +81,10 @@ namespace Rpg.Client.GameScreens
 
             switch (equipmentItemType)
             {
-                case EquipmentItemType.Warrior: return unitSchemeCatalog.Heroes[UnitName.Berimir];
-                case EquipmentItemType.Archer: return unitSchemeCatalog.Heroes[UnitName.Hawk];
-                case EquipmentItemType.Herbalist: return unitSchemeCatalog.Heroes[UnitName.Rada];
-                case EquipmentItemType.Priest: return unitSchemeCatalog.Heroes[UnitName.Kakhotep];
+                case EquipmentItemType.Warrior: return unitSchemeCatalog.Heroes[UnitName.Swordsman];
+                case EquipmentItemType.Archer: return unitSchemeCatalog.Heroes[UnitName.Archer];
+                case EquipmentItemType.Herbalist: return unitSchemeCatalog.Heroes[UnitName.Herbalist];
+                case EquipmentItemType.Priest: return unitSchemeCatalog.Heroes[UnitName.Priest];
                 default:
                     Debug.Fail($"Unknown resource type {equipmentItemType}.");
                     return null;
@@ -163,18 +163,18 @@ namespace Rpg.Client.GameScreens
             return unitName switch
             {
                 UnitName.Hq => 1,
-                UnitName.Berimir => 2,
-                UnitName.Hawk => 3,
-                UnitName.Rada => 4,
-                UnitName.Maosin => 5,
+                UnitName.Swordsman => 2,
+                UnitName.Archer => 3,
+                UnitName.Herbalist => 4,
+                UnitName.Monk => 5,
                 UnitName.Oldman => 6,
                 UnitName.Aspid => 7,
                 UnitName.GreyWolf => 8,
                 UnitName.Bear => 9,
                 UnitName.Wisp => 10,
                 UnitName.Volkolak or UnitName.VolkolakWarrior => 11,
-                UnitName.Thar => 13,
-                UnitName.Dull => 14,
+                UnitName.Comissar => 13,
+                UnitName.Assaulter => 14,
                 _ => 12
             };
         }

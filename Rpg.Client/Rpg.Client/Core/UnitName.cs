@@ -9,25 +9,25 @@
         /// </summary>
         Environment,
 
-        Thar,
-        Dull,
+        Comissar,
+        Assaulter,
         Zoologist,
 
-        Berimir,
-        Hawk,
-        Rada,
+        Swordsman,
+        Archer,
+        Herbalist,
 
-        Maosin,
-        Ping,
-        Cheng,
+        Monk,
+        Spearman,
+        Sage,
 
-        Kakhotep,
-        Amun,
-        Nubiti,
+        Priest,
+        Scorpion,
+        Liberator,
 
-        Leonidas,
-        Diana,
-        Geron,
+        Legionnaire,
+        Amazon,
+        Engineer,
 
         Hq,
         Oldman,

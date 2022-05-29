@@ -278,7 +278,7 @@ namespace Rpg.Client.GameScreens.Title
 
             if (lastSave is null)
             {
-                return new[] { UnitName.Berimir };
+                return new[] { UnitName.Swordsman };
             }
 
             var saveData = globeProvider.GetStoredData(lastSave.FileName);
@@ -287,15 +287,25 @@ namespace Rpg.Client.GameScreens.Title
             var poolUnits = saveData.Progress.Player.Pool.Units.Select(x => x.SchemeSid);
 
             var allUnits = activeUnits.Union(poolUnits);
-            var unitNames = allUnits.Select(x => Enum.Parse<UnitName>(x)).ToArray();
+            var unitNames = allUnits.Select(x => GetLastHeroName(x)).ToArray();
             return unitNames;
+        }
+
+        private static UnitName GetLastHeroName(string storedSid)
+        {
+            if (Enum.TryParse<UnitName>(storedSid, out var sid))
+            {
+                return sid;
+            }
+
+            return UnitName.Undefined;
         }
 
         private UnitName[] GetShowcaseHeroes()
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
-                return new[] { UnitName.Berimir, UnitName.Hawk, UnitName.Rada };
+                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist };
             }
 
             var lastHeroes = GetLastHeroes(_globeProvider);

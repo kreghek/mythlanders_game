@@ -113,20 +113,20 @@ namespace Rpg.Client.Assets.Catalogs
                 optionAftermath = aftermath switch
                 {
                     "MeetArcher" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Hawk]),
+                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Archer]),
                     "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Rada]),
+                        unitSchemeCatalog.Heroes[UnitName.Herbalist]),
                     "MeetMonk" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Maosin]),
+                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Monk]),
                     "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Ping]),
+                        unitSchemeCatalog.Heroes[UnitName.Spearman]),
                     "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Cheng]),
+                        unitSchemeCatalog.Heroes[UnitName.Sage]),
                     "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Amun]),
+                        unitSchemeCatalog.Heroes[UnitName.Scorpion]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Kakhotep]),
-                    "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Berimir),
+                        unitSchemeCatalog.Heroes[UnitName.Priest]),
+                    "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
                     _ => optionAftermath
                 };
             }
