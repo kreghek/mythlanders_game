@@ -24,7 +24,6 @@ namespace Rpg.Client.Core.Modifiers
             }
 
             return newValue;
-
         }
 
         protected abstract TValue Modify(TValue modifiedValue);
