@@ -2,7 +2,6 @@
 
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -13,9 +12,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
     internal class ArrowRainSkill : VisualizedSkillBase
     {
-        public ArrowRainSkill() : this(false)
-        {
-        }
+        private const SkillSid SID = SkillSid.ArrowRain;
 
         public ArrowRainSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
@@ -23,23 +20,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        DamageMultiplier = 0.5f,
-                        Actor = u
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllEnemies)
         };
 
-        public override SkillSid Sid => SkillSid.ArrowRain;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

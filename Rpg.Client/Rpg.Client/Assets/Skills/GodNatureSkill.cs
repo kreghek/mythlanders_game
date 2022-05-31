@@ -9,26 +9,15 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class GodNatureSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.GodNature;
+
         public GodNatureSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1.0f
-                    };
-
-                    return res;
-                })
-            },
+            SkillRuleFactory.CreateDamage(SID),
             new EffectRule
             {
                 Direction = SkillDirection.Target,
@@ -41,7 +30,7 @@ namespace Rpg.Client.Assets.Skills
             }
         };
 
-        public override SkillSid Sid => SkillSid.GodNature;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 

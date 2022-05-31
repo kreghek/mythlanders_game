@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
 {
     internal sealed class HerbBag : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 7
         };

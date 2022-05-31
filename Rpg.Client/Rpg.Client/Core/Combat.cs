@@ -454,12 +454,9 @@ namespace Rpg.Client.Core
 
             combatUnit.Dead -= CombatUnit_Dead;
 
-            if (combatUnit is not null)
-            {
-                _allUnitList.Remove(combatUnit);
-                UnitDied?.Invoke(this, combatUnit);
-                CombatUnitRemoved?.Invoke(this, combatUnit);
-            }
+            _allUnitList.Remove(combatUnit);
+            UnitDied?.Invoke(this, combatUnit);
+            CombatUnitRemoved?.Invoke(this, combatUnit);
 
             if (combatUnit == CurrentUnit)
             {

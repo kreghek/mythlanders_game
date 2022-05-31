@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -9,6 +8,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
 {
     internal class MasterStaffHitSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.MasterStaffHit;
+
         private static readonly SkillVisualization _predefinedSkillVisualization = new()
         {
             Type = SkillVisualizationStateType.Melee,
@@ -22,23 +23,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 0.25f
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID)
         };
 
-        public override SkillSid Sid => SkillSid.MasterStaffHit;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
     }

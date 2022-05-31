@@ -53,7 +53,7 @@ namespace Rpg.Client.Assets.States
                 {
                     _interactionExecuted = true;
 
-                    _attackInteractions?.Invoke();
+                    _attackInteractions();
                 }
             }
         }

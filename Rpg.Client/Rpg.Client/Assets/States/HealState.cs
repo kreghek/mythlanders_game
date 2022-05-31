@@ -53,7 +53,7 @@ namespace Rpg.Client.Assets.States
             {
                 if (!_interactionExecuted)
                 {
-                    _healInteraction?.Invoke();
+                    _healInteraction();
 
                     _interactionExecuted = true;
                 }

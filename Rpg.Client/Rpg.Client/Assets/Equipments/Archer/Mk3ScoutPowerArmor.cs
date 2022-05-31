@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Archer
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Archer;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 5
         };

@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Warrior;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 2
         };

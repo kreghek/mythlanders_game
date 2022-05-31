@@ -10,7 +10,6 @@ namespace Rpg.Client.Assets.States
 {
     internal class CommonSelfSkillUsageState : IUnitStateEngine
     {
-        private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _mainAnimationBlocker;
         private readonly IUnitStateEngine[] _subStates;
 
@@ -20,12 +19,11 @@ namespace Rpg.Client.Assets.States
             Action interaction,
             Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
         {
-            _graphics = graphics;
             _mainAnimationBlocker = mainAnimationBlocker;
 
             _subStates = new IUnitStateEngine[]
             {
-                new HealState(_graphics, interaction, hitSound, animationSid)
+                new HealState(graphics, interaction, hitSound, animationSid)
             };
         }
 

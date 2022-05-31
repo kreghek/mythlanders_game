@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 using Rpg.Client.Assets.Catalogs;
 
-namespace Rpg.Client.Core.Tests
+namespace Rpg.Client.Tests.Core
 {
     [TestFixture]
     public class DemoEventCatalogTests

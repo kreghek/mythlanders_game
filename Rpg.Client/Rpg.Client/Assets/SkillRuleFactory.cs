@@ -27,13 +27,12 @@ namespace Rpg.Client.Assets
             return new EffectRule
             {
                 Direction = direction,
-                EffectCreator = new EffectCreator(u =>
+                EffectCreator = new EffectCreator(actor =>
                 {
-                    var equipmentMultiplierBonus = u.Unit.GetEquipmentDamageMultiplierBonus(sid);
+                    var equipmentMultiplierBonus = actor.Unit.GetEquipmentDamageMultiplierBonus(sid);
 
-                    var res = new DamageEffect
+                    var res = new DamageEffect(actor)
                     {
-                        Actor = u,
                         DamageMultiplier = multiplier * (1 + equipmentMultiplierBonus),
                         Scatter = scatter
                     };

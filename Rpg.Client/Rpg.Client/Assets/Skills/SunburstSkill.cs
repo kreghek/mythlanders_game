@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -9,29 +8,18 @@ namespace Rpg.Client.Assets.Skills
 {
     internal class SunburstSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.Sunburst;
+
         public SunburstSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        DamageMultiplier = 1.5f,
-                        Actor = u
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID)
         };
 
-        public override SkillSid Sid => SkillSid.Sunburst;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

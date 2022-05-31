@@ -59,7 +59,7 @@ namespace Rpg.Client.Assets.States.Primitives
             foreach (var delivery in interactionDelivery)
             {
                 _interactionDeliveryManager.Add(delivery);
-                delivery.InteractionPerformed += (sender, args) =>
+                delivery.InteractionPerformed += (sender, _) =>
                 {
                     if (sender is null)
                     {

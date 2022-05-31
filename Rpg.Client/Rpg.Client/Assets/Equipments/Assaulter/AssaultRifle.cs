@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Assaulter
 {
     internal sealed class AssaultRifle : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 1
         };

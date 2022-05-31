@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Liberator
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Liberator;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

@@ -17,21 +17,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var equipmentMultiplier = u.Unit.GetEquipmentDamageMultiplierBonus(SID);
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1f * equipmentMultiplier
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID)
         };
 
         public override SkillSid Sid => SID;

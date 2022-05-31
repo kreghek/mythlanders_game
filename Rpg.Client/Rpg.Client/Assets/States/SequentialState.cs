@@ -2,7 +2,6 @@
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States

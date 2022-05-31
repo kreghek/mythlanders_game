@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
             };
         }
 
-        public bool CanBeReplaced { get; }
+        public bool CanBeReplaced => false;
         public bool IsComplete { get; private set; }
 
         public void Cancel()

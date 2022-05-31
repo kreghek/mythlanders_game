@@ -15,20 +15,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        Actor = u,
-                        DamageMultiplier = 1.0f
-                    };
-
-                    return res;
-                })
-            },
+            SkillRuleFactory.CreateDamage(SkillSid.None),
             new EffectRule
             {
                 Direction = SkillDirection.Target,

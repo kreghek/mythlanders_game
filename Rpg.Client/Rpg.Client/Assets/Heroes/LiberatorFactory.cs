@@ -27,7 +27,7 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(2, new FightAgainstMastersSkill()),
                 new AddPerkUnitLevel(2, new Evasion()),
                 new AddSkillUnitLevel(3, new BraveHeartsSkill(true)),
-                new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
+                new AddSkillUnitLevel(4, new LiberationSkill(true))
             };
         }
     }

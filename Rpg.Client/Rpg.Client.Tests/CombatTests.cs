@@ -174,9 +174,8 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DamageEffect
+                        return new DamageEffect(unit)
                         {
-                            Actor = unit,
                             DamageMultiplier = 1
                         };
                     })
@@ -242,9 +241,8 @@ namespace Rpg.Client.Tests
                     Direction = SkillDirection.Target,
                     EffectCreator = new EffectCreator(unit =>
                     {
-                        return new DamageEffect
+                        return new DamageEffect(unit)
                         {
-                            Actor = unit,
                             DamageMultiplier = 1
                         };
                     })

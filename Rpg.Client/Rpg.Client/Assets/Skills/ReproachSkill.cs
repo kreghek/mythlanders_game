@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            SkillRuleFactory.CreatePeriodicDamage(SkillSid.None, 1, SkillDirection.AllEnemies)
+            SkillRuleFactory.CreatePeriodicDamage(SID, 1, SkillDirection.AllEnemies)
         };
 
         public override SkillSid Sid => SkillSid.WideSwordSlash;

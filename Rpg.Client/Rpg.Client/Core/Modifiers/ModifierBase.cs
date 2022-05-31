@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core.Modifiers
+﻿using System;
+
+namespace Rpg.Client.Core.Modifiers
 {
     internal abstract class ModifierBase
     {
@@ -10,14 +12,21 @@
     {
         public override object Modify(object modifiedValue)
         {
-            if (modifiedValue is TValue value)
+            if (modifiedValue is not TValue value)
             {
-                return Modify(value);
+                return modifiedValue;
             }
 
-            return modifiedValue;
+            var newValue = Modify(value);
+            if (newValue is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return newValue;
+
         }
 
-        public abstract TValue Modify(TValue modifiedValue);
+        protected abstract TValue Modify(TValue modifiedValue);
     }
 }

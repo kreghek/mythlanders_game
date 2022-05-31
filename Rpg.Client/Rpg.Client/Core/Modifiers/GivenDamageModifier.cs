@@ -5,7 +5,7 @@
         public float DamageMultiplier { get; init; }
         public override ModifierType ModifierType => ModifierType.GivenDamage;
 
-        public override float Modify(float modifiedValue)
+        protected override float Modify(float modifiedValue)
         {
             return modifiedValue * DamageMultiplier;
         }

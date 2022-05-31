@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal interface IEquipmentScheme : IEffectSource, ICombatConditionEffectSource
+    internal interface IEquipmentScheme : ICombatConditionEffectSource
     {
         IEquipmentSchemeMetadata? Metadata { get; }
         public EquipmentItemType RequiredResourceToLevelUp { get; }

@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Equipments.Sage
 {
     internal sealed class EmptinessInTheHand : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

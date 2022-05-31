@@ -13,29 +13,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
     internal class SvarogBlastFurnaceSkill : VisualizedSkillBase
     {
+        private const SkillSid SID = SkillSid.SvarogBlastFurnace;
+
         public SvarogBlastFurnaceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
-            new EffectRule
-            {
-                Direction = SkillDirection.AllEnemies,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var res = new DamageEffect
-                    {
-                        DamageMultiplier = 1.5f,
-                        Actor = u
-                    };
-
-                    return res;
-                })
-            }
+            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllEnemies, multiplier: 1.5f)
         };
 
-        public override SkillSid Sid => SkillSid.SvarogBlastFurnace;
+        public override SkillSid Sid => SID;
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Range;
 

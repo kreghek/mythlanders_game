@@ -6,7 +6,7 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
 {
     internal sealed class EmberGladius : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

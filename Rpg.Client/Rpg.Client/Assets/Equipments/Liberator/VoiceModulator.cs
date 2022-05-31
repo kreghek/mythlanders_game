@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Equipments.Liberator
 {
     internal sealed class VoiceModulator : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

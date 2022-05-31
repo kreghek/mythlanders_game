@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Monk
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Monk;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

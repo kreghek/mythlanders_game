@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Equipments.Archer
 {
     internal sealed class ArcherPulsarBow : SimpleBonusEquipmentBase
     {
-        public override IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Equipments.Spearman
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Spearman;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

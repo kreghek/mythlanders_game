@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Amazon
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Amazon;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Sage
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Sage;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

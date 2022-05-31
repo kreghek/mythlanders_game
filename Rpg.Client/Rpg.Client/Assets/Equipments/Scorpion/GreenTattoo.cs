@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Scorpion
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Scorpion;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 4
         };

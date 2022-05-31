@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Herbalist
 
         public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Herbalist;
 
-        public IEquipmentSchemeMetadata? Metadata => new EquipmentSchemeMetadata
+        public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 8
         };

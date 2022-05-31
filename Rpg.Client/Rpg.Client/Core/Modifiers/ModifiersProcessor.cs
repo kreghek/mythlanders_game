@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core.Modifiers
 {
@@ -17,6 +18,16 @@ namespace Rpg.Client.Core.Modifiers
             var modifiedValue = value;
             foreach (var modifier in _unitModifiers[target])
             {
+                if (modifierType != modifier.ModifierType)
+                {
+                    continue;
+                }
+
+                if (modifiedValue is null)
+                {
+                    throw new InvalidOperationException();
+                }
+
                 modifiedValue = (TValue)modifier.Modify(modifiedValue);
             }
 
