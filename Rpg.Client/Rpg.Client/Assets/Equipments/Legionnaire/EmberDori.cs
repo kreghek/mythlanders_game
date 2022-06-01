@@ -4,7 +4,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.Equipments.Legionnaire
 {
-    internal sealed class EmberGladius : SimpleBonusEquipmentBase
+    internal sealed class EmberDori : SimpleBonusEquipmentBase
     {
         public override IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {

@@ -25,7 +25,7 @@
         Scorpion,
         Liberator,
 
-        Legionnaire,
+        Hoplite,
         Amazon,
         Engineer,
 

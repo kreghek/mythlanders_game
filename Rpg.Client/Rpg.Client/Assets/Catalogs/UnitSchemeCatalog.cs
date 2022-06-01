@@ -35,7 +35,7 @@ namespace Rpg.Client.Assets.Catalogs
                 new PriestFactory(),
                 new LiberatorFactory(),
 
-                new LegionnaireFactory(),
+                new HopliteFactory(),
                 new AmazonFactory(),
                 new EngineerFactory()
             };

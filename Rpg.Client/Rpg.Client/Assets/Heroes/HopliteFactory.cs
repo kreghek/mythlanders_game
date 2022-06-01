@@ -5,15 +5,15 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class LegionnaireFactory : HeroFactoryBase
+    internal class HopliteFactory : HeroFactoryBase
     {
-        public override UnitName HeroName => UnitName.Legionnaire;
+        public override UnitName HeroName => UnitName.Hoplite;
 
         protected override IEquipmentScheme[] GetEquipment()
         {
             return new IEquipmentScheme[]
             {
-                new EmberGladius(),
+                new EmberDori(),
                 new EmpoweredMk2MediumPowerArmor(),
                 new BrokenAresSculpture()
             };
