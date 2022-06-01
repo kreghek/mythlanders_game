@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, SkillDirection direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
         {
             if (effectToDisplay is not StunEffect stunEffect)
             {

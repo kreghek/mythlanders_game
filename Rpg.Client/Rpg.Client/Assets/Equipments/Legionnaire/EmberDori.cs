@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Legionnaire
         public override EquipmentSid Sid => EquipmentSid.EmberGladius;
 
         protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.SwordSwing, SkillSid.AresWarBringerThreads };
+            new[] { SkillSid.Offensive, SkillSid.AresWarBringerThreads };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

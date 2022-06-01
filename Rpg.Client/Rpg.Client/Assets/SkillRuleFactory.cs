@@ -12,17 +12,17 @@ namespace Rpg.Client.Assets
             return CreateDamage(sid, SkillDirection.Target, 1f);
         }
 
-        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction)
+        public static EffectRule CreateDamage(SkillSid sid, ITargetSelector direction)
         {
             return CreateDamage(sid, direction, 1f);
         }
 
-        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier)
+        public static EffectRule CreateDamage(SkillSid sid, ITargetSelector direction, float multiplier)
         {
             return CreateDamage(sid, direction, multiplier, scatter: 0.1f);
         }
 
-        public static EffectRule CreateDamage(SkillSid sid, SkillDirection direction, float multiplier, float scatter)
+        public static EffectRule CreateDamage(SkillSid sid, ITargetSelector direction, float multiplier, float scatter)
         {
             return new EffectRule
             {
@@ -42,12 +42,12 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePeriodicDamage(SkillSid sid, int duration, SkillDirection direction)
+        public static EffectRule CreatePeriodicDamage(SkillSid sid, int duration, ITargetSelector direction)
         {
             return CreatePeriodicDamage(sid, power: 1f, duration, direction);
         }
 
-        public static EffectRule CreatePeriodicDamage(SkillSid sid, float power, int duration, SkillDirection direction)
+        public static EffectRule CreatePeriodicDamage(SkillSid sid, float power, int duration, ITargetSelector direction)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 
@@ -69,7 +69,7 @@ namespace Rpg.Client.Assets
         }
 
         public static EffectRule CreatePeriodicHealing(SkillSid sid, float power, int duration,
-            SkillDirection direction)
+            ITargetSelector direction)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 
@@ -93,7 +93,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerDown(SkillSid sid, SkillDirection direction, int duration)
+        public static EffectRule CreatePowerDown(SkillSid sid, ITargetSelector direction, int duration)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 
@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerUp(int equipmentLevel, SkillDirection direction,
+        public static EffectRule CreatePowerUp(int equipmentLevel, ITargetSelector direction,
             float equipmentMultiplier = 0.5f)
         {
             return new EffectRule
@@ -131,12 +131,12 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction)
+        public static EffectRule CreatePowerUp(SkillSid sid, ITargetSelector direction)
         {
             return CreatePowerUp(sid, direction, duration: 1);
         }
 
-        public static EffectRule CreatePowerUp(SkillSid sid, SkillDirection direction, int duration)
+        public static EffectRule CreatePowerUp(SkillSid sid, ITargetSelector direction, int duration)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 
@@ -155,7 +155,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerUpAura(SkillDirection direction, float multiplier = 0.5f)
+        public static EffectRule CreatePowerUpAura(ITargetSelector direction, float multiplier = 0.5f)
         {
             return new EffectRule
             {
@@ -173,7 +173,7 @@ namespace Rpg.Client.Assets
         }
 
         public static EffectRule CreateProtection(int equipmentLevel,
-            SkillDirection direction = SkillDirection.AllFriendly, float equipmentMultiplier = 0.5f)
+            ITargetSelector direction, float equipmentMultiplier)
         {
             return new EffectRule
             {
@@ -194,7 +194,7 @@ namespace Rpg.Client.Assets
         /// <summary>
         /// Create protection rule with single turn duration.
         /// </summary>
-        public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction,
+        public static EffectRule CreateProtection(SkillSid sid, ITargetSelector direction,
             float multiplier)
         {
             return CreateProtection(sid, direction, 1, multiplier);
@@ -208,7 +208,7 @@ namespace Rpg.Client.Assets
             return CreateProtection(sid, SkillDirection.Self, 1, multiplier);
         }
 
-        public static EffectRule CreateProtection(SkillSid sid, SkillDirection direction, int duration,
+        public static EffectRule CreateProtection(SkillSid sid, ITargetSelector direction, int duration,
             float multiplier)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
@@ -229,7 +229,7 @@ namespace Rpg.Client.Assets
             };
         }
 
-        private static EffectDuration GetCompensatedDuration(SkillDirection direction, int duration)
+        private static EffectDuration GetCompensatedDuration(ITargetSelector direction, int duration)
         {
             return new EffectDuration(duration, direction == SkillDirection.Self);
         }

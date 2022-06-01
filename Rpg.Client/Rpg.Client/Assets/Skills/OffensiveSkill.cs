@@ -6,21 +6,22 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class SwordSwingSkill : VisualizedSkillBase
+    internal class OffensiveSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSwing;
+        private const SkillSid SID = SkillSid.Offensive;
 
-        public SwordSwingSkill() : this(false)
+        public OffensiveSkill() : this(false)
         {
         }
 
-        private SwordSwingSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private OffensiveSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            SkillRuleFactory.CreateDamage(SID)
+            SkillRuleFactory.CreateDamage(SID),
+            SkillRuleFactory.CreatePeriodicDamage(SID, duration: 3, SkillDirection.Target)
         };
 
         public override SkillSid Sid => SID;

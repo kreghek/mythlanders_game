@@ -48,7 +48,7 @@ namespace Rpg.Client.Core.Skills
         FightAgainstMaster,
         BraveHearts,
         Liberation,
-        SwordSwing,
+        Offensive,
         JavelinThrow,
         AresWarBringerThreads,
         PoisonedSpear,

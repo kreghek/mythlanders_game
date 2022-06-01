@@ -6,13 +6,13 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills
 {
-    internal class ShieldSkill : VisualizedSkillBase
+    internal class PhalanxSkill : VisualizedSkillBase
     {
-        public ShieldSkill() : this(false)
+        public PhalanxSkill() : this(false)
         {
         }
 
-        public ShieldSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private PhalanxSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

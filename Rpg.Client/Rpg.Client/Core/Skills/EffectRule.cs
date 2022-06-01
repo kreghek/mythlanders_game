@@ -4,7 +4,7 @@ namespace Rpg.Client.Core.Skills
 {
     internal class EffectRule
     {
-        public SkillDirection Direction { get; init; }
+        public ITargetSelector Direction { get; init; }
 
         public EffectCreator EffectCreator { get; init; }
 

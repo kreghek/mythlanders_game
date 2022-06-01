@@ -31,64 +31,7 @@ namespace Rpg.Client.Core.SkillEffects
 
         public IReadOnlyList<ICombatUnit> GetTargets(EffectRule influence, ICombatUnit actor, ICombatUnit target)
         {
-            switch (influence.Direction)
-            {
-                case SkillDirection.All:
-                    return _combat.AliveUnits.ToArray();
-
-                case SkillDirection.AllEnemies:
-                    return _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.AllLineEnemies:
-                    return GetAllTankingEnemies(actor);
-
-                case SkillDirection.AllFriendly:
-                    return _combat.AliveUnits.Where(x =>
-                        x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.Other:
-                    return _combat.AliveUnits.Where(x => x != actor).ToArray();
-
-                case SkillDirection.OtherFriendly:
-                    return _combat.AliveUnits.Where(x =>
-                        x != actor && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
-
-                case SkillDirection.Self:
-                    return new[] { actor };
-
-                case SkillDirection.RandomEnemy:
-                    {
-                        var unit = _dice.RollFromList(_combat.AliveUnits
-                            .Where(x => x.Unit.IsPlayerControlled != actor.Unit.IsPlayerControlled).ToList());
-
-                        return new[] { unit };
-                    }
-
-                case SkillDirection.RandomFriendly:
-                    {
-                        var unit = _dice.RollFromList(_combat.AliveUnits
-                            .Where(x => x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToList());
-
-                        return new[] { unit };
-                    }
-
-                case SkillDirection.Target:
-                    if (target is null)
-                    {
-                        throw new InvalidOperationException();
-                    }
-
-                    return new[] { target };
-
-                case SkillDirection.RandomLineEnemy:
-                    {
-                        var unit = _dice.RollFromList(GetAllTankingEnemies(actor));
-                        return new[] { unit };
-                    }
-                default:
-                    throw new InvalidOperationException();
-            }
+            return influence.Direction.Calculate(actor, target, _combat.AliveUnits, _dice);
         }
 
         public void Impose(IEnumerable<EffectRule>? influences, ICombatUnit actor, ICombatUnit? target,
