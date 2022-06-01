@@ -12,6 +12,7 @@ namespace Rpg.Client.Core.SkillEffects
         public virtual IEnumerable<EffectRule>? DispelRules => default;
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;
+        public Func<CombatEffectContext, bool>? ImposeCondition { get; init; }
         public ICombatUnit? Target { get; private set; }
         public IEffectVisualization? Visualization { get; set; }
         protected bool IsImposed { get; private set; }
@@ -44,6 +45,12 @@ namespace Rpg.Client.Core.SkillEffects
         /// <param name="target"></param>
         public void Impose(ICombatUnit target)
         {
+            if (ImposeCondition?.Invoke(CombatContext!) == false)
+            {
+                // Do not impose effects failed the condition.
+                return;
+            }
+
             Target = target;
             IsImposed = true;
             CombatContext.Combat.EffectProcessor.Impose(ImposeRules, Target, null, CombatContext.EffectSource);
