@@ -114,6 +114,8 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
+                "zoologist" => SystemEventMarker.MeetZoologist,
+
                 "archer" => SystemEventMarker.MeetArcher,
                 "herbalist" => SystemEventMarker.MeetHerbalist,
 
@@ -122,6 +124,12 @@ namespace Rpg.Client.GameComponents
                 "missionary" => SystemEventMarker.MeetMissionary,
 
                 "priest" => SystemEventMarker.MeetPriest,
+                "scorpion" => SystemEventMarker.MeetScorpion,
+                "liberator" => SystemEventMarker.MeetLiberator,
+
+                "hoplite" => SystemEventMarker.MeetHoplite,
+                "amazon" => SystemEventMarker.MeetAmazon,
+                "engineer" => SystemEventMarker.MeetEngineer,
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
@@ -131,6 +139,10 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
+                "comissar" => unitSchemeCatalog.Heroes[UnitName.Comissar],
+                "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
+                "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
+
                 "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],
                 "archer" => unitSchemeCatalog.Heroes[UnitName.Archer],
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
@@ -140,6 +152,12 @@ namespace Rpg.Client.GameComponents
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],
+                "scorpion" => unitSchemeCatalog.Heroes[UnitName.Scorpion],
+                "liberator" => unitSchemeCatalog.Heroes[UnitName.Liberator],
+
+                "hoplite" => unitSchemeCatalog.Heroes[UnitName.Hoplite],
+                "amazon" => unitSchemeCatalog.Heroes[UnitName.Amazon],
+                "engineer" => unitSchemeCatalog.Heroes[UnitName.Engineer],
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };

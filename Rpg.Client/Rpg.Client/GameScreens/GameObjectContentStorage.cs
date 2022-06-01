@@ -94,13 +94,14 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Comissar, LoadHeroTexture(contentManager, "Sergant") },
+                { UnitName.Comissar, LoadHeroTexture(contentManager, "Comissar") },
                 { UnitName.Assaulter, LoadHeroTexture(contentManager, "Assaulter") },
                 { UnitName.Swordsman, LoadHeroTexture(contentManager, "Swordsman") },
                 { UnitName.Herbalist, LoadHeroTexture(contentManager, "Herbalist") },
                 { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
                 { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
-                { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") }
+                { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
+                { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>

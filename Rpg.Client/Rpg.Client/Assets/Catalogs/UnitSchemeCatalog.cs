@@ -77,7 +77,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -99,7 +99,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
@@ -129,7 +129,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -153,7 +153,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
@@ -183,7 +183,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -205,7 +205,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
@@ -236,7 +236,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new UnholyHitSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -260,7 +260,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new BlackRifleShotSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -406,7 +406,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddPerkUnitLevel(1, new PowerUpAura())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -424,7 +424,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -444,7 +444,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddPerkUnitLevel(5, new Evasion())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -462,7 +462,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new FrogDefenseStanceSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -481,7 +481,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new WideSlashSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -501,7 +501,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig(),
                     LocationSids = new[] { GlobeNodeSid.Castle },
                     MinRequiredBiomeLevel = 10,
 
@@ -549,7 +549,7 @@ namespace Rpg.Client.Assets.Catalogs
                                         new AddSkillUnitLevel(1, new PowerUpSkill()) // 1000-years hate
                                     },
 
-                                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                                 }
                             }
                         }

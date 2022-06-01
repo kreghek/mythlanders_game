@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.TargetSelectors
                 return ArraySegment<ICombatUnit>.Empty;
             }
 
-            return availableCombatUnits.Where(x => ((CombatUnit)x).SlotIndex == targetIndex.Value).ToArray();
+            return availableCombatUnits.Where(x => ((CombatUnit)x).SlotIndex == targetIndex.Value && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
         }
 
         private static int? GetLeftIndex(int baseIndex)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Rpg.Client.Assets.SkillEffects;
 using Rpg.Client.Core;
@@ -211,7 +212,7 @@ namespace Rpg.Client.Assets
         }
 
         public static EffectRule CreateProtection(SkillSid sid, ITargetSelector direction, int duration,
-            float multiplier, Func<CombatEffectContext, bool>? imposeCondition = default)
+            float multiplier, IReadOnlyCollection<IEffectCondition>? imposeConditions = default)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 
@@ -224,7 +225,7 @@ namespace Rpg.Client.Assets
                     var effect = new ProtectionEffect(u, durationEffectLifetime, multiplier)
                     {
                         Visualization = EffectVisualizations.Protection,
-                        ImposeCondition = imposeCondition
+                        ImposeConditions = imposeConditions
                     };
 
                     return effect;

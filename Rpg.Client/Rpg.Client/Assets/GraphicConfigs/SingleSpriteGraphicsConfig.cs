@@ -4,9 +4,9 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.GraphicConfigs
 {
-    internal sealed class SingleSpriteMonsterGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
     {
-        public SingleSpriteMonsterGraphicsConfig()
+        public SingleSpriteGraphicsConfig()
         {
             PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {

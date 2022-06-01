@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SingleSpriteMonsterGraphicsConfig();
+            return new SingleSpriteGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()
