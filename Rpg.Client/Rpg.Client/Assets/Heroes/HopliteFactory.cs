@@ -27,7 +27,7 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(1, new OffensiveSkill()),
                 new AddSkillUnitLevel(1, new PhalanxSkill()),
                 new AddPerkUnitLevel(3, new ImprovedHitPoints()),
-                new AddSkillUnitLevel(3, new JavelinThrowSkill(true)),
+                new AddSkillUnitLevel(2, new ContemptSkill(true)),
                 new AddSkillUnitLevel(4, new AresWarBringerThreadsSkill(true))
             };
         }
