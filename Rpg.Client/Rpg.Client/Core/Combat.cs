@@ -597,7 +597,7 @@ namespace Rpg.Client.Core
         {
             _unitQueue.Clear();
 
-            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Unit.UnitScheme.Resolve)
+            var orderedByResolve = _allUnitList.OrderByDescending(x => x.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.ActualMax)
                 .ThenByDescending(x => x.Unit.IsPlayerControlled).ToArray();
 
             foreach (var unit in orderedByResolve)

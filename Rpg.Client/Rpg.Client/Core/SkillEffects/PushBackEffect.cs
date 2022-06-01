@@ -12,7 +12,7 @@ namespace Rpg.Client.Core.SkillEffects
                 var targetSlotTanking = materializedTarget.IsInTankLine;
 
                 var backCombatUnit = GetBackCombatUnit(targetSlotIndex, materializedTarget.Unit.IsPlayerControlled);
-                if (backCombatUnit is null)
+                if (backCombatUnit is not null)
                 {
                     materializedTarget.ChangeSlot(backCombatUnit.SlotIndex, backCombatUnit.IsInTankLine);
                     backCombatUnit.ChangeSlot(targetSlotIndex, targetSlotTanking);
@@ -37,9 +37,15 @@ namespace Rpg.Client.Core.SkillEffects
             return (CombatUnit)backCombatUnit;
         }
 
-        private int? GetBackSlotIndex(int targetSlotIndex)
+        private static int? GetBackSlotIndex(int targetSlotIndex)
         {
-            throw new System.NotImplementedException();
+            switch (targetSlotIndex)
+            {
+                case 0: return 3;
+                case 1: return 4;
+                case 2: return 5;
+                default: return null;
+            }
         }
     }
 }
