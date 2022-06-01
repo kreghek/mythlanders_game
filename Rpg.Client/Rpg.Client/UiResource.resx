@@ -373,4 +373,7 @@
   <data name="SkillDirectionAllText" xml:space="preserve">
     <value>all</value>
   </data>
+  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
+    <value>left ally</value>
+  </data>
 </root>

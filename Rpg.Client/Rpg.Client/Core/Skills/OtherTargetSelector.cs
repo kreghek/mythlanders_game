@@ -13,7 +13,7 @@ namespace Rpg.Client.Core.Skills
 
         public string GetDescription()
         {
-            return UiResource.SkillDirectionOtherFriendlyText;
+            return UiResource.SkillDirectionOtherText;
         }
     }
 }
