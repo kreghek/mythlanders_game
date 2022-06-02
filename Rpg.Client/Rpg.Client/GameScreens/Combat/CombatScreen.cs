@@ -362,7 +362,6 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
 
-            var settings = Game.Services.GetService<GameSettings>();
             _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
@@ -603,7 +602,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffsetX,
-            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
+            int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
             {
@@ -611,8 +610,8 @@ namespace Rpg.Client.GameScreens.Combat
                     BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
                 var roundedX = (int)Math.Round(xFloat);
 
-                var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                    BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+                var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
                 var roundedY = (int)Math.Round(yFloat);
 
                 var position = new Vector2(roundedX, roundedY);
@@ -707,14 +706,14 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
-            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
+            int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
         {
             var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
                 BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
             var roundedX = (int)Math.Round(xFloat);
 
-            var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (-1) *
-                BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+            var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (-1) *
+                BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
             var roundedY = (int)Math.Round(yFloat);
 
             var position = new Vector2(roundedX, roundedY);
@@ -866,7 +865,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatFinishedVictory = false;
         }
 
-        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
+        private static int? GetIndicatorNextIndex(UnitGameObject unitGameObject)
         {
             var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
             var nextIndex = currentIndex + 1;
@@ -985,7 +984,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Rectangle(buttonPosition.ToPoint(), new Point(128, 64)),
                 _gameObjectContentStorage);
 
-            interactButton.OnClick += (s, e) =>
+            interactButton.OnClick += (_, _) =>
             {
                 if (_interactButtonClicked)
                 {
