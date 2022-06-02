@@ -115,14 +115,8 @@ namespace Rpg.Client.Engine
 
         private void HandleSelectionMarker()
         {
-            if (_currentAnimationFrameSet.IsIdle)
-            {
-                _selectedMarker.Visible = ShowActiveMarker;
-            }
-            else
-            {
-                _selectedMarker.Visible = false;
-            }
+            var isMarkerDisplayed = _currentAnimationFrameSet.IsIdle && ShowActiveMarker;
+            _selectedMarker.Visible = isMarkerDisplayed;
         }
 
         private void UpdateAnimation(GameTime gameTime)
