@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Core.AnimationFrameSets
 {
-    internal class SequentalAnimationFrameSet : IAnimationFrameSet
+    internal class SequentialAnimationFrameSet : IAnimationFrameSet
     {
         private readonly int _frameHeight;
 
@@ -19,7 +19,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
 
         private bool _isEnded;
 
-        public SequentalAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth,
+        public SequentialAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth,
             int frameHeight, int textureColumns)
         {
             _frames = frames;
@@ -31,7 +31,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
 
         public bool IsLoop { get; init; }
 
-        public IReadOnlyCollection<IAnimationKeyFrame>? KeyFrames { get; set; }
+        public IReadOnlyCollection<IAnimationKeyFrame>? KeyFrames { get; init; }
         private float _fps { get; }
 
         private static Rectangle CalcRect(int frameIndex, int cols, int frameWidth, int frameHeight)
@@ -66,6 +66,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
         {
             _frameCounter = 0;
             _frameListIndex = 0;
+            _isEnded = false;
         }
 
         public void Update(GameTime gameTime)

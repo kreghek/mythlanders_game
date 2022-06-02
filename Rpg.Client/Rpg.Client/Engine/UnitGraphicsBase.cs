@@ -54,11 +54,14 @@ namespace Rpg.Client.Engine
 
         public void PlayAnimation(IAnimationFrameSet animation)
         {
-            if (_currentAnimationFrameSet != animation)
+            if (_currentAnimationFrameSet == animation)
             {
-                _currentAnimationFrameSet = animation;
-                _currentAnimationFrameSet.Reset();
+                // Do nothing. Just continue current animation.
+                return;
             }
+
+            _currentAnimationFrameSet = animation;
+            _currentAnimationFrameSet.Reset();
         }
 
         public void PlayAnimation(PredefinedAnimationSid sid)

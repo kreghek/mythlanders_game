@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
@@ -13,29 +11,30 @@ namespace Rpg.Client.Assets.States
     internal sealed class CommonMeleeSkillUsageState : IUnitStateEngine
     {
         private readonly AnimationBlocker _blocker;
-        private readonly IUnitStateEngine[] _subStates;
-
-        private int _subStateIndex;
+        private readonly IUnitStateEngine _innerState;
 
         public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
-            SpriteContainer targetGraphicsRoot,
+            Renderable targetGraphicsRoot,
             AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo,
             PredefinedAnimationSid animationSid)
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
-
-            _subStates = new IUnitStateEngine[]
+            
+            var subStates = new IUnitStateEngine[]
             {
                 new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
                 new DirectInteractionState(graphics, animationInfo, animationSid),
                 new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
             };
+
+            _innerState = new SequentialState(subStates);
+            
             _blocker = mainAnimationBlocker;
         }
 
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        public bool CanBeReplaced => _innerState.CanBeReplaced;
+        public bool IsComplete => _innerState.IsComplete;
 
         public void Cancel()
         {
@@ -49,25 +48,7 @@ namespace Rpg.Client.Assets.States
 
         public void Update(GameTime gameTime)
         {
-            if (_subStateIndex < _subStates.Length)
-            {
-                var currentSubState = _subStates[_subStateIndex];
-                if (currentSubState.IsComplete)
-                {
-                    _subStateIndex++;
-                }
-                else
-                {
-                    currentSubState.Update(gameTime);
-                }
-            }
-            else
-            {
-                Completed?.Invoke(this, EventArgs.Empty);
-                IsComplete = true;
-            }
+            _innerState.Update(gameTime);
         }
-
-        public event EventHandler? Completed;
     }
 }

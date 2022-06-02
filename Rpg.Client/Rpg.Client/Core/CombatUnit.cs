@@ -33,7 +33,8 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        public UnitScheme CurrentUnitScheme { get; }
+        private UnitScheme CurrentUnitScheme { get; }
+
         public IStatValue HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
 
         public bool IsInTankLine { get; private set; }
