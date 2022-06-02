@@ -14,6 +14,9 @@ namespace Rpg.Client.Core
 
         public Globe(IBiomeGenerator biomeGenerator, Player player)
         {
+            _globeEvents = new List<IGlobeEvent>();
+            _activeStoryPointsList = new List<IStoryPoint>();
+            
             _biomeGenerator = biomeGenerator;
             Player = player;
             // First variant of the names.
@@ -25,12 +28,7 @@ namespace Rpg.Client.Core
             var biomes = biomeGenerator.GenerateStartState();
 
             Biomes = biomes;
-
-            _globeEvents = new List<IGlobeEvent>();
-
             GlobeLevel = new GlobeLevel();
-
-            _activeStoryPointsList = new List<IStoryPoint>();
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -81,6 +79,25 @@ namespace Rpg.Client.Core
             CreateEventsInBiomeNodes(dice, eventCatalog, biomes, GlobeLevel);
 
             Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void AddCombat(GlobeNode targetNode)
+        {
+            var combatList = new List<CombatSource>();
+            
+            var combatSequence = new CombatSequence
+            {
+                Combats = combatList
+            };
+
+            targetNode.CombatSequence = combatSequence;
+            
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void AddMonster(CombatSource combatSource)
+        {
+            
         }
 
         /// <summary>

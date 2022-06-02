@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core.SkillEffects
+﻿using System;
+
+namespace Rpg.Client.Core.SkillEffects
 {
     internal class StunEffect : PeriodicEffectBase
     {
@@ -12,6 +14,11 @@
 
         protected override void InfluenceAction()
         {
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException();
+            }
+
             CombatContext.Combat.Pass();
             base.InfluenceAction();
         }

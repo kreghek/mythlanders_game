@@ -343,69 +343,69 @@ namespace Rpg.Client.GameComponents
 
             var command = cheatParts[0];
             var commandArgs = cheatParts.Skip(1).ToArray();
-            switch (command)
+            try
             {
-                case "add-unit":
-
-                    try
-                    {
+                switch (command)
+                {
+                    case "add-unit":
                         HandleAddUnit(commandArgs);
-                        return true;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "gain-xp":
-                    try
-                    {
+                    case "gain-xp":
                         HandleGainXp(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "gain-res":
-                    try
-                    {
+                    case "gain-res":
                         HandleGainRes(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "change-hp":
-                    try
-                    {
+                    case "change-hp":
                         HandleChangeHp(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "update-globe":
-                    try
-                    {
+                    case "update-globe":
                         HandleUpdateGlobe();
-                        return true;
-                    }
-                    catch (InvalidOperationException)
-                    {
+                        break;
+                    
+                    case "create-combat":
+                        HandleCreateCombat(commandArgs);
+                        break;
+
+                    default:
                         return false;
-                    }
+                }
+            }
+            catch (Exception ex) when (
+                ex is InvalidOperationException or FormatException or InvalidOperationException)
+            {
+                return false;
             }
 
-            return false;
+            return true;
+        }
+
+        private void HandleCreateCombat(string[] commandArgs)
+        {
+            if (!Enum.TryParse<GlobeNodeSid>(commandArgs[1], out var locationSid))
+            {
+                throw new InvalidOperationException($"Invalid location sid {commandArgs[1]}.");
+            }
+            
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+            var targetNode = globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.Sid == locationSid);
+            if (targetNode is null)
+            {
+                throw new InvalidOperationException($"Location {locationSid} not found.");
+            }
+
+            var monsterArgs = commandArgs.Skip(1).ToArray();
+            for (int i = 0; i < monsterArgs.Length; i++)
+            {
+                var monsterInfo = monsterArgs[i];
+                
+                
+            }
         }
     }
 }

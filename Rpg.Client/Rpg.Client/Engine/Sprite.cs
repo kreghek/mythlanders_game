@@ -19,7 +19,7 @@ namespace Rpg.Client.Engine
         /// <summary>
         /// Sprite origin / source, eg pivot point for rotation etc.
         /// </summary>
-        public Vector2 Origin = Vector2.One * 0.5f;
+        public Vector2 Origin;
 
         /// <summary>
         /// Optional texture source rectangle.
