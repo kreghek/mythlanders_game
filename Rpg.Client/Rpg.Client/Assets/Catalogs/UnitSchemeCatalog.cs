@@ -106,7 +106,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
         {
-            var biomeType = BiomeType.Egyptian;
+            const BiomeType BIOME_TYPE = BiomeType.Egyptian;
             return new[]
             {
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -116,10 +116,10 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Mummy,
-                    Biome = biomeType,
+                    Biome = BIOME_TYPE,
                     LocationSids = new[]
                     {
-                        GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
+                        GlobeNodeSid.Disert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
                         GlobeNodeSid.ScreamValey
                     },
                     IsMonster = true,
@@ -139,7 +139,7 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Sphynx,
-                    Biome = biomeType,
+                    Biome = BIOME_TYPE,
                     LocationSids = new[] { GlobeNodeSid.ScreamValey },
 
                     IsMonster = true,
