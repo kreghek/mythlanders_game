@@ -5,7 +5,7 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills
+namespace Rpg.Client.Assets.Skills.Hero.Hoplite
 {
     internal class AresWarBringerThreadsSkill : VisualizedSkillBase
     {
@@ -33,7 +33,8 @@ namespace Rpg.Client.Assets.Skills
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.FireDamage
+            SoundEffectType = GameObjectSoundType.FireDamage,
+            IconOneBasedIndex = 25
         };
     }
 }
