@@ -95,9 +95,10 @@ namespace Rpg.Client.Core
             Updated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void AddMonster(CombatSource combatSource)
+        public void AddMonster(CombatSource combatSource, Unit unit, int slotIndex)
         {
-            
+            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

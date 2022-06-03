@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -398,13 +399,24 @@ namespace Rpg.Client.GameComponents
             {
                 throw new InvalidOperationException($"Location {locationSid} not found.");
             }
+            
+            globe.AddCombat(targetNode);
 
             var monsterArgs = commandArgs.Skip(1).ToArray();
             for (int i = 0; i < monsterArgs.Length; i++)
             {
                 var monsterInfo = monsterArgs[i];
-                
-                
+
+                switch (monsterInfo)
+                {
+                    case "-": continue;
+                    case "a":
+                        var unit = new Unit(
+                            _unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name == UnitName.Aspid), 1);
+                        var combat = targetNode.CombatSequence.Combats.ToArray()[0];
+                        globe.AddMonster(combat, unit, i);
+                        break; 
+                }
             }
         }
     }
