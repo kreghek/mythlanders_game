@@ -21,6 +21,7 @@
         BearBludgeon,
         FrogHornsUp,
         Gunshot,
-        AssaultRifleBurst
+        AssaultRifleBurst,
+        AmazonWarCry
     }
 }

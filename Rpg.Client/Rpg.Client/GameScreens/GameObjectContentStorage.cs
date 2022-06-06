@@ -203,7 +203,8 @@ namespace Rpg.Client.GameScreens
                 { GameObjectSoundType.FireDamage, LoadSkillEffect("FireDamage") },
                 { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
                 { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
-                { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") }
+                { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
+                { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") },
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
