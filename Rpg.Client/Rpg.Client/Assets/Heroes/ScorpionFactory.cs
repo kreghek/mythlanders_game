@@ -1,6 +1,6 @@
 using Rpg.Client.Assets.Equipments.Scorpion;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Scorpion;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

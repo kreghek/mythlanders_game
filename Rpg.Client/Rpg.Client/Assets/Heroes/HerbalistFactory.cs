@@ -1,6 +1,5 @@
 using Rpg.Client.Assets.Equipments.Herbalist;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
 using Rpg.Client.Assets.Skills.Hero.Herbalist;
 using Rpg.Client.Core;
 
