@@ -1,6 +1,6 @@
 ﻿using Rpg.Client.Assets.Equipments.Amazon;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Amazon;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes

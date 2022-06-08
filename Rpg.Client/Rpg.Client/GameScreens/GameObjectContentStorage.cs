@@ -222,10 +222,10 @@ namespace Rpg.Client.GameScreens
 
                 { UnitName.Scorpion, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Priest, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
                 { UnitName.Hoplite, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Amazon, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Amazon, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
                 { UnitName.Engineer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
