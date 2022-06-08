@@ -101,7 +101,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
                 { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
                 { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
-                { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") }
+                { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") },
+                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
