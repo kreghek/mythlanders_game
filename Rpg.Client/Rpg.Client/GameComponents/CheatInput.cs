@@ -153,7 +153,7 @@ namespace Rpg.Client.GameComponents
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],
-                "Medjay" => unitSchemeCatalog.Heroes[UnitName.Medjay],
+                "medjay" => unitSchemeCatalog.Heroes[UnitName.Medjay],
                 "liberator" => unitSchemeCatalog.Heroes[UnitName.Liberator],
 
                 "hoplite" => unitSchemeCatalog.Heroes[UnitName.Hoplite],

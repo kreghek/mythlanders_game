@@ -1,4 +1,5 @@
 using Rpg.Client.Assets.Equipments.Medjay;
+using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Hero.Medjay;
 using Rpg.Client.Core;
@@ -32,6 +33,11 @@ namespace Rpg.Client.Assets.Heroes
 
                 new AddSkillUnitLevel(4, new ChorusEyeSkill(false))
             };
+        }
+
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new SingleSpriteGraphicsConfig();
         }
     }
 }

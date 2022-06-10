@@ -31,7 +31,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Medjay
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash
+            SoundEffectType = GameObjectSoundType.SwordSlash,
+            IconOneBasedIndex = 30
         };
     }
 }

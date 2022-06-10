@@ -26,7 +26,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Medjay
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.FireDamage
+            SoundEffectType = GameObjectSoundType.FireDamage,
+            IconOneBasedIndex = 32
         };
     }
 }
