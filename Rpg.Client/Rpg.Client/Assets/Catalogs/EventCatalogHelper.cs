@@ -122,8 +122,8 @@ namespace Rpg.Client.Assets.Catalogs
                         unitSchemeCatalog.Heroes[UnitName.Spearman]),
                     "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Sage]),
-                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Scorpion]),
+                    "MeetMedjay" => new AddPlayerCharacterOptionAftermath(
+                        unitSchemeCatalog.Heroes[UnitName.Medjay]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Priest]),
                     "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),

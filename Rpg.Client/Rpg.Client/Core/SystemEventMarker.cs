@@ -14,7 +14,7 @@
         MeetMissionary,
 
         MeetPriest,
-        MeetScorpion,
+        MeetMedjay,
         MeetLiberator,
 
         MeetHoplite,

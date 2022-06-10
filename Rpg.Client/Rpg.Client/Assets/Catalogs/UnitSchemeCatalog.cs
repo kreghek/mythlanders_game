@@ -31,7 +31,7 @@ namespace Rpg.Client.Assets.Catalogs
                 new SpearmanFactory(),
                 new SageFactory(),
 
-                new ScorpionFactory(),
+                new MedjayFactory(),
                 new PriestFactory(),
                 new LiberatorFactory(),
 

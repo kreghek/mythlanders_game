@@ -12,7 +12,7 @@
         Sage,
         Liberator,
         Legionnaire,
-        Scorpion,
+        Medjay,
         Engineer,
         Amazon
     }

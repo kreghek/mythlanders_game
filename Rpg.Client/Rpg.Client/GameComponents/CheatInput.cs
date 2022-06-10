@@ -125,7 +125,7 @@ namespace Rpg.Client.GameComponents
                 "missionary" => SystemEventMarker.MeetMissionary,
 
                 "priest" => SystemEventMarker.MeetPriest,
-                "scorpion" => SystemEventMarker.MeetScorpion,
+                "Medjay" => SystemEventMarker.MeetMedjay,
                 "liberator" => SystemEventMarker.MeetLiberator,
 
                 "hoplite" => SystemEventMarker.MeetHoplite,
@@ -153,7 +153,7 @@ namespace Rpg.Client.GameComponents
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],
-                "scorpion" => unitSchemeCatalog.Heroes[UnitName.Scorpion],
+                "Medjay" => unitSchemeCatalog.Heroes[UnitName.Medjay],
                 "liberator" => unitSchemeCatalog.Heroes[UnitName.Liberator],
 
                 "hoplite" => unitSchemeCatalog.Heroes[UnitName.Hoplite],

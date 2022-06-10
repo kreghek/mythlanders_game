@@ -304,6 +304,10 @@
     <value>Mass heal</value>
     <comment>Skill</comment>
   </data>
+  <data name="Medjay" xml:space="preserve">
+    <value>Medjay</value>
+    <comment>Hero</comment>
+  </data>
   <data name="Mines" xml:space="preserve">
     <value>The Mines</value>
     <comment>Location</comment>

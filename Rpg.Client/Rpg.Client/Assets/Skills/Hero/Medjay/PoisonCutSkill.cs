@@ -4,17 +4,17 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
-namespace Rpg.Client.Assets.Skills.Hero.Scorpion
+namespace Rpg.Client.Assets.Skills.Hero.Medjay
 {
-    internal class PoisonedSpearSkill : VisualizedSkillBase
+    internal class PoisonCutSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.PoisonedSpear;
 
-        public PoisonedSpearSkill() : this(false)
+        public PoisonCutSkill() : this(false)
         {
         }
 
-        public PoisonedSpearSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public PoisonCutSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

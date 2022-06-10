@@ -22,7 +22,7 @@
         Sage,
 
         Priest,
-        Scorpion,
+        Medjay,
         Liberator,
 
         Hoplite,

@@ -101,8 +101,9 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
                 { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
                 { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
+                { UnitName.Medjay, LoadHeroTexture(contentManager, "Medjay") },
                 { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") },
-                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") }
+                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") },
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -221,7 +222,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Spearman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Sage, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.Scorpion, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Medjay, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Priest, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
