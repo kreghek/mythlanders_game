@@ -937,29 +937,34 @@ namespace Rpg.Client.GameScreens.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    if (!_combat.CombatSource.IsTrainingOnly)
-                    {
-                        _globe.GlobeLevel.Level++;
-                    }
-
-                    if (_globe.CurrentEvent is not null)
-                    {
-                        _globe.CurrentEvent.Completed = true;
-
-                        _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
-                    }
-
+                    HandleGlobeVictoryResult();
                     break;
 
                 case CombatResult.Defeat:
-                    var minLevel = GetUnbreakableLevel();
-                    var levelDiff = _globe.GlobeLevel.Level - minLevel;
-                    _globe.GlobeLevel.Level = minLevel + levelDiff / 2;
-
+                    HandleGlobeDefeatResult();
                     break;
 
                 default:
-                    throw new InvalidOperationException("Unknown combat result.");
+                    throw new InvalidOperationException($"Unknown combat result {result}.");
+            }
+        }
+
+        private void HandleGlobeDefeatResult()
+        {
+            var minLevel = GetUnbreakableLevel();
+            var levelDiff = _globe.GlobeLevel.Level - minLevel;
+            _globe.GlobeLevel.Level = minLevel + levelDiff / 2;
+        }
+
+        private void HandleGlobeVictoryResult()
+        {
+            _globe.GlobeLevel.Level++;
+
+            if (_globe.CurrentEvent is not null)
+            {
+                _globe.CurrentEvent.Completed = true;
+
+                _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
             }
         }
 

@@ -258,10 +258,6 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Info</value>
   </data>
-  <data name="IsTrainingOnly" xml:space="preserve">
-    <value>Is training only</value>
-    <comment>Локация только для тренировки. Не увеличивает уровень биома.</comment>
-  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Level Up</value>
   </data>

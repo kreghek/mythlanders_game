@@ -224,8 +224,6 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         Level = combatLevel,
                         EnemyGroup = new Group(),
-                        IsTrainingOnly = /*combatToTrainingIndex == locationIndex &&
-                                         biome.Nodes.Where(x => x.IsAvailable).Count() == 4*/ false,
                         IsBossLevel = selectedNode.Item2
                     };
 

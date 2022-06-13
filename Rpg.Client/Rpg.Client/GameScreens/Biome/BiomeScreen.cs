@@ -235,11 +235,6 @@ namespace Rpg.Client.GameScreens.Biome
             var sb = new StringBuilder();
             sb.AppendLine(localizedName);
 
-            if (locationInHint.CombatSource.IsTrainingOnly)
-            {
-                sb.AppendLine(UiResource.IsTrainingOnly);
-            }
-
             sb.AppendLine(combatSequenceSizeText);
             sb.AppendLine(rewards);
 

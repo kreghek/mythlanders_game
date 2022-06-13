@@ -273,9 +273,6 @@
   <data name="InfoButtonTitle" xml:space="preserve">
     <value>Инфо</value>
   </data>
-  <data name="IsTrainingOnly" xml:space="preserve">
-    <value>Для тренировки</value>
-  </data>
   <data name="LevelUpButtonTitle" xml:space="preserve">
     <value>Повысить</value>
   </data>

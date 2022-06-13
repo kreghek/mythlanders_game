@@ -448,15 +448,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is training only.
-        /// </summary>
-        internal static string IsTrainingOnly {
-            get {
-                return ResourceManager.GetString("IsTrainingOnly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Level Up.
         /// </summary>
         internal static string LevelUpButtonTitle {
