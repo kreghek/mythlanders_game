@@ -22,18 +22,18 @@ namespace LEDialoguePlotConverter
             {
                 var infoFileDeserialized = JsonSerializer.Deserialize<Info[]>(File.ReadAllText(infoFile));
                 
-                var eventDto = new EventDto
-                {
-                    Sid = infoFileDeserialized.Sid,
-                    Name = infoFileDeserialized.Name,
-                    Location = infoFileDeserialized.Location,
-                    BeforeCombatAftermath = excelEvent.BeforeCombatAftermath,
-                    AfterCombatAftermath = excelEvent.AfterCombatAftermath,
-                    GoalDescription = excelEvent.GoalDescription,
-                    ParentSids = ParseParentSids(excelEvent)
-                };
+                //var eventDto = new EventDto
+                //{
+                //    Sid = infoFileDeserialized.Sid,
+                //    Name = infoFileDeserialized.Name,
+                //    Location = infoFileDeserialized.Location,
+                //    BeforeCombatAftermath = excelEvent.BeforeCombatAftermath,
+                //    AfterCombatAftermath = excelEvent.AfterCombatAftermath,
+                //    GoalDescription = excelEvent.GoalDescription,
+                //    ParentSids = ParseParentSids(excelEvent)
+                //};
                 
-                eventDtoList.Add(eventDto);
+                //eventDtoList.Add(eventDto);
             }
             
             var serialized = JsonSerializer.Serialize(new{}, new JsonSerializerOptions

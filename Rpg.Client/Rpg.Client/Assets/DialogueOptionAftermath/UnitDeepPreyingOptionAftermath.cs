@@ -1,6 +1,7 @@
-﻿using Rpg.Client.Core.GlobalEvents;
+﻿using Rpg.Client.Core;
+using Rpg.Client.Core.GlobalEvents;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
     internal sealed class UnitDeepPreyingOptionAftermath : IOptionAftermath
     {

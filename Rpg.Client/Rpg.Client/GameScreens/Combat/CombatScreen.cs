@@ -415,7 +415,14 @@ namespace Rpg.Client.GameScreens.Combat
 
                             if (_globe.CurrentEvent is not null)
                             {
-                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                                if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
+                                {
+                                    _globe.CurrentEventNode = null;
+                                }
+                                else
+                                {
+                                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                                }
 
                                 _globe.CurrentEvent.Counter++;
                             }
@@ -964,7 +971,14 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 _globe.CurrentEvent.Completed = true;
 
-                _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
+                if (_globe.CurrentEvent.AfterCombatStartNodeSid is null)
+                {
+                    _globe.CurrentEventNode = null;
+                }
+                else
+                {
+                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.AfterCombatStartNodeSid);
+                }
             }
         }
 

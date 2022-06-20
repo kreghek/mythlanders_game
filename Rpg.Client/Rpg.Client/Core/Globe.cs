@@ -112,14 +112,12 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
+        private void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
             IEventCatalog eventCatalog, GlobeLevel globeLevel)
         {
             var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
-                .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
-                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= globeLevel.Level) ||
-                            (x.RequiredBiomeLevel is null))
+                .Where(x => x.Requirements is null || x.Requirements.All(r => r.IsApplicableFor(this, nodesWithCombat.First())))
                 .Where(x => IsUnlocked(x, eventCatalog.Events));
             var availableEventList = availableEvents.ToList();
 
@@ -171,7 +169,7 @@ namespace Rpg.Client.Core
         }
 
 
-        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
+        private void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
             GlobeLevel globeLevel)
         {
             // create dialogs of nodes with combat

@@ -140,7 +140,7 @@ namespace Rpg.Client.Assets.Catalogs
             var splitedText = StringHelper.LineBreaking(fixedText, SPEECH_TEXT_MAX_SYMBOL_COUNT);
             return new EventTextFragment
             {
-                Text = StringHelper.LineBreaking(splitedText, SPEECH_TEXT_MAX_SYMBOL_COUNT),
+                TextSid = StringHelper.LineBreaking(splitedText, SPEECH_TEXT_MAX_SYMBOL_COUNT),
                 Speaker = ParseSpeaker(fragmentStorageModel)
             };
         }

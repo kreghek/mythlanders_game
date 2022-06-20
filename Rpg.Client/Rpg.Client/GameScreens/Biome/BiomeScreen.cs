@@ -207,7 +207,12 @@ namespace Rpg.Client.GameScreens.Biome
             if (availableEvent is not null)
             {
                 _globe.CurrentEvent = availableEvent;
-                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+
+                if (_globe.CurrentEvent.BeforeCombatStartNodeSid is not null)
+                {
+                    var eventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                    _globe.CurrentEventNode = eventNode;
+                }
 
                 _globe.CurrentEvent.Counter++;
 

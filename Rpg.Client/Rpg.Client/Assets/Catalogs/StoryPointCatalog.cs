@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.StoryPoints;
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.StoryPoints
+namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class StoryPointCatalog
     {
