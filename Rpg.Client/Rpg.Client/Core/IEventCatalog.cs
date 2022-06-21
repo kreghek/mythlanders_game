@@ -8,11 +8,6 @@ namespace Rpg.Client.Core
     {
         IEnumerable<Event> Events { get; }
 
-        EventNode GetDialogRoot(string sid);
-    }
-
-    internal interface IEventInitializer
-    {
-        void Init();
+        Dialogue GetDialogue(string sid);
     }
 }

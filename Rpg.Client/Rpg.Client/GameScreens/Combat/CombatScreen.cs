@@ -417,12 +417,12 @@ namespace Rpg.Client.GameScreens.Combat
                             {
                                 if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
                                 {
-                                    _globe.CurrentEventNode = null;
+                                    _globe.CurrentDialogue = null;
                                 }
                                 else
                                 {
-                                    _globe.CurrentEventNode =
-                                        _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                                    _globe.CurrentDialogue =
+                                        _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
                                 }
 
                                 _globe.CurrentEvent.Counter++;
@@ -442,7 +442,7 @@ namespace Rpg.Client.GameScreens.Combat
                     }
                     else
                     {
-                        if (_globe.CurrentEventNode is null)
+                        if (_globe.CurrentDialogue is null)
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
@@ -974,11 +974,11 @@ namespace Rpg.Client.GameScreens.Combat
 
                 if (_globe.CurrentEvent.AfterCombatStartNodeSid is null)
                 {
-                    _globe.CurrentEventNode = null;
+                    _globe.CurrentDialogue = null;
                 }
                 else
                 {
-                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.AfterCombatStartNodeSid);
+                    _globe.CurrentDialogue = _eventCatalog.GetDialogue(_globe.CurrentEvent.AfterCombatStartNodeSid);
                 }
             }
         }

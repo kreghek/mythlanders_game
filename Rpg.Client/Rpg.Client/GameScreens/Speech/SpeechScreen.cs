@@ -29,7 +29,6 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-        private readonly EventContext _dialogContext;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -42,19 +41,17 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
-        private readonly IStoryPointCatalog _storyPointCatalog;
 
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _counter;
 
-        private EventNode _currentEventNode;
-
         private int _currentFragmentIndex;
         private int _frameIndex;
 
         private bool _isInitialized;
+        private readonly DialoguePlayer _dialoguePlayer;
 
         public SpeechScreen(EwarGame game) : base(game)
         {
@@ -62,13 +59,16 @@ namespace Rpg.Client.GameScreens.Speech
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = _globeProvider.Globe;
+            if (_globe is null)
+            {
+                throw new InvalidOperationException();
+            }
 
-            _currentEventNode = _globe.CurrentEventNode ?? throw new InvalidOperationException();
             _player = _globe.Player ?? throw new InvalidOperationException();
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
-            _storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
+            var storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
 
             var combat = _globe.ActiveCombat ??
                          throw new InvalidOperationException(
@@ -90,7 +90,9 @@ namespace Rpg.Client.GameScreens.Speech
             _optionButtons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
 
-            _dialogContext = new EventContext(_globe, _storyPointCatalog);
+            _dialoguePlayer = new DialoguePlayer(_globe.CurrentDialogue ?? throw new InvalidOperationException(),
+                new DialogueContextFactory(_globe, storyPointCatalog));
+            
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
@@ -98,7 +100,7 @@ namespace Rpg.Client.GameScreens.Speech
             _settings = game.Services.GetService<GameSettings>();
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-            if (_globe.CurrentEventNode.CombatPosition == EventPosition.BeforeCombat)
+            if (_globe.CurrentDialogue.CombatPosition == EventPosition.BeforeCombat)
             {
                 soundtrackManager.PlayCombatTrack(_globe.ActiveCombat.Node.BiomeType);
             }
@@ -211,7 +213,7 @@ namespace Rpg.Client.GameScreens.Speech
         {
             const int SPEAKER_FRAME_SIZE = 256;
 
-            var currentFragment = _currentEventNode.TextBlock.Fragments[_currentFragmentIndex];
+            var currentFragment = _dialoguePlayer.CurrentTextFragments[_currentFragmentIndex];
             var speaker = currentFragment.Speaker;
 
             if (speaker == UnitName.Environment)
@@ -352,14 +354,19 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void HandleDialogueEnd()
         {
-            if (_currentEventNode.CombatPosition == EventPosition.BeforeCombat)
+            if (_globe.CurrentDialogue is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (_globe.CurrentDialogue.CombatPosition == EventPosition.BeforeCombat)
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
             }
             else
             {
                 _globe.CurrentEvent = null;
-                _globe.CurrentEventNode = null;
+                _globe.CurrentDialogue = null;
                 _globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
 
@@ -374,7 +381,7 @@ namespace Rpg.Client.GameScreens.Speech
         {
             _textFragments.Clear();
             _currentFragmentIndex = 0;
-            foreach (var textFragment in _currentEventNode.TextBlock.Fragments)
+            foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
             {
                 var speechTexture = _uiContentStorage.GetSpeechTexture();
                 if (textFragment.Speaker == UnitName.Environment)
@@ -393,22 +400,21 @@ namespace Rpg.Client.GameScreens.Speech
             }
 
             _optionButtons.Clear();
-            foreach (var option in _currentEventNode.Options)
+            foreach (var option in _dialoguePlayer.CurrentOptions)
             {
                 var optionLocalizedText = GetOptionLocalizedText(option);
                 var optionButton = new TextButton(optionLocalizedText, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 optionButton.OnClick += (_, _) =>
                 {
-                    option.Aftermath?.Apply(_dialogContext);
+                    _dialoguePlayer.SelectOption(option);
 
-                    if (option.Next == EventNode.EndNode)
+                    if (_dialoguePlayer.IsEnd)
                     {
                         HandleDialogueEnd();
                     }
                     else
                     {
-                        _currentEventNode = option.Next;
                         _isInitialized = false;
                     }
                 };

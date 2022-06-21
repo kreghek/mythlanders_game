@@ -211,8 +211,8 @@ namespace Rpg.Client.GameScreens.Biome
 
                 if (_globe.CurrentEvent.BeforeCombatStartNodeSid is not null)
                 {
-                    var eventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
-                    _globe.CurrentEventNode = eventNode;
+                    var eventNode = _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                    _globe.CurrentDialogue = eventNode;
                 }
 
                 _globe.CurrentEvent.Counter++;

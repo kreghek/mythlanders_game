@@ -138,7 +138,7 @@ namespace Rpg.Client.Assets.Catalogs
             private set => _events = value;
         }
 
-        public EventNode GetDialogRoot(string sid)
+        public Dialogue GetDialogue(string sid)
         {
             throw new NotImplementedException();
         }

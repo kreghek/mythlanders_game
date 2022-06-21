@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Catalogs
     {
         private bool _isInitialized;
 
-        private IDictionary<string, EventNode>? _nodes;
+        private IDictionary<string, Dialogue>? _nodes;
 
         public StaticTextEventCatalog()
         {
@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         public IEnumerable<Event> Events { get; private set; }
 
-        public EventNode GetDialogRoot(string sid)
+        public Dialogue GetDialogue(string sid)
         {
             if (!_isInitialized)
             {
@@ -86,9 +86,11 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            _nodes = new Dictionary<string, EventNode>
+            var mainSlavicBefore1Dialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
+
+            _nodes = new Dictionary<string, Dialogue>
             {
-                { "MainSlavic1Before", mainSlavic1BeforeRoot }
+                { "MainSlavic1Before", mainSlavicBefore1Dialogue }
             };
 
             _isInitialized = true;

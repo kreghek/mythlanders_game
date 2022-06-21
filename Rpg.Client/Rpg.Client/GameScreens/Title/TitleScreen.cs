@@ -345,12 +345,12 @@ namespace Rpg.Client.GameScreens.Title
 
                 if (_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid is null)
                 {
-                    _globeProvider.Globe.CurrentEventNode = null;
+                    _globeProvider.Globe.CurrentDialogue = null;
                 }
                 else
                 {
-                    _globeProvider.Globe.CurrentEventNode =
-                        _eventCatalog.GetDialogRoot(_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid);
+                    _globeProvider.Globe.CurrentDialogue =
+                        _eventCatalog.GetDialogue(_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid);
                 }
 
                 _globeProvider.Globe.CurrentEvent.Counter++;

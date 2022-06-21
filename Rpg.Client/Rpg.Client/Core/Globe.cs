@@ -40,7 +40,7 @@ namespace Rpg.Client.Core
 
         public Event? CurrentEvent { get; internal set; }
 
-        public EventNode? CurrentEventNode { get; set; }
+        public Dialogue? CurrentDialogue { get; set; }
 
         public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 

@@ -78,7 +78,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             _camera = Game.Services.GetService<Camera2D>();
 
             _globe = _globeProvider.Globe;
-            _currentEventNode = _globe.CurrentEventNode ?? throw new InvalidOperationException();
+            //_currentEventNode = _globe.CurrentDialogue ?? throw new InvalidOperationException();
 
             _combat = _globe.ActiveCombat ??
                       throw new InvalidOperationException(
@@ -383,7 +383,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     }
                     else
                     {
-                        if (_globe.CurrentEventNode is null)
+                        if (_globe.CurrentDialogue is null)
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
