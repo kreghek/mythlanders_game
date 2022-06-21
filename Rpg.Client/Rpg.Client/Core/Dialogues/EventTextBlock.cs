@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventTextBlock
     {

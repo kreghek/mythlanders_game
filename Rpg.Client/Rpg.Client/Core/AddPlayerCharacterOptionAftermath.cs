@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿using Rpg.Client.Core.Dialogues;
+
+namespace Rpg.Client.Core
 {
     internal sealed class AddPlayerCharacterOptionAftermath : IOptionAftermath
     {

@@ -1,4 +1,5 @@
 ﻿using Rpg.Client.Core;
+using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.GlobalEvents;
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath

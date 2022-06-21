@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Rpg.Client.Core
+namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventContext : IEventContext
     {

@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
+using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.EventSerialization;
 
 namespace Rpg.Client.Tests.Core
