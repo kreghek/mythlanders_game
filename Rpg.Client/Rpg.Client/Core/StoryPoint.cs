@@ -8,8 +8,14 @@ namespace Rpg.Client.Core
 {
     internal sealed class StoryPoint : IStoryPoint
     {
+        public StoryPoint(string sid)
+        {
+            Sid = sid;
+        }
+
         public IReadOnlyCollection<IStoryPointAftermath>? Aftermaths { get; init; }
 
+        public string Sid { get; }
         public string? TitleSid { get; init; }
         public IReadOnlyCollection<IJob>? CurrentJobs { get; init; }
 

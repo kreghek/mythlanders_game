@@ -185,12 +185,12 @@ namespace Rpg.Client.GameComponents
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-            var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
-            if (characterEvent is not null)
-            {
-                // Simulate the event resolving.
-                characterEvent.Counter = 1;
-            }
+            //var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
+            // if (characterEvent is not null)
+            // {
+            //     // Simulate the event resolving.
+            //     characterEvent.Counter = 1;
+            // }
         }
 
         private void HandleChangeHp(string[] args)

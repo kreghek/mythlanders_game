@@ -53,6 +53,7 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
+        private readonly IStoryPointCatalog _storyPointCatalog;
 
         public SpeechScreen(EwarGame game) : base(game)
         {
@@ -66,6 +67,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
+            _storyPointCatalog = game.Services.GetService<IStoryPointCatalog>();
 
             var combat = _globe.ActiveCombat ??
                          throw new InvalidOperationException(
@@ -87,7 +89,7 @@ namespace Rpg.Client.GameScreens.Speech
             _buttons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
 
-            _dialogContext = new EventContext(_globe);
+            _dialogContext = new EventContext(_globe, _storyPointCatalog);
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
@@ -387,11 +389,6 @@ namespace Rpg.Client.GameScreens.Speech
                         }
                         else
                         {
-                            if (_globe.CurrentEvent.GoalDescription is not null)
-                            {
-                                _player.CurrentGoalEvent = _globe.CurrentEvent;
-                            }
-
                             _globe.CurrentEvent = null;
                             _globe.CurrentEventNode = null;
                             _globe.UpdateNodes(_dice, _eventCatalog);

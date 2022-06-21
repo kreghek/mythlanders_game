@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 
+using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
@@ -126,7 +127,7 @@ namespace Rpg.Client.Assets.Catalogs
                         unitSchemeCatalog.Heroes[UnitName.Medjay]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Priest]),
-                    "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
+                    "SwordsmanDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
                     _ => optionAftermath
                 };
             }

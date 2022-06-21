@@ -117,8 +117,7 @@ namespace Rpg.Client.Core
         {
             var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
-                .Where(x => x.Requirements is null || x.Requirements.All(r => r.IsApplicableFor(this, nodesWithCombat.First())))
-                .Where(x => IsUnlocked(x, eventCatalog.Events));
+                .Where(x => IsRequirementsPassed(nodesWithCombat, x));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)
@@ -131,15 +130,16 @@ namespace Rpg.Client.Core
                     break;
                 }
 
-                var nodeEvents = availableEventList.Where(x =>
-                    (x.ApplicableOnlyFor is null) ||
-                    (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
+                var nodeEvents = availableEventList
+                    .Where(x => x.Requirements is null || x.Requirements.All(r => r.IsApplicableFor(this, node)))
+                    .ToArray();
                 if (nodeEvents.Any())
                 {
-                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
+                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.Priority == TextEventPriority.High);
                     if (highPriorityEvent is not null)
                     {
                         node.AssignedEvent = highPriorityEvent;
+                        availableEventList.Remove(node.AssignedEvent);
                     }
                     else
                     {
@@ -151,12 +151,16 @@ namespace Rpg.Client.Core
                             var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
 
                             node.AssignedEvent = rolledEvent;
+                            availableEventList.Remove(node.AssignedEvent);
                         }
                     }
-
-                    availableEventList.Remove(node.AssignedEvent);
                 }
             }
+        }
+
+        private bool IsRequirementsPassed(GlobeNode[] nodesWithCombat, Event x)
+        {
+            return x.Requirements is null || nodesWithCombat.Any(node => x.Requirements.All(r => r.IsApplicableFor(this, node)));
         }
 
         private static void ClearNodeStates(Biome biome)
@@ -179,31 +183,6 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }
-        }
-
-        private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)
-        {
-            if (testedEvent.RequiredEventsCompleted is null)
-            {
-                return true;
-            }
-
-            var completedEvents = events.Where(x => x.Completed).ToArray();
-            foreach (var eventSid in testedEvent.RequiredEventsCompleted)
-            {
-                if (eventSid is null)
-                {
-                    continue;
-                }
-
-                var foundCompletedEvent = completedEvents.Any(x => x.Title == eventSid);
-                if (!foundCompletedEvent)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private static void RefreshBiomeStates(IEnumerable<Biome> biomes)

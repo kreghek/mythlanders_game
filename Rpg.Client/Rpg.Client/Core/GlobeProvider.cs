@@ -125,10 +125,7 @@ namespace Rpg.Client.Core
 
             var progressDto = saveDataDto.Progress;
 
-            var player = new Player(saveDataDto.Name)
-            {
-                CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
-            };
+            var player = new Player(saveDataDto.Name);
 
             Globe = new Globe(_biomeGenerator, player);
 
@@ -160,7 +157,6 @@ namespace Rpg.Client.Core
                     Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                     KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
                     Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
-                    CurrentGoalEventSid = Globe.Player.CurrentGoalEvent?.Sid
                 };
             }
 
@@ -343,7 +339,7 @@ namespace Rpg.Client.Core
 
         private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
         {
-            var startStoryPoints = storyPointCatalog.Create(globe);
+            var startStoryPoints = storyPointCatalog.Init(globe);
             foreach (var storyPoint in startStoryPoints)
             {
                 globe.AddActiveStoryPoint(storyPoint);

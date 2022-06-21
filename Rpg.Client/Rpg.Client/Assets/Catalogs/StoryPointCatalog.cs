@@ -6,13 +6,21 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class StoryPointCatalog
+    internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
-        public IReadOnlyCollection<IStoryPoint> Create(Globe globe)
+        private readonly IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
+        public IReadOnlyCollection<IStoryPoint> GetAll()
         {
-            var activeList = new List<IStoryPoint>();
+            return _storyPoints;
+        }
 
-            var story2 = new StoryPoint
+        public IReadOnlyCollection<IStoryPoint> Init(Globe globe)
+        {
+            var spList  = new List<IStoryPoint>();
+            
+            var activeList  = new List<IStoryPoint>();
+        
+            var story2 = new StoryPoint("2")
             {
                 TitleSid = "История2",
                 CurrentJobs = new[]
@@ -37,8 +45,10 @@ namespace Rpg.Client.Assets.Catalogs
                     new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Oasis))
                 }
             };
+            
+            spList.Add(story2);
 
-            var story1 = new StoryPoint
+            var story1 = new StoryPoint("1")
             {
                 TitleSid = "История1",
                 CurrentJobs = new[]
@@ -67,6 +77,7 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             activeList.Add(story1);
+            spList.Add(story1);
 
             return activeList;
         }
