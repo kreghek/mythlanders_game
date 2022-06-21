@@ -1,6 +1,7 @@
-name: Temp Build
+name: Build
 
-on: [push]
+on:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,12 +25,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.x'
-    
-#    - name: Setup wine64 and 7z
-#      run: sudo apt install wine64 p7zip-full
-    
-    - name: Setup Wine for effect compilation
-      run: dotnet tool install -g dotnet-mgfxc
 
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
@@ -42,7 +37,6 @@ jobs:
 
     - name: Publish
       run: dotnet publish Rpg.Client/Rpg.Client/Rpg.Client.csproj --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
-    
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time
@@ -56,7 +50,7 @@ jobs:
       with:
         path: bin/version.txt
         contents: |
-          ver 0.1-tempdev#${{ github.run_number }}
+          ver 0.1-dev#${{ github.run_number }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
@@ -66,5 +60,5 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        name: ewar-${{ matrix.runtime }}-${{ github.run_number }}-${{ env.F_TIME }}
+        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
         path: bin

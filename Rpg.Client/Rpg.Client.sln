@@ -8,7 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D89326DF-EE4E-4EE9-8C4E-112776FA7D85}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\.github\workflows\nightly.yml = ..\.github\workflows\nightly.yml
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
+		..\.github\workflows\calibreapp-image-actions.yml = ..\.github\workflows\calibreapp-image-actions.yml
+		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
+		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlotConverter", "PlotConverter\PlotConverter.csproj", "{28BD3E04-5310-40ED-928A-1D91EE26A8B5}"
