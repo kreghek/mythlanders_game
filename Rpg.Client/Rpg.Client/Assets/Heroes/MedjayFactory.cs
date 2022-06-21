@@ -1,4 +1,4 @@
-using Rpg.Client.Assets.Equipments.Scorpion;
+using Rpg.Client.Assets.Equipments.Medjay;
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Hero.Medjay;

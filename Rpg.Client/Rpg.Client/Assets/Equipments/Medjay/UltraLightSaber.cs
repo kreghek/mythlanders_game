@@ -2,7 +2,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Equipments;
 using Rpg.Client.Core.Skills;
 
-namespace Rpg.Client.Assets.Equipments.Scorpion
+namespace Rpg.Client.Assets.Equipments.Medjay
 {
     internal sealed class UltraLightSaber : SimpleBonusEquipmentBase
     {

@@ -2,7 +2,7 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Scorpion
+namespace Rpg.Client.Assets.Equipments.Medjay
 {
     internal sealed class FireResistBlackArmor : IEquipmentScheme
     {
