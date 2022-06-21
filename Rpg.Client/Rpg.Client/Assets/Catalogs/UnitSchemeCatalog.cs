@@ -119,7 +119,8 @@ namespace Rpg.Client.Assets.Catalogs
                     Biome = BIOME_TYPE,
                     LocationSids = new[]
                     {
-                        GlobeNodeSid.Disert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
+                        GlobeNodeSid.Disert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis,
+                        GlobeNodeSid.Obelisk,
                         GlobeNodeSid.ScreamValey
                     },
                     IsMonster = true,

@@ -43,6 +43,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
+        private readonly IStoryPointCatalog _storyPointCatalog;
 
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
@@ -53,7 +54,6 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
-        private readonly IStoryPointCatalog _storyPointCatalog;
 
         public SpeechScreen(EwarGame game) : base(game)
         {

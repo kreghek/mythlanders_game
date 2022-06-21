@@ -32,7 +32,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Amazon
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.SwordSlash,
-            IconOneBasedIndex = 29,
+            IconOneBasedIndex = 29
         };
     }
 }

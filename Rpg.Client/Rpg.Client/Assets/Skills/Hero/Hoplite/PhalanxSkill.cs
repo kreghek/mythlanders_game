@@ -23,8 +23,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, 1, 0.75f),
-            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, new LeftAllyTargetSelector(), duration: 1, multiplier: 0.75f),
-            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, duration: 1, multiplier: 0.25f, imposeConditions:new[]{ new IsRightAllyWithShieldCondition() })
+            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, new LeftAllyTargetSelector(), duration: 1,
+                multiplier: 0.75f),
+            SkillRuleFactory.CreateProtection(SkillSid.DefenseStance, SkillDirection.Self, duration: 1,
+                multiplier: 0.25f, imposeConditions: new[] { new IsRightAllyWithShieldCondition() })
         };
 
         public override SkillSid Sid => SkillSid.DefenseStance;
@@ -37,6 +39,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             SoundEffectType = GameObjectSoundType.Defence,
             IconOneBasedIndex = 23
         };
+
+        private static int? GetRightIndex(int baseIndex)
+        {
+            return baseIndex switch
+            {
+                0 => 2,
+                1 => 0,
+                3 => 5,
+                4 => 3,
+                _ => null
+            };
+        }
 
         private sealed class IsRightAllyWithShieldCondition : IEffectCondition
         {
@@ -52,37 +66,21 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
                 {
                     return false;
                 }
-                else
-                {
-                    var rightAllyUnit = aliveAllies.SingleOrDefault(x => ((CombatUnit)x).SlotIndex == targetIndex);
 
-                    if (rightAllyUnit is not null)
-                    {
-                        return rightAllyUnit.Unit.UnitScheme.Name == UnitName.Assaulter;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                var rightAllyUnit = aliveAllies.SingleOrDefault(x => ((CombatUnit)x).SlotIndex == targetIndex);
+
+                if (rightAllyUnit is not null)
+                {
+                    return rightAllyUnit.Unit.UnitScheme.Name == UnitName.Assaulter;
                 }
+
+                return false;
             }
 
             public string GetDescription()
             {
                 return "RIGHT WITH SHIELD";
             }
-        }
-
-        private static int? GetRightIndex(int baseIndex)
-        {
-            return baseIndex switch
-            {
-                0 => 2,
-                1 => 0,
-                3 => 5,
-                4 => 3,
-                _ => null
-            };
         }
     }
 }

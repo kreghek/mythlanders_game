@@ -49,7 +49,8 @@ namespace Rpg.Client.Assets
             return CreatePeriodicDamage(sid, power: 1f, duration, direction);
         }
 
-        public static EffectRule CreatePeriodicDamage(SkillSid sid, float power, int duration, ITargetSelector direction)
+        public static EffectRule CreatePeriodicDamage(SkillSid sid, float power, int duration,
+            ITargetSelector direction)
         {
             var compensationDuration = GetCompensatedDuration(direction, duration);
 

@@ -18,9 +18,11 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
         public override IReadOnlyList<EffectRule> Rules { get; } = new List<EffectRule>
         {
             SkillRuleFactory.CreatePowerUp(SID, SkillDirection.AllFriendly, duration: 3),
-            new EffectRule{
+            new EffectRule
+            {
                 Direction = SkillDirection.AllFriendly,
-                EffectCreator = new EffectCreator(u=>{
+                EffectCreator = new EffectCreator(u =>
+                {
                     return new ResolveModifyEffect(u, new DurationEffectLifetime(new EffectDuration(3)), modifier: 1f);
                 })
             }

@@ -9,6 +9,7 @@ namespace Rpg.Client.Assets.Catalogs
     internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
         private readonly IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
+
         public IReadOnlyCollection<IStoryPoint> GetAll()
         {
             return _storyPoints;

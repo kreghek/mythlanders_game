@@ -28,7 +28,9 @@ namespace Rpg.Client.Core.SkillEffects
                 return null;
             }
 
-            var backCombatUnit = CombatContext.Combat.AliveUnits.SingleOrDefault(x => ((CombatUnit)x).SlotIndex == backSlotIndex && ((CombatUnit)x).Unit.IsPlayerControlled == isPlayerControlled);
+            var backCombatUnit = CombatContext.Combat.AliveUnits.SingleOrDefault(x =>
+                ((CombatUnit)x).SlotIndex == backSlotIndex &&
+                ((CombatUnit)x).Unit.IsPlayerControlled == isPlayerControlled);
             if (backCombatUnit is null)
             {
                 return null;

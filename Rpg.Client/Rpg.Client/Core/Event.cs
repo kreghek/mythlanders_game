@@ -10,10 +10,10 @@ namespace Rpg.Client.Core
         public bool Completed { get; set; }
         public int Counter { get; set; }
         public bool IsGameStart { get; init; }
-        public TextEventPriority Priority { get; init; }
         public bool IsUnique { get; init; }
-        public string? Sid { get; init; }
+        public TextEventPriority Priority { get; init; }
         public IReadOnlyCollection<ITextEventRequirement>? Requirements { get; init; }
+        public string? Sid { get; init; }
     }
 
     internal interface ITextEventRequirement

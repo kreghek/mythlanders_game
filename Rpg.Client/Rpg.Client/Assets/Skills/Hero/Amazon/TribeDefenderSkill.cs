@@ -27,7 +27,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Amazon
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.EnergoShot,
-            IconOneBasedIndex = 29,
+            IconOneBasedIndex = 29
         };
     }
 }

@@ -103,7 +103,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
                 { UnitName.Medjay, LoadHeroTexture(contentManager, "Medjay") },
                 { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") },
-                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") },
+                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") }
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -206,7 +206,7 @@ namespace Rpg.Client.GameScreens
                 { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
                 { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
                 { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
-                { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") },
+                { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") }
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>

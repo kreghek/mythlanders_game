@@ -26,7 +26,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             new EffectRule
             {
                 Direction = SkillDirection.Target,
-                EffectCreator = new EffectCreator(_=> new PushBackEffect())
+                EffectCreator = new EffectCreator(_ => new PushBackEffect())
             }
         };
 
