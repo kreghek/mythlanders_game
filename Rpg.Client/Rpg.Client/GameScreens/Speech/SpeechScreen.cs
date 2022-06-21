@@ -27,11 +27,7 @@ namespace Rpg.Client.GameScreens.Speech
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
         private readonly Texture2D _backgroundTexture;
-
-        private readonly IList<ButtonBase> _optionButtons;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-
-        private EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -40,6 +36,8 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
+
+        private readonly IList<ButtonBase> _optionButtons;
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
@@ -49,6 +47,8 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _counter;
+
+        private EventNode _currentEventNode;
 
         private int _currentFragmentIndex;
         private int _frameIndex;
@@ -349,6 +349,26 @@ namespace Rpg.Client.GameScreens.Speech
             return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
         }
 
+        private void HandleDialogueEnd()
+        {
+            if (_currentEventNode.CombatPosition == EventPosition.BeforeCombat)
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+            }
+            else
+            {
+                _globe.CurrentEvent = null;
+                _globe.CurrentEventNode = null;
+                _globe.UpdateNodes(_dice, _eventCatalog);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+
+                if (_settings.Mode == GameMode.Full)
+                {
+                    _globeProvider.StoreCurrentGlobe();
+                }
+            }
+        }
+
         private void InitEventControls()
         {
             _textFragments.Clear();
@@ -393,26 +413,6 @@ namespace Rpg.Client.GameScreens.Speech
                 };
 
                 _optionButtons.Add(optionButton);
-            }
-        }
-
-        private void HandleDialogueEnd()
-        {
-            if (_currentEventNode.CombatPosition == EventPosition.BeforeCombat)
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-            }
-            else
-            {
-                _globe.CurrentEvent = null;
-                _globe.CurrentEventNode = null;
-                _globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-
-                if (_settings.Mode == GameMode.Full)
-                {
-                    _globeProvider.StoreCurrentGlobe();
-                }
             }
         }
 

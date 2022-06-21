@@ -85,7 +85,7 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            _nodes = new Dictionary<string, EventNode>()
+            _nodes = new Dictionary<string, EventNode>
             {
                 { "MainSlavic1Before", mainSlavic1BeforeRoot }
             };
