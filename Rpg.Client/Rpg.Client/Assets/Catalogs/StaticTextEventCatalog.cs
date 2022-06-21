@@ -59,31 +59,23 @@ namespace Rpg.Client.Assets.Catalogs
                     }
                 },
                 Options = new[] {
-                    new EventOption
+                    new EventOption("MainSlavic1Before_01_Option_01", new EventNode
                     {
-                        TextSid = "MainSlavic1Before_01_Option_01",
-                        Next = new EventNode
+                        TextBlock = new EventTextBlock
                         {
-                            TextBlock = new EventTextBlock
+                            Fragments = new []
                             {
-                                Fragments = new []
+                                new EventTextFragment
                                 {
-                                    new EventTextFragment
-                                    {
-                                        Speaker = UnitName.Bear,
-                                        TextSid = "MainSlavic1Before_02"
-                                    }
-                                }
-                            },
-                            Options = new[]{
-                                new EventOption
-                                {
-                                    TextSid = "MainSlavic1Before_02_Option_01",
-                                    IsEnd = true
+                                    Speaker = UnitName.Bear,
+                                    TextSid = "MainSlavic1Before_02"
                                 }
                             }
+                        },
+                        Options = new[]{
+                            new EventOption("MainSlavic1Before_02_Option_01", EventNode.EndNode)
                         }
-                    }
+                    })
                 }
             };
 

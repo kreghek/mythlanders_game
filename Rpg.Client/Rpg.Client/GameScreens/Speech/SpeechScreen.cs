@@ -28,10 +28,10 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly Texture2D _backgroundTexture;
 
-        private readonly IList<ButtonBase> _buttons;
+        private readonly IList<ButtonBase> _optionButtons;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
 
-        private readonly EventNode _currentEventNode;
+        private EventNode _currentEventNode;
         private readonly EventContext _dialogContext;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -86,7 +86,7 @@ namespace Rpg.Client.GameScreens.Speech
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
 
-            _buttons = new List<ButtonBase>();
+            _optionButtons = new List<ButtonBase>();
             _textFragments = new List<TextFragment>();
 
             _dialogContext = new EventContext(_globe, _storyPointCatalog);
@@ -331,7 +331,7 @@ namespace Rpg.Client.GameScreens.Speech
                 var optionsStartPosition = new Vector2(contentRectangle.Right - 150, contentRectangle.Bottom - 25);
 
                 var index = 0;
-                foreach (var button in _buttons)
+                foreach (var button in _optionButtons)
                 {
                     var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
                     var optionButtonSize = new Point(100, 20);
@@ -355,14 +355,14 @@ namespace Rpg.Client.GameScreens.Speech
             _currentFragmentIndex = 0;
             foreach (var textFragment in _currentEventNode.TextBlock.Fragments)
             {
-                var texture = _uiContentStorage.GetSpeechTexture();
+                var speechTexture = _uiContentStorage.GetSpeechTexture();
                 if (textFragment.Speaker == UnitName.Environment)
                 {
-                    texture = _uiContentStorage.GetEnvSpeechTexture();
+                    speechTexture = _uiContentStorage.GetEnvSpeechTexture();
                 }
 
                 var textFragmentControl = new TextFragment(
-                    texture,
+                    speechTexture,
                     _uiContentStorage.GetTitlesFont(),
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
@@ -371,42 +371,48 @@ namespace Rpg.Client.GameScreens.Speech
                 _textFragments.Add(textFragmentControl);
             }
 
-            _buttons.Clear();
+            _optionButtons.Clear();
             foreach (var option in _currentEventNode.Options)
             {
                 var optionLocalizedText = GetOptionLocalizedText(option);
-                var button = new TextButton(optionLocalizedText, _uiContentStorage.GetButtonTexture(),
+                var optionButton = new TextButton(optionLocalizedText, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
-                button.OnClick += (_, _) =>
+                optionButton.OnClick += (_, _) =>
                 {
                     option.Aftermath?.Apply(_dialogContext);
 
-                    if (option.IsEnd)
+                    if (option.Next == EventNode.EndNode)
                     {
-                        if (_currentEventNode.CombatPosition == EventPosition.BeforeCombat)
-                        {
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                        }
-                        else
-                        {
-                            _globe.CurrentEvent = null;
-                            _globe.CurrentEventNode = null;
-                            _globe.UpdateNodes(_dice, _eventCatalog);
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-
-                            if (_settings.Mode == GameMode.Full)
-                            {
-                                _globeProvider.StoreCurrentGlobe();
-                            }
-                        }
+                        HandleDialogueEnd();
                     }
                     else
                     {
+                        _currentEventNode = option.Next;
                         _isInitialized = false;
                     }
                 };
 
-                _buttons.Add(button);
+                _optionButtons.Add(optionButton);
+            }
+        }
+
+        private void HandleDialogueEnd()
+        {
+            if (_currentEventNode.CombatPosition == EventPosition.BeforeCombat)
+            {
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+            }
+            else
+            {
+                _globe.CurrentEvent = null;
+                _globe.CurrentEventNode = null;
+                _globe.UpdateNodes(_dice, _eventCatalog);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+
+                if (_settings.Mode == GameMode.Full)
+                {
+                    _globeProvider.StoreCurrentGlobe();
+                }
             }
         }
 
@@ -459,7 +465,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
             {
-                foreach (var button in _buttons)
+                foreach (var button in _optionButtons)
                 {
                     button.Update(ResolutionIndependentRenderer);
                 }

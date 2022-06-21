@@ -23,10 +23,8 @@ namespace Rpg.Client.Assets.Catalogs
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
-                var option = new EventOption
+                var option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
                 {
-                    TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                    IsEnd = true,
                     Aftermath = optionAftermath
                 };
 
@@ -58,35 +56,26 @@ namespace Rpg.Client.Assets.Catalogs
 
                 if (innerStorageFragments.Any())
                 {
-                    option = new EventOption
+                    option = new EventOption("Continue", new EventNode
                     {
-                        TextSid = "Continue",
-                        IsEnd = false,
-                        Next = new EventNode
+                        CombatPosition = position,
+                        Options = new[]
                         {
-                            CombatPosition = position,
-                            Options = new[]
+                            new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
                             {
-                                new EventOption
-                                {
-                                    TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                                    IsEnd = true,
-                                    Aftermath = optionAftermath
-                                }
-                            },
-                            TextBlock = new EventTextBlock
-                            {
-                                Fragments = innerFragments
+                                Aftermath = optionAftermath
                             }
+                        },
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = innerFragments
                         }
-                    };
+                    });
                 }
                 else
                 {
-                    option = new EventOption
+                    option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
                     {
-                        TextSid = position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                        IsEnd = true,
                         Aftermath = optionAftermath
                     };
                 }

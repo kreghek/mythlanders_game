@@ -2,9 +2,14 @@
 {
     internal sealed class EventOption
     {
+        public EventOption(string textSid, EventNode nextNode)
+        {
+            TextSid = textSid;
+            Next = nextNode;
+        }
+
         public IOptionAftermath? Aftermath { get; init; }
-        public bool IsEnd { get; init; }
-        public EventNode Next { get; init; }
-        public string TextSid { get; init; }
+        public EventNode Next { get; }
+        public string TextSid { get; }
     }
 }
