@@ -73,7 +73,7 @@ namespace Rpg.Client.Assets.Catalogs
                             {
                                 new EventTextFragment
                                 {
-                                    Speaker = UnitName.Bear,
+                                    Speaker = UnitName.Environment,
                                     TextSid = "MainSlavic1Before_02"
                                 }
                             }

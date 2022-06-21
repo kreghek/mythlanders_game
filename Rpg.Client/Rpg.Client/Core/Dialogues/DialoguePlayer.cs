@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +17,7 @@ namespace Rpg.Client.Core.Dialogues
             _contextFactory = contextFactory;
 
             CurrentTextFragments = _currentNode.TextBlock.Fragments;
-            CurrentOptions = _currentNode.Options.OrderBy(x => x.TextSid).ToArray();
+            CurrentOptions = _currentNode.Options.ToArray();
         }
 
         public IReadOnlyList<EventTextFragment> CurrentTextFragments { get; private set; }
@@ -26,9 +27,17 @@ namespace Rpg.Client.Core.Dialogues
         public void SelectOption(EventOption option)
         {
             _currentNode = option.Next;
-            
-            CurrentTextFragments = _currentNode.TextBlock.Fragments;
-            CurrentOptions = _currentNode.Options.OrderBy(x => x.TextSid).ToArray();
+
+            if (_currentNode != EventNode.EndNode)
+            {
+                CurrentTextFragments = _currentNode.TextBlock.Fragments;
+                CurrentOptions = _currentNode.Options.ToArray();
+            }
+            else
+            {
+                CurrentTextFragments = ArraySegment<EventTextFragment>.Empty;
+                CurrentOptions = ArraySegment<EventOption>.Empty;
+            }
 
             var context = _contextFactory.Create();
             option.Aftermath?.Apply(context);

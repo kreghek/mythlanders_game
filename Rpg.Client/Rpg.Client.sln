@@ -26,6 +26,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalanceGenerator", "Balance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LEDialoguePlotConverter", "LEDialoguePlotConverter\LEDialoguePlotConverter.csproj", "{FA5718F5-7A9C-4940-93B1-95D8278BFA27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialoguePlayer", "DialoguePlayer\DialoguePlayer.csproj", "{013456B7-BC02-4F6B-B1F3-638432F024A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{FA5718F5-7A9C-4940-93B1-95D8278BFA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5718F5-7A9C-4940-93B1-95D8278BFA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5718F5-7A9C-4940-93B1-95D8278BFA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{013456B7-BC02-4F6B-B1F3-638432F024A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
