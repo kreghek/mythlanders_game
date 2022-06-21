@@ -48,7 +48,8 @@ namespace Rpg.Client.Assets.Catalogs
 
             var mainSlavic1BeforeRoot = new EventNode
             {
-                TextBlock = new EventTextBlock { 
+                TextBlock = new EventTextBlock
+                {
                     Fragments = new[] {
                         new EventTextFragment
                         {
@@ -57,9 +58,9 @@ namespace Rpg.Client.Assets.Catalogs
                         }
                     }
                 },
-                Options = new[] { 
+                Options = new[] {
                     new EventOption
-                    { 
+                    {
                         TextSid = "MainSlavic1Before_01_Option_01",
                         Next = new EventNode
                         {
@@ -74,7 +75,7 @@ namespace Rpg.Client.Assets.Catalogs
                                     }
                                 }
                             },
-                            Options = new[]{ 
+                            Options = new[]{
                                 new EventOption
                                 {
                                     TextSid = "MainSlavic1Before_02_Option_01",

@@ -367,7 +367,7 @@ namespace Rpg.Client.GameComponents
                     case "update-globe":
                         HandleUpdateGlobe();
                         break;
-                    
+
                     case "create-combat":
                         HandleCreateCombat(commandArgs);
                         break;
@@ -391,7 +391,7 @@ namespace Rpg.Client.GameComponents
             {
                 throw new InvalidOperationException($"Invalid location sid {commandArgs[1]}.");
             }
-            
+
             var globeProvider = Game.Services.GetService<GlobeProvider>();
             var globe = globeProvider.Globe;
             var targetNode = globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.Sid == locationSid);
@@ -399,7 +399,7 @@ namespace Rpg.Client.GameComponents
             {
                 throw new InvalidOperationException($"Location {locationSid} not found.");
             }
-            
+
             globe.AddCombat(targetNode);
 
             var monsterArgs = commandArgs.Skip(1).ToArray();
@@ -415,7 +415,7 @@ namespace Rpg.Client.GameComponents
                             _unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name == UnitName.Aspid), 1);
                         var combat = targetNode.CombatSequence.Combats.ToArray()[0];
                         globe.AddMonster(combat, unit, i);
-                        break; 
+                        break;
                 }
             }
         }

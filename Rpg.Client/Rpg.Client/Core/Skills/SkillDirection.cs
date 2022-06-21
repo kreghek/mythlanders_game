@@ -3,7 +3,7 @@
     internal static class SkillDirection
     {
         public static readonly ITargetSelector Target = new TargetTargetSelector();
-        public static readonly ITargetSelector Self  = new SelfTargetSelector();
+        public static readonly ITargetSelector Self = new SelfTargetSelector();
         public static readonly ITargetSelector OtherFriendly = new OtherFriendlyTargetSelector();
         public static readonly ITargetSelector AllEnemies = new AllEnemiesTargetSelector();
         public static readonly ITargetSelector AllLineEnemies = new AllLineEnemiesTargetSelector();

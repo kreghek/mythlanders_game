@@ -16,7 +16,7 @@ namespace Rpg.Client.Core
         {
             _globeEvents = new List<IGlobeEvent>();
             _activeStoryPointsList = new List<IStoryPoint>();
-            
+
             _biomeGenerator = biomeGenerator;
             Player = player;
             // First variant of the names.
@@ -84,14 +84,14 @@ namespace Rpg.Client.Core
         public void AddCombat(GlobeNode targetNode)
         {
             var combatList = new List<CombatSource>();
-            
+
             var combatSequence = new CombatSequence
             {
                 Combats = combatList
             };
 
             targetNode.CombatSequence = combatSequence;
-            
+
             Updated?.Invoke(this, EventArgs.Empty);
         }
 

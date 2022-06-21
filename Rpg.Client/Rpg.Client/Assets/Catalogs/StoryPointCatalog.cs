@@ -16,10 +16,10 @@ namespace Rpg.Client.Assets.Catalogs
 
         public IReadOnlyCollection<IStoryPoint> Init(Globe globe)
         {
-            var spList  = new List<IStoryPoint>();
-            
-            var activeList  = new List<IStoryPoint>();
-        
+            var spList = new List<IStoryPoint>();
+
+            var activeList = new List<IStoryPoint>();
+
             var story2 = new StoryPoint("2")
             {
                 TitleSid = "История2",
@@ -45,7 +45,7 @@ namespace Rpg.Client.Assets.Catalogs
                     new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Oasis))
                 }
             };
-            
+
             spList.Add(story2);
 
             var story1 = new StoryPoint("1")

@@ -15,13 +15,13 @@ namespace LEDialoguePlotConverter
             var files = Directory.GetFiles(Path.Combine(args[0], "*.json"));
             var infoFiles = files.Where(x => x.EndsWith("_info.json")).ToArray();
             var dialogueFiles = files.Where(x => !x.EndsWith("_info.json")).ToArray();
-            
+
             var eventDtoList = new List<EventDto>();
 
             foreach (var infoFile in infoFiles)
             {
                 var infoFileDeserialized = JsonSerializer.Deserialize<Info[]>(File.ReadAllText(infoFile));
-                
+
                 //var eventDto = new EventDto
                 //{
                 //    Sid = infoFileDeserialized.Sid,
@@ -32,11 +32,11 @@ namespace LEDialoguePlotConverter
                 //    GoalDescription = excelEvent.GoalDescription,
                 //    ParentSids = ParseParentSids(excelEvent)
                 //};
-                
+
                 //eventDtoList.Add(eventDto);
             }
-            
-            var serialized = JsonSerializer.Serialize(new{}, new JsonSerializerOptions
+
+            var serialized = JsonSerializer.Serialize(new { }, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
                 WriteIndented = true,
@@ -46,14 +46,14 @@ namespace LEDialoguePlotConverter
                     new JsonStringEnumConverter()
                 }
             });
-            
+
             var outputPath = args[1];
 
             // Run with argument which contains full path to Rpg.Client/Resources directory
 
             var outputRuFileName = Path.Combine(outputPath, "Balance.json");
             File.WriteAllLines(outputRuFileName, new[] { serialized });
-            
+
         }
     }
 }

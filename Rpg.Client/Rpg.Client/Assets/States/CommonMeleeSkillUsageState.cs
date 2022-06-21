@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.States
         {
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
-            
+
             var subStates = new IUnitStateEngine[]
             {
                 new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
@@ -29,7 +29,7 @@ namespace Rpg.Client.Assets.States
             };
 
             _innerState = new SequentialState(subStates);
-            
+
             _blocker = mainAnimationBlocker;
         }
 
