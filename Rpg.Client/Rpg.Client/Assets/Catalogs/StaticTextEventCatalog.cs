@@ -7,13 +7,13 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal class StaticTextEventCatalog : IEventCatalog, IEventInitializer
     {
-        private bool _isInitilized;
+        private bool _isInitialized;
 
-        private IDictionary<string, EventNode>? nodes;
+        private IDictionary<string, EventNode>? _nodes;
 
         public StaticTextEventCatalog()
         {
-            _isInitilized = false;
+            _isInitialized = false;
             Events = Array.Empty<Event>();
         }
 
@@ -21,17 +21,17 @@ namespace Rpg.Client.Assets.Catalogs
 
         public EventNode GetDialogRoot(string sid)
         {
-            if (!_isInitilized)
+            if (!_isInitialized)
             {
                 throw new InvalidOperationException();
             }
 
-            if (nodes is null)
+            if (_nodes is null)
             {
                 throw new InvalidOperationException();
             }
 
-            return nodes[sid];
+            return _nodes[sid];
         }
 
         public void Init()
@@ -85,14 +85,12 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            nodes = new Dictionary<string, EventNode>()
+            _nodes = new Dictionary<string, EventNode>()
             {
                 { "MainSlavic1Before", mainSlavic1BeforeRoot }
             };
 
-            _isInitilized = true;
+            _isInitialized = true;
         }
-
-        private IDictionary<string, EventNode>? nodes;
     }
 }

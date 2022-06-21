@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
@@ -148,6 +149,11 @@ namespace Rpg.Client
 
         protected override void Update(GameTime gameTime)
         {
+            if (_screenManager is null)
+            {
+                throw new InvalidOperationException("screen manager is not initialized before game updates.");
+            }
+
             if (_screenManager.ActiveScreen is null)
             {
                 _screenManager.InitStartScreen();
@@ -219,10 +225,6 @@ namespace Rpg.Client
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-                var eventCatalog = new EventCatalog(Services.GetService<IUnitSchemeCatalog>());
-                Services.AddService<IEventInitializer>(eventCatalog);
-                Services.AddService<IEventCatalog>(eventCatalog);
-
                 var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),
                     Services.GetService<IEventCatalog>());
@@ -236,11 +238,11 @@ namespace Rpg.Client
                 var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
-
-                var eventCatalog = new DemoEventCatalog(Services.GetService<IUnitSchemeCatalog>());
-                Services.AddService<IEventInitializer>(eventCatalog);
-                Services.AddService<IEventCatalog>(eventCatalog);
             }
+            
+            var eventCatalog = new StaticTextEventCatalog();
+            Services.AddService<IEventInitializer>(eventCatalog);
+            Services.AddService<IEventCatalog>(eventCatalog);
 
             var eventInitializer = Services.GetService<IEventInitializer>();
             eventInitializer.Init();
