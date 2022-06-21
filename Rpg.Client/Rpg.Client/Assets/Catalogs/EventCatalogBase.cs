@@ -73,7 +73,7 @@ namespace Rpg.Client.Assets.Catalogs
                 var isGameStartEvent = eventStorageModel.Sid == START_EVENT_SID;
                 var plotEvent = new Event
                 {
-                    Sid = eventStorageModel.Sid,
+                    Sid = eventStorageModel.Sid
                     //Biome = locationInfo.Biome,
                     //ApplicableOnlyFor = new[] { locationInfo.LocationSid },
                     //IsUnique = isMainPlotEvent,
@@ -137,6 +137,11 @@ namespace Rpg.Client.Assets.Catalogs
             private set => _events = value;
         }
 
+        public EventNode GetDialogRoot(string sid)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Init()
         {
             var rm = PlotResources.ResourceManager;
@@ -156,11 +161,6 @@ namespace Rpg.Client.Assets.Catalogs
             Events = events.ToArray();
 
             _isInitialized = true;
-        }
-
-        public EventNode GetDialogRoot(string sid)
-        {
-            throw new NotImplementedException();
         }
 
         private sealed record LocationInfo

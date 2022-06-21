@@ -53,7 +53,6 @@ namespace LEDialoguePlotConverter
 
             var outputRuFileName = Path.Combine(outputPath, "Balance.json");
             File.WriteAllLines(outputRuFileName, new[] { serialized });
-
         }
     }
 }

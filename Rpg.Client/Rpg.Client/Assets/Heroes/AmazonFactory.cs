@@ -20,6 +20,11 @@ namespace Rpg.Client.Assets.Heroes
             };
         }
 
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new SingleSpriteGraphicsConfig();
+        }
+
         protected override IUnitLevelScheme[] GetLevels()
         {
             return new IUnitLevelScheme[]
@@ -30,11 +35,6 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(3, new WarCrySkill(true)),
                 new AddSkillUnitLevel(4, new TribeDefenderSkill(true))
             };
-        }
-
-        protected override UnitGraphicsConfigBase GetGraphicsConfig()
-        {
-            return new SingleSpriteGraphicsConfig();
         }
     }
 }

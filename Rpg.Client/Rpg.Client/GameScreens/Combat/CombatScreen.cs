@@ -421,7 +421,8 @@ namespace Rpg.Client.GameScreens.Combat
                                 }
                                 else
                                 {
-                                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                                    _globe.CurrentEventNode =
+                                        _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
                                 }
 
                                 _globe.CurrentEvent.Counter++;

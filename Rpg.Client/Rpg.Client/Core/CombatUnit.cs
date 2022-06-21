@@ -33,8 +33,6 @@ namespace Rpg.Client.Core
             unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
         }
 
-        private UnitScheme CurrentUnitScheme { get; }
-
         public IStatValue HitPoints => Stats.Single(x => x.Type == UnitStatType.HitPoints).Value;
 
         public bool IsInTankLine { get; private set; }
@@ -49,6 +47,8 @@ namespace Rpg.Client.Core
         public CombatSkill? TargetSkill { get; set; }
 
         public TargetSlot? TargetSlot { get; set; }
+
+        private UnitScheme CurrentUnitScheme { get; }
 
         public void UnsubscribeHandlers()
         {

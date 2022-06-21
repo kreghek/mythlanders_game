@@ -10,9 +10,9 @@ namespace Rpg.Client.Core.SkillEffects
     {
         public CombatEffectContext? CombatContext { get; set; }
         public virtual IEnumerable<EffectRule>? DispelRules => default;
+        public IReadOnlyCollection<IEffectCondition>? ImposeConditions { get; init; }
         public virtual IEnumerable<EffectRule>? ImposeRules => default;
         public virtual IEnumerable<EffectRule>? InfluenceRules => default;
-        public IReadOnlyCollection<IEffectCondition>? ImposeConditions { get; init; }
         public ICombatUnit? Target { get; private set; }
         public IEffectVisualization? Visualization { get; set; }
         protected bool IsImposed { get; private set; }
@@ -59,30 +59,6 @@ namespace Rpg.Client.Core.SkillEffects
             AfterImpose();
         }
 
-        private bool CheckConditions(ICombatUnit target)
-        {
-            if (ImposeConditions is null)
-            {
-                return true;
-            }
-
-            if (CombatContext is null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            foreach (var condition in ImposeConditions)
-            {
-                var conditionPassed = condition.Check(target, CombatContext);
-                if (!conditionPassed)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         /// <summary>
         /// Воздействие.
         /// </summary>
@@ -111,6 +87,30 @@ namespace Rpg.Client.Core.SkillEffects
 
 
         protected abstract void InfluenceAction();
+
+        private bool CheckConditions(ICombatUnit target)
+        {
+            if (ImposeConditions is null)
+            {
+                return true;
+            }
+
+            if (CombatContext is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            foreach (var condition in ImposeConditions)
+            {
+                var conditionPassed = condition.Check(target, CombatContext);
+                if (!conditionPassed)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         public event EventHandler<UnitEffectEventArgs>? Imposed;
         public event EventHandler<UnitEffectEventArgs>? Dispelled;

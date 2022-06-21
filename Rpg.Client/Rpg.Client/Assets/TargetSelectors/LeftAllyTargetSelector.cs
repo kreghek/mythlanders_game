@@ -9,20 +9,6 @@ namespace Rpg.Client.Assets.TargetSelectors
 {
     internal class LeftAllyTargetSelector : ITargetSelector
     {
-        public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target, IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)
-        {
-            var selfIndex = ((CombatUnit)actor).SlotIndex;
-
-            var targetIndex = GetLeftIndex(selfIndex);
-
-            if (targetIndex is null)
-            {
-                return ArraySegment<ICombatUnit>.Empty;
-            }
-
-            return availableCombatUnits.Where(x => ((CombatUnit)x).SlotIndex == targetIndex.Value && x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
-        }
-
         private static int? GetLeftIndex(int baseIndex)
         {
             return baseIndex switch
@@ -33,6 +19,23 @@ namespace Rpg.Client.Assets.TargetSelectors
                 5 => 3,
                 _ => null
             };
+        }
+
+        public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target,
+            IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)
+        {
+            var selfIndex = ((CombatUnit)actor).SlotIndex;
+
+            var targetIndex = GetLeftIndex(selfIndex);
+
+            if (targetIndex is null)
+            {
+                return ArraySegment<ICombatUnit>.Empty;
+            }
+
+            return availableCombatUnits.Where(x =>
+                ((CombatUnit)x).SlotIndex == targetIndex.Value &&
+                x.Unit.IsPlayerControlled == actor.Unit.IsPlayerControlled).ToArray();
         }
 
         public string GetDescription()

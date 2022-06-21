@@ -8,6 +8,9 @@ namespace Rpg.Client.Assets.Catalogs
     internal class StaticTextEventCatalog : IEventCatalog, IEventInitializer
     {
         private bool _isInitilized;
+
+        private IDictionary<string, EventNode>? nodes;
+
         public StaticTextEventCatalog()
         {
             _isInitilized = false;
@@ -50,7 +53,8 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 TextBlock = new EventTextBlock
                 {
-                    Fragments = new[] {
+                    Fragments = new[]
+                    {
                         new EventTextFragment
                         {
                             Speaker = UnitName.Environment,
@@ -58,7 +62,8 @@ namespace Rpg.Client.Assets.Catalogs
                         }
                     }
                 },
-                Options = new[] {
+                Options = new[]
+                {
                     new EventOption
                     {
                         TextSid = "MainSlavic1Before_01_Option_01",
@@ -66,7 +71,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             TextBlock = new EventTextBlock
                             {
-                                Fragments = new []
+                                Fragments = new[]
                                 {
                                     new EventTextFragment
                                     {
@@ -75,7 +80,8 @@ namespace Rpg.Client.Assets.Catalogs
                                     }
                                 }
                             },
-                            Options = new[]{
+                            Options = new[]
+                            {
                                 new EventOption
                                 {
                                     TextSid = "MainSlavic1Before_02_Option_01",
@@ -87,14 +93,12 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            nodes = new Dictionary<string, EventNode>()
+            nodes = new Dictionary<string, EventNode>
             {
                 { "MainSlavic1Before", mainSlavic1BeforeRoot }
             };
 
             _isInitilized = true;
         }
-
-        private IDictionary<string, EventNode>? nodes;
     }
 }

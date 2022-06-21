@@ -5,19 +5,8 @@ namespace Rpg.Client.Core.Skills
 {
     internal sealed class RandomLineEnemyTargetSelector : ITargetSelector
     {
-        public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target,
-            IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)
-        {
-            var unit = dice.RollFromList(GetAllTankingEnemies(actor, availableCombatUnits));
-            return new[] { unit };
-        }
-
-        public string GetDescription()
-        {
-            return UiResource.SkillDirectionRandomLineEnemyText;
-        }
-
-        private static ICombatUnit[] GetAllTankingEnemies(ICombatUnit actor, IEnumerable<ICombatUnit> availableCombatUnits)
+        private static ICombatUnit[] GetAllTankingEnemies(ICombatUnit actor,
+            IEnumerable<ICombatUnit> availableCombatUnits)
         {
             // 1. Attack units on tanking line first.
             // 2. Attack back line unit if there are no tanks  
@@ -36,6 +25,18 @@ namespace Rpg.Client.Core.Skills
             }
 
             return tankingUnits;
+        }
+
+        public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target,
+            IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)
+        {
+            var unit = dice.RollFromList(GetAllTankingEnemies(actor, availableCombatUnits));
+            return new[] { unit };
+        }
+
+        public string GetDescription()
+        {
+            return UiResource.SkillDirectionRandomLineEnemyText;
         }
     }
 }

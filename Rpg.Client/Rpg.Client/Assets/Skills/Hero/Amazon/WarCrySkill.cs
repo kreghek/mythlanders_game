@@ -25,7 +25,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Amazon
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.AmazonWarCry,
-            IconOneBasedIndex = 28,
+            IconOneBasedIndex = 28
         };
     }
 }

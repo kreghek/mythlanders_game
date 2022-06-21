@@ -55,10 +55,30 @@ namespace Rpg.Client.Core
             _activeStoryPointsList.Add(storyPoint);
         }
 
+        public void AddCombat(GlobeNode targetNode)
+        {
+            var combatList = new List<CombatSource>();
+
+            var combatSequence = new CombatSequence
+            {
+                Combats = combatList
+            };
+
+            targetNode.CombatSequence = combatSequence;
+
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
         public void AddGlobalEvent(IGlobeEvent globalEvent)
         {
             _globeEvents.Add(globalEvent);
             globalEvent.Initialize(this);
+        }
+
+        public void AddMonster(CombatSource combatSource, Unit unit, int slotIndex)
+        {
+            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         public void Update(IDice dice, IEventCatalog eventCatalog)
@@ -78,26 +98,6 @@ namespace Rpg.Client.Core
 
             CreateEventsInBiomeNodes(dice, eventCatalog, biomes, GlobeLevel);
 
-            Updated?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void AddCombat(GlobeNode targetNode)
-        {
-            var combatList = new List<CombatSource>();
-
-            var combatSequence = new CombatSequence
-            {
-                Combats = combatList
-            };
-
-            targetNode.CombatSequence = combatSequence;
-
-            Updated?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void AddMonster(CombatSource combatSource, Unit unit, int slotIndex)
-        {
-            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
             Updated?.Invoke(this, EventArgs.Empty);
         }
 
@@ -158,11 +158,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private bool IsRequirementsPassed(GlobeNode[] nodesWithCombat, Event x)
-        {
-            return x.Requirements is null || nodesWithCombat.Any(node => x.Requirements.All(r => r.IsApplicableFor(this, node)));
-        }
-
         private static void ClearNodeStates(Biome biome)
         {
             foreach (var node in biome.Nodes)
@@ -183,6 +178,12 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }
+        }
+
+        private bool IsRequirementsPassed(GlobeNode[] nodesWithCombat, Event x)
+        {
+            return x.Requirements is null ||
+                   nodesWithCombat.Any(node => x.Requirements.All(r => r.IsApplicableFor(this, node)));
         }
 
         private static void RefreshBiomeStates(IEnumerable<Biome> biomes)

@@ -153,9 +153,8 @@ namespace Rpg.Client.Core
                 Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
                 Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
                 KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
+                Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray()
             };
-
 
             var progress = new ProgressDto
             {
@@ -356,6 +355,7 @@ namespace Rpg.Client.Core
                 {
                     continue;
                 }
+
                 var targetBiome = biomeMaterializedList.Single(x => x.Type == biomeDto.Type);
                 targetBiome.IsComplete = biomeDto.IsComplete;
 
