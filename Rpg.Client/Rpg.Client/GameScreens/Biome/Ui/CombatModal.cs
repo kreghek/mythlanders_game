@@ -159,7 +159,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
                 Color.Wheat);
 
             var dialogMarkerText = _nodeGameObject.AvailableEvent is not null
-                ? $"{_nodeGameObject.AvailableEvent.Title}"
+                ? $"{_nodeGameObject.AvailableEvent.Sid}"
                 : string.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);

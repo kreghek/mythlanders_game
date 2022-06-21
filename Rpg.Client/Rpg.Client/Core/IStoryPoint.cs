@@ -7,5 +7,6 @@ namespace Rpg.Client.Core
         void Draw(IStoryPointDrawingContext context);
 
         event EventHandler? Completed;
+        string Sid { get; }
     }
 }

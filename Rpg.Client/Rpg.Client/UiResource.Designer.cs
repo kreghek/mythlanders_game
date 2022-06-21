@@ -448,15 +448,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is training only.
-        /// </summary>
-        internal static string IsTrainingOnly {
-            get {
-                return ResourceManager.GetString("IsTrainingOnly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Level Up.
         /// </summary>
         internal static string LevelUpButtonTitle {
@@ -633,6 +624,15 @@ namespace Rpg.Client {
         internal static string SkillDirectionAllText {
             get {
                 return ResourceManager.GetString("SkillDirectionAllText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to left ally.
+        /// </summary>
+        internal static string SkillDirectionLeftAllyText {
+            get {
+                return ResourceManager.GetString("SkillDirectionLeftAllyText", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 
+using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.EventSerialization;
 
@@ -122,11 +123,11 @@ namespace Rpg.Client.Assets.Catalogs
                         unitSchemeCatalog.Heroes[UnitName.Spearman]),
                     "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Sage]),
-                    "MeetScorpion" => new AddPlayerCharacterOptionAftermath(
-                        unitSchemeCatalog.Heroes[UnitName.Scorpion]),
+                    "MeetMedjay" => new AddPlayerCharacterOptionAftermath(
+                        unitSchemeCatalog.Heroes[UnitName.Medjay]),
                     "MeetPriest" => new AddPlayerCharacterOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Priest]),
-                    "BerimirDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
+                    "SwordsmanDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
                     _ => optionAftermath
                 };
             }
@@ -140,7 +141,7 @@ namespace Rpg.Client.Assets.Catalogs
             var splitedText = StringHelper.LineBreaking(fixedText, SPEECH_TEXT_MAX_SYMBOL_COUNT);
             return new EventTextFragment
             {
-                Text = StringHelper.LineBreaking(splitedText, SPEECH_TEXT_MAX_SYMBOL_COUNT),
+                TextSid = StringHelper.LineBreaking(splitedText, SPEECH_TEXT_MAX_SYMBOL_COUNT),
                 Speaker = ParseSpeaker(fragmentStorageModel)
             };
         }

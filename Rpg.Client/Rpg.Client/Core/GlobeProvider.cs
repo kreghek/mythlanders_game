@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Rpg.Client.Assets.StoryPoints;
+using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core.ProgressStorage;
 
 namespace Rpg.Client.Core
@@ -125,10 +125,7 @@ namespace Rpg.Client.Core
 
             var progressDto = saveDataDto.Progress;
 
-            var player = new Player(saveDataDto.Name)
-            {
-                CurrentGoalEvent = GetEventOrNull(saveDataDto.Progress.Player.CurrentGoalEventSid)
-            };
+            var player = new Player(saveDataDto.Name);
 
             Globe = new Globe(_biomeGenerator, player);
 
@@ -150,19 +147,15 @@ namespace Rpg.Client.Core
 
         public void StoreCurrentGlobe()
         {
-            PlayerDto? player = null;
-            if (Globe.Player != null)
+            var player = new PlayerDto
             {
-                player = new PlayerDto
-                {
-                    Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
-                    Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
-                    Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
-                    KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
-                    Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
-                    CurrentGoalEventSid = Globe.Player.CurrentGoalEvent?.Sid
-                };
-            }
+                Group = GetPlayerGroupToSave(Globe.Player.Party.GetUnits()),
+                Pool = GetPlayerGroupToSave(Globe.Player.Pool.Units),
+                Resources = GetPlayerResourcesToSave(Globe.Player.Inventory),
+                KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
+                Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
+            };
+            
 
             var progress = new ProgressDto
             {
@@ -255,12 +248,6 @@ namespace Rpg.Client.Core
             return equipmentDtoList.ToArray();
         }
 
-        private Event? GetEventOrNull(string? currentGoalEventSid)
-        {
-            var goalEvent = _eventCatalog.Events.SingleOrDefault(x => x.Sid == currentGoalEventSid);
-            return goalEvent;
-        }
-
         private static string[] GetKnownMonsterSids(IList<UnitScheme> knownMonsters)
         {
             return knownMonsters.Select(x => x.Name.ToString()).ToArray();
@@ -343,7 +330,7 @@ namespace Rpg.Client.Core
 
         private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
         {
-            var startStoryPoints = storyPointCatalog.Create(globe);
+            var startStoryPoints = storyPointCatalog.Init(globe);
             foreach (var storyPoint in startStoryPoints)
             {
                 globe.AddActiveStoryPoint(storyPoint);
@@ -362,14 +349,14 @@ namespace Rpg.Client.Core
                 return;
             }
 
+            var biomeMaterializedList = biomes as Biome[] ?? biomes.ToArray();
             foreach (var biomeDto in biomeDtoList)
             {
                 if (biomeDto is null)
                 {
                     continue;
                 }
-
-                var targetBiome = biomes.Single(x => x.Type == biomeDto.Type);
+                var targetBiome = biomeMaterializedList.Single(x => x.Type == biomeDto.Type);
                 targetBiome.IsComplete = biomeDto.IsComplete;
 
                 LoadNodes(targetBiome, biomeDto);

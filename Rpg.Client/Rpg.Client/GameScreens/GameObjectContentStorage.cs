@@ -94,13 +94,16 @@ namespace Rpg.Client.GameScreens
             _allWhiteEffect = contentManager.Load<Effect>("Effects/AllWhite");
             _playerUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
-                { UnitName.Comissar, LoadHeroTexture(contentManager, "Sergant") },
+                { UnitName.Comissar, LoadHeroTexture(contentManager, "Comissar") },
                 { UnitName.Assaulter, LoadHeroTexture(contentManager, "Assaulter") },
                 { UnitName.Swordsman, LoadHeroTexture(contentManager, "Swordsman") },
                 { UnitName.Herbalist, LoadHeroTexture(contentManager, "Herbalist") },
                 { UnitName.Archer, LoadHeroTexture(contentManager, "Archer") },
                 { UnitName.Monk, LoadHeroTexture(contentManager, "Monk") },
-                { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") }
+                { UnitName.Spearman, LoadHeroTexture(contentManager, "Spearman") },
+                { UnitName.Medjay, LoadHeroTexture(contentManager, "Medjay") },
+                { UnitName.Hoplite, LoadHeroTexture(contentManager, "Hoplite") },
+                { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") },
             };
 
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
@@ -202,7 +205,8 @@ namespace Rpg.Client.GameScreens
                 { GameObjectSoundType.FireDamage, LoadSkillEffect("FireDamage") },
                 { GameObjectSoundType.FrogHornsUp, LoadSkillEffect("FrogHornsUp") },
                 { GameObjectSoundType.Gunshot, LoadSkillEffect("Gunshot") },
-                { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") }
+                { GameObjectSoundType.AssaultRifleBurst, LoadSkillEffect("AssaultRifleBurst") },
+                { GameObjectSoundType.AmazonWarCry, LoadSkillEffect("AmazonWarCry") },
             };
 
             _deathSoundDict = new Dictionary<UnitName, SoundEffect>
@@ -218,12 +222,12 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Spearman, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Sage, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.Scorpion, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Medjay, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.Priest, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Liberator, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
 
-                { UnitName.Legionnaire, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
-                { UnitName.Amazon, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Hoplite, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.Amazon, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/RadaDeath") },
                 { UnitName.Engineer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },

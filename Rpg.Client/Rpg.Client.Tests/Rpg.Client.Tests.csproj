@@ -18,8 +18,4 @@
       <ProjectReference Include="..\Rpg.Client\Rpg.Client.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Assets\Skills\Hero\Assaulter\" />
-    </ItemGroup>
-
 </Project>

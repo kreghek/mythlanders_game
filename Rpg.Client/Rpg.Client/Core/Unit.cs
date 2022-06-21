@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
             {
                 new UnitStat(UnitStatType.HitPoints, baseValue: GetBaseHitPoint(unitScheme)),
                 new UnitStat(UnitStatType.ShieldPoints, baseValue: Armor),
-                new UnitStat(UnitStatType.Evasion)
+                new UnitStat(UnitStatType.Resolve, baseValue: unitScheme.Resolve)
             };
 
             Skills = new List<ISkill>();

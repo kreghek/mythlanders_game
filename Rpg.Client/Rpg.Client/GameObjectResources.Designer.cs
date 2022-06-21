@@ -565,6 +565,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Medjay.
+        /// </summary>
+        internal static string Medjay {
+            get {
+                return ResourceManager.GetString("Medjay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Mines.
         /// </summary>
         internal static string Mines {

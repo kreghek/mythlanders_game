@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.Catalogs
                 }
 
                 var childEvent = events.Single(x => x.Sid == eventStorageModel.Sid);
-                childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
+                //childEvent.RequiredEventsCompleted = eventStorageModel.ParentSids;
             }
         }
 
@@ -74,19 +74,19 @@ namespace Rpg.Client.Assets.Catalogs
                 var plotEvent = new Event
                 {
                     Sid = eventStorageModel.Sid,
-                    Biome = locationInfo.Biome,
-                    ApplicableOnlyFor = new[] { locationInfo.LocationSid },
-                    IsUnique = isMainPlotEvent,
-                    IsHighPriority = isMainPlotEvent,
-                    Title = eventStorageModel.Name,
-                    BeforeCombatStartNode = beforeEventNode,
-                    AfterCombatStartNode = afterEventNode,
-                    SystemMarker = systemMarker,
-                    IsGameStart = isGameStartEvent,
-                    GoalDescription = eventStorageModel.GoalDescription is not null
-                        ? StringHelper.LineBreaking(eventStorageModel.GoalDescription,
-                            GOAL_TEXT_MAX_SYMBOL_COUNT)
-                        : null
+                    //Biome = locationInfo.Biome,
+                    //ApplicableOnlyFor = new[] { locationInfo.LocationSid },
+                    //IsUnique = isMainPlotEvent,
+                    //IsHighPriority = isMainPlotEvent,
+                    //Title = eventStorageModel.Name,
+                    //BeforeCombatStartNode = beforeEventNode,
+                    //AfterCombatStartNode = afterEventNode,
+                    //SystemMarker = systemMarker,
+                    //IsGameStart = isGameStartEvent,
+                    //GoalDescription = eventStorageModel.GoalDescription is not null
+                    //    ? StringHelper.LineBreaking(eventStorageModel.GoalDescription,
+                    //        GOAL_TEXT_MAX_SYMBOL_COUNT)
+                    //    : null
                 };
 
                 yield return plotEvent;
@@ -156,6 +156,11 @@ namespace Rpg.Client.Assets.Catalogs
             Events = events.ToArray();
 
             _isInitialized = true;
+        }
+
+        public EventNode GetDialogRoot(string sid)
+        {
+            throw new NotImplementedException();
         }
 
         private sealed record LocationInfo

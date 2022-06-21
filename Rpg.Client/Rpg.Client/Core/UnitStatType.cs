@@ -4,6 +4,6 @@
     {
         HitPoints,
         ShieldPoints,
-        Evasion
+        Resolve
     }
 }

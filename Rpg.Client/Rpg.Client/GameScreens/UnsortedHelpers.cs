@@ -54,7 +54,7 @@ namespace Rpg.Client.GameScreens
 
         public static Rectangle GetIconRect(SkillSid sid, SkillVisualization visualization)
         {
-            const int SPRITE_SHEET_COLUMN_COUNT = 5;
+            const int SPRITE_SHEET_COLUMN_COUNT = 6;
             const int ICON_SIZE = 64;
 
             var iconIndexNullable = GetIconOneBasedIndex(sid, visualization);

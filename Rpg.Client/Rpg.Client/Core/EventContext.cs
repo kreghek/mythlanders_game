@@ -6,15 +6,17 @@ namespace Rpg.Client.Core
     internal sealed class EventContext : IEventContext
     {
         private readonly Globe _globe;
+        private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public EventContext(Globe globe)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog)
         {
             _globe = globe;
+            _storyPointCatalog = storyPointCatalog;
         }
 
         public void AddNewCharacter(Unit unit)
         {
-            var freeSlots = _globe.Player.Party.GetFreeSlots();
+            var freeSlots = _globe.Player.Party.GetFreeSlots().ToArray();
             if (freeSlots.Any())
             {
                 var selectedFreeSlot = freeSlots.First();
@@ -33,6 +35,12 @@ namespace Rpg.Client.Core
         public void AddNewGlobalEvent(IGlobeEvent globalEvent)
         {
             _globe.AddGlobalEvent(globalEvent);
+        }
+
+        public void AddStoryPoint(string storyPointSid)
+        {
+            var storyPoint = _storyPointCatalog.GetAll().Single(x => x.Sid == storyPointSid);
+            _globe.AddActiveStoryPoint(storyPoint);
         }
     }
 }

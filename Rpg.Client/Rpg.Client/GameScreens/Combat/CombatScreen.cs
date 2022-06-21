@@ -362,7 +362,6 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.UnitPassedTurn += Combat_UnitPassed;
             _combat.Initialize();
 
-            var settings = Game.Services.GetService<GameSettings>();
             _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
         }
@@ -416,7 +415,14 @@ namespace Rpg.Client.GameScreens.Combat
 
                             if (_globe.CurrentEvent is not null)
                             {
-                                _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                                if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
+                                {
+                                    _globe.CurrentEventNode = null;
+                                }
+                                else
+                                {
+                                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                                }
 
                                 _globe.CurrentEvent.Counter++;
                             }
@@ -603,7 +609,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,
             int backgroundStartOffsetX,
-            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
+            int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
         {
             for (var i = 0; i < BACKGROUND_LAYERS_COUNT; i++)
             {
@@ -611,8 +617,8 @@ namespace Rpg.Client.GameScreens.Combat
                     BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
                 var roundedX = (int)Math.Round(xFloat);
 
-                var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
-                    BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+                var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (BACKGROUND_LAYERS_COUNT - i - 1) *
+                    BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
                 var roundedY = (int)Math.Round(yFloat);
 
                 var position = new Vector2(roundedX, roundedY);
@@ -707,14 +713,14 @@ namespace Rpg.Client.GameScreens.Combat
         }
 
         private void DrawForegroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffsetX,
-            int backgroundMaxOffsetX, int bG_START_OFFSET_Y, int bG_MAX_OFFSET_Y)
+            int backgroundMaxOffsetX, int backgroundStartOffsetY, int backgroundMaxOffsetY)
         {
             var xFloat = backgroundStartOffsetX + _bgCenterOffsetPercentageX * (-1) *
                 BACKGROUND_LAYERS_SPEED_X * backgroundMaxOffsetX;
             var roundedX = (int)Math.Round(xFloat);
 
-            var yFloat = bG_START_OFFSET_Y + _bgCenterOffsetPercentageY * (-1) *
-                BACKGROUND_LAYERS_SPEED_Y * bG_MAX_OFFSET_Y;
+            var yFloat = backgroundStartOffsetY + _bgCenterOffsetPercentageY * (-1) *
+                BACKGROUND_LAYERS_SPEED_Y * backgroundMaxOffsetY;
             var roundedY = (int)Math.Round(yFloat);
 
             var position = new Vector2(roundedX, roundedY);
@@ -866,7 +872,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatFinishedVictory = false;
         }
 
-        private static int? GetIndicatorNextIndex(UnitGameObject? unitGameObject)
+        private static int? GetIndicatorNextIndex(UnitGameObject unitGameObject)
         {
             var currentIndex = unitGameObject.GetCurrentIndicatorIndex();
             var nextIndex = currentIndex + 1;
@@ -938,29 +944,41 @@ namespace Rpg.Client.GameScreens.Combat
             switch (result)
             {
                 case CombatResult.Victory:
-                    if (!_combat.CombatSource.IsTrainingOnly)
-                    {
-                        _globe.GlobeLevel.Level++;
-                    }
-
-                    if (_globe.CurrentEvent is not null)
-                    {
-                        _globe.CurrentEvent.Completed = true;
-
-                        _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
-                    }
-
+                    HandleGlobeVictoryResult();
                     break;
 
                 case CombatResult.Defeat:
-                    var minLevel = GetUnbreakableLevel();
-                    var levelDiff = _globe.GlobeLevel.Level - minLevel;
-                    _globe.GlobeLevel.Level = minLevel + levelDiff / 2;
-
+                    HandleGlobeDefeatResult();
                     break;
 
                 default:
-                    throw new InvalidOperationException("Unknown combat result.");
+                    throw new InvalidOperationException($"Unknown combat result {result}.");
+            }
+        }
+
+        private void HandleGlobeDefeatResult()
+        {
+            var minLevel = GetUnbreakableLevel();
+            var levelDiff = _globe.GlobeLevel.Level - minLevel;
+            _globe.GlobeLevel.Level = minLevel + levelDiff / 2;
+        }
+
+        private void HandleGlobeVictoryResult()
+        {
+            _globe.GlobeLevel.Level++;
+
+            if (_globe.CurrentEvent is not null)
+            {
+                _globe.CurrentEvent.Completed = true;
+
+                if (_globe.CurrentEvent.AfterCombatStartNodeSid is null)
+                {
+                    _globe.CurrentEventNode = null;
+                }
+                else
+                {
+                    _globe.CurrentEventNode = _eventCatalog.GetDialogRoot(_globe.CurrentEvent.AfterCombatStartNodeSid);
+                }
             }
         }
 
@@ -985,7 +1003,7 @@ namespace Rpg.Client.GameScreens.Combat
                 new Rectangle(buttonPosition.ToPoint(), new Point(128, 64)),
                 _gameObjectContentStorage);
 
-            interactButton.OnClick += (s, e) =>
+            interactButton.OnClick += (_, _) =>
             {
                 if (_interactButtonClicked)
                 {

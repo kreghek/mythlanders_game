@@ -290,6 +290,9 @@
   <data name="MassHeal" xml:space="preserve">
     <value>Благовония</value>
   </data>
+  <data name="Medjay" xml:space="preserve">
+    <value>Меджай</value>
+  </data>
   <data name="Mines" xml:space="preserve">
     <value>Рудники</value>
   </data>

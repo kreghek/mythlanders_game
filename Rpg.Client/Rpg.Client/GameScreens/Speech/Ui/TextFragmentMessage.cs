@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         {
             _font = font;
 
-            var fullText = GetLocalizedText(eventTextFragment.Text);
+            var fullText = GetLocalizedText(eventTextFragment.TextSid);
             _speech = new Speech(fullText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
         }
 

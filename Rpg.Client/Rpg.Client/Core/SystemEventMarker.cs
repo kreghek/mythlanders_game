@@ -4,6 +4,8 @@
     {
         Undefined,
 
+        MeetZoologist,
+
         MeetArcher,
         MeetHerbalist,
 
@@ -12,7 +14,11 @@
         MeetMissionary,
 
         MeetPriest,
-        MeetScorpion,
-        MeetRebelian
+        MeetMedjay,
+        MeetLiberator,
+
+        MeetHoplite,
+        MeetAmazon,
+        MeetEngineer
     }
 }

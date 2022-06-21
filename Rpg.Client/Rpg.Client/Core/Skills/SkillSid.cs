@@ -48,7 +48,7 @@ namespace Rpg.Client.Core.Skills
         FightAgainstMaster,
         BraveHearts,
         Liberation,
-        SwordSwing,
+        Offensive,
         JavelinThrow,
         AresWarBringerThreads,
         PoisonedSpear,
@@ -69,6 +69,7 @@ namespace Rpg.Client.Core.Skills
         BlackRifleShot,
         BlindDefense,
         InspiringRush,
-        TacticalManeuver
+        TacticalManeuver,
+        ChorusEye
     }
 }

@@ -2,7 +2,7 @@ using System;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.Equipments.Scorpion
+namespace Rpg.Client.Assets.Equipments.Medjay
 {
     internal sealed class GreenTattoo : IEquipmentScheme
     {
@@ -13,7 +13,7 @@ namespace Rpg.Client.Assets.Equipments.Scorpion
             throw new NotImplementedException();
         }
 
-        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Scorpion;
+        public EquipmentItemType RequiredResourceToLevelUp => EquipmentItemType.Medjay;
 
         public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {

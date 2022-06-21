@@ -30,8 +30,6 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
 
-        public Event? CurrentGoalEvent { get; set; }
-
         public IReadOnlyCollection<ResourceItem> Inventory { get; }
 
         public IList<UnitScheme> KnownMonsters { get; }

@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
             int frameHeight = 128, int textureColumns = 8)
         {
             var frames = Enumerable.Range(startFrameIndex, frameCount).ToList();
-            return new SequentalAnimationFrameSet(frames, fps,
+            return new SequentialAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = true,
@@ -24,7 +24,7 @@ namespace Rpg.Client.Core
             int frameHeight = 128, int textureColumns = 8, bool isLoop = false)
         {
             var frames = Enumerable.Range(startFrameIndex, frameCount).ToList();
-            return new SequentalAnimationFrameSet(frames, fps,
+            return new SequentialAnimationFrameSet(frames, fps,
                 frameWidth, frameHeight, textureColumns)
             {
                 IsLoop = isLoop

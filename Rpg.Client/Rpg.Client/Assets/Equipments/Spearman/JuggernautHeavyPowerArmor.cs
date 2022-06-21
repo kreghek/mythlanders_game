@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Equipments.Spearman
             {
                 return new[]
                 {
-                    SkillRuleFactory.CreateProtection(context.EquipmentLevel)
+                    SkillRuleFactory.CreateProtection(context.EquipmentLevel, direction:SkillDirection.AllFriendly, equipmentMultiplier: 0.5f)
                 };
             }
 

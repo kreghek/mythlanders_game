@@ -342,7 +342,16 @@ namespace Rpg.Client.GameScreens.Title
             {
                 // Make same operations as on click on the first node on the biome screen. 
                 _globeProvider.Globe.CurrentEvent = firstAvailableNodeInBiome.AssignedEvent;
-                _globeProvider.Globe.CurrentEventNode = _globeProvider.Globe.CurrentEvent.BeforeCombatStartNode;
+
+                if (_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid is null)
+                {
+                    _globeProvider.Globe.CurrentEventNode = null;
+                }
+                else
+                {
+                    _globeProvider.Globe.CurrentEventNode =
+                        _eventCatalog.GetDialogRoot(_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid);
+                }
 
                 _globeProvider.Globe.CurrentEvent.Counter++;
 

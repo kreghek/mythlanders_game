@@ -1,6 +1,7 @@
 ﻿using Rpg.Client.Assets.Equipments.Amazon;
+using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
+using Rpg.Client.Assets.Skills.Hero.Amazon;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -29,6 +30,11 @@ namespace Rpg.Client.Assets.Heroes
                 new AddSkillUnitLevel(3, new WarCrySkill(true)),
                 new AddSkillUnitLevel(4, new TribeDefenderSkill(true))
             };
+        }
+
+        protected override UnitGraphicsConfigBase GetGraphicsConfig()
+        {
+            return new SingleSpriteGraphicsConfig();
         }
     }
 }

@@ -145,6 +145,12 @@
 /processorParam:Quality=Best
 /build:Audio/GameObjects/Skills/AssaultRifleBurst.wav
 
+#begin Audio/GameObjects/Skills/AmazonWarCry.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/GameObjects/Skills/AmazonWarCry.wav
+
 #begin Audio/GameObjects/Deaths/HumanDeath.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -1063,6 +1069,43 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/Archer.png
 
+#begin Sprites/GameObjects/PlayerUnits/Medjay.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/Medjay.png
+
+
+#begin Sprites/GameObjects/PlayerUnits/Amazon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/Amazon.png
+
+#begin Sprites/GameObjects/PlayerUnits/Hoplite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/Hoplite.png
+
 #begin Sprites/GameObjects/PlayerUnits/Herbalist.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1195,7 +1238,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/Swordsman.png
 
-#begin Sprites/GameObjects/PlayerUnits/Sergant.png
+#begin Sprites/GameObjects/PlayerUnits/Comissar.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1205,7 +1248,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/GameObjects/PlayerUnits/Sergant.png
+/build:Sprites/GameObjects/PlayerUnits/Comissar.png
 
 #begin Sprites/GameObjects/PlayerUnits/Assaulter.png
 /importer:TextureImporter
@@ -1338,18 +1381,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Ui/CombatPowerIcons.png
-
-#begin Sprites/Ui/CombatPowerIcons2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Ui/CombatPowerIcons2.png
 
 #begin Sprites/Ui/CombatSkillsPanel.png
 /importer:TextureImporter

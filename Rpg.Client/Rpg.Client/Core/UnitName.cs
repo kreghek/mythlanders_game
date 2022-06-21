@@ -22,10 +22,10 @@
         Sage,
 
         Priest,
-        Scorpion,
+        Medjay,
         Liberator,
 
-        Legionnaire,
+        Hoplite,
         Amazon,
         Engineer,
 

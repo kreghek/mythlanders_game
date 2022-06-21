@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -114,6 +115,8 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
+                "zoologist" => SystemEventMarker.MeetZoologist,
+
                 "archer" => SystemEventMarker.MeetArcher,
                 "herbalist" => SystemEventMarker.MeetHerbalist,
 
@@ -122,6 +125,12 @@ namespace Rpg.Client.GameComponents
                 "missionary" => SystemEventMarker.MeetMissionary,
 
                 "priest" => SystemEventMarker.MeetPriest,
+                "Medjay" => SystemEventMarker.MeetMedjay,
+                "liberator" => SystemEventMarker.MeetLiberator,
+
+                "hoplite" => SystemEventMarker.MeetHoplite,
+                "amazon" => SystemEventMarker.MeetAmazon,
+                "engineer" => SystemEventMarker.MeetEngineer,
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
@@ -131,6 +140,10 @@ namespace Rpg.Client.GameComponents
         {
             return unitSchemeSid switch
             {
+                "comissar" => unitSchemeCatalog.Heroes[UnitName.Comissar],
+                "assaulter" => unitSchemeCatalog.Heroes[UnitName.Assaulter],
+                "zoologist" => unitSchemeCatalog.Heroes[UnitName.Zoologist],
+
                 "warrior" => unitSchemeCatalog.Heroes[UnitName.Swordsman],
                 "archer" => unitSchemeCatalog.Heroes[UnitName.Archer],
                 "herbalist" => unitSchemeCatalog.Heroes[UnitName.Herbalist],
@@ -140,6 +153,12 @@ namespace Rpg.Client.GameComponents
                 "missionary" => unitSchemeCatalog.Heroes[UnitName.Sage],
 
                 "priest" => unitSchemeCatalog.Heroes[UnitName.Priest],
+                "medjay" => unitSchemeCatalog.Heroes[UnitName.Medjay],
+                "liberator" => unitSchemeCatalog.Heroes[UnitName.Liberator],
+
+                "hoplite" => unitSchemeCatalog.Heroes[UnitName.Hoplite],
+                "amazon" => unitSchemeCatalog.Heroes[UnitName.Amazon],
+                "engineer" => unitSchemeCatalog.Heroes[UnitName.Engineer],
 
                 _ => throw new InvalidOperationException($"Unknown unit {unitSchemeSid}")
             };
@@ -166,12 +185,12 @@ namespace Rpg.Client.GameComponents
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);
-            var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
-            if (characterEvent is not null)
-            {
-                // Simulate the event resolving.
-                characterEvent.Counter = 1;
-            }
+            //var characterEvent = _eventCatalog.Events.SingleOrDefault(x => x.SystemMarker == targetSystemMarker);
+            // if (characterEvent is not null)
+            // {
+            //     // Simulate the event resolving.
+            //     characterEvent.Counter = 1;
+            // }
         }
 
         private void HandleChangeHp(string[] args)
@@ -325,69 +344,80 @@ namespace Rpg.Client.GameComponents
 
             var command = cheatParts[0];
             var commandArgs = cheatParts.Skip(1).ToArray();
-            switch (command)
+            try
             {
-                case "add-unit":
-
-                    try
-                    {
+                switch (command)
+                {
+                    case "add-unit":
                         HandleAddUnit(commandArgs);
-                        return true;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "gain-xp":
-                    try
-                    {
+                    case "gain-xp":
                         HandleGainXp(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "gain-res":
-                    try
-                    {
+                    case "gain-res":
                         HandleGainRes(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "change-hp":
-                    try
-                    {
+                    case "change-hp":
                         HandleChangeHp(commandArgs);
-                        return true;
-                    }
-                    catch (Exception ex) when (
-                        ex is InvalidOperationException or FormatException or InvalidOperationException)
-                    {
-                        return false;
-                    }
+                        break;
 
-                case "update-globe":
-                    try
-                    {
+                    case "update-globe":
                         HandleUpdateGlobe();
-                        return true;
-                    }
-                    catch (InvalidOperationException)
-                    {
+                        break;
+                    
+                    case "create-combat":
+                        HandleCreateCombat(commandArgs);
+                        break;
+
+                    default:
                         return false;
-                    }
+                }
+            }
+            catch (Exception ex) when (
+                ex is InvalidOperationException or FormatException or InvalidOperationException)
+            {
+                return false;
             }
 
-            return false;
+            return true;
+        }
+
+        private void HandleCreateCombat(string[] commandArgs)
+        {
+            if (!Enum.TryParse<GlobeNodeSid>(commandArgs[1], out var locationSid))
+            {
+                throw new InvalidOperationException($"Invalid location sid {commandArgs[1]}.");
+            }
+            
+            var globeProvider = Game.Services.GetService<GlobeProvider>();
+            var globe = globeProvider.Globe;
+            var targetNode = globe.Biomes.SelectMany(x => x.Nodes).SingleOrDefault(x => x.Sid == locationSid);
+            if (targetNode is null)
+            {
+                throw new InvalidOperationException($"Location {locationSid} not found.");
+            }
+            
+            globe.AddCombat(targetNode);
+
+            var monsterArgs = commandArgs.Skip(1).ToArray();
+            for (int i = 0; i < monsterArgs.Length; i++)
+            {
+                var monsterInfo = monsterArgs[i];
+
+                switch (monsterInfo)
+                {
+                    case "-": continue;
+                    case "a":
+                        var unit = new Unit(
+                            _unitSchemeCatalog.AllMonsters.SingleOrDefault(x => x.Name == UnitName.Aspid), 1);
+                        var combat = targetNode.CombatSequence.Combats.ToArray()[0];
+                        globe.AddMonster(combat, unit, i);
+                        break; 
+                }
+            }
         }
     }
 }

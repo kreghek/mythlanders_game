@@ -54,11 +54,14 @@ namespace Rpg.Client.Engine
 
         public void PlayAnimation(IAnimationFrameSet animation)
         {
-            if (_currentAnimationFrameSet != animation)
+            if (_currentAnimationFrameSet == animation)
             {
-                _currentAnimationFrameSet = animation;
-                _currentAnimationFrameSet.Reset();
+                // Do nothing. Just continue current animation.
+                return;
             }
+
+            _currentAnimationFrameSet = animation;
+            _currentAnimationFrameSet.Reset();
         }
 
         public void PlayAnimation(PredefinedAnimationSid sid)
@@ -112,14 +115,8 @@ namespace Rpg.Client.Engine
 
         private void HandleSelectionMarker()
         {
-            if (_currentAnimationFrameSet.IsIdle)
-            {
-                _selectedMarker.Visible = ShowActiveMarker;
-            }
-            else
-            {
-                _selectedMarker.Visible = false;
-            }
+            var isMarkerDisplayed = _currentAnimationFrameSet.IsIdle && ShowActiveMarker;
+            _selectedMarker.Visible = isMarkerDisplayed;
         }
 
         private void UpdateAnimation(GameTime gameTime)

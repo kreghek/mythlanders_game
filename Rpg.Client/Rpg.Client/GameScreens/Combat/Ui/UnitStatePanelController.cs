@@ -276,32 +276,25 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private void DrawTurnState(SpriteBatch spriteBatch, Vector2 panelPosition, CombatUnit combatUnit, Side side)
         {
+            Vector2 markerPosition;
             if (side == Side.Left)
             {
-                var markerPosition = panelPosition + new Vector2(17, 33);
-
-                var color = Color.LightCyan;
-                if (!combatUnit.IsWaiting)
-                {
-                    color = Color.LightGray;
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]",
-                    markerPosition, color);
+                markerPosition = panelPosition + new Vector2(17, 33);
             }
             else
             {
-                var markerPosition = panelPosition + new Vector2(17 + 146, 33);
-
-                var color = Color.LightCyan;
-                if (!combatUnit.IsWaiting)
-                {
-                    color = Color.LightGray;
-                }
-
-                spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{combatUnit.Unit.UnitScheme.Resolve}]",
-                    markerPosition, color);
+                markerPosition = panelPosition + new Vector2(17 + 146, 33);
             }
+
+            var color = Color.LightCyan;
+            if (!combatUnit.IsWaiting)
+            {
+                color = Color.LightGray;
+            }
+
+            var resolveValue = combatUnit.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.ActualMax;
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), $"[{resolveValue}]",
+                markerPosition, color);
         }
 
         private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, CombatUnit combatUnit, Vector2 panelPosition,

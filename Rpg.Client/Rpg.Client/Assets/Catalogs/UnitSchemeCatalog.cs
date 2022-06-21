@@ -31,11 +31,11 @@ namespace Rpg.Client.Assets.Catalogs
                 new SpearmanFactory(),
                 new SageFactory(),
 
-                new ScorpionFactory(),
+                new MedjayFactory(),
                 new PriestFactory(),
                 new LiberatorFactory(),
 
-                new LegionnaireFactory(),
+                new HopliteFactory(),
                 new AmazonFactory(),
                 new EngineerFactory()
             };
@@ -77,7 +77,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -99,14 +99,14 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
 
         private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
         {
-            var biomeType = BiomeType.Egyptian;
+            const BiomeType BIOME_TYPE = BiomeType.Egyptian;
             return new[]
             {
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -116,10 +116,10 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Mummy,
-                    Biome = biomeType,
+                    Biome = BIOME_TYPE,
                     LocationSids = new[]
                     {
-                        GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
+                        GlobeNodeSid.Disert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis, GlobeNodeSid.Obelisk,
                         GlobeNodeSid.ScreamValey
                     },
                     IsMonster = true,
@@ -129,7 +129,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -139,7 +139,7 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Sphynx,
-                    Biome = biomeType,
+                    Biome = BIOME_TYPE,
                     LocationSids = new[] { GlobeNodeSid.ScreamValey },
 
                     IsMonster = true,
@@ -153,7 +153,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
@@ -183,7 +183,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -205,7 +205,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
@@ -236,7 +236,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new UnholyHitSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -260,7 +260,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new BlackRifleShotSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
@@ -406,7 +406,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddPerkUnitLevel(1, new PowerUpAura())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -424,7 +424,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new MonsterAttackSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -444,7 +444,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddPerkUnitLevel(5, new Evasion())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -462,7 +462,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new FrogDefenseStanceSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -481,7 +481,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new WideSlashSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
@@ -501,7 +501,7 @@ namespace Rpg.Client.Assets.Catalogs
                         new AddSkillUnitLevel(1, new DopeHerbSkill())
                     },
 
-                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig(),
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig(),
                     LocationSids = new[] { GlobeNodeSid.Castle },
                     MinRequiredBiomeLevel = 10,
 
@@ -549,7 +549,7 @@ namespace Rpg.Client.Assets.Catalogs
                                         new AddSkillUnitLevel(1, new PowerUpSkill()) // 1000-years hate
                                     },
 
-                                    UnitGraphicsConfig = new SingleSpriteMonsterGraphicsConfig()
+                                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                                 }
                             }
                         }

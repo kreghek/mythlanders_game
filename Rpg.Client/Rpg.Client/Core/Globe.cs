@@ -14,6 +14,9 @@ namespace Rpg.Client.Core
 
         public Globe(IBiomeGenerator biomeGenerator, Player player)
         {
+            _globeEvents = new List<IGlobeEvent>();
+            _activeStoryPointsList = new List<IStoryPoint>();
+            
             _biomeGenerator = biomeGenerator;
             Player = player;
             // First variant of the names.
@@ -25,12 +28,7 @@ namespace Rpg.Client.Core
             var biomes = biomeGenerator.GenerateStartState();
 
             Biomes = biomes;
-
-            _globeEvents = new List<IGlobeEvent>();
-
             GlobeLevel = new GlobeLevel();
-
-            _activeStoryPointsList = new List<IStoryPoint>();
         }
 
         public Combat? ActiveCombat { get; set; }
@@ -83,6 +81,26 @@ namespace Rpg.Client.Core
             Updated?.Invoke(this, EventArgs.Empty);
         }
 
+        public void AddCombat(GlobeNode targetNode)
+        {
+            var combatList = new List<CombatSource>();
+            
+            var combatSequence = new CombatSequence
+            {
+                Combats = combatList
+            };
+
+            targetNode.CombatSequence = combatSequence;
+            
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void AddMonster(CombatSource combatSource, Unit unit, int slotIndex)
+        {
+            combatSource.EnemyGroup.Slots[slotIndex].Unit = unit;
+            Updated?.Invoke(this, EventArgs.Empty);
+        }
+
         /// <summary>
         /// Goal:
         /// Do not pick used event when there are unused event in the catalog.
@@ -94,15 +112,12 @@ namespace Rpg.Client.Core
         /// </summary>
         /// <param name="dice"></param>
         /// <param name="nodesWithCombat"></param>
-        private static void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
+        private void AssignEventToNodesWithCombat(Biome biome, IDice dice, GlobeNode[] nodesWithCombat,
             IEventCatalog eventCatalog, GlobeLevel globeLevel)
         {
             var availableEvents = eventCatalog.Events
                 .Where(x => (x.IsUnique && x.Counter == 0) || (!x.IsUnique))
-                .Where(x => (x.Biome is not null && x.Biome == biome.Type) || (x.Biome is null))
-                .Where(x => (x.RequiredBiomeLevel is not null && x.RequiredBiomeLevel <= globeLevel.Level) ||
-                            (x.RequiredBiomeLevel is null))
-                .Where(x => IsUnlocked(x, eventCatalog.Events));
+                .Where(x => IsRequirementsPassed(nodesWithCombat, x));
             var availableEventList = availableEvents.ToList();
 
             foreach (var node in nodesWithCombat)
@@ -115,15 +130,16 @@ namespace Rpg.Client.Core
                     break;
                 }
 
-                var nodeEvents = availableEventList.Where(x =>
-                    (x.ApplicableOnlyFor is null) ||
-                    (x.ApplicableOnlyFor is not null && x.ApplicableOnlyFor.Contains(node.Sid))).ToArray();
+                var nodeEvents = availableEventList
+                    .Where(x => x.Requirements is null || x.Requirements.All(r => r.IsApplicableFor(this, node)))
+                    .ToArray();
                 if (nodeEvents.Any())
                 {
-                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.IsHighPriority);
+                    var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.Priority == TextEventPriority.High);
                     if (highPriorityEvent is not null)
                     {
                         node.AssignedEvent = highPriorityEvent;
+                        availableEventList.Remove(node.AssignedEvent);
                     }
                     else
                     {
@@ -135,12 +151,16 @@ namespace Rpg.Client.Core
                             var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
 
                             node.AssignedEvent = rolledEvent;
+                            availableEventList.Remove(node.AssignedEvent);
                         }
                     }
-
-                    availableEventList.Remove(node.AssignedEvent);
                 }
             }
+        }
+
+        private bool IsRequirementsPassed(GlobeNode[] nodesWithCombat, Event x)
+        {
+            return x.Requirements is null || nodesWithCombat.Any(node => x.Requirements.All(r => r.IsApplicableFor(this, node)));
         }
 
         private static void ClearNodeStates(Biome biome)
@@ -153,7 +173,7 @@ namespace Rpg.Client.Core
         }
 
 
-        private static void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
+        private void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
             GlobeLevel globeLevel)
         {
             // create dialogs of nodes with combat
@@ -163,31 +183,6 @@ namespace Rpg.Client.Core
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }
-        }
-
-        private static bool IsUnlocked(Event testedEvent, IEnumerable<Event> events)
-        {
-            if (testedEvent.RequiredEventsCompleted is null)
-            {
-                return true;
-            }
-
-            var completedEvents = events.Where(x => x.Completed).ToArray();
-            foreach (var eventSid in testedEvent.RequiredEventsCompleted)
-            {
-                if (eventSid is null)
-                {
-                    continue;
-                }
-
-                var foundCompletedEvent = completedEvents.Any(x => x.Title == eventSid);
-                if (!foundCompletedEvent)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private static void RefreshBiomeStates(IEnumerable<Biome> biomes)
