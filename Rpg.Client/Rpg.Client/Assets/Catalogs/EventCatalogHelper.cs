@@ -24,7 +24,8 @@ namespace Rpg.Client.Assets.Catalogs
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
-                var option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
+                var option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                    EventNode.EndNode)
                 {
                     Aftermath = optionAftermath
                 };
@@ -62,7 +63,8 @@ namespace Rpg.Client.Assets.Catalogs
                         CombatPosition = position,
                         Options = new[]
                         {
-                            new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
+                            new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                                EventNode.EndNode)
                             {
                                 Aftermath = optionAftermath
                             }
@@ -75,7 +77,8 @@ namespace Rpg.Client.Assets.Catalogs
                 }
                 else
                 {
-                    option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue", EventNode.EndNode)
+                    option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                        EventNode.EndNode)
                     {
                         Aftermath = optionAftermath
                     };

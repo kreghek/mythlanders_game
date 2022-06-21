@@ -239,7 +239,7 @@ namespace Rpg.Client
                     Services.GetService<IUnitSchemeCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
             }
-            
+
             var eventCatalog = new StaticTextEventCatalog();
             Services.AddService<IEventInitializer>(eventCatalog);
             Services.AddService<IEventCatalog>(eventCatalog);
