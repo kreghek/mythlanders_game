@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Rpg.Client.Core.Skills
 {
-    internal sealed class SelfTargetSelector: ITargetSelector
+    internal sealed class SelfTargetSelector : ITargetSelector
     {
         public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target,
             IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)

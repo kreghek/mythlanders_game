@@ -7,7 +7,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.TargetSelectors
 {
-    internal class LeftAllyTargetSelector: ITargetSelector
+    internal class LeftAllyTargetSelector : ITargetSelector
     {
         public IReadOnlyList<ICombatUnit> Calculate(ICombatUnit actor, ICombatUnit target, IEnumerable<ICombatUnit> availableCombatUnits, IDice dice)
         {

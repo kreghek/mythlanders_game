@@ -155,7 +155,7 @@ namespace Rpg.Client.Core
                 KnownMonsterSids = GetKnownMonsterSids(Globe.Player.KnownMonsters),
                 Abilities = Globe.Player.Abilities.Select(x => x.ToString()).ToArray(),
             };
-            
+
 
             var progress = new ProgressDto
             {

@@ -373,7 +373,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                         else
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                           // _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
+                            // _globe.CurrentEventNode = _globe.CurrentEvent.BeforeCombatStartNode;
 
                             _globe.CurrentEvent.Counter++;
 
@@ -803,7 +803,7 @@ namespace Rpg.Client.GameScreens.VoiceCombat
                     {
                         _globe.CurrentEvent.Completed = true;
 
-                       // _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
+                        // _globe.CurrentEventNode = _globe.CurrentEvent.AfterCombatStartNode;
                     }
 
                     break;
