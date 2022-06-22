@@ -45,7 +45,7 @@ namespace DialoguePlayer
                 {
                     var option = optionList[index];
                     var localizedOptionText = DialogueResources.ResourceManager.GetString(option.TextSid);
-                    Console.WriteLine((index+1) + ". " + localizedOptionText);
+                    Console.WriteLine((index + 1) + ". " + localizedOptionText);
                 }
 
                 Console.Write("Твой выбор: ");

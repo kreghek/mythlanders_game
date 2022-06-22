@@ -92,7 +92,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             _dialoguePlayer = new DialoguePlayer(_globe.CurrentDialogue ?? throw new InvalidOperationException(),
                 new DialogueContextFactory(_globe, storyPointCatalog));
-            
+
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();

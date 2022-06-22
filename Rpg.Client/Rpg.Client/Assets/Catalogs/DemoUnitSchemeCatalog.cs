@@ -17,16 +17,16 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 new CommissarFactory(),
                 new AssaulterFactory(),
-                
+
                 new SwordsmanFactory(),
                 new ArcherFactory(),
                 new HerbalistFactory(),
-                
+
                 new MonkFactory(),
                 new SpearmanFactory(),
-                
+
                 new PriestFactory(),
-                
+
                 new AmazonFactory(),
             };
 
