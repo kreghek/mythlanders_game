@@ -82,6 +82,24 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             new EventOption("MainSlavic1Before_02_Option_01", EventNode.EndNode)
                         }
+                    }),
+                    new EventOption("MainSlavic1Before_01_Option_02", new EventNode
+                    {
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = new[]
+                            {
+                                new EventTextFragment
+                                {
+                                    Speaker = UnitName.Environment,
+                                    TextSid = "MainSlavic1Before_03"
+                                }
+                            }
+                        },
+                        Options = new[]
+                        {
+                            new EventOption("MainSlavic1Before_03_Option_01", EventNode.EndNode)
+                        }
                     })
                 }
             };

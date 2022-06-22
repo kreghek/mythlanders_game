@@ -19,7 +19,7 @@ namespace Rpg.Client {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class DialogueResources {
@@ -72,6 +72,15 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string MainSlavic1Before_01_Option_02 {
+            get {
+                return ResourceManager.GetString("MainSlavic1Before_01_Option_02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string MainSlavic1Before_01_Text {
             get {
                 return ResourceManager.GetString("MainSlavic1Before_01_Text", resourceCulture);
@@ -81,9 +90,36 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string MainSlavic1Before_02 {
+            get {
+                return ResourceManager.GetString("MainSlavic1Before_02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string MainSlavic1Before_02_Option_01 {
             get {
                 return ResourceManager.GetString("MainSlavic1Before_02_Option_01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MainSlavic1Before_03 {
+            get {
+                return ResourceManager.GetString("MainSlavic1Before_03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MainSlavic1Before_03_Option_01 {
+            get {
+                return ResourceManager.GetString("MainSlavic1Before_03_Option_01", resourceCulture);
             }
         }
     }

@@ -121,9 +121,9 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (!_dialoguePlayer.IsEnd)
             {
-                DrawCurrentSpeaker(spriteBatch);
+                DrawCurrentSpeakerPortrait(spriteBatch);
 
-                DrawHud(spriteBatch, contentRect);
+                DrawTextBlock(spriteBatch, contentRect);
             }
         }
 
@@ -212,7 +212,7 @@ namespace Rpg.Client.GameScreens.Speech
             }
         }
 
-        private void DrawCurrentSpeaker(SpriteBatch spriteBatch)
+        private void DrawCurrentSpeakerPortrait(SpriteBatch spriteBatch)
         {
             const int SPEAKER_FRAME_SIZE = 256;
 
@@ -307,7 +307,7 @@ namespace Rpg.Client.GameScreens.Speech
             spriteBatch.End();
         }
 
-        private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
+        private void DrawTextBlock(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
@@ -317,7 +317,7 @@ namespace Rpg.Client.GameScreens.Speech
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            const int FACE_SIZE = 256;
+            const int PORTRAIT_SIZE = 256;
 
             if (_textFragments.Any())
             {
@@ -327,20 +327,20 @@ namespace Rpg.Client.GameScreens.Speech
 
                 const int SPEECH_MARGIN = 50;
                 textFragmentControl.Rect = new Rectangle(
-                    new Point(FACE_SIZE, contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN),
+                    new Point(PORTRAIT_SIZE, contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - _optionButtons.Count * 25),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
             }
 
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
-                var optionsStartPosition = new Vector2(contentRectangle.Right - 150, contentRectangle.Bottom - 25);
+                var optionsStartPosition = new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25 - _optionButtons.Count * 25);
 
                 var index = 0;
                 foreach (var button in _optionButtons)
                 {
                     var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
-                    var optionButtonSize = new Point(100, 20);
+                    var optionButtonSize = new Point(contentRectangle.Width - PORTRAIT_SIZE, 20);
                     button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
                     button.Draw(spriteBatch);
                     index++;
@@ -401,7 +401,7 @@ namespace Rpg.Client.GameScreens.Speech
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
                 var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                    _uiContentStorage.GetTitlesFont(), Rectangle.Empty);
                 optionButton.OnClick += (_, _) =>
                 {
                     _dialoguePlayer.SelectOption(option);

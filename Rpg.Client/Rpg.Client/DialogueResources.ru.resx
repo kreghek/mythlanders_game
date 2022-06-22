@@ -1,23 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-    </resheader>
-    <data name="MainSlavic1Before_01_Text" xml:space="preserve">
-        <value>Вокруг темная чаща. Что будешь делать?</value>
-    </data>
-    <data name="MainSlavic1Before_01_Option_01" xml:space="preserve">
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainSlavic1Before_01_Option_01" xml:space="preserve">
         <value>Бежать</value>
     </data>
-    <data name="MainSlavic1Before_02_Option_01" xml:space="preserve">
-        <value>Ты побежал и сдох.</value>
+  <data name="MainSlavic1Before_01_Option_02" xml:space="preserve">
+    <value>Сражаться за свои жизни.</value>
+  </data>
+  <data name="MainSlavic1Before_01_Text" xml:space="preserve">
+        <value>Вокруг темная чаща. Что будешь делать?</value>
     </data>
+  <data name="MainSlavic1Before_02" xml:space="preserve">
+    <value>Ты побежал и чуть не сдох.</value>
+  </data>
+  <data name="MainSlavic1Before_02_Option_01" xml:space="preserve">
+        <value>Принять бой.</value>
+    </data>
+  <data name="MainSlavic1Before_03" xml:space="preserve">
+    <value>Что ж, прими судьбу, как есть.</value>
+  </data>
+  <data name="MainSlavic1Before_03_Option_01" xml:space="preserve">
+    <value>Принять судьбу в бою.</value>
+  </data>
 </root>
