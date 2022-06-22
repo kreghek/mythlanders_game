@@ -131,7 +131,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (!_isInitialized)
             {
-                InitEventControls();
+                InitDialogueControls();
 
                 _isInitialized = true;
             }
@@ -347,11 +347,6 @@ namespace Rpg.Client.GameScreens.Speech
             spriteBatch.End();
         }
 
-        private static string GetOptionLocalizedText(EventOption option)
-        {
-            return PlotResources.ResourceManager.GetString($"EventOption{option.TextSid}Text") ?? option.TextSid;
-        }
-
         private void HandleDialogueEnd()
         {
             if (_globe.CurrentDialogue is null)
@@ -377,7 +372,7 @@ namespace Rpg.Client.GameScreens.Speech
             }
         }
 
-        private void InitEventControls()
+        private void InitDialogueControls()
         {
             _textFragments.Clear();
             _currentFragmentIndex = 0;
@@ -402,8 +397,7 @@ namespace Rpg.Client.GameScreens.Speech
             _optionButtons.Clear();
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
-                var optionLocalizedText = GetOptionLocalizedText(option);
-                var optionButton = new TextButton(optionLocalizedText, _uiContentStorage.GetButtonTexture(),
+                var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
                     _uiContentStorage.GetMainFont(), Rectangle.Empty);
                 optionButton.OnClick += (_, _) =>
                 {
