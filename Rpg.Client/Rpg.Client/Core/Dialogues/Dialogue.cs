@@ -8,7 +8,8 @@ namespace Rpg.Client.Core.Dialogues
             CombatPosition = combatPosition;
         }
 
-        public EventNode Root { get; }
         public EventPosition CombatPosition { get; }
+
+        public EventNode Root { get; }
     }
 }

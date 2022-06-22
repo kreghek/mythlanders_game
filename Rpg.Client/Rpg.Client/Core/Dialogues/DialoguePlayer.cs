@@ -8,8 +8,8 @@ namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class DialoguePlayer
     {
-        private EventNode _currentNode;
         private readonly DialogueContextFactory _contextFactory;
+        private EventNode _currentNode;
 
         public DialoguePlayer(Dialogue dialogue, DialogueContextFactory contextFactory)
         {
@@ -20,9 +20,11 @@ namespace Rpg.Client.Core.Dialogues
             CurrentOptions = _currentNode.Options.ToArray();
         }
 
+        public IReadOnlyCollection<EventOption> CurrentOptions { get; private set; }
+
         public IReadOnlyList<EventTextFragment> CurrentTextFragments { get; private set; }
 
-        public IReadOnlyCollection<EventOption> CurrentOptions { get; private set; }
+        public bool IsEnd => _currentNode == EventNode.EndNode;
 
         public void SelectOption(EventOption option)
         {
@@ -42,7 +44,5 @@ namespace Rpg.Client.Core.Dialogues
             var context = _contextFactory.Create();
             option.Aftermath?.Apply(context);
         }
-
-        public bool IsEnd => _currentNode == EventNode.EndNode;
     }
 }

@@ -27,7 +27,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                 new PriestFactory(),
 
-                new AmazonFactory(),
+                new AmazonFactory()
             };
 
             var balanceTable = new BalanceTable();

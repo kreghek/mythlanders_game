@@ -29,6 +29,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+        private readonly DialoguePlayer _dialoguePlayer;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -51,7 +52,6 @@ namespace Rpg.Client.GameScreens.Speech
         private int _frameIndex;
 
         private bool _isInitialized;
-        private readonly DialoguePlayer _dialoguePlayer;
 
         public SpeechScreen(EwarGame game) : base(game)
         {

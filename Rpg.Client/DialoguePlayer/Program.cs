@@ -10,9 +10,9 @@ using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var eventCatalog = new StaticTextEventCatalog();
             eventCatalog.Init();
@@ -29,7 +29,8 @@ namespace DialoguePlayer
             globeProvider.GenerateNew();
             var globe = globeProvider.Globe;
 
-            var dialogPlayer = new Rpg.Client.Core.Dialogues.DialoguePlayer(dialogue, new DialogueContextFactory(globe, new StoryPointCatalog()));
+            var dialogPlayer = new Rpg.Client.Core.Dialogues.DialoguePlayer(dialogue,
+                new DialogueContextFactory(globe, new StoryPointCatalog()));
 
             while (!dialogPlayer.IsEnd)
             {
