@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.StoryPoints
+namespace Rpg.Client.Assets.StoryPointJobs
 {
     internal sealed class CombatCompleteJobProgress : IJobProgress
     {

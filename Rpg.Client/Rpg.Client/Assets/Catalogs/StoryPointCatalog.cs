@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Assets.StoryPoints;
+using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Catalogs
@@ -38,12 +38,12 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Swamp)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Swamp)),
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
                         .Single(x => x.Sid == GlobeNodeSid.GreatWall)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
                         .Single(x => x.Sid == GlobeNodeSid.ScreamValley)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Oasis))
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Oasis))
                 }
             };
 
@@ -66,14 +66,14 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
                         .Single(x => x.Sid == GlobeNodeSid.Battleground)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
                         .Single(x => x.Sid == GlobeNodeSid.GiantBamboo)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
                         .Single(x => x.Sid == GlobeNodeSid.Obelisk)),
-                    new UnlockLocation(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Vines)),
-                    new AddActivateStoryPoint(story2, globe)
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Vines)),
+                    new AddActivateStoryPointAftermath(story2, globe)
                 }
             };
 
@@ -140,7 +140,7 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new AddActivateStoryPoint(story2, globe)
+                    new AddActivateStoryPointAftermath(story2, globe)
                 }
             };
 

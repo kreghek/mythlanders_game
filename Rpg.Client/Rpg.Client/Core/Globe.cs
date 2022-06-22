@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Rpg.Client.Assets.StoryPoints;
+using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Core

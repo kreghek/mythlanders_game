@@ -1,6 +1,6 @@
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.StoryPoints
+namespace Rpg.Client.Assets.StoryPointJobs
 {
     internal static class JobTypeCatalog
     {

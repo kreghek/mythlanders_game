@@ -43,6 +43,7 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Sid = "MainSlavic1",
                 IsGameStart = true,
+                IsUnique = true,
                 BeforeCombatStartNodeSid = "MainSlavic1Before"
             };
 
@@ -104,11 +105,11 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            var mainSlavicBefore1Dialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
+            var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
 
             _nodes = new Dictionary<string, Dialogue>
             {
-                { "MainSlavic1Before", mainSlavicBefore1Dialogue }
+                { "MainSlavic1Before", mainSlavic1BeforeDialogue }
             };
 
             _isInitialized = true;
