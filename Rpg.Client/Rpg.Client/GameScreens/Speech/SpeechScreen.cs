@@ -119,9 +119,12 @@ namespace Rpg.Client.GameScreens.Speech
         {
             DrawGameObjects(spriteBatch);
 
-            DrawCurrentSpeaker(spriteBatch);
+            if (!_dialoguePlayer.IsEnd)
+            {
+                DrawCurrentSpeaker(spriteBatch);
 
-            DrawHud(spriteBatch, contentRect);
+                DrawHud(spriteBatch, contentRect);
+            }
         }
 
         protected override void UpdateContent(GameTime gameTime)
