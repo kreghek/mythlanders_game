@@ -19,19 +19,24 @@ namespace Rpg.Client.Core
 
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
+        private readonly IStoryPointInitializer _storyPointInitializer;
 
         private readonly string _storagePath;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private Globe? _globe;
 
-        public GlobeProvider(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IBiomeGenerator biomeGenerator,
-            IEventCatalog eventCatalog)
+        public GlobeProvider(IDice dice,
+            IUnitSchemeCatalog unitSchemeCatalog,
+            IBiomeGenerator biomeGenerator,
+            IEventCatalog eventCatalog,
+            IStoryPointInitializer storyPointInitializer)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
             _biomeGenerator = biomeGenerator;
             _eventCatalog = eventCatalog;
+            _storyPointInitializer = storyPointInitializer;
             var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             _storagePath = Path.Combine(binPath, "CDT", "UpcomingPastJRPG");
         }
@@ -64,11 +69,9 @@ namespace Rpg.Client.Core
 
         public void GenerateNew()
         {
-            var storyPointCatalog = new StoryPointCatalog();
-
             var globe = new Globe(_biomeGenerator, new Player());
 
-            InitStartStoryPoint(globe, storyPointCatalog);
+            InitStartStoryPoint(globe, _storyPointInitializer);
 
             var startUnits = CreateStartUnits();
             for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
@@ -328,7 +331,7 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void InitStartStoryPoint(Globe globe, StoryPointCatalog storyPointCatalog)
+        private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
         {
             var startStoryPoints = storyPointCatalog.Init(globe);
             foreach (var storyPoint in startStoryPoints)

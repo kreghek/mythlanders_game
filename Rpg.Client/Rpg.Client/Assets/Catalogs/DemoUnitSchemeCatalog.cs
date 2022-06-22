@@ -15,9 +15,19 @@ namespace Rpg.Client.Assets.Catalogs
         {
             var heroes = new IHeroFactory[]
             {
+                new CommissarFactory(),
+                new AssaulterFactory(),
+                
                 new SwordsmanFactory(),
                 new ArcherFactory(),
-                new HerbalistFactory()
+                new HerbalistFactory(),
+                
+                new MonkFactory(),
+                new SpearmanFactory(),
+                
+                new PriestFactory(),
+                
+                new AmazonFactory(),
             };
 
             var balanceTable = new BalanceTable();
@@ -34,6 +44,53 @@ namespace Rpg.Client.Assets.Catalogs
             var biomeType = BiomeType.Slavic;
             return new[]
             {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.Marauder,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
+                        GlobeNodeSid.Mines
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.25f,
+                    DamageDealerRank = 0.75f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.BlackTrooper,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
+                        GlobeNodeSid.Mines
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,

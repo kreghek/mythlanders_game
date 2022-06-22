@@ -493,7 +493,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Main256x256_0.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/ClosestLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/ClosestLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -503,9 +503,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/ClosestLayer.png
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/ClosestLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/CloudsLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/CloudsLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -515,9 +515,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/CloudsLayer.png
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/CloudsLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/FarLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/FarLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -527,9 +527,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/FarLayer.png
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/FarLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/MainLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/MainLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -539,9 +539,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/MainLayer.png
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/MainLayer.png
 
-#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/SemiLayer.png
+#begin Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/SemiLayer.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -551,7 +551,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color16Bit
-/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Disert/SemiLayer.png
+/build:Sprites/GameObjects/CombatBackgrounds/Egyptian/Desert/SemiLayer.png
 
 #begin Sprites/GameObjects/CombatBackgrounds/Slavic/Battleground/ClosestLayer.png
 /importer:TextureImporter

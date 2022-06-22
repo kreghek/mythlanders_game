@@ -11,11 +11,13 @@ namespace Rpg.Client.Assets.Catalogs
     {
         private readonly IDice _dice;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly IEventCatalog _eventCatalog;
 
-        public DemoBiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog)
+        public DemoBiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
+            _eventCatalog = eventCatalog;
         }
 
         private static int[] GetCombatSequenceLength(int level)
@@ -76,8 +78,31 @@ namespace Rpg.Client.Assets.Catalogs
                     BiomeType.Slavic,
                     new[]
                     {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                        GlobeNodeSid.Thicket,
+                        GlobeNodeSid.Battleground,
+                        GlobeNodeSid.DestroyedVillage,
                         GlobeNodeSid.Swamp
+                    }
+                },
+                {
+                    BiomeType.Chinese,
+                    new[]
+                    {
+                        GlobeNodeSid.Monastery
+                    }
+                },
+                {
+                    BiomeType.Egyptian,
+                    new[]
+                    {
+                        GlobeNodeSid.Desert
+                    }
+                },
+                {
+                    BiomeType.Greek,
+                    new[]
+                    {
+                        GlobeNodeSid.ShipGraveyard
                     }
                 }
             };
@@ -186,27 +211,62 @@ namespace Rpg.Client.Assets.Catalogs
 
         public void CreateStartCombat(Biome startBiome)
         {
-            throw new NotImplementedException();
+            var combat = new CombatSource
+            {
+                Level = 1,
+                EnemyGroup = new Group()
+            };
+
+            var combatSequence = new CombatSequence
+            {
+                Combats = new[] { combat }
+            };
+
+            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.Thicket);
+            startNode.CombatSequence = combatSequence;
+
+            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
+
+            startNode.AssignedEvent = startEvent;
+
+            combat.EnemyGroup.Slots[0].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);
+            combat.EnemyGroup.Slots[1].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+            combat.EnemyGroup.Slots[2].Unit =
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
         }
 
         public IReadOnlyList<Biome> GenerateStartState()
         {
-            const int BIOME_NODE_COUNT = 4;
+            const int SLAVIC_BIOME_NODE_COUNT = 4;
+            const int CHINESE_BIOME_NODE_COUNT = 1;
+            const int EGYPTIAN_BIOME_NODE_COUNT = 1;
+            const int GREEK_BIOME_NODE_COUNT = 1;
+
+            Biome CreateBiome(BiomeType type, int nodeCount)
+            {
+                return new Biome(type)
+                {
+                    Nodes = Enumerable.Range(0, nodeCount).Select(x =>
+                        new GlobeNode
+                        {
+                            EquipmentItem = GetEquipmentItem(x, type),
+                            Sid = GetNodeSid(x, type),
+                            BiomeType = type,
+                            IsAvailable = GetStartAvailability(x),
+                            IsLast = x == nodeCount - 1
+                        }
+                    ).ToArray()
+                };
+            }
 
             return new[]
             {
-                new Biome(BiomeType.Slavic)
-                {
-                    Nodes = Enumerable.Range(0, BIOME_NODE_COUNT).Select(x =>
-                        new GlobeNode
-                        {
-                            EquipmentItem = GetEquipmentItem(x, BiomeType.Slavic),
-                            Sid = GetNodeSid(x, BiomeType.Slavic),
-                            IsAvailable = GetStartAvailability(x),
-                            IsLast = x == BIOME_NODE_COUNT - 1
-                        }
-                    ).ToArray()
-                }
+                CreateBiome(BiomeType.Slavic, SLAVIC_BIOME_NODE_COUNT),
+                CreateBiome(BiomeType.Chinese, CHINESE_BIOME_NODE_COUNT),
+                CreateBiome(BiomeType.Egyptian, EGYPTIAN_BIOME_NODE_COUNT),
+                CreateBiome(BiomeType.Greek, GREEK_BIOME_NODE_COUNT),
             };
         }
     }

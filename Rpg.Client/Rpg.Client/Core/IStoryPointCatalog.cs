@@ -6,9 +6,4 @@ namespace Rpg.Client.Core
     {
         IReadOnlyCollection<IStoryPoint> GetAll();
     }
-
-    internal interface IStoryPointInitializer
-    {
-        IReadOnlyCollection<IStoryPoint> Init(Globe globe);
-    }
 }

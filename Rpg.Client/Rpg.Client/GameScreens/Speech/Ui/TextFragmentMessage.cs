@@ -55,10 +55,11 @@ namespace Rpg.Client.GameScreens.Speech.Ui
                 Color.SaddleBrown);
         }
 
-        private static string GetLocalizedText(string text)
+        private static string GetLocalizedText(string textSid)
         {
-            // The text in the event is localized from resources yet.
-            return text;
+            var rm = DialogueResources.ResourceManager;
+            var localizedText = rm.GetString(textSid);
+            return localizedText ?? $"#{textSid}";
         }
     }
 }

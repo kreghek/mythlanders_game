@@ -66,7 +66,7 @@ namespace Rpg.Client.Assets.Catalogs
                     Biome = biomeType,
                     LocationSids = new[]
                     {
-                        GlobeNodeSid.Monastery, GlobeNodeSid.GaintBamboo, GlobeNodeSid.EmperorTomb,
+                        GlobeNodeSid.Monastery, GlobeNodeSid.GiantBamboo, GlobeNodeSid.EmperorTomb,
                         GlobeNodeSid.SecretTown, GlobeNodeSid.GreatWall, GlobeNodeSid.RiseFields,
                         GlobeNodeSid.DragonOolong, GlobeNodeSid.SkyTower
                     },
@@ -119,9 +119,9 @@ namespace Rpg.Client.Assets.Catalogs
                     Biome = BIOME_TYPE,
                     LocationSids = new[]
                     {
-                        GlobeNodeSid.Disert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis,
+                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis,
                         GlobeNodeSid.Obelisk,
-                        GlobeNodeSid.ScreamValey
+                        GlobeNodeSid.ScreamValley
                     },
                     IsMonster = true,
 
@@ -141,7 +141,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                     Name = UnitName.Sphynx,
                     Biome = BIOME_TYPE,
-                    LocationSids = new[] { GlobeNodeSid.ScreamValey },
+                    LocationSids = new[] { GlobeNodeSid.ScreamValley },
 
                     IsMonster = true,
 
@@ -175,7 +175,7 @@ namespace Rpg.Client.Assets.Catalogs
                     LocationSids = new[]
                     {
                         GlobeNodeSid.ShipGraveyard, GlobeNodeSid.Vines, GlobeNodeSid.Garden, GlobeNodeSid.Palace,
-                        GlobeNodeSid.Labirinth
+                        GlobeNodeSid.Labyrinth
                     },
                     IsMonster = true,
 
@@ -194,7 +194,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                     Name = UnitName.Hydra,
                     Biome = biomeType,
-                    LocationSids = new[] { GlobeNodeSid.Labirinth },
+                    LocationSids = new[] { GlobeNodeSid.Labyrinth },
 
                     IsMonster = true,
                     MinRequiredBiomeLevel = 45,

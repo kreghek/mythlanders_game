@@ -22,9 +22,10 @@ namespace DialoguePlayer
             var dialogue = eventCatalog.GetDialogue(event1.BeforeCombatStartNodeSid);
 
             var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
+            var storyPointInitializer = new StoryPointCatalog();
             var dice = new LinearDice();
             var globeProvider = new GlobeProvider(dice, unitSchemeCatalog,
-                new BiomeGenerator(dice, unitSchemeCatalog, eventCatalog), eventCatalog);
+                new BiomeGenerator(dice, unitSchemeCatalog, eventCatalog), eventCatalog, storyPointInitializer);
             globeProvider.GenerateNew();
             var globe = globeProvider.Globe;
 
