@@ -30,7 +30,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Priest
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.EnergoShot
+            SoundEffectType = GameObjectSoundType.EnergoShot,
+            IconOneBasedIndex = 34
         };
     }
 }

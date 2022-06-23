@@ -34,7 +34,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Priest
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Self,
-            SoundEffectType = GameObjectSoundType.EgyptianDarkMagic
+            SoundEffectType = GameObjectSoundType.EgyptianDarkMagic,
+            IconOneBasedIndex = 36
         };
     }
 }
