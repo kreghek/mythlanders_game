@@ -38,9 +38,9 @@ namespace Rpg.Client.Core
 
         public IReadOnlyCollection<Biome> Biomes { get; }
 
-        public Event? CurrentEvent { get; internal set; }
-
         public Dialogue? CurrentDialogue { get; set; }
+
+        public Event? CurrentEvent { get; internal set; }
 
         public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 

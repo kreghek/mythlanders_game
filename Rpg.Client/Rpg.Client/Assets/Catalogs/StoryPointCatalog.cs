@@ -85,7 +85,7 @@ namespace Rpg.Client.Assets.Catalogs
             return activeList;
         }
     }
-    
+
     internal sealed class DemoStoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
         private IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
