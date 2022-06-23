@@ -6,6 +6,7 @@ on:
       mode:
         type: choice
         description: Mode
+        default: demo
         options:
           - full
           - demo
