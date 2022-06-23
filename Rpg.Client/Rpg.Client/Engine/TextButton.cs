@@ -7,6 +7,8 @@ namespace Rpg.Client.Engine
     {
         private readonly SpriteFont _font;
 
+        private readonly string _title;
+
         public TextButton(string title, Texture2D texture, SpriteFont font) : this(title, texture, font,
             Rectangle.Empty)
         {
@@ -18,8 +20,6 @@ namespace Rpg.Client.Engine
 
             _font = font;
         }
-
-        private readonly string _title;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {

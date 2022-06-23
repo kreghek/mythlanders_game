@@ -103,7 +103,7 @@ namespace Rpg.Client.Tests.Core
 
             // ASSERT
 
-            fact.Options.First().Next.Should().BeNull();
+            fact.Options.First().Next.Should().Be(EventNode.EndNode);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace Rpg.Client.Tests.Core
 
             // ASSERT
 
-            fact.Options.First().Next.Should().BeNull();
+            fact.Options.First().Next.Should().Be(EventNode.EndNode);
         }
     }
 }

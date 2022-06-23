@@ -36,11 +36,11 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
             spriteBatch.DrawString(_font, optionLocalizedText, textPosition, Color.SaddleBrown);
         }
-        
+
         private static string GetOptionLocalizedText(string resourceSid)
         {
             var rm = DialogueResources.ResourceManager;
-            
+
             return rm.GetString(resourceSid) ?? $"#{resourceSid}";
         }
     }

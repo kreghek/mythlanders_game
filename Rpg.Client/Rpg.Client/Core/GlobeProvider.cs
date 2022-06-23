@@ -19,9 +19,9 @@ namespace Rpg.Client.Core
 
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
-        private readonly IStoryPointInitializer _storyPointInitializer;
 
         private readonly string _storagePath;
+        private readonly IStoryPointInitializer _storyPointInitializer;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         private Globe? _globe;

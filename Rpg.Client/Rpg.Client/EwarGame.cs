@@ -223,7 +223,7 @@ namespace Rpg.Client
             var eventCatalog = new StaticTextEventCatalog();
             Services.AddService<IEventInitializer>(eventCatalog);
             Services.AddService<IEventCatalog>(eventCatalog);
-            
+
             if (_gameSettings.Mode == GameMode.Full)
             {
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
@@ -233,7 +233,7 @@ namespace Rpg.Client
                     Services.GetService<IUnitSchemeCatalog>(),
                     Services.GetService<IEventCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
-                
+
                 var storyPointCatalog = new StoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
@@ -247,7 +247,7 @@ namespace Rpg.Client
                     Services.GetService<IUnitSchemeCatalog>(),
                     Services.GetService<IEventCatalog>());
                 Services.AddService<IBiomeGenerator>(biomeGenerator);
-                
+
                 var storyPointCatalog = new DemoStoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);

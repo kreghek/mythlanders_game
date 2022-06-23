@@ -10,8 +10,8 @@ namespace Rpg.Client.Assets.Catalogs
     internal sealed class DemoBiomeGenerator : IBiomeGenerator
     {
         private readonly IDice _dice;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
         private readonly IEventCatalog _eventCatalog;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public DemoBiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
@@ -266,7 +266,7 @@ namespace Rpg.Client.Assets.Catalogs
                 CreateBiome(BiomeType.Slavic, SLAVIC_BIOME_NODE_COUNT),
                 CreateBiome(BiomeType.Chinese, CHINESE_BIOME_NODE_COUNT),
                 CreateBiome(BiomeType.Egyptian, EGYPTIAN_BIOME_NODE_COUNT),
-                CreateBiome(BiomeType.Greek, GREEK_BIOME_NODE_COUNT),
+                CreateBiome(BiomeType.Greek, GREEK_BIOME_NODE_COUNT)
             };
         }
     }
