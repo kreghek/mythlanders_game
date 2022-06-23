@@ -403,7 +403,7 @@ namespace Rpg.Client.GameScreens.Speech
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
                 var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetTitlesFont(), Rectangle.Empty);
+                    _uiContentStorage.GetTitlesFont());
                 optionButton.OnClick += (_, _) =>
                 {
                     _dialoguePlayer.SelectOption(option);

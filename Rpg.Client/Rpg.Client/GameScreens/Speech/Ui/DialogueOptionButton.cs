@@ -10,13 +10,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly SpriteFont _font;
         private readonly string _resourceSid;
 
-        public DialogueOptionButton(string resourceSid, Texture2D texture, SpriteFont font) : this(resourceSid, texture,
-            font, Rectangle.Empty)
-        {
-        }
-
-        public DialogueOptionButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(
-            texture, rect)
+        public DialogueOptionButton(string resourceSid, Texture2D texture, SpriteFont font) : base(
+            texture, Rectangle.Empty)
         {
             _resourceSid = resourceSid;
 
