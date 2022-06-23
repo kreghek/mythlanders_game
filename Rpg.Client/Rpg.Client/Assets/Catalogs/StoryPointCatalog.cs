@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Rpg.Client.Assets.StoryPointAftermaths;
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 
