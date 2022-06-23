@@ -97,7 +97,7 @@ namespace Rpg.Client.Core
 
             _biomeGenerator.CreateCombatsInBiomeNodes(biomes, GlobeLevel);
 
-            CreateEventsInBiomeNodes(dice, eventCatalog, biomes, GlobeLevel);
+            CreateDialoguesInBiomeNodes(dice, eventCatalog, biomes, GlobeLevel);
 
             Updated?.Invoke(this, EventArgs.Empty);
         }
@@ -169,7 +169,7 @@ namespace Rpg.Client.Core
         }
 
 
-        private void CreateEventsInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
+        private void CreateDialoguesInBiomeNodes(IDice dice, IEventCatalog eventCatalog, Biome[] biomes,
             GlobeLevel globeLevel)
         {
             // create dialogs of nodes with combat

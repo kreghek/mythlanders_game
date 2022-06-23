@@ -60,6 +60,7 @@ namespace Rpg.Client.Assets.Catalogs
                 Sid = "MainSlavic2",
                 IsUnique = true,
                 BeforeCombatStartNodeSid = "MainSlavic2Before",
+                Priority = TextEventPriority.High,
                 Requirements = new[]
                 {
                     new LocationEventRequirement(new[] {

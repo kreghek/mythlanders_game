@@ -14,14 +14,15 @@ namespace DialoguePlayer
     {
         private static void Main(string[] args)
         {
-            var eventCatalog = new StaticTextEventCatalog();
+            var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
+
+            var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
             eventCatalog.Init();
 
             var event1 = eventCatalog.Events.First(x => x.BeforeCombatStartNodeSid != null);
 
             var dialogue = eventCatalog.GetDialogue(event1.BeforeCombatStartNodeSid);
 
-            var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
             var storyPointInitializer = new StoryPointCatalog();
             var dice = new LinearDice();
             var globeProvider = new GlobeProvider(dice, unitSchemeCatalog,
