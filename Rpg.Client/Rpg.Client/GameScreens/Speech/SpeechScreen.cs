@@ -327,14 +327,16 @@ namespace Rpg.Client.GameScreens.Speech
 
                 const int SPEECH_MARGIN = 50;
                 textFragmentControl.Rect = new Rectangle(
-                    new Point(PORTRAIT_SIZE, contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - _optionButtons.Count * 25),
+                    new Point(PORTRAIT_SIZE,
+                        contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - _optionButtons.Count * 25),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
             }
 
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
-                var optionsStartPosition = new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25 - _optionButtons.Count * 25);
+                var optionsStartPosition =
+                    new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25 - _optionButtons.Count * 25);
 
                 var index = 0;
                 foreach (var button in _optionButtons)
