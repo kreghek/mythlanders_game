@@ -2,14 +2,9 @@ name: Build
 
 on:
   workflow_dispatch:
-    inputs:
-      mode:
-        type: choice
-        description: Mode
-        default: demo
-        options:
-          - full
-          - demo
+  push:
+    branches:
+      - demo-gdw22
 
 jobs:
   build:
