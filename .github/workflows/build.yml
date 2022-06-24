@@ -3,7 +3,8 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    - demo-gdw22
+    branches:
+      - demo-gdw22
 
 jobs:
   build:
