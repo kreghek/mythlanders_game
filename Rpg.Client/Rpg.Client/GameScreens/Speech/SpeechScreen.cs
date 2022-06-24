@@ -402,8 +402,8 @@ namespace Rpg.Client.GameScreens.Speech
             _optionButtons.Clear();
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
-                var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetTitlesFont(), Rectangle.Empty);
+                var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetSpeechTexture(),
+                    _uiContentStorage.GetTitlesFont());
                 optionButton.OnClick += (_, _) =>
                 {
                     _dialoguePlayer.SelectOption(option);
