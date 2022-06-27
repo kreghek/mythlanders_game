@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 using Rpg.Client.Assets.StoryPointAftermaths;
 using Rpg.Client.Assets.StoryPointJobs;
@@ -7,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
+    internal sealed class DemoStoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
         private IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
 
@@ -39,14 +38,6 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Swamp)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.GreatWall)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.ScreamValley)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Oasis))
                 }
             };
 
@@ -69,19 +60,10 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Battleground)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.GiantBamboo)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Obelisk)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Vines)),
                     new AddActivateStoryPointAftermath(story2, globe)
                 }
             };
 
-            activeList.Add(story1);
             spList.Add(story1);
 
             _storyPoints = spList;

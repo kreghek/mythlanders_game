@@ -71,13 +71,31 @@ namespace Rpg.Client.Assets.Catalogs
             
             events.Add(mainPlot2);
 
+            var mainPlot3 = new Event
+            {
+                Sid = "MainSlavic3",
+                IsUnique = true,
+                AfterCombatStartNodeSid = "MainSlavic3After",
+                Priority = TextEventPriority.High,
+                Requirements = new[]
+                {
+                    new LocationEventRequirement(new[] {
+                        GlobeNodeSid.Battleground
+                    })
+                }
+            };
+
+            events.Add(mainPlot3);
+
             var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
             var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
+            var mainSlavic3AfterDialogue = CreateMainSlavic3BeforeDialogue();
 
             _nodes = new Dictionary<string, Dialogue>
             {
                 { "MainSlavic1Before", mainSlavic1BeforeDialogue },
-                { "MainSlavic2Before", mainSlavic2BeforeDialogue }
+                { "MainSlavic2Before", mainSlavic2BeforeDialogue },
+                { "MainSlavic3After", mainSlavic3AfterDialogue }
             };
 
             _isInitialized = true;
@@ -200,6 +218,69 @@ namespace Rpg.Client.Assets.Catalogs
                             new EventOption("MainSlavic2Before_03_Option_01", EventNode.EndNode)
                             {
                                 Aftermath = new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.Heroes[UnitName.Archer])
+                            }
+                        }
+                    })
+                }
+            };
+
+            var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
+            return mainSlavic1BeforeDialogue;
+        }
+
+        private Dialogue CreateMainSlavic3BeforeDialogue()
+        {
+            var mainSlavic1BeforeRoot = new EventNode
+            {
+                TextBlock = new EventTextBlock
+                {
+                    Fragments = new[]
+                    {
+                        new EventTextFragment
+                        {
+                            Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_01_Text"
+                        }
+                    }
+                },
+                Options = new[]
+                {
+                    new EventOption("MainSlavic3Before_01_Option_01", new EventNode
+                    {
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = new[]
+                            {
+                                new EventTextFragment
+                                {
+                                    Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_02"
+                                }
+                            }
+                        },
+                        Options = new[]
+                        {
+                            new EventOption("MainSlavic3Before_02_Option_01", EventNode.EndNode)
+                            {
+                                Aftermath = new AddStoryPointOptionAftermath("1")
+                            }
+                        }
+                    }),
+                    new EventOption("MainSlavic3Before_01_Option_02", new EventNode
+                    {
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = new[]
+                            {
+                                new EventTextFragment
+                                {
+                                    Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_03"
+                                }
+                            }
+                        },
+                        Options = new[]
+                        {
+                            new EventOption("MainSlavic3Before_03_Option_01", EventNode.EndNode)
+                            {
+                                Aftermath = new AddStoryPointOptionAftermath("1")
                             }
                         }
                     })
