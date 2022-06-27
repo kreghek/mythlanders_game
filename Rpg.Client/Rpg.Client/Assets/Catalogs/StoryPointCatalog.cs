@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Defeats,
-                            Value = 10
+                            Value = 20
                         }
                     }
                 },
@@ -63,7 +63,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Combats,
-                            Value = 3
+                            Value = 6
                         }
                     }
                 },

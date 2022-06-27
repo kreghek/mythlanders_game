@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Rpg.Client.Assets.StoryPointAftermaths;
 using Rpg.Client.Assets.StoryPointJobs;
@@ -32,12 +33,15 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Defeats,
-                            Value = 10
+                            Value = 25
                         }
                     }
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Monastery)),
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Desert)),
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.ShipGraveyard))
                 }
             };
 
@@ -54,7 +58,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Combats,
-                            Value = 3
+                            Value = 10
                         }
                     }
                 },

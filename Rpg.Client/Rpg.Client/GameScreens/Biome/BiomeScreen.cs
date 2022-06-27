@@ -285,13 +285,13 @@ namespace Rpg.Client.GameScreens.Biome
             const int GOAL_PANEL_WIDTH = 200;
             const int GOAL_TITLE_HEIGHT = 10;
 
-            var activeStoryPointList = _globe.ActiveStoryPoints.ToArray();
+            var activeStoryPointList = _globe.ActiveStoryPoints.Where(x => !x.IsComplete).ToArray();
             for (var i = 0; i < activeStoryPointList.Length; i++)
             {
                 var storyPoint = activeStoryPointList[i];
 
                 var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) +
-                               (i * Vector2.UnitY * 20);
+                               (i * Vector2.UnitY * 50);
 
                 var drawingContext = new StoryPointDrawingContext
                 {
