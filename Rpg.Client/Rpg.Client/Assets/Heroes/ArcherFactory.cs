@@ -30,10 +30,10 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel(1, new EnergyShotSkill()),
-                new AddSkillUnitLevel(1, new ArrowRainSkill(true)),
+                new AddSkillUnitLevel(1, new ArrowRainSkill(false)),
                 new AddSkillUnitLevel(2, new RapidShotSkill()),
                 new AddPerkUnitLevel(3, new CriticalHit()),
-                new AddSkillUnitLevel(4, new ZduhachMightSkill(true))
+                new AddSkillUnitLevel(4, new ZduhachMightSkill(false))
             };
         }
     }
