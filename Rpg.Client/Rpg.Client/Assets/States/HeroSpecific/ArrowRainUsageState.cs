@@ -7,70 +7,126 @@ using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
     internal class ArrowRainUsageState : IUnitStateEngine
     {
+        private const int TOTAL_ARROW_COUNT = 10;
+        private const float BASE_ARROW_LIFETIME_DURATION = 3f;
+        private const float BASE_OFFSET_PERCENTAGE = 0.5f;
         private readonly IUnitStateEngine _mainContainerState;
         private readonly AnimationBlocker _mainStateBlocker;
+
+
+        private static IUnitStateEngine CreateLaunchRainSourceState(ISkillVisualizationContext context, Vector2 launchPoint, UnitGraphics animatedObjectGraphics)
+        {
+            var projectileBlocker = context.AddAnimationBlocker();
+            var projectile = new EnergoArrowRainSourceProjectile(launchPoint,
+                context.GameObjectContentStorage, projectileBlocker, lifetimeDuration: 2);
+
+            var launchInteractionDeliveryState = new LaunchInteractionDeliveryState(
+                                animatedObjectGraphics,
+                                new[] { projectile },
+                                context.InteractionDeliveryManager,
+                                context.GetHitSound(GameObjectSoundType.EnergoShot),
+                                PredefinedAnimationSid.Skill3);
+
+            return launchInteractionDeliveryState;
+        }
+
+        private static Vector2 CreateArrowOffset(Vector2 targetPosition)
+        {
+            return targetPosition - Vector2.UnitY * 200 - Vector2.UnitX * 100;
+        }
+
+        private static IUnitStateEngine CreateArrowFallState(ISkillVisualizationContext context)
+        {
+            var resultArrowsStates = new List<IUnitStateEngine>();
+
+            var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
+
+            // In the skill rules only 1 interaction.
+            var materializedTargets = context.Interaction.SkillRuleInteractions[0].Targets;
+
+            foreach (var materializedTarget in materializedTargets)
+            {
+                var materializedTargetGameObject = context.GetGameObject(materializedTarget);
+                var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
+
+                var startPosition = CreateArrowOffset(materializedTargetGameObjectPosition);
+                var targetPosition = materializedTargetGameObjectPosition;
+
+                var arrowBlocker = context.AddAnimationBlocker();
+
+                var arrowLifetimeRandomOffset = context.Dice.RollD100() / 100f * BASE_OFFSET_PERCENTAGE;
+                var arrowDuration = (BASE_ARROW_LIFETIME_DURATION - (BASE_ARROW_LIFETIME_DURATION * BASE_OFFSET_PERCENTAGE * 0.5f)) * arrowLifetimeRandomOffset;
+
+                void singleTargetAction(ICombatUnit combatUnit)
+                {
+                    context.Interaction.SkillRuleInteractions[0].Action(combatUnit);
+                }
+
+                var arrow = new EnergoArrowProjectile(startPosition, targetPosition,
+                    context.GameObjectContentStorage, arrowBlocker,
+                    lifetimeDuration: arrowDuration,
+                    interaction: singleTargetAction,
+                    targetCombatUnit: materializedTarget);
+
+                var blast = new EnergoArrowBlast(targetPosition, context.GameObjectContentStorage.GetBulletGraphics());
+
+                var sequentialEffect = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
+
+                var arrowState = new WaitInteractionDeliveryState(new[] { sequentialEffect }, context.InteractionDeliveryManager);
+                resultArrowsStates.Add(arrowState);
+            }
+
+            for (var i = 0; i < TOTAL_ARROW_COUNT; i++)
+            {
+                var targetRandomPosition = context.Dice.RollPoint(targetArea);
+                var startPosition = CreateArrowOffset(targetRandomPosition);
+
+                var arrowBlocker = context.AddAnimationBlocker();
+
+                var arrowLifetimeRandomOffset = context.Dice.RollD100() / 100f * BASE_OFFSET_PERCENTAGE;
+                var arrowDuration = (BASE_ARROW_LIFETIME_DURATION - (BASE_ARROW_LIFETIME_DURATION * BASE_OFFSET_PERCENTAGE * 0.5f)) * arrowLifetimeRandomOffset;
+
+                var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
+                    context.GameObjectContentStorage, arrowBlocker, lifetimeDuration: arrowDuration);
+
+                var blast = new EnergoArrowBlast(targetRandomPosition, context.GameObjectContentStorage.GetBulletGraphics());
+
+                var sequentialEffect = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
+
+                var arrowState = new WaitInteractionDeliveryState(new[] { sequentialEffect }, context.InteractionDeliveryManager);
+                resultArrowsStates.Add(arrowState);
+            }
+
+            return new ParallelState(resultArrowsStates);
+        }
 
         public ArrowRainUsageState(
             UnitGameObject animatedUnitGameObject,
             AnimationBlocker mainStateBlocker,
             ISkillVisualizationContext context)
         {
-            var arrowRainSourceBlocker = context.AddAnimationBlocker();
-            var arrowRainSource = new EnergoArrowRainSourceProjectile(animatedUnitGameObject.LaunchPoint,
-                context.GameObjectContentStorage, arrowRainSourceBlocker, lifetimeDuration: 2);
 
-            var mainDeliveryBlocker = context.AddAnimationBlocker();
+            var launchRainSourceState = CreateLaunchRainSourceState(
+                context,
+                animatedUnitGameObject.LaunchPoint,
+                animatedUnitGameObject.Graphics);
 
-            var fallingArrowList = new List<IInteractionDelivery>();
-
-            for (var i = 0; i < 10; i++)
-            {
-                AnimationBlocker? blocker = null;
-                if (i == 0)
-                {
-                    blocker = mainDeliveryBlocker;
-                }
-
-                var targetArea = context.BattlefieldInteractionContext.GetArea(Team.Cpu);
-                var targetRandomPosition = context.Dice.RollPoint(targetArea);
-                var startPosition = targetRandomPosition - Vector2.UnitY * 200;
-
-                var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
-                    context.GameObjectContentStorage, blocker, lifetimeDuration: 2);
-
-                fallingArrowList.Add(arrow);
-            }
-
-            var stateAnimationBlocker = context.AddAnimationBlocker();
-
-            StateHelper.HandleStateWithInteractionDelivery(context.Interaction.SkillRuleInteractions,
-                mainStateBlocker,
-                mainDeliveryBlocker,
-                stateAnimationBlocker);
-
-            var animatedObjectGraphics = animatedUnitGameObject.Graphics;
+            var arrowFallState = CreateArrowFallState(context);
 
             var subStates = new IUnitStateEngine[]
             {
-                new LaunchInteractionDeliveryState(
-                    animatedObjectGraphics,
-                    new[] { arrowRainSource },
-                    context.InteractionDeliveryManager,
-                    context.GetHitSound(GameObjectSoundType.EnergoShot),
-                    PredefinedAnimationSid.Skill3),
-
-                new CreateImmeditlyInteractionDeliveryState(fallingArrowList, context.InteractionDeliveryManager)
+                launchRainSourceState,
+                arrowFallState
             };
-            _mainStateBlocker = mainStateBlocker;
 
             _mainContainerState = new SequentialState(subStates);
+            _mainStateBlocker = mainStateBlocker;
         }
 
         public bool CanBeReplaced => false;

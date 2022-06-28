@@ -19,7 +19,7 @@ namespace Rpg.Client.Core.AnimationFrameSets
 
         private bool _isEnded;
 
-        public SequentialAnimationFrameSet(IReadOnlyList<int> frames, int fps, int frameWidth,
+        public SequentialAnimationFrameSet(IReadOnlyList<int> frames, float fps, int frameWidth,
             int frameHeight, int textureColumns)
         {
             _frames = frames;

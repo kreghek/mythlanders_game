@@ -6,5 +6,6 @@
         void AddNewGlobalEvent(IGlobeEvent globalEvent);
         void AddStoryPoint(string storyPointSid);
         void UnlockLocation(GlobeNodeSid locationSid);
+        void StartCombat(string sid);
     }
 }

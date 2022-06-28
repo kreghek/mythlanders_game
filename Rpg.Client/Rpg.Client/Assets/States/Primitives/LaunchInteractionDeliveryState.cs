@@ -43,11 +43,11 @@ namespace Rpg.Client.Assets.States.Primitives
 
         public LaunchInteractionDeliveryState(UnitGraphics graphics,
             IReadOnlyCollection<IInteractionDelivery> interactionDelivery,
-            IList<IInteractionDelivery> interactionDeliveryList,
+            IList<IInteractionDelivery> interactionDeliveryManager,
             SoundEffectInstance? createProjectileSound,
             PredefinedAnimationSid animationSid,
             double animationDuration = DEFAULT_DURATION_SECONDS) :
-            this(graphics, interactionDelivery, interactionDeliveryList)
+            this(graphics, interactionDelivery, interactionDeliveryManager)
         {
             _createProjectileSound = createProjectileSound;
             _animationSid = animationSid;

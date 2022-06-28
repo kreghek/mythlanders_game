@@ -110,9 +110,9 @@ namespace Rpg.Client.Assets.Catalogs
             return demoLocationsDict[biomeType][nodeIndex];
         }
 
-        private static bool GetStartAvailability(int nodeIndex)
+        private static bool GetStartAvailability(int nodeIndex, GlobeNodeSid locationSid)
         {
-            return nodeIndex == 0;
+            return locationSid == GlobeNodeSid.Thicket;
         }
 
         private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
@@ -153,7 +153,11 @@ namespace Rpg.Client.Assets.Catalogs
             foreach (var biome in biomes)
             {
                 var availableNodes = biome.Nodes.Where(x => x.IsAvailable).ToArray();
-                Debug.Assert(availableNodes.Any(), "At least of one node expected to be available.");
+                if (!availableNodes.Any())
+                {
+                    continue;
+                }
+
                 var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel);
 
                 var combatCounts = GetCombatSequenceLength(globeLevel.Level);
@@ -254,7 +258,7 @@ namespace Rpg.Client.Assets.Catalogs
                             EquipmentItem = GetEquipmentItem(x, type),
                             Sid = GetNodeSid(x, type),
                             BiomeType = type,
-                            IsAvailable = GetStartAvailability(x),
+                            IsAvailable = GetStartAvailability(x, GetNodeSid(x, type)),
                             IsLast = x == nodeCount - 1
                         }
                     ).ToArray()
