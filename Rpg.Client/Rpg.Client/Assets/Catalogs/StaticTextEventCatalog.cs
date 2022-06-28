@@ -42,7 +42,7 @@ namespace Rpg.Client.Assets.Catalogs
         public void Init()
         {
             var events = new List<Event>();
-            
+
             Events = events;
 
             var mainPlot1 = new Event
@@ -68,7 +68,7 @@ namespace Rpg.Client.Assets.Catalogs
                     })
                 }
             };
-            
+
             events.Add(mainPlot2);
 
             var mainPlot3 = new Event
@@ -167,7 +167,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             return mainSlavic1BeforeDialogue;
         }
-        
+
         private Dialogue CreateMainSlavic2BeforeDialogue()
         {
             var mainSlavic1BeforeRoot = new EventNode

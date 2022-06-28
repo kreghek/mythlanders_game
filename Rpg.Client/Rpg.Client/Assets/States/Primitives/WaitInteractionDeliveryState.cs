@@ -56,7 +56,7 @@ namespace Rpg.Client.Assets.States.Primitives
                 {
                     _interactionDeliveryManager.Add(item);
                 }
-                
+
                 _launched = true;
             }
 
