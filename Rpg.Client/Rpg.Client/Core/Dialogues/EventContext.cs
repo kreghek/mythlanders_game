@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rpg.Client.Core.Dialogues
@@ -45,7 +46,7 @@ namespace Rpg.Client.Core.Dialogues
 
         public void StartCombat(string sid)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void UnlockLocation(GlobeNodeSid locationSid)

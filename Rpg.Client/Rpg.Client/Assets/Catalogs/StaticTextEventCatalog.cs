@@ -22,88 +22,6 @@ namespace Rpg.Client.Assets.Catalogs
             Events = Array.Empty<Event>();
         }
 
-        public IEnumerable<Event> Events { get; private set; }
-
-        public Dialogue GetDialogue(string sid)
-        {
-            if (!_isInitialized)
-            {
-                throw new InvalidOperationException();
-            }
-
-            if (_nodes is null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            return _nodes[sid];
-        }
-
-        public void Init()
-        {
-            var events = new List<Event>();
-            
-            Events = events;
-
-            var mainPlot1 = new Event
-            {
-                Sid = "MainSlavic1",
-                IsGameStart = true,
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic1Before"
-            };
-
-            events.Add(mainPlot1);
-
-            var mainPlot2 = new Event
-            {
-                Sid = "MainSlavic2",
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic2Before",
-                Priority = TextEventPriority.High,
-                Requirements = new[]
-                {
-                    new LocationEventRequirement(new[] {
-                        GlobeNodeSid.Battleground
-                    })
-                }
-            };
-            
-            events.Add(mainPlot2);
-
-            var mainPlot3 = new Event
-            {
-                Sid = "MainSlavic3",
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic3Before",
-                AfterCombatStartNodeSid = "MainSlavic3After",
-                Priority = TextEventPriority.High,
-                Requirements = new[]
-                {
-                    new LocationEventRequirement(new[] {
-                        GlobeNodeSid.Battleground
-                    })
-                }
-            };
-
-            events.Add(mainPlot3);
-
-            var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
-            var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
-            var mainSlavic3BeforeDialogue = CreateMainSlavic3BeforeDialogue();
-            var mainSlavic3AfterDialogue = CreateMainSlavic3AfterDialogue();
-
-            _nodes = new Dictionary<string, Dialogue>
-            {
-                { "MainSlavic1Before", mainSlavic1BeforeDialogue },
-                { "MainSlavic2Before", mainSlavic2BeforeDialogue },
-                { "MainSlavic3Before", mainSlavic3BeforeDialogue },
-                { "MainSlavic3After", mainSlavic3AfterDialogue }
-            };
-
-            _isInitialized = true;
-        }
-
         private static Dialogue CreateMainSlavic1BeforeDialogue()
         {
             var mainSlavic1BeforeRoot = new EventNode
@@ -167,7 +85,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             return mainSlavic1BeforeDialogue;
         }
-        
+
         private Dialogue CreateMainSlavic2BeforeDialogue()
         {
             var mainSlavic1BeforeRoot = new EventNode
@@ -200,7 +118,8 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             new EventOption("MainSlavic2Before_02_Option_01", EventNode.EndNode)
                             {
-                                Aftermath = new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.Heroes[UnitName.Archer])
+                                Aftermath = new AddPlayerCharacterOptionAftermath(
+                                    _unitSchemeCatalog.Heroes[UnitName.Archer])
                             }
                         }
                     }),
@@ -220,7 +139,8 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             new EventOption("MainSlavic2Before_03_Option_01", EventNode.EndNode)
                             {
-                                Aftermath = new AddPlayerCharacterOptionAftermath(_unitSchemeCatalog.Heroes[UnitName.Archer])
+                                Aftermath = new AddPlayerCharacterOptionAftermath(
+                                    _unitSchemeCatalog.Heroes[UnitName.Archer])
                             }
                         }
                     })
@@ -355,6 +275,90 @@ namespace Rpg.Client.Assets.Catalogs
 
             var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
             return mainSlavic1BeforeDialogue;
+        }
+
+        public IEnumerable<Event> Events { get; private set; }
+
+        public Dialogue GetDialogue(string sid)
+        {
+            if (!_isInitialized)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (_nodes is null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return _nodes[sid];
+        }
+
+        public void Init()
+        {
+            var events = new List<Event>();
+
+            Events = events;
+
+            var mainPlot1 = new Event
+            {
+                Sid = "MainSlavic1",
+                IsGameStart = true,
+                IsUnique = true,
+                BeforeCombatStartNodeSid = "MainSlavic1Before"
+            };
+
+            events.Add(mainPlot1);
+
+            var mainPlot2 = new Event
+            {
+                Sid = "MainSlavic2",
+                IsUnique = true,
+                BeforeCombatStartNodeSid = "MainSlavic2Before",
+                Priority = TextEventPriority.High,
+                Requirements = new[]
+                {
+                    new LocationEventRequirement(new[]
+                    {
+                        GlobeNodeSid.Battleground
+                    })
+                }
+            };
+
+            events.Add(mainPlot2);
+
+            var mainPlot3 = new Event
+            {
+                Sid = "MainSlavic3",
+                IsUnique = true,
+                BeforeCombatStartNodeSid = "MainSlavic3Before",
+                AfterCombatStartNodeSid = "MainSlavic3After",
+                Priority = TextEventPriority.High,
+                Requirements = new[]
+                {
+                    new LocationEventRequirement(new[]
+                    {
+                        GlobeNodeSid.Battleground
+                    })
+                }
+            };
+
+            events.Add(mainPlot3);
+
+            var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
+            var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
+            var mainSlavic3BeforeDialogue = CreateMainSlavic3BeforeDialogue();
+            var mainSlavic3AfterDialogue = CreateMainSlavic3AfterDialogue();
+
+            _nodes = new Dictionary<string, Dialogue>
+            {
+                { "MainSlavic1Before", mainSlavic1BeforeDialogue },
+                { "MainSlavic2Before", mainSlavic2BeforeDialogue },
+                { "MainSlavic3Before", mainSlavic3BeforeDialogue },
+                { "MainSlavic3After", mainSlavic3AfterDialogue }
+            };
+
+            _isInitialized = true;
         }
     }
 }

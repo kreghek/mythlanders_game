@@ -224,7 +224,7 @@ namespace Rpg.Client
             {
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
-                
+
                 var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
                 Services.AddService<IEventInitializer>(eventCatalog);
                 Services.AddService<IEventCatalog>(eventCatalog);
@@ -242,7 +242,7 @@ namespace Rpg.Client
             {
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
-                
+
                 var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
                 Services.AddService<IEventInitializer>(eventCatalog);
                 Services.AddService<IEventCatalog>(eventCatalog);

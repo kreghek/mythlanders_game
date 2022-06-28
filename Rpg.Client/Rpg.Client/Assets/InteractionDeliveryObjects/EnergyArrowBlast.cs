@@ -11,10 +11,13 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
     internal sealed class EnergyArrowBlast : IInteractionDelivery
     {
-        private readonly IAnimationFrameSet _frameSet;
         private const float FPS = 8 * 2f;
+        private readonly IAnimationFrameSet _frameSet;
 
-        public EnergyArrowBlast(Vector2 position, Texture2D blastTexture, Texture2D particlesTexture)
+        private readonly Sprite _graphics;
+        private readonly ParticleSystem _tailParticleSystem;
+
+        public EnergoArrowBlast(Vector2 position, Texture2D blastTexture, Texture2D particlesTexture)
         {
             _frameSet = AnimationFrameSetFactory.CreateSequential(7, frameCount: 7, fps: FPS, frameWidth: 64,
                 frameHeight: 32, textureColumns: SfxSpriteConsts.Size64x32.COL_COUNT, isLoop: false);
@@ -31,23 +34,20 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _tailParticleSystem = new ParticleSystem(position, particleGenerator);
         }
 
-        private void FrameSet_End(object? sender, EventArgs e)
-        {
-            IsDestroyed = true;
-            InteractionPerformed?.Invoke(this, EventArgs.Empty);
-        }
-
-        private readonly Sprite _graphics;
-        private readonly ParticleSystem _tailParticleSystem;
-
-        private void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch)
+        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch)
         {
             _tailParticleSystem.Draw(spriteBatch);
         }
 
-        private void UpdateAdditionalEffects(GameTime gameTime)
+        protected virtual void UpdateAdditionalEffects(GameTime gameTime)
         {
             _tailParticleSystem.Update(gameTime);
+        }
+
+        private void FrameSet_End(object? sender, EventArgs e)
+        {
+            IsDestroyed = true;
+            InteractionPerformed?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler? InteractionPerformed;
