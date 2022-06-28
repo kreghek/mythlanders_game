@@ -42,5 +42,15 @@ namespace Rpg.Client.Core.Dialogues
             var storyPoint = _storyPointCatalog.GetAll().Single(x => x.Sid == storyPointSid);
             _globe.AddActiveStoryPoint(storyPoint);
         }
+
+        public void StartCombat(string sid)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UnlockLocation(GlobeNodeSid locationSid)
+        {
+            _globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
+        }
     }
 }

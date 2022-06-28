@@ -19,7 +19,7 @@ namespace Rpg.Client.Core
             };
         }
 
-        public static IAnimationFrameSet CreateSequential(int startFrameIndex, int frameCount, int fps,
+        public static IAnimationFrameSet CreateSequential(int startFrameIndex, int frameCount, float fps,
             int frameWidth = 256,
             int frameHeight = 128, int textureColumns = 8, bool isLoop = false)
         {

@@ -9,15 +9,6 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens
 {
-    internal enum BackgroundLayerType
-    {
-        Clouds, // Rename to horizon
-        Semi, // Rename to Far
-        Far, // Rename to Closest
-        Main,
-        Closest // Rename to foreground
-    }
-
     internal class GameObjectContentStorage
     {
         private Effect _allWhiteEffect;
@@ -150,6 +141,10 @@ namespace Rpg.Client.GameScreens
                 },
                 {
                     BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)
+                },
+
+                {
+                    BackgroundType.GreekShipGraveyard, LoadBackgroundLayers(BiomeType.Greek, GlobeNodeSid.ShipGraveyard)
                 }
             };
 

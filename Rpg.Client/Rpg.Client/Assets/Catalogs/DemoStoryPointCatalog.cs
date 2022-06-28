@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.StoryPointAftermaths;
@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
+    internal sealed class DemoStoryPointCatalog : IStoryPointCatalog, IStoryPointInitializer
     {
         private IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
 
@@ -33,20 +33,15 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Defeats,
-                            Value = 20
+                            Value = 25
                         }
                     }
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Swamp)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.GreatWall)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.ScreamValley)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Oasis))
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Monastery)),
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.Desert)),
+                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x=>x.Nodes).Single(x=>x.Sid == GlobeNodeSid.ShipGraveyard))
                 }
             };
 
@@ -63,25 +58,16 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Scope = JobScopeCatalog.Global,
                             Type = JobTypeCatalog.Combats,
-                            Value = 6
+                            Value = 10
                         }
                     }
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Battleground)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.GiantBamboo)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Obelisk)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Vines)),
                     new AddActivateStoryPointAftermath(story2, globe)
                 }
             };
 
-            activeList.Add(story1);
             spList.Add(story1);
 
             _storyPoints = spList;

@@ -602,7 +602,8 @@ namespace Rpg.Client.GameScreens.Combat
         private void CountDefeat()
         {
             var progress = new DefeatJobProgress();
-            foreach (var storyPoint in _globe.ActiveStoryPoints)
+            var activeStoryPointsMaterialized = _globe.ActiveStoryPoints.ToArray();
+            foreach (var storyPoint in activeStoryPointsMaterialized)
             {
                 _jobProgressResolver.ApplyProgress(progress, storyPoint);
             }

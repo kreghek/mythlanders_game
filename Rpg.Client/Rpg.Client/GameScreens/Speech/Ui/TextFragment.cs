@@ -20,27 +20,23 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly TextFragmentMessage _message;
         private readonly Texture2D _portraitsTexture;
         private readonly UnitName _speaker;
-        private readonly SoundEffect _textSoundEffect;
 
         public TextFragment(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
             Texture2D portraitsTexture, SoundEffect textSoundEffect, IDice dice) : base(texture)
         {
             _font = font;
             _portraitsTexture = portraitsTexture;
-            _textSoundEffect = textSoundEffect;
             _speaker = eventTextFragment.Speaker;
             _localizedSpeakerName = GetSpeaker(_speaker);
-            _message = new TextFragmentMessage(texture, font, eventTextFragment, _textSoundEffect, dice);
+            _message = new TextFragmentMessage(texture, font, eventTextFragment, textSoundEffect, dice);
         }
 
         public bool IsComplete => _message.IsComplete;
 
-        public bool UsePortrait { get; set; }
-
         public Vector2 CalculateSize()
         {
             var messageSize = _message.CalculateSize();
-            var portraitSize = UsePortrait ? new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE) : Vector2.Zero;
+            var portraitSize = new Vector2(PORTRAIT_SIZE, PORTRAIT_SIZE);
 
             var width = Math.Max(messageSize.X, portraitSize.X);
             var height = Math.Max(messageSize.Y, portraitSize.Y);
@@ -72,7 +68,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {
-            if (_speaker != UnitName.Environment && UsePortrait)
+            if (_speaker != UnitName.Environment)
             {
                 DrawSpeaker(spriteBatch, clientRect.Location.ToVector2());
             }

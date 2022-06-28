@@ -20,7 +20,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllEnemies)
+            SkillRuleFactory.CreateDamage(SID, SkillDirection.AllEnemies, multiplier: 0.3f)
         };
 
         public override SkillSid Sid => SID;

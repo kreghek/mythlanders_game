@@ -2,9 +2,9 @@
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class DemoEventCatalog : EventCatalogBase
+    internal sealed class DemoDialogueCatalog : EventCatalogBase
     {
-        public DemoEventCatalog(IUnitSchemeCatalog unitSchemeCatalog) : base(unitSchemeCatalog)
+        public DemoDialogueCatalog(IUnitSchemeCatalog unitSchemeCatalog) : base(unitSchemeCatalog)
         {
         }
 

@@ -73,7 +73,7 @@ namespace Rpg.Client.Core
 
             InitStartStoryPoint(globe, _storyPointInitializer);
 
-            var startUnits = CreateStartUnits();
+            var startUnits = CreateStartHeroes();
             for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
             {
                 globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
@@ -201,23 +201,24 @@ namespace Rpg.Client.Core
             _biomeGenerator.CreateStartCombat(startBiome);
         }
 
-        private Unit[] CreateStartUnits()
+        private Unit CreateStartHero(UnitName heroName)
         {
-            return new[]
+            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 1)
             {
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Swordsman], level: 1)
-                {
-                    IsPlayerControlled = true
-                },
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Comissar], level: 1)
-                {
-                    IsPlayerControlled = true
-                },
-                new Unit(_unitSchemeCatalog.Heroes[UnitName.Assaulter], level: 1)
-                {
-                    IsPlayerControlled = true
-                }
+                IsPlayerControlled = true
             };
+        }
+
+        private Unit[] CreateStartHeroes()
+        {
+            var startHeroes = new[]
+            {
+                CreateStartHero(UnitName.Swordsman),
+                CreateStartHero(UnitName.Comissar),
+                CreateStartHero(UnitName.Assaulter)
+            };
+
+            return startHeroes;
         }
 
         private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Biome> biomes)

@@ -10,6 +10,8 @@
         ChineseMonastery,
 
         EgyptianDisert,
-        EgyptianPyramids
+        EgyptianPyramids,
+
+        GreekShipGraveyard
     }
 }
