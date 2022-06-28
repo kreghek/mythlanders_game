@@ -1,7 +1,10 @@
+using System.Reflection;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
+using System.Resources;
 
 namespace Rpg.Client.GameScreens.Speech.Ui
 {
@@ -34,7 +37,9 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         private static string GetOptionLocalizedText(string resourceSid)
         {
-            var rm = DialogueResources.ResourceManager;
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
 
             return rm.GetString(resourceSid) ?? $"#{resourceSid}";
         }

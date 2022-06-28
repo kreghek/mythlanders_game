@@ -26,25 +26,18 @@
     <None Update="steam_api64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Update="DialogueResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DialogueResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Update="DialogueResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DialogueResources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove="Resources\Balance.json" />
+    <None Remove="Resources\Dialogues\SlavicMain1_Before.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Resources\Balance.json" />
+    <EmbeddedResource Include="Resources\Dialogues\SlavicMain1_Before.json" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
@@ -59,6 +52,7 @@
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.2" />
     <PackageReference Include="Steamworks.NET.Standard.Windows.x64" Version="15.0.1.4" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">

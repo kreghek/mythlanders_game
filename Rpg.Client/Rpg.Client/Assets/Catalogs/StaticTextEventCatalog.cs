@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.Json;
 
 using Rpg.Client.Assets.DialogueEventRequirements;
 using Rpg.Client.Assets.DialogueOptionAftermath;
@@ -291,7 +295,97 @@ namespace Rpg.Client.Assets.Catalogs
                 throw new InvalidOperationException();
             }
 
-            return _nodes[sid];
+            var dialogue = LoadDialogueFromResources(sid);
+
+            return dialogue;
+        }
+
+        private static Dialogue LoadDialogueFromResources(string dialogueSid)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string RESOURCE_PATH = "Rpg.Client.Resources.Dialogues";
+
+            var dialogueSourcePath = RESOURCE_PATH + "." + dialogueSid + ".json";
+
+            using var stream = assembly.GetManifestResourceStream(dialogueSourcePath);
+
+            if (stream is not null)
+            {
+                using var reader = new StreamReader(stream);
+                var json = reader.ReadToEnd();
+
+                var deserializedLines = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
+
+                var deserializedDialogueNodes = deserializedLines.Where(x => x.Key != "root" && x.Key != "__editor").ToArray();
+
+                // Fill node list
+
+                var nodeList = new List<(string sid, IList<EventTextFragment> fragmentList, EventNode node)>();
+
+                foreach (var (key, obj) in deserializedDialogueNodes)
+                {
+                    var dialogueTextFragments = new List<EventTextFragment>();
+                    var dialogueNode = new EventNode
+                    {
+                        TextBlock = new EventTextBlock
+                        {
+                            Fragments = dialogueTextFragments
+                        }
+                    };
+
+                    var jsonSpeaker = obj.GetProperty("name").GetString();
+
+                    var fragment = new EventTextFragment
+                    {
+                        Speaker = Enum.Parse<UnitName>(jsonSpeaker),
+                        TextSid = $"{dialogueSid}_TextNode_{key}"
+                    };
+
+                    dialogueTextFragments.Add(fragment);
+
+                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                }
+
+                // Link nodes with options
+
+                foreach (var (key, obj) in deserializedDialogueNodes)
+                {
+                    var nodeData = nodeList.Single(x => x.sid == key);
+
+                    if (obj.TryGetProperty("choices", out var choices))
+                    {
+                        var optionIndex = 0;
+                        var optionList = new List<EventOption>();
+                        foreach (var choice in choices.EnumerateArray())
+                        {
+                            var nextId = choice.GetProperty("next").GetString();
+                            var nextNodes = nodeList.Where(x => x.sid == nextId);
+                            var nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
+                            var option = new EventOption($"{dialogueSid}_TextNode_{key}_Option_{optionIndex}", nextNode);
+
+                            optionList.Add(option);
+
+                            optionIndex += 1;
+                        }
+
+                        nodeData.node.Options = optionList;
+                    }
+                }
+
+                var rootId = deserializedLines.Single(x => x.Key == "root").Value.GetProperty("next").GetString();
+
+                var rootNode = nodeList.Single(x => x.sid == rootId).node;
+
+                var position = dialogueSid.Contains("Before") ? EventPosition.BeforeCombat : EventPosition.AfterCombat;
+
+                var dialogue = new Dialogue(rootNode, position);
+
+                return dialogue;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         public void Init()
@@ -302,10 +396,10 @@ namespace Rpg.Client.Assets.Catalogs
 
             var mainPlot1 = new Event
             {
-                Sid = "MainSlavic1",
+                Sid = "SlavicMain1",
                 IsGameStart = true,
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic1Before"
+                BeforeCombatStartNodeSid = "SlavicMain1_Before"
             };
 
             events.Add(mainPlot1);
