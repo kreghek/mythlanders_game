@@ -11,8 +11,10 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
 {
     internal class EnergoArrowBlast : IInteractionDelivery
     {
-        private readonly IAnimationFrameSet _frameSet;
         private const float FPS = 8 * 2f;
+        private readonly IAnimationFrameSet _frameSet;
+
+        private readonly Sprite _graphics;
 
         public EnergoArrowBlast(Vector2 position, Texture2D blastTexture)
         {
@@ -28,17 +30,15 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameSet.End += FrameSet_End;
         }
 
+        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
+
+        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
+
         private void FrameSet_End(object? sender, EventArgs e)
         {
             IsDestroyed = true;
             InteractionPerformed?.Invoke(this, EventArgs.Empty);
         }
-
-        private readonly Sprite _graphics;
-
-        protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }
-
-        protected virtual void UpdateAdditionalEffects(GameTime gameTime) { }
 
         public event EventHandler? InteractionPerformed;
 

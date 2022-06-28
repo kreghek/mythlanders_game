@@ -12,6 +12,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
     internal class SequentialProjectile : IInteractionDelivery
     {
         private readonly IReadOnlyList<IInteractionDelivery> _subs;
+
+        private bool _performed;
         private int _subIndex;
 
         public SequentialProjectile(IReadOnlyList<IInteractionDelivery> subs)
@@ -35,8 +37,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 _subs[_subIndex].Draw(spriteBatch);
             }
         }
-
-        private bool _performed;
 
         public void Update(GameTime gameTime)
         {

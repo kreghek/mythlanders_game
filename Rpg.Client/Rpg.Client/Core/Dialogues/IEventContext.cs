@@ -5,7 +5,7 @@
         void AddNewCharacter(Unit unit);
         void AddNewGlobalEvent(IGlobeEvent globalEvent);
         void AddStoryPoint(string storyPointSid);
-        void UnlockLocation(GlobeNodeSid locationSid);
         void StartCombat(string sid);
+        void UnlockLocation(GlobeNodeSid locationSid);
     }
 }

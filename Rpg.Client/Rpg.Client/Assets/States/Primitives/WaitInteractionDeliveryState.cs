@@ -17,8 +17,11 @@ namespace Rpg.Client.Assets.States.Primitives
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDeliveryList;
         private readonly IList<IInteractionDelivery> _interactionDeliveryManager;
 
+        private bool _launched;
+
         public WaitInteractionDeliveryState(
-            IReadOnlyCollection<IInteractionDelivery> interactionDeliveryList, IList<IInteractionDelivery> interactionDeliveryManager)
+            IReadOnlyCollection<IInteractionDelivery> interactionDeliveryList,
+            IList<IInteractionDelivery> interactionDeliveryManager)
         {
             _activeInteractionDeliveryList = new List<IInteractionDelivery>(interactionDeliveryList);
 
@@ -34,6 +37,7 @@ namespace Rpg.Client.Assets.States.Primitives
                     _activeInteractionDeliveryList.Remove((IInteractionDelivery)sender);
                 };
             }
+
             _interactionDeliveryList = interactionDeliveryList;
             _interactionDeliveryManager = interactionDeliveryManager;
         }
@@ -45,8 +49,6 @@ namespace Rpg.Client.Assets.States.Primitives
         {
             throw new NotImplementedException();
         }
-
-        private bool _launched;
 
         public void Update(GameTime gameTime)
         {
