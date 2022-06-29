@@ -16,7 +16,7 @@ namespace DialoguePlayer
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
 
-            var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
+            var eventCatalog = new DialogueCatalog(unitSchemeCatalog);
             eventCatalog.Init();
 
             var event1 = eventCatalog.Events.First(x => x.BeforeCombatStartNodeSid != null);

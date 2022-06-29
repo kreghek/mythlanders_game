@@ -1,0 +1,16 @@
+{
+  "root":
+  {
+    "next": "test-node"
+  }, 
+  
+  "test-node":
+  {
+    "name":"Environment",
+    "choices":[
+      {
+        
+      }
+    ]
+  }
+}
