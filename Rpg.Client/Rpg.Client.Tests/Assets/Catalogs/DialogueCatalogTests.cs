@@ -63,5 +63,31 @@ namespace Rpg.Client.Tests
             factDialogue.Root.Options.Should().HaveCount(1);
             factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
         }
+        
+        [Test]
+        public void GetDialogue_TextNodeSequence_Returns2TextFragments()
+        {
+            // ARRANGE
+
+            var resourceProviderMock = new Mock<IDialogueResourceProvider>();
+            var sourceDialogue = ReadResource("TextSequence");
+            resourceProviderMock.Setup(x => x.GetResource(It.IsAny<string>())).Returns(sourceDialogue);
+            var resourceProvider = resourceProviderMock.Object;
+
+            var aftermathCreator = Mock.Of<IDialogueOptionAftermathCreator>();
+
+            var catalog = new DialogueCatalog(resourceProvider, aftermathCreator);
+            catalog.Init();
+
+            // ACT
+
+            var factDialogue = catalog.GetDialogue(string.Empty);
+
+            // ASSERT
+
+            factDialogue.Root.TextBlock.Fragments.Should().HaveCount(2);
+            factDialogue.Root.Options.Should().HaveCount(1);
+            factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
+        }
     }
 }
