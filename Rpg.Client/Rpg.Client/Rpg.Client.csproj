@@ -34,7 +34,7 @@
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove="Resources\Balance.json" />
-    <None Remove="Resources\Dialogues\SlavicMain1_Before.json" />
+    <None Remove="Resources\Dialogues\*.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DialogueResources.fr.resources" />
@@ -43,7 +43,7 @@
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Resources\Balance.json" />
-    <EmbeddedResource Include="Resources\Dialogues\SlavicMain1_Before.json" />
+    <EmbeddedResource Include="Resources\Dialogues\*.json" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
