@@ -436,6 +436,17 @@ namespace Rpg.Client.Assets.Catalogs
                                             var heroName = Enum.Parse<UnitName>(heroNameStr);
                                             aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
                                         }
+                                        else if (signalProperty.Name == "ActivateStoryPoint")
+                                        {
+                                            var spId = signalProperty.Value.GetProperty("String").GetString();
+                                            aftermath = new AddStoryPointOptionAftermath(spId);
+                                        }
+                                        else if (signalProperty.Name == "UnlockLocation")
+                                        {
+                                            var sid = signalProperty.Value.GetProperty("String").GetString();
+                                            var locationId = Enum.Parse<GlobeNodeSid>(sid);
+                                            aftermath = new UnlockLocationOptionAftermath(locationId);
+                                        }
                                     }
                                 }
                             }
