@@ -107,18 +107,18 @@ namespace Rpg.Client.Assets.Catalogs
                 optionAftermath = aftermath switch
                 {
                     "MeetArcher" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Archer]),
-                    "MeetHerbalist" => new AddPlayerCharacterOptionAftermath(
+                        new AddHeroOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Archer]),
+                    "MeetHerbalist" => new AddHeroOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Herbalist]),
                     "MeetMonk" =>
-                        new AddPlayerCharacterOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Monk]),
-                    "MeetSpearman" => new AddPlayerCharacterOptionAftermath(
+                        new AddHeroOptionAftermath(unitSchemeCatalog.Heroes[UnitName.Monk]),
+                    "MeetSpearman" => new AddHeroOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Spearman]),
-                    "MeetMissionary" => new AddPlayerCharacterOptionAftermath(
+                    "MeetMissionary" => new AddHeroOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Sage]),
-                    "MeetMedjay" => new AddPlayerCharacterOptionAftermath(
+                    "MeetMedjay" => new AddHeroOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Medjay]),
-                    "MeetPriest" => new AddPlayerCharacterOptionAftermath(
+                    "MeetPriest" => new AddHeroOptionAftermath(
                         unitSchemeCatalog.Heroes[UnitName.Priest]),
                     "SwordsmanDeepPreying" => new UnitDeepPreyingOptionAftermath(UnitName.Swordsman),
                     _ => optionAftermath

@@ -122,7 +122,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             new EventOption("MainSlavic2Before_02_Option_01", EventNode.EndNode)
                             {
-                                Aftermath = new AddPlayerCharacterOptionAftermath(
+                                Aftermath = new AddHeroOptionAftermath(
                                     _unitSchemeCatalog.Heroes[UnitName.Archer])
                             }
                         }
@@ -143,7 +143,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             new EventOption("MainSlavic2Before_03_Option_01", EventNode.EndNode)
                             {
-                                Aftermath = new AddPlayerCharacterOptionAftermath(
+                                Aftermath = new AddHeroOptionAftermath(
                                     _unitSchemeCatalog.Heroes[UnitName.Archer])
                             }
                         }
@@ -290,17 +290,12 @@ namespace Rpg.Client.Assets.Catalogs
                 throw new InvalidOperationException();
             }
 
-            if (_nodes is null)
-            {
-                throw new InvalidOperationException();
-            }
-
             var dialogue = LoadDialogueFromResources(sid);
 
             return dialogue;
         }
 
-        private static Dialogue LoadDialogueFromResources(string dialogueSid)
+        private Dialogue LoadDialogueFromResources(string dialogueSid)
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string RESOURCE_PATH = "Rpg.Client.Resources.Dialogues";
@@ -322,34 +317,96 @@ namespace Rpg.Client.Assets.Catalogs
 
                 var nodeList = new List<(string sid, IList<EventTextFragment> fragmentList, EventNode node)>();
 
+                var deserializedDialogueNodesOpenList = deserializedDialogueNodes.ToList();
+
+                while (deserializedDialogueNodesOpenList.Any())
+                {
+                    var (key, obj) = deserializedDialogueNodesOpenList.First();
+                    deserializedDialogueNodesOpenList.RemoveAt(0);
+                    
+                    if (obj.TryGetProperty("next", out var nextFragmentJson))
+                    {
+                        var parentNodeId = nextFragmentJson.GetString();
+
+                        if (deserializedDialogueNodesOpenList.Any(x => x.Key == parentNodeId))
+                        {
+                            // parent is not processed yet.
+                            // Move current item to the end of the open list to process it later.
+                            
+                            deserializedDialogueNodesOpenList.Add(new(key, obj));
+                        }
+                        else
+                        {
+                            var nodeData = nodeList.Single(x => x.sid == parentNodeId);
+                            var fragmentList = nodeData.fragmentList;
+                        
+                            var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
+
+                            fragmentList.Add(fragment);   
+                        }
+                    }
+                    else
+                    {
+                        var dialogueTextFragments = new List<EventTextFragment>();
+                        var dialogueNode = new EventNode
+                        {
+                            TextBlock = new EventTextBlock
+                            {
+                                Fragments = dialogueTextFragments
+                            }
+                        };
+
+                        var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
+
+                        dialogueTextFragments.Add(fragment);
+
+                        nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                    }
+                }
+                
+                /*
                 foreach (var (key, obj) in deserializedDialogueNodes)
                 {
-                    var dialogueTextFragments = new List<EventTextFragment>();
-                    var dialogueNode = new EventNode
+                    if (obj.TryGetProperty("next", out var nextFragmentJson))
                     {
-                        TextBlock = new EventTextBlock
+                        var parentNodeId = nextFragmentJson.GetString();
+                        var nodeData = nodeList.Single(x => x.sid == parentNodeId);
+                        var fragmentList = nodeData.fragmentList;
+                        
+                        var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
+
+                        fragmentList.Add(fragment);
+                    }
+                    else
+                    {
+                        var dialogueTextFragments = new List<EventTextFragment>();
+                        var dialogueNode = new EventNode
                         {
-                            Fragments = dialogueTextFragments
-                        }
-                    };
+                            TextBlock = new EventTextBlock
+                            {
+                                Fragments = dialogueTextFragments
+                            }
+                        };
 
-                    var jsonSpeaker = obj.GetProperty("name").GetString();
+                        var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
-                    var fragment = new EventTextFragment
-                    {
-                        Speaker = Enum.Parse<UnitName>(jsonSpeaker),
-                        TextSid = $"{dialogueSid}_TextNode_{key}"
-                    };
+                        dialogueTextFragments.Add(fragment);
 
-                    dialogueTextFragments.Add(fragment);
-
-                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                        nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                    }
                 }
+                */
 
                 // Link nodes with options
 
                 foreach (var (key, obj) in deserializedDialogueNodes)
                 {
+                    if (nodeList.All(x => x.sid != key))
+                    {
+                        // Means the json node was merged with other node as the text fragment.
+                        continue;
+                    }
+
                     var nodeData = nodeList.Single(x => x.sid == key);
 
                     if (obj.TryGetProperty("choices", out var choices))
@@ -361,7 +418,32 @@ namespace Rpg.Client.Assets.Catalogs
                             var nextId = choice.GetProperty("next").GetString();
                             var nextNodes = nodeList.Where(x => x.sid == nextId);
                             var nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
-                            var option = new EventOption($"{dialogueSid}_TextNode_{key}_Option_{optionIndex}", nextNode);
+
+                            IOptionAftermath? aftermath = null;
+
+                            var nextJsons = deserializedDialogueNodes.Where(x => x.Key == nextId);
+                            if (nextJsons.Any())
+                            {
+                                var nextJson = nextJsons.Single();
+
+                                if (nextJson.Value.TryGetProperty("signals", out var signals))
+                                {
+                                    foreach (var signalProperty in signals.EnumerateObject())
+                                    {
+                                        if (signalProperty.Name == "MeetHero")
+                                        {
+                                            var heroNameStr = signalProperty.Value.GetProperty("String").GetString();
+                                            var heroName = Enum.Parse<UnitName>(heroNameStr);
+                                            aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            var option = new EventOption($"{dialogueSid}_TextNode_{key}_Option_{optionIndex}", nextNode)
+                            {
+                                Aftermath = aftermath
+                            };
 
                             optionList.Add(option);
 
@@ -386,6 +468,17 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 throw new InvalidOperationException();
             }
+        }
+
+        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
+        {
+            var jsonSpeaker = obj.GetProperty("name").GetString();
+
+            var fragment = new EventTextFragment
+            {
+                Speaker = Enum.Parse<UnitName>(jsonSpeaker), TextSid = $"{dialogueSid}_TextNode_{key}"
+            };
+            return fragment;
         }
 
         public void Init()
@@ -439,6 +532,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             events.Add(mainPlot3);
 
+            /*
             var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
             var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
             var mainSlavic3BeforeDialogue = CreateMainSlavic3BeforeDialogue();
@@ -451,6 +545,7 @@ namespace Rpg.Client.Assets.Catalogs
                 { "MainSlavic3Before", mainSlavic3BeforeDialogue },
                 { "MainSlavic3After", mainSlavic3AfterDialogue }
             };
+            */
 
             _isInitialized = true;
         }

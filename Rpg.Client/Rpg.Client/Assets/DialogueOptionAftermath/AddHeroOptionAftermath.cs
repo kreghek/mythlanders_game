@@ -3,11 +3,11 @@ using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal sealed class AddPlayerCharacterOptionAftermath : IOptionAftermath
+    internal sealed class AddHeroOptionAftermath : IOptionAftermath
     {
         private readonly UnitScheme _scheme;
 
-        public AddPlayerCharacterOptionAftermath(UnitScheme scheme)
+        public AddHeroOptionAftermath(UnitScheme scheme)
         {
             _scheme = scheme;
         }
