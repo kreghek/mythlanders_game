@@ -310,6 +310,8 @@ namespace Rpg.Client.Assets.Catalogs
 
             var deserializedDialogueNodesOpenList = deserializedDialogueNodes.ToList();
 
+            var textFragmentMergeMap = new Dictionary<string, string>();
+
             while (deserializedDialogueNodesOpenList.Any())
             {
                 var (key, obj) = deserializedDialogueNodesOpenList.First();
@@ -334,6 +336,8 @@ namespace Rpg.Client.Assets.Catalogs
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                         fragmentList.Add(fragment);
+                        
+                        textFragmentMergeMap.Add(key, parentNodeId);
                     }
                 }
                 else
@@ -352,6 +356,8 @@ namespace Rpg.Client.Assets.Catalogs
                     dialogueTextFragments.Add(fragment);
 
                     nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                    
+                    textFragmentMergeMap.Add(key, key);
                 }
             }
 
@@ -465,7 +471,9 @@ namespace Rpg.Client.Assets.Catalogs
 
             var rootId = deserializedLines.Single(x => x.Key == "root").Value.GetProperty("next").GetString();
 
-            var rootNode = nodeList.Single(x => x.sid == rootId).node;
+            var rootNodeIdFromMap = textFragmentMergeMap[rootId];
+
+            var rootNode = nodeList.Single(x => x.sid == rootNodeIdFromMap).node;
 
             var position = dialogueSid.Contains("Before") ? EventPosition.BeforeCombat : EventPosition.AfterCombat;
 
