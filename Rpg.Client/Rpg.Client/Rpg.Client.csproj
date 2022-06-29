@@ -28,12 +28,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Remove="DialogueResources.fr.resources" />
+    <None Remove="DialogueResources.resources" />
+    <None Remove="DialogueResources.ru.resources" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove="Resources\Balance.json" />
     <None Remove="Resources\Dialogues\SlavicMain1_Before.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DialogueResources.fr.resources" />
+    <EmbeddedResource Include="DialogueResources.resources" />
+    <EmbeddedResource Include="DialogueResources.ru.resources" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Resources\Balance.json" />

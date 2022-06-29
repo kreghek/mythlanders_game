@@ -68,7 +68,7 @@ namespace LeDialoduesEditorResGenerator
 
         private static string GetFileName(string lang)
         {
-            const string FILE_NAME = "dialogs";
+            const string FILE_NAME = "DialogueResources";
             if (lang.ToLower() == DEFAULT_LOCALE)
             {
                 return $"{FILE_NAME}.resources";
