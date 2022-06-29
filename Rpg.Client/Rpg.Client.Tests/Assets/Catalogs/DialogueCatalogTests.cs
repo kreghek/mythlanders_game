@@ -86,6 +86,8 @@ namespace Rpg.Client.Tests
             // ASSERT
 
             factDialogue.Root.TextBlock.Fragments.Should().HaveCount(2);
+            factDialogue.Root.TextBlock.Fragments[0].Speaker.Should().Be(UnitName.Environment);
+            factDialogue.Root.TextBlock.Fragments[1].Speaker.Should().Be(UnitName.Swordsman);
             factDialogue.Root.Options.Should().HaveCount(1);
             factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
         }

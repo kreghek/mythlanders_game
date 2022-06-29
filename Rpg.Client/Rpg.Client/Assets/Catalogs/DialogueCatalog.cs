@@ -335,7 +335,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
-                        fragmentList.Add(fragment);
+                        fragmentList.Insert(0, fragment);
                         
                         textFragmentMergeMap.Add(key, parentNodeId);
                     }

@@ -145,9 +145,10 @@ namespace Rpg.Client.Assets.Catalogs
 
         public void Init()
         {
-            var rm = PlotResources.ResourceManager;
-            var resourceName = GetPlotResourceName();
-            var serializedPlotString = rm.GetString(resourceName);
+            //var rm = PlotResources.ResourceManager;
+            //var resourceName = GetPlotResourceName();
+            //var serializedPlotString = rm.GetString(resourceName);
+            var serializedPlotString = string.Empty;
 
             Debug.Assert(serializedPlotString is not null, "It is required to resources contain serialized plot.");
 
