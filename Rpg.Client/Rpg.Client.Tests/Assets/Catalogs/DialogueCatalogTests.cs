@@ -19,24 +19,6 @@ namespace Rpg.Client.Tests
     [TestFixture]
     public class DialogueCatalogTests
     {
-        private string ReadResource(string name)
-        {
-            using var stream = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.json");
-
-            if (stream is not null)
-            {
-                using var reader = new StreamReader(stream);
-                var json = reader.ReadToEnd();
-
-                return json;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-        }
-
         [Test]
         public void GetDialogue_SingleTextNodeAndOption_ReturnsDialogueWithSingleTextNode()
         {
@@ -90,6 +72,22 @@ namespace Rpg.Client.Tests
             factDialogue.Root.TextBlock.Fragments[1].Speaker.Should().Be(UnitName.Swordsman);
             factDialogue.Root.Options.Should().HaveCount(1);
             factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
+        }
+
+        private string ReadResource(string name)
+        {
+            using var stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.json");
+
+            if (stream is not null)
+            {
+                using var reader = new StreamReader(stream);
+                var json = reader.ReadToEnd();
+
+                return json;
+            }
+
+            throw new InvalidOperationException();
         }
     }
 }

@@ -39,15 +39,15 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _tailParticleSystem.Draw(spriteBatch);
         }
 
-        private void UpdateAdditionalEffects(GameTime gameTime)
-        {
-            _tailParticleSystem.Update(gameTime);
-        }
-
         private void FrameSet_End(object? sender, EventArgs e)
         {
             IsDestroyed = true;
             InteractionPerformed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void UpdateAdditionalEffects(GameTime gameTime)
+        {
+            _tailParticleSystem.Update(gameTime);
         }
 
         public event EventHandler? InteractionPerformed;

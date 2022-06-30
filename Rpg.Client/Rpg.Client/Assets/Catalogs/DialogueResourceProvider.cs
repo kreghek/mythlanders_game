@@ -22,10 +22,8 @@ namespace Rpg.Client.Assets.Catalogs
 
                 return json;
             }
-            else
-            {
-                throw new InvalidOperationException($"Dialogue resource with sid {resourceSid} not found");
-            }
+
+            throw new InvalidOperationException($"Dialogue resource with sid {resourceSid} not found");
         }
     }
 }
