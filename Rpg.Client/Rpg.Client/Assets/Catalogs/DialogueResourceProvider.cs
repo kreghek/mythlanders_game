@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class DialogueResourceProvider: IDialogueResourceProvider
+    internal sealed class DialogueResourceProvider : IDialogueResourceProvider
     {
         public string GetResource(string resourceSid)
         {
@@ -22,10 +22,8 @@ namespace Rpg.Client.Assets.Catalogs
 
                 return json;
             }
-            else
-            {
-                throw new InvalidOperationException($"Dialogue resource with sid {resourceSid} not found");
-            }
+
+            throw new InvalidOperationException($"Dialogue resource with sid {resourceSid} not found");
         }
     }
 }

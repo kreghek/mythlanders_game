@@ -12,18 +12,30 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal class DialogueCatalog : IEventCatalog, IEventInitializer
     {
-        private readonly IDialogueResourceProvider _resourceProvider;
         private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
+        private readonly IDialogueResourceProvider _resourceProvider;
 
         private bool _isInitialized;
 
-        public DialogueCatalog(IDialogueResourceProvider resourceProvider, IDialogueOptionAftermathCreator optionAftermathCreator)
+        public DialogueCatalog(IDialogueResourceProvider resourceProvider,
+            IDialogueOptionAftermathCreator optionAftermathCreator)
         {
             _resourceProvider = resourceProvider;
             _optionAftermathCreator = optionAftermathCreator;
 
             _isInitialized = false;
             Events = Array.Empty<Event>();
+        }
+
+        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
+        {
+            var jsonSpeaker = obj.GetProperty("name").GetString();
+
+            var fragment = new EventTextFragment
+            {
+                Speaker = Enum.Parse<UnitName>(jsonSpeaker), TextSid = $"{dialogueSid}_TextNode_{key}"
+            };
+            return fragment;
         }
 
         private static Dialogue CreateMainSlavic1BeforeDialogue()
@@ -121,10 +133,6 @@ namespace Rpg.Client.Assets.Catalogs
                         Options = new[]
                         {
                             new EventOption("MainSlavic2Before_02_Option_01", EventNode.EndNode)
-                            {
-                                // Aftermath = new AddHeroOptionAftermath(
-                                //     _unitSchemeCatalog.Heroes[UnitName.Archer])
-                            }
                         }
                     }),
                     new EventOption("MainSlavic2Before_01_Option_02", new EventNode
@@ -142,10 +150,6 @@ namespace Rpg.Client.Assets.Catalogs
                         Options = new[]
                         {
                             new EventOption("MainSlavic2Before_03_Option_01", EventNode.EndNode)
-                            {
-                                // Aftermath = new AddHeroOptionAftermath(
-                                //     _unitSchemeCatalog.Heroes[UnitName.Archer])
-                            }
                         }
                     })
                 }
@@ -281,20 +285,6 @@ namespace Rpg.Client.Assets.Catalogs
             return mainSlavic1BeforeDialogue;
         }
 
-        public IEnumerable<Event> Events { get; private set; }
-
-        public Dialogue GetDialogue(string sid)
-        {
-            if (!_isInitialized)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var dialogue = LoadDialogueFromResources(sid);
-
-            return dialogue;
-        }
-
         private Dialogue LoadDialogueFromResources(string dialogueSid)
         {
             var json = _resourceProvider.GetResource(dialogueSid);
@@ -336,7 +326,7 @@ namespace Rpg.Client.Assets.Catalogs
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                         fragmentList.Insert(0, fragment);
-                        
+
                         textFragmentMergeMap.Add(key, parentNodeId);
                     }
                 }
@@ -356,7 +346,7 @@ namespace Rpg.Client.Assets.Catalogs
                     dialogueTextFragments.Add(fragment);
 
                     nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
-                    
+
                     textFragmentMergeMap.Add(key, key);
                 }
             }
@@ -414,13 +404,13 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         EventNode nextNode;
                         IOptionAftermath? aftermath = null;
-                        
+
                         if (choice.TryGetProperty("next", out var choiceNext))
                         {
                             var nextId = choiceNext.GetString();
                             var nextNodes = nodeList.Where(x => x.sid == nextId);
                             nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
-                        
+
                             var nextJsons = deserializedDialogueNodes.Where(x => x.Key == nextId);
                             if (nextJsons.Any())
                             {
@@ -433,8 +423,10 @@ namespace Rpg.Client.Assets.Catalogs
                                         const string AFTERMATH_PREFIX = "AM_";
                                         if (signalProperty.Name.StartsWith(AFTERMATH_PREFIX))
                                         {
-                                            var aftermathTypeName = signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
-                                            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
+                                            var aftermathTypeName =
+                                                signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
+                                            var signalStringData =
+                                                signalProperty.Value.GetProperty("String").GetString();
 
                                             if (signalStringData is not null)
                                             {
@@ -482,15 +474,18 @@ namespace Rpg.Client.Assets.Catalogs
             return dialogue;
         }
 
-        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
-        {
-            var jsonSpeaker = obj.GetProperty("name").GetString();
+        public IEnumerable<Event> Events { get; private set; }
 
-            var fragment = new EventTextFragment
+        public Dialogue GetDialogue(string sid)
+        {
+            if (!_isInitialized)
             {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker), TextSid = $"{dialogueSid}_TextNode_{key}"
-            };
-            return fragment;
+                throw new InvalidOperationException();
+            }
+
+            var dialogue = LoadDialogueFromResources(sid);
+
+            return dialogue;
         }
 
         public void Init()

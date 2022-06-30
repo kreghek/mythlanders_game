@@ -8,6 +8,7 @@ namespace LeDialoduesEditorResGenerator
             LangKey = langKey;
             Value = value;
         }
+
         public string Id { get; }
         public string LangKey { get; }
         public string Value { get; }

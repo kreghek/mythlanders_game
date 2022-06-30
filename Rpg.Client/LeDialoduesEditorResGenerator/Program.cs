@@ -73,6 +73,7 @@ namespace LeDialoduesEditorResGenerator
             {
                 return $"{FILE_NAME}.resources";
             }
+
             return $"{FILE_NAME}.{lang}.resources";
         }
 
@@ -88,6 +89,7 @@ namespace LeDialoduesEditorResGenerator
                     var textNodeKey = $"{dialogueSid}_TextNode_{key}";
                     yield return (textNodeKey, localizations);
                 }
+
                 if (obj.TryGetProperty("choices", out var choices))
                 {
                     var optionIndex = 0;
@@ -100,12 +102,16 @@ namespace LeDialoduesEditorResGenerator
                             var optionKey = $"{dialogueSid}_TextNode_{key}_Option_{optionIndex}";
                             yield return (optionKey, choicesLocalizations);
                         }
+
                         optionIndex += 1;
                     }
                 }
             }
         }
-        private static (DirectoryInfo, DirectoryInfo) ParseArgs(IReadOnlyList<string> args)=>
-            (new DirectoryInfo(args[0]), new DirectoryInfo(args[1]));
+
+        private static (DirectoryInfo, DirectoryInfo) ParseArgs(IReadOnlyList<string> args)
+        {
+            return (new DirectoryInfo(args[0]), new DirectoryInfo(args[1]));
+        }
     }
 }

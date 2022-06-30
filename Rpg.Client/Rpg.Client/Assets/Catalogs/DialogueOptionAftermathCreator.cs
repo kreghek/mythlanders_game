@@ -6,7 +6,7 @@ using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class DialogueOptionAftermathCreator: IDialogueOptionAftermathCreator
+    internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathCreator
     {
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Catalogs
         public IOptionAftermath Create(string aftermathTypeSid, string data)
         {
             IOptionAftermath? aftermath = null;
-            
+
             if (aftermathTypeSid == "MeetHero")
             {
                 var heroNameStr = data;
