@@ -336,6 +336,18 @@ namespace Rpg.Client.GameScreens.Speech
                         contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - _optionButtons.Count * 25),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
+
+                if (_currentTextFragmentIsReady)
+                {
+                    // TODO Move to separated control
+                    var isVisible = (float)Math.Sin(_pressToContinueCounter) > 0;
+
+                    if (isVisible)
+                    {
+                        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Press [SPACE] to continue",
+                            new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25), Color.White);
+                    }
+                }
             }
 
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
@@ -356,6 +368,8 @@ namespace Rpg.Client.GameScreens.Speech
 
             spriteBatch.End();
         }
+
+        private double _pressToContinueCounter;
 
         private void HandleDialogueEnd()
         {
@@ -442,6 +456,8 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void UpdateHud(GameTime gameTime)
         {
+            _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds;
+                
             var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -466,10 +482,12 @@ namespace Rpg.Client.GameScreens.Speech
             {
                 if (_currentFragmentIndex < maxFragmentIndex)
                 {
+                    _currentTextFragmentIsReady = true;
                     //TODO Make auto-move to next dialog. Make it disable in settings by default.
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         _currentFragmentIndex++;
+                        _currentTextFragmentIsReady = false;
                     }
                 }
             }
@@ -482,6 +500,8 @@ namespace Rpg.Client.GameScreens.Speech
                 }
             }
         }
+
+        private bool _currentTextFragmentIsReady;
 
         private void UpdateSpeaker(GameTime gameTime)
         {
