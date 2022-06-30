@@ -76,7 +76,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                     interaction: singleTargetAction,
                     targetCombatUnit: materializedTarget);
 
-                var blast = new EnergoArrowBlast(targetPosition, context.GameObjectContentStorage.GetBulletGraphics());
+                var blast = new EnergyArrowBlast(
+                    targetPosition,
+                    context.GameObjectContentStorage.GetBulletGraphics(),
+                    context.GameObjectContentStorage.GetParticlesTexture());
 
                 var sequentialEffect = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
 
@@ -100,8 +103,10 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 var arrow = new EnergoArrowProjectile(startPosition, targetRandomPosition,
                     context.GameObjectContentStorage, arrowBlocker, lifetimeDuration: arrowDuration);
 
-                var blast = new EnergoArrowBlast(targetRandomPosition,
-                    context.GameObjectContentStorage.GetBulletGraphics());
+                var blast = new EnergyArrowBlast(
+                    targetRandomPosition,
+                    context.GameObjectContentStorage.GetBulletGraphics(),
+                    context.GameObjectContentStorage.GetParticlesTexture());
 
                 var sequentialEffect = new SequentialProjectile(new IInteractionDelivery[] { arrow, blast });
 

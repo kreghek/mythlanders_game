@@ -26,25 +26,24 @@
     <None Update="steam_api64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Update="DialogueResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DialogueResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Update="DialogueResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DialogueResources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Remove="DialogueResources.fr.resources" />
+    <None Remove="DialogueResources.resources" />
+    <None Remove="DialogueResources.ru.resources" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove="Resources\Balance.json" />
+    <None Remove="Resources\Dialogues\*.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DialogueResources.fr.resources" />
+    <EmbeddedResource Include="DialogueResources.resources" />
+    <EmbeddedResource Include="DialogueResources.ru.resources" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
     <EmbeddedResource Include="Resources\Balance.json" />
+    <EmbeddedResource Include="Resources\Dialogues\*.json" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
@@ -59,6 +58,7 @@
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.2" />
     <PackageReference Include="Steamworks.NET.Standard.Windows.x64" Version="15.0.1.4" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
@@ -70,11 +70,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GameObjectResources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="PlotResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PlotResources.resx</DependentUpon>
     </Compile>
     <Compile Update="UiResource.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -93,10 +88,6 @@
     <EmbeddedResource Update="GameObjectResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GameObjectResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="PlotResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PlotResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UiResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

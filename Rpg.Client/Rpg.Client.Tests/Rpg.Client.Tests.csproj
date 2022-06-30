@@ -18,4 +18,10 @@
       <ProjectReference Include="..\Rpg.Client\Rpg.Client.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\TextSequence.json" />
+      <None Remove="Assets\Catalogs\DialogueTestResource\SingleTextWithSingleOption.json" />
+      <EmbeddedResource Include="Assets\Catalogs\DialogueTestResource\SingleTextWithSingleOption.json" />
+    </ItemGroup>
+
 </Project>

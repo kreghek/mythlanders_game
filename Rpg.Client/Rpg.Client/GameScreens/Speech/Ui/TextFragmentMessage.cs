@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Resources;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -57,7 +60,10 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         private static string GetLocalizedText(string textSid)
         {
-            var rm = DialogueResources.ResourceManager;
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+
             var localizedText = rm.GetString(textSid);
             return localizedText ?? $"#{textSid}";
         }

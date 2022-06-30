@@ -220,14 +220,18 @@ namespace Rpg.Client
 
             Services.AddService<IDice>(new LinearDice());
 
+            var dialogueResourceProvider = new DialogueResourceProvider();
+
             if (_gameSettings.Mode == GameMode.Full)
             {
                 var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
-                var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
-                Services.AddService<IEventInitializer>(eventCatalog);
-                Services.AddService<IEventCatalog>(eventCatalog);
+                var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
+
+                var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+                Services.AddService<IEventInitializer>(dialogueCatalog);
+                Services.AddService<IEventCatalog>(dialogueCatalog);
 
                 var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),
@@ -242,10 +246,12 @@ namespace Rpg.Client
             {
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
+                
+                var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
 
-                var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
-                Services.AddService<IEventInitializer>(eventCatalog);
-                Services.AddService<IEventCatalog>(eventCatalog);
+                var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);
+                Services.AddService<IEventInitializer>(dialogueCatalog);
+                Services.AddService<IEventCatalog>(dialogueCatalog);
 
                 var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),

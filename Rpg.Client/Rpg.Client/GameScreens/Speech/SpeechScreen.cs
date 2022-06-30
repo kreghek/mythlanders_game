@@ -117,6 +117,11 @@ namespace Rpg.Client.GameScreens.Speech
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            if (!_isInitialized)
+            {
+                return;
+            }
+
             DrawGameObjects(spriteBatch);
 
             if (!_dialoguePlayer.IsEnd)
