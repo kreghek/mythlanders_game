@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             var fragment = new EventTextFragment
             {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker), TextSid = $"{dialogueSid}_TextNode_{key}"
+                Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
             };
             return fragment;
         }
@@ -320,14 +320,16 @@ namespace Rpg.Client.Assets.Catalogs
                     }
                     else
                     {
-                        var nodeData = nodeList.Single(x => x.sid == parentNodeId);
+                        var parentNodeIdFromMap = textFragmentMergeMap[parentNodeId];
+
+                        var nodeData = nodeList.Single(x => x.sid == parentNodeIdFromMap);
                         var fragmentList = nodeData.fragmentList;
 
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                         fragmentList.Insert(0, fragment);
 
-                        textFragmentMergeMap.Add(key, parentNodeId);
+                        textFragmentMergeMap.Add(key, parentNodeIdFromMap);
                     }
                 }
                 else
@@ -351,39 +353,6 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             }
 
-            /*
-            foreach (var (key, obj) in deserializedDialogueNodes)
-            {
-                if (obj.TryGetProperty("next", out var nextFragmentJson))
-                {
-                    var parentNodeId = nextFragmentJson.GetString();
-                    var nodeData = nodeList.Single(x => x.sid == parentNodeId);
-                    var fragmentList = nodeData.fragmentList;
-                    
-                    var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
-
-                    fragmentList.Add(fragment);
-                }
-                else
-                {
-                    var dialogueTextFragments = new List<EventTextFragment>();
-                    var dialogueNode = new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = dialogueTextFragments
-                        }
-                    };
-
-                    var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
-
-                    dialogueTextFragments.Add(fragment);
-
-                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
-                }
-            }
-            */
-
             // Link nodes with options
 
             foreach (var (key, obj) in deserializedDialogueNodes)
@@ -405,11 +374,14 @@ namespace Rpg.Client.Assets.Catalogs
                         EventNode nextNode;
                         IOptionAftermath? aftermath = null;
 
-                        if (choice.TryGetProperty("next", out var choiceNext))
+                        if (choice.TryGetProperty("next", out var choiceNext) && !string.IsNullOrEmpty(choiceNext.GetString()))
                         {
                             var nextId = choiceNext.GetString();
-                            var nextNodes = nodeList.Where(x => x.sid == nextId);
-                            nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
+
+                            var mappedNextId = textFragmentMergeMap[nextId];
+
+                            var nextNodes = nodeList.Where(x => x.sid == mappedNextId);
+                            nextNode = nextNodes.Single().node;
 
                             var nextJsons = deserializedDialogueNodes.Where(x => x.Key == nextId);
                             if (nextJsons.Any())
