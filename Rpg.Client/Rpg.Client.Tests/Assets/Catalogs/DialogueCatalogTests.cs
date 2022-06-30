@@ -23,7 +23,7 @@ namespace Rpg.Client.Tests
         {
             using var stream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream($"Rpg.Client.Tests.Assets.Catalogs.DialogueTestResource.{name}.json");
-            
+
             if (stream is not null)
             {
                 using var reader = new StreamReader(stream);
@@ -36,7 +36,7 @@ namespace Rpg.Client.Tests
                 throw new InvalidOperationException();
             }
         }
-        
+
         [Test]
         public void GetDialogue_SingleTextNodeAndOption_ReturnsDialogueWithSingleTextNode()
         {
@@ -63,7 +63,7 @@ namespace Rpg.Client.Tests
             factDialogue.Root.Options.Should().HaveCount(1);
             factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
         }
-        
+
         [Test]
         public void GetDialogue_TextNodeSequence_Returns2TextFragments()
         {

@@ -105,7 +105,7 @@ namespace LeDialoduesEditorResGenerator
                 }
             }
         }
-        private static (DirectoryInfo, DirectoryInfo) ParseArgs(IReadOnlyList<string> args)=>
+        private static (DirectoryInfo, DirectoryInfo) ParseArgs(IReadOnlyList<string> args) =>
             (new DirectoryInfo(args[0]), new DirectoryInfo(args[1]));
     }
 }

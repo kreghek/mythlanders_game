@@ -336,7 +336,7 @@ namespace Rpg.Client.Assets.Catalogs
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                         fragmentList.Insert(0, fragment);
-                        
+
                         textFragmentMergeMap.Add(key, parentNodeId);
                     }
                 }
@@ -356,7 +356,7 @@ namespace Rpg.Client.Assets.Catalogs
                     dialogueTextFragments.Add(fragment);
 
                     nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
-                    
+
                     textFragmentMergeMap.Add(key, key);
                 }
             }
@@ -414,13 +414,13 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         EventNode nextNode;
                         IOptionAftermath? aftermath = null;
-                        
+
                         if (choice.TryGetProperty("next", out var choiceNext))
                         {
                             var nextId = choiceNext.GetString();
                             var nextNodes = nodeList.Where(x => x.sid == nextId);
                             nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
-                        
+
                             var nextJsons = deserializedDialogueNodes.Where(x => x.Key == nextId);
                             if (nextJsons.Any())
                             {

@@ -29,7 +29,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             };
 
             _frameSet.End += FrameSet_End;
-            
+
             var particleGenerator = new TailParticleGenerator(new[] { particlesTexture });
             _tailParticleSystem = new ParticleSystem(position, particleGenerator);
         }

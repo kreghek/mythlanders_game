@@ -246,7 +246,7 @@ namespace Rpg.Client
             {
                 var unitSchemeCatalog = new DemoUnitSchemeCatalog();
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
-                
+
                 var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
 
                 var dialogueCatalog = new DialogueCatalog(dialogueResourceProvider, dialogueAftermathCreator);

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Rpg.Client.Assets.Catalogs
 {
-    internal sealed class DialogueResourceProvider: IDialogueResourceProvider
+    internal sealed class DialogueResourceProvider : IDialogueResourceProvider
     {
         public string GetResource(string resourceSid)
         {

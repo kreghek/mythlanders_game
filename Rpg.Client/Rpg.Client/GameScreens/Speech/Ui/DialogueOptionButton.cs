@@ -1,10 +1,10 @@
 using System.Reflection;
+using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using System.Resources;
 
 namespace Rpg.Client.GameScreens.Speech.Ui
 {
