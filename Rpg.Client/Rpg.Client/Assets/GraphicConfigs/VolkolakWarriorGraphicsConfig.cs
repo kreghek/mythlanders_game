@@ -6,9 +6,9 @@ namespace Rpg.Client.Assets.GraphicConfigs
 {
     internal sealed class VolkolakWarriorGraphicsConfig : UnitGraphicsConfigBase
     {
-        public VolkolakWarriorGraphicsConfig()
+        public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
-            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
+            return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
                 { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
                 {
