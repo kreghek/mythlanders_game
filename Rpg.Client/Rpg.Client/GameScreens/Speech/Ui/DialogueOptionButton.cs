@@ -11,37 +11,32 @@ namespace Rpg.Client.GameScreens.Speech.Ui
     internal class DialogueOptionButton : ButtonBase
     {
         private readonly SpriteFont _font;
-        private readonly string _resourceSid;
+        private readonly string _optionText;
 
         public DialogueOptionButton(string resourceSid, Texture2D texture, SpriteFont font) : base(
             texture, Rectangle.Empty)
         {
-            _resourceSid = resourceSid;
+            _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid);
 
             _font = font;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {
-            var optionLocalizedText = GetOptionLocalizedText(_resourceSid);
-
-            var textSize = _font.MeasureString(optionLocalizedText);
+            var textSize = _font.MeasureString(_optionText);
             var widthDiff = contentRect.Width - textSize.X;
             var heightDiff = contentRect.Height - textSize.Y;
             var textPosition = new Vector2(
                 (widthDiff / 2) + contentRect.Left,
                 (heightDiff / 2) + contentRect.Top);
 
-            spriteBatch.DrawString(_font, optionLocalizedText, textPosition, Color.SaddleBrown);
+            spriteBatch.DrawString(_font, _optionText, textPosition, Color.SaddleBrown);
         }
 
-        private static string GetOptionLocalizedText(string resourceSid)
+        public Vector2 GetContentSize()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
-
-            return rm.GetString(resourceSid) ?? $"#{resourceSid}";
+            var textSize = _font.MeasureString(_optionText);
+            return textSize;
         }
     }
 }

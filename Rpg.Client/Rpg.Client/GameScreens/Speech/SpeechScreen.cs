@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
 
-        private readonly IList<ButtonBase> _optionButtons;
+        private readonly IList<DialogueOptionButton> _optionButtons;
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
@@ -87,7 +87,7 @@ namespace Rpg.Client.GameScreens.Speech
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
 
-            _optionButtons = new List<ButtonBase>();
+            _optionButtons = new List<DialogueOptionButton>();
             _textFragments = new List<TextFragment>();
 
             _dialoguePlayer = new DialoguePlayer(_globe.CurrentDialogue ?? throw new InvalidOperationException(),
@@ -323,6 +323,13 @@ namespace Rpg.Client.GameScreens.Speech
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             const int PORTRAIT_SIZE = 256;
+            const int OPTION_BUTTON_MARGIN = 5;
+
+            Vector2 CalcOptionButtonSize(DialogueOptionButton button)
+            {
+                var contentSize = button.GetContentSize();
+                return contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN;
+            }
 
             if (_textFragments.Any())
             {
@@ -331,9 +338,10 @@ namespace Rpg.Client.GameScreens.Speech
                 var textFragmentSize = textFragmentControl.CalculateSize();
 
                 const int SPEECH_MARGIN = 50;
+                var sumOptionHeight = (int)_optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
                 textFragmentControl.Rect = new Rectangle(
                     new Point(PORTRAIT_SIZE,
-                        contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - _optionButtons.Count * 25),
+                        contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - sumOptionHeight),
                     new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
                 textFragmentControl.Draw(spriteBatch);
 
@@ -352,17 +360,15 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
-                var optionsStartPosition =
-                    new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25 - _optionButtons.Count * 25);
-
-                var index = 0;
+                var lastTopButtonPosition = _textFragments[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
                 foreach (var button in _optionButtons)
                 {
-                    var optionPosition = optionsStartPosition + Vector2.UnitY * index * 25;
-                    var optionButtonSize = new Point(contentRectangle.Width - PORTRAIT_SIZE, 20);
-                    button.Rect = new Rectangle(optionPosition.ToPoint(), optionButtonSize);
+                    var optionButtonSize = CalcOptionButtonSize(button).ToPoint();
+                    var optionPosition = new Vector2(PORTRAIT_SIZE, lastTopButtonPosition).ToPoint();
+                    button.Rect = new Rectangle(optionPosition, optionButtonSize);
                     button.Draw(spriteBatch);
-                    index++;
+
+                    lastTopButtonPosition += optionButtonSize.Y;
                 }
             }
 
@@ -456,7 +462,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void UpdateHud(GameTime gameTime)
         {
-            _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
                 
             var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))

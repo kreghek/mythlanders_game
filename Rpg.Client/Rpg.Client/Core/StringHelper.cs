@@ -45,6 +45,9 @@ namespace Rpg.Client.Core
             return mainSb.ToString().Trim();
         }
 
+        /// <summary>
+        /// Replaces characters that are not in the font table with the correct ones.
+        /// </summary>
         internal static string FixText(string text)
         {
             return text.Replace('�', '�').Replace('�', '�').Replace("�", "...");
