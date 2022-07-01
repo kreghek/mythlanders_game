@@ -17,6 +17,8 @@ namespace Rpg.Client.GameScreens
 
                 GlobeNodeSid.Desert => BackgroundType.EgyptianDisert,
                 GlobeNodeSid.SacredPlace => BackgroundType.EgyptianPyramids,
+                
+                GlobeNodeSid.ShipGraveyard => BackgroundType.GreekShipGraveyard,
 
                 _ => BackgroundType.SlavicBattleground
             };
