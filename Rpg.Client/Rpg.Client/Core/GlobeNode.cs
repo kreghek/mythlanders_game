@@ -8,7 +8,7 @@ namespace Rpg.Client.Core
 
         public BiomeType BiomeType { get; init; }
 
-        public CombatSequence? CombatSequence { get; set; }
+        public CombatSequence? AssignedCombatSequence { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }
 

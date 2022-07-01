@@ -44,7 +44,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
-            if (_nodeGameObject.GlobeNode.CombatSequence is null)
+            if (_nodeGameObject.GlobeNode.AssignedCombatSequence is null)
             {
                 Debug.Fail("Combat sequence is required to be assigned.");
                 Close();
@@ -115,7 +115,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject nodeGameObject,
             Vector2 rewardBlockPosition, GlobeNodeMarkerGameObject node)
         {
-            if (node.GlobeNode.CombatSequence is null)
+            if (node.GlobeNode.AssignedCombatSequence is null)
             {
                 // No combat - no rewards
                 return;
@@ -164,7 +164,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
-            var combatCount = _nodeGameObject.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = _nodeGameObject.GlobeNode.AssignedCombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
             spriteBatch.DrawString(
                 _uiContentStorage.GetMainFont(),
@@ -175,7 +175,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
             var monsterIndex = 0;
 
-            var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.CombatSequence.Combats
+            var uniqueMonsterSchemes = _nodeGameObject.GlobeNode.AssignedCombatSequence.Combats
                 .SelectMany(combatSource => combatSource.EnemyGroup.GetUnits()).Select(x => x.UnitScheme).Distinct()
                 .ToArray();
             foreach (var monsterScheme in uniqueMonsterSchemes)
@@ -238,9 +238,9 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         private void DrawSummaryXpAwardLabel(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject node,
             Vector2 toolTipPosition)
         {
-            var totalXpForMonsters = node.GlobeNode.CombatSequence.Combats.SelectMany(x => x.EnemyGroup.GetUnits())
+            var totalXpForMonsters = node.GlobeNode.AssignedCombatSequence.Combats.SelectMany(x => x.EnemyGroup.GetUnits())
                 .Sum(x => x.XpReward);
-            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = node.GlobeNode.AssignedCombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
             spriteBatch.DrawString(

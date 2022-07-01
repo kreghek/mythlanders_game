@@ -344,13 +344,13 @@ namespace Rpg.Client.GameScreens.VoiceCombat
             if (combatResultModal.CombatResult == CombatResult.Victory ||
                 combatResultModal.CombatResult == CombatResult.NextCombat)
             {
-                var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
+                var currentCombatList = _globeNode.AssignedCombatSequence.Combats.ToList();
                 currentCombatList.Remove(_combat.CombatSource);
-                _globeNode.CombatSequence.Combats = currentCombatList;
+                _globeNode.AssignedCombatSequence.Combats = currentCombatList;
 
-                if (_combat.Node.CombatSequence.Combats.Any())
+                if (_combat.Node.AssignedCombatSequence.Combats.Any())
                 {
-                    var nextCombat = _globeNode.CombatSequence.Combats.First();
+                    var nextCombat = _globeNode.AssignedCombatSequence.Combats.First();
                     _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
                         _globeNode,
                         nextCombat,
@@ -538,12 +538,12 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
         private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
-            if (_globeNode.CombatSequence is not null)
+            if (_globeNode.AssignedCombatSequence is not null)
             {
-                var sumSequenceLength = _globeNode.CombatSequence.Combats.Count +
-                                        _globeNode.CombatSequence.CompletedCombats.Count;
+                var sumSequenceLength = _globeNode.AssignedCombatSequence.Combats.Count +
+                                        _globeNode.AssignedCombatSequence.CompletedCombats.Count;
 
-                var completeCombatCount = _globeNode.CombatSequence.CompletedCombats.Count + 1;
+                var completeCombatCount = _globeNode.AssignedCombatSequence.CompletedCombats.Count + 1;
 
                 var position = new Vector2(_resolutionIndependentRenderer.VirtualBounds.Center.X, 5);
 
@@ -1003,10 +1003,10 @@ namespace Rpg.Client.GameScreens.VoiceCombat
 
             if (isVictory)
             {
-                var completedCombats = _globeNode.CombatSequence.CompletedCombats;
+                var completedCombats = _globeNode.AssignedCombatSequence.CompletedCombats;
                 completedCombats.Add(_combat.CombatSource);
 
-                var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
+                var currentCombatList = _combat.Node.AssignedCombatSequence.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var xpItems = HandleRewardGaining(completedCombats, _globeNode, _globeProvider.Globe.Player);

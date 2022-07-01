@@ -32,15 +32,9 @@ namespace Rpg.Client.Core
             GlobeLevel = new GlobeLevel();
         }
 
-        public Combat? ActiveCombat { get; set; }
-
         public IEnumerable<IStoryPoint> ActiveStoryPoints => _activeStoryPointsList;
 
         public IReadOnlyCollection<Biome> Biomes { get; }
-
-        public Dialogue? CurrentDialogue { get; set; }
-
-        public Event? CurrentEvent { get; internal set; }
 
         public IReadOnlyCollection<IGlobeEvent> GlobeEvents => _globeEvents;
 
@@ -58,16 +52,16 @@ namespace Rpg.Client.Core
 
         public void AddCombat(GlobeNode targetNode)
         {
-            var combatList = new List<CombatSource>();
-
-            var combatSequence = new CombatSequence
-            {
-                Combats = combatList
-            };
-
-            targetNode.CombatSequence = combatSequence;
-
-            Updated?.Invoke(this, EventArgs.Empty);
+            // var combatList = new List<CombatSource>();
+            //
+            // var combatSequence = new CombatSequence
+            // {
+            //     Combats = combatList
+            // };
+            //
+            // targetNode.CombatSequence = combatSequence;
+            //
+            // Updated?.Invoke(this, EventArgs.Empty);
         }
 
         public void AddGlobalEvent(IGlobeEvent globalEvent)
@@ -163,7 +157,7 @@ namespace Rpg.Client.Core
         {
             foreach (var node in biome.Nodes)
             {
-                node.CombatSequence = null;
+                node.AssignedCombatSequence = null;
                 node.AssignedEvent = null;
             }
         }
@@ -175,7 +169,7 @@ namespace Rpg.Client.Core
             // create dialogs of nodes with combat
             foreach (var biome in biomes)
             {
-                var nodesWithCombat = biome.Nodes.Where(x => x.CombatSequence is not null).ToArray();
+                var nodesWithCombat = biome.Nodes.Where(x => x.AssignedCombatSequence is not null).ToArray();
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }

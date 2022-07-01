@@ -149,7 +149,7 @@ namespace Rpg.Client.GameScreens.Biome
                 if (!_isNodeModelsCreated)
                 {
                     var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
-                        .Where(x => x.IsAvailable && x.CombatSequence is not null).ToArray();
+                        .Where(x => x.IsAvailable && x.AssignedCombatSequence is not null).ToArray();
 
                     for (var i = 0; i < nodeList.Length; i++)
                     {
@@ -196,7 +196,7 @@ namespace Rpg.Client.GameScreens.Biome
             _screenTransition = true;
 
             var globeNode = node;
-            var combatSource = globeNode.CombatSequence.Combats.First();
+            var combatSource = globeNode.AssignedCombatSequence.Combats.First();
 
             // var playerUnit = new VoiceCombatUnit(_globe.Player.Party.GetUnits().First());
             // var enemyUnit = new VoiceCombatUnit(combatSource.EnemyGroup.GetUnits().First());
@@ -233,7 +233,7 @@ namespace Rpg.Client.GameScreens.Biome
         {
             var localizedName = GameObjectHelper.GetLocalized(locationInHint.GlobeNode.Sid);
 
-            var combatCount = locationInHint.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = locationInHint.GlobeNode.AssignedCombatSequence.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
 
             var rewards = GetCombatRewards(locationInHint, locationInHint);
@@ -373,7 +373,7 @@ namespace Rpg.Client.GameScreens.Biome
 
         private string GetCombatRewards(GlobeNodeMarkerGameObject nodeGameObject, GlobeNodeMarkerGameObject node)
         {
-            if (node.GlobeNode.CombatSequence is null)
+            if (node.GlobeNode.AssignedCombatSequence is null)
             {
                 // No combat - no rewards
                 return string.Empty;
@@ -415,7 +415,7 @@ namespace Rpg.Client.GameScreens.Biome
         private static string GetSummaryXpAwardLabel(GlobeNodeMarkerGameObject node)
         {
             var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
-            var combatCount = node.GlobeNode.CombatSequence.Combats.Count;
+            var combatCount = node.GlobeNode.AssignedCombatSequence.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
 

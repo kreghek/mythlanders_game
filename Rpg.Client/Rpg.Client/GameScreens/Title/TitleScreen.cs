@@ -335,7 +335,7 @@ namespace Rpg.Client.GameScreens.Title
 
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
-                firstAvailableNodeInBiome.CombatSequence.Combats.First(), _dice,
+                firstAvailableNodeInBiome.AssignedCombatSequence.Combats.First(), _dice,
                 isAutoplay: false);
 
             if (firstAvailableNodeInBiome?.AssignedEvent is not null)
