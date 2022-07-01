@@ -277,6 +277,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Press [SPACE] to continue.
+        /// </summary>
+        internal static string DialogueContinueText {
+            get {
+                return ResourceManager.GetString("DialogueContinueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is end of the game. Congratulations!{0}Thank you for attention.
         /// </summary>
         internal static string EndOfGameMessage {

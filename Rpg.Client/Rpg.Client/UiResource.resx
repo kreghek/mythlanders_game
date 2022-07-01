@@ -372,4 +372,8 @@
   <data name="SkillDirectionLeftAllyText" xml:space="preserve">
     <value>left ally</value>
   </data>
+  <data name="DialogueContinueText" xml:space="preserve">
+    <value>Press [SPACE] to continue</value>
+    <comment>Нажимается, чтобы запустить следующий фрагмент текста, когда текущий полностью показан.</comment>
+  </data>
 </root>

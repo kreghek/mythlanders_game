@@ -352,7 +352,7 @@ namespace Rpg.Client.GameScreens.Speech
 
                     if (isVisible)
                     {
-                        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Press [SPACE] to continue",
+                        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.DialogueContinueText,
                             new Vector2(PORTRAIT_SIZE, contentRectangle.Bottom - 25), Color.White);
                     }
                 }
