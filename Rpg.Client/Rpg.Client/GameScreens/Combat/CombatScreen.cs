@@ -709,12 +709,12 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
-            if (_globeNode.AssignedCombatSequence is not null)
+            if (_globeNode.AssignedCombats is not null)
             {
-                var sumSequenceLength = _globeNode.AssignedCombatSequence.Combats.Count +
-                                        _globeNode.AssignedCombatSequence.CompletedCombats.Count;
+                var sumSequenceLength = _globeNode.AssignedCombats.Combats.Count +
+                                        _globeNode.AssignedCombats.CompletedCombats.Count;
 
-                var completeCombatCount = _globeNode.AssignedCombatSequence.CompletedCombats.Count + 1;
+                var completeCombatCount = _globeNode.AssignedCombats.CompletedCombats.Count + 1;
 
                 var position = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X, 5);
 
@@ -1147,10 +1147,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (isVictory)
             {
-                var completedCombats = _globeNode.AssignedCombatSequence.CompletedCombats;
+                var completedCombats = _globeNode.AssignedCombats.CompletedCombats;
                 completedCombats.Add(_combat.CombatSource);
 
-                var currentCombatList = _combat.Node.AssignedCombatSequence.Combats.ToList();
+                var currentCombatList = _combat.Node.AssignedCombats.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,

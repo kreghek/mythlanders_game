@@ -23,9 +23,8 @@ namespace Rpg.Client.GameScreens.Speech
         public Dialogue CurrentDialogue { get; init; }
         public Dialogue? CombatVictoryDialogue { get; init; }
         public GlobeNode Location { get; init; }
-        public bool IsCombatPreparingDialogue { get; init; }
+        public bool IsCombatPreparingDialogue => NextCombats is not null;
         public bool IsStartDialogueEvent { get; init; }
-        
         public CombatSequence? NextCombats { get; init; }
     }
 

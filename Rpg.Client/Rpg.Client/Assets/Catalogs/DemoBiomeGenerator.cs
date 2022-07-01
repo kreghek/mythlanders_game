@@ -206,7 +206,7 @@ namespace Rpg.Client.Assets.Catalogs
                         Combats = combatList
                     };
 
-                    selectedNode.Item1.AssignedCombatSequence = combatSequence;
+                    selectedNode.Item1.AssignedCombats = combatSequence;
 
                     combatLevelAdditional++;
                 }
@@ -227,7 +227,7 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.Thicket);
-            startNode.AssignedCombatSequence = combatSequence;
+            startNode.AssignedCombats = combatSequence;
 
             var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
 

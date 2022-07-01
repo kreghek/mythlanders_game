@@ -64,7 +64,7 @@ namespace Rpg.Client.GameScreens.Intro
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
             }
 
             _frameCounter += gameTime.ElapsedGameTime.TotalSeconds;
@@ -78,7 +78,7 @@ namespace Rpg.Client.GameScreens.Intro
                 }
                 else
                 {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
                 }
             }
         }

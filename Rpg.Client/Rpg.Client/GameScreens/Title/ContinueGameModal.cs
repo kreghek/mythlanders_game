@@ -115,7 +115,7 @@ namespace Rpg.Client.GameScreens.Title
                 {
                     _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Biome);
+                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Biome, null);
                 };
 
                 _continueGameButtons.Add(continueGameButton);
@@ -179,42 +179,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
-            _globeProvider.GenerateNew();
-            _globeProvider.Globe.IsNodeInitialized = true;
-
-            var firstAvailableNodeInBiome = _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                .SingleOrDefault(x => x.IsAvailable && x.BiomeType == BiomeType.Slavic);
-
-            _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
-                firstAvailableNodeInBiome,
-                firstAvailableNodeInBiome.AssignedCombatSequence.Combats.First(), _dice,
-                isAutoplay: false);
-
-            if (firstAvailableNodeInBiome?.AssignedEvent is not null)
-            {
-                // Make same operations as on click on the first node on the biome screen. 
-                _globeProvider.Globe.CurrentEvent = firstAvailableNodeInBiome.AssignedEvent;
-
-                if (_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid is null)
-                {
-                    _globeProvider.Globe.CurrentDialogue = null;
-                }
-                else
-                {
-                    _globeProvider.Globe.CurrentDialogue =
-                        _eventCatalog.GetDialogue(_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid);
-                }
-
-                _globeProvider.Globe.CurrentEvent.Counter++;
-
-                _screenManager.ExecuteTransition(_screen, ScreenTransition.Event);
-            }
-            else
-            {
-                // Defensive case
-
-                _screenManager.ExecuteTransition(_screen, ScreenTransition.Biome);
-            }
+            TitleScreen.StartClearNewGame(_globeProvider, _eventCatalog, _screen, _screenManager, () => { });
         }
     }
 }

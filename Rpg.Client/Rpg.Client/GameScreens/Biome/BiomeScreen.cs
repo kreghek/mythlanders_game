@@ -12,7 +12,9 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Biome.GameObjects;
 using Rpg.Client.GameScreens.Biome.Tutorial;
 using Rpg.Client.GameScreens.Biome.Ui;
+using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Common;
+using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Biome
@@ -74,7 +76,7 @@ namespace Rpg.Client.GameScreens.Biome
                 _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
             partyModalButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Party, null);
             };
             partyModalButton.IndicatingSelector = () =>
             {
@@ -101,7 +103,7 @@ namespace Rpg.Client.GameScreens.Biome
                     _uiContentStorage.GetMainFont());
                 bestiaryButton.OnClick += (_, _) =>
                 {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary);
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, null);
                 };
                 menuButtons.Add(bestiaryButton);
             }
@@ -149,7 +151,7 @@ namespace Rpg.Client.GameScreens.Biome
                 if (!_isNodeModelsCreated)
                 {
                     var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
-                        .Where(x => x.IsAvailable && x.AssignedCombatSequence is not null).ToArray();
+                        .Where(x => x.IsAvailable && x.AssignedCombats is not null).ToArray();
 
                     for (var i = 0; i < nodeList.Length; i++)
                     {
@@ -181,9 +183,9 @@ namespace Rpg.Client.GameScreens.Biome
             CombatDelegateInner(true, node, availableEvent);
         }
 
-        private void ClearEventHandlerToGlobeObjects()
+        private void ClearEventHandlerToGlobeObjects(Globe globe)
         {
-            _globe.Updated -= Globe_Updated;
+            globe.Updated -= Globe_Updated;
         }
 
         private void CombatDelegate(GlobeNode node, Event? availableEvent)
@@ -195,37 +197,75 @@ namespace Rpg.Client.GameScreens.Biome
         {
             _screenTransition = true;
 
-            var globeNode = node;
-            var combatSource = globeNode.AssignedCombatSequence.Combats.First();
+            HandleLocationSelect(autoCombat: autoCombat, node: node, availableEvent: availableEvent, _eventCatalog,
+                this, ScreenManager,
+                () =>
+                {
+                    ClearEventHandlerToGlobeObjects(_globe);
+                });
+        }
 
-            // var playerUnit = new VoiceCombatUnit(_globe.Player.Party.GetUnits().First());
-            // var enemyUnit = new VoiceCombatUnit(combatSource.EnemyGroup.GetUnits().First());
-            // _globe.ActiveVoiceCombat = new Core.VoiceCombat(playerUnit, enemyUnit, globeNode, _biome, _dice);
-
-            _globe.ActiveCombat = new Core.Combat(_globe.Player.Party, node,
-                combatSource, _dice, isAutoplay: autoCombat);
-
+        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, Event? availableEvent,
+            IEventCatalog eventCatalog, IScreen currentScreen, IScreenManager screenManager,
+            Action? clearScreenHandlersDelegate)
+        {
+            clearScreenHandlersDelegate?.Invoke();
+            
             if (availableEvent is not null)
             {
-                _globe.CurrentEvent = availableEvent;
+                availableEvent.Counter++;
 
-                if (_globe.CurrentEvent.BeforeCombatStartNodeSid is not null)
+                if (availableEvent.BeforeCombatStartNodeSid is not null)
                 {
-                    var eventNode = _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
-                    _globe.CurrentDialogue = eventNode;
+                    Dialogue? combatVictoryDialogue = null;
+                    if (availableEvent.AfterCombatStartNodeSid is not null)
+                    {
+                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+                    }
+
+                    var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
+                    {
+                        Location = node,
+                        CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
+                        NextCombats = node.AssignedCombats,
+                        CombatVictoryDialogue = combatVictoryDialogue,
+                        IsStartDialogueEvent = availableEvent.IsGameStart
+                    };
+
+                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
                 }
+                else
+                {
+                    Dialogue? combatVictoryDialogue = null;
+                    if (availableEvent.AfterCombatStartNodeSid is not null)
+                    {
+                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+                    }
 
-                _globe.CurrentEvent.Counter++;
+                    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+                    {
+                        Location = node,
+                        CombatSequence = node.AssignedCombats,
+                        IsAutoplay = autoCombat,
+                        VictoryDialogue = combatVictoryDialogue
+                    };
 
-                ClearEventHandlerToGlobeObjects();
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+                }
             }
             else
             {
-                ClearEventHandlerToGlobeObjects();
+                if (node.AssignedCombats is null)
+                {
+                    throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
+                }
 
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+                {
+                    Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
+                };
+
+                screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
             }
         }
 
@@ -233,7 +273,7 @@ namespace Rpg.Client.GameScreens.Biome
         {
             var localizedName = GameObjectHelper.GetLocalized(locationInHint.GlobeNode.Sid);
 
-            var combatCount = locationInHint.GlobeNode.AssignedCombatSequence.Combats.Count;
+            var combatCount = locationInHint.GlobeNode.AssignedCombats.Combats.Count;
             var combatSequenceSizeText = BiomeScreenTextHelper.GetCombatSequenceSizeText(combatCount);
 
             var rewards = GetCombatRewards(locationInHint, locationInHint);
@@ -373,7 +413,7 @@ namespace Rpg.Client.GameScreens.Biome
 
         private string GetCombatRewards(GlobeNodeMarkerGameObject nodeGameObject, GlobeNodeMarkerGameObject node)
         {
-            if (node.GlobeNode.AssignedCombatSequence is null)
+            if (node.GlobeNode.AssignedCombats is null)
             {
                 // No combat - no rewards
                 return string.Empty;
@@ -415,7 +455,7 @@ namespace Rpg.Client.GameScreens.Biome
         private static string GetSummaryXpAwardLabel(GlobeNodeMarkerGameObject node)
         {
             var totalXpForMonsters = node.CombatSource.EnemyGroup.GetUnits().Sum(x => x.XpReward);
-            var combatCount = node.GlobeNode.AssignedCombatSequence.Combats.Count;
+            var combatCount = node.GlobeNode.AssignedCombats.Combats.Count;
             var summaryXp =
                 (int)Math.Round(totalXpForMonsters * BiomeScreenTextHelper.GetCombatSequenceSizeBonus(combatCount));
 

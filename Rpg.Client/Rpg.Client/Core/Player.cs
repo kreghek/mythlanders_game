@@ -50,6 +50,14 @@ namespace Rpg.Client.Core
             _abilities.Clear();
         }
 
+        public void ClearInventory()
+        {
+            foreach (var resourceItem in Inventory)
+            {
+                resourceItem.Amount = 0;
+            }
+        }
+
         public IEnumerable<Unit> GetAll()
         {
             var unitsInSlots = Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);

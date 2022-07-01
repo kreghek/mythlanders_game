@@ -157,7 +157,7 @@ namespace Rpg.Client.Core
         {
             foreach (var node in biome.Nodes)
             {
-                node.AssignedCombatSequence = null;
+                node.AssignedCombats = null;
                 node.AssignedEvent = null;
             }
         }
@@ -169,7 +169,7 @@ namespace Rpg.Client.Core
             // create dialogs of nodes with combat
             foreach (var biome in biomes)
             {
-                var nodesWithCombat = biome.Nodes.Where(x => x.AssignedCombatSequence is not null).ToArray();
+                var nodesWithCombat = biome.Nodes.Where(x => x.AssignedCombats is not null).ToArray();
 
                 AssignEventToNodesWithCombat(biome, dice, nodesWithCombat, eventCatalog, globeLevel);
             }
