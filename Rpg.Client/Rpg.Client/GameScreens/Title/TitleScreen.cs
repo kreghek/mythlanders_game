@@ -331,7 +331,7 @@ namespace Rpg.Client.GameScreens.Title
 
             var firstAvailableNodeInBiome =
                 _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .SingleOrDefault(x => x.Sid == GlobeNodeSid.Thicket);
+                    .SingleOrDefault(x => x.Sid == GlobeNodeSid.ShipGraveyard);
 
             _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
                 firstAvailableNodeInBiome,
