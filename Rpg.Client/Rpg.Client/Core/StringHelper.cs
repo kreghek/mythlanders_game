@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
 
         public static string LineBreaking(string text, int maxInLine)
         {
-            var items = text.Split(Environment.NewLine);
+            var items = text.Split('\n');
             var mainSb = new StringBuilder();
             var singleSb = new StringBuilder();
             foreach (var item in items)

@@ -160,6 +160,7 @@ namespace Rpg.Client.GameScreens.Speech
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
+
             CheckTutorial();
 
             if (!_isInitialized)
@@ -185,7 +186,7 @@ namespace Rpg.Client.GameScreens.Speech
                 return;
             }
 
-            if (!_isFirstDialogue)
+            if (_isFirstDialogue)
             {
                 return;
             }

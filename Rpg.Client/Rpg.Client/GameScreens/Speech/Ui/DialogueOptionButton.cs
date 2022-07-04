@@ -1,6 +1,3 @@
-using System.Reflection;
-using System.Resources;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,6 +7,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal class DialogueOptionButton : ButtonBase
     {
+        private const int MARGIN = 5;
         private readonly SpriteFont _font;
         private readonly string _optionText;
 
@@ -23,11 +21,11 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {
-            var textSize = _font.MeasureString(_optionText);
+            var textSize = GetContentSize();
             var widthDiff = contentRect.Width - textSize.X;
             var heightDiff = contentRect.Height - textSize.Y;
             var textPosition = new Vector2(
-                (widthDiff / 2) + contentRect.Left,
+                (widthDiff / 2) + contentRect.Left + MARGIN,
                 (heightDiff / 2) + contentRect.Top);
 
             spriteBatch.DrawString(_font, _optionText, textPosition, Color.SaddleBrown);
@@ -35,7 +33,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         public Vector2 GetContentSize()
         {
-            var textSize = _font.MeasureString(_optionText);
+            var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
             return textSize;
         }
     }
