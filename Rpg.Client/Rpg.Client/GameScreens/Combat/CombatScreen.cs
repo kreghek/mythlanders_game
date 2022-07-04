@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
@@ -22,15 +21,6 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Combat
 {
-    internal sealed class CombatScreenTransitionArguments : IScreenTransitionArguments
-    {
-        public CombatSequence CombatSequence { get; init; }
-        public int CurrentCombatIndex { get; init; }
-        public Dialogue? VictoryDialogue { get; init; }
-        public GlobeNode Location { get; init; }
-        public bool IsAutoplay { get; init; }
-    }
-    
     internal class CombatScreen : GameScreenWithMenuBase
     {
         private readonly CombatScreenTransitionArguments _args;
@@ -89,10 +79,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globe = _globeProvider.Globe;
 
-            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay);
-
-            _globeNode = _combat.Node;
-            soundtrackManager.PlayCombatTrack(_globeNode.BiomeType);
+            _globeNode = args.Location;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -122,12 +109,16 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
 
             _jobProgressResolver = new JobProgressResolver();
+            
+            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay, args.Location);
+            
+            soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
         }
 
-        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay)
+        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
         {
             return new Core.Combat(_globe.Player.Party,
-                _globeNode,
+                combatLocation,
                 combatSource,
                 _dice,
                 isAutoplay);
