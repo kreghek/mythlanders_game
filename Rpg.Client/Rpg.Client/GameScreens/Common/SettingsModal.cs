@@ -154,9 +154,10 @@ namespace Rpg.Client.GameScreens.Common
         private void FastRestartButton_OnClick(object? sender, EventArgs e)
         {
             _globeProvider.Globe.Player.ClearAbilities();
+            _globeProvider.Globe.Player.ClearInventory();
 
             var screenManager = _game.Services.GetService<IScreenManager>();
-            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title);
+            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title, null);
         }
 
         private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(

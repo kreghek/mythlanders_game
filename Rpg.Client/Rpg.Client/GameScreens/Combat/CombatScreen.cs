@@ -16,12 +16,14 @@ using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
 using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
+using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Combat
 {
     internal class CombatScreen : GameScreenWithMenuBase
     {
+        private readonly CombatScreenTransitionArguments _args;
         private const int BACKGROUND_LAYERS_COUNT = 4;
         private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
         private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
@@ -67,8 +69,9 @@ namespace Rpg.Client.GameScreens.Combat
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
 
-        public CombatScreen(EwarGame game) : base(game)
+        public CombatScreen(EwarGame game, CombatScreenTransitionArguments args) : base(game)
         {
+            _args = args;
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
             _globeProvider = game.Services.GetService<GlobeProvider>();
@@ -76,12 +79,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globe = _globeProvider.Globe;
 
-            _combat = _globe.ActiveCombat ??
-                      throw new InvalidOperationException(
-                          nameof(_globe.ActiveCombat) + " can't be null in this screen.");
-
-            _globeNode = _combat.Node;
-            soundtrackManager.PlayCombatTrack(_globeNode.BiomeType);
+            _globeNode = args.Location;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -111,6 +109,19 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
 
             _jobProgressResolver = new JobProgressResolver();
+            
+            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay, args.Location);
+            
+            soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
+        }
+
+        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
+        {
+            return new Core.Combat(_globe.Player.Party,
+                combatLocation,
+                combatSource,
+                _dice,
+                isAutoplay);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -379,20 +390,20 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
             {
-                var currentCombatList = _globeNode.CombatSequence.Combats.ToList();
-                currentCombatList.Remove(_combat.CombatSource);
-                _globeNode.CombatSequence.Combats = currentCombatList;
-
-                if (_combat.Node.CombatSequence.Combats.Any())
+                var nextCombatIndex = _args.CurrentCombatIndex + 1;
+                var areAllCombatsWon = nextCombatIndex <= _args.CombatSequence.Combats.Count - 1;
+                if (!areAllCombatsWon)
                 {
-                    var nextCombat = _globeNode.CombatSequence.Combats.First();
-                    _globe.ActiveCombat = new Core.Combat(_globe.Player.Party,
-                        _globeNode,
-                        nextCombat,
-                        _dice,
-                        _combat.IsAutoplay);
+                    var combatScreenArgs = new CombatScreenTransitionArguments()
+                    {
+                        Location = _globeNode,
+                        VictoryDialogue = _args.VictoryDialogue,
+                        CombatSequence = _args.CombatSequence,
+                        CurrentCombatIndex = nextCombatIndex,
+                        IsAutoplay = _args.IsAutoplay
+                    };
 
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
                 }
                 else
                 {
@@ -402,7 +413,7 @@ namespace Rpg.Client.GameScreens.Combat
                     {
                         if (_finalBossWasDefeat)
                         {
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame, null);
 
                             if (_settings.Mode == GameMode.Full)
                             {
@@ -413,39 +424,41 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
 
-                            if (_globe.CurrentEvent is not null)
-                            {
-                                if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
-                                {
-                                    _globe.CurrentDialogue = null;
-                                }
-                                else
-                                {
-                                    _globe.CurrentDialogue =
-                                        _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
-                                }
-
-                                _globe.CurrentEvent.Counter++;
-                            }
-
-                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-
-                            if (_globe.CurrentEvent is not null)
-                            {
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-                            }
-                            else
-                            {
-                                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat);
-                            }
+                            // if (_globe.CurrentEvent is not null)
+                            // {
+                            //     if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
+                            //     {
+                            //         _globe.CurrentDialogue = null;
+                            //     }
+                            //     else
+                            //     {
+                            //         _globe.CurrentDialogue =
+                            //             _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
+                            //     }
+                            //
+                            //     _globe.CurrentEvent.Counter++;
+                            // }
+                            //
+                            // _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
+                            //
+                            // if (_globe.CurrentEvent is not null)
+                            // {
+                            //     // Old code. This init start dualogue event in the next unlocked biome.
+                            //     ScreenManager.ExecuteTransition(this, ScreenTransition.Event, null);
+                            // }
+                            // else
+                            // {
+                            //     // Old code. This init start combat in the next unlocked biome.
+                            //     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, null);
+                            // }
                         }
                     }
                     else
                     {
-                        if (_globe.CurrentDialogue is null)
+                        if (_args.VictoryDialogue is null)
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                            //_globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
 
                             if (_settings.Mode == GameMode.Full)
                             {
@@ -454,7 +467,13 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
+                            var speechScreenTransitionArgs = new SpeechScreenTransitionArgs()
+                            {
+                                CurrentDialogue = _args.VictoryDialogue,
+                                Location = _args.Location
+                            };
+                            
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);
                         }
                     }
                 }
@@ -463,7 +482,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 RestoreGroupAfterCombat();
                 _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
             }
             else
             {
@@ -473,7 +492,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 // Fallback is just show biome.
                 _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
             }
         }
 
@@ -681,12 +700,12 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawCombatSequenceProgress(SpriteBatch spriteBatch)
         {
-            if (_globeNode.CombatSequence is not null)
+            if (_globeNode.AssignedCombats is not null)
             {
-                var sumSequenceLength = _globeNode.CombatSequence.Combats.Count +
-                                        _globeNode.CombatSequence.CompletedCombats.Count;
+                var sumSequenceLength = _globeNode.AssignedCombats.Combats.Count +
+                                        _globeNode.AssignedCombats.CompletedCombats.Count;
 
-                var completeCombatCount = _globeNode.CombatSequence.CompletedCombats.Count + 1;
+                var completeCombatCount = _globeNode.AssignedCombats.CompletedCombats.Count + 1;
 
                 var position = new Vector2(ResolutionIndependentRenderer.VirtualBounds.Center.X, 5);
 
@@ -968,20 +987,6 @@ namespace Rpg.Client.GameScreens.Combat
         private void HandleGlobeVictoryResult()
         {
             _globe.GlobeLevel.Level++;
-
-            if (_globe.CurrentEvent is not null)
-            {
-                _globe.CurrentEvent.Completed = true;
-
-                if (_globe.CurrentEvent.AfterCombatStartNodeSid is null)
-                {
-                    _globe.CurrentDialogue = null;
-                }
-                else
-                {
-                    _globe.CurrentDialogue = _eventCatalog.GetDialogue(_globe.CurrentEvent.AfterCombatStartNodeSid);
-                }
-            }
         }
 
         private void HandleUnits(GameTime gameTime)
@@ -1133,10 +1138,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (isVictory)
             {
-                var completedCombats = _globeNode.CombatSequence.CompletedCombats;
+                var completedCombats = _globeNode.AssignedCombats.CompletedCombats;
                 completedCombats.Add(_combat.CombatSource);
 
-                var currentCombatList = _combat.Node.CombatSequence.Combats.ToList();
+                var currentCombatList = _combat.Node.AssignedCombats.Combats.ToList();
                 if (currentCombatList.Count == 1)
                 {
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
