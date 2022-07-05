@@ -6,9 +6,9 @@ namespace Rpg.Client.Assets.GraphicConfigs
 {
     internal sealed class SingleSpriteGraphicsConfig : UnitGraphicsConfigBase
     {
-        public SingleSpriteGraphicsConfig()
+        public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
-            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
+            return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
                 {
                     PredefinedAnimationSid.Idle,

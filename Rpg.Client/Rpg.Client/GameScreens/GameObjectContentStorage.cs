@@ -137,7 +137,7 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
-                    BackgroundType.EgyptianDisert, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.Desert)
+                    BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.Desert)
                 },
                 {
                     BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)

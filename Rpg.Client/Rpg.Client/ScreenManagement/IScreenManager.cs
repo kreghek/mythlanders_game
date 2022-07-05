@@ -2,6 +2,6 @@
 {
     internal interface IScreenManager
     {
-        void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition);
+        void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition, IScreenTransitionArguments args);
     }
 }

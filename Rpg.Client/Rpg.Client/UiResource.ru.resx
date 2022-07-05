@@ -384,4 +384,7 @@
   <data name="SkillDirectionLeftAllyText" xml:space="preserve">
     <value>союзнику слева</value>
   </data>
+  <data name="DialogueContinueText" xml:space="preserve">
+    <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
+  </data>
 </root>

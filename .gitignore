@@ -38,3 +38,4 @@ msbuild.wrn
 /Rpg.Client/.ai
 /Rpg.Client/PlotConverter/Properties/launchSettings.json
 /Rpg.Client/Rpg.Client/Resources/Dialogues/Testament.cfg
+/Rpg.Client/LeDialoduesEditorResGenerator/Properties/launchSettings.json
