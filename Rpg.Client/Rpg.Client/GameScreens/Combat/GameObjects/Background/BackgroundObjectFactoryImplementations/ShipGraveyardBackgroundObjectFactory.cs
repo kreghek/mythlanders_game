@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {
@@ -21,17 +23,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
         {
-            var list = new List<IBackgroundObject>();
-
-            for (var i = 0; i < 100; i++)
+            return new[]
             {
-                var weatherObject = new DemonicFireAnimatedObject(_gameObjectContentStorage.GetParticlesTexture(),
-                    new Rectangle(0, 32, 32, 32),
-                    new Vector2(i * 10, 240));
-                list.Add(weatherObject);
-            }
-
-            return list;
+                new HaribdaBackgroundObject(_gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 0), _haribdaPosition)
+            };
         }
 
         public IReadOnlyList<IBackgroundObject> CreateMainLayerObjects()
@@ -54,11 +49,19 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return mainLayerObjects;
         }
 
-        private class BgMainObjectScheme
+        private interface IBgMainObjectScheme
+        {
+            bool IsPassable { get; set; }
+            BgMainObjectSchemeSize Size { get; set; }
+
+            IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position);
+        }
+
+        private class BgMainObjectScheme : IBgMainObjectScheme
         {
             public BgMainObjectSchemeSize Size { get; set; }
             public bool IsPassable { get; set; }
-            
+
             public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public Rectangle SourceRect { get; set; }
             public Vector2 Origin { get; set; }
@@ -110,23 +113,23 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return objList;
         }
 
-        private void CreateSmallObjects(Vector2 areaPosition, List<IBackgroundObject> objList, List<BgMainObjectScheme> smallObjSchemesOpenList)
+        private void CreateSmallObjects(Vector2 areaPosition, List<IBackgroundObject> targetObjList, List<IBgMainObjectScheme> openList)
         {
-            if (!smallObjSchemesOpenList.Any())
+            if (!openList.Any())
             {
                 return;
             }
 
             const int MAX_SMALL_OBJS_IN_AREA = 4;
-            var rollCount = Math.Min(MAX_SMALL_OBJS_IN_AREA, smallObjSchemesOpenList.Count);
-            var objSchemes = _dice.RollFromList(smallObjSchemesOpenList, rollCount).ToArray();
+            var rollCount = Math.Min(MAX_SMALL_OBJS_IN_AREA, openList.Count);
+            var objSchemes = _dice.RollFromList(openList, rollCount).ToArray();
             var positionIndecies = _dice.ShuffleList(new[] { 0, 1, 2, 3 });
 
             for (int i = 0; i < objSchemes.Length; i++)
             {
                 const int AREA_SMALL_OBJ_ROW_COUNT = 2;
 
-                if (!smallObjSchemesOpenList.Any())
+                if (!openList.Any())
                 {
                     break;
                 }
@@ -138,12 +141,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 var scheme = objSchemes[i];
                 var obj = scheme.Create(_gameObjectContentStorage, areaPosition + new Vector2(areaCol * 64, areaRow * 64));
 
-                objList.Add(obj);
-                smallObjSchemesOpenList.Remove(scheme);
+                targetObjList.Add(obj);
+                openList.Remove(scheme);
             }
         }
 
-        private static IReadOnlyCollection<BgMainObjectScheme> _bgObjectSchemes = new[]
+        private static IReadOnlyCollection<IBgMainObjectScheme> _bgObjectSchemes = new[]
         {
             new BgMainObjectScheme
             {
@@ -220,7 +223,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             },
         };
         
-        private IReadOnlyCollection<BgMainObjectScheme> GetObjectSchemes()
+        private IReadOnlyCollection<IBgMainObjectScheme> GetObjectSchemes()
         {
             return _bgObjectSchemes;
         }
@@ -237,7 +240,72 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
         {
-            return new List<IBackgroundObject>(0);
+            return ArraySegment<IBackgroundObject>.Empty;
+        }
+
+        private Vector2 _haribdaPosition = new Vector2(245, 90);
+
+        private sealed class HaribdaBackgroundObject : IBackgroundObject
+        {
+            private readonly Texture2D _texture;
+            private readonly Vector2 _centerPosition;
+
+            private double[] _ringCounters;
+            private double[] _ringSpeeds = new[] { 0.0001, -0.0002, 0.00005 };
+            private int[] _particleCounts = new[] { 270, 180, 15 };
+            private float[] _radiuses = new[] { 100f, 50f, 4f };
+
+            private ParticleSystem _particleSystem;
+
+            public HaribdaBackgroundObject(Texture2D texture, Vector2 centerPosition)
+            {
+                _texture = texture;
+                _centerPosition = centerPosition;
+
+                _ringCounters = new double[3];
+
+                _particleSystem = new ParticleSystem(centerPosition, new MothParticleGenerator(new[] { texture }, 400));
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                for (int i = _ringCounters.Length - 1; i >= 0; i--)
+                {
+                    for (int j = 0; j < _particleCounts[i]; j++)
+                    {
+                        var fullRound = Math.PI * 2d;
+                        var arc = fullRound / _particleCounts[i];
+                        var q = arc * j;
+
+                        var radiusQ = ((i + 167 + j + 34) * 11313) % 100 / 100f;
+
+                        var position = new Vector2(
+                            (float)(Math.Cos(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.X),
+                            (float)(Math.Sin(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.Y));
+
+                        const int COL_COUNT = 6;
+                        const int SPRITE_COUNT = 6;
+
+                        var spriteIndex = ((i + 167 + j + 34) * 1313) % SPRITE_COUNT;
+                        var x = spriteIndex % COL_COUNT;
+                        var y = spriteIndex / COL_COUNT;
+
+                        spriteBatch.Draw(_texture, position, new Rectangle(x * 32, y * 32, 32, 32), Color.White);
+                    }
+                }
+
+                _particleSystem.Draw(spriteBatch);
+            }
+
+            public void Update(GameTime gameTime)
+            {
+                for (int i = 0; i < _ringCounters.Length; i++)
+                {
+                    _ringCounters[i] += gameTime.ElapsedGameTime.TotalMilliseconds * _ringSpeeds[i];
+                }
+
+                _particleSystem.Update(gameTime);
+            }
         }
     }
 }
