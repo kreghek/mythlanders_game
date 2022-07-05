@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static bool GetStartAvailability(int nodeIndex, GlobeNodeSid locationSid)
         {
-            return locationSid == GlobeNodeSid.Thicket;
+            return locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground;
         }
 
         private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)

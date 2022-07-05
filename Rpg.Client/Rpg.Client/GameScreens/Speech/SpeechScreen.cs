@@ -106,11 +106,11 @@ namespace Rpg.Client.GameScreens.Speech
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             if (args.IsCombatPreparingDialogue)
             {
-                soundtrackManager.PlayMapTrack();
+                soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
             }
             else
             {
-                soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
+                soundtrackManager.PlayMapTrack();
             }
         }
 
@@ -124,7 +124,8 @@ namespace Rpg.Client.GameScreens.Speech
                     Location = args.Location,
                     CombatSequence = args.NextCombats,
                     IsAutoplay = false,
-                    VictoryDialogue = args.CombatVictoryDialogue
+                    VictoryDialogue = args.CombatVictoryDialogue,
+                    VictoryDialogueIsStartEvent = args.IsStartDialogueEvent
                 };
 
                 return new(true, combatScreenTransitionArgs);

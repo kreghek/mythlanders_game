@@ -342,7 +342,7 @@ namespace Rpg.Client.GameScreens.Title
                     .Single(x => x.Sid == GlobeNodeSid.Thicket);
 
             BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-                availableEvent: firstAvailableNodeInBiome?.AssignedEvent,
+                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
                 eventCatalog: eventCatalog,
                 currentScreen: currentScreen,
                 screenManager,

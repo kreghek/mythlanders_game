@@ -391,7 +391,7 @@ namespace Rpg.Client.GameScreens.Combat
             if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
             {
                 var nextCombatIndex = _args.CurrentCombatIndex + 1;
-                var areAllCombatsWon = nextCombatIndex <= _args.CombatSequence.Combats.Count - 1;
+                var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count - 1;
                 if (!areAllCombatsWon)
                 {
                     var combatScreenArgs = new CombatScreenTransitionArguments()
@@ -470,7 +470,8 @@ namespace Rpg.Client.GameScreens.Combat
                             var speechScreenTransitionArgs = new SpeechScreenTransitionArgs()
                             {
                                 CurrentDialogue = _args.VictoryDialogue,
-                                Location = _args.Location
+                                Location = _args.Location,
+                                IsStartDialogueEvent = _args.VictoryDialogueIsStartEvent
                             };
                             
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);

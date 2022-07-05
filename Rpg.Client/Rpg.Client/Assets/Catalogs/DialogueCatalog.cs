@@ -471,7 +471,9 @@ namespace Rpg.Client.Assets.Catalogs
                 Sid = "SlavicMain1",
                 IsGameStart = true,
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "SlavicMain1_Before"
+                BeforeCombatStartNodeSid = "SlavicMain1_Before",
+                AfterCombatStartNodeSid = "SlavicMain1_After",
+                Priority = TextEventPriority.High
             };
 
             events.Add(mainPlot1);
@@ -480,7 +482,8 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Sid = "MainSlavic2",
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic2Before",
+                BeforeCombatStartNodeSid = "SlavicMain2_Before",
+                AfterCombatStartNodeSid = "SlavicMain2_After",
                 Priority = TextEventPriority.High,
                 Requirements = new[]
                 {
@@ -497,8 +500,8 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Sid = "MainSlavic3",
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic3Before",
-                AfterCombatStartNodeSid = "MainSlavic3After",
+                BeforeCombatStartNodeSid = "SlavicMain3_Before",
+                AfterCombatStartNodeSid = "SlavicMain3_After",
                 Priority = TextEventPriority.High,
                 Requirements = new[]
                 {
@@ -510,21 +513,6 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             events.Add(mainPlot3);
-
-            /*
-            var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
-            var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
-            var mainSlavic3BeforeDialogue = CreateMainSlavic3BeforeDialogue();
-            var mainSlavic3AfterDialogue = CreateMainSlavic3AfterDialogue();
-
-            _nodes = new Dictionary<string, Dialogue>
-            {
-                { "MainSlavic1Before", mainSlavic1BeforeDialogue },
-                { "MainSlavic2Before", mainSlavic2BeforeDialogue },
-                { "MainSlavic3Before", mainSlavic3BeforeDialogue },
-                { "MainSlavic3After", mainSlavic3AfterDialogue }
-            };
-            */
 
             _isInitialized = true;
         }
