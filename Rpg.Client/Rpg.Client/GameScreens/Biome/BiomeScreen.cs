@@ -210,7 +210,7 @@ namespace Rpg.Client.GameScreens.Biome
             Action? clearScreenHandlersDelegate)
         {
             clearScreenHandlersDelegate?.Invoke();
-            
+
             if (availableEvent is not null)
             {
                 availableEvent.Counter++;

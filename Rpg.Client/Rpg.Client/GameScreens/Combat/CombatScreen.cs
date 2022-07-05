@@ -109,9 +109,9 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
 
             _jobProgressResolver = new JobProgressResolver();
-            
+
             _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay, args.Location);
-            
+
             soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
         }
 
@@ -473,7 +473,7 @@ namespace Rpg.Client.GameScreens.Combat
                                 Location = _args.Location,
                                 IsStartDialogueEvent = _args.VictoryDialogueIsStartEvent
                             };
-                            
+
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);
                         }
                     }

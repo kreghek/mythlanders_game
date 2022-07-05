@@ -483,7 +483,7 @@ namespace Rpg.Client.GameScreens.Speech
         private void UpdateHud(GameTime gameTime)
         {
             _pressToContinueCounter += gameTime.ElapsedGameTime.TotalSeconds * 10f;
-                
+
             var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {

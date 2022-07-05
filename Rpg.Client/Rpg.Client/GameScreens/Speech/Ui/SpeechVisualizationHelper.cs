@@ -8,7 +8,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
     public static class SpeechVisualizationHelper
     {
         private const int MAX_IN_LINE = 60;
-        
+
         public static string PrepareLocalizedText(string dialogueResourceSid)
         {
             var fullText = GetLocalizedText(dialogueResourceSid);
@@ -26,7 +26,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
             _dialogueResourceManager = new ResourceManager("Rpg.Client.DialogueResources", assembly);
         }
-        
+
         private static string GetLocalizedText(string textSid)
         {
             var localizedText = _dialogueResourceManager.GetString(textSid);
