@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
             for (var areaIndex = 0; areaIndex < AREA_COUNT; areaIndex++)
             {
-                var isPassableArea = areaIndex == 0 || areaIndex == 3;
+                var isPassableArea = !(areaIndex == 0 || areaIndex == 3);
                 var topPosition = 180;
                 var position = new Vector2(areaIndex * 256, topPosition);
 
@@ -79,23 +79,68 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         
         private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea, Vector2 position)
         {
-            if (!CheckRoll100Passed(25))
-            {
-                return ArraySegment<IBackgroundObject>.Empty;
-            }
-
             var objectSchemes = GetObjectSchemes();
             var objList = new List<IBackgroundObject>();
 
-            var largeObjSchemes = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size256 && ((!isPassableArea) || (isPassableArea && x.IsPassable)));
+            var largeObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size256 && ((!isPassableArea) || (isPassableArea && x.IsPassable))).ToList();
+            var smallObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size64 && ((!isPassableArea) || (isPassableArea && x.IsPassable))).ToList();
 
-            foreach (var scheme in objectSchemes)
+            if (largeObjSchemesOpenList.Any())
             {
-                var obj = scheme.Create(_gameObjectContentStorage, position);
-                objList.Add(obj);
+                var isLargeObj = CheckRoll100Passed(50);
+
+                if (isLargeObj)
+                {
+                    var scheme = _dice.RollFromList(largeObjSchemesOpenList);
+
+                    var obj = scheme.Create(_gameObjectContentStorage, position);
+                    objList.Add(obj);
+                    largeObjSchemesOpenList.Remove(scheme);
+                }
+                else
+                {
+                    CreateSmallObjects(position, objList, smallObjSchemesOpenList);
+                }
+            }
+            else
+            {
+                CreateSmallObjects(position, objList, smallObjSchemesOpenList);
             }
 
             return objList;
+        }
+
+        private void CreateSmallObjects(Vector2 areaPosition, List<IBackgroundObject> objList, List<BgMainObjectScheme> smallObjSchemesOpenList)
+        {
+            if (!smallObjSchemesOpenList.Any())
+            {
+                return;
+            }
+
+            const int MAX_SMALL_OBJS_IN_AREA = 4;
+            var rollCount = Math.Min(MAX_SMALL_OBJS_IN_AREA, smallObjSchemesOpenList.Count);
+            var objSchemes = _dice.RollFromList(smallObjSchemesOpenList, rollCount).ToArray();
+            var positionIndecies = _dice.ShuffleList(new[] { 0, 1, 2, 3 });
+
+            for (int i = 0; i < objSchemes.Length; i++)
+            {
+                const int AREA_SMALL_OBJ_ROW_COUNT = 2;
+
+                if (!smallObjSchemesOpenList.Any())
+                {
+                    break;
+                }
+
+                var positionIndex = positionIndecies[i];
+                var areaCol = positionIndex % AREA_SMALL_OBJ_ROW_COUNT;
+                var areaRow = positionIndex / AREA_SMALL_OBJ_ROW_COUNT;
+
+                var scheme = objSchemes[i];
+                var obj = scheme.Create(_gameObjectContentStorage, areaPosition + new Vector2(areaCol * 64, areaRow * 64));
+
+                objList.Add(obj);
+                smallObjSchemesOpenList.Remove(scheme);
+            }
         }
 
         private static IReadOnlyCollection<BgMainObjectScheme> _bgObjectSchemes = new[]
@@ -131,7 +176,48 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Origin = Vector2.Zero,
                 SourceRect = new Rectangle(256, 256, 256, 256),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
-            }
+            },
+
+            new BgMainObjectScheme
+            {
+                IsPassable = true,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(0, 0, 64, 64),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = true,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(1 * 64, 0, 64, 64),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(0 * 64, 1 * 64, 64, 64),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(1 * 64, 1 * 64, 64, 64),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = true,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(0 * 64, 2 * 64, 64, 64),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
         };
         
         private IReadOnlyCollection<BgMainObjectScheme> GetObjectSchemes()
