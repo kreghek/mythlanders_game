@@ -28,8 +28,11 @@ namespace Rpg.Client.GameScreens.Speech
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
 
+        private readonly bool _areCombatsNext;
+
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
+        private readonly CombatScreenTransitionArguments? _combatScreenArgs;
         private readonly DialoguePlayer _dialoguePlayer;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -38,6 +41,8 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Globe _globe;
         private readonly GlobeNode _globeLocation;
         private readonly GlobeProvider _globeProvider;
+        private readonly bool _isFirstDialogue;
+        private readonly CombatSequence? _nextCombats;
 
         private readonly IList<DialogueOptionButton> _optionButtons;
         private readonly Player _player;
@@ -50,9 +55,13 @@ namespace Rpg.Client.GameScreens.Speech
         private double _counter;
 
         private int _currentFragmentIndex;
+
+        private bool _currentTextFragmentIsReady;
         private int _frameIndex;
 
         private bool _isInitialized;
+
+        private double _pressToContinueCounter;
 
         public SpeechScreen(EwarGame game, SpeechScreenTransitionArgs args) : base(game)
         {
@@ -87,7 +96,8 @@ namespace Rpg.Client.GameScreens.Speech
             _optionButtons = new List<DialogueOptionButton>();
             _textFragments = new List<TextFragment>();
 
-            _dialoguePlayer = new DialoguePlayer(args.CurrentDialogue, new DialogueContextFactory(_globe, storyPointCatalog));
+            _dialoguePlayer =
+                new DialoguePlayer(args.CurrentDialogue, new DialogueContextFactory(_globe, storyPointCatalog));
             _isFirstDialogue = args.IsStartDialogueEvent;
 
             _eventCatalog = game.Services.GetService<IEventCatalog>();
@@ -111,28 +121,6 @@ namespace Rpg.Client.GameScreens.Speech
             else
             {
                 soundtrackManager.PlayMapTrack();
-            }
-        }
-
-        private (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
-            SpeechScreenTransitionArgs args)
-        {
-            if (args.NextCombats is not null)
-            {
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments()
-                {
-                    Location = args.Location,
-                    CombatSequence = args.NextCombats,
-                    IsAutoplay = false,
-                    VictoryDialogue = args.CombatVictoryDialogue,
-                    VictoryDialogueIsStartEvent = args.IsStartDialogueEvent
-                };
-
-                return new(true, combatScreenTransitionArgs);
-            }
-            else
-            {
-                return new(false, null);
             }
         }
 
@@ -202,6 +190,26 @@ namespace Rpg.Client.GameScreens.Speech
             var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
                 ResolutionIndependentRenderer, _player);
             AddModal(tutorialModal, isLate: false);
+        }
+
+        private (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
+            SpeechScreenTransitionArgs args)
+        {
+            if (args.NextCombats is not null)
+            {
+                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+                {
+                    Location = args.Location,
+                    CombatSequence = args.NextCombats,
+                    IsAutoplay = false,
+                    VictoryDialogue = args.CombatVictoryDialogue,
+                    VictoryDialogueIsStartEvent = args.IsStartDialogueEvent
+                };
+
+                return new(true, combatScreenTransitionArgs);
+            }
+
+            return new(false, null);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -365,7 +373,7 @@ namespace Rpg.Client.GameScreens.Speech
                 var textFragmentSize = textFragmentControl.CalculateSize();
 
                 const int SPEECH_MARGIN = 50;
-                var sumOptionHeight = (int)_optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
+                var sumOptionHeight = _optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
                 textFragmentControl.Rect = new Rectangle(
                     new Point(PORTRAIT_SIZE,
                         contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - sumOptionHeight),
@@ -401,8 +409,6 @@ namespace Rpg.Client.GameScreens.Speech
 
             spriteBatch.End();
         }
-
-        private double _pressToContinueCounter;
 
         private void HandleDialogueEnd()
         {
@@ -526,12 +532,6 @@ namespace Rpg.Client.GameScreens.Speech
                 }
             }
         }
-
-        private bool _currentTextFragmentIsReady;
-        private readonly bool _isFirstDialogue;
-        private readonly CombatSequence? _nextCombats;
-        private readonly bool _areCombatsNext;
-        private readonly CombatScreenTransitionArguments? _combatScreenArgs;
 
         private void UpdateSpeaker(GameTime gameTime)
         {

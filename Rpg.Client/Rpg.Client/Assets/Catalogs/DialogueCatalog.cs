@@ -374,7 +374,8 @@ namespace Rpg.Client.Assets.Catalogs
                         EventNode nextNode;
                         IOptionAftermath? aftermath = null;
 
-                        if (choice.TryGetProperty("next", out var choiceNext) && !string.IsNullOrEmpty(choiceNext.GetString()))
+                        if (choice.TryGetProperty("next", out var choiceNext) &&
+                            !string.IsNullOrEmpty(choiceNext.GetString()))
                         {
                             var nextId = choiceNext.GetString();
 

@@ -9,15 +9,6 @@ namespace Rpg.Client.GameScreens.Speech.Ui
     {
         private const int MAX_IN_LINE = 60;
 
-        public static string PrepareLocalizedText(string dialogueResourceSid)
-        {
-            var fullText = GetLocalizedText(dialogueResourceSid);
-            var fixedFullText = StringHelper.FixText(fullText);
-            var wordBreakFullText = StringHelper.LineBreaking(fixedFullText, MAX_IN_LINE);
-
-            return wordBreakFullText;
-        }
-
         private static readonly ResourceManager _dialogueResourceManager;
 
         static SpeechVisualizationHelper()
@@ -25,6 +16,15 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             var assembly = Assembly.GetExecutingAssembly();
 
             _dialogueResourceManager = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+        }
+
+        public static string PrepareLocalizedText(string dialogueResourceSid)
+        {
+            var fullText = GetLocalizedText(dialogueResourceSid);
+            var fixedFullText = StringHelper.FixText(fullText);
+            var wordBreakFullText = StringHelper.LineBreaking(fixedFullText, MAX_IN_LINE);
+
+            return wordBreakFullText;
         }
 
         private static string GetLocalizedText(string textSid)
