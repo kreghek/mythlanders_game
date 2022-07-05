@@ -10,10 +10,12 @@ namespace Rpg.Client.Engine
     {
         private readonly Random _random;
         private readonly IList<Texture2D> _textures;
+        private readonly float _radius;
 
-        public MothParticleGenerator(IList<Texture2D> textures)
+        public MothParticleGenerator(IList<Texture2D> textures, float radius = 128f)
         {
             _textures = textures;
+            _radius = radius;
             _random = new Random();
         }
 
@@ -28,7 +30,7 @@ namespace Rpg.Client.Engine
             var texture = _textures[_random.Next(_textures.Count)];
 
             var randomUnitVector = CreateRandomUnitVector2((float)(Math.PI * 2), 0);
-            var randomVector = new Vector2(randomUnitVector.X, randomUnitVector.Y * 0.3f) * 128;
+            var randomVector = new Vector2(randomUnitVector.X, randomUnitVector.Y * 0.3f) * _radius;
             var startPosition = emitterPosition + randomVector;
 
             var velocity = new Vector2(

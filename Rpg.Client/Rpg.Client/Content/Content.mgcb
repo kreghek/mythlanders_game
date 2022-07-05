@@ -937,6 +937,42 @@
 /processorParam:TextureFormat=Color16Bit
 /build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/SemiLayer.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main256x256_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main256x256_0.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0.png
+
+#begin Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0.png
+
 #begin Sprites/GameObjects/CombatUnitMarkers.png
 /importer:TextureImporter
 /processor:TextureProcessor
