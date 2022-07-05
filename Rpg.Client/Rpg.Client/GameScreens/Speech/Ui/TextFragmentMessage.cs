@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Resources;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,8 +23,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         {
             _font = font;
 
-            var fullText = GetLocalizedText(eventTextFragment.TextSid);
-            _speech = new Speech(fullText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
+            var speechText = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
+            _speech = new Speech(speechText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
         }
 
         public bool IsComplete => _speech.IsComplete;
@@ -53,13 +56,6 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             spriteBatch.DrawString(_font, _speech.GetCurrentText(),
                 clientRect.Location.ToVector2() + Vector2.UnitX * 2,
                 Color.SaddleBrown);
-        }
-
-        private static string GetLocalizedText(string textSid)
-        {
-            var rm = DialogueResources.ResourceManager;
-            var localizedText = rm.GetString(textSid);
-            return localizedText ?? $"#{textSid}";
         }
     }
 }

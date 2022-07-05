@@ -6,9 +6,9 @@ namespace Rpg.Client.Assets.GraphicConfigs
 {
     internal sealed class ArcherGraphicsConfig : UnitGraphicsConfigBase
     {
-        public ArcherGraphicsConfig()
+        public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
-            PredefinedAnimations = new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
+            return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
                 { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
                 {
@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
                     PredefinedAnimationSid.Defense,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
                 }
-            };
+            }; 
         }
     }
 }

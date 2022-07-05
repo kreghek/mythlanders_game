@@ -32,7 +32,7 @@ namespace Rpg.Client.Engine
                 SourceRectangle = new Rectangle(0, 0, 128, 32)
             };
 
-            _predefinedAnimationFrameSets = unit.UnitScheme.UnitGraphicsConfig.PredefinedAnimations;
+            _predefinedAnimationFrameSets = unit.UnitScheme.UnitGraphicsConfig.GetPredefinedAnimations();
             InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
 
             PlayAnimation(PredefinedAnimationSid.Idle);

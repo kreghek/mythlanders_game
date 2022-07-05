@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
 
         public static string LineBreaking(string text, int maxInLine)
         {
-            var items = text.Split(Environment.NewLine);
+            var items = text.Split('\n');
             var mainSb = new StringBuilder();
             var singleSb = new StringBuilder();
             foreach (var item in items)
@@ -45,6 +45,9 @@ namespace Rpg.Client.Core
             return mainSb.ToString().Trim();
         }
 
+        /// <summary>
+        /// Replaces characters that are not in the font table with the correct ones.
+        /// </summary>
         internal static string FixText(string text)
         {
             return text.Replace('�', '�').Replace('�', '�').Replace("�", "...");

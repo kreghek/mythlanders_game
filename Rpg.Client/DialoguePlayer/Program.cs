@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 
-using Rpg.Client;
 using Rpg.Client.Assets;
 using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
@@ -16,12 +17,16 @@ namespace DialoguePlayer
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
 
-            var eventCatalog = new StaticTextEventCatalog(unitSchemeCatalog);
+            var resourceProvider = new DialogueResourceProvider();
+
+            var aftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
+
+            var eventCatalog = new DialogueCatalog(resourceProvider, aftermathCreator);
             eventCatalog.Init();
 
-            var event1 = eventCatalog.Events.First(x => x.BeforeCombatStartNodeSid != null);
+            var dialogueSid = Console.ReadLine();
 
-            var dialogue = eventCatalog.GetDialogue(event1.BeforeCombatStartNodeSid);
+            var dialogue = eventCatalog.GetDialogue(dialogueSid);
 
             var storyPointInitializer = new StoryPointCatalog();
             var dice = new LinearDice();
@@ -33,12 +38,15 @@ namespace DialoguePlayer
             var dialogPlayer = new Rpg.Client.Core.Dialogues.DialoguePlayer(dialogue,
                 new DialogueContextFactory(globe, new StoryPointCatalog()));
 
+            var assembly = dialogue.GetType().Assembly;
+            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+
             while (!dialogPlayer.IsEnd)
             {
                 foreach (var textFragment in dialogPlayer.CurrentTextFragments)
                 {
                     var speakerLocalized = GameObjectHelper.GetLocalized(textFragment.Speaker);
-                    var localizedSpeach = DialogueResources.ResourceManager.GetString(textFragment.TextSid);
+                    var localizedSpeach = rm.GetString(textFragment.TextSid);
                     Console.WriteLine($"{speakerLocalized}: {localizedSpeach}");
                 }
 
@@ -46,7 +54,7 @@ namespace DialoguePlayer
                 for (var index = 0; index < optionList.Length; index++)
                 {
                     var option = optionList[index];
-                    var localizedOptionText = DialogueResources.ResourceManager.GetString(option.TextSid);
+                    var localizedOptionText = rm.GetString(option.TextSid);
                     Console.WriteLine((index + 1) + ". " + localizedOptionText);
                 }
 

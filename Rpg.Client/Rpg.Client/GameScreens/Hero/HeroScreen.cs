@@ -51,7 +51,7 @@ namespace Rpg.Client.GameScreens.Hero
                 _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
             backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Party);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Party, null);
             };
 
             return new ButtonBase[] { backButton };

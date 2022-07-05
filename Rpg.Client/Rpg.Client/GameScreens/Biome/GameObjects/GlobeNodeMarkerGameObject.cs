@@ -53,7 +53,7 @@ namespace Rpg.Client.GameScreens.Biome.GameObjects
             };
             _root.AddChild(_eventMarker);
 
-            CombatSource = globeNode.CombatSequence?.Combats.FirstOrDefault();
+            CombatSource = globeNode.AssignedCombats?.Combats.FirstOrDefault();
             GlobeNode = globeNode;
             Position = position;
             AvailableEvent = globeNode.AssignedEvent;
