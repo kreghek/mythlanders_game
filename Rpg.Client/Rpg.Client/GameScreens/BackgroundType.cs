@@ -9,7 +9,7 @@
 
         ChineseMonastery,
 
-        EgyptianDisert,
+        EgyptianDesert,
         EgyptianPyramids,
 
         GreekShipGraveyard

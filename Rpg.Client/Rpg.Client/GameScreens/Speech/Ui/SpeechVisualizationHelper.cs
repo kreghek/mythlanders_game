@@ -17,14 +17,19 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
             return wordBreakFullText;
         }
-        
-        private static string GetLocalizedText(string textSid)
+
+        private static readonly ResourceManager _dialogueResourceManager;
+
+        static SpeechVisualizationHelper()
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
-
-            var localizedText = rm.GetString(textSid);
+            _dialogueResourceManager = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+        }
+        
+        private static string GetLocalizedText(string textSid)
+        {
+            var localizedText = _dialogueResourceManager.GetString(textSid);
             return localizedText ?? $"#{textSid}";
         }
     }

@@ -15,8 +15,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
         {
-            //throw new System.NotImplementedException();
-
             return new List<IBackgroundObject>(0);
         }
 

@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static bool GetStartAvailability(int nodeIndex, GlobeNodeSid locationSid)
         {
-            return locationSid == GlobeNodeSid.ShipGraveyard;
+            return locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground || locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground;
         }
 
         private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
@@ -206,7 +206,7 @@ namespace Rpg.Client.Assets.Catalogs
                         Combats = combatList
                     };
 
-                    selectedNode.Item1.CombatSequence = combatSequence;
+                    selectedNode.Item1.AssignedCombats = combatSequence;
 
                     combatLevelAdditional++;
                 }
@@ -227,7 +227,7 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.ShipGraveyard);
-            startNode.CombatSequence = combatSequence;
+            startNode.AssignedCombats = combatSequence;
 
             /*var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
 

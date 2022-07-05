@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
@@ -222,7 +223,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private void CreditsButton_OnClick(object? sender, EventArgs e)
         {
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Credits, null);
         }
 
         private void DrawHeroes(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -325,44 +326,27 @@ namespace Rpg.Client.GameScreens.Title
 
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
-            _globeProvider.GenerateNew();
+            StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
+        }
 
-            _globeProvider.Globe.IsNodeInitialized = true;
+        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
+            IScreen currentScreen, IScreenManager screenManager,
+            Action? clearScreenHandlersDelegate)
+        {
+            globeProvider.GenerateNew();
+
+            globeProvider.Globe.IsNodeInitialized = true;
 
             var firstAvailableNodeInBiome =
-                _globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .SingleOrDefault(x => x.Sid == GlobeNodeSid.ShipGraveyard);
+                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+                    .Single(x => x.Sid == GlobeNodeSid.ShipGraveyard);
 
-            _globeProvider.Globe.ActiveCombat = new Core.Combat(_globeProvider.Globe.Player.Party,
-                firstAvailableNodeInBiome,
-                firstAvailableNodeInBiome.CombatSequence.Combats.First(), _dice,
-                isAutoplay: false);
-
-            if (firstAvailableNodeInBiome?.AssignedEvent is not null)
-            {
-                // Make same operations as on click on the first node on the biome screen. 
-                _globeProvider.Globe.CurrentEvent = firstAvailableNodeInBiome.AssignedEvent;
-
-                if (_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid is null)
-                {
-                    _globeProvider.Globe.CurrentDialogue = null;
-                }
-                else
-                {
-                    _globeProvider.Globe.CurrentDialogue =
-                        _eventCatalog.GetDialogue(_globeProvider.Globe.CurrentEvent.BeforeCombatStartNodeSid);
-                }
-
-                _globeProvider.Globe.CurrentEvent.Counter++;
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Event);
-            }
-            else
-            {
-                // Defensive case
-
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
-            }
+            BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
+                eventCatalog: eventCatalog,
+                currentScreen: currentScreen,
+                screenManager,
+                clearScreenHandlersDelegate);
         }
     }
 }

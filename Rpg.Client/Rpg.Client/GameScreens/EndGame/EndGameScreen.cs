@@ -27,7 +27,7 @@ namespace Rpg.Client.GameScreens.EndGame
                 Rectangle.Empty);
             _backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Credits);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Credits, null);
             };
         }
 

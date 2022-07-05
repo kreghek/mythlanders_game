@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             var fragment = new EventTextFragment
             {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker), TextSid = $"{dialogueSid}_TextNode_{key}"
+                Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
             };
             return fragment;
         }
@@ -320,14 +320,16 @@ namespace Rpg.Client.Assets.Catalogs
                     }
                     else
                     {
-                        var nodeData = nodeList.Single(x => x.sid == parentNodeId);
+                        var parentNodeIdFromMap = textFragmentMergeMap[parentNodeId];
+
+                        var nodeData = nodeList.Single(x => x.sid == parentNodeIdFromMap);
                         var fragmentList = nodeData.fragmentList;
 
                         var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                         fragmentList.Insert(0, fragment);
 
-                        textFragmentMergeMap.Add(key, parentNodeId);
+                        textFragmentMergeMap.Add(key, parentNodeIdFromMap);
                     }
                 }
                 else
@@ -351,39 +353,6 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             }
 
-            /*
-            foreach (var (key, obj) in deserializedDialogueNodes)
-            {
-                if (obj.TryGetProperty("next", out var nextFragmentJson))
-                {
-                    var parentNodeId = nextFragmentJson.GetString();
-                    var nodeData = nodeList.Single(x => x.sid == parentNodeId);
-                    var fragmentList = nodeData.fragmentList;
-                    
-                    var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
-
-                    fragmentList.Add(fragment);
-                }
-                else
-                {
-                    var dialogueTextFragments = new List<EventTextFragment>();
-                    var dialogueNode = new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = dialogueTextFragments
-                        }
-                    };
-
-                    var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
-
-                    dialogueTextFragments.Add(fragment);
-
-                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
-                }
-            }
-            */
-
             // Link nodes with options
 
             foreach (var (key, obj) in deserializedDialogueNodes)
@@ -405,11 +374,14 @@ namespace Rpg.Client.Assets.Catalogs
                         EventNode nextNode;
                         IOptionAftermath? aftermath = null;
 
-                        if (choice.TryGetProperty("next", out var choiceNext))
+                        if (choice.TryGetProperty("next", out var choiceNext) && !string.IsNullOrEmpty(choiceNext.GetString()))
                         {
                             var nextId = choiceNext.GetString();
-                            var nextNodes = nodeList.Where(x => x.sid == nextId);
-                            nextNode = nextNodes.Any() ? nextNodes.Single().node : EventNode.EndNode;
+
+                            var mappedNextId = textFragmentMergeMap[nextId];
+
+                            var nextNodes = nodeList.Where(x => x.sid == mappedNextId);
+                            nextNode = nextNodes.Single().node;
 
                             var nextJsons = deserializedDialogueNodes.Where(x => x.Key == nextId);
                             if (nextJsons.Any())
@@ -499,7 +471,9 @@ namespace Rpg.Client.Assets.Catalogs
                 Sid = "SlavicMain1",
                 IsGameStart = true,
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "SlavicMain1_Before"
+                BeforeCombatStartNodeSid = "SlavicMain1_Before",
+                AfterCombatStartNodeSid = "SlavicMain1_After",
+                Priority = TextEventPriority.High
             };
 
             events.Add(mainPlot1);
@@ -508,7 +482,8 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Sid = "MainSlavic2",
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic2Before",
+                BeforeCombatStartNodeSid = "SlavicMain2_Before",
+                AfterCombatStartNodeSid = "SlavicMain2_After",
                 Priority = TextEventPriority.High,
                 Requirements = new[]
                 {
@@ -525,8 +500,8 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Sid = "MainSlavic3",
                 IsUnique = true,
-                BeforeCombatStartNodeSid = "MainSlavic3Before",
-                AfterCombatStartNodeSid = "MainSlavic3After",
+                BeforeCombatStartNodeSid = "SlavicMain3_Before",
+                AfterCombatStartNodeSid = "SlavicMain3_After",
                 Priority = TextEventPriority.High,
                 Requirements = new[]
                 {
@@ -538,21 +513,6 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             events.Add(mainPlot3);*/
-
-            /*
-            var mainSlavic1BeforeDialogue = CreateMainSlavic1BeforeDialogue();
-            var mainSlavic2BeforeDialogue = CreateMainSlavic2BeforeDialogue();
-            var mainSlavic3BeforeDialogue = CreateMainSlavic3BeforeDialogue();
-            var mainSlavic3AfterDialogue = CreateMainSlavic3AfterDialogue();
-
-            _nodes = new Dictionary<string, Dialogue>
-            {
-                { "MainSlavic1Before", mainSlavic1BeforeDialogue },
-                { "MainSlavic2Before", mainSlavic2BeforeDialogue },
-                { "MainSlavic3Before", mainSlavic3BeforeDialogue },
-                { "MainSlavic3After", mainSlavic3AfterDialogue }
-            };
-            */
 
             _isInitialized = true;
         }

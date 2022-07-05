@@ -47,7 +47,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
             backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
             };
 
             return new[] { backButton };

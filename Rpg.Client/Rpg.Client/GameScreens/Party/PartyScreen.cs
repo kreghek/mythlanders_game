@@ -39,7 +39,7 @@ namespace Rpg.Client.GameScreens.Party
                 _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
             backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
             };
 
             return new ButtonBase[] { backButton };
@@ -149,7 +149,8 @@ namespace Rpg.Client.GameScreens.Party
             var screenService = Game.Services.GetService<ScreenService>();
             screenService.Selected = e.Character;
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Hero);
+            // TODO Pass selected hero via args instead screenService
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Hero, null);
         }
     }
 }

@@ -114,7 +114,7 @@ namespace Rpg.Client.GameScreens.Settings
                 buttonTexture,
                 font,
                 new Rectangle());
-            switchLanguageButton.OnClick += (_, _) => ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+            switchLanguageButton.OnClick += (_, _) => ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
 
             return switchLanguageButton;
         }

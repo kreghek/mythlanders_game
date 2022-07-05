@@ -11,7 +11,7 @@ namespace Rpg.Client.Core
             Combats = Array.Empty<CombatSource>();
         }
 
-        public IReadOnlyCollection<CombatSource> Combats { get; set; }
+        public IReadOnlyList<CombatSource> Combats { get; set; }
 
         public IList<CombatSource> CompletedCombats { get; }
     }

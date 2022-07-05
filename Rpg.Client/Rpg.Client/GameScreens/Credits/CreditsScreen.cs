@@ -33,7 +33,7 @@ namespace Rpg.Client.GameScreens.Credits
                 _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetMainFont());
 
-            _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title); };
+            _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null); };
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -71,7 +71,7 @@ namespace Rpg.Client.GameScreens.Credits
 
             if (_textPosition <= -(size.Y + DELAY_SECONDS * TEXT_SPEED))
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Title);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
             }
         }
     }

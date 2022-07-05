@@ -137,7 +137,7 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
-                    BackgroundType.EgyptianDisert, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.Desert)
+                    BackgroundType.EgyptianDesert, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.Desert)
                 },
                 {
                     BackgroundType.EgyptianPyramids, LoadBackgroundLayers(BiomeType.Egyptian, GlobeNodeSid.SacredPlace)
@@ -308,9 +308,9 @@ namespace Rpg.Client.GameScreens
         }
 
         internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType,
-            BackgroundLayerType layerType, int spritesheetIndex)
+            BackgroundLayerType layerType, int spriteSheetIndex)
         {
-            return _combatBackgroundObjectsDict[new(backgroundType, layerType, spritesheetIndex)];
+            return _combatBackgroundObjectsDict[new(backgroundType, layerType, spriteSheetIndex)];
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)
