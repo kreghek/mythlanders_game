@@ -5,11 +5,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 {
     internal sealed class BackgroundObjectFactorySelector
     {
-        private IBackgroundObjectFactory _backgroundObjectFactory;
+        private IBackgroundObjectFactory _battlegroundObjectFactory;
         private EmptyBackgroundObjectFactory _empty;
         private GameObjectContentStorage _gameObjectContentStorage;
         private MonasteryBackgroundObjectFactory _monasteryObjectFactory;
         private ThicketBackgroundObjectFactory _thicketOjectFactory;
+        private ShipGraveyardBackgroundObjectFactory _shipGraveyardObjectFactory;
 
         public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
         {
@@ -25,7 +26,12 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 
             if (nodeSid == GlobeNodeSid.Battleground)
             {
-                return _backgroundObjectFactory;
+                return _battlegroundObjectFactory;
+            }
+
+            if (nodeSid == GlobeNodeSid.ShipGraveyard)
+            {
+                return _shipGraveyardObjectFactory;
             }
 
             return _empty;
@@ -36,9 +42,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
         {
             _gameObjectContentStorage = gameObjectContentStorage;
 
-            _backgroundObjectFactory = new BattlegroundBackgroundObjectFactory(_gameObjectContentStorage);
+            _battlegroundObjectFactory = new BattlegroundBackgroundObjectFactory(_gameObjectContentStorage);
             _thicketOjectFactory = new ThicketBackgroundObjectFactory(_gameObjectContentStorage);
             _monasteryObjectFactory = new MonasteryBackgroundObjectFactory(_gameObjectContentStorage, dice);
+            _shipGraveyardObjectFactory = new ShipGraveyardBackgroundObjectFactory(_gameObjectContentStorage, dice);
             _empty = new EmptyBackgroundObjectFactory();
         }
     }

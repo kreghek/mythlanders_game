@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 
@@ -18,39 +17,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         {
             _gameObjectContentStorage = gameObjectContentStorage;
             _dice = dice;
-        }
-
-        private IReadOnlyList<IBackgroundObject> CreateHouses(int farLayerBottom)
-        {
-            var list = new List<IBackgroundObject>();
-
-            const int HOUSE_COUNT = 4 * 4;
-            var indeces = _dice.RollFromList(Enumerable.Range(0, HOUSE_COUNT).ToArray(), HOUSE_COUNT).ToArray();
-
-            for (var i = 0; i < HOUSE_COUNT; i++)
-            {
-                var objectIndex = indeces[i];
-                if (_dice.RollD100() > 25)
-                {
-                    const int SPRITE_COUNT = 9;
-                    const int COL_COUNT = 3;
-
-                    var objectSpriteIndex = _dice.Roll(SPRITE_COUNT) - 1;
-                    var position = new Vector2(objectIndex * 64, farLayerBottom);
-                    var col = objectSpriteIndex % COL_COUNT;
-                    var row = objectSpriteIndex / COL_COUNT;
-                    var sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
-                    var houseObject = new PositionalStaticObject(
-                        _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
-                            BackgroundLayerType.Far, 0),
-                        position,
-                        sourceRectangle,
-                        new Vector2(0.5f, 1));
-                    list.Add(houseObject);
-                }
-            }
-
-            return list;
         }
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
@@ -72,40 +38,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         {
             var mainLayerObjects = new List<IBackgroundObject>();
 
-            const int FLOOR_COUNT = 1024 / 256;
+            const int AREA_COUNT = 1024 / 256;
 
-            for (var objectIndex = 0; objectIndex < FLOOR_COUNT; objectIndex++)
+            for (var areaIndex = 0; areaIndex < AREA_COUNT; areaIndex++)
             {
-                var isPassableArea = objectIndex == 0 || objectIndex == 3;
-                var objects = CreateAreaMainObjects(isPassableArea);
-                
-                var sourceRectangle = new Rectangle(0, 0, 256, 256);
-
-                if (_dice.RollD100() < 25)
-                {
-                    const int SPRITE_COUNT = 3;
-                    const int COL_COUNT = 2;
-
-                    var objectSpriteIndex = _dice.Roll(2, SPRITE_COUNT) - 1;
-
-                    var col = objectSpriteIndex % COL_COUNT;
-                    var row = objectSpriteIndex / COL_COUNT;
-
-                    sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
-                }
-
+                var isPassableArea = areaIndex == 0 || areaIndex == 3;
                 var topPosition = 180;
+                var position = new Vector2(areaIndex * 256, topPosition);
 
-                var position = new Vector2(objectIndex * 256, topPosition);
+                var objects = CreateAreaMainObjects(isPassableArea, position);
 
-                var floorObject = new PositionalStaticObject(
-                    _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.ChineseMonastery,
-                        BackgroundLayerType.Main, 0),
-                    position,
-                    sourceRectangle,
-                    new Vector2(0, 0));
-
-                mainLayerObjects.Add(floorObject);
+                mainLayerObjects.AddRange(objects);
             }
 
             return mainLayerObjects;
@@ -118,12 +61,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             
             public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public Rectangle SourceRect { get; set; }
+            public Vector2 Origin { get; set; }
 
-            public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage)
+            public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position)
             {
                 return new PositionalStaticObject(gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
                     Texture.Location,
-                    Texture.Layer, Texture.SpritesheetIndex));
+                    Texture.Layer, Texture.SpritesheetIndex), position, SourceRect, Origin);
             }
         }
 
@@ -133,7 +77,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             Size64
         }
         
-        private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea)
+        private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea, Vector2 position)
         {
             if (!CheckRoll100Passed(25))
             {
@@ -141,36 +85,58 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             }
 
             var objectSchemes = GetObjectSchemes();
+            var objList = new List<IBackgroundObject>();
+
+            var largeObjSchemes = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size256 && ((!isPassableArea) || (isPassableArea && x.IsPassable)));
 
             foreach (var scheme in objectSchemes)
             {
-                
+                var obj = scheme.Create(_gameObjectContentStorage, position);
+                objList.Add(obj);
             }
 
-            {
-                const int SPRITE_COUNT = 3;
-                const int COL_COUNT = 2;
-
-                var objectSpriteIndex = _dice.Roll(2, SPRITE_COUNT) - 1;
-
-                var col = objectSpriteIndex % COL_COUNT;
-                var row = objectSpriteIndex / COL_COUNT;
-
-                sourceRectangle = new Rectangle(col * 256, row * 256, 256, 256);
-            }
+            return objList;
         }
 
         private static IReadOnlyCollection<BgMainObjectScheme> _bgObjectSchemes = new[]
         {
             new BgMainObjectScheme
             {
-                
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(0,0, 256, 256),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(256, 0, 256, 256),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(0, 256, 256, 256),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = new Rectangle(256, 256, 256, 256),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             }
         };
         
         private IReadOnlyCollection<BgMainObjectScheme> GetObjectSchemes()
         {
-            throw new NotImplementedException();
+            return _bgObjectSchemes;
         }
 
         private bool CheckRoll100Passed(int p)
@@ -185,7 +151,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         public IReadOnlyList<IBackgroundObject> CreateFarLayerObjects()
         {
-            return CreateHouses(farLayerBottom: 180);
+            return new List<IBackgroundObject>(0);
         }
     }
 }
