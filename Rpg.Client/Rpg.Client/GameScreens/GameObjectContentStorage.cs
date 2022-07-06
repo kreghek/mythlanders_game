@@ -172,6 +172,24 @@ namespace Rpg.Client.GameScreens
                     new(BackgroundType.ChineseMonastery, BackgroundLayerType.Far, 0),
                     contentManager.Load<Texture2D>(
                         "Sprites/GameObjects/CombatBackgrounds/Chinese/Monastery/Far256x256_0")
+                },
+
+                {
+                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main256x256_0")
+                },
+
+                {
+                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0")
+                },
+
+                {
+                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0")
                 }
             };
 
@@ -308,9 +326,9 @@ namespace Rpg.Client.GameScreens
         }
 
         internal Texture2D GetCombatBackgroundObjectsTexture(BackgroundType backgroundType,
-            BackgroundLayerType layerType, int spritesheetIndex)
+            BackgroundLayerType layerType, int spriteSheetIndex)
         {
-            return _combatBackgroundObjectsDict[new(backgroundType, layerType, spritesheetIndex)];
+            return _combatBackgroundObjectsDict[new(backgroundType, layerType, spriteSheetIndex)];
         }
 
         internal Texture2D[] GetCombatBackgrounds(BackgroundType backgroundType)

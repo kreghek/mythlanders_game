@@ -197,7 +197,7 @@ namespace Rpg.Client.Core
 
         private void CreateStartCombat(Globe globe)
         {
-            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Slavic);
+            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Greek);
             _biomeGenerator.CreateStartCombat(startBiome);
         }
 
