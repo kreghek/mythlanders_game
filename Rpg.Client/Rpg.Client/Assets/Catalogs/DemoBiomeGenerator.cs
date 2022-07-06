@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static bool GetStartAvailability(int nodeIndex, GlobeNodeSid locationSid)
         {
-            return locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground;
+            return locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground || locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground;
         }
 
         private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
@@ -226,12 +226,12 @@ namespace Rpg.Client.Assets.Catalogs
                 Combats = new[] { combat }
             };
 
-            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.Thicket);
+            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.ShipGraveyard);
             startNode.AssignedCombats = combatSequence;
 
-            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
+            /*var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
 
-            startNode.AssignedEvent = startEvent;
+            startNode.AssignedEvent = startEvent;*/
 
             combat.EnemyGroup.Slots[0].Unit =
                 new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);

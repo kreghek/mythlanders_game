@@ -466,7 +466,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             Events = events;
 
-            var mainPlot1 = new Event
+            /*var mainPlot1 = new Event
             {
                 Sid = "SlavicMain1",
                 IsGameStart = true,
@@ -512,7 +512,7 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            events.Add(mainPlot3);
+            events.Add(mainPlot3);*/
 
             _isInitialized = true;
         }
