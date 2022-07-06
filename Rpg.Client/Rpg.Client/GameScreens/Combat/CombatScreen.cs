@@ -23,12 +23,12 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal class CombatScreen : GameScreenWithMenuBase
     {
-        private readonly CombatScreenTransitionArguments _args;
         private const int BACKGROUND_LAYERS_COUNT = 4;
         private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
         private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
         private readonly AnimationManager _animationManager;
+        private readonly CombatScreenTransitionArguments _args;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
@@ -109,19 +109,11 @@ namespace Rpg.Client.GameScreens.Combat
             _screenShaker = new ScreenShaker();
 
             _jobProgressResolver = new JobProgressResolver();
-            
-            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay, args.Location);
-            
-            soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
-        }
 
-        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
-        {
-            return new Core.Combat(_globe.Player.Party,
-                combatLocation,
-                combatSource,
-                _dice,
-                isAutoplay);
+            _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay,
+                args.Location);
+
+            soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -394,7 +386,7 @@ namespace Rpg.Client.GameScreens.Combat
                 var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count - 1;
                 if (!areAllCombatsWon)
                 {
-                    var combatScreenArgs = new CombatScreenTransitionArguments()
+                    var combatScreenArgs = new CombatScreenTransitionArguments
                     {
                         Location = _globeNode,
                         VictoryDialogue = _args.VictoryDialogue,
@@ -467,13 +459,13 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            var speechScreenTransitionArgs = new SpeechScreenTransitionArgs()
+                            var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
                             {
                                 CurrentDialogue = _args.VictoryDialogue,
                                 Location = _args.Location,
                                 IsStartDialogueEvent = _args.VictoryDialogueIsStartEvent
                             };
-                            
+
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);
                         }
                     }
@@ -627,6 +619,15 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 _jobProgressResolver.ApplyProgress(progress, storyPoint);
             }
+        }
+
+        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
+        {
+            return new Core.Combat(_globe.Player.Party,
+                combatLocation,
+                combatSource,
+                _dice,
+                isAutoplay);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,

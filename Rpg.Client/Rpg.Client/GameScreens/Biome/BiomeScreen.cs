@@ -67,6 +67,70 @@ namespace Rpg.Client.GameScreens.Biome
             _globe.Updated += Globe_Updated;
         }
 
+        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, Event? availableEvent,
+            IEventCatalog eventCatalog, IScreen currentScreen, IScreenManager screenManager,
+            Action? clearScreenHandlersDelegate)
+        {
+            clearScreenHandlersDelegate?.Invoke();
+
+            if (availableEvent is not null)
+            {
+                availableEvent.Counter++;
+
+                if (availableEvent.BeforeCombatStartNodeSid is not null)
+                {
+                    Dialogue? combatVictoryDialogue = null;
+                    if (availableEvent.AfterCombatStartNodeSid is not null)
+                    {
+                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+                    }
+
+                    var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
+                    {
+                        Location = node,
+                        CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
+                        NextCombats = node.AssignedCombats,
+                        CombatVictoryDialogue = combatVictoryDialogue,
+                        IsStartDialogueEvent = availableEvent.IsGameStart
+                    };
+
+                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
+                }
+                else
+                {
+                    Dialogue? combatVictoryDialogue = null;
+                    if (availableEvent.AfterCombatStartNodeSid is not null)
+                    {
+                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+                    }
+
+                    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+                    {
+                        Location = node,
+                        CombatSequence = node.AssignedCombats,
+                        IsAutoplay = autoCombat,
+                        VictoryDialogue = combatVictoryDialogue
+                    };
+
+                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+                }
+            }
+            else
+            {
+                if (node.AssignedCombats is null)
+                {
+                    throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
+                }
+
+                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+                {
+                    Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
+                };
+
+                screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+            }
+        }
+
         protected override IList<ButtonBase> CreateMenu()
         {
             var menuButtons = new List<ButtonBase>();
@@ -203,70 +267,6 @@ namespace Rpg.Client.GameScreens.Biome
                 {
                     ClearEventHandlerToGlobeObjects(_globe);
                 });
-        }
-
-        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, Event? availableEvent,
-            IEventCatalog eventCatalog, IScreen currentScreen, IScreenManager screenManager,
-            Action? clearScreenHandlersDelegate)
-        {
-            clearScreenHandlersDelegate?.Invoke();
-            
-            if (availableEvent is not null)
-            {
-                availableEvent.Counter++;
-
-                if (availableEvent.BeforeCombatStartNodeSid is not null)
-                {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
-                    {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
-                    }
-
-                    var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
-                    {
-                        Location = node,
-                        CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
-                        NextCombats = node.AssignedCombats,
-                        CombatVictoryDialogue = combatVictoryDialogue,
-                        IsStartDialogueEvent = availableEvent.IsGameStart
-                    };
-
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
-                }
-                else
-                {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
-                    {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
-                    }
-
-                    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                    {
-                        Location = node,
-                        CombatSequence = node.AssignedCombats,
-                        IsAutoplay = autoCombat,
-                        VictoryDialogue = combatVictoryDialogue
-                    };
-
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-                }
-            }
-            else
-            {
-                if (node.AssignedCombats is null)
-                {
-                    throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
-                }
-
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                {
-                    Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
-                };
-
-                screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-            }
         }
 
         private TextHint CreateLocationInfoHint(GlobeNodeMarkerGameObject locationInHint)
