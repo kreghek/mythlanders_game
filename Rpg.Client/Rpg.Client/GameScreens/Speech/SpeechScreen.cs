@@ -373,11 +373,10 @@ namespace Rpg.Client.GameScreens.Speech
                 var textFragmentSize = textFragmentControl.CalculateSize();
 
                 const int SPEECH_MARGIN = 50;
-                var sumOptionHeight = (int)_optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
-                textFragmentControl.Rect = new Rectangle(
-                    new Point(PORTRAIT_SIZE,
-                        contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - sumOptionHeight),
-                    new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
+                var sumOptionHeight = _optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
+                var fragmentHeight = (int)(textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight);
+                var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
+                textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize.ToPoint());
                 textFragmentControl.Draw(spriteBatch);
 
                 if (_currentTextFragmentIsReady)
