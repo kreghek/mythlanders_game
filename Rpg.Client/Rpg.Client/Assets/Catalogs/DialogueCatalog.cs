@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.Json;
 
 using Rpg.Client.Assets.DialogueEventRequirements;
-using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
@@ -36,253 +35,6 @@ namespace Rpg.Client.Assets.Catalogs
                 Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
             };
             return fragment;
-        }
-
-        private static Dialogue CreateMainSlavic1BeforeDialogue()
-        {
-            var mainSlavic1BeforeRoot = new EventNode
-            {
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = new[]
-                    {
-                        new EventTextFragment
-                        {
-                            Speaker = UnitName.Environment, TextSid = "MainSlavic1Before_01_Text"
-                        }
-                    }
-                },
-                Options = new[]
-                {
-                    new EventOption("MainSlavic1Before_01_Option_01", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic1Before_02"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic1Before_02_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new UnlockLocationOptionAftermath(GlobeNodeSid.Battleground)
-                            }
-                        }
-                    }),
-                    new EventOption("MainSlavic1Before_01_Option_02", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic1Before_03"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic1Before_03_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new UnlockLocationOptionAftermath(GlobeNodeSid.Battleground)
-                            }
-                        }
-                    })
-                }
-            };
-
-            var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
-
-            return mainSlavic1BeforeDialogue;
-        }
-
-        private Dialogue CreateMainSlavic2BeforeDialogue()
-        {
-            var mainSlavic1BeforeRoot = new EventNode
-            {
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = new[]
-                    {
-                        new EventTextFragment
-                        {
-                            Speaker = UnitName.Archer, TextSid = "MainSlavic2Before_01_Text"
-                        }
-                    }
-                },
-                Options = new[]
-                {
-                    new EventOption("MainSlavic2Before_01_Option_01", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic2Before_02"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic2Before_02_Option_01", EventNode.EndNode)
-                        }
-                    }),
-                    new EventOption("MainSlavic2Before_01_Option_02", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic2Before_03"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic2Before_03_Option_01", EventNode.EndNode)
-                        }
-                    })
-                }
-            };
-
-            var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
-            return mainSlavic1BeforeDialogue;
-        }
-
-        private Dialogue CreateMainSlavic3AfterDialogue()
-        {
-            var mainSlavic1AfterRoot = new EventNode
-            {
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = new[]
-                    {
-                        new EventTextFragment
-                        {
-                            Speaker = UnitName.Assaulter, TextSid = "MainSlavic3After_01_Text"
-                        }
-                    }
-                },
-                Options = new[]
-                {
-                    new EventOption("MainSlavic3After_01_Option_01", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Swordsman, TextSid = "MainSlavic3After_02"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic3After_02_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new AddStoryPointOptionAftermath("1")
-                            }
-                        }
-                    }),
-                    new EventOption("MainSlavic3After_01_Option_02", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Archer, TextSid = "MainSlavic3After_03"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic3After_03_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new AddStoryPointOptionAftermath("1")
-                            }
-                        }
-                    })
-                }
-            };
-
-            var mainSlavic1AfterDialogue = new Dialogue(mainSlavic1AfterRoot, EventPosition.AfterCombat);
-            return mainSlavic1AfterDialogue;
-        }
-
-        private Dialogue CreateMainSlavic3BeforeDialogue()
-        {
-            var mainSlavic1BeforeRoot = new EventNode
-            {
-                TextBlock = new EventTextBlock
-                {
-                    Fragments = new[]
-                    {
-                        new EventTextFragment
-                        {
-                            Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_01_Text"
-                        }
-                    }
-                },
-                Options = new[]
-                {
-                    new EventOption("MainSlavic3Before_01_Option_01", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_02"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic3Before_02_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new AddStoryPointOptionAftermath("1")
-                            }
-                        }
-                    }),
-                    new EventOption("MainSlavic3Before_01_Option_02", new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = new[]
-                            {
-                                new EventTextFragment
-                                {
-                                    Speaker = UnitName.Environment, TextSid = "MainSlavic3Before_03"
-                                }
-                            }
-                        },
-                        Options = new[]
-                        {
-                            new EventOption("MainSlavic3Before_03_Option_01", EventNode.EndNode)
-                            {
-                                Aftermath = new AddStoryPointOptionAftermath("1")
-                            }
-                        }
-                    })
-                }
-            };
-
-            var mainSlavic1BeforeDialogue = new Dialogue(mainSlavic1BeforeRoot, EventPosition.BeforeCombat);
-            return mainSlavic1BeforeDialogue;
         }
 
         private Dialogue LoadDialogueFromResources(string dialogueSid)
@@ -467,7 +219,7 @@ namespace Rpg.Client.Assets.Catalogs
 
             Events = events;
 
-            /*var mainPlot1 = new Event
+            var mainPlot1 = new Event
             {
                 Sid = "SlavicMain1",
                 IsGameStart = true,
@@ -490,7 +242,7 @@ namespace Rpg.Client.Assets.Catalogs
                 {
                     new LocationEventRequirement(new[]
                     {
-                        GlobeNodeSid.Battleground
+                        GlobeNodeSid.Thicket
                     })
                 }
             };
@@ -513,7 +265,7 @@ namespace Rpg.Client.Assets.Catalogs
                 }
             };
 
-            events.Add(mainPlot3);*/
+            events.Add(mainPlot3);
 
             _isInitialized = true;
         }
