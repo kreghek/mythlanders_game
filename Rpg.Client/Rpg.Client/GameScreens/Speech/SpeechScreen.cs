@@ -42,8 +42,6 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeNode _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly bool _isFirstDialogue;
-        private readonly CombatSequence? _nextCombats;
-
         private readonly IList<DialogueOptionButton> _optionButtons;
         private readonly Player _player;
         private readonly Random _random;
@@ -492,7 +490,7 @@ namespace Rpg.Client.GameScreens.Speech
             var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if (_currentFragmentIndex < maxFragmentIndex &&
+                if (_currentFragmentIndex <= maxFragmentIndex &&
                     !_textFragments[_currentFragmentIndex].IsComplete)
                 {
                     foreach (var fragment in _textFragments)

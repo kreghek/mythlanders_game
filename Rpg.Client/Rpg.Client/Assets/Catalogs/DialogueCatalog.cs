@@ -150,6 +150,12 @@ namespace Rpg.Client.Assets.Catalogs
                                         {
                                             var aftermathTypeName =
                                                 signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
+                                            if (aftermathTypeName.Contains("_"))
+                                            {
+                                                var postfixPosition = aftermathTypeName.LastIndexOf("_");
+                                                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+                                            }
+
                                             var signalStringData =
                                                 signalProperty.Value.GetProperty("String").GetString();
 
