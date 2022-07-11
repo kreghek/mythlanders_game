@@ -233,17 +233,18 @@ namespace Rpg.Client.Assets.Catalogs
 
             var mainPlot2 = new Event
             {
-                Sid = "MainSlavic2",
+                Sid = "SlavicMain2",
                 IsUnique = true,
                 BeforeCombatStartNodeSid = "SlavicMain2_Before",
                 AfterCombatStartNodeSid = "SlavicMain2_After",
                 Priority = TextEventPriority.High,
-                Requirements = new[]
+                Requirements = new ITextEventRequirement[]
                 {
                     new LocationEventRequirement(new[]
                     {
                         GlobeNodeSid.Thicket
-                    })
+                    }),
+                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain1" })
                 }
             };
 
@@ -251,17 +252,18 @@ namespace Rpg.Client.Assets.Catalogs
 
             var mainPlot3 = new Event
             {
-                Sid = "MainSlavic3",
+                Sid = "SlavicMain3",
                 IsUnique = true,
                 BeforeCombatStartNodeSid = "SlavicMain3_Before",
                 AfterCombatStartNodeSid = "SlavicMain3_After",
                 Priority = TextEventPriority.High,
-                Requirements = new[]
+                Requirements = new ITextEventRequirement[]
                 {
                     new LocationEventRequirement(new[]
                     {
                         GlobeNodeSid.Battleground
-                    })
+                    }),
+                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain2" })
                 }
             };
 

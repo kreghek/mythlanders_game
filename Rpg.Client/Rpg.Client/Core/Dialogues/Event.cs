@@ -6,7 +6,7 @@ namespace Rpg.Client.Core.Dialogues
     {
         public string? AfterCombatStartNodeSid { get; init; }
         public string? BeforeCombatStartNodeSid { get; init; }
-        public bool Completed { get; set; }
+        public bool Completed => Counter > 0;
         public int Counter { get; set; }
         public bool IsGameStart { get; init; }
         public bool IsUnique { get; init; }
