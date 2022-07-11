@@ -269,28 +269,34 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
             public void Draw(SpriteBatch spriteBatch)
             {
-                for (int i = _ringCounters.Length - 1; i >= 0; i--)
+                for (var i = _ringCounters.Length - 1; i >= 0; i--)
                 {
-                    for (int j = 0; j < _particleCounts[i]; j++)
+                    for (var j = 0; j < _particleCounts[i]; j++)
                     {
-                        var fullRound = Math.PI * 2d;
-                        var arc = fullRound / _particleCounts[i];
-                        var q = arc * j;
+                        for (var k = 0; k < 2; k++)
+                        {
+                            var fullRound = Math.PI * 2d;
+                            var arc = fullRound / _particleCounts[i];
+                            var q = arc * j;
 
-                        var radiusQ = ((i + 167 + j + 34) * 11313) % 100 / 100f;
+                            var radiusQ = ((i + 167 + j + 34) * 11313) % 100 / 100f;
 
-                        var position = new Vector2(
-                            (float)(Math.Cos(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.X),
-                            (float)(Math.Sin(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.Y));
+                            var counter = _ringCounters[i] * (1 + k * 1.5f);
+                            var position = new Vector2(
+                                (float)(Math.Cos(counter + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.X),
+                                (float)(Math.Sin(counter + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.Y));
 
-                        const int COL_COUNT = 6;
-                        const int SPRITE_COUNT = 6;
+                            const int COL_COUNT = 6;
+                            const int SPRITE_COUNT = 6;
 
-                        var spriteIndex = ((i + 167 + j + 34) * 1313) % SPRITE_COUNT;
-                        var x = spriteIndex % COL_COUNT;
-                        var y = spriteIndex / COL_COUNT;
+                            var spriteIndex = ((i + 167 + j + 34) * 1313) % SPRITE_COUNT;
+                            var x = spriteIndex % COL_COUNT;
+                            var y = spriteIndex / COL_COUNT;
 
-                        spriteBatch.Draw(_texture, position, new Rectangle(x * 32, y * 32, 32, 32), Color.White);
+                            var colorT = ((float)k) / 2;
+                            var color = Color.Lerp(Color.White, Color.Transparent, colorT * 0.75f);
+                            spriteBatch.Draw(_texture, position, new Rectangle(x * 32, y * 32, 32, 32), color);
+                        }
                     }
                 }
 
