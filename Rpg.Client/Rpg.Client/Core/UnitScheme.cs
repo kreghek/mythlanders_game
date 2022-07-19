@@ -13,7 +13,6 @@ namespace Rpg.Client.Core
         }
 
         public float ArmorBase => CalcArmor();
-        public BiomeType Biome { get; init; }
 
         public float DamageBase => CalcDamage();
         public float DamageDealerRank { get; init; }

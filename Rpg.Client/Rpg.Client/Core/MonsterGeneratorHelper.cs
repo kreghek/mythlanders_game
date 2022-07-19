@@ -13,14 +13,13 @@ namespace Rpg.Client.Core
             var availableAllRegularMonsters =
                 unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, monsterLevel));
             var availableAllBossMonsters = unitSchemeCatalog.AllMonsters.Where(x =>
-                globeContext.BiomesWithBosses.Contains(x.Biome) &&
                 HasPerk<BossMonster>(x, monsterLevel) &&
                 x.MinRequiredBiomeLevel is not null &&
                 x.MinRequiredBiomeLevel.Value <= globeContext.GlobeProgressLevel);
 
             var allMonsters = availableAllRegularMonsters.Concat(availableAllBossMonsters);
 
-            var filteredByBiomeMonsters = allMonsters.Where(x => x.Biome == node.BiomeType);
+            var filteredByBiomeMonsters = allMonsters;
 
             var filteredByLocationMonsters = filteredByBiomeMonsters.Where(x =>
                 (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(node.Sid)));

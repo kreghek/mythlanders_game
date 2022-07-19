@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.GraphicConfigs;
 using Rpg.Client.Assets.Heroes;
+using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
@@ -11,7 +13,7 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class DemoUnitSchemeCatalog : IUnitSchemeCatalog
     {
-        public DemoUnitSchemeCatalog()
+        public DemoUnitSchemeCatalog(IBalanceTable balanceTable)
         {
             var heroes = new IHeroFactory[]
             {
@@ -30,70 +32,30 @@ namespace Rpg.Client.Assets.Catalogs
                 new AmazonFactory()
             };
 
-            var balanceTable = new BalanceTable();
-
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
+
+            var monsterFactories = LoadFactories();
+            var loadedMonsters = monsterFactories.Select(x => x.Create(balanceTable));
 
             var slavicMonsters = CreateSlavicMonsters(balanceTable);
             var chineseMonsters = CreateChineseMonsters(balanceTable);
             var egyptianMonsters = CreateEgyptianMonsters(balanceTable);
-            var greekMonsters = CreateGreekMonsters(balanceTable);
 
-            AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters).ToArray();
+            AllMonsters = loadedMonsters.Concat(slavicMonsters).Concat(chineseMonsters).Concat(egyptianMonsters).ToArray();
         }
 
-        private static IEnumerable<UnitScheme> CreateSlavicMonsters(BalanceTable balanceTable)
+        private static IReadOnlyCollection<IMonsterFactory> LoadFactories()
         {
-            var biomeType = BiomeType.Slavic;
+            var assembly = typeof(IMonsterFactory).Assembly;
+            var factoryTypes = assembly.GetTypes().Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory));
+            var factories = factoryTypes.Select(x => Activator.CreateInstance(x));
+            return factories.OfType<IMonsterFactory>().ToArray();
+        }
+
+        private static IEnumerable<UnitScheme> CreateSlavicMonsters(IBalanceTable balanceTable)
+        {
             return new[]
             {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.5f,
-                    DamageDealerRank = 0.5f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.Marauder,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
-                        GlobeNodeSid.Mines
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new UnholyHitSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.25f,
-                    DamageDealerRank = 0.75f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.BlackTrooper,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
-                        GlobeNodeSid.Mines
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
@@ -101,7 +63,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Aspid,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
@@ -116,36 +77,11 @@ namespace Rpg.Client.Assets.Catalogs
 
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.GreyWolf,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
-                        GlobeNodeSid.Swamp
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new WolfBiteSkill()),
-                        new AddPerkUnitLevel(3, new CriticalHit())
-                    },
-
-                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
-                },
-
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
                     TankRank = 0.5f,
                     DamageDealerRank = 0.5f,
                     SupportRank = 0.0f,
 
                     Name = UnitName.Bear,
-                    Biome = biomeType,
                     LocationSids = new[]
                         { GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsUnique = true,
@@ -167,7 +103,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Wisp,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
@@ -186,7 +121,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.VolkolakWarrior,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
@@ -211,7 +145,6 @@ namespace Rpg.Client.Assets.Catalogs
                             SupportRank = 0.0f,
 
                             Name = UnitName.Volkolak,
-                            Biome = biomeType,
                             IsUnique = true,
                             IsMonster = true,
 
@@ -231,57 +164,10 @@ namespace Rpg.Client.Assets.Catalogs
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateChineseMonsters(BalanceTable balanceTable)
+        private static IEnumerable<UnitScheme> CreateChineseMonsters(IBalanceTable balanceTable)
         {
-            var biomeType = BiomeType.Chinese;
             return new[]
             {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.5f,
-                    DamageDealerRank = 0.5f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.Marauder,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Monastery
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new UnholyHitSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.25f,
-                    DamageDealerRank = 0.75f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.BlackTrooper,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Monastery
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
@@ -289,7 +175,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Huapigui,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Monastery },
                     IsMonster = true,
 
@@ -303,57 +188,10 @@ namespace Rpg.Client.Assets.Catalogs
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(BalanceTable balanceTable)
+        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
         {
-            var biomeType = BiomeType.Egyptian;
             return new[]
             {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.5f,
-                    DamageDealerRank = 0.5f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.Marauder,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new UnholyHitSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.25f,
-                    DamageDealerRank = 0.75f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.BlackTrooper,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
                 new UnitScheme(balanceTable.GetCommonUnitBasics())
                 {
                     TankRank = 0.0f,
@@ -361,7 +199,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Mummy,
-                    Biome = biomeType,
                     LocationSids = new[] {
 
                         GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace },
@@ -370,59 +207,6 @@ namespace Rpg.Client.Assets.Catalogs
                     Levels = new IUnitLevelScheme[]
                     {
                         new AddSkillUnitLevel(1, new VampireBiteSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                }
-            };
-        }
-
-        private static IEnumerable<UnitScheme> CreateGreekMonsters(BalanceTable balanceTable)
-        {
-            var biomeType = BiomeType.Greek;
-            return new[]
-            {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.5f,
-                    DamageDealerRank = 0.5f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.Marauder,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.ShipGraveyard
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new UnholyHitSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                },
-
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.25f,
-                    DamageDealerRank = 0.75f,
-                    SupportRank = 0.0f,
-                    Resolve = 9,
-
-                    Name = UnitName.BlackTrooper,
-                    Biome = biomeType,
-                    LocationSids = new[]
-                    {
-                        GlobeNodeSid.ShipGraveyard
-                    },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
                     },
 
                     UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
