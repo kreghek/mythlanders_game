@@ -27,7 +27,6 @@ namespace Rpg.Client.GameScreens.Map
         private readonly IEventCatalog _eventCatalog;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
-        private readonly Player _player;
         private readonly Globe _globe;
 
         private readonly IDictionary<GlobeNodeMarkerGameObject, TextHint> _locationInfoHints;
@@ -53,7 +52,6 @@ namespace Rpg.Client.GameScreens.Map
 
             var globeProvider = game.Services.GetService<GlobeProvider>();
             _globe = globeProvider.Globe;
-            _player = _globe.Player;
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
