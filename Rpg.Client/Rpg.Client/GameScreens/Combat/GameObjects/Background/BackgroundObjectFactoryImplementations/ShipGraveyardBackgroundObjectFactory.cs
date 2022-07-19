@@ -146,6 +146,42 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             }
         }
 
+        private static Rectangle GetSourceRect(BgMainObjectSchemeSize size, int index)
+        {
+            const int COL_COUNT_64 = 3;
+            const int COL_COUNT_256 = 3;
+
+            switch (size)
+            {
+                case BgMainObjectSchemeSize.Size256:
+                    {
+                        const int SIZE = 256;
+                        var (x, y) = GetSourceRectCoords(index, COL_COUNT_256);
+                        return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
+                    }
+                    
+                case BgMainObjectSchemeSize.Size64:
+                    {
+                        const int SIZE = 64;
+                        var (x, y) = GetSourceRectCoords(index, COL_COUNT_64);
+                        return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
+                    }
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        private static Rectangle GetSourceRectOneBased(BgMainObjectSchemeSize size, int indexOneBased)
+        {
+            return GetSourceRect(size, indexOneBased - 1);
+        }
+
+        private static (int x, int y) GetSourceRectCoords(int index, int colCount)
+        {
+            return new(index % colCount, index / colCount);
+        }
+
         private static IReadOnlyCollection<IBgMainObjectScheme> _bgObjectSchemes = new[]
         {
             new BgMainObjectScheme
@@ -153,7 +189,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(0,0, 256, 256),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 1),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new BgMainObjectScheme
@@ -161,7 +197,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(256, 0, 256, 256),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 2),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new BgMainObjectScheme
@@ -169,7 +205,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(0, 256, 256, 256),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 3),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new BgMainObjectScheme
@@ -177,16 +213,41 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(256, 256, 256, 256),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 4),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
+            new BgMainObjectScheme
+            {
+                IsPassable = true,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 5),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 6),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size256,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 7),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
+            },
+
 
             new BgMainObjectScheme
             {
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(0, 0, 64, 64),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 1),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new BgMainObjectScheme
@@ -194,7 +255,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(1 * 64, 0, 64, 64),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 2),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new BgMainObjectScheme
@@ -202,7 +263,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(0 * 64, 1 * 64, 64, 64),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 3),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new BgMainObjectScheme
@@ -210,7 +271,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(1 * 64, 1 * 64, 64, 64),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 4),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new BgMainObjectScheme
@@ -218,7 +279,39 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = new Rectangle(0 * 64, 2 * 64, 64, 64),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 5),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 6),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 7),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 8),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
+            },
+            new BgMainObjectScheme
+            {
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 9),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
         };
@@ -269,28 +362,34 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
             public void Draw(SpriteBatch spriteBatch)
             {
-                for (int i = _ringCounters.Length - 1; i >= 0; i--)
+                for (var i = _ringCounters.Length - 1; i >= 0; i--)
                 {
-                    for (int j = 0; j < _particleCounts[i]; j++)
+                    for (var j = 0; j < _particleCounts[i]; j++)
                     {
-                        var fullRound = Math.PI * 2d;
-                        var arc = fullRound / _particleCounts[i];
-                        var q = arc * j;
+                        for (var k = 0; k < 2; k++)
+                        {
+                            var fullRound = Math.PI * 2d;
+                            var arc = fullRound / _particleCounts[i];
+                            var q = arc * j;
 
-                        var radiusQ = ((i + 167 + j + 34) * 11313) % 100 / 100f;
+                            var radiusQ = ((i + 167 + j + 34) * 11313) % 100 / 100f;
 
-                        var position = new Vector2(
-                            (float)(Math.Cos(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.X),
-                            (float)(Math.Sin(_ringCounters[i] + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.Y));
+                            var counter = _ringCounters[i] * (1 + k * 1.5f);
+                            var position = new Vector2(
+                                (float)(Math.Cos(counter + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.X),
+                                (float)(Math.Sin(counter + q) * (_radiuses[i] + (radiusQ * 50)) + _centerPosition.Y));
 
-                        const int COL_COUNT = 6;
-                        const int SPRITE_COUNT = 6;
+                            const int COL_COUNT = 6;
+                            const int SPRITE_COUNT = 6;
 
-                        var spriteIndex = ((i + 167 + j + 34) * 1313) % SPRITE_COUNT;
-                        var x = spriteIndex % COL_COUNT;
-                        var y = spriteIndex / COL_COUNT;
+                            var spriteIndex = ((i + 167 + j + 34) * 1313) % SPRITE_COUNT;
+                            var x = spriteIndex % COL_COUNT;
+                            var y = spriteIndex / COL_COUNT;
 
-                        spriteBatch.Draw(_texture, position, new Rectangle(x * 32, y * 32, 32, 32), Color.White);
+                            var colorT = ((float)k) / 2;
+                            var color = Color.Lerp(Color.White, Color.Transparent, colorT * 0.75f);
+                            spriteBatch.Draw(_texture, position, new Rectangle(x * 32, y * 32, 32, 32), color);
+                        }
                     }
                 }
 

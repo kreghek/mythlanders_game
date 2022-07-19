@@ -4,11 +4,10 @@ namespace Rpg.Client.Core
 {
     internal sealed class GlobeNode
     {
-        public Event? AssignedEvent { get; set; }
+        public CombatSequence? AssignedCombats { get; set; }
+        public Event? AssignedEvent { get; private set; }
 
         public BiomeType BiomeType { get; init; }
-
-        public CombatSequence? AssignedCombats { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }
 
@@ -17,5 +16,16 @@ namespace Rpg.Client.Core
         public bool IsLast { get; internal set; }
 
         public GlobeNodeSid Sid { get; set; }
+
+        public void AssignEvent(Event locationEvent)
+        {
+            AssignedEvent = locationEvent;
+        }
+
+        public void ClearNodeState()
+        {
+            AssignedEvent = null;
+            AssignedCombats = null;
+        }
     }
 }

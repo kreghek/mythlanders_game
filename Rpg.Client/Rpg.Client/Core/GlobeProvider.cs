@@ -72,16 +72,20 @@ namespace Rpg.Client.Core
             var globe = new Globe(_biomeGenerator, new Player());
 
             InitStartStoryPoint(globe, _storyPointInitializer);
+            AssignStartHeroes(globe);
 
+            CreateStartCombat(globe);
+
+            Globe = globe;
+        }
+
+        private void AssignStartHeroes(Globe globe)
+        {
             var startUnits = CreateStartHeroes();
             for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
             {
                 globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
             }
-
-            CreateStartCombat(globe);
-
-            Globe = globe;
         }
 
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
@@ -197,8 +201,7 @@ namespace Rpg.Client.Core
 
         private void CreateStartCombat(Globe globe)
         {
-            var startBiome = globe.Biomes.Single(x => x.Type == BiomeType.Greek);
-            _biomeGenerator.CreateStartCombat(startBiome);
+            _biomeGenerator.CreateStartCombat(globe);
         }
 
         private Unit CreateStartHero(UnitName heroName)

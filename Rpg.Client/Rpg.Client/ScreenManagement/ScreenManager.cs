@@ -108,8 +108,10 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Biome => new BiomeScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new SpeechScreen(_game, (SpeechScreenTransitionArgs)screenTransitionArguments),
-                ScreenTransition.Combat => new CombatScreen(_game, (CombatScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.Event => new SpeechScreen(_game,
+                    (SpeechScreenTransitionArgs)screenTransitionArguments),
+                ScreenTransition.Combat => new CombatScreen(_game,
+                    (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
@@ -154,7 +156,8 @@ namespace Rpg.Client.ScreenManagement
             spriteBatch.End();
         }
 
-        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition, IScreenTransitionArguments args)
+        public void ExecuteTransition(IScreen currentScreen, ScreenTransition targetTransition,
+            IScreenTransitionArguments args)
         {
             var targetScreen = CreateScreenToTransit(targetTransition, args);
             currentScreen.TargetScreen = targetScreen;
