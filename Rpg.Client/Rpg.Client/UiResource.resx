@@ -136,7 +136,7 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
-  <data name="BiomeTutorialText" xml:space="preserve">
+  <data name="MapTutorialText" xml:space="preserve">
     <value />
   </data>
   <data name="CloseButtonTitle" xml:space="preserve">

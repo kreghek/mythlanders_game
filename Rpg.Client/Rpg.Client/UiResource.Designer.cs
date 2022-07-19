@@ -115,15 +115,6 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string BiomeTutorialText {
-            get {
-                return ResourceManager.GetString("BiomeTutorialText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string CloseButtonTitle {
@@ -498,6 +489,15 @@ namespace Rpg.Client {
         internal static string ManaLabelTemplate {
             get {
                 return ResourceManager.GetString("ManaLabelTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MapTutorialText {
+            get {
+                return ResourceManager.GetString("MapTutorialText", resourceCulture);
             }
         }
         

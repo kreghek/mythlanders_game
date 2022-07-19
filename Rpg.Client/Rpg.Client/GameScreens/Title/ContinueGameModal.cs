@@ -115,7 +115,7 @@ namespace Rpg.Client.GameScreens.Title
                 {
                     _globeProvider.LoadGlobe(saveInfo.FileName);
 
-                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Biome, null);
+                    _screenManager.ExecuteTransition(_screen, ScreenTransition.Map, null);
                 };
 
                 _continueGameButtons.Add(continueGameButton);
