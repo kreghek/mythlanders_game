@@ -6,6 +6,7 @@ namespace Rpg.Client.Core
         ReadMapTutorial,
         ReadEventTutorial,
         ReadCombatTutorial,
-        AvailableTanks
+        AvailableTanks,
+        AvailableAutocombats
     }
 }

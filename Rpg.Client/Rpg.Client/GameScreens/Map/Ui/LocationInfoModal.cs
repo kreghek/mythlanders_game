@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Biome.GameObjects;
+using Rpg.Client.GameScreens.Map.GameObjects;
 
-namespace Rpg.Client.GameScreens.Biome.Ui
+namespace Rpg.Client.GameScreens.Map.Ui
 {
-    internal sealed class CombatModal : ModalDialogBase
+    internal sealed class LocationInfoModal : ModalDialogBase
     {
         private readonly IList<ButtonBase> _buttons;
         private readonly Globe _globe;
@@ -20,7 +20,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        public CombatModal(CombatModalContext context, IUiContentStorage uiContentStorage,
+        public LocationInfoModal(LocationInfoModalContext context, IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer,
             IUnitSchemeCatalog unitSchemeCatalog) : base(uiContentStorage,
             resolutionIndependentRenderer)
@@ -83,7 +83,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             }
         }
 
-        private void AddAutoCombatButtonIfAvailable(CombatModalContext context)
+        private void AddAutoCombatButtonIfAvailable(LocationInfoModalContext context)
         {
             var isAutoCombatAvailable = CheckAllSlavicLocationUnlocked();
 
@@ -105,11 +105,7 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
         private bool CheckAllSlavicLocationUnlocked()
         {
-            // Display autocombat button if all slavic locations are unlocked.
-            var lockedSlavicNodes = _globe.Biomes.First(x => x.Type == BiomeType.Slavic).Nodes
-                .Where(x => !x.IsAvailable);
-
-            return !lockedSlavicNodes.Any();
+            return _globe.Player.Abilities.Contains(PlayerAbility.AvailableAutocombats);
         }
 
         private void DisplayCombatRewards(SpriteBatch spriteBatch, GlobeNodeMarkerGameObject nodeGameObject,
@@ -153,15 +149,12 @@ namespace Rpg.Client.GameScreens.Biome.Ui
             var textPosition = contentRectangle.Location.ToVector2();
 
             var localizedName = GameObjectHelper.GetLocalized(_nodeGameObject.GlobeNode.Sid);
-
             spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), localizedName,
                 textPosition + new Vector2(5, 5),
                 Color.Wheat);
 
-            var dialogMarkerText = _nodeGameObject.AvailableEvent is not null
-                ? $"{_nodeGameObject.AvailableEvent.Sid}"
-                : string.Empty;
-            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogMarkerText,
+            var dialogueMarkerText = GetLocalizedEventTitle();
+            spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogueMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 
             var combatCount = _nodeGameObject.GlobeNode.AssignedCombats.Combats.Count;
@@ -189,6 +182,18 @@ namespace Rpg.Client.GameScreens.Biome.Ui
 
                 monsterIndex++;
             }
+        }
+
+        private string? GetLocalizedEventTitle()
+        {
+            if (_nodeGameObject.AvailableEvent?.Sid is null)
+            {
+                return String.Empty;
+            }
+
+            return _nodeGameObject.AvailableEvent is not null
+                            ? StoryResources.ResourceManager.GetString(_nodeGameObject.AvailableEvent.Sid)
+                            : string.Empty;
         }
 
         private void DrawEquipmentRewards(SpriteBatch spriteBatch,

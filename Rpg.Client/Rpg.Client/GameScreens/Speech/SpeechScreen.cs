@@ -416,7 +416,7 @@ namespace Rpg.Client.GameScreens.Speech
             else
             {
                 _globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
 
                 if (_settings.Mode == GameMode.Full)
                 {

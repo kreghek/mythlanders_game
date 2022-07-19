@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Common;
+using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Title
@@ -139,7 +139,7 @@ namespace Rpg.Client.GameScreens.Title
                 globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
                     .Single(x => x.IsAvailable);
 
-            BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+            MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
                 availableEvent: firstAvailableNodeInBiome.AssignedEvent,
                 eventCatalog: eventCatalog,
                 currentScreen: currentScreen,

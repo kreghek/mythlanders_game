@@ -3,7 +3,7 @@
     internal enum ScreenTransition
     {
         Title,
-        Biome,
+        Map,
         Party,
         Event,
         Combat,

@@ -115,7 +115,7 @@ namespace Rpg.Client.Assets.Catalogs
                     continue;
                 }
 
-                var nodeData = nodeList.Single(x => x.sid == key);
+                var (sid, fragmentList, node) = nodeList.Single(x => x.sid == key);
 
                 if (obj.TryGetProperty("choices", out var choices))
                 {
@@ -188,7 +188,7 @@ namespace Rpg.Client.Assets.Catalogs
                         optionIndex += 1;
                     }
 
-                    nodeData.node.Options = optionList;
+                    node.Options = optionList;
                 }
             }
 

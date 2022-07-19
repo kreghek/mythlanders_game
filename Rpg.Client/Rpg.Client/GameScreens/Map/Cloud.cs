@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Biome
+namespace Rpg.Client.GameScreens.Map
 {
     internal sealed class Cloud
     {

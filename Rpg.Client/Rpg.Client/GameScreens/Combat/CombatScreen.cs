@@ -450,7 +450,7 @@ namespace Rpg.Client.GameScreens.Combat
                         if (_args.VictoryDialogue is null)
                         {
                             //_globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
 
                             if (_settings.Mode == GameMode.Full)
                             {
@@ -475,7 +475,7 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 RestoreGroupAfterCombat();
                 _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             }
             else
             {
@@ -485,7 +485,7 @@ namespace Rpg.Client.GameScreens.Combat
 
                 // Fallback is just show biome.
                 _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             }
         }
 
