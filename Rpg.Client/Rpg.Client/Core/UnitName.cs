@@ -35,6 +35,9 @@
         StrangerWoman,
         Moira,
 
+        Marauder,
+        BlackTrooper,
+
         Aspid,
         Liho, // лихо
         Kikimore, // кикимора
@@ -50,17 +53,21 @@
         Vampire, // Вурдалак
         HornedFrog, // Рогатая жаба
         Basilisk,
-        Taote,
-        Sphynx,
-        Hydra,
         KosheyTheImmortal,
         KosheyTheImmortal2,
         KosheyTheImmortal3,
         VolkolakWarrior,
-        ChineseMonster,
+
+        Huapigui,
+        Taote,
+
+        Mummy,
+        Sphynx,
+
+        Hydra,
+
         GreekMonster,
-        Marauder,
-        BlackTrooper,
-        Mummy
+        
+        
     }
 }

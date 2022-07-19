@@ -35,8 +35,11 @@ namespace Rpg.Client.Assets.Catalogs
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
 
             var slavicMonsters = CreateSlavicMonsters(balanceTable);
+            var chineseMonsters = CreateChineseMonsters(balanceTable);
+            var egyptianMonsters = CreateEgyptianMonsters(balanceTable);
+            var greekMonsters = CreateGreekMonsters(balanceTable);
 
-            AllMonsters = slavicMonsters.ToArray();
+            AllMonsters = slavicMonsters.Concat(chineseMonsters).Concat(egyptianMonsters).Concat(greekMonsters).ToArray();
         }
 
         private static IEnumerable<UnitScheme> CreateSlavicMonsters(BalanceTable balanceTable)
@@ -224,6 +227,205 @@ namespace Rpg.Client.Assets.Catalogs
                             UnitGraphicsConfig = new VolkolakGraphicsConfig()
                         }
                     }
+                }
+            };
+        }
+
+        private static IEnumerable<UnitScheme> CreateChineseMonsters(BalanceTable balanceTable)
+        {
+            var biomeType = BiomeType.Chinese;
+            return new[]
+            {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.Marauder,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Monastery
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.25f,
+                    DamageDealerRank = 0.75f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.BlackTrooper,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Monastery
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
+
+                    Name = UnitName.Huapigui,
+                    Biome = biomeType,
+                    LocationSids = new[] { GlobeNodeSid.Monastery },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new SnakeBiteSkill())
+                    },
+
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                }
+            };
+        }
+
+        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(BalanceTable balanceTable)
+        {
+            var biomeType = BiomeType.Egyptian;
+            return new[]
+            {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.Marauder,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.25f,
+                    DamageDealerRank = 0.75f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.BlackTrooper,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
+
+                    Name = UnitName.Mummy,
+                    Biome = biomeType,
+                    LocationSids = new[] {
+
+                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new VampireBiteSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                }
+            };
+        }
+
+        private static IEnumerable<UnitScheme> CreateGreekMonsters(BalanceTable balanceTable)
+        {
+            var biomeType = BiomeType.Greek;
+            return new[]
+            {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.5f,
+                    DamageDealerRank = 0.5f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.Marauder,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.ShipGraveyard
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                },
+
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.25f,
+                    DamageDealerRank = 0.75f,
+                    SupportRank = 0.0f,
+                    Resolve = 9,
+
+                    Name = UnitName.BlackTrooper,
+                    Biome = biomeType,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.ShipGraveyard
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
                 }
             };
         }
