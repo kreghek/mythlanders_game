@@ -305,7 +305,16 @@ namespace Rpg.Client.GameScreens.Map
                 { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
                 { GlobeNodeSid.Mines, new Vector2(400, 145) },
                 { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
-                { GlobeNodeSid.Castle, new Vector2(446, 201) }
+                { GlobeNodeSid.Castle, new Vector2(446, 201) },
+
+                // Chinese
+                { GlobeNodeSid.Monastery, new Vector2(540, 264) },
+
+                // Egyptian
+                { GlobeNodeSid.Desert, new Vector2(416, 109) },
+
+                // Greek
+                { GlobeNodeSid.ShipGraveyard, new Vector2(160, 307) },
             };
         }
 

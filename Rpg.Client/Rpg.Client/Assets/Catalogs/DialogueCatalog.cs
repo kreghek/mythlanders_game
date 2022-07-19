@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 
 using Rpg.Client.Assets.DialogueEventRequirements;
+using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
@@ -143,6 +144,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                                 if (nextJson.Value.TryGetProperty("signals", out var signals))
                                 {
+                                    var aftermathList = new List<IOptionAftermath>();
                                     foreach (var signalProperty in signals.EnumerateObject())
                                     {
                                         const string AFTERMATH_PREFIX = "AM_";
@@ -161,14 +163,21 @@ namespace Rpg.Client.Assets.Catalogs
 
                                             if (signalStringData is not null)
                                             {
-                                                aftermath = _optionAftermathCreator.Create(aftermathTypeName,
+                                                var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName,
                                                     signalStringData);
+
+                                                aftermathList.Add(aftermathItem);
                                             }
                                             else
                                             {
                                                 throw new InvalidOperationException("Data is not defined");
                                             }
                                         }
+                                    }
+
+                                    if (aftermathList.Any())
+                                    { 
+                                        aftermath = new CompositeOptionAftermath(aftermathList);
                                     }
                                 }
                             }
