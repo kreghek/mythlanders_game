@@ -13,7 +13,6 @@ namespace Rpg.Client.GameScreens
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
-        private Texture2D _biomeClouds;
 
         private IDictionary<BackgroundType, Texture2D[]> _combatBackgroundBaseDict;
         private IDictionary<(BackgroundType, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
@@ -78,7 +77,6 @@ namespace Rpg.Client.GameScreens
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
-            _biomeClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
@@ -313,11 +311,6 @@ namespace Rpg.Client.GameScreens
             {
                 return contentManager.Load<Texture2D>($"Sprites/GameObjects/PlayerUnits/{name}Face");
             }
-        }
-
-        internal Texture2D GetBiomeClouds()
-        {
-            return _biomeClouds;
         }
 
         internal Texture2D GetBulletGraphics()
