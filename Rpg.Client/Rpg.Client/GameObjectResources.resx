@@ -135,7 +135,7 @@
     <comment>Monster</comment>
   </data>
   <data name="Assaulter" xml:space="preserve">
-    <value>Doroh</value>
+    <value>Haokin</value>
     <comment>Hero</comment>
   </data>
   <data name="Battleground" xml:space="preserve">
@@ -183,7 +183,7 @@
     <comment>Equipment</comment>
   </data>
   <data name="Comissar" xml:space="preserve">
-    <value>Equentor</value>
+    <value>Sardo</value>
     <comment>Hero</comment>
   </data>
   <data name="CriticalHit" xml:space="preserve">
