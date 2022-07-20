@@ -383,7 +383,7 @@ namespace Rpg.Client.GameScreens.Combat
             if (combatResultModal.CombatResult is CombatResult.Victory or CombatResult.NextCombat)
             {
                 var nextCombatIndex = _args.CurrentCombatIndex + 1;
-                var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count - 1;
+                var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
                 if (!areAllCombatsWon)
                 {
                     var combatScreenArgs = new CombatScreenTransitionArguments
@@ -704,8 +704,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             if (_globeNode.AssignedCombats is not null)
             {
-                var sumSequenceLength = _globeNode.AssignedCombats.Combats.Count +
-                                        _globeNode.AssignedCombats.CompletedCombats.Count;
+                var sumSequenceLength = _globeNode.AssignedCombats.Combats.Count;
 
                 var completeCombatCount = _globeNode.AssignedCombats.CompletedCombats.Count + 1;
 
@@ -1144,7 +1143,7 @@ namespace Rpg.Client.GameScreens.Combat
                 completedCombats.Add(_combat.CombatSource);
 
                 var currentCombatList = _combat.Node.AssignedCombats.Combats.ToList();
-                if (currentCombatList.Count == 1)
+                if (completedCombats.Count >= currentCombatList.Count)
                 {
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
                         _globeProvider.Globe.Player,
