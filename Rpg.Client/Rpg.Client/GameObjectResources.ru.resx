@@ -164,6 +164,9 @@
   <data name="BigMonsterDescription" xml:space="preserve">
     <value>Этот монстр большой, поэтому у него +50% к HP и удвоенная броня.</value>
   </data>
+  <data name="BlackTrooper" xml:space="preserve">
+    <value>Пехотинец</value>
+  </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>Книга трав</value>
   </data>
@@ -286,6 +289,9 @@
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Тяжелая силовая броня Джаггернаут</value>
+  </data>
+  <data name="Marauder" xml:space="preserve">
+    <value>Марадер</value>
   </data>
   <data name="MassHeal" xml:space="preserve">
     <value>Благовония</value>

@@ -34,7 +34,10 @@ namespace Rpg.Client.Assets.Equipments.Archer
                     EffectCreator = new EffectCreator(u =>
                     {
                         var lifetime = new UnitBoundEffectLifetime(u);
-                        return new ShieldPointModifyEffect(u, lifetime, 0.2f * context.EquipmentLevel);
+                        return new ShieldPointModifyEffect(u, lifetime, 0.2f * (context.EquipmentLevel + 1))
+                        { 
+                            Visualization = EffectVisualizations.ShieldUp
+                        };
                     })
                 }
             };

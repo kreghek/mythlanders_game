@@ -152,6 +152,9 @@
   <data name="BigMonsterDescription" xml:space="preserve">
     <value>This monster is big so it has +50% HP and armor x 2.</value><comment>Perk</comment>
   </data>
+  <data name="BlackTrooper" xml:space="preserve">
+    <value>Trooper</value>
+  </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>The book of a herbs</value><comment>Equipment</comment>
   </data>
@@ -299,6 +302,9 @@
   </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
+  </data>
+  <data name="Marauder" xml:space="preserve">
+    <value>Marauder</value>
   </data>
   <data name="MassHeal" xml:space="preserve">
     <value>Mass heal</value>

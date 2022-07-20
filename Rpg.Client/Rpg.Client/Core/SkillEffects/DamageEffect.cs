@@ -48,7 +48,7 @@ namespace Rpg.Client.Core.SkillEffects
             return new MinMax<int>
             {
                 Min = Math.Max(absoluteMin, 0),
-                Max = Math.Max(absoluteMin, absoluteMax)
+                Max = Math.Max(Math.Max(absoluteMin, absoluteMax), 0)
             };
         }
 

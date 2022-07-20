@@ -190,8 +190,11 @@
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
   </data>
+  <data name="DecreaseShieldsPercentEffectRuleText" xml:space="preserve">
+    <value>Decrease shields on {0}% of {2} on {1} turns</value>
+  </data>
   <data name="DecreseDamageEffectRuleText" xml:space="preserve">
-    <value>Increase damage on {0} of {2} on {1} turns</value>
+    <value>Decrease damage on {0} of {2} on {1} turns</value>
   </data>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="IncreaseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Increase damage on {0}% of {2} on {1} turns</value>
+  </data>
+  <data name="IncreaseShieldsPercentEffectRuleText" xml:space="preserve">
+    <value>Increase shields on {0}% of {2} on {1} turns</value>
   </data>
   <data name="IndicatorBlockAnyDamage" xml:space="preserve">
     <value>Block!</value>

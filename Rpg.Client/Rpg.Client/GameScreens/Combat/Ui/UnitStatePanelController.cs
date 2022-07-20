@@ -417,7 +417,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private static Rectangle GetEffectSourceRect(EffectBase effect)
         {
             const int EFFECT_SIZE = 16;
-            const int COL_COUNT = 2;
+            const int COL_COUNT = 3;
 
             var index = GetEffectSourceBaseOneIndex(effect) - 1;
 

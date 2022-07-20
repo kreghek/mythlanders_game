@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
@@ -26,18 +24,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _skill = skill;
             _unit = unit;
             _combat = combat;
-            _effectDrawers = new ISkillEffectDrawer[]
-            {
-                new DamageEffectDrawer(font),
-                new PeriodicDamageEffectDrawer(font),
-                new HealEffectDrawer(font),
-                new PeriodicHealEffectDrawer(font),
-                new StunEffectDrawer(font),
-                new ModifyDamageEffectDrawer(font),
-                new ProtectionEffectDrawer(font),
-                new LifeDrawEffectDrawer(font),
-                new ExchangeSlotEffectDrawer(font)
-            };
+            _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(_font).ToArray();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
@@ -76,43 +63,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                     {
                         break;
                     }
-                }
-            }
-        }
-    }
-
-    internal class EffectHint : HintBase
-    {
-        private readonly EffectBase _effect;
-        private readonly ISkillEffectDrawer[] _effectDrawers;
-
-        public EffectHint(Texture2D texture, SpriteFont font, EffectBase effect) :
-            base(texture)
-        {
-            _effect = effect;
-            _effectDrawers = new ISkillEffectDrawer[]
-            {
-                new DamageEffectDrawer(font),
-                new PeriodicDamageEffectDrawer(font),
-                new HealEffectDrawer(font),
-                new PeriodicHealEffectDrawer(font),
-                new StunEffectDrawer(font),
-                new ModifyDamageEffectDrawer(font),
-                new ProtectionEffectDrawer(font),
-                new LifeDrawEffectDrawer(font),
-                new ExchangeSlotEffectDrawer(font)
-            };
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
-        {
-            var color = Color.White;
-
-            foreach (var effectDrawer in _effectDrawers)
-            {
-                if (effectDrawer.Draw(spriteBatch, _effect, SkillDirection.Self, clientRect.Location.ToVector2()))
-                {
-                    break;
                 }
             }
         }
