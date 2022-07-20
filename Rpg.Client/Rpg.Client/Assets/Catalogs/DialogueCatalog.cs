@@ -259,7 +259,7 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         GlobeNodeSid.Thicket
                     }),
-                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain1" })
+                    new RequiredEventsCompletedEventRequirement(this, new[] { "SlavicMain1" })
                 }
             };
 
@@ -278,7 +278,7 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         GlobeNodeSid.Battleground
                     }),
-                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain2" })
+                    new RequiredEventsCompletedEventRequirement(this, new[] { "SlavicMain2" })
                 }
             };
 

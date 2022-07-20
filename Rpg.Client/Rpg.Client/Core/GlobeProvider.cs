@@ -79,15 +79,6 @@ namespace Rpg.Client.Core
             Globe = globe;
         }
 
-        private void AssignStartHeroes(Globe globe)
-        {
-            var startUnits = CreateStartHeroes();
-            for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
-            {
-                globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
-            }
-        }
-
         public IReadOnlyCollection<SaveShortInfo> GetSaves()
         {
             if (!Directory.Exists(_storagePath))
@@ -182,6 +173,15 @@ namespace Rpg.Client.Core
 
             var storageFile = Path.Combine(_storagePath, saveName);
             File.WriteAllText(storageFile, saveDataString);
+        }
+
+        private void AssignStartHeroes(Globe globe)
+        {
+            var startUnits = CreateStartHeroes();
+            for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
+            {
+                globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
+            }
         }
 
         private static string CreateSaveData(string saveName, ProgressDto progress)

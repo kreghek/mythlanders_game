@@ -41,15 +41,59 @@ namespace Rpg.Client.Assets.Catalogs
             var chineseMonsters = CreateChineseMonsters(balanceTable);
             var egyptianMonsters = CreateEgyptianMonsters(balanceTable);
 
-            AllMonsters = loadedMonsters.Concat(slavicMonsters).Concat(chineseMonsters).Concat(egyptianMonsters).ToArray();
+            AllMonsters = loadedMonsters.Concat(slavicMonsters).Concat(chineseMonsters).Concat(egyptianMonsters)
+                .ToArray();
         }
 
-        private static IReadOnlyCollection<IMonsterFactory> LoadFactories()
+        private static IEnumerable<UnitScheme> CreateChineseMonsters(IBalanceTable balanceTable)
         {
-            var assembly = typeof(IMonsterFactory).Assembly;
-            var factoryTypes = assembly.GetTypes().Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory));
-            var factories = factoryTypes.Select(x => Activator.CreateInstance(x));
-            return factories.OfType<IMonsterFactory>().ToArray();
+            return new[]
+            {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
+
+                    Name = UnitName.Huapigui,
+                    LocationSids = new[] { GlobeNodeSid.Monastery },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new SnakeBiteSkill())
+                    },
+
+                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                }
+            };
+        }
+
+        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
+        {
+            return new[]
+            {
+                new UnitScheme(balanceTable.GetCommonUnitBasics())
+                {
+                    TankRank = 0.0f,
+                    DamageDealerRank = 1.0f,
+                    SupportRank = 0.0f,
+
+                    Name = UnitName.Mummy,
+                    LocationSids = new[]
+                    {
+                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace
+                    },
+                    IsMonster = true,
+
+                    Levels = new IUnitLevelScheme[]
+                    {
+                        new AddSkillUnitLevel(1, new VampireBiteSkill())
+                    },
+
+                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                }
+            };
         }
 
         private static IEnumerable<UnitScheme> CreateSlavicMonsters(IBalanceTable balanceTable)
@@ -164,54 +208,13 @@ namespace Rpg.Client.Assets.Catalogs
             };
         }
 
-        private static IEnumerable<UnitScheme> CreateChineseMonsters(IBalanceTable balanceTable)
+        private static IReadOnlyCollection<IMonsterFactory> LoadFactories()
         {
-            return new[]
-            {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Huapigui,
-                    LocationSids = new[] { GlobeNodeSid.Monastery },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new SnakeBiteSkill())
-                    },
-
-                    UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
-                }
-            };
-        }
-
-        private static IEnumerable<UnitScheme> CreateEgyptianMonsters(IBalanceTable balanceTable)
-        {
-            return new[]
-            {
-                new UnitScheme(balanceTable.GetCommonUnitBasics())
-                {
-                    TankRank = 0.0f,
-                    DamageDealerRank = 1.0f,
-                    SupportRank = 0.0f,
-
-                    Name = UnitName.Mummy,
-                    LocationSids = new[] {
-
-                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace },
-                    IsMonster = true,
-
-                    Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new VampireBiteSkill())
-                    },
-
-                    UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
-                }
-            };
+            var assembly = typeof(IMonsterFactory).Assembly;
+            var factoryTypes = assembly.GetTypes()
+                .Where(x => typeof(IMonsterFactory).IsAssignableFrom(x) && x != typeof(IMonsterFactory));
+            var factories = factoryTypes.Select(x => Activator.CreateInstance(x));
+            return factories.OfType<IMonsterFactory>().ToArray();
         }
 
         public IDictionary<UnitName, UnitScheme> Heroes { get; }

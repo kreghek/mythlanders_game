@@ -17,22 +17,22 @@ namespace Rpg.Client.Assets.Monsters
 
                 Name = UnitName.BlackTrooper,
                 LocationSids = new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
-                        GlobeNodeSid.Mines,
+                {
+                    GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
+                    GlobeNodeSid.Mines,
 
-                        GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace,
+                    GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace,
 
-                        GlobeNodeSid.ShipGraveyard,
+                    GlobeNodeSid.ShipGraveyard,
 
-                        GlobeNodeSid.Monastery,
-                    },
+                    GlobeNodeSid.Monastery
+                },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new BlackRifleShotSkill())
-                    },
+                {
+                    new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
             };

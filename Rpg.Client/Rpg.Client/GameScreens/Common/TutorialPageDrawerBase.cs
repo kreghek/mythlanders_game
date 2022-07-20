@@ -19,7 +19,8 @@ namespace Rpg.Client.GameScreens.Common
 
         protected static string GetTutorialText(string resourceName)
         {
-            var tutorialText = StringHelper.LineBreaking(UiResource.ResourceManager.GetString(resourceName) ?? $"#{resourceName}", 65);
+            var tutorialText =
+                StringHelper.LineBreaking(UiResource.ResourceManager.GetString(resourceName) ?? $"#{resourceName}", 65);
             return tutorialText;
         }
     }

@@ -290,6 +290,22 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
+        private UnitName[] GetAvailableHeroes()
+        {
+            if (_gameSettings.Mode == GameMode.Demo)
+            {
+                return new[]
+                {
+                    UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk,
+                    UnitName.Spearman
+                };
+            }
+
+            var lastHeroes = GetLastHeroes(_globeProvider);
+
+            return lastHeroes;
+        }
+
         private static UnitName[] GetLastHeroes(GlobeProvider globeProvider)
         {
             var lastSave = globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).FirstOrDefault();
@@ -317,18 +333,6 @@ namespace Rpg.Client.GameScreens.Title
             }
 
             return UnitName.Undefined;
-        }
-
-        private UnitName[] GetAvailableHeroes()
-        {
-            if (_gameSettings.Mode == GameMode.Demo)
-            {
-                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk, UnitName.Spearman };
-            }
-
-            var lastHeroes = GetLastHeroes(_globeProvider);
-
-            return lastHeroes;
         }
 
         private UnitName[] GetShowcaseHeroes()

@@ -179,7 +179,7 @@ namespace Rpg.Client.Core
             var resultList = new List<T>();
             var openList = new List<T>(source);
 
-            for (int i = 0; i < source.Count; i++)
+            for (var i = 0; i < source.Count; i++)
             {
                 var rolledItem = dice.RollFromList(openList);
 

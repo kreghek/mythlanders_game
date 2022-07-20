@@ -8,11 +8,10 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class DemoBiomeGenerator : IBiomeGenerator
     {
+        public static GlobeNodeSid START_AVAILABLE_LOCATION = GlobeNodeSid.Thicket;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-
-        public static GlobeNodeSid START_AVAILABLE_LOCATION = GlobeNodeSid.Thicket;
 
         public DemoBiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
@@ -235,11 +234,17 @@ namespace Rpg.Client.Assets.Catalogs
             startNode.AssignEvent(startEvent);
 
             combat.EnemyGroup.Slots[0].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
+                new Unit(
+                    _unitSchemeCatalog.AllMonsters.Single(x =>
+                        x.Name == UnitName.Marauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
             combat.EnemyGroup.Slots[1].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
+                new Unit(
+                    _unitSchemeCatalog.AllMonsters.Single(x =>
+                        x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
             combat.EnemyGroup.Slots[2].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
+                new Unit(
+                    _unitSchemeCatalog.AllMonsters.Single(x =>
+                        x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
         }
 
         public IReadOnlyList<Biome> GenerateStartState()

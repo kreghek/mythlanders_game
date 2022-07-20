@@ -66,8 +66,6 @@
 
         Hydra,
 
-        GreekMonster,
-
-
+        GreekMonster
     }
 }
