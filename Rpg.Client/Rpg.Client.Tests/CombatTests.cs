@@ -8,6 +8,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using Rpg.Client.Assets;
 using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -23,7 +24,8 @@ namespace Rpg.Client.Tests
         {
             // ARRANGE
 
-            var demoUnitCatalog = new DemoUnitSchemeCatalog();
+            var balanceTable = new BalanceTable();
+            var demoUnitCatalog = new DemoUnitSchemeCatalog(balanceTable);
 
             var playerGroup = new Group();
             var unitScheme = GetVolkolakBeastFormScheme(demoUnitCatalog);
