@@ -130,6 +130,26 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
+        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
+            IScreen currentScreen, IScreenManager screenManager,
+            Action? clearScreenHandlersDelegate)
+        {
+            globeProvider.GenerateNew();
+
+            globeProvider.Globe.IsNodeInitialized = true;
+
+            var firstAvailableNodeInBiome =
+                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+                    .Single(x => x.Sid == GlobeNodeSid.Thicket);
+
+            BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
+                eventCatalog: eventCatalog,
+                currentScreen: currentScreen,
+                screenManager,
+                clearScreenHandlersDelegate);
+        }
+
         protected override void DrawContent(SpriteBatch spriteBatch)
         {
             _resolutionIndependentRenderer.BeginDraw();
@@ -327,26 +347,6 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
-        }
-
-        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
-            IScreen currentScreen, IScreenManager screenManager,
-            Action? clearScreenHandlersDelegate)
-        {
-            globeProvider.GenerateNew();
-
-            globeProvider.Globe.IsNodeInitialized = true;
-
-            var firstAvailableNodeInBiome =
-                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .Single(x => x.Sid == GlobeNodeSid.ShipGraveyard);
-
-            BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
-                eventCatalog: eventCatalog,
-                currentScreen: currentScreen,
-                screenManager,
-                clearScreenHandlersDelegate);
         }
     }
 }

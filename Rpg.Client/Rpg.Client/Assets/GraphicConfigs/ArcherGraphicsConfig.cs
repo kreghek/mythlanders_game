@@ -43,7 +43,7 @@ namespace Rpg.Client.Assets.GraphicConfigs
                     PredefinedAnimationSid.Defense,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
                 }
-            }; 
+            };
         }
     }
 }
