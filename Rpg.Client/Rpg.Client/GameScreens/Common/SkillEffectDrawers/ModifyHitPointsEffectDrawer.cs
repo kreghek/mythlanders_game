@@ -6,29 +6,29 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
-    internal class ModifyShieldsEffectDrawer : ISkillEffectDrawer
+    internal class ModifyHitPointsEffectDrawer : ISkillEffectDrawer
     {
         private readonly SpriteFont _font;
 
-        public ModifyShieldsEffectDrawer(SpriteFont font)
+        public ModifyHitPointsEffectDrawer(SpriteFont font)
         {
             _font = font;
         }
 
         public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
         {
-            if (effectToDisplay is not ShieldPointModifyEffect shieldModifyEffect)
+            if (effectToDisplay is not HitPointModifyEffect hpModifyEffect)
             {
                 return false;
             }
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-            var textTemplate = shieldModifyEffect.Modifier > 0 ? UiResource.IncreaseShieldsPercentEffectRuleText : UiResource.DecreaseShieldsPercentEffectRuleText;
+            var textTemplate = hpModifyEffect.Modifier > 0 ? UiResource.IncreaseHitPointsPercentEffectRuleText : UiResource.DecreaseHitPointsPercentEffectRuleText;
 
             spriteBatch.DrawString(_font,
                 string.Format(textTemplate,
-                    SkillEffectDrawerHelper.GetPercent(shieldModifyEffect.Modifier),
-                    shieldModifyEffect.EffectLifetime.GetTextDescription(),
+                    SkillEffectDrawerHelper.GetPercent(hpModifyEffect.Modifier),
+                    hpModifyEffect.EffectLifetime.GetTextDescription(),
                     ruleDirectionText),
                 position, Color.Wheat);
 
