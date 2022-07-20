@@ -71,6 +71,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GameObjectResources.resx</DependentUpon>
     </Compile>
+    <Compile Update="StoryResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StoryResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="UiResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -88,6 +93,10 @@
     <EmbeddedResource Update="GameObjectResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GameObjectResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="StoryResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StoryResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="UiResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -9,17 +9,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Biome.GameObjects;
-using Rpg.Client.GameScreens.Biome.Tutorial;
-using Rpg.Client.GameScreens.Biome.Ui;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Common;
+using Rpg.Client.GameScreens.Map.GameObjects;
+using Rpg.Client.GameScreens.Map.Tutorial;
+using Rpg.Client.GameScreens.Map.Ui;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.Biome
+namespace Rpg.Client.GameScreens.Map
 {
-    internal class BiomeScreen : GameScreenWithMenuBase
+    internal class MapScreen : GameScreenWithMenuBase
     {
         private readonly Camera2D _camera;
 
@@ -41,7 +41,7 @@ namespace Rpg.Client.GameScreens.Biome
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public BiomeScreen(EwarGame game) : base(game)
+        public MapScreen(EwarGame game) : base(game)
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
@@ -198,7 +198,7 @@ namespace Rpg.Client.GameScreens.Biome
             {
                 _globe.Player.AddPlayerAbility(PlayerAbility.ReadMapTutorial);
                 var tutorialModal = new TutorialModal(
-                    new BiomeTutorialPageDrawer(_uiContentStorage),
+                    new MapTutorialPageDrawer(_uiContentStorage),
                     _uiContentStorage,
                     _resolutionIndependenceRenderer,
                     _globe.Player);
@@ -303,7 +303,16 @@ namespace Rpg.Client.GameScreens.Biome
                 { GlobeNodeSid.DeathPath, new Vector2(496, 149) },
                 { GlobeNodeSid.Mines, new Vector2(400, 145) },
                 { GlobeNodeSid.DestroyedVillage, new Vector2(522, 144) },
-                { GlobeNodeSid.Castle, new Vector2(446, 201) }
+                { GlobeNodeSid.Castle, new Vector2(446, 201) },
+
+                // Chinese
+                { GlobeNodeSid.Monastery, new Vector2(540, 264) },
+
+                // Egyptian
+                { GlobeNodeSid.Desert, new Vector2(416, 109) },
+
+                // Greek
+                { GlobeNodeSid.ShipGraveyard, new Vector2(160, 307) },
             };
         }
 
@@ -331,7 +340,7 @@ namespace Rpg.Client.GameScreens.Biome
                 var storyPoint = activeStoryPointList[i];
 
                 var position = new Vector2(contentRect.Right - GOAL_PANEL_WIDTH, contentRect.Top) +
-                               (i * Vector2.UnitY * 50);
+                               i * Vector2.UnitY * 50;
 
                 var drawingContext = new StoryPointDrawingContext
                 {
@@ -481,7 +490,7 @@ namespace Rpg.Client.GameScreens.Biome
         {
             var hoverNodeGameObject = (GlobeNodeMarkerGameObject)sender;
 
-            var context = new CombatModalContext
+            var context = new LocationInfoModalContext
             {
                 Globe = _globe,
                 SelectedNodeGameObject = hoverNodeGameObject,
@@ -490,7 +499,7 @@ namespace Rpg.Client.GameScreens.Biome
                 AutoCombatDelegate = AutoCombatDelegate
             };
 
-            var combatModal = new CombatModal(context, _uiContentStorage,
+            var combatModal = new LocationInfoModal(context, _uiContentStorage,
                 _resolutionIndependenceRenderer, _unitSchemeCatalog);
             AddModal(combatModal, isLate: false);
         }

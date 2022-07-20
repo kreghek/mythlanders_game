@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Common;
+using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Title
@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Title
         private const int BUTTON_HEIGHT = 20;
 
         private const int BUTTON_WIDTH = 100;
-
+        private const int TITLE_PORTRAIT_COUNT = 3;
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
         private readonly IDice _dice;
@@ -34,7 +34,6 @@ namespace Rpg.Client.GameScreens.Title
         private readonly SettingsModal _settingsModal;
         private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public TitleScreen(EwarGame game)
             : base(game)
@@ -43,8 +42,6 @@ namespace Rpg.Client.GameScreens.Title
 
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
-
-            _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
@@ -140,9 +137,9 @@ namespace Rpg.Client.GameScreens.Title
 
             var firstAvailableNodeInBiome =
                 globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .Single(x => x.Sid == GlobeNodeSid.Thicket);
+                    .Single(x => x.IsAvailable);
 
-            BiomeScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+            MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
                 availableEvent: firstAvailableNodeInBiome.AssignedEvent,
                 eventCatalog: eventCatalog,
                 currentScreen: currentScreen,
@@ -322,21 +319,25 @@ namespace Rpg.Client.GameScreens.Title
             return UnitName.Undefined;
         }
 
-        private UnitName[] GetShowcaseHeroes()
+        private UnitName[] GetAvailableHeroes()
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
-                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist };
+                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk, UnitName.Spearman };
             }
 
             var lastHeroes = GetLastHeroes(_globeProvider);
 
-            if (lastHeroes.Count() > 3)
-            {
-                return _dice.RollFromList(lastHeroes, 3).ToArray();
-            }
-
             return lastHeroes;
+        }
+
+        private UnitName[] GetShowcaseHeroes()
+        {
+            var lastHeroes = GetAvailableHeroes();
+
+            var heroCount = Math.Min(TITLE_PORTRAIT_COUNT, lastHeroes.Length);
+
+            return _dice.RollFromList(lastHeroes, heroCount).ToArray();
         }
 
         private void SettingsButton_OnClick(object? sender, EventArgs e)

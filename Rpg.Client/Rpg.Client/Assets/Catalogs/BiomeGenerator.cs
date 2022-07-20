@@ -247,7 +247,7 @@ namespace Rpg.Client.Assets.Catalogs
             }
         }
 
-        public void CreateStartCombat(Biome startBiome)
+        public void CreateStartCombat(Globe globe)
         {
             var combat = new CombatSource
             {
@@ -260,12 +260,12 @@ namespace Rpg.Client.Assets.Catalogs
                 Combats = new[] { combat }
             };
 
-            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.Thicket);
+            var startNode = globe.Biomes.SelectMany(x=>x.Nodes).Single(x => x.Sid == GlobeNodeSid.Thicket);
             startNode.AssignedCombats = combatSequence;
 
             var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
 
-            startNode.AssignedEvent = startEvent;
+            startNode.AssignEvent(startEvent);
 
             combat.EnemyGroup.Slots[0].Unit =
                 new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);

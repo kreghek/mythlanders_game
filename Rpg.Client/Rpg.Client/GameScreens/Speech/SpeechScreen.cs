@@ -42,8 +42,6 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeNode _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly bool _isFirstDialogue;
-        private readonly CombatSequence? _nextCombats;
-
         private readonly IList<DialogueOptionButton> _optionButtons;
         private readonly Player _player;
         private readonly Random _random;
@@ -374,10 +372,9 @@ namespace Rpg.Client.GameScreens.Speech
 
                 const int SPEECH_MARGIN = 50;
                 var sumOptionHeight = _optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
-                textFragmentControl.Rect = new Rectangle(
-                    new Point(PORTRAIT_SIZE,
-                        contentRectangle.Bottom - (int)textFragmentSize.Y - SPEECH_MARGIN - sumOptionHeight),
-                    new Point((int)textFragmentSize.X, (int)textFragmentSize.Y));
+                var fragmentHeight = (int)(textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight);
+                var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
+                textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize.ToPoint());
                 textFragmentControl.Draw(spriteBatch);
 
                 if (_currentTextFragmentIsReady)
@@ -419,7 +416,7 @@ namespace Rpg.Client.GameScreens.Speech
             else
             {
                 _globe.UpdateNodes(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
 
                 if (_settings.Mode == GameMode.Full)
                 {
@@ -493,7 +490,7 @@ namespace Rpg.Client.GameScreens.Speech
             var maxFragmentIndex = _textFragments.Count - 1;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                if (_currentFragmentIndex < maxFragmentIndex &&
+                if (_currentFragmentIndex <= maxFragmentIndex &&
                     !_textFragments[_currentFragmentIndex].IsComplete)
                 {
                     foreach (var fragment in _textFragments)

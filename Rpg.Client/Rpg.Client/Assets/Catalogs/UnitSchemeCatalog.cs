@@ -62,8 +62,7 @@ namespace Rpg.Client.Assets.Catalogs
                     DamageDealerRank = 1.0f,
                     SupportRank = 0.0f,
 
-                    Name = UnitName.ChineseMonster,
-                    Biome = biomeType,
+                    Name = UnitName.Huapigui,
                     LocationSids = new[]
                     {
                         GlobeNodeSid.Monastery, GlobeNodeSid.GiantBamboo, GlobeNodeSid.EmperorTomb,
@@ -86,7 +85,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Taote,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.SkyTower },
 
                     IsMonster = true,
@@ -116,7 +114,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Mummy,
-                    Biome = BIOME_TYPE,
                     LocationSids = new[]
                     {
                         GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace, GlobeNodeSid.Temple, GlobeNodeSid.Oasis,
@@ -140,7 +137,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Sphynx,
-                    Biome = BIOME_TYPE,
                     LocationSids = new[] { GlobeNodeSid.ScreamValley },
 
                     IsMonster = true,
@@ -171,7 +167,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.GreekMonster,
-                    Biome = biomeType,
                     LocationSids = new[]
                     {
                         GlobeNodeSid.ShipGraveyard, GlobeNodeSid.Vines, GlobeNodeSid.Garden, GlobeNodeSid.Palace,
@@ -193,7 +188,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Hydra,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Labyrinth },
 
                     IsMonster = true,
@@ -224,7 +218,6 @@ namespace Rpg.Client.Assets.Catalogs
                     Resolve = 9,
 
                     Name = UnitName.Marauder,
-                    Biome = biomeType,
                     LocationSids = new[]
                     {
                         GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
@@ -248,7 +241,6 @@ namespace Rpg.Client.Assets.Catalogs
                     Resolve = 9,
 
                     Name = UnitName.BlackTrooper,
-                    Biome = biomeType,
                     LocationSids = new[]
                     {
                         GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
@@ -272,7 +264,6 @@ namespace Rpg.Client.Assets.Catalogs
                     Resolve = 13,
 
                     Name = UnitName.Aspid,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
@@ -292,7 +283,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.GreyWolf,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Thicket, GlobeNodeSid.Battleground },
                     IsMonster = true,
 
@@ -311,7 +301,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Bear,
-                    Biome = biomeType,
                     LocationSids = new[]
                         { GlobeNodeSid.Battleground, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath },
                     IsUnique = true,
@@ -332,7 +321,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Wisp,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Swamp, GlobeNodeSid.DeathPath },
                     IsMonster = true,
 
@@ -350,7 +338,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.VolkolakWarrior,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.DeathPath, GlobeNodeSid.Mines },
                     IsUnique = true,
                     IsMonster = true,
@@ -374,7 +361,6 @@ namespace Rpg.Client.Assets.Catalogs
                             SupportRank = 0.0f,
 
                             Name = UnitName.Volkolak,
-                            Biome = biomeType,
                             IsUnique = true,
                             IsMonster = true,
 
@@ -397,7 +383,7 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Korgorush,
-                    Biome = biomeType,
+                    
                     LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 
@@ -416,7 +402,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Stryga,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
@@ -434,7 +419,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Vampire,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp, GlobeNodeSid.Castle },
                     IsUnique = true,
                     IsMonster = true,
@@ -454,7 +438,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.HornedFrog,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsMonster = true,
 
@@ -472,7 +455,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Basilisk,
-                    Biome = biomeType,
                     LocationSids = new[] { GlobeNodeSid.Pit, GlobeNodeSid.Swamp },
                     IsUnique = true,
                     IsMonster = true,
@@ -491,7 +473,6 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.2f,
 
                     Name = UnitName.KosheyTheImmortal,
-                    Biome = biomeType,
 
                     IsMonster = true,
 
@@ -516,7 +497,6 @@ namespace Rpg.Client.Assets.Catalogs
                             SupportRank = 0.0f,
 
                             Name = UnitName.KosheyTheImmortal2, // Dead-golem form
-                            Biome = BiomeType.Slavic,
                             IsMonster = true,
 
                             Levels = new IUnitLevelScheme[]
@@ -539,7 +519,6 @@ namespace Rpg.Client.Assets.Catalogs
                                     SupportRank = 0.0f,
 
                                     Name = UnitName.KosheyTheImmortal3, // Gaint spiritual face
-                                    Biome = BiomeType.Slavic,
                                     IsMonster = true,
 
                                     Levels = new IUnitLevelScheme[]

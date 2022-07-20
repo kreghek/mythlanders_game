@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 using Rpg.Client.Core;
@@ -12,6 +11,8 @@ namespace Rpg.Client.Assets.Catalogs
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+
+        public static GlobeNodeSid START_AVAILABLE_LOCATION = GlobeNodeSid.Thicket;
 
         public DemoBiomeGenerator(IDice dice, IUnitSchemeCatalog unitSchemeCatalog, IEventCatalog eventCatalog)
         {
@@ -110,12 +111,12 @@ namespace Rpg.Client.Assets.Catalogs
             return demoLocationsDict[biomeType][nodeIndex];
         }
 
-        private static bool GetStartAvailability(int nodeIndex, GlobeNodeSid locationSid)
+        private static bool GetStartAvailability(GlobeNodeSid currentLocationSid)
         {
-            return locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground || locationSid == GlobeNodeSid.Thicket || locationSid == GlobeNodeSid.Battleground;
+            return currentLocationSid == START_AVAILABLE_LOCATION;
         }
 
-        private static bool IsBossAvailable(Biome biome, GlobeLevel globeLevel)
+        private static bool IsBossAvailable(GlobeLevel globeLevel)
         {
             return globeLevel.Level >= 5;
         }
@@ -129,7 +130,7 @@ namespace Rpg.Client.Assets.Catalogs
             var nodeList = new List<(GlobeNode, bool)>(3);
             var bossLocation = availableNodes.SingleOrDefault(x => x.Sid == BOSS_LOCATION_SID);
             int targetCount;
-            if (IsBossAvailable(biome, globeLevel) && bossLocation is not null && !biome.IsComplete)
+            if (IsBossAvailable(globeLevel) && bossLocation is not null && !biome.IsComplete)
             {
                 nodeList.Add(new(bossLocation, true));
                 targetCount = Math.Min(availableNodes.Count, COMBAT_UNDER_ATTACK_COUNT - 1);
@@ -213,7 +214,7 @@ namespace Rpg.Client.Assets.Catalogs
             }
         }
 
-        public void CreateStartCombat(Biome startBiome)
+        public void CreateStartCombat(Globe globe)
         {
             var combat = new CombatSource
             {
@@ -226,19 +227,19 @@ namespace Rpg.Client.Assets.Catalogs
                 Combats = new[] { combat }
             };
 
-            var startNode = startBiome.Nodes.Single(x => x.Sid == GlobeNodeSid.ShipGraveyard);
+            var startNode = globe.Biomes.SelectMany(x=>x.Nodes).Single(x => x.Sid == START_AVAILABLE_LOCATION);
             startNode.AssignedCombats = combatSequence;
 
-            /*var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
+            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
 
-            startNode.AssignedEvent = startEvent;*/
+            startNode.AssignEvent(startEvent);
 
             combat.EnemyGroup.Slots[0].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
             combat.EnemyGroup.Slots[1].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
             combat.EnemyGroup.Slots[2].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
         }
 
         public IReadOnlyList<Biome> GenerateStartState()
@@ -258,7 +259,7 @@ namespace Rpg.Client.Assets.Catalogs
                             EquipmentItem = GetEquipmentItem(x, type),
                             Sid = GetNodeSid(x, type),
                             BiomeType = type,
-                            IsAvailable = GetStartAvailability(x, GetNodeSid(x, type)),
+                            IsAvailable = GetStartAvailability(GetNodeSid(x, type)),
                             IsLast = x == nodeCount - 1
                         }
                     ).ToArray()

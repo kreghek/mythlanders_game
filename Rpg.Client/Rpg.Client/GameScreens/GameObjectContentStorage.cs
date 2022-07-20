@@ -13,7 +13,6 @@ namespace Rpg.Client.GameScreens
     {
         private Effect _allWhiteEffect;
         private Texture2D _arrowTexture;
-        private Texture2D _biomeClouds;
 
         private IDictionary<BackgroundType, Texture2D[]> _combatBackgroundBaseDict;
         private IDictionary<(BackgroundType, BackgroundLayerType, int), Texture2D> _combatBackgroundObjectsDict;
@@ -78,7 +77,6 @@ namespace Rpg.Client.GameScreens
             _monsterUnit = contentManager.Load<Texture2D>("Sprites/GameObjects/MonsterUnits/Wolf");
             _mapNodes = contentManager.Load<Texture2D>("Sprites/GameObjects/MapNodes");
             _combatUnitMarkers = contentManager.Load<Texture2D>("Sprites/GameObjects/CombatUnitMarkers");
-            _biomeClouds = contentManager.Load<Texture2D>("Sprites/GameObjects/Clouds");
 
             _font = contentManager.Load<SpriteFont>("Fonts/Main");
 
@@ -97,21 +95,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Amazon, LoadHeroTexture(contentManager, "Amazon") }
             };
 
-            _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
-            {
-                { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
-                { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
-                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
-                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
-                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
-                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
-                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
-                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
-
-                { UnitName.Mummy, LoadMonsterTexture(contentManager, "Mummy") }
-            };
+            LoadMonsters(contentManager);
 
             _combatBackgroundBaseDict = new Dictionary<BackgroundType, Texture2D[]>
             {
@@ -315,9 +299,25 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        internal Texture2D GetBiomeClouds()
+        private void LoadMonsters(ContentManager contentManager)
         {
-            return _biomeClouds;
+            _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
+                { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
+                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
+                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
+                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
+                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
+                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
+                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
+
+                { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
+
+                { UnitName.Mummy, LoadMonsterTexture(contentManager, "Mummy") }
+            };
         }
 
         internal Texture2D GetBulletGraphics()

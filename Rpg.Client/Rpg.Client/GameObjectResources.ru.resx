@@ -150,7 +150,7 @@
     <value>Аспид</value>
   </data>
   <data name="Assaulter" xml:space="preserve">
-    <value>Доро</value>
+    <value>Хаокин</value>
   </data>
   <data name="Battleground" xml:space="preserve">
     <value>Поле брани</value>
@@ -194,7 +194,7 @@
 Повышает урон на 25% за уровень.</value>
   </data>
   <data name="Comissar" xml:space="preserve">
-    <value>Эквентор</value>
+    <value>Сардо</value>
   </data>
   <data name="CriticalHit" xml:space="preserve">
     <value>Критический удар</value>

@@ -9,7 +9,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 
-namespace Rpg.Client.GameScreens.Biome.GameObjects
+namespace Rpg.Client.GameScreens.Map.GameObjects
 {
     internal class GlobeNodeMarkerGameObject
     {

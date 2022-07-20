@@ -133,8 +133,8 @@ namespace Rpg.Client.Core
                     var highPriorityEvent = nodeEvents.FirstOrDefault(x => x.Priority == TextEventPriority.High);
                     if (highPriorityEvent is not null)
                     {
-                        node.AssignedEvent = highPriorityEvent;
-                        availableEventList.Remove(node.AssignedEvent);
+                        node.AssignEvent(highPriorityEvent);
+                        availableEventList.Remove(highPriorityEvent);
                     }
                     else
                     {
@@ -143,10 +143,11 @@ namespace Rpg.Client.Core
                         {
                             var minCounter = nodeEvents.Min(x => x.Counter);
                             var currentRankEventList = nodeEvents.Where(x => x.Counter == minCounter).ToArray();
-                            var rolledEvent = dice.RollFromList(currentRankEventList, 1).Single();
+                            var rolledEvent = dice.RollFromList(currentRankEventList);
 
-                            node.AssignedEvent = rolledEvent;
-                            availableEventList.Remove(node.AssignedEvent);
+                            node.AssignEvent(rolledEvent);
+                            availableEventList.Remove(rolledEvent);
+                            
                         }
                     }
                 }
@@ -157,8 +158,7 @@ namespace Rpg.Client.Core
         {
             foreach (var node in biome.Nodes)
             {
-                node.AssignedCombats = null;
-                node.AssignedEvent = null;
+                node.ClearNodeState();
             }
         }
 

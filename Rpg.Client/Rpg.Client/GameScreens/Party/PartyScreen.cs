@@ -39,7 +39,7 @@ namespace Rpg.Client.GameScreens.Party
                 _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
             backButton.OnClick += (_, _) =>
             {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Biome, null);
+                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             };
 
             return new ButtonBase[] { backButton };

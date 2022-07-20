@@ -5,7 +5,7 @@ namespace Rpg.Client.Core
     internal interface IBiomeGenerator
     {
         void CreateCombatsInBiomeNodes(IEnumerable<Biome> biomes, GlobeLevel globeLevel);
-        void CreateStartCombat(Biome startBiome);
+        void CreateStartCombat(Globe globe);
 
         IReadOnlyList<Biome> GenerateStartState();
     }

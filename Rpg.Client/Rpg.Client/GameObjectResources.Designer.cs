@@ -151,7 +151,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Doroh.
+        ///   Looks up a localized string similar to Haokin.
         /// </summary>
         internal static string Assaulter {
             get {
@@ -277,7 +277,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Equentor.
+        ///   Looks up a localized string similar to Sardo.
         /// </summary>
         internal static string Comissar {
             get {

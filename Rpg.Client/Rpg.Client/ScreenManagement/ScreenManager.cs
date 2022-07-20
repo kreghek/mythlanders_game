@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Biome;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
 using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
+using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
@@ -105,7 +105,7 @@ namespace Rpg.Client.ScreenManagement
             return targetTransition switch
             {
                 ScreenTransition.Title => new TitleScreen(_game),
-                ScreenTransition.Biome => new BiomeScreen(_game),
+                ScreenTransition.Map => new MapScreen(_game),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => new SpeechScreen(_game,
