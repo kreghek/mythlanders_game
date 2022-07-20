@@ -82,10 +82,10 @@ namespace Rpg.Client.Core
         {
             get
             {
-                var playerUnits = _allUnitList.Where(x => !x.IsDead && x.Unit.IsPlayerControlled);
+                var playerUnits = AliveUnits.Where(x => x.Unit.IsPlayerControlled);
                 var hasPlayerUnits = playerUnits.Any();
 
-                var cpuUnits = _allUnitList.Where(x => !x.IsDead && !x.Unit.IsPlayerControlled);
+                var cpuUnits = AliveUnits.Where(x => !x.Unit.IsPlayerControlled);
                 var hasCpuUnits = cpuUnits.Any();
 
                 // TODO Looks like XOR
@@ -178,7 +178,7 @@ namespace Rpg.Client.Core
         {
             _allUnitList.Clear();
 
-            foreach (var slot in _playerGroup.Slots)
+            foreach (var slot in PlayerGroup.Slots)
             {
                 if (slot.Unit is null)
                 {
@@ -223,6 +223,8 @@ namespace Rpg.Client.Core
                 combatUnit.IsWaiting = true;
 
                 HandleEquipmentCombatBeginningEffects(combatUnit);
+                HandlePerksCombatBeginningEffects(combatUnit);
+                HandleGlobeEffectCombatBeginningEffects(combatUnit);
 
                 if (!combatUnit.Unit.IsPlayerControlled)
                 {
@@ -238,6 +240,23 @@ namespace Rpg.Client.Core
             Update();
 
             AssignCpuTargetUnits();
+        }
+
+        private void HandleGlobeEffectCombatBeginningEffects(CombatUnit combatUnit)
+        {
+            foreach (var globalUnitEffect in combatUnit.Unit.GlobalEffects)
+            {
+                var effects = globalUnitEffect.Source.CreateCombatBeginningEffects();
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, globalUnitEffect);
+                    }
+                }
+            }
         }
 
         internal void Update()
@@ -558,7 +577,10 @@ namespace Rpg.Client.Core
                     }
                 }
             }
+        }
 
+        private void HandlePerksCombatBeginningEffects(CombatUnit combatUnit)
+        {
             foreach (var perk in combatUnit.Unit.Perks)
             {
                 var equipmentEffectContext = new EmptyEffectContext(combatUnit);
@@ -645,6 +667,8 @@ namespace Rpg.Client.Core
         public EffectProcessor EffectProcessor { get; }
 
         public ModifiersProcessor ModifiersProcessor { get; }
+
+        internal Group PlayerGroup => _playerGroup;
 
         public void Pass()
         {

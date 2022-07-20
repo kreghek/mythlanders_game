@@ -153,7 +153,7 @@ namespace Rpg.Client.GameScreens.Map.Ui
                 textPosition + new Vector2(5, 5),
                 Color.Wheat);
 
-            var dialogueMarkerText = GetLocalizedEventTitle();
+            var dialogueMarkerText = GetLocalizedEventTitle() ?? String.Empty;
             spriteBatch.DrawString(_uiContentStorage.GetMainFont(), dialogueMarkerText,
                 textPosition + new Vector2(5, 25), Color.Wheat);
 

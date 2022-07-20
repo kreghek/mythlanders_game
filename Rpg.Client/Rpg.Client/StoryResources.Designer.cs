@@ -63,6 +63,15 @@ namespace Rpg.Client {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string SlavicMain1 {
+            get {
+                return ResourceManager.GetString("SlavicMain1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string SlavicMain2 {
             get {
                 return ResourceManager.GetString("SlavicMain2", resourceCulture);

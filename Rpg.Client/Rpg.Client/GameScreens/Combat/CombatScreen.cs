@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Rpg.Client.Assets.GlobalEffects;
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -414,42 +415,14 @@ namespace Rpg.Client.GameScreens.Combat
                         }
                         else
                         {
-                            _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-
-                            // if (_globe.CurrentEvent is not null)
-                            // {
-                            //     if (_globe.CurrentEvent.BeforeCombatStartNodeSid is null)
-                            //     {
-                            //         _globe.CurrentDialogue = null;
-                            //     }
-                            //     else
-                            //     {
-                            //         _globe.CurrentDialogue =
-                            //             _eventCatalog.GetDialogue(_globe.CurrentEvent.BeforeCombatStartNodeSid);
-                            //     }
-                            //
-                            //     _globe.CurrentEvent.Counter++;
-                            // }
-                            //
-                            // _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
-                            //
-                            // if (_globe.CurrentEvent is not null)
-                            // {
-                            //     // Old code. This init start dualogue event in the next unlocked biome.
-                            //     ScreenManager.ExecuteTransition(this, ScreenTransition.Event, null);
-                            // }
-                            // else
-                            // {
-                            //     // Old code. This init start combat in the next unlocked biome.
-                            //     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, null);
-                            // }
+                            _globeProvider.Globe.Update(_dice, _eventCatalog);
                         }
                     }
                     else
                     {
                         if (_args.VictoryDialogue is null)
                         {
-                            //_globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
+                            _globeProvider.Globe.Update(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
 
                             if (_settings.Mode == GameMode.Full)
@@ -474,7 +447,6 @@ namespace Rpg.Client.GameScreens.Combat
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
                 RestoreGroupAfterCombat();
-                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             }
             else
@@ -484,7 +456,7 @@ namespace Rpg.Client.GameScreens.Combat
                 RestoreGroupAfterCombat();
 
                 // Fallback is just show biome.
-                _globeProvider.Globe.UpdateNodes(_dice, _eventCatalog);
+                _globeProvider.Globe.Update(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             }
         }
@@ -1149,6 +1121,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _globeProvider.Globe.Player,
                         _globeProvider.Globe.GlobeLevel);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
+                    ApplyWounds(_combat);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1163,6 +1136,8 @@ namespace Rpg.Client.GameScreens.Combat
                 }
                 else
                 {
+                    ApplyWounds(_combat);
+
                     combatResultModal = new CombatResultModal(
                         _uiContentStorage,
                         _gameObjectContentStorage,
@@ -1180,6 +1155,7 @@ namespace Rpg.Client.GameScreens.Combat
                 var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                 soundtrackManager.PlayDefeatTrack();
 
+                ApplyWounds(_combat);
                 HandleGlobe(CombatResult.Defeat);
 
                 combatResultModal = new CombatResultModal(
@@ -1201,6 +1177,40 @@ namespace Rpg.Client.GameScreens.Combat
             AddModal(combatResultModal, isLate: false);
 
             combatResultModal.Closed += CombatResultModal_Closed;
+        }
+
+        private void ApplyWounds(Core.Combat combat)
+        {
+            foreach (var slot in combat.PlayerGroup.Slots)
+            {
+                if (slot.Unit is null)
+                {
+                    continue;
+                }
+
+                var combatUnit = combat.AliveUnits.SingleOrDefault(x => x.Unit == slot.Unit) as CombatUnit;
+
+                var unit = slot.Unit;
+                var unitName = unit.UnitScheme.Name;
+
+                if (combatUnit is null)
+                {
+                    // Unit was deleted from the list as casualties
+                    _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.75f));
+                }
+                else
+                {
+                    var share = combatUnit.HitPoints.GetShare();
+                    if (share < 0.75f)
+                    {
+                        _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.5f));
+                    }
+                    else if (share < 0.5f)
+                    {
+                        _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.25f));
+                    }
+                }
+            }
         }
 
         private void UpdateBackgroundObjects(GameTime gameTime)

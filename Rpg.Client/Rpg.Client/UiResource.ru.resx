@@ -198,6 +198,9 @@
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
   </data>
+  <data name="DecreaseHitPointsPercentEffectRuleText" xml:space="preserve">
+    <value>Уменьшает хитпоинты на {0}% по {2} на {1} ходов</value>
+  </data>
   <data name="DecreaseShieldsPercentEffectRuleText" xml:space="preserve">
     <value>Уменьшает щиты на {0}% по {2} на {1} ходов</value>
   </data>
@@ -263,6 +266,9 @@
   </data>
   <data name="IncreaseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Увеличивает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="IncreaseHitPointsPercentEffectRuleText" xml:space="preserve">
+    <value>Увеличивает хитопоинты на {0}% по {2} на {1} ходов</value>
   </data>
   <data name="IncreaseShieldsPercentEffectRuleText" xml:space="preserve">
     <value>Увеличивает щиты на {0}% по {2} на {1} ходов</value>

@@ -12,9 +12,11 @@ namespace Rpg.Client.Core.SkillEffects
             _modifier = modifier;
         }
 
+        public float Modifier => _modifier;
+
         protected override IEnumerable<(UnitStatType, StatModifier)> Modifiers => new (UnitStatType, StatModifier)[]
         {
-            new(UnitStatType.HitPoints, new StatModifier(_modifier))
+            new(UnitStatType.HitPoints, new StatModifier(Modifier))
         };
     }
 }

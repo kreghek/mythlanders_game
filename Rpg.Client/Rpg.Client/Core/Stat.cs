@@ -8,6 +8,8 @@ namespace Rpg.Client.Core
     {
         private readonly IList<IUnitStatModifier> _modifiers;
 
+        public event EventHandler ModifierAdded;
+
         public StatValue(int baseValue)
         {
             Base = baseValue;
@@ -24,6 +26,12 @@ namespace Rpg.Client.Core
         public void AddModifier(IUnitStatModifier modifier)
         {
             _modifiers.Add(modifier);
+            if (Current > Base)
+            { 
+                Current = Base;
+            }
+
+            ModifierAdded?.Invoke(this, new EventArgs());
         }
 
         public void ChangeBase(int newBase)

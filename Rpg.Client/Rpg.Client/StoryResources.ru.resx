@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SlavicMain1" xml:space="preserve">
+    <value>Интро</value>
+  </data>
   <data name="SlavicMain2" xml:space="preserve">
     <value>Ты не один. Ты один из немногих.</value>
   </data>

@@ -259,6 +259,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decrease hitpoints on {0}% of {2} on {1} turns.
+        /// </summary>
+        internal static string DecreaseHitPointsPercentEffectRuleText {
+            get {
+                return ResourceManager.GetString("DecreaseHitPointsPercentEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Decrease shields on {0}% of {2} on {1} turns.
         /// </summary>
         internal static string DecreaseShieldsPercentEffectRuleText {
@@ -435,6 +444,15 @@ namespace Rpg.Client {
         internal static string IncreaseDamagePercentEffectRuleText {
             get {
                 return ResourceManager.GetString("IncreaseDamagePercentEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase hit points on {0}% of {2} on {1} turns.
+        /// </summary>
+        internal static string IncreaseHitPointsPercentEffectRuleText {
+            get {
+                return ResourceManager.GetString("IncreaseHitPointsPercentEffectRuleText", resourceCulture);
             }
         }
         

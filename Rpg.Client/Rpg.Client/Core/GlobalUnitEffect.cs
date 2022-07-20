@@ -1,6 +1,8 @@
-﻿namespace Rpg.Client.Core
+﻿using Rpg.Client.Core.Skills;
+
+namespace Rpg.Client.Core
 {
-    internal sealed class GlobalUnitEffect
+    internal sealed class GlobalUnitEffect: IEffectSource
     {
         public GlobalUnitEffect(IGlobeEvent source)
         {
