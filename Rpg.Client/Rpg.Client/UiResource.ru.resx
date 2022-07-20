@@ -135,12 +135,6 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
-  <data name="MapTutorialText" xml:space="preserve">
-    <value>Это карта локаций.
-1. Каждая последующая локация становится доступной после победы в предыдущей.
-2. В нескольких локациях буйствуют монстры. Эти локации отмечены ярким символом мечей.
-3. В некоторых локациях могут происходить различные события, которые могут повлиять на текущий бой, отдельных персонажей или всю группу героев.</value>
-  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
   </data>
@@ -204,8 +198,14 @@
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Урон: {0}</value>
   </data>
-  <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Уменьшает урон на  {0}% по {2} на {1} ходов</value>
+  <data name="DecreseDamageEffectRuleText" xml:space="preserve">
+    <value>Уменьшает урон на {0} по {2} на {1} ходов</value>
+  </data>
+  <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
+    <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="DialogueContinueText" xml:space="preserve">
+    <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
@@ -256,7 +256,10 @@
     <value>Хитопонты: {0}</value>
   </data>
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Увеличивает урон на +{0}% по {2} на {1} ходов</value>
+    <value>Увеличивает урон на {0} по {2} на {1} ходов</value>
+  </data>
+  <data name="IncreaseDamagePercentEffectRuleText" xml:space="preserve">
+    <value>Увеличивает урон на {0}% по {2} на {1} ходов</value>
   </data>
   <data name="IndicatorBlockAnyDamage" xml:space="preserve">
     <value>Блок!</value>
@@ -285,6 +288,12 @@
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Пси-энергия: {0}/{1}</value>
   </data>
+  <data name="MapTutorialText" xml:space="preserve">
+    <value>Это карта локаций.
+1. Каждая последующая локация становится доступной после победы в предыдущей.
+2. В нескольких локациях буйствуют монстры. Эти локации отмечены ярким символом мечей.
+3. В некоторых локациях могут происходить различные события, которые могут повлиять на текущий бой, отдельных персонажей или всю группу героев.</value>
+  </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Средний</value>
   </data>
@@ -309,6 +318,9 @@
   <data name="PlayGameButtonTitle" xml:space="preserve">
     <value>Играть</value>
   </data>
+  <data name="ProtectionEffectRuleText" xml:space="preserve">
+    <value>Уменьшает входящий урон на  {0}% по {2} на {1} ходов</value>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Настройки</value>
   </data>
@@ -323,6 +335,30 @@
   </data>
   <data name="SkillDirectionAllFriendlyText" xml:space="preserve">
     <value>всех союзников</value>
+  </data>
+  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
+    <value>противникам на линии</value>
+  </data>
+  <data name="SkillDirectionAllText" xml:space="preserve">
+    <value>всем</value>
+  </data>
+  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
+    <value>союзнику слева</value>
+  </data>
+  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
+    <value>всем остальным союзникам</value>
+  </data>
+  <data name="SkillDirectionOtherText" xml:space="preserve">
+    <value>всем остальным</value>
+  </data>
+  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
+    <value>случайному противнику</value>
+  </data>
+  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
+    <value>случайному союзнику</value>
+  </data>
+  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
+    <value>случайному противнику на линии</value>
   </data>
   <data name="SkillDirectionSelfText" xml:space="preserve">
     <value>себе</value>
@@ -356,32 +392,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
-    <value>случайному противнику</value>
-  </data>
-  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
-    <value>случайному союзнику</value>
-  </data>
-  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
-    <value>противникам на линии</value>
-  </data>
-  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
-    <value>всем остальным союзникам</value>
-  </data>
-  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
-    <value>случайному противнику на линии</value>
-  </data>
-  <data name="SkillDirectionOtherText" xml:space="preserve">
-    <value>всем остальным</value>
-  </data>
-  <data name="SkillDirectionAllText" xml:space="preserve">
-    <value>всем</value>
-  </data>
-  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
-    <value>союзнику слева</value>
-  </data>
-  <data name="DialogueContinueText" xml:space="preserve">
-    <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
 </root>

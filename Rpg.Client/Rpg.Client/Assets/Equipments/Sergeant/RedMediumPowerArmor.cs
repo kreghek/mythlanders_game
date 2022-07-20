@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         {
             return new[]
             {
-                SkillRuleFactory.CreatePowerUp(context.EquipmentLevel, SkillDirection.AllFriendly)
+                SkillRuleFactory.CreatePowerUpFixed(_bonusesByLevel[context.EquipmentLevel], SkillDirection.AllFriendly)
             };
         }
 
@@ -28,6 +28,14 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 2
+        };
+
+        private int[] _bonusesByLevel = new[] {
+            1,
+            2,
+            3,
+            5,
+            8
         };
     }
 }

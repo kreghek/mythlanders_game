@@ -16,8 +16,10 @@ namespace Rpg.Client.Core.SkillEffects
                     Multiplier = multiplier
                 }
             };
+            Multiplier = multiplier;
         }
 
+        public float Multiplier { get; }
         protected override IEnumerable<ModifierBase> Modifiers { get; }
     }
 }

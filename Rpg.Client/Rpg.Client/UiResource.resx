@@ -136,9 +136,6 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
-  <data name="MapTutorialText" xml:space="preserve">
-    <value />
-  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -193,10 +190,15 @@
   <data name="DamageLabelTemplate" xml:space="preserve">
     <value>Damage: {0}</value>
   </data>
-  <data name="DecreaseDamageEffectRuleText" xml:space="preserve">
+  <data name="DecreseDamageEffectRuleText" xml:space="preserve">
+    <value>Increase damage on {0} of {2} on {1} turns</value>
+  </data>
+  <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
-    <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
-      decreaseDamageEffect.Target</comment>
+  </data>
+  <data name="DialogueContinueText" xml:space="preserve">
+    <value>Press [SPACE] to continue</value>
+    <comment>Нажимается, чтобы запустить следующий фрагмент текста, когда текущий полностью показан.</comment>
   </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>This is end of the game. Congratulations!{0}Thank you for attention</value>
@@ -242,7 +244,10 @@
     <value>Hit points: {0}</value>
   </data>
   <data name="IncreaseDamageEffectRuleText" xml:space="preserve">
-    <value>Increase damage on +{0} of {2} on {1} turns</value>
+    <value>Increase damage on {0} of {2} on {1} turns</value>
+  </data>
+  <data name="IncreaseDamagePercentEffectRuleText" xml:space="preserve">
+    <value>Increase damage on {0}% of {2} on {1} turns</value>
   </data>
   <data name="IndicatorBlockAnyDamage" xml:space="preserve">
     <value>Block!</value>
@@ -273,6 +278,9 @@
   <data name="ManaLabelTemplate" xml:space="preserve">
     <value>Psy-energy: {0}/{1}</value>
   </data>
+  <data name="MapTutorialText" xml:space="preserve">
+    <value />
+  </data>
   <data name="MediumCombatSequenceText" xml:space="preserve">
     <value>Medium</value>
   </data>
@@ -297,6 +305,11 @@
   <data name="PlayGameButtonTitle" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="ProtectionEffectRuleText" xml:space="preserve">
+    <value>Reduce incoming damage on {0}% of {2} on {1} turns</value>
+    <comment>decreaseDamageEffect.Multiplier * 100 decreaseDamageEffect.Duration,
+      decreaseDamageEffect.Target</comment>
+  </data>
   <data name="SettingsButtonTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -311,6 +324,30 @@
   </data>
   <data name="SkillDirectionAllFriendlyText" xml:space="preserve">
     <value>all ally</value>
+  </data>
+  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
+    <value>enemies on the line</value>
+  </data>
+  <data name="SkillDirectionAllText" xml:space="preserve">
+    <value>all</value>
+  </data>
+  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
+    <value>left ally</value>
+  </data>
+  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
+    <value>all other ally</value>
+  </data>
+  <data name="SkillDirectionOtherText" xml:space="preserve">
+    <value>all other</value>
+  </data>
+  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
+    <value>random enemy</value>
+  </data>
+  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
+    <value>random ally</value>
+  </data>
+  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
+    <value>random enemy on the line</value>
   </data>
   <data name="SkillDirectionSelfText" xml:space="preserve">
     <value>self</value>
@@ -347,33 +384,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="SkillDirectionRandomEnemyText" xml:space="preserve">
-    <value>random enemy</value>
-  </data>
-  <data name="SkillDirectionRandomFriendlyText" xml:space="preserve">
-    <value>random ally</value>
-  </data>
-  <data name="SkillDirectionAllLineEnemiesText" xml:space="preserve">
-    <value>enemies on the line</value>
-  </data>
-  <data name="SkillDirectionOtherFriendlyText" xml:space="preserve">
-    <value>all other ally</value>
-  </data>
-  <data name="SkillDirectionRandomLineEnemyText" xml:space="preserve">
-    <value>random enemy on the line</value>
-  </data>
-  <data name="SkillDirectionOtherText" xml:space="preserve">
-    <value>all other</value>
-  </data>
-  <data name="SkillDirectionAllText" xml:space="preserve">
-    <value>all</value>
-  </data>
-  <data name="SkillDirectionLeftAllyText" xml:space="preserve">
-    <value>left ally</value>
-  </data>
-  <data name="DialogueContinueText" xml:space="preserve">
-    <value>Press [SPACE] to continue</value>
-    <comment>Нажимается, чтобы запустить следующий фрагмент текста, когда текущий полностью показан.</comment>
   </data>
 </root>

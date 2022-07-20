@@ -33,8 +33,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new HealEffectDrawer(font),
                 new PeriodicHealEffectDrawer(font),
                 new StunEffectDrawer(font),
-                new IncreaseDamageEffectDrawer(font),
-                new DecreaseDamageEffectDrawer(font),
+                new ModifyDamageEffectDrawer(font),
+                new ProtectionEffectDrawer(font),
                 new LifeDrawEffectDrawer(font),
                 new ExchangeSlotEffectDrawer(font)
             };
@@ -97,8 +97,8 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 new HealEffectDrawer(font),
                 new PeriodicHealEffectDrawer(font),
                 new StunEffectDrawer(font),
-                new IncreaseDamageEffectDrawer(font),
-                new DecreaseDamageEffectDrawer(font),
+                new ModifyDamageEffectDrawer(font),
+                new ProtectionEffectDrawer(font),
                 new LifeDrawEffectDrawer(font),
                 new ExchangeSlotEffectDrawer(font)
             };

@@ -96,7 +96,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
         {
             var list = new List<EffectRule>();
 
-            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.AllLineEnemies, 1);
+            var buffEffect = SkillRuleFactory.CreatePowerDown(SID, SkillDirection.AllLineEnemies, 1, _penalties[0]);
             buffEffect.EffectMetadata = new AssaultSkillRuleMetadata
             {
                 IsBuff = true
@@ -116,5 +116,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             return list;
         }
+
+        private static readonly int[] _penalties = new[] {
+            2,
+            4,
+            6,
+            10,
+            15
+        };
     }
 }

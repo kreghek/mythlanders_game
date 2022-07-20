@@ -106,9 +106,28 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effectLifetime = new DurationEffectLifetime(compensationDuration);
-                    var effect = new IncreaseAttackEffect(u, effectLifetime, bonus: -u.Unit.Support)
+                    var effect = new ModifyDamageEffect(u, effectLifetime, bonus: -u.Unit.Support)
                     {
-                        Visualization = EffectVisualizations.PowerUp
+                        Visualization = EffectVisualizations.PowerDown
+                    };
+                    return effect;
+                })
+            };
+        }
+
+        public static EffectRule CreatePowerDown(SkillSid sid, ITargetSelector direction, int duration, int penalty)
+        {
+            var compensationDuration = GetCompensatedDuration(direction, duration);
+
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effectLifetime = new DurationEffectLifetime(compensationDuration);
+                    var effect = new ModifyDamageEffect(u, effectLifetime, bonus: -penalty)
+                    {
+                        Visualization = EffectVisualizations.PowerDown
                     };
                     return effect;
                 })
@@ -134,6 +153,23 @@ namespace Rpg.Client.Assets
             };
         }
 
+        public static EffectRule CreatePowerUpFixed(int bonus, ITargetSelector direction)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effectLifetime = new UnitBoundEffectLifetime(u);
+                    var effect = new ModifyDamageEffect(u, effectLifetime, bonus)
+                    {
+                        Visualization = EffectVisualizations.PowerUp
+                    };
+                    return effect;
+                })
+            };
+        }
+
         public static EffectRule CreatePowerUp(SkillSid sid, ITargetSelector direction)
         {
             return CreatePowerUp(sid, direction, duration: 1);
@@ -149,7 +185,7 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var durationEffectLifetime = new DurationEffectLifetime(compensationDuration);
-                    var effect = new IncreaseAttackEffect(u, durationEffectLifetime, bonus: u.Unit.Support)
+                    var effect = new ModifyDamageEffect(u, durationEffectLifetime, bonus: u.Unit.Support)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };

@@ -259,11 +259,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Increase damage on {0} of {2} on {1} turns.
+        /// </summary>
+        internal static string DecreseDamageEffectRuleText {
+            get {
+                return ResourceManager.GetString("DecreseDamageEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Decrease damage on {0}% of {2} on {1} turns.
         /// </summary>
-        internal static string DecreaseDamageEffectRuleText {
+        internal static string DecreseDamagePercentEffectRuleText {
             get {
-                return ResourceManager.GetString("DecreaseDamageEffectRuleText", resourceCulture);
+                return ResourceManager.GetString("DecreseDamagePercentEffectRuleText", resourceCulture);
             }
         }
         
@@ -403,11 +412,20 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Increase damage on +{0} of {2} on {1} turns.
+        ///   Looks up a localized string similar to Increase damage on {0} of {2} on {1} turns.
         /// </summary>
         internal static string IncreaseDamageEffectRuleText {
             get {
                 return ResourceManager.GetString("IncreaseDamageEffectRuleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase damage on {0}% of {2} on {1} turns.
+        /// </summary>
+        internal static string IncreaseDamagePercentEffectRuleText {
+            get {
+                return ResourceManager.GetString("IncreaseDamagePercentEffectRuleText", resourceCulture);
             }
         }
         
@@ -570,6 +588,15 @@ namespace Rpg.Client {
         internal static string PlayGameButtonTitle {
             get {
                 return ResourceManager.GetString("PlayGameButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce incoming damage on {0}% of {2} on {1} turns.
+        /// </summary>
+        internal static string ProtectionEffectRuleText {
+            get {
+                return ResourceManager.GetString("ProtectionEffectRuleText", resourceCulture);
             }
         }
         
