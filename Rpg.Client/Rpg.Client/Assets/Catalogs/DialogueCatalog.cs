@@ -176,7 +176,7 @@ namespace Rpg.Client.Assets.Catalogs
                                     }
 
                                     if (aftermathList.Any())
-                                    { 
+                                    {
                                         aftermath = new CompositeOptionAftermath(aftermathList);
                                     }
                                 }

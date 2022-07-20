@@ -147,7 +147,7 @@ namespace Rpg.Client.Core
 
                             node.AssignEvent(rolledEvent);
                             availableEventList.Remove(rolledEvent);
-                            
+
                         }
                     }
                 }

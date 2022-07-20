@@ -79,7 +79,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             Size256,
             Size64
         }
-        
+
         private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea, Vector2 position)
         {
             var objectSchemes = GetObjectSchemes();
@@ -159,7 +159,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                         var (x, y) = GetSourceRectCoords(index, COL_COUNT_256);
                         return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
                     }
-                    
+
                 case BgMainObjectSchemeSize.Size64:
                     {
                         const int SIZE = 64;
@@ -315,7 +315,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
         };
-        
+
         private IReadOnlyCollection<IBgMainObjectScheme> GetObjectSchemes()
         {
             return _bgObjectSchemes;
