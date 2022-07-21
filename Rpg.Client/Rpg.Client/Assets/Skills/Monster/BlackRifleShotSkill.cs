@@ -1,8 +1,14 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Assets.InteractionDeliveryObjects;
+using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Monster
 {
@@ -33,5 +39,16 @@ namespace Rpg.Client.Assets.Skills.Monster
             SoundEffectType = GameObjectSoundType.Gunshot,
             AnimationSid = Core.PredefinedAnimationSid.Skill1
         };
+
+        protected override IInteractionDelivery CreateProjectile(Vector2 startPosition, Vector2 targetPosition, ISkillVisualizationContext context, AnimationBlocker bulletAnimationBlocker)
+        {
+            var singleInteractionDelivery = new KineticBulletProjectile(
+                startPosition,
+                targetPosition,
+                context.GameObjectContentStorage,
+                bulletAnimationBlocker);
+
+            return singleInteractionDelivery;
+        }
     }
 }

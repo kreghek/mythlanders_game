@@ -10,11 +10,21 @@ namespace Rpg.Client.Engine
     {
         private readonly Random _random;
         private readonly IList<Texture2D> _textures;
+        private readonly Color _particleColor;
 
-        public TailParticleGenerator(IList<Texture2D> textures)
+        public TailParticleGenerator(IList<Texture2D> textures, Color? particleColor = null)
         {
             _textures = textures;
             _random = new Random();
+
+            if (particleColor is null)
+            {
+                _particleColor = Color.LightCyan;
+            }
+            else
+            {
+                _particleColor = particleColor.Value;
+            }
         }
 
         public IParticle GenerateNewParticle(Vector2 emitterPosition)
@@ -26,7 +36,7 @@ namespace Rpg.Client.Engine
                 2f * (float)(_random.NextDouble() * 2 - 1));
             const float ANGLE = 0;
             const int ANGULAR_VELOCITY = 0;
-            var color = Color.Lerp(Color.LightCyan, Color.Transparent, 0.5f);
+            var color = Color.Lerp(_particleColor, Color.Transparent, 0.5f);
             var size = 0.1f;
             var ttl = 10 + _random.Next(10);
 

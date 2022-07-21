@@ -26,7 +26,22 @@ namespace Rpg.Client.GameScreens.Combat
         {
         }
 
-        private static IUnitStateEngine CreateCommonDistantSkillUsageState(
+        protected virtual IInteractionDelivery CreateProjectile(
+            Vector2 startPosition,
+            Vector2 targetPosition,
+            ISkillVisualizationContext context,
+            AnimationBlocker bulletAnimationBlocker)
+        {
+            var singleInteractionDelivery = new EnergoArrowProjectile(
+                startPosition,
+                targetPosition,
+                context.GameObjectContentStorage,
+                bulletAnimationBlocker);
+
+            return singleInteractionDelivery;
+        }
+
+        private IUnitStateEngine CreateCommonDistantSkillUsageState(
             UnitGameObject animatedUnitGameObject,
             Renderable targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
@@ -36,10 +51,10 @@ namespace Rpg.Client.GameScreens.Combat
         {
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
-            var singleInteractionDelivery = new EnergoArrowProjectile(
-                animatedUnitGameObject.Position - Vector2.UnitY * (64),
+            var singleInteractionDelivery = CreateProjectile(
+                animatedUnitGameObject.Position - Vector2.UnitY * 64,
                 targetUnitGameObject.Position,
-                context.GameObjectContentStorage,
+                context,
                 interactionDeliveryBlocker);
 
             var animationBlocker = context.AnimationManager.CreateAndUseBlocker();

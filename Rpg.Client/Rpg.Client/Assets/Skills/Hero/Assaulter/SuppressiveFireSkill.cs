@@ -53,7 +53,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 var materializedTargetGameObject = context.GetGameObject(materializedTarget);
                 var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
 
-                var singleInteractionDelivery = new EnergoArrowProjectile(animatedUnitGameObject.LaunchPoint,
+                var singleInteractionDelivery = new KineticBulletProjectile(animatedUnitGameObject.LaunchPoint,
                     materializedTargetGameObjectPosition,
                     context.GameObjectContentStorage,
                     bulletAnimationBlocker,
