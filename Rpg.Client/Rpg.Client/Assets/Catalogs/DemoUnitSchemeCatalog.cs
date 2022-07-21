@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Heroes;
 using Rpg.Client.Assets.Monsters;
 using Rpg.Client.Assets.Perks;

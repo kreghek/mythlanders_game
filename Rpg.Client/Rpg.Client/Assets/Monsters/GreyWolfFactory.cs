@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Assets.GraphicConfigs;
+﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;

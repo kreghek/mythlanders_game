@@ -1,7 +1,6 @@
 using Rpg.Client.Assets.Equipments.Swordsman;
-using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.Skills;
 using Rpg.Client.Assets.Skills.Hero.Swordsman;
 using Rpg.Client.Core;
 

@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Resources;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;

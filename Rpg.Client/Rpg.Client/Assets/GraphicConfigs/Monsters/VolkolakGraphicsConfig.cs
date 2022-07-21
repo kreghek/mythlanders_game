@@ -2,7 +2,7 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.GraphicConfigs
+namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
     internal sealed class VolkolakGraphicsConfig : UnitGraphicsConfigBase
     {

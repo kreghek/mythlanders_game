@@ -2,9 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 
+using Rpg.Client.Core;
+
 using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.Core.GlobalEvents
+namespace Rpg.Client.Assets.GlobalEffects
 {
     internal sealed class CharacterDeepPreyingGlobeEvent : IGlobeEvent
     {

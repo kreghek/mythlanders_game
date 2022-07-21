@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.GraphicConfigs
+namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
-    internal sealed class SwordsmanGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class SpearmanGraphicsConfig : UnitGraphicsConfigBase
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                {
-                    PredefinedAnimationSid.Idle,
-                    AnimationFrameSetFactory.CreateIdle(startFrameIndex: 0, frameCount: 8, fps: 8)
-                },
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle() },
                 {
                     PredefinedAnimationSid.Defense,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 0)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 39, frameCount: 1, fps: 0)
                 },
                 {
                     PredefinedAnimationSid.MoveForward,
@@ -33,29 +30,29 @@ namespace Rpg.Client.Assets.GraphicConfigs
                 },
                 {
                     PredefinedAnimationSid.Skill2,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
-                },
-                {
-                    PredefinedAnimationSid.Skill3,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 8)
                 },
                 {
-                    PredefinedAnimationSid.Skill4,
+                    PredefinedAnimationSid.Skill3,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
+                },
+                {
+                    PredefinedAnimationSid.Skill4,
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 32, frameCount: 8, fps: 8)
                 },
 
                 {
                     PredefinedAnimationSid.Ult,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 59, frameCount: 2, fps: 8, isLoop: false)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 59, frameCount: 2, fps: 8)
                 },
 
                 {
                     PredefinedAnimationSid.Wound,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8, isLoop: false)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Death,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, fps: 8, isLoop: false)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 48, frameCount: 8, fps: 8)
                 }
             };
         }

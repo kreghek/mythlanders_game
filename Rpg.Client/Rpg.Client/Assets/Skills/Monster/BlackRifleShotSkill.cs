@@ -30,7 +30,8 @@ namespace Rpg.Client.Assets.Skills.Monster
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Range,
-            SoundEffectType = GameObjectSoundType.Gunshot
+            SoundEffectType = GameObjectSoundType.Gunshot,
+            AnimationSid = Core.PredefinedAnimationSid.Skill1
         };
     }
 }

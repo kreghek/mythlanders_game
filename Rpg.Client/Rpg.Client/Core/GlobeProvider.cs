@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Rpg.Client.Assets.Catalogs;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.ProgressStorage;
 

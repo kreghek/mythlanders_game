@@ -2,9 +2,9 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.GraphicConfigs
+namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 {
-    internal sealed class ArcherGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class GenericHeroGraphicsConfig : UnitGraphicsConfigBase
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
@@ -25,10 +25,6 @@ namespace Rpg.Client.Assets.GraphicConfigs
                 },
                 {
                     PredefinedAnimationSid.Skill4,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 8)
-                },
-                {
-                    PredefinedAnimationSid.Ult,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 24, frameCount: 8, fps: 8)
                 },
                 {
@@ -38,10 +34,6 @@ namespace Rpg.Client.Assets.GraphicConfigs
                 {
                     PredefinedAnimationSid.Death,
                     AnimationFrameSetFactory.CreateSequential(startFrameIndex: 40, frameCount: 8, fps: 8)
-                },
-                {
-                    PredefinedAnimationSid.Defense,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 1, fps: 1)
                 }
             };
         }

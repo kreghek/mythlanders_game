@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Assets.GraphicConfigs;
+﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 
@@ -34,7 +34,7 @@ namespace Rpg.Client.Assets.Monsters
                         new AddSkillUnitLevel(1, new BlackRifleShotSkill())
                     },
 
-                UnitGraphicsConfig = new SingleSpriteGraphicsConfig()
+                UnitGraphicsConfig = new BlackTrooperGraphicsConfig()
             };
         }
     }

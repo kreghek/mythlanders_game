@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Rpg.Client.Core.AnimationFrameSets;
 
@@ -29,6 +30,11 @@ namespace Rpg.Client.Core
             {
                 IsLoop = isLoop
             };
+        }
+
+        public static IAnimationFrameSet CreateEmpty()
+        {
+            return new SequentialAnimationFrameSet(Array.Empty<int>(), default,default, default, default);
         }
     }
 }

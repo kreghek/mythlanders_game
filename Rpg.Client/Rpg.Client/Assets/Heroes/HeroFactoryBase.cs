@@ -1,4 +1,4 @@
-﻿using Rpg.Client.Assets.GraphicConfigs;
+﻿using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
@@ -9,7 +9,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected virtual UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new GenericCharacterGraphicsConfig();
+            return new GenericHeroGraphicsConfig();
         }
 
         protected abstract IUnitLevelScheme[] GetLevels();

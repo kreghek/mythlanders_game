@@ -2,38 +2,46 @@
 
 using Rpg.Client.Core;
 
-namespace Rpg.Client.Assets.GraphicConfigs
+namespace Rpg.Client.Assets.GraphicConfigs.Monsters
 {
-    internal sealed class WispMonsterGraphicsConfig : UnitGraphicsConfigBase
+    internal sealed class BlackTrooperGraphicsConfig : UnitGraphicsConfigBase
     {
         public override IDictionary<PredefinedAnimationSid, IAnimationFrameSet> GetPredefinedAnimations()
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(fps: 12) },
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdle(fps: 6) },
                 {
                     PredefinedAnimationSid.MoveForward,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
+                    AnimationFrameSetFactory.CreateEmpty()
                 },
                 {
                     PredefinedAnimationSid.MoveBackward,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
+                    AnimationFrameSetFactory.CreateEmpty()
                 },
                 {
                     PredefinedAnimationSid.Skill1,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 12)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 8, frameCount: 8, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Skill2,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
+                    AnimationFrameSetFactory.CreateEmpty()
                 },
                 {
                     PredefinedAnimationSid.Skill3,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 0, frameCount: 1, fps: 1)
+                    AnimationFrameSetFactory.CreateEmpty()
+                },
+                {
+                    PredefinedAnimationSid.Skill4,
+                    AnimationFrameSetFactory.CreateEmpty()
+                },
+                {
+                    PredefinedAnimationSid.Ult,
+                    AnimationFrameSetFactory.CreateEmpty()
                 },
                 {
                     PredefinedAnimationSid.Wound,
-                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 2, fps: 8)
+                    AnimationFrameSetFactory.CreateSequential(startFrameIndex: 16, frameCount: 8, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Death,
