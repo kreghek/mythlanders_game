@@ -8,8 +8,6 @@ namespace Rpg.Client.Core
     {
         private readonly IList<IUnitStatModifier> _modifiers;
 
-        public event EventHandler ModifierAdded;
-
         public StatValue(int baseValue)
         {
             Base = baseValue;
@@ -18,6 +16,8 @@ namespace Rpg.Client.Core
         }
 
         private int Base { get; set; }
+
+        public event EventHandler ModifierAdded;
 
         public int ActualMax => Base + _modifiers.Sum(x => x.GetBonus(Base));
 

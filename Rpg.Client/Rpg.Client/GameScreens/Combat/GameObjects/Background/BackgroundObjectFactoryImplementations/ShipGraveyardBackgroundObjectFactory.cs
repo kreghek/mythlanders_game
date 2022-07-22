@@ -348,7 +348,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         private sealed class HaribdaBackgroundObject : IBackgroundObject
         {
             private readonly Vector2 _centerPosition;
-            private readonly Texture2D _texture;
             private readonly int[] _particleCounts = { 270, 180, 15 };
 
             private readonly ParticleSystem _particleSystem;
@@ -356,6 +355,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
             private readonly double[] _ringCounters;
             private readonly double[] _ringSpeeds = { 0.0001, -0.0002, 0.00005 };
+            private readonly Texture2D _texture;
 
             public HaribdaBackgroundObject(Texture2D texture, Vector2 centerPosition)
             {

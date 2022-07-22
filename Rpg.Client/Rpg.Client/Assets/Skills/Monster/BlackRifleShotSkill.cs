@@ -37,10 +37,11 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.Gunshot,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
 
-        protected override IInteractionDelivery CreateProjectile(Vector2 startPosition, Vector2 targetPosition, ISkillVisualizationContext context, AnimationBlocker bulletAnimationBlocker)
+        protected override IInteractionDelivery CreateProjectile(Vector2 startPosition, Vector2 targetPosition,
+            ISkillVisualizationContext context, AnimationBlocker bulletAnimationBlocker)
         {
             var singleInteractionDelivery = new KineticBulletProjectile(
                 startPosition,

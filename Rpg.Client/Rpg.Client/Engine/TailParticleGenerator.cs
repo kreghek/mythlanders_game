@@ -8,9 +8,9 @@ namespace Rpg.Client.Engine
 {
     internal sealed class TailParticleGenerator : IParticleGenerator
     {
+        private readonly Color _particleColor;
         private readonly Random _random;
         private readonly IList<Texture2D> _textures;
-        private readonly Color _particleColor;
 
         public TailParticleGenerator(IList<Texture2D> textures, Color? particleColor = null)
         {

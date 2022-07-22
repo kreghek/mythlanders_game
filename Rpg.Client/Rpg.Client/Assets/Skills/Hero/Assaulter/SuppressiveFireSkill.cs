@@ -16,6 +16,15 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
     {
         private const SkillSid SID = SkillSid.SuppressiveFire;
 
+        private static readonly int[] _penalties =
+        {
+            2,
+            4,
+            6,
+            10,
+            15
+        };
+
         public SuppressiveFireSkill() : this(false)
         {
         }
@@ -116,13 +125,5 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
 
             return list;
         }
-
-        private static readonly int[] _penalties = new[] {
-            2,
-            4,
-            6,
-            10,
-            15
-        };
     }
 }

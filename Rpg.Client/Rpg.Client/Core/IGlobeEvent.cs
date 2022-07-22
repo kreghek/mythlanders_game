@@ -10,12 +10,14 @@ namespace Rpg.Client.Core
         int CombatsLeft { get; }
         bool IsActive { get; }
         string Title { get; }
-        IReadOnlyList<GlobeRule> GetRules();
-        void Initialize(Globe globe);
-        void Update();
+
         IReadOnlyCollection<EffectRule> CreateCombatBeginningEffects()
         {
             return Array.Empty<EffectRule>();
         }
+
+        IReadOnlyList<GlobeRule> GetRules();
+        void Initialize(Globe globe);
+        void Update();
     }
 }

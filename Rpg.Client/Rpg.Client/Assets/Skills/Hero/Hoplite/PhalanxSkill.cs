@@ -43,6 +43,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             AnimationSid = PredefinedAnimationSid.Skill2
         };
 
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        {
+            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
+            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
+        }
+
         private static int? GetRightIndex(int baseIndex)
         {
             return baseIndex switch
@@ -84,13 +91,6 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             {
                 return "RIGHT WITH SHIELD";
             }
-        }
-
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
-            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
-        {
-            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
-            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
     }
 }

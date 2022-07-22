@@ -23,7 +23,9 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             }
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-            var textTemplate = shieldModifyEffect.Modifier > 0 ? UiResource.IncreaseShieldsPercentEffectRuleText : UiResource.DecreaseShieldsPercentEffectRuleText;
+            var textTemplate = shieldModifyEffect.Modifier > 0
+                ? UiResource.IncreaseShieldsPercentEffectRuleText
+                : UiResource.DecreaseShieldsPercentEffectRuleText;
 
             spriteBatch.DrawString(_font,
                 string.Format(textTemplate,

@@ -8,6 +8,11 @@ namespace Rpg.Client.Core
 {
     internal static class AnimationFrameSetFactory
     {
+        public static IAnimationFrameSet CreateEmpty()
+        {
+            return new SequentialAnimationFrameSet(Array.Empty<int>(), default, default, default, default);
+        }
+
         public static IAnimationFrameSet CreateIdle(int startFrameIndex = 0, int frameCount = 8,
             int fps = 8, int frameWidth = 256,
             int frameHeight = 128, int textureColumns = 8)
@@ -51,11 +56,6 @@ namespace Rpg.Client.Core
             {
                 IsLoop = isLoop
             };
-        }
-
-        public static IAnimationFrameSet CreateEmpty()
-        {
-            return new SequentialAnimationFrameSet(Array.Empty<int>(), default, default, default, default);
         }
     }
 }

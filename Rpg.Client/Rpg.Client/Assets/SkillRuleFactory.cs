@@ -153,23 +153,6 @@ namespace Rpg.Client.Assets
             };
         }
 
-        public static EffectRule CreatePowerUpFixed(int bonus, ITargetSelector direction)
-        {
-            return new EffectRule
-            {
-                Direction = direction,
-                EffectCreator = new EffectCreator(u =>
-                {
-                    var effectLifetime = new UnitBoundEffectLifetime(u);
-                    var effect = new ModifyDamageEffect(u, effectLifetime, bonus)
-                    {
-                        Visualization = EffectVisualizations.PowerUp
-                    };
-                    return effect;
-                })
-            };
-        }
-
         public static EffectRule CreatePowerUp(SkillSid sid, ITargetSelector direction)
         {
             return CreatePowerUp(sid, direction, duration: 1);
@@ -203,6 +186,23 @@ namespace Rpg.Client.Assets
                 {
                     var effectLifetime = new UnitBoundEffectLifetime(u);
                     var effect = new IncreaseDamagePercentEffect(u, effectLifetime, multiplier)
+                    {
+                        Visualization = EffectVisualizations.PowerUp
+                    };
+                    return effect;
+                })
+            };
+        }
+
+        public static EffectRule CreatePowerUpFixed(int bonus, ITargetSelector direction)
+        {
+            return new EffectRule
+            {
+                Direction = direction,
+                EffectCreator = new EffectCreator(u =>
+                {
+                    var effectLifetime = new UnitBoundEffectLifetime(u);
+                    var effect = new ModifyDamageEffect(u, effectLifetime, bonus)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -33,7 +34,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash,
             IconOneBasedIndex = 22,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }

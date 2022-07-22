@@ -9,15 +9,16 @@ namespace Rpg.Client.Assets.Dialogues.MainStory
     internal sealed class GreekMeetsLeonidasDialogueEvent : MainDialogueFactoryBase
     {
         protected override string Sid => "GreekMeetsLeonidas";
+
         protected override IReadOnlyCollection<ITextEventRequirement>? CreateRequirements(IEventCatalog eventCatalog)
         {
             return new ITextEventRequirement[]
+            {
+                new LocationEventRequirement(new[]
                 {
-                    new LocationEventRequirement(new[]
-                    {
-                        GlobeNodeSid.ShipGraveyard
-                    })
-                };
+                    GlobeNodeSid.ShipGraveyard
+                })
+            };
         }
     }
 }
