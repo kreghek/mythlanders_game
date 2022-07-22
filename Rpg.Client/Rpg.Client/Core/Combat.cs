@@ -176,7 +176,7 @@ namespace Rpg.Client.Core
 
         internal sealed record HeroHp(int Hp, UnitName UnitName);
 
-        internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps)
+        internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps = null)
         {
             _allUnitList.Clear();
 
