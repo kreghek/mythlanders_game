@@ -1,5 +1,5 @@
 using Rpg.Client.Assets.Equipments.Legionnaire;
-using Rpg.Client.Assets.GraphicConfigs;
+using Rpg.Client.Assets.GraphicConfigs.Heroes;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Hero.Hoplite;
 using Rpg.Client.Core;
@@ -22,7 +22,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected override UnitGraphicsConfigBase GetGraphicsConfig()
         {
-            return new SingleSpriteGraphicsConfig();
+            return new HopliteGraphicsConfig();
         }
 
         protected override IUnitLevelScheme[] GetLevels()

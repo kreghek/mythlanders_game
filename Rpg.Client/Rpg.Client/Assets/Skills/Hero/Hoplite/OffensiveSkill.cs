@@ -32,7 +32,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash,
-            IconOneBasedIndex = 22
+            IconOneBasedIndex = 22,
+            AnimationSid = Core.PredefinedAnimationSid.Skill1
         };
     }
 }

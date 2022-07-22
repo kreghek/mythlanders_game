@@ -5,8 +5,10 @@ using Rpg.Client.Assets.TargetSelectors;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Hoplite
 {
@@ -37,7 +39,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
         {
             Type = SkillVisualizationStateType.Self,
             SoundEffectType = GameObjectSoundType.Defence,
-            IconOneBasedIndex = 23
+            IconOneBasedIndex = 23,
+            AnimationSid = PredefinedAnimationSid.Skill2
         };
 
         private static int? GetRightIndex(int baseIndex)
@@ -81,6 +84,13 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             {
                 return "RIGHT WITH SHIELD";
             }
+        }
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        {
+            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
+            return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
     }
 }

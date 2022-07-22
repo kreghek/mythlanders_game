@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                 new PriestFactory(),
 
-                new AmazonFactory()
+                new HopliteFactory()
             };
 
             Heroes = heroes.Select(x => x.Create(balanceTable)).ToDictionary(scheme => scheme.Name, scheme => scheme);
