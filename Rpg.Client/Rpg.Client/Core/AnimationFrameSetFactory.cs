@@ -55,7 +55,7 @@ namespace Rpg.Client.Core
 
         public static IAnimationFrameSet CreateEmpty()
         {
-            return new SequentialAnimationFrameSet(Array.Empty<int>(), default,default, default, default);
+            return new SequentialAnimationFrameSet(Array.Empty<int>(), default, default, default, default);
         }
     }
 }

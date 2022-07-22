@@ -233,7 +233,7 @@ namespace Rpg.Client.Core
                     _allUnitList.Add(combatUnit);
 
                     CombatUnitEntered?.Invoke(this, combatUnit);
-                }               
+                }
             }
 
             foreach (var slot in CombatSource.EnemyGroup.Slots)

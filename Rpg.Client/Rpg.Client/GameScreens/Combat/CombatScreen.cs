@@ -473,7 +473,7 @@ namespace Rpg.Client.GameScreens.Combat
             var heroes = _globe.Player.Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
             foreach (var hero in heroes)
             {
-                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x=>x.Unit == hero);
+                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x => x.Unit == hero);
                 if (combatUnit is null)
                 {
                     list.Add(new HeroHp(0, hero.UnitScheme.Name));

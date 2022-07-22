@@ -27,7 +27,7 @@ namespace Rpg.Client.Core
         {
             _modifiers.Add(modifier);
             if (Current > Base)
-            { 
+            {
                 Current = Base;
             }
 
