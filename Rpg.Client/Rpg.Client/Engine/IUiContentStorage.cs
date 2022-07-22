@@ -38,6 +38,7 @@ namespace Rpg.Client.Engine
 
         Texture2D GetSocialTexture();
         Texture2D GetSpeechTexture();
+        Texture2D GetTitleBackgroundTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();
         Texture2D GetUnitStatePanelTexture();

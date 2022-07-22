@@ -35,6 +35,9 @@ namespace Rpg.Client.GameScreens.Title
         private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
 
+        private Vector2 _bgMoveVector = Vector2.One * 0.2f;
+        private Vector2 _bgCurrentPosition;
+
         public TitleScreen(EwarGame game)
             : base(game)
         {
@@ -158,6 +161,9 @@ namespace Rpg.Client.GameScreens.Title
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
+            spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgCurrentPosition, Color.White);
+            spriteBatch.Draw(_uiContentStorage.GetModalShadowTexture(), new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480), sourceRectangle:  null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
+
             var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
                 ResolutionIndependentRenderer.VirtualHeight / 2);
             DrawHeroes(spriteBatch, heroesRect);
@@ -186,6 +192,8 @@ namespace Rpg.Client.GameScreens.Title
             spriteBatch.End();
         }
 
+        private Random _rnd = new Random();
+
         protected override void UpdateContent(GameTime gameTime)
         {
             foreach (var button in _buttons)
@@ -197,6 +205,36 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var particleSystem in _pulseParticleSystems)
             {
                 particleSystem.Update(gameTime);
+            }
+
+            void CreateRandomMovement()
+            {
+                _bgMoveVector = (new Vector2((float)_rnd.NextDouble(), (float)_rnd.NextDouble()) - Vector2.One * 0.5f) * 0.1f;
+            }
+
+            if (_bgCurrentPosition.X < -150)
+            {
+                _bgCurrentPosition.X = -150;
+                CreateRandomMovement();
+            }
+            else if (_bgCurrentPosition.X > 0)
+            {
+                _bgCurrentPosition.X = 0;
+                CreateRandomMovement();
+            }
+            else if (_bgCurrentPosition.Y < -20)
+            {
+                _bgCurrentPosition.Y = -20;
+                CreateRandomMovement();
+            }
+            else if (_bgCurrentPosition.Y > 0)
+            {
+                _bgCurrentPosition.Y = 0;
+                CreateRandomMovement();
+            }
+            else
+            {
+                _bgCurrentPosition += _bgMoveVector;
             }
         }
 

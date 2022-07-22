@@ -37,6 +37,7 @@ namespace Rpg.Client.Engine
         private Texture2D _skillButtonTexture;
         private Texture2D _socialTexture;
         private Texture2D _speechTexture;
+        private Texture2D _titleBackgroundTexture;
         private IDictionary<string, SpriteFont> _titlesFonts;
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
@@ -153,6 +154,11 @@ namespace Rpg.Client.Engine
             return _logoTexture;
         }
 
+        public Texture2D GetTitleBackgroundTexture()
+        {
+            return _titleBackgroundTexture;
+        }
+
         public void LoadContent(ContentManager contentManager)
         {
             _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
@@ -249,6 +255,8 @@ namespace Rpg.Client.Engine
             _equipmentIconsTexture = contentManager.Load<Texture2D>("Sprites/Ui/EquipmentIcons");
 
             _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
+
+            _titleBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/TitleBackground");
         }
 
         public Texture2D GetSocialTexture()
