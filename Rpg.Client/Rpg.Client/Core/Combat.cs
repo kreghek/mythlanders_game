@@ -328,7 +328,7 @@ namespace Rpg.Client.Core
 
             if (CurrentUnit is null)
             {
-                return;
+                throw new InvalidOperationException();
             }
 
             var currentTargetUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
@@ -366,11 +366,14 @@ namespace Rpg.Client.Core
                     var targetCombatUnit = GetCurrentTargetUnit(CurrentUnit.TargetSlot);
                     if (targetCombatUnit is null)
                     {
-                        throw new InvalidOperationException(
-                            "Target combat unit cant be null until target slot assigned");
+                        SkipTurn();
+                        /*throw new InvalidOperationException(
+                            "Target combat unit cant be null until target slot assigned");*/
                     }
-
-                    UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
+                    else
+                    {
+                        UseSkill(CurrentUnit.TargetSkill, targetCombatUnit);
+                    }
                 }
 
                 return;
@@ -378,6 +381,12 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
+        }
+
+        private void SkipTurn()
+        {
+            CompleteStep();
+            Pass();
         }
 
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
