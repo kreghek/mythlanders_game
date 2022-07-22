@@ -8,9 +8,9 @@ namespace Rpg.Client.Engine
 {
     internal sealed class MothParticleGenerator : IParticleGenerator
     {
+        private readonly float _radius;
         private readonly Random _random;
         private readonly IList<Texture2D> _textures;
-        private readonly float _radius;
 
         public MothParticleGenerator(IList<Texture2D> textures, float radius = 128f)
         {

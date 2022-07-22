@@ -9,8 +9,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
         private EmptyBackgroundObjectFactory _empty;
         private GameObjectContentStorage _gameObjectContentStorage;
         private MonasteryBackgroundObjectFactory _monasteryObjectFactory;
-        private ThicketBackgroundObjectFactory _thicketOjectFactory;
         private ShipGraveyardBackgroundObjectFactory _shipGraveyardObjectFactory;
+        private ThicketBackgroundObjectFactory _thicketOjectFactory;
 
         public IBackgroundObjectFactory GetBackgroundObjectFactory(GlobeNodeSid nodeSid)
         {

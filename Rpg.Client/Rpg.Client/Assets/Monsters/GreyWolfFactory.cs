@@ -13,17 +13,17 @@ namespace Rpg.Client.Assets.Monsters
             {
                 Name = UnitName.GreyWolf,
                 LocationSids = new[]
-                    {
-                        GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
-                        GlobeNodeSid.Swamp
-                    },
+                {
+                    GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
+                    GlobeNodeSid.Swamp
+                },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
-                    {
-                        new AddSkillUnitLevel(1, new WolfBiteSkill()),
-                        new AddPerkUnitLevel(3, new CriticalHit())
-                    },
+                {
+                    new AddSkillUnitLevel(1, new WolfBiteSkill()),
+                    new AddPerkUnitLevel(3, new CriticalHit())
+                },
 
                 UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
             };
