@@ -12,7 +12,8 @@ namespace Rpg.Client.Assets.Skills.Monster
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.AspidBite
+            SoundEffectType = GameObjectSoundType.AspidBite,
+            AnimationSid = Core.PredefinedAnimationSid.Skill1
         };
     }
 }

@@ -24,7 +24,8 @@ namespace Rpg.Client.Assets.Skills.Monster
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.MassRange,
-            SoundEffectType = GameObjectSoundType.WispEnergy
+            SoundEffectType = GameObjectSoundType.WispEnergy,
+            AnimationSid = Core.PredefinedAnimationSid.Skill1
         };
     }
 }
