@@ -174,7 +174,9 @@ namespace Rpg.Client.Core
             ActionGenerated?.Invoke(this, actionEventArgs);
         }
 
-        internal void Initialize()
+        internal sealed record HeroHp(int Hp, UnitName UnitName);
+
+        internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps)
         {
             _allUnitList.Clear();
 
@@ -195,6 +197,15 @@ namespace Rpg.Client.Core
 
                 var combatUnit = new CombatUnit(unit, slot);
                 _allUnitList.Add(combatUnit);
+
+                if (intermediateStartHps is not null)
+                {
+                    var intermediateState = intermediateStartHps.SingleOrDefault(x => x.UnitName == unit.UnitScheme.Name);
+                    if (intermediateState is not null)
+                    {
+                        combatUnit.HitPoints.CurrentChange(intermediateState.Hp);
+                    }
+                }
 
                 CombatUnitEntered?.Invoke(this, combatUnit);
             }

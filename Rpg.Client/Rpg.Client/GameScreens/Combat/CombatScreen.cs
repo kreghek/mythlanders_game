@@ -20,6 +20,8 @@ using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
+using static Rpg.Client.Core.Combat;
+
 namespace Rpg.Client.GameScreens.Combat
 {
     internal class CombatScreen : GameScreenWithMenuBase
@@ -364,7 +366,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat.ActionGenerated += Combat_ActionGenerated;
             _combat.Finish += Combat_Finish;
             _combat.UnitPassedTurn += Combat_UnitPassed;
-            _combat.Initialize();
+            _combat.Initialize(_args.StartHpItems);
 
             _unitStatePanelController = new UnitStatePanelController(_combat,
                 _uiContentStorage, _gameObjectContentStorage);
@@ -387,13 +389,16 @@ namespace Rpg.Client.GameScreens.Combat
                 var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
                 if (!areAllCombatsWon)
                 {
+                    var startHpItems = CreateStartHpList();
+
                     var combatScreenArgs = new CombatScreenTransitionArguments
                     {
                         Location = _globeNode,
                         VictoryDialogue = _args.VictoryDialogue,
                         CombatSequence = _args.CombatSequence,
                         CurrentCombatIndex = nextCombatIndex,
-                        IsAutoplay = _args.IsAutoplay
+                        IsAutoplay = _args.IsAutoplay,
+                        StartHpItems = startHpItems
                     };
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
@@ -459,6 +464,28 @@ namespace Rpg.Client.GameScreens.Combat
                 _globeProvider.Globe.Update(_dice, _eventCatalog);
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
             }
+        }
+
+        private IReadOnlyCollection<HeroHp> CreateStartHpList()
+        {
+            var list = new List<HeroHp>();
+
+            var heroes = _globe.Player.Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+            foreach (var hero in heroes)
+            {
+                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x=>x.Unit == hero);
+                if (combatUnit is null)
+                {
+                    list.Add(new HeroHp(0, hero.UnitScheme.Name));
+                }
+                else
+                {
+                    var currentHp = combatUnit.HitPoints.Current;
+                    list.Add(new HeroHp(currentHp, hero.UnitScheme.Name));
+                }
+            }
+
+            return list;
         }
 
         private void CombatSkillsPanel_CardSelected(object? sender, CombatSkill? skillCard)
@@ -1117,11 +1144,11 @@ namespace Rpg.Client.GameScreens.Combat
                 var currentCombatList = _combat.Node.AssignedCombats.Combats.ToList();
                 if (completedCombats.Count >= currentCombatList.Count)
                 {
+                    // End the combat sequence
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,
                         _globeProvider.Globe.Player,
                         _globeProvider.Globe.GlobeLevel);
                     ApplyCombatReward(rewardItems.InventoryRewards, _globeProvider.Globe.Player);
-                    ApplyWounds(_combat);
                     HandleGlobe(CombatResult.Victory);
 
                     var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -1136,7 +1163,7 @@ namespace Rpg.Client.GameScreens.Combat
                 }
                 else
                 {
-                    ApplyWounds(_combat);
+                    // Next combat
 
                     combatResultModal = new CombatResultModal(
                         _uiContentStorage,
@@ -1155,7 +1182,6 @@ namespace Rpg.Client.GameScreens.Combat
                 var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
                 soundtrackManager.PlayDefeatTrack();
 
-                ApplyWounds(_combat);
                 HandleGlobe(CombatResult.Defeat);
 
                 combatResultModal = new CombatResultModal(
@@ -1177,40 +1203,6 @@ namespace Rpg.Client.GameScreens.Combat
             AddModal(combatResultModal, isLate: false);
 
             combatResultModal.Closed += CombatResultModal_Closed;
-        }
-
-        private void ApplyWounds(Core.Combat combat)
-        {
-            foreach (var slot in combat.PlayerGroup.Slots)
-            {
-                if (slot.Unit is null)
-                {
-                    continue;
-                }
-
-                var combatUnit = combat.AliveUnits.SingleOrDefault(x => x.Unit == slot.Unit) as CombatUnit;
-
-                var unit = slot.Unit;
-                var unitName = unit.UnitScheme.Name;
-
-                if (combatUnit is null)
-                {
-                    // Unit was deleted from the list as casualties
-                    _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.75f));
-                }
-                else
-                {
-                    var share = combatUnit.HitPoints.GetShare();
-                    if (share < 0.75f)
-                    {
-                        _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.5f));
-                    }
-                    else if (share < 0.5f)
-                    {
-                        _globe.AddGlobalEvent(new WoundGlobeEvent(unitName, 0.25f));
-                    }
-                }
-            }
         }
 
         private void UpdateBackgroundObjects(GameTime gameTime)

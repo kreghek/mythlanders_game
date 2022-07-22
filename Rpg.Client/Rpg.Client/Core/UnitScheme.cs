@@ -9,6 +9,8 @@ namespace Rpg.Client.Core
         {
             UnitBasics = unitBasics;
 
+            DamageDealerRank = 1;
+
             Resolve = 10;
         }
 
