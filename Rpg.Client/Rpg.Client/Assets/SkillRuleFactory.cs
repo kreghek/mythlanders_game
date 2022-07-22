@@ -144,7 +144,7 @@ namespace Rpg.Client.Assets
                 {
                     var effectLifetime = new UnitBoundEffectLifetime(u);
                     var effectMultiplier = (equipmentLevel + 1) * equipmentMultiplier;
-                    var effect = new IncreaseDamagePercentEffect(u, effectLifetime, effectMultiplier)
+                    var effect = new ModifyDamagePercentEffect(u, effectLifetime, effectMultiplier)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };
@@ -185,7 +185,7 @@ namespace Rpg.Client.Assets
                 EffectCreator = new EffectCreator(u =>
                 {
                     var effectLifetime = new UnitBoundEffectLifetime(u);
-                    var effect = new IncreaseDamagePercentEffect(u, effectLifetime, multiplier)
+                    var effect = new ModifyDamagePercentEffect(u, effectLifetime, multiplier)
                     {
                         Visualization = EffectVisualizations.PowerUp
                     };

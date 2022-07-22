@@ -167,6 +167,9 @@
   <data name="BlackTrooper" xml:space="preserve">
     <value>Пехотинец</value>
   </data>
+  <data name="BlindDefense" xml:space="preserve">
+    <value>Глухая оборона</value>
+  </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>Книга трав</value>
   </data>
@@ -269,6 +272,9 @@
   <data name="Hermitage" xml:space="preserve">
     <value>Покинутый скит</value>
   </data>
+  <data name="Hoplite" xml:space="preserve">
+    <value>Леонидас</value>
+  </data>
   <data name="HornedFrog" xml:space="preserve">
     <value>Рогатая жаба</value>
   </data>
@@ -287,6 +293,9 @@
   <data name="ImprovedHitPointsDescription" xml:space="preserve">
     <value>Количество хит поинтов увеличено в 2 раза.</value>
   </data>
+  <data name="InspiringRush" xml:space="preserve">
+    <value>Вдохновляющий рывок</value>
+  </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Тяжелая силовая броня Джаггернаут</value>
   </data>
@@ -297,7 +306,7 @@
     <value>Благовония</value>
   </data>
   <data name="Medjay" xml:space="preserve">
-    <value>Меджай</value>
+    <value>Гелик</value>
   </data>
   <data name="Mines" xml:space="preserve">
     <value>Рудники</value>
@@ -349,6 +358,9 @@
   <data name="Stryga" xml:space="preserve">
     <value>Стрыга</value>
   </data>
+  <data name="SuppressiveFire" xml:space="preserve">
+    <value>Огонь на подавление</value>
+  </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
     <value>Взрыв печи Сварога</value>
   </data>
@@ -363,6 +375,9 @@
   </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Символ Бога</value>
+  </data>
+  <data name="TacticalManeuver" xml:space="preserve">
+    <value>Тактический манёвр</value>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>

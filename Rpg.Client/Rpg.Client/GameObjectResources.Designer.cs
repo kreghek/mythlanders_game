@@ -205,6 +205,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blind defense.
+        /// </summary>
+        internal static string BlindDefense {
+            get {
+                return ResourceManager.GetString("BlindDefense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The book of a herbs.
         /// </summary>
         internal static string BookOfHerbs {
@@ -502,6 +511,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leonidas.
+        /// </summary>
+        internal static string Hoplite {
+            get {
+                return ResourceManager.GetString("Hoplite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Horned frog.
         /// </summary>
         internal static string HornedFrog {
@@ -556,6 +574,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inspiring rush.
+        /// </summary>
+        internal static string InspiringRush {
+            get {
+                return ResourceManager.GetString("InspiringRush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Juggernaut heavy power armor.
         /// </summary>
         internal static string JuggernautHeavyPowerArmor {
@@ -583,7 +610,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Medjay.
+        ///   Looks up a localized string similar to Gelik.
         /// </summary>
         internal static string Medjay {
             get {
@@ -736,6 +763,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Suppressive fire.
+        /// </summary>
+        internal static string SuppressiveFire {
+            get {
+                return ResourceManager.GetString("SuppressiveFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Svarog&apos;s Blast Furnace.
         /// </summary>
         internal static string SvarogBlastFurnace {
@@ -777,6 +813,15 @@ namespace Rpg.Client {
         internal static string SymbolOfGod {
             get {
                 return ResourceManager.GetString("SymbolOfGod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tactical maneuver.
+        /// </summary>
+        internal static string TacticalManeuver {
+            get {
+                return ResourceManager.GetString("TacticalManeuver", resourceCulture);
             }
         }
         
