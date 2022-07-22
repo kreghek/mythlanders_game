@@ -195,19 +195,45 @@ namespace Rpg.Client.Core
                     continue;
                 }
 
-                var combatUnit = new CombatUnit(unit, slot);
-                _allUnitList.Add(combatUnit);
-
                 if (intermediateStartHps is not null)
                 {
                     var intermediateState = intermediateStartHps.SingleOrDefault(x => x.UnitName == unit.UnitScheme.Name);
                     if (intermediateState is not null)
                     {
-                        combatUnit.HitPoints.CurrentChange(intermediateState.Hp);
+                        if (intermediateState.Hp > 0)
+                        {
+                            var combatUnit = new CombatUnit(unit, slot);
+                            _allUnitList.Add(combatUnit);
+
+                            combatUnit.HitPoints.CurrentChange(intermediateState.Hp);
+
+                            CombatUnitEntered?.Invoke(this, combatUnit);
+                        }
+                        else
+                        {
+                            // unit is dead
+                        }
+                    }
+                    else
+                    {
+                        // hp is not changed
+
+                        var combatUnit = new CombatUnit(unit, slot);
+                        _allUnitList.Add(combatUnit);
+
+                        CombatUnitEntered?.Invoke(this, combatUnit);
                     }
                 }
+                else
+                {
+                    // this is start combat in sequnce
+                    // so hp is not changed
 
-                CombatUnitEntered?.Invoke(this, combatUnit);
+                    var combatUnit = new CombatUnit(unit, slot);
+                    _allUnitList.Add(combatUnit);
+
+                    CombatUnitEntered?.Invoke(this, combatUnit);
+                }               
             }
 
             foreach (var slot in CombatSource.EnemyGroup.Slots)

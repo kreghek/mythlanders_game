@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-using Rpg.Client.Assets.DialogueEventRequirements;
 using Rpg.Client.Assets.DialogueOptionAftermath;
+using Rpg.Client.Assets.Dialogues;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
@@ -234,55 +234,14 @@ namespace Rpg.Client.Assets.Catalogs
 
             Events = events;
 
-            var mainPlot1 = new Event
+            var dialogueFactoryType = typeof(IDialogueFactory);
+            var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x => dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
+            var factories = factoryTypes.Select(x => Activator.CreateInstance(x)).OfType<IDialogueFactory>();
+            foreach (var factory in factories)
             {
-                Sid = "SlavicMain1",
-                IsGameStart = true,
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "SlavicMain1_Before",
-                AfterCombatStartNodeSid = "SlavicMain1_After",
-                Priority = TextEventPriority.High
-            };
-
-            events.Add(mainPlot1);
-
-            var mainPlot2 = new Event
-            {
-                Sid = "SlavicMain2",
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "SlavicMain2_Before",
-                AfterCombatStartNodeSid = "SlavicMain2_After",
-                Priority = TextEventPriority.High,
-                Requirements = new ITextEventRequirement[]
-                {
-                    new LocationEventRequirement(new[]
-                    {
-                        GlobeNodeSid.Thicket
-                    }),
-                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain1" })
-                }
-            };
-
-            events.Add(mainPlot2);
-
-            var mainPlot3 = new Event
-            {
-                Sid = "SlavicMain3",
-                IsUnique = true,
-                BeforeCombatStartNodeSid = "SlavicMain3_Before",
-                AfterCombatStartNodeSid = "SlavicMain3_After",
-                Priority = TextEventPriority.High,
-                Requirements = new ITextEventRequirement[]
-                {
-                    new LocationEventRequirement(new[]
-                    {
-                        GlobeNodeSid.Battleground
-                    }),
-                    new RequiredEventsCompletedEventRequirement(this, new[]{ "SlavicMain2" })
-                }
-            };
-
-            events.Add(mainPlot3);
+                var dialogueEvent = factory.Create(this);
+                events.Add(dialogueEvent);
+            }
 
             _isInitialized = true;
         }
