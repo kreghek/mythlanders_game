@@ -4,15 +4,13 @@ namespace Rpg.Client.Core.SkillEffects
 {
     internal sealed class ShieldPointModifyEffect : ModifyStatEffectBase
     {
-        private readonly float _modifier;
-
         public ShieldPointModifyEffect(ICombatUnit actor, IEffectLifetime lifetime, float modifier) : base(actor,
             lifetime)
         {
-            _modifier = modifier;
+            Modifier = modifier;
         }
 
-        public float Modifier => _modifier;
+        public float Modifier { get; }
 
         protected override IEnumerable<(UnitStatType, StatModifier)> Modifiers => new (UnitStatType, StatModifier)[]
         {

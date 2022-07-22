@@ -312,7 +312,7 @@ namespace Rpg.Client.GameScreens.Map
                 { GlobeNodeSid.Desert, new Vector2(416, 109) },
 
                 // Greek
-                { GlobeNodeSid.ShipGraveyard, new Vector2(160, 307) },
+                { GlobeNodeSid.ShipGraveyard, new Vector2(160, 307) }
             };
         }
 

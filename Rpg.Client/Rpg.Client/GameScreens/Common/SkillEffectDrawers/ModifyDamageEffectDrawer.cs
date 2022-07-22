@@ -24,7 +24,9 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            var textTemplate = increaseDamageEffect.Bonus > 0 ? UiResource.IncreaseDamageEffectRuleText : UiResource.DecreseDamageEffectRuleText;
+            var textTemplate = increaseDamageEffect.Bonus > 0
+                ? UiResource.IncreaseDamageEffectRuleText
+                : UiResource.DecreseDamageEffectRuleText;
 
             spriteBatch.DrawString(_font,
                 string.Format(textTemplate, increaseDamageEffect.Bonus,

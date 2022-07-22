@@ -383,7 +383,7 @@ namespace Rpg.Client.Assets.Catalogs
                     SupportRank = 0.0f,
 
                     Name = UnitName.Korgorush,
-                    
+
                     LocationSids = new[] { GlobeNodeSid.DestroyedVillage },
                     IsMonster = true,
 

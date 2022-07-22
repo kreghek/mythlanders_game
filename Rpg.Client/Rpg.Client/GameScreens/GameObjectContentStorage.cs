@@ -300,27 +300,6 @@ namespace Rpg.Client.GameScreens
             }
         }
 
-        private void LoadMonsters(ContentManager contentManager)
-        {
-            _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
-            {
-                { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
-                { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
-                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
-                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
-                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
-                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
-                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
-                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
-                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
-
-                { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
-
-                { UnitName.Mummy, LoadMonsterTexture(contentManager, "Mummy") }
-            };
-        }
-
         internal Texture2D GetBulletGraphics()
         {
             return _arrowTexture;
@@ -411,6 +390,27 @@ namespace Rpg.Client.GameScreens
         {
             var path = Path.Combine("Sprites", "GameObjects", "PlayerUnits", spriteName);
             return contentManager.Load<Texture2D>(path);
+        }
+
+        private void LoadMonsters(ContentManager contentManager)
+        {
+            _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
+            {
+                { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
+                { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
+                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
+                { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
+                { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
+                { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },
+                { UnitName.VolkolakWarrior, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Volkolak, LoadMonsterTexture(contentManager, "Volkolak") },
+                { UnitName.Stryga, LoadMonsterTexture(contentManager, "Stryga") },
+                { UnitName.HornedFrog, LoadMonsterTexture(contentManager, "HornedFrog") },
+
+                { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
+
+                { UnitName.Mummy, LoadMonsterTexture(contentManager, "Mummy") }
+            };
         }
 
         private static Texture2D LoadMonsterTexture(ContentManager contentManager, string spriteName)

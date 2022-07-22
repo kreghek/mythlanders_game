@@ -176,7 +176,7 @@ namespace Rpg.Client.Assets.Catalogs
                                     }
 
                                     if (aftermathList.Any())
-                                    { 
+                                    {
                                         aftermath = new CompositeOptionAftermath(aftermathList);
                                     }
                                 }
@@ -235,7 +235,8 @@ namespace Rpg.Client.Assets.Catalogs
             Events = events;
 
             var dialogueFactoryType = typeof(IDialogueFactory);
-            var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x => dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
+            var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
+                dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
             var factories = factoryTypes.Select(x => Activator.CreateInstance(x)).OfType<IDialogueFactory>();
             foreach (var factory in factories)
             {

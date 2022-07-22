@@ -24,16 +24,16 @@ namespace Rpg.Client.Assets.GraphicConfigs.Heroes
                 },
                 {
                     PredefinedAnimationSid.MoveBackward,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[]{ 6 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 6 }, fps: 8)
                 },
 
                 {
                     PredefinedAnimationSid.Skill1,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[]{ 4 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 4 }, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Skill2,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[]{ 1 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 1 }, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Skill3,
@@ -51,11 +51,11 @@ namespace Rpg.Client.Assets.GraphicConfigs.Heroes
 
                 {
                     PredefinedAnimationSid.Wound,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[]{ 7 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 7 }, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Death,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[]{ 8 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 8 }, fps: 8)
                 }
             };
         }

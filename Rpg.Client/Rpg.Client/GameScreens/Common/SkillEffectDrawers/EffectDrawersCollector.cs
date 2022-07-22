@@ -11,8 +11,10 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
         public static IReadOnlyCollection<ISkillEffectDrawer> GetDrawersInAssembly(SpriteFont font)
         {
             var assembly = typeof(ISkillEffectDrawer).Assembly;
-            var drawerTypes = assembly.GetTypes().Where(t => typeof(ISkillEffectDrawer).IsAssignableFrom(t) && t != typeof(ISkillEffectDrawer));
-            var drawers = drawerTypes.Select(t=>Activator.CreateInstance(t, new object[] { font })).OfType<ISkillEffectDrawer>();
+            var drawerTypes = assembly.GetTypes().Where(t =>
+                typeof(ISkillEffectDrawer).IsAssignableFrom(t) && t != typeof(ISkillEffectDrawer));
+            var drawers = drawerTypes.Select(t => Activator.CreateInstance(t, new object[] { font }))
+                .OfType<ISkillEffectDrawer>();
             return drawers.ToArray();
         }
     }

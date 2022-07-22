@@ -40,7 +40,7 @@ namespace Rpg.Client.Core
             _modifiers.Add(modifier);
 
             if (Current > ActualMax)
-            { 
+            {
                 Current = ActualMax;
             }
 

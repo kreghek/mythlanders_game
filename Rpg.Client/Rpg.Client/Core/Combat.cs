@@ -13,7 +13,6 @@ namespace Rpg.Client.Core
     internal sealed class Combat : ICombat
     {
         private readonly IList<CombatUnit> _allUnitList;
-        private readonly Group _playerGroup;
         private readonly IList<CombatUnit> _unitQueue;
         private CombatUnit? _currentUnit;
 
@@ -21,7 +20,7 @@ namespace Rpg.Client.Core
 
         public Combat(Group playerGroup, GlobeNode node, CombatSource combat, IDice dice, bool isAutoplay)
         {
-            _playerGroup = playerGroup;
+            PlayerGroup = playerGroup;
             Node = node;
             CombatSource = combat;
             Dice = dice;
@@ -103,6 +102,8 @@ namespace Rpg.Client.Core
             }
         }
 
+        internal Group PlayerGroup { get; }
+
         private bool IsCurrentStepCompleted { get; set; }
 
         public void Surrender()
@@ -174,8 +175,6 @@ namespace Rpg.Client.Core
             ActionGenerated?.Invoke(this, actionEventArgs);
         }
 
-        internal sealed record HeroHp(int Hp, UnitName UnitName);
-
         internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps = null)
         {
             _allUnitList.Clear();
@@ -197,7 +196,8 @@ namespace Rpg.Client.Core
 
                 if (intermediateStartHps is not null)
                 {
-                    var intermediateState = intermediateStartHps.SingleOrDefault(x => x.UnitName == unit.UnitScheme.Name);
+                    var intermediateState =
+                        intermediateStartHps.SingleOrDefault(x => x.UnitName == unit.UnitScheme.Name);
                     if (intermediateState is not null)
                     {
                         if (intermediateState.Hp > 0)
@@ -208,10 +208,6 @@ namespace Rpg.Client.Core
                             combatUnit.HitPoints.CurrentChange(intermediateState.Hp);
 
                             CombatUnitEntered?.Invoke(this, combatUnit);
-                        }
-                        else
-                        {
-                            // unit is dead
                         }
                     }
                     else
@@ -233,7 +229,7 @@ namespace Rpg.Client.Core
                     _allUnitList.Add(combatUnit);
 
                     CombatUnitEntered?.Invoke(this, combatUnit);
-                }               
+                }
             }
 
             foreach (var slot in CombatSource.EnemyGroup.Slots)
@@ -277,23 +273,6 @@ namespace Rpg.Client.Core
             Update();
 
             AssignCpuTargetUnits();
-        }
-
-        private void HandleGlobeEffectCombatBeginningEffects(CombatUnit combatUnit)
-        {
-            foreach (var globalUnitEffect in combatUnit.Unit.GlobalEffects)
-            {
-                var effects = globalUnitEffect.Source.CreateCombatBeginningEffects();
-                foreach (var effect in effects)
-                {
-                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
-
-                    foreach (var effectTarget in effectTargets)
-                    {
-                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, globalUnitEffect);
-                    }
-                }
-            }
         }
 
         internal void Update()
@@ -381,12 +360,6 @@ namespace Rpg.Client.Core
 
             // No skill was used.
             Debug.Fail("Required at least one skill was used.");
-        }
-
-        private void SkipTurn()
-        {
-            CompleteStep();
-            Pass();
         }
 
         private void AssignCpuTarget(CombatUnit unit, IDice dice)
@@ -625,24 +598,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private void HandlePerksCombatBeginningEffects(CombatUnit combatUnit)
-        {
-            foreach (var perk in combatUnit.Unit.Perks)
-            {
-                var equipmentEffectContext = new EmptyEffectContext(combatUnit);
-                var effects = perk.CreateCombatBeginningEffects(equipmentEffectContext);
-                foreach (var effect in effects)
-                {
-                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
-
-                    foreach (var effectTarget in effectTargets)
-                    {
-                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, perk);
-                    }
-                }
-            }
-        }
-
         private void HandleEquipmentHitpointsChangeEffects(CombatUnit combatUnit)
         {
             foreach (var equipment in combatUnit.Unit.Equipments)
@@ -656,6 +611,41 @@ namespace Rpg.Client.Core
                     foreach (var effectTarget in effectTargets)
                     {
                         EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, equipment.Scheme);
+                    }
+                }
+            }
+        }
+
+        private void HandleGlobeEffectCombatBeginningEffects(CombatUnit combatUnit)
+        {
+            foreach (var globalUnitEffect in combatUnit.Unit.GlobalEffects)
+            {
+                var effects = globalUnitEffect.Source.CreateCombatBeginningEffects();
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, globalUnitEffect);
+                    }
+                }
+            }
+        }
+
+        private void HandlePerksCombatBeginningEffects(CombatUnit combatUnit)
+        {
+            foreach (var perk in combatUnit.Unit.Perks)
+            {
+                var equipmentEffectContext = new EmptyEffectContext(combatUnit);
+                var effects = perk.CreateCombatBeginningEffects(equipmentEffectContext);
+                foreach (var effect in effects)
+                {
+                    var effectTargets = EffectProcessor.GetTargets(effect, combatUnit, combatUnit);
+
+                    foreach (var effectTarget in effectTargets)
+                    {
+                        EffectProcessor.Impose(new[] { effect }, combatUnit, effectTarget, perk);
                     }
                 }
             }
@@ -697,6 +687,12 @@ namespace Rpg.Client.Core
             return _unitQueue.Any();
         }
 
+        private void SkipTurn()
+        {
+            CompleteStep();
+            Pass();
+        }
+
         private void StartRound()
         {
             MakeUnitRoundQueue();
@@ -713,8 +709,6 @@ namespace Rpg.Client.Core
         public EffectProcessor EffectProcessor { get; }
 
         public ModifiersProcessor ModifiersProcessor { get; }
-
-        internal Group PlayerGroup => _playerGroup;
 
         public void Pass()
         {
@@ -749,5 +743,7 @@ namespace Rpg.Client.Core
         /// Event bus for combat object interactions.
         /// </summary>
         internal event EventHandler<ActionEventArgs>? ActionGenerated;
+
+        internal sealed record HeroHp(int Hp, UnitName UnitName);
     }
 }

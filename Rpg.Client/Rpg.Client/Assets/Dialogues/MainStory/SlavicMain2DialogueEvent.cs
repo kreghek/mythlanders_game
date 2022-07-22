@@ -9,16 +9,17 @@ namespace Rpg.Client.Assets.Dialogues.MainStory
     internal sealed class SlavicMain2DialogueEvent : MainDialogueFactoryBase
     {
         protected override string Sid => "SlavicMain2";
+
         protected override IReadOnlyCollection<ITextEventRequirement>? CreateRequirements(IEventCatalog eventCatalog)
         {
             return new ITextEventRequirement[]
+            {
+                new LocationEventRequirement(new[]
                 {
-                    new LocationEventRequirement(new[]
-                    {
-                        GlobeNodeSid.Thicket
-                    }),
-                    new RequiredEventsCompletedEventRequirement(eventCatalog, new[]{ "SlavicMain1" })
-                };
+                    GlobeNodeSid.Thicket
+                }),
+                new RequiredEventsCompletedEventRequirement(eventCatalog, new[] { "SlavicMain1" })
+            };
         }
     }
 }

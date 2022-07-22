@@ -7,9 +7,13 @@ namespace Rpg.Client.Assets.Dialogues
 {
     internal abstract class MainDialogueFactoryBase : IDialogueFactory
     {
+        protected virtual bool IsGameStart { get; }
         protected abstract string Sid { get; }
 
-        protected virtual bool IsGameStart { get; }
+        protected virtual IReadOnlyCollection<ITextEventRequirement>? CreateRequirements(IEventCatalog eventCatalog)
+        {
+            return null;
+        }
 
         public Event Create(IEventCatalog eventCatalog)
         {
@@ -25,11 +29,6 @@ namespace Rpg.Client.Assets.Dialogues
             };
 
             return mainPlot1;
-        }
-
-        protected virtual IReadOnlyCollection<ITextEventRequirement>? CreateRequirements(IEventCatalog eventCatalog)
-        {
-            return null;
         }
     }
 }

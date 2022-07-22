@@ -466,28 +466,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private IReadOnlyCollection<HeroHp> CreateStartHpList()
-        {
-            var list = new List<HeroHp>();
-
-            var heroes = _globe.Player.Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
-            foreach (var hero in heroes)
-            {
-                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x=>x.Unit == hero);
-                if (combatUnit is null)
-                {
-                    list.Add(new HeroHp(0, hero.UnitScheme.Name));
-                }
-                else
-                {
-                    var currentHp = combatUnit.HitPoints.Current;
-                    list.Add(new HeroHp(currentHp, hero.UnitScheme.Name));
-                }
-            }
-
-            return list;
-        }
-
         private void CombatSkillsPanel_CardSelected(object? sender, CombatSkill? skillCard)
         {
             RefreshHudButtons(skillCard);
@@ -627,6 +605,28 @@ namespace Rpg.Client.GameScreens.Combat
                 combatSource,
                 _dice,
                 isAutoplay);
+        }
+
+        private IReadOnlyCollection<HeroHp> CreateStartHpList()
+        {
+            var list = new List<HeroHp>();
+
+            var heroes = _globe.Player.Party.Slots.Where(x => x.Unit is not null).Select(x => x.Unit!);
+            foreach (var hero in heroes)
+            {
+                var combatUnit = _combat.AliveUnits.OfType<CombatUnit>().SingleOrDefault(x => x.Unit == hero);
+                if (combatUnit is null)
+                {
+                    list.Add(new HeroHp(0, hero.UnitScheme.Name));
+                }
+                else
+                {
+                    var currentHp = combatUnit.HitPoints.Current;
+                    list.Add(new HeroHp(currentHp, hero.UnitScheme.Name));
+                }
+            }
+
+            return list;
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, IReadOnlyList<Texture2D> backgrounds,

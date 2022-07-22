@@ -260,7 +260,7 @@ namespace Rpg.Client.Assets.Catalogs
                 Combats = new[] { combat }
             };
 
-            var startNode = globe.Biomes.SelectMany(x=>x.Nodes).Single(x => x.Sid == GlobeNodeSid.Thicket);
+            var startNode = globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == GlobeNodeSid.Thicket);
             startNode.AssignedCombats = combatSequence;
 
             var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);

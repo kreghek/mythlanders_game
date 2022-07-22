@@ -14,9 +14,9 @@ namespace Rpg.Client.GameScreens.Combat
         public int CurrentCombatIndex { get; init; }
         public bool IsAutoplay { get; init; }
         public GlobeNode Location { get; init; }
-        public Dialogue? VictoryDialogue { get; init; }
-        public bool VictoryDialogueIsStartEvent { get; init; }
 
         public IReadOnlyCollection<HeroHp> StartHpItems { get; init; }
+        public Dialogue? VictoryDialogue { get; init; }
+        public bool VictoryDialogueIsStartEvent { get; init; }
     }
 }

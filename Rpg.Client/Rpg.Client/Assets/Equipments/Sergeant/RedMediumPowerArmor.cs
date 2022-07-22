@@ -8,6 +8,15 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
 {
     internal sealed class RedMediumPowerArmor : IEquipmentScheme
     {
+        private readonly int[] _bonusesByLevel =
+        {
+            1,
+            2,
+            3,
+            5,
+            8
+        };
+
         public EquipmentSid Sid => EquipmentSid.RedMediumPowerArmor;
 
         public string GetDescription()
@@ -28,14 +37,6 @@ namespace Rpg.Client.Assets.Equipments.Sergeant
         public IEquipmentSchemeMetadata Metadata => new EquipmentSchemeMetadata
         {
             IconOneBasedIndex = 2
-        };
-
-        private int[] _bonusesByLevel = new[] {
-            1,
-            2,
-            3,
-            5,
-            8
         };
     }
 }

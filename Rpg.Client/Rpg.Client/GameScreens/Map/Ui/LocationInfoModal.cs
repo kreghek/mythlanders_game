@@ -184,18 +184,6 @@ namespace Rpg.Client.GameScreens.Map.Ui
             }
         }
 
-        private string? GetLocalizedEventTitle()
-        {
-            if (_nodeGameObject.AvailableEvent?.Sid is null)
-            {
-                return String.Empty;
-            }
-
-            return _nodeGameObject.AvailableEvent is not null
-                            ? StoryResources.ResourceManager.GetString(_nodeGameObject.AvailableEvent.Sid)
-                            : string.Empty;
-        }
-
         private void DrawEquipmentRewards(SpriteBatch spriteBatch,
             GlobeNodeMarkerGameObject nodeGameObject, Vector2 toolTipPosition)
         {
@@ -253,6 +241,18 @@ namespace Rpg.Client.GameScreens.Map.Ui
                 $"Xp: {summaryXp}",
                 toolTipPosition,
                 Color.Wheat);
+        }
+
+        private string? GetLocalizedEventTitle()
+        {
+            if (_nodeGameObject.AvailableEvent?.Sid is null)
+            {
+                return String.Empty;
+            }
+
+            return _nodeGameObject.AvailableEvent is not null
+                ? StoryResources.ResourceManager.GetString(_nodeGameObject.AvailableEvent.Sid)
+                : string.Empty;
         }
     }
 }

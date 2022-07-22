@@ -23,7 +23,9 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             }
 
             var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
-            var textTemplate = hpModifyEffect.Modifier > 0 ? UiResource.IncreaseHitPointsPercentEffectRuleText : UiResource.DecreaseHitPointsPercentEffectRuleText;
+            var textTemplate = hpModifyEffect.Modifier > 0
+                ? UiResource.IncreaseHitPointsPercentEffectRuleText
+                : UiResource.DecreaseHitPointsPercentEffectRuleText;
 
             spriteBatch.DrawString(_font,
                 string.Format(textTemplate,

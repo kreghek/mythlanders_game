@@ -26,7 +26,8 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             base(startPosition, endPosition, contentStorage.GetBulletGraphics(), CreateFrameSet(), lifetimeDuration,
                 blocker, targetCombatUnit, interaction)
         {
-            var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() }, particleColor: Color.Lerp(Color.Yellow, Color.Transparent, 0.5f));
+            var particleGenerator = new TailParticleGenerator(new[] { contentStorage.GetParticlesTexture() },
+                particleColor: Color.Lerp(Color.Yellow, Color.Transparent, 0.5f));
             _tailParticleSystem = new ParticleSystem(startPosition, particleGenerator);
         }
 

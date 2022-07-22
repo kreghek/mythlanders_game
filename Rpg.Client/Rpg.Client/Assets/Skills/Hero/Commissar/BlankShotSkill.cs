@@ -40,7 +40,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
             IconOneBasedIndex = 16
         };
 
-        protected override IInteractionDelivery CreateProjectile(Vector2 startPosition, Vector2 targetPosition, ISkillVisualizationContext context, AnimationBlocker bulletAnimationBlocker)
+        protected override IInteractionDelivery CreateProjectile(Vector2 startPosition, Vector2 targetPosition,
+            ISkillVisualizationContext context, AnimationBlocker bulletAnimationBlocker)
         {
             var singleInteractionDelivery = new KineticBulletProjectile(
                 startPosition,

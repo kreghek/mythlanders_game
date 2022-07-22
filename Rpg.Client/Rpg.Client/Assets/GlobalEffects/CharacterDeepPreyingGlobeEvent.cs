@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 
 using Rpg.Client.Core;
-
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.GlobalEffects
