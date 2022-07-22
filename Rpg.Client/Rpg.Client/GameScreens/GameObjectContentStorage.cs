@@ -271,7 +271,8 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Herbalist, LoadHeroPortrait("Herbalist") },
                 { UnitName.Assaulter, LoadHeroPortrait("Assaulter") },
                 { UnitName.Monk, LoadHeroPortrait("Monk") },
-                { UnitName.Spearman, LoadHeroPortrait("Spearman") }
+                { UnitName.Spearman, LoadHeroPortrait("Spearman") },
+                { UnitName.Hoplite, LoadHeroPortrait("Hoplite") }
             };
 
             Texture2D LoadBackgroundLayer(BiomeType biomeType, GlobeNodeSid locationSid, BackgroundLayerType layerType)

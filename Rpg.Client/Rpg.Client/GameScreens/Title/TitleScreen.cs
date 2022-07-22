@@ -323,7 +323,7 @@ namespace Rpg.Client.GameScreens.Title
         {
             if (_gameSettings.Mode == GameMode.Demo)
             {
-                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk, UnitName.Spearman };
+                return new[] { UnitName.Swordsman, UnitName.Archer, UnitName.Herbalist, UnitName.Assaulter, UnitName.Monk, UnitName.Spearman, UnitName.Hoplite };
             }
 
             var lastHeroes = GetLastHeroes(_globeProvider);

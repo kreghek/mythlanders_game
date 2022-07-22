@@ -1322,6 +1322,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/PlayerUnits/MonkFace.png
 
+#begin Sprites/GameObjects/PlayerUnits/HopliteFace.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/PlayerUnits/HopliteFace.png
+
 #begin Sprites/GameObjects/PlayerUnits/Swordsman.png
 /importer:TextureImporter
 /processor:TextureProcessor
