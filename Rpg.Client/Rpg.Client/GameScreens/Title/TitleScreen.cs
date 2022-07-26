@@ -162,7 +162,7 @@ namespace Rpg.Client.GameScreens.Title
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
             spriteBatch.Draw(_uiContentStorage.GetTitleBackgroundTexture(), _bgCurrentPosition, Color.White);
-            spriteBatch.Draw(_uiContentStorage.GetModalShadowTexture(), new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480), sourceRectangle:  null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
+            spriteBatch.Draw(_uiContentStorage.GetModalShadowTexture(), new Rectangle(ResolutionIndependentRenderer.VirtualBounds.Center.X - 128, 0, 256, 480), sourceRectangle: null, Color.Lerp(Color.White, Color.Transparent, 0.3f));
 
             var heroesRect = new Rectangle(0, 0, ResolutionIndependentRenderer.VirtualWidth,
                 ResolutionIndependentRenderer.VirtualHeight / 2);
