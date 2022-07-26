@@ -1,4 +1,5 @@
-﻿using Rpg.Client.Core.Skills;
+﻿using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Assets.Skills.Monster
@@ -13,7 +14,7 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.AspidBite,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }

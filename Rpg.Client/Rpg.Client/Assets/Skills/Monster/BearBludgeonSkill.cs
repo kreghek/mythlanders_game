@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -36,7 +37,7 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.BearBludgeon,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }
