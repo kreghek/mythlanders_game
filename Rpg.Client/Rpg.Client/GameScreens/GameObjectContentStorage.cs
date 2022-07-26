@@ -228,6 +228,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Engineer, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.Marauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
+                { UnitName.BoldMarauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
                 { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
@@ -397,6 +398,7 @@ namespace Rpg.Client.GameScreens
             _monsterUnitTextureDict = new Dictionary<UnitName, Texture2D>
             {
                 { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
+                { UnitName.BoldMarauder, LoadMonsterTexture(contentManager, "BoldMarauder") },
                 { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
                 { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
                 { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },

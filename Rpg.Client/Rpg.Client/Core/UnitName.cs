@@ -36,6 +36,7 @@
         Moira,
 
         Marauder,
+        BoldMarauder,
         BlackTrooper,
 
         Aspid,

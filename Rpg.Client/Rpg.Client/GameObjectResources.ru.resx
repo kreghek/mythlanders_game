@@ -423,4 +423,7 @@
   <data name="ZduhachMight" xml:space="preserve">
     <value>Мощь великого Здухача</value>
   </data>
+  <data name="BoldMarauder" xml:space="preserve">
+    <value>Марадер</value>
+  </data>
 </root>

@@ -465,4 +465,7 @@
       <value>Zduhach Might</value>
     <comment>Skill</comment>
   </data>
+  <data name="BoldMarauder" xml:space="preserve">
+    <value>Marauder</value>
+  </data>
 </root>

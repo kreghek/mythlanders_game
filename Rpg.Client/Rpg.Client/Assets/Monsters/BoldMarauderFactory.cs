@@ -1,12 +1,13 @@
-﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
+using JetBrains.Annotations;
+
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
-using JetBrains.Annotations;
 
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class MarauderFactory : IMonsterFactory
+    internal sealed class BoldMarauderFactory : IMonsterFactory
     {
         public UnitScheme Create(IBalanceTable balanceTable)
         {
@@ -17,7 +18,7 @@ namespace Rpg.Client.Assets.Monsters
                 SupportRank = 0.0f,
                 Resolve = 9,
 
-                Name = UnitName.Marauder,
+                Name = UnitName.BoldMarauder,
                 LocationSids = new[]
                 {
                     GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,

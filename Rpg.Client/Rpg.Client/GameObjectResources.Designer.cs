@@ -214,6 +214,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Marauder.
+        /// </summary>
+        internal static string BoldMarauder {
+            get {
+                return ResourceManager.GetString("BoldMarauder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The book of a herbs.
         /// </summary>
         internal static string BookOfHerbs {
