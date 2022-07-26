@@ -4,9 +4,9 @@ using Rpg.Client.Core.Modifiers;
 
 namespace Rpg.Client.Core.SkillEffects
 {
-    internal class IncreaseDamagePercentEffect : ModifiersEffect
+    internal class ModifyDamagePercentEffect : ModifiersEffect
     {
-        public IncreaseDamagePercentEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(
+        public ModifyDamagePercentEffect(ICombatUnit actor, IEffectLifetime effectLifetime, float multiplier) : base(
             actor, effectLifetime)
         {
             Modifiers = new List<ModifierBase>

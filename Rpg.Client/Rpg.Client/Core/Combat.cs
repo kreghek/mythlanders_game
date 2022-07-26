@@ -175,7 +175,7 @@ namespace Rpg.Client.Core
             ActionGenerated?.Invoke(this, actionEventArgs);
         }
 
-        internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps)
+        internal void Initialize(IReadOnlyCollection<HeroHp>? intermediateStartHps = null)
         {
             _allUnitList.Clear();
 

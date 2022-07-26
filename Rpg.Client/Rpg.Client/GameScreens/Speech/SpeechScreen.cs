@@ -358,23 +358,23 @@ namespace Rpg.Client.GameScreens.Speech
             const int PORTRAIT_SIZE = 256;
             const int OPTION_BUTTON_MARGIN = 5;
 
-            Vector2 CalcOptionButtonSize(DialogueOptionButton button)
+            static Point CalcOptionButtonSize(DialogueOptionButton button)
             {
                 var contentSize = button.GetContentSize();
-                return contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN;
+                return (contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN).ToPoint();
             }
 
             if (_textFragments.Any())
             {
                 var textFragmentControl = _textFragments[_currentFragmentIndex];
 
-                var textFragmentSize = textFragmentControl.CalculateSize();
+                var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
 
                 const int SPEECH_MARGIN = 50;
                 var sumOptionHeight = _optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
                 var fragmentHeight = textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight;
                 var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
-                textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize.ToPoint());
+                textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize);
                 textFragmentControl.Draw(spriteBatch);
 
                 if (_currentTextFragmentIsReady)
@@ -395,7 +395,7 @@ namespace Rpg.Client.GameScreens.Speech
                 var lastTopButtonPosition = _textFragments[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
                 foreach (var button in _optionButtons)
                 {
-                    var optionButtonSize = CalcOptionButtonSize(button).ToPoint();
+                    var optionButtonSize = CalcOptionButtonSize(button);
                     var optionPosition = new Vector2(PORTRAIT_SIZE, lastTopButtonPosition).ToPoint();
                     button.Rect = new Rectangle(optionPosition, optionButtonSize);
                     button.Draw(spriteBatch);

@@ -155,6 +155,9 @@
   <data name="BlackTrooper" xml:space="preserve">
     <value>Trooper</value>
   </data>
+  <data name="BlindDefense" xml:space="preserve">
+    <value>Blind defense</value>
+  </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>The book of a herbs</value><comment>Equipment</comment>
   </data>
@@ -276,6 +279,10 @@
     <value>Hermitage</value>
     <comment>Location</comment>
   </data>
+  <data name="Hoplite" xml:space="preserve">
+    <value>Leonidas</value>
+    <comment>Hero</comment>
+  </data>
   <data name="HornedFrog" xml:space="preserve">
     <value>Horned frog</value>
     <comment>Monster</comment>
@@ -300,6 +307,10 @@
     <value>Amount of the hit points increased by 2 times.</value>
     <comment>Perk</comment>
   </data>
+  <data name="InspiringRush" xml:space="preserve">
+    <value>Inspiring rush</value>
+    <comment>Skill</comment>
+  </data>
   <data name="JuggernautHeavyPowerArmor" xml:space="preserve">
     <value>Juggernaut heavy power armor</value><comment>Equipment</comment>
   </data>
@@ -311,7 +322,7 @@
     <comment>Skill</comment>
   </data>
   <data name="Medjay" xml:space="preserve">
-    <value>Medjay</value>
+    <value>Gelik</value>
     <comment>Hero</comment>
   </data>
   <data name="Mines" xml:space="preserve">
@@ -373,6 +384,10 @@
     <value>Stryga</value>
     <comment>Monster</comment>
   </data>
+  <data name="SuppressiveFire" xml:space="preserve">
+    <value>Suppressive fire</value>
+    <comment>Skill</comment>
+  </data>
   <data name="SvarogBlastFurnace" xml:space="preserve">
       <value>Svarog's Blast Furnace</value>
     <comment>Skill</comment>
@@ -391,6 +406,10 @@
   </data>
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value><comment>Equipment</comment>
+  </data>
+  <data name="TacticalManeuver" xml:space="preserve">
+    <value>Tactical maneuver</value>
+    <comment>Skill</comment>
   </data>
   <data name="Thicket" xml:space="preserve">
     <value>The Thicket</value>
