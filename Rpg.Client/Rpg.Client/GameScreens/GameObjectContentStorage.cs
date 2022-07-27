@@ -165,16 +165,22 @@ namespace Rpg.Client.GameScreens
                 },
 
                 {
+                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 0),
+                    contentManager.Load<Texture2D>(
+                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0")
+                },
+
+                {
                     new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1),
                     contentManager.Load<Texture2D>(
                         "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0")
                 },
 
                 {
-                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 0),
+                    new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2),
                     contentManager.Load<Texture2D>(
-                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0")
-                }
+                        "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far64x64_0")
+                },
             };
 
             SoundEffect LoadSkillEffect(string name)
