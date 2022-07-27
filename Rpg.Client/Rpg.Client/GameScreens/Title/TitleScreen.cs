@@ -31,14 +31,14 @@ namespace Rpg.Client.GameScreens.Title
         private readonly ParticleSystem _particleSystem;
         private readonly ParticleSystem[] _pulseParticleSystems;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
+
+        private readonly Random _rnd = new Random();
         private readonly SettingsModal _settingsModal;
         private readonly UnitName[] _showcaseUnits;
         private readonly IUiContentStorage _uiContentStorage;
         private Vector2 _bgCurrentPosition;
 
         private Vector2 _bgMoveVector = Vector2.One * 0.2f;
-
-        private readonly Random _rnd = new Random();
 
         public TitleScreen(EwarGame game)
             : base(game)
