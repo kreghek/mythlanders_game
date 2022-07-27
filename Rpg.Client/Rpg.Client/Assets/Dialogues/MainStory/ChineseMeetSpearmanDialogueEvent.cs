@@ -9,16 +9,17 @@ namespace Rpg.Client.Assets.Dialogues.MainStory
     internal sealed class ChineseMeetSpearmanDialogueEvent : MainDialogueFactoryBase
     {
         protected override string Sid => "ChineseMeetSpearman";
+
         protected override IReadOnlyCollection<ITextEventRequirement>? CreateRequirements(IEventCatalog eventCatalog)
         {
             return new ITextEventRequirement[]
+            {
+                new LocationEventRequirement(new[]
                 {
-                    new LocationEventRequirement(new[]
-                    {
-                        GlobeNodeSid.Monastery
-                    }),
-                    new RequiredEventsCompletedEventRequirement(eventCatalog, new[]{ "ChineseMeetMonk" })
-                };
+                    GlobeNodeSid.Monastery
+                }),
+                new RequiredEventsCompletedEventRequirement(eventCatalog, new[] { "ChineseMeetMonk" })
+            };
         }
     }
 }

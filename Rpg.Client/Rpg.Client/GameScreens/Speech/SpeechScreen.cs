@@ -361,7 +361,8 @@ namespace Rpg.Client.GameScreens.Speech
             static Point CalcOptionButtonSize(DialogueOptionButton button)
             {
                 var contentSize = button.GetContentSize();
-                return (contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN).ToPoint();
+                return (contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN)
+                    .ToPoint();
             }
 
             if (_textFragments.Any())

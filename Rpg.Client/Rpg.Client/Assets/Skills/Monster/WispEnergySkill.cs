@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
@@ -25,7 +26,7 @@ namespace Rpg.Client.Assets.Skills.Monster
         {
             Type = SkillVisualizationStateType.MassRange,
             SoundEffectType = GameObjectSoundType.WispEnergy,
-            AnimationSid = Core.PredefinedAnimationSid.Skill1
+            AnimationSid = PredefinedAnimationSid.Skill1
         };
     }
 }

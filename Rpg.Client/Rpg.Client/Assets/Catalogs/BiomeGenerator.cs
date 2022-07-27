@@ -267,12 +267,23 @@ namespace Rpg.Client.Assets.Catalogs
 
             startNode.AssignEvent(startEvent);
 
-            combat.EnemyGroup.Slots[0].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.Marauder), 2);
-            combat.EnemyGroup.Slots[1].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
-            combat.EnemyGroup.Slots[2].Unit =
-                new Unit(_unitSchemeCatalog.AllMonsters.Single(x => x.Name == UnitName.BlackTrooper), 1);
+            var monsterInfos = GetStartMonsterInfoList();
+
+            for (int slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
+            {
+                var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
+                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, 2);
+            }
+        }
+
+        private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
+        {
+            return new (UnitName name, int level)[]
+            {
+                new(UnitName.BoldMarauder, 2),
+                new(UnitName.BlackTrooper, 1),
+                new(UnitName.BlackTrooper, 1)
+            };
         }
     }
 }
