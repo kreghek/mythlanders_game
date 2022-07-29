@@ -13,11 +13,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
     {
         private const SkillSid SID = SkillSid.DefenseStance;
 
-        public DefenseStanceSkill() : this(false)
-        {
-        }
-
-        public DefenseStanceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DefenseStanceSkill() : base(PredefinedVisualization, false)
         {
         }
 

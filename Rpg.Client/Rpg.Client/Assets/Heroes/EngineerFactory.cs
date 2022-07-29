@@ -23,11 +23,11 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new FlameThrowingSkill()),
-                new AddSkillUnitLevel(2, new PipeBludgeonSkill()),
-                new AddPerkUnitLevel(2, new ImprovedArmor()),
-                new AddSkillUnitLevel(3, new DemountageSkill(true)),
-                new AddSkillUnitLevel(4, new CouosLegacySkill(true))
+                new AddSkillUnitLevel<FlameThrowingSkill>(1),
+                new AddSkillUnitLevel<PipeBludgeonSkill>(2),
+                new AddPerkUnitLevel<ImprovedArmor>(2),
+                new AddSkillUnitLevel<DismantlementSkill>(3),
+                new AddSkillUnitLevel<CouosLegacySkill>(4)
             };
         }
     }

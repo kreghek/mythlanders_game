@@ -18,7 +18,7 @@ namespace Rpg.Client.Assets.Catalogs
         {
             var heroes = new IHeroFactory[]
             {
-                new CommissarFactory(),
+                new PartisanFactory(),
                 new AssaulterFactory(),
 
                 new SwordsmanFactory(),

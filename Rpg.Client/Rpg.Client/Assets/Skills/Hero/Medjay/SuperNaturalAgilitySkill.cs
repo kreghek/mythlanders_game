@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Medjay
     {
         private const SkillSid SID = SkillSid.SuperNaturalAgility;
 
-        public SuperNaturalAgilitySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SuperNaturalAgilitySkill() : base(PredefinedVisualization, false)
         {
         }
 

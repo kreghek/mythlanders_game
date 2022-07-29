@@ -9,7 +9,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Liberator
 {
     internal class BraveHeartsSkill : VisualizedSkillBase
     {
-        public BraveHeartsSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public BraveHeartsSkill() : base(PredefinedVisualization, false)
         {
         }
 

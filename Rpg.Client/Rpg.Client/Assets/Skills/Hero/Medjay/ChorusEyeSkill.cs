@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Medjay
     {
         private const SkillSid SID = SkillSid.ChorusEye;
 
-        public ChorusEyeSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ChorusEyeSkill() : base(PredefinedVisualization, false)
         {
         }
 

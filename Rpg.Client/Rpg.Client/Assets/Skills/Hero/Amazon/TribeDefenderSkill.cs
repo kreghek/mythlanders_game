@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Amazon
 {
+    [UsedImplicitly]
     internal class TribeDefenderSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.TribeDefender;
 
-        public TribeDefenderSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public TribeDefenderSkill() : base(PredefinedVisualization, false)
         {
         }
 

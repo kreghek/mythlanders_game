@@ -9,11 +9,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class MassHealSkill : VisualizedSkillBase
     {
-        public MassHealSkill() : this(false)
-        {
-        }
-
-        public MassHealSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public MassHealSkill() : base(PredefinedVisualization, false)
         {
         }
 

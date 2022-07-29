@@ -11,11 +11,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
     {
         private const SkillSid SID = SkillSid.WideSwordSlash;
 
-        public WideSlashSkill() : this(false)
-        {
-        }
-
-        public WideSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public WideSlashSkill() : base(PredefinedVisualization, false)
         {
         }
 

@@ -16,11 +16,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
     {
         private const SkillSid SID = SkillSid.BlindDefense;
 
-        public BlindDefenseSkill() : this(false)
-        {
-        }
-
-        public BlindDefenseSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public BlindDefenseSkill() : base(PredefinedVisualization, false)
         {
         }
 
