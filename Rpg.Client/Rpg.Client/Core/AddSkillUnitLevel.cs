@@ -4,7 +4,7 @@ using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class AddSkillUnitLevel<TSkill> : UnitLevelBase where TSkill : ISkill
+    internal sealed class AddSkillUnitLevel<TSkill> : UnitLevelBase where TSkill : ISkill, new()
     {
         public override void Apply(Unit unit)
         {

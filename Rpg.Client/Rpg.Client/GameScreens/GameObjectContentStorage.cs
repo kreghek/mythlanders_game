@@ -417,7 +417,7 @@ namespace Rpg.Client.GameScreens
 
                 { UnitName.Huapigui, LoadMonsterTexture(contentManager, "Huapigui") },
 
-                { UnitName.Mummy, LoadMonsterTexture(contentManager, "Mummy") }
+                { UnitName.MummyWarrior, LoadMonsterTexture(contentManager, "Mummy") }
             };
         }
 

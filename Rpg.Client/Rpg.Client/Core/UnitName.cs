@@ -62,8 +62,8 @@
         Huapigui,
         Taote,
 
-        Mummy,
-        Sphynx,
+        MummyWarrior,
+        Sphinx,
 
         Hydra,
 

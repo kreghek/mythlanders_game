@@ -31,7 +31,7 @@ namespace Rpg.Client.Tests.Core
                 LocationSids = new[] { GlobeNodeSid.Castle },
                 Levels = new[]
                 {
-                    new AddPerkUnitLevel(1, new BossMonster(1))
+                    new AddPerkUnitLevel<BossMonster>(1)
                 }
             };
 
@@ -81,7 +81,7 @@ namespace Rpg.Client.Tests.Core
                 LocationSids = new[] { GlobeNodeSid.Castle },
                 Levels = new[]
                 {
-                    new AddPerkUnitLevel(1, new BossMonster(1))
+                    new AddPerkUnitLevel<BossMonster>(1)
                 }
             };
 
@@ -130,7 +130,7 @@ namespace Rpg.Client.Tests.Core
                 LocationSids = new[] { GlobeNodeSid.Battleground },
                 Levels = new[]
                 {
-                    new AddPerkUnitLevel(1, new BigMonster())
+                    new AddPerkUnitLevel<BigMonster>(1)
                 }
             };
 

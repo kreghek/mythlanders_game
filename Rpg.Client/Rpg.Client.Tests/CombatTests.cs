@@ -25,7 +25,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var balanceTable = new BalanceTable();
-            var demoUnitCatalog = new DemoUnitSchemeCatalog(balanceTable);
+            var demoUnitCatalog = new DemoUnitSchemeCatalog(balanceTable, isDemo: true);
 
             var playerGroup = new Group();
             var unitScheme = GetVolkolakBeastFormScheme(demoUnitCatalog);

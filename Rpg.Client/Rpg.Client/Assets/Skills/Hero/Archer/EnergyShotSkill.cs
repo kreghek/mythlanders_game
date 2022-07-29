@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
     {
         private const SkillSid SID = SkillSid.EnergyShot;
 
-        private EnergyShotSkill() : base(PredefinedVisualization, false)
+        public EnergyShotSkill() : base(PredefinedVisualization, false)
         {
         }
 
