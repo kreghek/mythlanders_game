@@ -162,10 +162,37 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 BackgroundLayerType = BackgroundLayerType.Far,
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
-                Origin = Vector2.Zero,
-                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new []{ 0, 1}, fps: 0.5f, frameWidth: 64, frameHeight: 64, textureColumns: 4, isLoop: true),
+                Origin = new Vector2(0.5f, 0.75f),
+                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new []{ 0, 1 }, fps: 0.5f, frameWidth: 64, frameHeight: 64, textureColumns: 8, isLoop: true),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
-            }
+            },
+            new StaticBgMainObjectScheme
+            {
+                BackgroundLayerType = BackgroundLayerType.Far,
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = new Vector2(0.5f, 1 - 0.125f),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 9),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+            },
+            new StaticBgMainObjectScheme
+            {
+                BackgroundLayerType = BackgroundLayerType.Far,
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = new Vector2(0.5f, 0.75f),
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 10),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+            },
+            new StaticBgMainObjectScheme
+            {
+                BackgroundLayerType = BackgroundLayerType.Far,
+                IsPassable = false,
+                Size = BgMainObjectSchemeSize.Size64,
+                Origin = Vector2.Zero,
+                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 11),
+                Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
+            },
         };
 
         private readonly IDice _dice;
