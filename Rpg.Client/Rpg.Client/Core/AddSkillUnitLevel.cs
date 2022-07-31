@@ -1,19 +1,19 @@
+using System;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {
-    internal sealed class AddSkillUnitLevel : UnitLevelBase
+    internal sealed class AddSkillUnitLevel<TSkill> : UnitLevelBase where TSkill : ISkill, new()
     {
-        private readonly ISkill _skill;
-
-        public AddSkillUnitLevel(int level, ISkill skill) : base(level)
-        {
-            _skill = skill;
-        }
-
         public override void Apply(Unit unit)
         {
-            unit.Skills.Add(_skill);
+            var skill = Activator.CreateInstance<TSkill>();
+            unit.Skills.Add(skill);
+        }
+
+        public AddSkillUnitLevel(int level) : base(level)
+        {
         }
     }
 }

@@ -23,11 +23,11 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new DarkLightingSkill()),
-                new AddSkillUnitLevel(2, new MummificationTouchSkill()),
-                new AddPerkUnitLevel(2, new Evasion()),
-                new AddSkillUnitLevel(3, new ParalyticChoirSkill(true)),
-                new AddSkillUnitLevel(4, new FingerOfAnubisShotSkill(true))
+                new AddSkillUnitLevel<DarkLightingSkill>(1),
+                new AddSkillUnitLevel<MummificationTouchSkill>(2),
+                new AddPerkUnitLevel<Evasion>(2),
+                new AddSkillUnitLevel<ParalyticChoirSkill>(3),
+                new AddSkillUnitLevel<FingerOfAnubisShotSkill>(4)
             };
         }
     }

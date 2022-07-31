@@ -8,11 +8,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Engineer
 {
     internal class CouosLegacySkill : VisualizedSkillBase
     {
-        public CouosLegacySkill() : this(false)
-        {
-        }
-
-        public CouosLegacySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public CouosLegacySkill() : base(PredefinedVisualization, false)
         {
         }
 

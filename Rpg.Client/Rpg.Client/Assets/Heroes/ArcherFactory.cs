@@ -29,11 +29,11 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new EnergyShotSkill()),
-                new AddSkillUnitLevel(1, new ArrowRainSkill(false)),
-                new AddSkillUnitLevel(2, new RapidShotSkill()),
-                new AddPerkUnitLevel(3, new CriticalHit()),
-                new AddSkillUnitLevel(4, new ZduhachMightSkill(false))
+                new AddSkillUnitLevel<EnergyShotSkill>(1),
+                new AddSkillUnitLevel<ArrowRainSkill>(1),
+                new AddSkillUnitLevel<RapidShotSkill>(2),
+                new AddPerkUnitLevel<CriticalHit>(3),
+                new AddSkillUnitLevel<ZduhachMightSkill>(4)
             };
         }
     }

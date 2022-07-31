@@ -1,9 +1,12 @@
-﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
+﻿using JetBrains.Annotations;
+
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Monsters
 {
+    [UsedImplicitly]
     internal sealed class BlackTrooperFactory : IMonsterFactory
     {
         public UnitScheme Create(IBalanceTable balanceTable)
@@ -31,7 +34,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new BlackRifleShotSkill())
+                    new AddSkillUnitLevel<BlackRifleShotSkill>(1)
                 },
 
                 UnitGraphicsConfig = new BlackTrooperGraphicsConfig()

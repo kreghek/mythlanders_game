@@ -14,6 +14,7 @@ namespace Rpg.Client.Assets.Heroes
 
         protected abstract IUnitLevelScheme[] GetLevels();
         public abstract UnitName HeroName { get; }
+        public virtual bool IsReleaseReady { get; } = true;
 
         public UnitScheme Create(IBalanceTable balanceTable)
         {

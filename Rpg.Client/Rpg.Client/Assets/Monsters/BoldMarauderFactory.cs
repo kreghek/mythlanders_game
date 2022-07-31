@@ -34,7 +34,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    new AddSkillUnitLevel<UnholyHitSkill>(1)
                 },
 
                 UnitGraphicsConfig = new MarauderGraphicsConfig()

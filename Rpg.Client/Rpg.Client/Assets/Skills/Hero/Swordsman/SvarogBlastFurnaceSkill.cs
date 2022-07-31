@@ -14,7 +14,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
     {
         private const SkillSid SID = SkillSid.SvarogBlastFurnace;
 
-        public SvarogBlastFurnaceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SvarogBlastFurnaceSkill() : base(PredefinedVisualization, false)
         {
         }
 

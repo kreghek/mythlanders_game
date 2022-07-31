@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
     {
         private const SkillSid SID = SkillSid.AresWarBringerThreads;
 
-        public AresWarBringerThreadsSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public AresWarBringerThreadsSkill() : base(PredefinedVisualization, false)
         {
         }
 

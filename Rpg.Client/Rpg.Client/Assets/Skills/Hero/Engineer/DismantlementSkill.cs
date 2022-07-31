@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -7,13 +9,10 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Engineer
 {
-    internal class DemountageSkill : VisualizedSkillBase
+    [UsedImplicitly]
+    internal class DismantlementSkill : VisualizedSkillBase
     {
-        public DemountageSkill() : this(false)
-        {
-        }
-
-        public DemountageSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DismantlementSkill() : base(PredefinedVisualization, false)
         {
         }
 

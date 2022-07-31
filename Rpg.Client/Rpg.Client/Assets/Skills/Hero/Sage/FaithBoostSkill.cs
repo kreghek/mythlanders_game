@@ -8,7 +8,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sage
 {
     internal sealed class FaithBoostSkill : VisualizedSkillBase
     {
-        public FaithBoostSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public FaithBoostSkill() : base(PredefinedVisualization, false)
         {
         }
 

@@ -9,7 +9,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Priest
 {
     internal class ParalyticChoirSkill : VisualizedSkillBase
     {
-        public ParalyticChoirSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ParalyticChoirSkill() : base(PredefinedVisualization, false)
         {
         }
 
