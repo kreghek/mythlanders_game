@@ -4,7 +4,6 @@ namespace Rpg.Client.Core
 {
     internal sealed class AddPerkUnitLevel<TPerk> : UnitLevelBase where TPerk : IPerk, new()
     {
-
         public AddPerkUnitLevel(int level) : base(level)
         {
         }

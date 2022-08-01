@@ -25,7 +25,7 @@ namespace Rpg.Client.Tests
             // ARRANGE
 
             var balanceTable = new BalanceTable();
-            var demoUnitCatalog = new DemoUnitSchemeCatalog(balanceTable, isDemo: true);
+            var demoUnitCatalog = new UnitSchemeCatalog(balanceTable, isDemo: true);
 
             var playerGroup = new Group();
             var unitScheme = GetVolkolakBeastFormScheme(demoUnitCatalog);
@@ -99,7 +99,7 @@ namespace Rpg.Client.Tests
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1,
+                    new AddPredefinedSkillUnitLevel(1,
                         Mock.Of<ISkill>(skill =>
                             // ReSharper disable once PossibleUnintendedReferenceComparison
                             // Justification: Used to mock creating.
@@ -112,7 +112,7 @@ namespace Rpg.Client.Tests
             {
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1,
+                    new AddPredefinedSkillUnitLevel(1,
                         Mock.Of<ISkill>(skill =>
                             // ReSharper disable once PossibleUnintendedReferenceComparison
                             // Justification: Used to mock creating.
@@ -189,7 +189,7 @@ namespace Rpg.Client.Tests
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                    new AddPredefinedSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
                         // ReSharper disable once PossibleUnintendedReferenceComparison
                         // Justification Creating mock using the expression tree.
                         skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
@@ -256,7 +256,7 @@ namespace Rpg.Client.Tests
                 DamageDealerRank = 1,
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                    new AddPredefinedSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
                         // ReSharper disable once PossibleUnintendedReferenceComparison
                         // Justification Creating mock using the expression tree.
                         skill.Rules == damageRule && skill.TargetType == SkillTargetType.Enemy))
@@ -280,7 +280,7 @@ namespace Rpg.Client.Tests
             {
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
+                    new AddPredefinedSkillUnitLevel(1, Mock.Of<ISkill>(skill =>
                         // ReSharper disable once PossibleUnintendedReferenceComparison
                         // Justification Creating mock using the expression tree.
                         skill.Rules == decreaseDamageRule && skill.TargetType == SkillTargetType.Enemy))

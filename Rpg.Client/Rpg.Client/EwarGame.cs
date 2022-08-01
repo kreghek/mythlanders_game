@@ -225,7 +225,7 @@ namespace Rpg.Client
             var balanceTable = new BalanceTable();
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var unitSchemeCatalog = new DemoUnitSchemeCatalog(balanceTable, isDemo: false);
+                var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
                 var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
@@ -245,7 +245,7 @@ namespace Rpg.Client
             }
             else
             {
-                var unitSchemeCatalog = new DemoUnitSchemeCatalog(balanceTable, isDemo: true);
+                var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: true);
                 Services.AddService<IUnitSchemeCatalog>(unitSchemeCatalog);
 
                 var dialogueAftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);

@@ -8,10 +8,11 @@ namespace Rpg.Client.Core
     public static class StringHelper
     {
         public static readonly IReadOnlyList<char> WordBreakers = new[] { ' ' };
+        public static readonly IReadOnlyList<char> SourceNewLineCharacters = new[] { '\n' };
 
         public static string LineBreaking(string text, int maxInLine)
         {
-            var items = text.Split('\n');
+            var items = text.Split(SourceNewLineCharacters.ToArray());
             var mainSb = new StringBuilder();
             var singleSb = new StringBuilder();
             foreach (var item in items)
