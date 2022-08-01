@@ -155,8 +155,14 @@
   <data name="BlackTrooper" xml:space="preserve">
     <value>Trooper</value>
   </data>
+  <data name="BlankShot" xml:space="preserve">
+    <value>Blank shot</value>
+  </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Blind defense</value>
+  </data>
+  <data name="BoldMarauder" xml:space="preserve">
+    <value>Marauder</value>
   </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>The book of a herbs</value><comment>Equipment</comment>
@@ -397,7 +403,7 @@
     <comment>Location</comment>
   </data>
   <data name="SwordSlash" xml:space="preserve">
-      <value>Sword slash</value>
+      <value>Die by the sword</value>
     <comment>Skill</comment>
   </data>
   <data name="Swordsman" xml:space="preserve">
@@ -464,8 +470,5 @@
   <data name="ZduhachMight" xml:space="preserve">
       <value>Zduhach Might</value>
     <comment>Skill</comment>
-  </data>
-  <data name="BoldMarauder" xml:space="preserve">
-    <value>Marauder</value>
   </data>
 </root>
