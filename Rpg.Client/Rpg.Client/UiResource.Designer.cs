@@ -835,6 +835,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Switch resolution.
+        /// </summary>
+        internal static string SwitchResolutionButtonTitle {
+            get {
+                return ResourceManager.GetString("SwitchResolutionButtonTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To The Combat!.
         /// </summary>
         internal static string ToTheCombatButtonTitle {

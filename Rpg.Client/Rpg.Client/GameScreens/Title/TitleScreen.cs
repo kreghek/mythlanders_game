@@ -128,7 +128,7 @@ namespace Rpg.Client.GameScreens.Title
             };
 
             _settingsModal = new SettingsModal(_uiContentStorage, _resolutionIndependentRenderer, Game, this,
-                isGameState: false);
+                isGameStarted: false);
             AddModal(_settingsModal, isLate: true);
         }
 

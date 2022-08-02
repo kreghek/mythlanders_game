@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
@@ -28,12 +26,9 @@ namespace Rpg.Client.GameScreens.Common
         private readonly GlobeProvider _globeProvider;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
 
-        private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
-        private ButtonBase? _selectedMonitorResolutionButton;
-
         public SettingsModal(IUiContentStorage uiContentStorage,
             ResolutionIndependentRenderer resolutionIndependentRenderer, Game game,
-            IScreen currentScreen, bool isGameState = true) : base(uiContentStorage,
+            IScreen currentScreen, bool isGameStarted = true) : base(uiContentStorage,
             resolutionIndependentRenderer)
         {
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
@@ -49,18 +44,19 @@ namespace Rpg.Client.GameScreens.Common
 
             _buttons = new List<ButtonBase>
             {
-                GetSwitchFullScreenButton(buttonTexture, font)
+                CreateSwitchFullScreenButton(buttonTexture, font),
+                CreateSwitchResolutionButton(buttonTexture, font)
             };
 
             if (_gameSettings.Mode == GameMode.Full)
             {
                 // Switch language only for showcase.
                 // On a showcase use default russian language.
-                _buttons.Add(GetSwitchLanguageButton(buttonTexture, font));
+                _buttons.Add(CreateSwitchLanguageButton(buttonTexture, font));
             }
             else
             {
-                if (isGameState)
+                if (isGameStarted)
                 {
                     // Fast restart available only in the demo game.
                     var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
@@ -68,21 +64,9 @@ namespace Rpg.Client.GameScreens.Common
                 }
             }
 
-            var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
-                buttonTexture,
-                font,
-                game.GraphicsDevice.Adapter.SupportedDisplayModes);
-
-            _resolutionsButtonsInfos =
-                resolutionsButtonsInfos.ToDictionary(key => key.Button, value => value.Resolution);
-
-            //_buttons.AddRange(_resolutionsButtonsInfos.Keys);
-
             _globeProvider = game.Services.GetService<GlobeProvider>();
 
-            InitSelectedMonitorResolution(_globeProvider);
-
-            if (isGameState)
+            if (isGameStarted)
             {
                 var exitGameButton = new ResourceTextButton(
                     nameof(UiResource.ExitGameButtonTitle),
@@ -96,6 +80,18 @@ namespace Rpg.Client.GameScreens.Common
                 };
                 _buttons.Add(exitGameButton);
             }
+        }
+
+        private ButtonBase CreateSwitchResolutionButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var button = new ResourceTextButton(
+                nameof(UiResource.SwitchResolutionButtonTitle),
+                buttonTexture,
+                font,
+                new Rectangle());
+            button.OnClick += SwitchResolutionButton_OnClick;
+
+            return button;
         }
 
         protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.Gears;
@@ -128,17 +124,6 @@ namespace Rpg.Client.GameScreens.Common
             }
         }
 
-        private void ChangeSelectedButton(object sender)
-        {
-            if (_selectedMonitorResolutionButton != null)
-            {
-                _selectedMonitorResolutionButton.IsEnabled = true;
-            }
-
-            _selectedMonitorResolutionButton = (ButtonBase)sender;
-            _selectedMonitorResolutionButton.IsEnabled = false;
-        }
-
         private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
         {
             var fastRestartButton = new TextButton(
@@ -160,62 +145,7 @@ namespace Rpg.Client.GameScreens.Common
             screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title, null);
         }
 
-        private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(
-            Texture2D buttonTexture,
-            SpriteFont font)
-        {
-            var (width, height) = (800, 480);
-            var debugMonitorResolution = (Width: width, Height: height);
-            var debugResolutionButtonLabel = $"{width}x{height}";
-            var debugResolutionButton = GetResolutionButton(buttonTexture, font, debugResolutionButtonLabel);
-            var debugResolutionButtonInfo = (Button: debugResolutionButton, Resolution: debugMonitorResolution);
-
-            return debugResolutionButtonInfo;
-        }
-
-        private TextButton GetResolutionButton(Texture2D buttonTexture, SpriteFont font, string buttonLabel)
-        {
-            var button = new TextButton(buttonLabel, buttonTexture, font, new Rectangle());
-            button.OnClick += SwitchResolutionButton_OnClick;
-
-            return button;
-        }
-
-        private IEnumerable<(ButtonBase Button, (int Width, int Height) Resolution)>
-            GetSupportedMonitorResolutionButtons(
-                Texture2D buttonTexture, SpriteFont font,
-                DisplayModeCollection displayModes)
-        {
-            const byte DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT = 5;
-
-            var supportedResolutions = displayModes
-                .Select(
-                    x => new
-                    {
-                        BtnLabel = $"{x.Width}x{x.Height}",
-                        Resolution = (x.Width, x.Height)
-                    })
-                .OrderByDescending(x => x.Resolution.Width)
-                .Take(DEFAULT_SUPPORTED_MONITOR_RESOLUTIONS_AMOUNT);
-
-            var buttonInfos = supportedResolutions.Select(
-                x =>
-                {
-                    var button = GetResolutionButton(buttonTexture, font, x.BtnLabel);
-
-                    return ((ButtonBase)button, x.Resolution);
-                });
-#if DEBUG
-            var debugResolutionButtonInfo = GetDebugResolutionButtonInfo(buttonTexture, font);
-            _selectedMonitorResolutionButton = debugResolutionButtonInfo.Button;
-            _selectedMonitorResolutionButton.IsEnabled = false;
-            buttonInfos = buttonInfos.Append(debugResolutionButtonInfo);
-#endif
-
-            return buttonInfos;
-        }
-
-        private ButtonBase GetSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase CreateSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
         {
             var switchFullScreenButton = new ResourceTextButton(
                 nameof(UiResource.SwitchFullScreenButtonTitle),
@@ -227,7 +157,7 @@ namespace Rpg.Client.GameScreens.Common
             return switchFullScreenButton;
         }
 
-        private static ButtonBase GetSwitchLanguageButton(Texture2D buttonTexture, SpriteFont font)
+        private static ButtonBase CreateSwitchLanguageButton(Texture2D buttonTexture, SpriteFont font)
         {
             var switchLanguageButton = new ResourceTextButton(
                 nameof(UiResource.SwitchLanguageButtonTitle),
@@ -251,30 +181,6 @@ namespace Rpg.Client.GameScreens.Common
             _camera.Position = new Vector2(_resolutionIndependentRenderer.VirtualWidth / 2,
                 _resolutionIndependentRenderer.VirtualHeight / 2);
             _camera.RecalculateTransformationMatrices();
-        }
-
-        private void InitSelectedMonitorResolution(GlobeProvider globeProvider)
-        {
-            if (globeProvider.ChoisedUserMonitorResolution is null)
-            {
-                globeProvider.ChoisedUserMonitorResolution = _selectedMonitorResolutionButton is not null
-                    ? _resolutionsButtonsInfos[_selectedMonitorResolutionButton]
-                    : null;
-            }
-            else
-            {
-                if (_selectedMonitorResolutionButton != null)
-                {
-                    _selectedMonitorResolutionButton.IsEnabled = true;
-                }
-
-                var foundResolutionButton = _resolutionsButtonsInfos
-                    .SingleOrDefault(pair => pair.Value == globeProvider.ChoisedUserMonitorResolution);
-                _selectedMonitorResolutionButton =
-                    foundResolutionButton.Equals(default(KeyValuePair<ButtonBase, (int Width, int Height)>))
-                        ? null
-                        : foundResolutionButton.Key;
-            }
         }
 
         private static void SwitchLanguageButton_OnClick(object? sender, EventArgs e)
@@ -308,17 +214,16 @@ namespace Rpg.Client.GameScreens.Common
 
         private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)
         {
-            if (sender is null)
-            {
-                Debug.Fail("Sender mustn't be null.");
-            }
-
-            ChangeSelectedButton(sender);
-
-            var (width, height) = _resolutionsButtonsInfos[_selectedMonitorResolutionButton];
             var graphicsManager = _game.Services.GetService<GraphicsDeviceManager>();
+
+            var width = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            var height = _game.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+
+            InitializeResolutionIndependence(width, height);
+
             graphicsManager.PreferredBackBufferWidth = width;
             graphicsManager.PreferredBackBufferHeight = height;
+
             graphicsManager.ApplyChanges();
         }
 
