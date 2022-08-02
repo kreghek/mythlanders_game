@@ -304,6 +304,15 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to if right ally with shield.
+        /// </summary>
+        internal static string EffectConditionIsRightAllyWithShieldText {
+            get {
+                return ResourceManager.GetString("EffectConditionIsRightAllyWithShieldText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is end of the game. Congratulations!{0}Thank you for attention.
         /// </summary>
         internal static string EndOfGameMessage {

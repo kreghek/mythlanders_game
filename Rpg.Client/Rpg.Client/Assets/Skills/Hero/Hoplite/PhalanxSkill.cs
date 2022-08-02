@@ -89,7 +89,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
 
             public string GetDescription()
             {
-                return "RIGHT WITH SHIELD";
+                return UiResource.EffectConditionIsRightAllyWithShieldText;
             }
         }
     }
