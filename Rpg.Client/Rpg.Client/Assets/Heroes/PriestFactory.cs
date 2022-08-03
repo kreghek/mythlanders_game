@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.Heroes
             return new IUnitLevelScheme[]
             {
                 new AddSkillUnitLevel<DarkLightingSkill>(1),
-                new AddSkillUnitLevel<MummificationTouchSkill>(2),
+                new AddSkillUnitLevel<UnlimitedSinSkill>(2),
                 new AddPerkUnitLevel<Evasion>(2),
                 new AddSkillUnitLevel<ParalyticChoirSkill>(3),
                 new AddSkillUnitLevel<FingerOfAnubisShotSkill>(4)
