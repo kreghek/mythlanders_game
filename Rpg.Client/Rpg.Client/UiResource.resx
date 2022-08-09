@@ -394,6 +394,9 @@
   <data name="SwitchLanguageButtonTitle" xml:space="preserve">
     <value>Switch lang</value>
   </data>
+  <data name="SwitchMusicButtonTitle" xml:space="preserve">
+    <value>Switch music</value>
+  </data>
   <data name="SwitchResolutionButtonTitle" xml:space="preserve">
     <value>Switch resolution</value>
   </data>

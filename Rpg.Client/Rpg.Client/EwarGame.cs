@@ -279,7 +279,7 @@ namespace Rpg.Client
 
             Services.AddService(_graphics);
 
-            var soundtrackManager = new SoundtrackManager();
+            var soundtrackManager = new SoundtrackManager(_gameSettings);
             Services.AddService(soundtrackManager);
 
             var bgoFactorySelector = new BackgroundObjectFactorySelector();

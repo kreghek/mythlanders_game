@@ -45,7 +45,8 @@ namespace Rpg.Client.GameScreens.Common
             _buttons = new List<ButtonBase>
             {
                 CreateSwitchFullScreenButton(buttonTexture, font),
-                CreateSwitchResolutionButton(buttonTexture, font)
+                CreateSwitchResolutionButton(buttonTexture, font),
+                CreateSwitchMusicButton(buttonTexture, font)
             };
 
             if (_gameSettings.Mode == GameMode.Full)
@@ -90,6 +91,18 @@ namespace Rpg.Client.GameScreens.Common
                 font,
                 new Rectangle());
             button.OnClick += SwitchResolutionButton_OnClick;
+
+            return button;
+        }
+
+        private ButtonBase CreateSwitchMusicButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var button = new ResourceTextButton(
+                nameof(UiResource.SwitchMusicButtonTitle),
+                buttonTexture,
+                font,
+                new Rectangle());
+            button.OnClick += SwitchMusicButton_OnClick;
 
             return button;
         }
@@ -225,6 +238,18 @@ namespace Rpg.Client.GameScreens.Common
             graphicsManager.PreferredBackBufferHeight = height;
 
             graphicsManager.ApplyChanges();
+        }
+
+        private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
+        {
+            if ((int)_gameSettings.MusicVolume == 1)
+            {
+                _gameSettings.MusicVolume = 0;
+            }
+            else
+            {
+                _gameSettings.MusicVolume = 1;
+            }
         }
 
         private void SwitchToFullScreenButton_OnClick(object? sender, EventArgs e)

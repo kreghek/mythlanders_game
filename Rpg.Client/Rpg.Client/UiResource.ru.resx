@@ -402,6 +402,9 @@
   <data name="SwitchLanguageButtonTitle" xml:space="preserve">
     <value>Язык</value>
   </data>
+  <data name="SwitchMusicButtonTitle" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
   <data name="SwitchResolutionButtonTitle" xml:space="preserve">
     <value>Переключить разрешение</value>
   </data>

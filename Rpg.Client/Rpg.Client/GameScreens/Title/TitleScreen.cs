@@ -142,7 +142,7 @@ namespace Rpg.Client.GameScreens.Title
 
             var firstAvailableNodeInBiome =
                 globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .Single(x => x.IsAvailable);
+                    .First(x => x.IsAvailable);
 
             MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
                 availableEvent: firstAvailableNodeInBiome.AssignedEvent,

@@ -10,8 +10,7 @@ namespace Rpg.Client.Engine
     internal sealed class SoundtrackManager
     {
         private readonly Random _random;
-        private readonly float MUSIC_VOLUME = 1.0f;
-
+        private readonly GameSettings _gameSettings;
         private bool _changeTrack;
 
         private BiomeType _currentBiome;
@@ -21,9 +20,10 @@ namespace Rpg.Client.Engine
 
         private IUiContentStorage? _uiContentStorage;
 
-        public SoundtrackManager()
+        public SoundtrackManager(GameSettings gameSettings)
         {
             _random = new Random();
+            _gameSettings = gameSettings;
         }
 
         public string? CurrentTrackName => _currentSong?.Name;
@@ -74,6 +74,8 @@ namespace Rpg.Client.Engine
                 return;
             }
 
+            MediaPlayer.Volume = _gameSettings.MusicVolume;
+
             switch (_state)
             {
                 case SoundtrackType.Silence:
@@ -89,7 +91,6 @@ namespace Rpg.Client.Engine
                         if (_uiContentStorage is not null)
                         {
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             _currentSong = _uiContentStorage.GetIntroSong();
                             MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
@@ -105,7 +106,6 @@ namespace Rpg.Client.Engine
                         if (_uiContentStorage is not null)
                         {
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             _currentSong = _uiContentStorage.GetTitleSong();
                             MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
@@ -127,7 +127,6 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
@@ -148,7 +147,6 @@ namespace Rpg.Client.Engine
                             _currentSong = songData.Soundtrack;
 
                             MediaPlayer.IsRepeating = true;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(_currentSong, TimeSpan.Zero);
                         }
                     }
@@ -167,7 +165,6 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
@@ -186,7 +183,6 @@ namespace Rpg.Client.Engine
                             _currentSong = song;
 
                             MediaPlayer.IsRepeating = false;
-                            MediaPlayer.Volume = MUSIC_VOLUME;
                             MediaPlayer.Play(song, TimeSpan.Zero);
                         }
                     }
