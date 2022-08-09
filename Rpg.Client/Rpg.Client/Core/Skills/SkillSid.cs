@@ -25,7 +25,7 @@ namespace Rpg.Client.Core.Skills
         WideSwordSlash,
         ZduhachMight,
         DarkLighting,
-        MummificationTouch,
+        UnlimitedSin,
         ParalyticChoir,
         FingerOfAnubis,
         WispEnergy,
