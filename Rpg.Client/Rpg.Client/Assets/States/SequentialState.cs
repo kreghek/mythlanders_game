@@ -16,6 +16,11 @@ namespace Rpg.Client.Assets.States
             _subStates = subStates;
         }
 
+        public SequentialState(params IUnitStateEngine[] subStates)
+        {
+            _subStates = subStates;
+        }
+
         public bool CanBeReplaced => true;
 
         public bool IsComplete { get; private set; }

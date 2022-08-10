@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 
@@ -10,12 +11,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
     internal class LinearMoveToTargetState : IUnitStateEngine
     {
         private const double DURATION_SECONDS = 0.25;
-        private readonly PredefinedAnimationSid _animationSid;
+        private readonly PredefinedAnimationSid? _predefinedAnimationSid;
         private readonly UnitGraphics _graphics;
         private readonly SpriteContainer _graphicsRoot;
 
         private readonly Vector2 _startPosition;
         private readonly Vector2 _targetPosition;
+        private readonly IAnimationFrameSet? _animation;
         private double _counter;
 
         public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
@@ -23,7 +25,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
         {
             _startPosition = graphicsRoot.Position;
             _targetPosition = targetPosition;
-            _animationSid = animationSid;
+            _predefinedAnimationSid = animationSid;
+            _graphics = graphics;
+            _graphicsRoot = graphicsRoot;
+        }
+
+        public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+            IAnimationFrameSet animation)
+        {
+            _startPosition = graphicsRoot.Position;
+            _targetPosition = targetPosition;
+            _animation = animation;
             _graphics = graphics;
             _graphicsRoot = graphicsRoot;
         }
@@ -47,7 +59,19 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 
             if (_counter == 0)
             {
-                _graphics.PlayAnimation(_animationSid);
+                if (_predefinedAnimationSid is not null)
+                {
+                    _graphics.PlayAnimation(_predefinedAnimationSid.Value);
+                }
+                else if (_animation is not null)
+                {
+                    _graphics.PlayAnimation(_animation);
+                }
+                else
+                {
+                    _graphics.PlayAnimation(PredefinedAnimationSid.Idle);
+                    Debug.Fail("Any animation must be defined in the constructor.");
+                }
             }
 
             if (_counter <= DURATION_SECONDS)

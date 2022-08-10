@@ -197,7 +197,7 @@ namespace Rpg.Client.GameScreens
                 { GameObjectSoundType.StaffHit, LoadSkillEffect("StaffHitEffect") },
                 { GameObjectSoundType.MagicDust, LoadSkillEffect("DustEffect") },
                 { GameObjectSoundType.EgyptianDarkMagic, LoadSkillEffect("EgyptMassStunEffect") },
-                { GameObjectSoundType.WolfBite, LoadSkillEffect("WolfHitEffect") },
+                { GameObjectSoundType.DigitalBite, LoadSkillEffect("WolfHitEffect") },
                 { GameObjectSoundType.AspidBite, LoadSkillEffect("SnakeHitEffect") },
                 { GameObjectSoundType.BearBludgeon, LoadSkillEffect("BearBludgeon") },
                 { GameObjectSoundType.WispEnergy, LoadSkillEffect("WispStrikeEffect") },
@@ -237,7 +237,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.BoldMarauder, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
                 { UnitName.BlackTrooper, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/HumanDeath") },
 
-                { UnitName.GreyWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
+                { UnitName.DigitalWolf, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/DogDeath") },
                 { UnitName.Bear, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/BearDeath") },
                 { UnitName.Wisp, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/WhispDeath") },
                 { UnitName.Aspid, contentManager.Load<SoundEffect>("Audio/GameObjects/Deaths/AspidDeath") },
@@ -335,7 +335,7 @@ namespace Rpg.Client.GameScreens
                 return soundEffect;
             }
 
-            return _deathSoundDict[UnitName.GreyWolf];
+            return _deathSoundDict[UnitName.DigitalWolf];
         }
 
         internal Texture2D GetEquipmentIcons()
@@ -370,7 +370,7 @@ namespace Rpg.Client.GameScreens
                 return soundEffect;
             }
 
-            return _skillSoundDict[GameObjectSoundType.WolfBite];
+            return _skillSoundDict[GameObjectSoundType.DigitalBite];
         }
 
         internal SoundEffect GetTextSoundEffect(UnitName unitName)
@@ -406,7 +406,7 @@ namespace Rpg.Client.GameScreens
                 { UnitName.Marauder, LoadMonsterTexture(contentManager, "Marauder") },
                 { UnitName.BoldMarauder, LoadMonsterTexture(contentManager, "BoldMarauder") },
                 { UnitName.BlackTrooper, LoadMonsterTexture(contentManager, "BlackTrooper") },
-                { UnitName.GreyWolf, LoadMonsterTexture(contentManager, "Wolf") },
+                { UnitName.DigitalWolf, LoadMonsterTexture(contentManager, "DigitalWolf") },
                 { UnitName.Aspid, LoadMonsterTexture(contentManager, "Aspid") },
                 { UnitName.Wisp, LoadMonsterTexture(contentManager, "Wisp") },
                 { UnitName.Bear, LoadMonsterTexture(contentManager, "Bear") },

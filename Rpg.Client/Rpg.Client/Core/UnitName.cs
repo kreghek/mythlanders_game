@@ -44,7 +44,7 @@
         Kikimore, // кикимора
         SwampWomanFish, // болотная русалка
         Drekava, // Дрекавак
-        GreyWolf,
+        DigitalWolf,
         Bear,
         Volkolak,
         Dead, // Умертивие

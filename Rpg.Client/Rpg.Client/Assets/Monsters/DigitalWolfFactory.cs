@@ -8,13 +8,13 @@ using Rpg.Client.Core;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class GreyWolfFactory : IMonsterFactory
+    internal sealed class DigitalWolfFactory : IMonsterFactory
     {
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.GreyWolf,
+                Name = UnitName.DigitalWolf,
                 LocationSids = new[]
                 {
                     GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
@@ -24,11 +24,11 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel<WolfBiteSkill>(1),
+                    new AddSkillUnitLevel<DigitalBiteSkill>(1),
                     new AddPerkUnitLevel<CriticalHit>(3)
                 },
 
-                UnitGraphicsConfig = new GenericMonsterGraphicsConfig()
+                UnitGraphicsConfig = new DigitalWolfGraphicsConfig()
             };
         }
     }
