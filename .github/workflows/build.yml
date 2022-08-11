@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - demo-gdw22
+      - demo/converia-22
 
 jobs:
   build:
