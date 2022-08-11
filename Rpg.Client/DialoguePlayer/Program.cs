@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Resources;
 
 using Rpg.Client.Assets;
@@ -11,9 +10,9 @@ using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer
 {
-    internal class Program
+    internal static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable(), isDemo: false);
 
@@ -26,7 +25,7 @@ namespace DialoguePlayer
 
             var dialogueSid = Console.ReadLine();
 
-            var dialogue = eventCatalog.GetDialogue(dialogueSid);
+            var dialogue = eventCatalog.GetDialogue(dialogueSid ?? throw new InvalidOperationException());
 
             var storyPointInitializer = new StoryPointCatalog();
             var dice = new LinearDice();
@@ -34,9 +33,10 @@ namespace DialoguePlayer
                 new BiomeGenerator(dice, unitSchemeCatalog, eventCatalog), eventCatalog, storyPointInitializer);
             globeProvider.GenerateNew();
             var globe = globeProvider.Globe;
+            var player = new Player();
 
             var dialogPlayer = new Rpg.Client.Core.Dialogues.DialoguePlayer(dialogue,
-                new DialogueContextFactory(globe, new StoryPointCatalog()));
+                new DialogueContextFactory(globe, new StoryPointCatalog(), player));
 
             var assembly = dialogue.GetType().Assembly;
             var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
@@ -46,8 +46,8 @@ namespace DialoguePlayer
                 foreach (var textFragment in dialogPlayer.CurrentTextFragments)
                 {
                     var speakerLocalized = GameObjectHelper.GetLocalized(textFragment.Speaker);
-                    var localizedSpeach = rm.GetString(textFragment.TextSid);
-                    Console.WriteLine($"{speakerLocalized}: {localizedSpeach}");
+                    var localizedSpeech = rm.GetString(textFragment.TextSid);
+                    Console.WriteLine($@"{speakerLocalized}: {localizedSpeech}");
                 }
 
                 var optionList = dialogPlayer.CurrentOptions.ToArray();
@@ -55,11 +55,12 @@ namespace DialoguePlayer
                 {
                     var option = optionList[index];
                     var localizedOptionText = rm.GetString(option.TextSid);
-                    Console.WriteLine((index + 1) + ". " + localizedOptionText);
+                    Console.WriteLine($@"{(index + 1)}. {localizedOptionText}");
                 }
 
-                Console.Write("Твой выбор: ");
-                var input = int.Parse(Console.ReadLine());
+                // ReSharper disable once LocalizableElement
+                Console.Write("Input option number: ");
+                var input = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
                 dialogPlayer.SelectOption(optionList[input - 1]);
             }
