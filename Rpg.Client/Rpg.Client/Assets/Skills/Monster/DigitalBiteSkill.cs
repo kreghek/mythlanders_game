@@ -50,9 +50,10 @@ namespace Rpg.Client.Assets.Skills.Monster
                 animatedUnitGameObject.Position + Vector2.UnitY * JUMP_HEIGHT,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 3 }, fps: 8));
 
-            var animationInfo = new SkillAnimationInfo { 
-                Items = new[] { 
-                    new SkillAnimationInfoItem{ 
+            var animationInfo = new SkillAnimationInfo
+            {
+                Items = new[] {
+                    new SkillAnimationInfoItem{
                         Duration = 1f,
                         HitSound = context.GetHitSound(GameObjectSoundType.DigitalBite),
                         Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),

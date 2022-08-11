@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
         public IEnumerable<Unit> Units => _units.ToArray();
 
         public void AddNewUnit(Unit unit)
-        { 
+        {
             _units.Add(unit);
         }
 

@@ -240,7 +240,7 @@ namespace Rpg.Client.Core
                 UnitName.Assaulter
             };
 
-            var startHeroes = startHeroNames.Select(x=>CreateStartHero(x)).ToArray();
+            var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();
 
             return startHeroes;
         }
