@@ -83,30 +83,6 @@ namespace Rpg.Client.GameScreens.Common
             }
         }
 
-        private ButtonBase CreateSwitchResolutionButton(Texture2D buttonTexture, SpriteFont font)
-        {
-            var button = new ResourceTextButton(
-                nameof(UiResource.SwitchResolutionButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
-            button.OnClick += SwitchResolutionButton_OnClick;
-
-            return button;
-        }
-
-        private ButtonBase CreateSwitchMusicButton(Texture2D buttonTexture, SpriteFont font)
-        {
-            var button = new ResourceTextButton(
-                nameof(UiResource.SwitchMusicButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
-            button.OnClick += SwitchMusicButton_OnClick;
-
-            return button;
-        }
-
         protected override ModalTopSymbol? TopSymbol => ModalTopSymbol.Gears;
 
 
@@ -149,15 +125,6 @@ namespace Rpg.Client.GameScreens.Common
             return fastRestartButton;
         }
 
-        private void FastRestartButton_OnClick(object? sender, EventArgs e)
-        {
-            _globeProvider.Globe.Player.ClearAbilities();
-            _globeProvider.Globe.Player.ClearInventory();
-
-            var screenManager = _game.Services.GetService<IScreenManager>();
-            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title, null);
-        }
-
         private ButtonBase CreateSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
         {
             var switchFullScreenButton = new ResourceTextButton(
@@ -180,6 +147,39 @@ namespace Rpg.Client.GameScreens.Common
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
+        }
+
+        private ButtonBase CreateSwitchMusicButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var button = new ResourceTextButton(
+                nameof(UiResource.SwitchMusicButtonTitle),
+                buttonTexture,
+                font,
+                new Rectangle());
+            button.OnClick += SwitchMusicButton_OnClick;
+
+            return button;
+        }
+
+        private ButtonBase CreateSwitchResolutionButton(Texture2D buttonTexture, SpriteFont font)
+        {
+            var button = new ResourceTextButton(
+                nameof(UiResource.SwitchResolutionButtonTitle),
+                buttonTexture,
+                font,
+                new Rectangle());
+            button.OnClick += SwitchResolutionButton_OnClick;
+
+            return button;
+        }
+
+        private void FastRestartButton_OnClick(object? sender, EventArgs e)
+        {
+            _globeProvider.Globe.Player.ClearAbilities();
+            _globeProvider.Globe.Player.ClearInventory();
+
+            var screenManager = _game.Services.GetService<IScreenManager>();
+            screenManager.ExecuteTransition(_currentScreen, ScreenTransition.Title, null);
         }
 
         private void InitializeResolutionIndependence(int realScreenWidth, int realScreenHeight)
@@ -225,6 +225,18 @@ namespace Rpg.Client.GameScreens.Common
             }
         }
 
+        private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
+        {
+            if ((int)_gameSettings.MusicVolume == 1)
+            {
+                _gameSettings.MusicVolume = 0;
+            }
+            else
+            {
+                _gameSettings.MusicVolume = 1;
+            }
+        }
+
         private void SwitchResolutionButton_OnClick(object? sender, EventArgs e)
         {
             var graphicsManager = _game.Services.GetService<GraphicsDeviceManager>();
@@ -238,18 +250,6 @@ namespace Rpg.Client.GameScreens.Common
             graphicsManager.PreferredBackBufferHeight = height;
 
             graphicsManager.ApplyChanges();
-        }
-
-        private void SwitchMusicButton_OnClick(object? sender, EventArgs e)
-        {
-            if ((int)_gameSettings.MusicVolume == 1)
-            {
-                _gameSettings.MusicVolume = 0;
-            }
-            else
-            {
-                _gameSettings.MusicVolume = 1;
-            }
         }
 
         private void SwitchToFullScreenButton_OnClick(object? sender, EventArgs e)

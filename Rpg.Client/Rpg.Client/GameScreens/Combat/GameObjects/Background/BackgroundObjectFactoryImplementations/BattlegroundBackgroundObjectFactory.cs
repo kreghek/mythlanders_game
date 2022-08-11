@@ -44,7 +44,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                     BackgroundType.SlavicBattleground,
                     BackgroundLayerType.Closest,
                     0),
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true, frameWidth: 256, frameHeight: 256, textureColumns: 1),
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true,
+                    frameWidth: 256, frameHeight: 256, textureColumns: 1),
                 new Vector2(160, 480 - 128));
             list.Add(bannerObject);
 

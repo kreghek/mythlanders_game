@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Monsters
             {
                 Name = UnitName.Hydra,
                 LocationSids = new[] { GlobeNodeSid.Labyrinth },
-                
+
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]

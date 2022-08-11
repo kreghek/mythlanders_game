@@ -6,8 +6,8 @@ namespace Rpg.Client.Core.Dialogues
     internal sealed class EventContext : IEventContext
     {
         private readonly Globe _globe;
-        private readonly IStoryPointCatalog _storyPointCatalog;
         private readonly Player _player;
+        private readonly IStoryPointCatalog _storyPointCatalog;
 
         public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
         {
@@ -19,7 +19,8 @@ namespace Rpg.Client.Core.Dialogues
         public void AddNewCharacter(Unit unit)
         {
             var freeSlots = _globe.Player.Party.GetFreeSlots()
-                .Where(x=> BoolHelper.HasNotRestriction(_player.HasAbility(PlayerAbility.AvailableTanks), x.IsTankLine))
+                .Where(
+                    x => BoolHelper.HasNotRestriction(_player.HasAbility(PlayerAbility.AvailableTanks), x.IsTankLine))
                 .ToArray();
             if (freeSlots.Any())
             {

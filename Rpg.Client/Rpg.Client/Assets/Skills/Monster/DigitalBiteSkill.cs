@@ -29,30 +29,24 @@ namespace Rpg.Client.Assets.Skills.Monster
             AnimationSid = PredefinedAnimationSid.Skill1
         };
 
-        private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
-        {
-            foreach (var ruleInteraction in skillRuleInteractions)
-            {
-                foreach (var target in ruleInteraction.Targets)
-                {
-                    ruleInteraction.Action(target);
-                }
-            }
-        }
-
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             var targetGraphicRoot = targetUnitGameObject.Graphics.Root;
             var targetPosition =
                 targetGraphicRoot.Position + new Vector2(-120 * (targetGraphicRoot.FlipX ? 1 : -1), 0);
 
-            var jumpState = new LinearMoveToTargetState(animatedUnitGameObject.Graphics, animatedUnitGameObject.Graphics.Root,
+            var jumpState = new LinearMoveToTargetState(animatedUnitGameObject.Graphics,
+                animatedUnitGameObject.Graphics.Root,
                 animatedUnitGameObject.Position + Vector2.UnitY * JUMP_HEIGHT,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 3 }, fps: 8));
 
-            var animationInfo = new SkillAnimationInfo { 
-                Items = new[] { 
-                    new SkillAnimationInfoItem{ 
+            var animationInfo = new SkillAnimationInfo
+            {
+                Items = new[]
+                {
+                    new SkillAnimationInfoItem
+                    {
                         Duration = 1f,
                         HitSound = context.GetHitSound(GameObjectSoundType.DigitalBite),
                         Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),
@@ -73,12 +67,24 @@ namespace Rpg.Client.Assets.Skills.Monster
                 animationInfo,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 4 }, fps: 8));
 
-            var moveBackwardState = new LinearMoveBackState(animatedUnitGameObject.Graphics, animatedUnitGameObject.Graphics.Root, targetPosition, mainStateBlocker);
+            var moveBackwardState = new LinearMoveBackState(animatedUnitGameObject.Graphics,
+                animatedUnitGameObject.Graphics.Root, targetPosition, mainStateBlocker);
 
             var sequence = new SequentialState(jumpState, attackMoveState, attackState, moveBackwardState);
 
             return sequence;
             //return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
+        }
+
+        private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
+        {
+            foreach (var ruleInteraction in skillRuleInteractions)
+            {
+                foreach (var target in ruleInteraction.Targets)
+                {
+                    ruleInteraction.Action(target);
+                }
+            }
         }
     }
 }

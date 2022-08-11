@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Catalogs
             var factories = factoryTypes.Select(Activator.CreateInstance);
             return factories.OfType<IHeroFactory>().ToArray();
         }
-        
+
         private static IReadOnlyCollection<IMonsterFactory> LoadMonsterFactories()
         {
             var assembly = typeof(IMonsterFactory).Assembly;

@@ -1,5 +1,4 @@
-﻿
-using Rpg.Client.Core.Skills;
+﻿using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core
 {

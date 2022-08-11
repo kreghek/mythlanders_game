@@ -28,8 +28,8 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 
             var percentage = (int)Math.Round(protectionEffect.Multiplier * 100, 0, MidpointRounding.AwayFromZero);
             var descriptionText = string.Format(UiResource.ProtectionEffectRuleText, percentage,
-                                protectionEffect.EffectLifetime.GetTextDescription(),
-                                ruleDirectionText);
+                protectionEffect.EffectLifetime.GetTextDescription(),
+                ruleDirectionText);
 
             if (protectionEffect.ImposeConditions is not null)
             {

@@ -8,15 +8,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background
 {
     internal sealed class PositionalAnimatedObject : IBackgroundObject
     {
-        private readonly Sprite _sprite;
         private readonly IAnimationFrameSet _animationFrameSet;
+        private readonly Sprite _sprite;
 
-        public PositionalAnimatedObject(Texture2D texture, IAnimationFrameSet animationFrameSet, Vector2 position, Vector2? origin = null)
+        public PositionalAnimatedObject(Texture2D texture, IAnimationFrameSet animationFrameSet, Vector2 position,
+            Vector2? origin = null)
         {
             _sprite = new Sprite(texture)
             {
                 Position = position,
-                Origin = origin ?? Vector2.One * 0.5f,
+                Origin = origin ?? Vector2.One * 0.5f
             };
             _animationFrameSet = animationFrameSet;
         }

@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Monsters
             {
                 Name = UnitName.Sphinx,
                 LocationSids = new[] { GlobeNodeSid.ScreamValley },
-                
+
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]

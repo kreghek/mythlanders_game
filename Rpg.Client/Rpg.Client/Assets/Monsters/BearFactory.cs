@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Monsters
                 TankRank = 0.5f,
                 DamageDealerRank = 0.5f,
                 SupportRank = 0.0f,
-                
+
                 Name = UnitName.Bear,
                 LocationSids = new[]
                 {

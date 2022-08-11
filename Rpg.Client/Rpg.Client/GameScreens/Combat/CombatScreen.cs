@@ -43,6 +43,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IList<UnitGameObject> _gameObjects;
+        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
         private readonly GlobeProvider _globeProvider;
@@ -50,7 +51,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IJobProgressResolver _jobProgressResolver;
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
-        private readonly GameSettings _gameSettings;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitPositionProvider _unitPositionProvider;
 
