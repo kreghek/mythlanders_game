@@ -2,6 +2,8 @@
 
 using Microsoft.Xna.Framework;
 
+using Rpg.Client.Core;
+
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {
     internal sealed class BattlegroundBackgroundObjectFactory : IBackgroundObjectFactory
@@ -38,8 +40,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             var list = new List<IBackgroundObject>();
 
             var bannerObject = new PositionalAnimatedObject(
-                _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(BackgroundType.SlavicBattleground,
-                    BackgroundLayerType.Closest, 0),
+                _gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
+                    BackgroundType.SlavicBattleground,
+                    BackgroundLayerType.Closest,
+                    0),
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1, 2, 3 }, fps: 2, isLoop: true, frameWidth: 256, frameHeight: 256, textureColumns: 1),
                 new Vector2(160, 480 - 128));
             list.Add(bannerObject);
 

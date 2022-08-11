@@ -176,11 +176,32 @@ namespace Rpg.Client.Core
 
         private void AssignStartHeroes(Globe globe)
         {
-            var startUnits = CreateStartHeroes();
-            for (var slotIndex = 0; slotIndex < startUnits.Length; slotIndex++)
+            var startHeroes = CreateStartHeroes();
+            for (var slotIndex = 0; slotIndex < startHeroes.Length; slotIndex++)
             {
-                globe.Player.Party.Slots[slotIndex].Unit = startUnits[slotIndex];
+                globe.Player.MoveToParty(startHeroes[slotIndex], slotIndex);
             }
+
+            var startPoolHeroes = CreateStartPoolHeroes();
+            foreach (var hero in startPoolHeroes)
+            {
+                globe.Player.Pool.AddNewUnit(hero);
+            }
+        }
+
+        private Unit[] CreateStartPoolHeroes()
+        {
+            var startHeroNames = new[] {
+                UnitName.Archer,
+                UnitName.Herbalist,
+                UnitName.Hoplite,
+                UnitName.Monk,
+                UnitName.Spearman,
+            };
+
+            var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();
+
+            return startHeroes;
         }
 
         private static string CreateSaveData(string saveName, ProgressDto progress)
@@ -205,7 +226,7 @@ namespace Rpg.Client.Core
 
         private Unit CreateStartHero(UnitName heroName)
         {
-            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 1)
+            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 10)
             {
                 IsPlayerControlled = true
             };
@@ -213,12 +234,20 @@ namespace Rpg.Client.Core
 
         private Unit[] CreateStartHeroes()
         {
-            var startHeroes = new[]
-            {
-                CreateStartHero(UnitName.Swordsman),
-                CreateStartHero(UnitName.Comissar),
-                CreateStartHero(UnitName.Assaulter)
+            var startHeroNames = new[] {
+                UnitName.Swordsman,
+                UnitName.Comissar,
+                UnitName.Assaulter
             };
+
+            var startHeroes = startHeroNames.Select(x=>CreateStartHero(x)).ToArray();
+
+            return startHeroes;
+        }
+
+        private Unit[] CreateHeroesByNames(UnitName[] names)
+        {
+            var startHeroes = names.Select(x => CreateStartHero(x)).ToArray();
 
             return startHeroes;
         }
@@ -474,7 +503,11 @@ namespace Rpg.Client.Core
             }
 
             var loadedPool = LoadPlayerGroup(lastSavePlayer.Pool);
-            Globe.Player.Pool.Units = loadedPool;
+
+            foreach (var unit in loadedPool)
+            {
+                Globe.Player.Pool.AddNewUnit(unit);
+            }
         }
 
         private List<Unit> LoadPlayerGroup(GroupDto groupDto)

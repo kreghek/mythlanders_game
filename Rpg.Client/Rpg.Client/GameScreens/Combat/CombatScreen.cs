@@ -50,7 +50,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IJobProgressResolver _jobProgressResolver;
         private readonly IReadOnlyList<IBackgroundObject> _mainLayerObjects;
         private readonly ScreenShaker _screenShaker;
-        private readonly GameSettings _settings;
+        private readonly GameSettings _gameSettings;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly UnitPositionProvider _unitPositionProvider;
 
@@ -105,7 +105,7 @@ namespace Rpg.Client.GameScreens.Combat
             _farLayerObjects = backgroundObjectFactory.CreateFarLayerObjects();
             _mainLayerObjects = backgroundObjectFactory.CreateMainLayerObjects();
 
-            _settings = game.Services.GetService<GameSettings>();
+            _gameSettings = game.Services.GetService<GameSettings>();
 
             _unitPositionProvider = new UnitPositionProvider(ResolutionIndependentRenderer);
 
@@ -140,6 +140,9 @@ namespace Rpg.Client.GameScreens.Combat
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
+
+            var keyboard = Keyboard.GetState();
+            _gameSettings.IsRecordMode = keyboard.GetPressedKeys().Contains(Keys.Z);
 
             if (!_globe.Player.HasAbility(PlayerAbility.ReadCombatTutorial) &&
                 !_globe.Player.HasAbility(PlayerAbility.SkipTutorials))
@@ -413,7 +416,7 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             ScreenManager.ExecuteTransition(this, ScreenTransition.EndGame, null);
 
-                            if (_settings.Mode == GameMode.Full)
+                            if (_gameSettings.Mode == GameMode.Full)
                             {
                                 _globeProvider.StoreCurrentGlobe();
                             }
@@ -430,7 +433,7 @@ namespace Rpg.Client.GameScreens.Combat
                             _globeProvider.Globe.Update(_dice, _eventCatalog);
                             ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
 
-                            if (_settings.Mode == GameMode.Full)
+                            if (_gameSettings.Mode == GameMode.Full)
                             {
                                 _globeProvider.StoreCurrentGlobe();
                             }
@@ -499,6 +502,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatUnit_HasBeenHitPointsRestored(object? sender, UnitStatChangedEventArgs e)
         {
+            if (_gameSettings.IsRecordMode)
+            {
+                return;
+            }
+
             Debug.Assert(e.CombatUnit is not null);
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
@@ -515,6 +523,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatUnit_HasBeenShieldPointsRestored(object? sender, UnitStatChangedEventArgs e)
         {
+            if (_gameSettings.IsRecordMode)
+            {
+                return;
+            }
+
             if (e.Amount > 0)
             {
                 Debug.Assert(e.CombatUnit is not null);
@@ -545,15 +558,18 @@ namespace Rpg.Client.GameScreens.Combat
 
             unitGameObject.AnimateWound();
 
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
+            if (!_gameSettings.IsRecordMode)
+            {
+                var font = _uiContentStorage.GetCombatIndicatorFont();
+                var position = unitGameObject.Position;
 
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+                var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            var damageIndicator =
-                new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                var damageIndicator =
+                    new HitPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
 
-            unitGameObject.AddChild(damageIndicator);
+                unitGameObject.AddChild(damageIndicator);
+            }
         }
 
         private void CombatUnit_HasTakenShieldPointsDamage(object? sender, UnitStatChangedEventArgs e)
@@ -567,15 +583,20 @@ namespace Rpg.Client.GameScreens.Combat
 
             var unitGameObject = GetUnitGameObject(e.CombatUnit);
 
-            var font = _uiContentStorage.GetCombatIndicatorFont();
-            var position = unitGameObject.Position;
+            unitGameObject.AnimateWound();
 
-            var nextIndex = GetIndicatorNextIndex(unitGameObject);
+            if (!_gameSettings.IsRecordMode)
+            {
+                var font = _uiContentStorage.GetCombatIndicatorFont();
+                var position = unitGameObject.Position;
 
-            var damageIndicator =
-                new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+                var nextIndex = GetIndicatorNextIndex(unitGameObject);
 
-            unitGameObject.AddChild(damageIndicator);
+                var damageIndicator =
+                    new ShieldPointsChangedTextIndicator(-e.Amount, e.Direction, position, font, nextIndex ?? 0);
+
+                unitGameObject.AddChild(damageIndicator);
+            }
         }
 
         private void CountCombatFinished()
@@ -821,6 +842,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawHud(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
+            if (_gameSettings.IsRecordMode)
+            {
+                return;
+            }
+
             spriteBatch.Begin(sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,

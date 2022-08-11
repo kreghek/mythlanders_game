@@ -167,8 +167,14 @@
   <data name="BlackTrooper" xml:space="preserve">
     <value>Пехотинец</value>
   </data>
+  <data name="BlankShot" xml:space="preserve">
+    <value>Выстрел в упор</value>
+  </data>
   <data name="BlindDefense" xml:space="preserve">
     <value>Глухая оборона</value>
+  </data>
+  <data name="BoldMarauder" xml:space="preserve">
+    <value>Марадер</value>
   </data>
   <data name="BookOfHerbs" xml:space="preserve">
     <value>Книга трав</value>
@@ -368,7 +374,7 @@
     <value>Зловещее болото</value>
   </data>
   <data name="SwordSlash" xml:space="preserve">
-    <value>Рубящий удар мечом</value>
+    <value>От меча и погибни</value>
   </data>
   <data name="Swordsman" xml:space="preserve">
     <value>Беримир</value>

@@ -171,16 +171,13 @@ namespace Rpg.Client.GameComponents
             var unitSchemeSid = args[0];
             var unitScheme = GetUnitSchemeByString(unitSchemeSid, _unitSchemeCatalog);
 
-            var poolUnitList = new List<Unit>(globe.Player.Pool.Units);
-            globe.Player.Pool.Units = poolUnitList;
-
             const int DEFAULT_LEVEL = 1;
             var unit = new Unit(unitScheme, DEFAULT_LEVEL)
             {
                 IsPlayerControlled = true
             };
 
-            poolUnitList.Add(unit);
+            globe.Player.Pool.AddNewUnit(unit);
 
             // Events
             var targetSystemMarker = GetSystemMarker(unitSchemeSid);

@@ -71,23 +71,12 @@ namespace Rpg.Client.Core
 
         public void MoveToParty(Unit unit, int slotIndex)
         {
-            var poolList = new List<Unit>(Pool.Units);
-
-            poolList.Remove(unit);
-            Party.Slots[slotIndex].Unit = unit;
-
-            Pool.Units = poolList;
+            Pool.MoveToGroup(unit, slotIndex, Party);
         }
 
         public void MoveToPool(Unit unit)
         {
-            var poolList = new List<Unit>(Pool.Units);
-
-            var slot = Party.Slots.Single(x => x.Unit == unit);
-            slot.Unit = null;
-            poolList.Add(unit);
-
-            Pool.Units = poolList;
+            Pool.MoveFromGroup(unit, Party);
         }
 
         private static IReadOnlyCollection<ResourceItem> CreateInventory()

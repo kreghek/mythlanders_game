@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
     {
         private const SkillSid SID = SkillSid.GodNature;
 
-        public GodNatureSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public GodNatureSkill() : base(PredefinedVisualization, false)
         {
         }
 

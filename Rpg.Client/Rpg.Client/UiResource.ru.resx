@@ -213,6 +213,9 @@
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
   </data>
+  <data name="EffectConditionIsRightAllyWithShieldText" xml:space="preserve">
+    <value>если правый союзник с щитом</value>
+  </data>
   <data name="EndOfGameMessage" xml:space="preserve">
     <value>Это конец демо. Поздравляем!{0}Спасибо за внимание!</value>
   </data>
@@ -398,6 +401,12 @@
   </data>
   <data name="SwitchLanguageButtonTitle" xml:space="preserve">
     <value>Язык</value>
+  </data>
+  <data name="SwitchMusicButtonTitle" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="SwitchResolutionButtonTitle" xml:space="preserve">
+    <value>Переключить разрешение</value>
   </data>
   <data name="ToTheCombatButtonTitle" xml:space="preserve">
     <value>В Бой!</value>

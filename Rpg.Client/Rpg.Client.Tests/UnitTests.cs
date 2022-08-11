@@ -54,7 +54,7 @@ namespace Rpg.Client.Tests
             {
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, skill),
+                    new AddPredefinedSkillUnitLevel(1, skill),
                     new ReplaceSkillUnitLevel(5, SkillSid.SwordSlash, improvedSkill)
                 }
             };
@@ -80,8 +80,8 @@ namespace Rpg.Client.Tests
             {
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, skill),
-                    new AddPerkUnitLevel(1, perk)
+                    new AddPredefinedSkillUnitLevel(1, skill),
+                    new AddPredefinedPerkUnitLevel(1, perk)
                 }
             };
 
@@ -106,7 +106,7 @@ namespace Rpg.Client.Tests
             {
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, skill)
+                    new AddPredefinedSkillUnitLevel(1, skill)
                 }
             };
 
@@ -130,7 +130,7 @@ namespace Rpg.Client.Tests
             {
                 Levels = new[]
                 {
-                    new AddSkillUnitLevel(1, skill)
+                    new AddPredefinedSkillUnitLevel(1, skill)
                 }
             };
 

@@ -6,21 +6,21 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Priest
 {
-    internal class MummificationTouchSkill : VisualizedSkillBase
+    internal class UnlimitedSinSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.MummificationTouch;
+        private const SkillSid SID = SkillSid.UnlimitedSin;
 
-        public MummificationTouchSkill() : this(false)
+        public UnlimitedSinSkill() : this(false)
         {
         }
 
-        private MummificationTouchSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private UnlimitedSinSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 
         public override IReadOnlyList<EffectRule> Rules { get; } = new[]
         {
-            SkillRuleFactory.CreateDamage(SID)
+            SkillRuleFactory.CreateProtection(SID, 1f)
         };
 
         public override SkillSid Sid => SID;
@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Priest
         private static SkillVisualization PredefinedVisualization => new()
         {
             Type = SkillVisualizationStateType.Melee,
-            SoundEffectType = GameObjectSoundType.SwordSlash,
+            SoundEffectType = GameObjectSoundType.Defence,
             IconOneBasedIndex = 35
         };
     }

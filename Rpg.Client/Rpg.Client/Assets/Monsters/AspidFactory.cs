@@ -1,28 +1,30 @@
-﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
+using JetBrains.Annotations;
+
+using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Monsters
 {
-    internal sealed class GreyWolfFactory : IMonsterFactory
+    [UsedImplicitly]
+    internal sealed class AspidFactory : IMonsterFactory
     {
         public UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.GreyWolf,
+                Name = UnitName.Aspid,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
-                    GlobeNodeSid.Swamp
+                    GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp
                 },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new WolfBiteSkill()),
-                    new AddPerkUnitLevel(3, new CriticalHit())
+                    new AddSkillUnitLevel<SnakeBiteSkill>(1),
+                    new AddPerkUnitLevel<Evasion>(3)
                 },
 
                 UnitGraphicsConfig = new GenericMonsterGraphicsConfig()

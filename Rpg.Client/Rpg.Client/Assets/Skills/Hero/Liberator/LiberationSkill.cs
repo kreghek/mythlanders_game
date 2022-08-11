@@ -9,7 +9,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Liberator
     {
         private const SkillSid SID = SkillSid.Liberation;
 
-        public LiberationSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public LiberationSkill() : base(PredefinedVisualization, false)
         {
         }
 

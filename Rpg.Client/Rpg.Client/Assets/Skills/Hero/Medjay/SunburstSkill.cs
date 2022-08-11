@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Medjay
     {
         private const SkillSid SID = SkillSid.Sunburst;
 
-        public SunburstSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public SunburstSkill() : base(PredefinedVisualization, false)
         {
         }
 

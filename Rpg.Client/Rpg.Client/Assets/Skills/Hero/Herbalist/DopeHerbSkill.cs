@@ -9,11 +9,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class DopeHerbSkill : VisualizedSkillBase
     {
-        public DopeHerbSkill() : this(false)
-        {
-        }
-
-        public DopeHerbSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DopeHerbSkill() : base(PredefinedVisualization, false)
         {
         }
 

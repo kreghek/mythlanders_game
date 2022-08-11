@@ -205,11 +205,29 @@ namespace Rpg.Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Blank shot.
+        /// </summary>
+        internal static string BlankShot {
+            get {
+                return ResourceManager.GetString("BlankShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blind defense.
         /// </summary>
         internal static string BlindDefense {
             get {
                 return ResourceManager.GetString("BlindDefense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marauder.
+        /// </summary>
+        internal static string BoldMarauder {
+            get {
+                return ResourceManager.GetString("BoldMarauder", resourceCulture);
             }
         }
         
@@ -790,7 +808,7 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sword slash.
+        ///   Looks up a localized string similar to Die by the sword.
         /// </summary>
         internal static string SwordSlash {
             get {

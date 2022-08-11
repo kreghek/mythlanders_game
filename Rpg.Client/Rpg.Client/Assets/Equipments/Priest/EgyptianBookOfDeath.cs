@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Equipments.Priest
         public override EquipmentSid Sid => EquipmentSid.EgyptianBookOfDeath;
 
         protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.DarkLighting, SkillSid.MummificationTouch };
+            new[] { SkillSid.DarkLighting, SkillSid.UnlimitedSin };
 
         protected override float MultiplicatorByLevel => 0.5f;
 

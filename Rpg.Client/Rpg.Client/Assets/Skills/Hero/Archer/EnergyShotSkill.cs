@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -7,15 +9,12 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
+    [UsedImplicitly]
     internal class EnergyShotSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.EnergyShot;
 
-        public EnergyShotSkill() : this(false)
-        {
-        }
-
-        private EnergyShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public EnergyShotSkill() : base(PredefinedVisualization, false)
         {
         }
 

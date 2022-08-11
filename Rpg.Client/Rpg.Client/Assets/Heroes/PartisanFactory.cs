@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Heroes
 {
-    internal class CommissarFactory : HeroFactoryBase
+    internal class PartisanFactory : HeroFactoryBase
     {
         public override UnitName HeroName => UnitName.Comissar;
 
@@ -29,10 +29,10 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-                new AddSkillUnitLevel(1, new InspiringRushSkill()),
-                new AddSkillUnitLevel(1, new TacticalManeuverSkill()),
-                new AddSkillUnitLevel(2, new BlankShotSkill()),
-                new AddPerkUnitLevel(3, new Evasion())
+                new AddSkillUnitLevel<InspiringRushSkill>(1),
+                new AddSkillUnitLevel<TacticalManeuverSkill>(1),
+                new AddSkillUnitLevel<BlankShotSkill>(2),
+                new AddPerkUnitLevel<Evasion>(3)
             };
         }
     }

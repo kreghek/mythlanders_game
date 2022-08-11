@@ -11,11 +11,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
     {
         private const SkillSid SID = SkillSid.JavelinThrow;
 
-        public ContemptSkill() : this(false)
-        {
-        }
-
-        public ContemptSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ContemptSkill() : base(PredefinedVisualization, false)
         {
         }
 

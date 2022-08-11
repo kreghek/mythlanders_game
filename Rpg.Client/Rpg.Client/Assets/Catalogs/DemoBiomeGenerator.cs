@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static bool GetStartAvailability(GlobeNodeSid currentLocationSid)
         {
-            return currentLocationSid == START_AVAILABLE_LOCATION;
+            return true; //currentLocationSid == START_AVAILABLE_LOCATION;
         }
 
         private static bool IsBossAvailable(GlobeLevel globeLevel)
@@ -236,7 +236,7 @@ namespace Rpg.Client.Assets.Catalogs
             combat.EnemyGroup.Slots[0].Unit =
                 new Unit(
                     _unitSchemeCatalog.AllMonsters.Single(x =>
-                        x.Name == UnitName.Marauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
+                        x.Name == UnitName.BoldMarauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
             combat.EnemyGroup.Slots[1].Unit =
                 new Unit(
                     _unitSchemeCatalog.AllMonsters.Single(x =>
