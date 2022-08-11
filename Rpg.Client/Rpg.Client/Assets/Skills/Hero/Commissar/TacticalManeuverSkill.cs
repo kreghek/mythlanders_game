@@ -53,7 +53,8 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
             IconOneBasedIndex = 16
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+            UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             foreach (var interaction in context.Interaction.SkillRuleInteractions)
             {

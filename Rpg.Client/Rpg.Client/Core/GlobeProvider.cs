@@ -189,17 +189,9 @@ namespace Rpg.Client.Core
             }
         }
 
-        private Unit[] CreateStartPoolHeroes()
+        private Unit[] CreateHeroesByNames(UnitName[] names)
         {
-            var startHeroNames = new[] {
-                UnitName.Archer,
-                UnitName.Herbalist,
-                UnitName.Hoplite,
-                UnitName.Monk,
-                UnitName.Spearman,
-            };
-
-            var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();
+            var startHeroes = names.Select(x => CreateStartHero(x)).ToArray();
 
             return startHeroes;
         }
@@ -234,7 +226,8 @@ namespace Rpg.Client.Core
 
         private Unit[] CreateStartHeroes()
         {
-            var startHeroNames = new[] {
+            var startHeroNames = new[]
+            {
                 UnitName.Swordsman,
                 UnitName.Comissar,
                 UnitName.Assaulter
@@ -245,9 +238,18 @@ namespace Rpg.Client.Core
             return startHeroes;
         }
 
-        private Unit[] CreateHeroesByNames(UnitName[] names)
+        private Unit[] CreateStartPoolHeroes()
         {
-            var startHeroes = names.Select(x => CreateStartHero(x)).ToArray();
+            var startHeroNames = new[]
+            {
+                UnitName.Archer,
+                UnitName.Herbalist,
+                UnitName.Hoplite,
+                UnitName.Monk,
+                UnitName.Spearman
+            };
+
+            var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();
 
             return startHeroes;
         }

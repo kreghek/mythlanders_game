@@ -180,7 +180,7 @@ namespace Rpg.Client.GameScreens
                     new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2),
                     contentManager.Load<Texture2D>(
                         "Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far64x64_0")
-                },
+                }
             };
 
             SoundEffect LoadSkillEffect(string name)

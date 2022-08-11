@@ -9,8 +9,8 @@ namespace Rpg.Client.Engine
 {
     internal sealed class SoundtrackManager
     {
-        private readonly Random _random;
         private readonly GameSettings _gameSettings;
+        private readonly Random _random;
         private bool _changeTrack;
 
         private BiomeType _currentBiome;

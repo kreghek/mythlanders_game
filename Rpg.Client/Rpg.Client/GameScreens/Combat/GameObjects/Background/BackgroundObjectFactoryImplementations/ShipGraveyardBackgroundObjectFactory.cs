@@ -163,7 +163,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 0.75f),
-                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new []{ 0, 1 }, fps: 0.5f, frameWidth: 64, frameHeight: 64, textureColumns: 8, isLoop: true),
+                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1 }, fps: 0.5f,
+                    frameWidth: 64, frameHeight: 64, textureColumns: 8, isLoop: true),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
@@ -192,7 +193,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 Origin = Vector2.Zero,
                 SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 11),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
-            },
+            }
         };
 
         private readonly IDice _dice;
@@ -211,17 +212,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return _dice.RollD100() < p;
         }
 
-        private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea, Vector2 position)
+        private IReadOnlyCollection<IBackgroundObject> CreateAreaFarObjects(Vector2 position)
         {
-            var objectSchemes = GetObjectSchemes().Where(x => x.BackgroundLayerType == BackgroundLayerType.Main);
+            var objectSchemes = GetObjectSchemes().Where(x => x.BackgroundLayerType == BackgroundLayerType.Far);
             var objList = new List<IBackgroundObject>();
 
-            var largeObjSchemesOpenList = objectSchemes.Where(x =>
-                    x.Size == BgMainObjectSchemeSize.Size256 && ((!isPassableArea) || (isPassableArea && x.IsPassable)))
-                .ToList();
-            var smallObjSchemesOpenList = objectSchemes.Where(x =>
-                    x.Size == BgMainObjectSchemeSize.Size64 && ((!isPassableArea) || (isPassableArea && x.IsPassable)))
-                .ToList();
+            var largeObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size256).ToList();
+            var smallObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size64).ToList();
 
             if (largeObjSchemesOpenList.Any())
             {
@@ -248,13 +245,17 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return objList;
         }
 
-        private IReadOnlyCollection<IBackgroundObject> CreateAreaFarObjects(Vector2 position)
+        private IReadOnlyCollection<IBackgroundObject> CreateAreaMainObjects(bool isPassableArea, Vector2 position)
         {
-            var objectSchemes = GetObjectSchemes().Where(x => x.BackgroundLayerType == BackgroundLayerType.Far);
+            var objectSchemes = GetObjectSchemes().Where(x => x.BackgroundLayerType == BackgroundLayerType.Main);
             var objList = new List<IBackgroundObject>();
 
-            var largeObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size256).ToList();
-            var smallObjSchemesOpenList = objectSchemes.Where(x => x.Size == BgMainObjectSchemeSize.Size64).ToList();
+            var largeObjSchemesOpenList = objectSchemes.Where(x =>
+                    x.Size == BgMainObjectSchemeSize.Size256 && ((!isPassableArea) || (isPassableArea && x.IsPassable)))
+                .ToList();
+            var smallObjSchemesOpenList = objectSchemes.Where(x =>
+                    x.Size == BgMainObjectSchemeSize.Size64 && ((!isPassableArea) || (isPassableArea && x.IsPassable)))
+                .ToList();
 
             if (largeObjSchemesOpenList.Any())
             {
@@ -414,9 +415,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         private interface IBgMainObjectScheme
         {
+            BackgroundLayerType BackgroundLayerType { get; set; }
             bool IsPassable { get; set; }
             BgMainObjectSchemeSize Size { get; set; }
-            BackgroundLayerType BackgroundLayerType { get; set; }
 
             IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position);
         }
@@ -434,20 +435,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position)
             {
                 var texture = gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
-                                    Texture.Location,
-                                    Texture.Layer, Texture.SpritesheetIndex);
+                    Texture.Location,
+                    Texture.Layer, Texture.SpritesheetIndex);
                 return new PositionalStaticObject(texture, position, SourceRect, Origin);
             }
         }
 
         private class AnimatedBgMainObjectScheme : IBgMainObjectScheme
         {
+            public IAnimationFrameSet AnimationFrameSet { get; set; }
+            public Vector2 Origin { get; set; }
+            public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public BackgroundLayerType BackgroundLayerType { get; set; }
             public bool IsPassable { get; set; }
             public BgMainObjectSchemeSize Size { get; set; }
-            public IAnimationFrameSet AnimationFrameSet { get; set; }
-            public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
-            public Vector2 Origin { get; set; }
 
             public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position)
             {

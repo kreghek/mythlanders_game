@@ -10,14 +10,14 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
         {
             return new Dictionary<PredefinedAnimationSid, IAnimationFrameSet>
             {
-                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdleFromGrid(rows: new[]{ 0, 1, 2 }) },
+                { PredefinedAnimationSid.Idle, AnimationFrameSetFactory.CreateIdleFromGrid(rows: new[] { 0, 1, 2 }) },
                 {
                     PredefinedAnimationSid.MoveForward,
                     AnimationFrameSetFactory.CreateEmpty()
                 },
                 {
                     PredefinedAnimationSid.MoveBackward,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[]{ 4 }, fps: 6)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 4 }, fps: 6)
                 },
                 {
                     PredefinedAnimationSid.Skill1,
@@ -41,11 +41,11 @@ namespace Rpg.Client.Assets.GraphicConfigs.Monsters
                 },
                 {
                     PredefinedAnimationSid.Wound,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[]{ 5 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 8)
                 },
                 {
                     PredefinedAnimationSid.Death,
-                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[]{ 6 }, fps: 8)
+                    AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 6 }, fps: 8)
                 }
             };
         }

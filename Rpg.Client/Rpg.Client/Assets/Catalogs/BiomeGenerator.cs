@@ -84,6 +84,16 @@ namespace Rpg.Client.Assets.Catalogs
             return nodeIndex == 0;
         }
 
+        private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
+        {
+            return new (UnitName name, int level)[]
+            {
+                new(UnitName.BoldMarauder, 2),
+                new(UnitName.BlackTrooper, 1),
+                new(UnitName.BlackTrooper, 1)
+            };
+        }
+
         private static bool IsBossLevel(GlobeLevel globeLevel, int completeBiomesCount)
         {
             return globeLevel.Level >= 10 + completeBiomesCount * 12;
@@ -269,21 +279,11 @@ namespace Rpg.Client.Assets.Catalogs
 
             var monsterInfos = GetStartMonsterInfoList();
 
-            for (int slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
+            for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
             {
                 var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
                 combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, 2);
             }
-        }
-
-        private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
-        {
-            return new (UnitName name, int level)[]
-            {
-                new(UnitName.BoldMarauder, 2),
-                new(UnitName.BlackTrooper, 1),
-                new(UnitName.BlackTrooper, 1)
-            };
         }
     }
 }

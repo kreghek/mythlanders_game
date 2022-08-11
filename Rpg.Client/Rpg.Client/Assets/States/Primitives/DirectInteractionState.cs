@@ -12,9 +12,9 @@ namespace Rpg.Client.Assets.States.Primitives
 {
     internal sealed class DirectInteractionState : IUnitStateEngine
     {
+        private readonly IAnimationFrameSet? _animation;
         private readonly AnimationBlocker? _animationBlocker;
         private readonly SkillAnimationInfo _animationInfo;
-        private readonly IAnimationFrameSet? _animation;
         private readonly PredefinedAnimationSid? _animationSid;
         private readonly UnitGraphics _graphics;
 

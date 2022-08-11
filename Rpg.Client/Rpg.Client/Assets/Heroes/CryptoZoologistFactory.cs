@@ -29,7 +29,6 @@ namespace Rpg.Client.Assets.Heroes
         {
             return new IUnitLevelScheme[]
             {
-
             };
         }
     }
