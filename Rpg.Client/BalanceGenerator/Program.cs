@@ -46,7 +46,7 @@ namespace BalanceGenerator
             };
 
             var dice = new LinearDice();
-            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
 
             for (var i = 0; i < 10; i++)
             {
@@ -64,7 +64,7 @@ namespace BalanceGenerator
         private static IterationsResult PlayIteration(IBalanceTable balanceTable, GlobeNode globeNode, IDice dice,
             CombatSource combatSource)
         {
-            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable);
+            var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, isDemo: false);
 
             var playerGroup = new Group();
             var playerUnitScheme = unitSchemeCatalog.Heroes[UnitName.Swordsman];

@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
             IconOneBasedIndex = 17
         };
 
-        public MasterStaffHitSkill(bool costRequired) : base(_predefinedSkillVisualization, costRequired)
+        public MasterStaffHitSkill() : base(_predefinedSkillVisualization, false)
         {
         }
 

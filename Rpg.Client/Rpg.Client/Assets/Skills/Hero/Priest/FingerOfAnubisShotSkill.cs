@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Priest
     {
         private const SkillSid SID = SkillSid.FingerOfAnubis;
 
-        public FingerOfAnubisShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public FingerOfAnubisShotSkill() : base(PredefinedVisualization, false)
         {
         }
 

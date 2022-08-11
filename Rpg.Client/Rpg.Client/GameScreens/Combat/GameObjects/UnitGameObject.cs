@@ -113,13 +113,25 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             var actorStateEngine = skill.CreateState(this, target, mainAnimationBlocker, context);
 
-            mainAnimationBlocker.Released += (_, _) =>
+            if (!actorStateEngine.IsComplete)
+            {
+                mainAnimationBlocker.Released += (_, _) =>
+                {
+                    CompleteSkillExecution(action);
+                };
+
+                AddStateEngine(actorStateEngine);
+            }
+            else
+            {
+                throw new InvalidOperationException("The completed state is cause of a hang-error.");
+            }
+
+            void CompleteSkillExecution(SkillExecution action)
             {
                 action.SkillComplete();
                 SkillAnimationCompleted?.Invoke(this, EventArgs.Empty);
-            };
-
-            AddStateEngine(actorStateEngine);
+            }
         }
 
         protected override void DoDraw(SpriteBatch spriteBatch, float zindex)

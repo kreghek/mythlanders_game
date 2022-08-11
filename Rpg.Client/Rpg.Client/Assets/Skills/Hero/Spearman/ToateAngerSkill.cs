@@ -10,11 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Spearman
     {
         private const SkillSid SID = SkillSid.EnergyShot;
 
-        public ToateAngerSkill() : this(false)
-        {
-        }
-
-        public ToateAngerSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ToateAngerSkill() : base(PredefinedVisualization, false)
         {
         }
 

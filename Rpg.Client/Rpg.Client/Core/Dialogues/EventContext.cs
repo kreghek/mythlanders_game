@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Rpg.Client.Core.Dialogues
@@ -8,16 +7,20 @@ namespace Rpg.Client.Core.Dialogues
     {
         private readonly Globe _globe;
         private readonly IStoryPointCatalog _storyPointCatalog;
+        private readonly Player _player;
 
-        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;
+            _player = player;
         }
 
         public void AddNewCharacter(Unit unit)
         {
-            var freeSlots = _globe.Player.Party.GetFreeSlots().ToArray();
+            var freeSlots = _globe.Player.Party.GetFreeSlots()
+                .Where(x=> BoolHelper.HasNotRestriction(_player.HasAbility(PlayerAbility.AvailableTanks), x.IsTankLine))
+                .ToArray();
             if (freeSlots.Any())
             {
                 var selectedFreeSlot = freeSlots.First();
@@ -25,11 +28,7 @@ namespace Rpg.Client.Core.Dialogues
             }
             else
             {
-                var units = new List<Unit>();
-                units.AddRange(_globe.Player.Pool.Units);
-                units.Add(unit);
-
-                _globe.Player.Pool.Units = units;
+                _globe.Player.Pool.AddNewUnit(unit);
             }
         }
 

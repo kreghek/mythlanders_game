@@ -7,16 +7,18 @@ namespace Rpg.Client.GameScreens.Speech
     {
         private readonly Globe _globe;
         private readonly IStoryPointCatalog _storyPointCatalog;
+        private readonly Player _player;
 
-        public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog)
+        public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;
+            _player = player;
         }
 
         public IEventContext Create()
         {
-            return new EventContext(_globe, _storyPointCatalog);
+            return new EventContext(_globe, _storyPointCatalog, _player);
         }
     }
 }

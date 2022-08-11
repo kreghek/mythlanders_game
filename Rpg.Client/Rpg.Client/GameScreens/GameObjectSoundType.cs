@@ -7,7 +7,7 @@
         Heal,
         MagicDust,
         EgyptianDarkMagic,
-        WolfBite,
+        DigitalBite,
         AspidBite,
         VampireBite,
         WispEnergy,

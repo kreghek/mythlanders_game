@@ -12,9 +12,9 @@ namespace Rpg.Client.Assets.Perks
         private const float BOSS_POWER_MULTIPLICATOR = 4.5f;
         private readonly int _bossLevel;
 
-        public BossMonster(int bossLevel)
+        public BossMonster()
         {
-            _bossLevel = bossLevel;
+            _bossLevel = 1;
         }
 
         public void ApplyToStats(ref float maxHitpoints, ref float armorBonus)

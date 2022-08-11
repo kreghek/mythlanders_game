@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -13,7 +14,8 @@ namespace Rpg.Client.Assets.States.Primitives
     {
         private readonly AnimationBlocker? _animationBlocker;
         private readonly SkillAnimationInfo _animationInfo;
-        private readonly PredefinedAnimationSid _animationSid;
+        private readonly IAnimationFrameSet? _animation;
+        private readonly PredefinedAnimationSid? _animationSid;
         private readonly UnitGraphics _graphics;
 
         private int _animationItemIndex;
@@ -37,6 +39,18 @@ namespace Rpg.Client.Assets.States.Primitives
             _animationBlocker = animationBlocker;
             _animationInfo = animationInfo;
             _animationSid = animationSid;
+            _graphics = graphics;
+        }
+
+        public DirectInteractionState(
+            UnitGraphics graphics,
+            AnimationBlocker? animationBlocker,
+            SkillAnimationInfo animationInfo,
+            IAnimationFrameSet animation)
+        {
+            _animationBlocker = animationBlocker;
+            _animationInfo = animationInfo;
+            _animation = animation;
             _graphics = graphics;
         }
 
@@ -67,7 +81,19 @@ namespace Rpg.Client.Assets.States.Primitives
         {
             if (!_animationStarted)
             {
-                _graphics.PlayAnimation(_animationSid);
+                if (_animationSid is not null)
+                {
+                    _graphics.PlayAnimation(_animationSid.Value);
+                }
+                else if (_animation is not null)
+                {
+                    _graphics.PlayAnimation(_animation);
+                }
+                else
+                {
+                    _graphics.PlayAnimation(PredefinedAnimationSid.Idle);
+                    Debug.Fail("Any animation must be defined in the constructor.");
+                }
 
                 _animationStarted = true;
             }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
@@ -7,15 +9,12 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
+    [UsedImplicitly]
     internal class RapidShotSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.RapidShot;
 
-        public RapidShotSkill() : this(false)
-        {
-        }
-
-        public RapidShotSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public RapidShotSkill() : base(PredefinedVisualization, false)
         {
         }
 

@@ -15,7 +15,7 @@ namespace DialoguePlayer
     {
         private static void Main(string[] args)
         {
-            var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable());
+            var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable(), isDemo: false);
 
             var resourceProvider = new DialogueResourceProvider();
 

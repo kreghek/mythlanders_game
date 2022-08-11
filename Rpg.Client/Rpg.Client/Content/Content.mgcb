@@ -949,6 +949,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Main64x64_0.png
 
+#begin Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far64x64_0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far64x64_0.png
+
 #begin Sprites/GameObjects/CombatBackgrounds/Greek/ShipGraveyard/Far256x256_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1093,6 +1105,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Wisp.png
 
+#begin Sprites/GameObjects/MonsterUnits/DigitalWolf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/DigitalWolf.png
+
 #begin Sprites/GameObjects/MonsterUnits/Wolf.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1140,6 +1164,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/GameObjects/MonsterUnits/Marauder.png
+
+#begin Sprites/GameObjects/MonsterUnits/BoldMarauder.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/GameObjects/MonsterUnits/BoldMarauder.png
 
 #begin Sprites/GameObjects/MonsterUnits/Mummy.png
 /importer:TextureImporter

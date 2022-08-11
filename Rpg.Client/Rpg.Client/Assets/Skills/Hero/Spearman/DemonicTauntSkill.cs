@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Spearman
     {
         private const SkillSid SID = SkillSid.DemonicTaunt;
 
-        public DemonicTauntSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public DemonicTauntSkill() : base(PredefinedVisualization, false)
         {
         }
 

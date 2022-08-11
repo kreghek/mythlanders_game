@@ -26,6 +26,27 @@ namespace Rpg.Client.Core
             };
         }
 
+        public static IAnimationFrameSet CreateIdleFromGrid(IReadOnlyList<int> rows,
+            int fps = 8, int frameWidth = 256,
+            int frameHeight = 128, int textureColumns = 8)
+        {
+            var frames = new List<int>();
+
+            foreach (var row in rows)
+            {
+                var startFrameIndex = row * textureColumns;
+                var rowFrames = Enumerable.Range(startFrameIndex, textureColumns).ToList();
+                frames.AddRange(rowFrames);
+            }
+
+            return new SequentialAnimationFrameSet(frames, fps,
+                frameWidth, frameHeight, textureColumns)
+            {
+                IsLoop = true,
+                IsIdle = true
+            };
+        }
+
         public static IAnimationFrameSet CreateSequential(int startFrameIndex, int frameCount, float fps,
             int frameWidth = 256,
             int frameHeight = 128, int textureColumns = 8, bool isLoop = false)

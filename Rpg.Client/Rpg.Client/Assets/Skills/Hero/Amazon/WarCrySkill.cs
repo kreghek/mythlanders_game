@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Amazon
 {
+    [UsedImplicitly]
     internal sealed class WarCrySkill : VisualizedSkillBase
     {
-        public WarCrySkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public WarCrySkill() : base(PredefinedVisualization, false)
         {
         }
 

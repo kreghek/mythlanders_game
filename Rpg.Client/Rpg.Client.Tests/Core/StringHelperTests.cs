@@ -12,6 +12,8 @@ namespace Rpg.Client.Tests.Core
     {
         public static IEnumerable GetTestCases()
         {
+            var sourceNewLine = StringHelper.SourceNewLineCharacters[0];
+
             yield return new TestCaseData("1", 60).Returns("1");
 
             yield return new TestCaseData(new string('1', 10), 10).Returns(new string('1', 10));
@@ -36,7 +38,7 @@ namespace Rpg.Client.Tests.Core
 
             yield return new TestCaseData("1" + wordBreaker + "1", 60).Returns("1 1");
 
-            yield return new TestCaseData("1" + Environment.NewLine + "2" + Environment.NewLine + "3", 60)
+            yield return new TestCaseData("1" + sourceNewLine + "2" + sourceNewLine + "3", 60)
                 .Returns("1" + Environment.NewLine + "2" + Environment.NewLine + "3");
         }
 

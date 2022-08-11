@@ -1,9 +1,11 @@
 ﻿using Rpg.Client.Assets.GraphicConfigs.Monsters;
 using Rpg.Client.Assets.Skills.Monster;
 using Rpg.Client.Core;
+using JetBrains.Annotations;
 
 namespace Rpg.Client.Assets.Monsters
 {
+    [UsedImplicitly]
     internal sealed class MarauderFactory : IMonsterFactory
     {
         public UnitScheme Create(IBalanceTable balanceTable)
@@ -31,7 +33,7 @@ namespace Rpg.Client.Assets.Monsters
 
                 Levels = new IUnitLevelScheme[]
                 {
-                    new AddSkillUnitLevel(1, new UnholyHitSkill())
+                    new AddSkillUnitLevel<UnholyHitSkill>(1)
                 },
 
                 UnitGraphicsConfig = new MarauderGraphicsConfig()

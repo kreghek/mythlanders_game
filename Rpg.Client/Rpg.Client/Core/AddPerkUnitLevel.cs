@@ -1,17 +1,17 @@
+using System;
+
 namespace Rpg.Client.Core
 {
-    internal sealed class AddPerkUnitLevel : UnitLevelBase
+    internal sealed class AddPerkUnitLevel<TPerk> : UnitLevelBase where TPerk : IPerk, new()
     {
-        private readonly IPerk _perk;
-
-        public AddPerkUnitLevel(int level, IPerk perk) : base(level)
+        public AddPerkUnitLevel(int level) : base(level)
         {
-            _perk = perk;
         }
 
         public override void Apply(Unit unit)
         {
-            unit.Perks.Add(_perk);
+            var perk = Activator.CreateInstance<TPerk>();
+            unit.Perks.Add(perk);
         }
     }
 }

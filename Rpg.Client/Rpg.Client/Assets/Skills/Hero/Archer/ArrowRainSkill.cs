@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
@@ -10,11 +12,12 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.Skills.Hero.Archer
 {
+    [UsedImplicitly]
     internal class ArrowRainSkill : VisualizedSkillBase
     {
         private const SkillSid SID = SkillSid.ArrowRain;
 
-        public ArrowRainSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public ArrowRainSkill() : base(PredefinedVisualization, false)
         {
         }
 

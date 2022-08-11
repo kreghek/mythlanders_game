@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Sage
     {
         private const SkillSid SID = SkillSid.AskedNoViolence;
 
-        public AskedNoViolenceSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        public AskedNoViolenceSkill() : base(PredefinedVisualization, false)
         {
         }
 

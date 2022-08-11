@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
+using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
+using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat;
+using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.Assets.Skills.Hero.Commissar
 {
@@ -46,5 +52,18 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
             SoundEffectType = GameObjectSoundType.Gunshot,
             IconOneBasedIndex = 16
         };
+
+        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject, UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
+        {
+            foreach (var interaction in context.Interaction.SkillRuleInteractions)
+            {
+                foreach (var target in interaction.Targets)
+                {
+                    interaction.Action(target);
+                }
+            }
+
+            return new EmptyState(mainStateBlocker);
+        }
     }
 }
