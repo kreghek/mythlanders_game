@@ -48,12 +48,19 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameSet = frameSet;
         }
 
+        protected virtual Vector2 CalcPositionModifier(double t)
+        {
+            return Vector2.Zero;
+        }
+
         protected Vector2 CurrentPosition
         {
             get
             {
                 var t = _lifetimeCounter / _lifetimeDuration;
-                return Vector2.Lerp(_startPosition, _endPosition, (float)t);
+                var mainPosition = Vector2.Lerp(_startPosition, _endPosition, (float)t);
+                var modifierPosition = CalcPositionModifier(t);
+                return mainPosition + modifierPosition;
             }
         }
 

@@ -853,11 +853,11 @@ namespace Rpg.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toxic gas.
+        ///   Looks up a localized string similar to Toxic gas bomb.
         /// </summary>
-        internal static string ToxicGas {
+        internal static string ToxicGasBomb {
             get {
-                return ResourceManager.GetString("ToxicGas", resourceCulture);
+                return ResourceManager.GetString("ToxicGasBomb", resourceCulture);
             }
         }
         

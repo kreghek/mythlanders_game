@@ -33,7 +33,7 @@ namespace Rpg.Client.Core.Skills
         RestoreMantra,
         PathOf1000Firsts,
         RapidShot,
-        ToxicGas,
+        ToxicGasBomb,
         MutantBearBludgeon,
         GodNature,
         MasterStaffHit,

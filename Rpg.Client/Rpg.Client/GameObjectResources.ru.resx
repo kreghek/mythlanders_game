@@ -388,8 +388,8 @@
   <data name="Thicket" xml:space="preserve">
     <value>Чаща</value>
   </data>
-  <data name="ToxicGas" xml:space="preserve">
-    <value>Токсичный газ</value>
+  <data name="ToxicGasBomb" xml:space="preserve">
+    <value>Бомба с токсичным газм</value>
   </data>
   <data name="VampireBite" xml:space="preserve">
     <value>Вампирический удар</value>

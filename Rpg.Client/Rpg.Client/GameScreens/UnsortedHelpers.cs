@@ -133,7 +133,7 @@ namespace Rpg.Client.GameScreens
                 SkillSid.ZduhachMight => 8,
 
                 SkillSid.HealingSalve => 9,
-                SkillSid.ToxicGas => 10,
+                SkillSid.ToxicGasBomb => 10,
                 SkillSid.DopeHerb => 11,
                 SkillSid.MassHeal => 12,
 

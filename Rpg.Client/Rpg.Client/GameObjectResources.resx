@@ -421,8 +421,8 @@
     <value>The Thicket</value>
     <comment>Location</comment>
   </data>
-  <data name="ToxicGas" xml:space="preserve">
-    <value>Toxic gas</value>
+  <data name="ToxicGasBomb" xml:space="preserve">
+    <value>Toxic gas bomb</value>
     <comment>Skill</comment>
   </data>
   <data name="VampireBite" xml:space="preserve">

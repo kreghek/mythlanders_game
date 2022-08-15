@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
 {
     internal class ToxicGasSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.ToxicGas;
+        private const SkillSid SID = SkillSid.ToxicGasBomb;
 
         public ToxicGasSkill() : base(PredefinedVisualization, costRequired: false)
         {
@@ -40,7 +40,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             AnimationBlocker mainAnimationBlocker,
             ISkillVisualizationContext context)
         {
-            var state = new HerbalistToxicGasUsageState(animatedUnitGameObject.Graphics, targetUnitGameObject,
+            var state = new HerbalistToxicGasUsageState(animatedUnitGameObject, targetUnitGameObject,
                 mainAnimationBlocker, context.Interaction, context.GetSoundEffect(GameObjectSoundType.Heal),
                 context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
 

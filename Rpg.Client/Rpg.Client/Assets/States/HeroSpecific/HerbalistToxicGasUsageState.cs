@@ -19,8 +19,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         private bool _completionHandled;
 
-        public HerbalistToxicGasUsageState(UnitGraphics actorGraphics,
-            Renderable targetUnitGameObject,
+        public HerbalistToxicGasUsageState(UnitGameObject actorGameObject,
+            UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
             SkillExecution interaction,
             SoundEffectInstance skillUsageSound,
@@ -31,15 +31,15 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             var animationBlocker = animationManager.CreateAndUseBlocker();
             _toxicGasAnimationBlocker = animationManager.CreateAndUseBlocker();
 
-            var toxicGasInteractionDelivery = new HealLightObject(
-                targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),
+            var toxicGasInteractionDelivery = new GasBomb(actorGameObject.LaunchPoint,
+                targetUnitGameObject.InteractionPoint,
                 gameObjectContentStorage, _toxicGasAnimationBlocker);
 
             StateHelper.HandleStateWithInteractionDelivery(interaction.SkillRuleInteractions, mainStateBlocker,
                 _toxicGasAnimationBlocker, animationBlocker);
 
             _innerState = new CommonDistantSkillUsageState(
-                graphics: actorGraphics,
+                graphics: actorGameObject.Graphics,
                 mainStateBlocker: animationBlocker,
                 interactionDelivery: new[] { toxicGasInteractionDelivery },
                 interactionDeliveryList: interactionDeliveryList,
