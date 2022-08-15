@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Swordsman
         public override EquipmentSid Sid => EquipmentSid.CombatSword;
 
         protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.SwordSlash, SkillSid.WideSwordSlash };
+            new[] { SkillSid.DieBySword, SkillSid.WideSwordSlash };
 
         protected override float MultiplicatorByLevel => 0.25f;
 

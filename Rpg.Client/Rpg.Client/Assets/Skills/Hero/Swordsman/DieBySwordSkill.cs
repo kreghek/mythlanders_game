@@ -7,15 +7,15 @@ using Rpg.Client.GameScreens.Combat;
 
 namespace Rpg.Client.Assets.Skills.Hero.Swordsman
 {
-    internal class SwordSlashSkill : VisualizedSkillBase
+    internal class DieBySwordSkill : VisualizedSkillBase
     {
-        private const SkillSid SID = SkillSid.SwordSlash;
+        private const SkillSid SID = SkillSid.DieBySword;
 
-        public SwordSlashSkill() : this(false)
+        public DieBySwordSkill() : this(false)
         {
         }
 
-        private SwordSlashSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
+        private DieBySwordSkill(bool costRequired) : base(PredefinedVisualization, costRequired)
         {
         }
 

@@ -373,7 +373,7 @@
   <data name="Swamp" xml:space="preserve">
     <value>Зловещее болото</value>
   </data>
-  <data name="SwordSlash" xml:space="preserve">
+  <data name="DieBySword" xml:space="preserve">
     <value>От меча и погибни</value>
   </data>
   <data name="Swordsman" xml:space="preserve">

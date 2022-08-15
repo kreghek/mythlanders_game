@@ -15,7 +15,7 @@ namespace Rpg.Client.Core.Skills
         HealingSalve,
         PowerUp,
         SvarogBlastFurnace,
-        SwordSlash,
+        DieBySword,
         SwordSlashRandom,
         SwordSlashInaccurate,
         SwordSlashDefensive,

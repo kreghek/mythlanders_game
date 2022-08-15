@@ -116,7 +116,7 @@ namespace Rpg.Client.GameScreens
             {
                 SkillSid.SuppressiveFire => 16,
                 SkillSid.BlankShot => 16,
-                SkillSid.SwordSlash => 1,
+                SkillSid.DieBySword => 1,
                 SkillSid.InspiringRush => 1,
                 SkillSid.SwordSlashRandom => 1,
                 SkillSid.SwordSlashDefensive => 1,

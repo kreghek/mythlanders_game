@@ -402,7 +402,7 @@
     <value>Evil swamp</value>
     <comment>Location</comment>
   </data>
-  <data name="SwordSlash" xml:space="preserve">
+  <data name="DieBySword" xml:space="preserve">
       <value>Die by the sword</value>
     <comment>Skill</comment>
   </data>

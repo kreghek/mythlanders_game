@@ -47,7 +47,7 @@ namespace Rpg.Client.Tests
         {
             // ARRANGE
 
-            var skill = Mock.Of<ISkill>(x => x.Sid == SkillSid.SwordSlash);
+            var skill = Mock.Of<ISkill>(x => x.Sid == SkillSid.DieBySword);
             var improvedSkill = Mock.Of<ISkill>();
 
             var scheme = new UnitScheme(new CommonUnitBasics())
@@ -55,7 +55,7 @@ namespace Rpg.Client.Tests
                 Levels = new IUnitLevelScheme[]
                 {
                     new AddPredefinedSkillUnitLevel(1, skill),
-                    new ReplaceSkillUnitLevel(5, SkillSid.SwordSlash, improvedSkill)
+                    new ReplaceSkillUnitLevel(5, SkillSid.DieBySword, improvedSkill)
                 }
             };
 

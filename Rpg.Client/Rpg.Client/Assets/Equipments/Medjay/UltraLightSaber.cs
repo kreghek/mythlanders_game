@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Equipments.Medjay
         public override EquipmentSid Sid => EquipmentSid.TribalEquipment;
 
         protected override SkillSid[] AffectedSkills =>
-            new[] { SkillSid.SwordSlash, SkillSid.PoisonedSpear };
+            new[] { SkillSid.DieBySword, SkillSid.PoisonedSpear };
 
         protected override float MultiplicatorByLevel => 0.5f;
 
