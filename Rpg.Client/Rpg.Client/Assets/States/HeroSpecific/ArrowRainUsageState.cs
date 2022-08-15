@@ -135,7 +135,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 animatedObjectGraphics,
                 new[] { projectile },
                 context.InteractionDeliveryManager,
-                context.GetHitSound(GameObjectSoundType.EnergoShot),
+                context.GetSoundEffect(GameObjectSoundType.EnergoShot),
                 PredefinedAnimationSid.Skill3);
 
             return launchInteractionDeliveryState;

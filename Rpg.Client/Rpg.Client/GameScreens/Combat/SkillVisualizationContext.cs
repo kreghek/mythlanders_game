@@ -25,7 +25,7 @@ namespace Rpg.Client.GameScreens.Combat
         public SkillExecution Interaction { get; init; } = null!;
         public IList<IInteractionDelivery> InteractionDeliveryManager { get; init; } = null!;
 
-        public SoundEffectInstance GetHitSound(GameObjectSoundType soundType)
+        public SoundEffectInstance GetSoundEffect(GameObjectSoundType soundType)
         {
             return GameObjectContentStorage.GetSkillUsageSound(soundType).CreateInstance();
         }

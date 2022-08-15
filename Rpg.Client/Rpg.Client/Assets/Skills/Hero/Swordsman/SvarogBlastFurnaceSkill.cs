@@ -44,10 +44,10 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
             var state = new SvarogFurnaceBlastUsageState(animatedUnitGameObject, mainAnimationBlocker,
                 context.Interaction,
                 context.InteractionDeliveryManager, context.GameObjectContentStorage, context.AnimationManager,
-                context.GetHitSound(GameObjectSoundType.SvarogSymbolAppearing),
-                context.GetHitSound(GameObjectSoundType.RisingPower),
-                context.GetHitSound(GameObjectSoundType.Firestorm),
-                context.GetHitSound(GameObjectSoundType.FireDamage),
+                context.GetSoundEffect(GameObjectSoundType.SvarogSymbolAppearing),
+                context.GetSoundEffect(GameObjectSoundType.RisingPower),
+                context.GetSoundEffect(GameObjectSoundType.Firestorm),
+                context.GetSoundEffect(GameObjectSoundType.FireDamage),
                 context.ScreenShaker);
 
             return state;

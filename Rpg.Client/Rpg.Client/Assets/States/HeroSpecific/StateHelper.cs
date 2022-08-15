@@ -10,7 +10,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         public static void HandleStateWithInteractionDelivery(
             IReadOnlyList<SkillEffectExecutionItem> skillRuleInteractions,
             AnimationBlocker mainStateBlocker, AnimationBlocker interactionDeliveryBlocker,
-            AnimationBlocker animationBlocker)
+            AnimationBlocker unitAnimationBlocker)
         {
             var isInteractionDeliveryComplete = false;
             var isAnimationComplete = false;
@@ -27,7 +27,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 }
             };
 
-            animationBlocker.Released += (_, _) =>
+            unitAnimationBlocker.Released += (_, _) =>
             {
                 isAnimationComplete = true;
 

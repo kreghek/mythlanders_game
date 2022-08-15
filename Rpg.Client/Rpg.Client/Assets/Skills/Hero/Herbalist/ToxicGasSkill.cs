@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             ISkillVisualizationContext context)
         {
             var state = new HerbalistToxicGasUsageState(animatedUnitGameObject.Graphics, targetUnitGameObject,
-                mainAnimationBlocker, context.Interaction, context.GetHitSound(GameObjectSoundType.Heal),
+                mainAnimationBlocker, context.Interaction, context.GetSoundEffect(GameObjectSoundType.Heal),
                 context.GameObjectContentStorage, context.AnimationManager, context.InteractionDeliveryManager);
 
             return state;

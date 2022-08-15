@@ -48,7 +48,7 @@ namespace Rpg.Client.Assets.Skills.Monster
                     new SkillAnimationInfoItem
                     {
                         Duration = 1f,
-                        HitSound = context.GetHitSound(GameObjectSoundType.DigitalBite),
+                        HitSound = context.GetSoundEffect(GameObjectSoundType.DigitalBite),
                         Interaction = () => Interaction(context.Interaction.SkillRuleInteractions),
                         InteractTime = 0
                     }

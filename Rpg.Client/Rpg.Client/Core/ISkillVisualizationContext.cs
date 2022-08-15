@@ -30,6 +30,6 @@ namespace Rpg.Client.Core
 
         UnitGameObject GetGameObject(ICombatUnit combatUnit);
 
-        SoundEffectInstance GetHitSound(GameObjectSoundType soundType);
+        SoundEffectInstance GetSoundEffect(GameObjectSoundType soundType);
     }
 }

@@ -192,7 +192,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             var animationSid = skill.Visualization.AnimationSid;
 
-            var hitSound = context.GetHitSound(skill.Visualization.SoundEffectType);
+            var hitSound = context.GetSoundEffect(skill.Visualization.SoundEffectType);
 
             switch (skill.Visualization.Type)
             {

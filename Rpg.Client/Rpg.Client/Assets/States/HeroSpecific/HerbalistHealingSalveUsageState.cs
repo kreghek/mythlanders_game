@@ -16,8 +16,6 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         private readonly AnimationBlocker _healingLightAnimationBlocker;
         private readonly CommonDistantSkillUsageState _innerState;
 
-        private bool _completionHandled;
-
         public HerbalistHealingSalveUsageState(UnitGraphics actorGraphics,
             Renderable targetUnitGameObject,
             AnimationBlocker mainStateBlocker,
@@ -47,7 +45,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
         }
 
         public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
+        public bool IsComplete => _innerState.IsComplete;
 
         public void Cancel()
         {
@@ -57,13 +55,9 @@ namespace Rpg.Client.Assets.States.HeroSpecific
 
         public void Update(GameTime gameTime)
         {
-            if (_innerState.IsComplete)
+            if (IsComplete)
             {
-                if (!_completionHandled)
-                {
-                    _completionHandled = true;
-                    IsComplete = true;
-                }
+                return;
             }
 
             _innerState.Update(gameTime);
