@@ -105,6 +105,7 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                     {
                         IsDestroyed = true;
                         _blocker?.Release();
+                        InteractionPerformed?.Invoke(this, EventArgs.Empty);
                     }
                 }
             }
