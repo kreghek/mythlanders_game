@@ -3,9 +3,7 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.GameScreens.Combat.GameObjects;
-
-namespace Rpg.Client.Assets.States
+namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
     internal sealed class ParallelState : IUnitStateEngine
     {

@@ -282,7 +282,7 @@ namespace Rpg.Client.Assets.Catalogs
             for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
             {
                 var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, 2);
+                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
             }
         }
     }

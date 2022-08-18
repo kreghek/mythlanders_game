@@ -218,7 +218,7 @@ namespace Rpg.Client.Core
 
         private Unit CreateStartHero(UnitName heroName)
         {
-            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 10)
+            return new Unit(_unitSchemeCatalog.Heroes[heroName], level: 1)
             {
                 IsPlayerControlled = true
             };

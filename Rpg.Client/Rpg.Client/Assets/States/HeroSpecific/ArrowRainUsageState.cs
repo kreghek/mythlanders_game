@@ -8,6 +8,7 @@ using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {

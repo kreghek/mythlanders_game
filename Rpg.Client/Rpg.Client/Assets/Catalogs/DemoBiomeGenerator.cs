@@ -233,18 +233,23 @@ namespace Rpg.Client.Assets.Catalogs
 
             startNode.AssignEvent(startEvent);
 
-            combat.EnemyGroup.Slots[0].Unit =
-                new Unit(
-                    _unitSchemeCatalog.AllMonsters.Single(x =>
-                        x.Name == UnitName.BoldMarauder && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 2);
-            combat.EnemyGroup.Slots[1].Unit =
-                new Unit(
-                    _unitSchemeCatalog.AllMonsters.Single(x =>
-                        x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
-            combat.EnemyGroup.Slots[2].Unit =
-                new Unit(
-                    _unitSchemeCatalog.AllMonsters.Single(x =>
-                        x.Name == UnitName.BlackTrooper && x.LocationSids.Contains(START_AVAILABLE_LOCATION)), 1);
+            var monsterInfos = GetStartMonsterInfoList();
+
+            for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
+            {
+                var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
+                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
+            }
+        }
+
+        private static IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
+        {
+            return new (UnitName name, int level)[]
+            {
+                new(UnitName.DigitalWolf, 2),
+                new(UnitName.BlackTrooper, 1),
+                new(UnitName.BlackTrooper, 1)
+            };
         }
 
         public IReadOnlyList<Biome> GenerateStartState()

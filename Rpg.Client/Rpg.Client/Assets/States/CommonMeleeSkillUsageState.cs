@@ -4,6 +4,7 @@ using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States

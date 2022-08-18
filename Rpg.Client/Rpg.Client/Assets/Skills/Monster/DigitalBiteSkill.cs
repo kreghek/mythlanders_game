@@ -2,7 +2,6 @@
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Assets.States;
 using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
@@ -10,13 +9,14 @@ using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Combat.GameObjects;
+using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.Skills.Monster
 {
     internal class DigitalBiteSkill : MonsterAttackSkill
     {
-        private const int JUMP_HEIGHT = 200;
+        private const int JUMP_HEIGHT = 50;
 
         public DigitalBiteSkill() : base(PredefinedVisualization, false)
         {
@@ -38,8 +38,16 @@ namespace Rpg.Client.Assets.Skills.Monster
 
             var jumpState = new LinearMoveToTargetState(animatedUnitGameObject.Graphics,
                 animatedUnitGameObject.Graphics.Root,
-                animatedUnitGameObject.Position + Vector2.UnitY * JUMP_HEIGHT,
+                animatedUnitGameObject.Position - Vector2.UnitY * JUMP_HEIGHT,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 3 }, fps: 8));
+
+            var hideIdleState = new IdleState(2);
+
+            var attackMoveState = new LinearMoveToTargetState(
+                animatedUnitGameObject.Graphics,
+                animatedUnitGameObject.Graphics.Root,
+                targetPosition,
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 8, textureColumns: 2));
 
             var animationInfo = new SkillAnimationInfo
             {
@@ -55,12 +63,6 @@ namespace Rpg.Client.Assets.Skills.Monster
                 }
             };
 
-            var attackMoveState = new LinearMoveToTargetState(
-                animatedUnitGameObject.Graphics,
-                animatedUnitGameObject.Graphics.Root,
-                targetPosition,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 8, textureColumns: 2));
-
             var attackState = new DirectInteractionState(
                 animatedUnitGameObject.Graphics,
                 null,
@@ -70,10 +72,9 @@ namespace Rpg.Client.Assets.Skills.Monster
             var moveBackwardState = new LinearMoveBackState(animatedUnitGameObject.Graphics,
                 animatedUnitGameObject.Graphics.Root, targetPosition, mainStateBlocker);
 
-            var sequence = new SequentialState(jumpState, attackMoveState, attackState, moveBackwardState);
+            var sequence = new SequentialState(jumpState, hideIdleState, attackMoveState, attackState, moveBackwardState);
 
             return sequence;
-            //return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
 
         private static void Interaction(IEnumerable<SkillEffectExecutionItem> skillRuleInteractions)
