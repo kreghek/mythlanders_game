@@ -19,7 +19,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 1),
+                SpriteIndex = 1,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
                 BackgroundLayerType = BackgroundLayerType.Main
             },
@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 2),
+                SpriteIndex = 2,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0),
                 BackgroundLayerType = BackgroundLayerType.Main
             },
@@ -38,7 +38,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 3),
+                SpriteIndex = 3,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
@@ -47,7 +47,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 4),
+                SpriteIndex = 4,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
@@ -56,7 +56,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 5),
+                SpriteIndex = 5,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
@@ -65,7 +65,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 6),
+                SpriteIndex = 6,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
             new StaticBgMainObjectScheme
@@ -73,7 +73,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size256,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size256, 7),
+                SpriteIndex = 7,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0)
             },
 
@@ -82,7 +82,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 1),
+                SpriteIndex = 1,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 2),
+                SpriteIndex = 2,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -100,7 +100,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 3),
+                SpriteIndex = 3,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -109,7 +109,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 4),
+                SpriteIndex = 4,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -118,7 +118,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = true,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 5),
+                SpriteIndex = 5,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -127,7 +127,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 6),
+                SpriteIndex = 6,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -136,7 +136,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 7),
+                SpriteIndex = 7,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -145,7 +145,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 8),
+                SpriteIndex = 8,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new StaticBgMainObjectScheme
@@ -154,7 +154,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 9),
+                SpriteIndex = 9,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1)
             },
             new AnimatedBgMainObjectScheme
@@ -163,7 +163,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 0.75f),
-                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0, 1 }, fps: 0.5f,
+                AnimationFrameSet = AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 0 }, fps: 0.5f,
                     frameWidth: 64, frameHeight: 64, textureColumns: 8, isLoop: true),
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
@@ -173,7 +173,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 1 - 0.125f),
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 9),
+                SpriteIndex = 9,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
@@ -182,7 +182,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = new Vector2(0.5f, 0.75f),
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 10),
+                SpriteIndex = 10,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             },
             new StaticBgMainObjectScheme
@@ -191,7 +191,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 IsPassable = false,
                 Size = BgMainObjectSchemeSize.Size64,
                 Origin = Vector2.Zero,
-                SourceRect = GetSourceRectOneBased(BgMainObjectSchemeSize.Size64, 11),
+                SpriteIndex = 11,
                 Texture = new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2)
             }
         };
@@ -322,24 +322,22 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return _bgObjectSchemes;
         }
 
-        private static Rectangle GetSourceRect(BgMainObjectSchemeSize size, int index)
+        private static Rectangle GetSourceRect(BgMainObjectSchemeSize size, int index, int colCount)
         {
-            const int COL_COUNT_64 = 3;
-            const int COL_COUNT_256 = 3;
-
             switch (size)
             {
                 case BgMainObjectSchemeSize.Size256:
                     {
                         const int SIZE = 256;
-                        var (x, y) = GetSourceRectCoords(index, COL_COUNT_256);
+                        
+                        var (x, y) = GetSourceRectCoords(index, colCount);
                         return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
                     }
 
                 case BgMainObjectSchemeSize.Size64:
                     {
                         const int SIZE = 64;
-                        var (x, y) = GetSourceRectCoords(index, COL_COUNT_64);
+                        var (x, y) = GetSourceRectCoords(index, colCount);
                         return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
                     }
 
@@ -353,9 +351,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             return new(index % colCount, index / colCount);
         }
 
-        private static Rectangle GetSourceRectOneBased(BgMainObjectSchemeSize size, int indexOneBased)
+        private static Rectangle GetSourceRectOneBased(BgMainObjectSchemeSize size, int indexOneBased, int colCount)
         {
-            return GetSourceRect(size, indexOneBased - 1);
+            return GetSourceRect(size, indexOneBased - 1, colCount);
         }
 
         public IReadOnlyList<IBackgroundObject> CreateCloudLayerObjects()
@@ -425,19 +423,30 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         private class StaticBgMainObjectScheme : IBgMainObjectScheme
         {
             public Vector2 Origin { get; set; }
-            public Rectangle SourceRect { get; set; }
+            public int SpriteIndex { get; set; }
 
             public (BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex) Texture { get; set; }
             public BgMainObjectSchemeSize Size { get; set; }
             public bool IsPassable { get; set; }
             public BackgroundLayerType BackgroundLayerType { get; set; }
 
+            private static Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int> _colCountDicts = new Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>()
+            {
+                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0), 3 },
+                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1), 3 },
+                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2), 8 }
+            };
+
             public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position)
             {
+                var colCount = _colCountDicts[new(Texture.Location, Texture.Layer, Texture.SpritesheetIndex)];
+
+                var sourceRect = GetSourceRectOneBased(Size, SpriteIndex, colCount);
+
                 var texture = gameObjectContentStorage.GetCombatBackgroundObjectsTexture(
                     Texture.Location,
                     Texture.Layer, Texture.SpritesheetIndex);
-                return new PositionalStaticObject(texture, position, SourceRect, Origin);
+                return new PositionalStaticObject(texture, position, sourceRect, Origin);
             }
         }
 
