@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 
@@ -7,8 +8,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-
-    internal class LinearMoveToTargetState : IUnitStateEngine
+    internal class ExpMoveToTargetState : IUnitStateEngine
     {
         private const double DURATION_SECONDS = 0.25;
         private readonly IAnimationFrameSet? _animation;
@@ -20,7 +20,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
         private readonly Vector2 _targetPosition;
         private double _counter;
 
-        public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+        public ExpMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
             PredefinedAnimationSid animationSid)
         {
             _startPosition = graphicsRoot.Position;
@@ -30,7 +30,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
             _graphicsRoot = graphicsRoot;
         }
 
-        public LinearMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
+        public ExpMoveToTargetState(UnitGraphics graphics, SpriteContainer graphicsRoot, Vector2 targetPosition,
             IAnimationFrameSet animation)
         {
             _startPosition = graphicsRoot.Position;
@@ -80,7 +80,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 
                 var t = _counter / DURATION_SECONDS;
 
-                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)t);
+                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)Math.Sin(t * Math.PI));
 
                 //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
 

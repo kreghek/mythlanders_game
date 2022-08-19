@@ -247,8 +247,8 @@ namespace Rpg.Client.Assets.Catalogs
             return new (UnitName name, int level)[]
             {
                 new(UnitName.DigitalWolf, 2),
-                new(UnitName.BlackTrooper, 1),
-                new(UnitName.BlackTrooper, 1)
+                new(UnitName.BoldMarauder, 2),
+                new(UnitName.BlackTrooper, 2)
             };
         }
 

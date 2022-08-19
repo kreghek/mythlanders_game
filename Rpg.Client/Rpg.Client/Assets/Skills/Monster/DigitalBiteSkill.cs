@@ -36,12 +36,12 @@ namespace Rpg.Client.Assets.Skills.Monster
             var targetPosition =
                 targetGraphicRoot.Position + new Vector2(-120 * (targetGraphicRoot.FlipX ? 1 : -1), 0);
 
-            var jumpState = new LinearMoveToTargetState(animatedUnitGameObject.Graphics,
+            var jumpState = new ExpMoveToTargetState(animatedUnitGameObject.Graphics,
                 animatedUnitGameObject.Graphics.Root,
                 animatedUnitGameObject.Position - Vector2.UnitY * JUMP_HEIGHT,
                 AnimationFrameSetFactory.CreateSequentialFromGrid(rows: new[] { 3 }, fps: 8));
 
-            var hideIdleState = new IdleState(2);
+            var hideIdleState = new IdleState(1);
 
             var attackMoveState = new LinearMoveToTargetState(
                 animatedUnitGameObject.Graphics,
