@@ -47,7 +47,7 @@ namespace Rpg.Client.Assets.Skills.Monster
                 animatedUnitGameObject.Graphics,
                 animatedUnitGameObject.Graphics.Root,
                 targetPosition,
-                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 5 }, fps: 8, textureColumns: 2));
+                AnimationFrameSetFactory.CreateSequentialFromGrid(new[] { 4 }, fps: 8, textureColumns: 2));
 
             var animationInfo = new SkillAnimationInfo
             {

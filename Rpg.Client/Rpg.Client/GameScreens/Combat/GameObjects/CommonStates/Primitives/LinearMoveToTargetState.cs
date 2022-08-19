@@ -82,10 +82,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 
                 var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)t);
 
-                //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
-
-                //var fullPosition = horizontalPosition + jumpTopPosition;
-
                 _graphicsRoot.Position = horizontalPosition;
             }
             else

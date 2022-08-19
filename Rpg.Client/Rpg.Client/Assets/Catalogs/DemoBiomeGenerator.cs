@@ -112,7 +112,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static bool GetStartAvailability(GlobeNodeSid currentLocationSid)
         {
-            return true; //currentLocationSid == START_AVAILABLE_LOCATION;
+            return currentLocationSid == START_AVAILABLE_LOCATION;
         }
 
         private static bool IsBossAvailable(GlobeLevel globeLevel)
