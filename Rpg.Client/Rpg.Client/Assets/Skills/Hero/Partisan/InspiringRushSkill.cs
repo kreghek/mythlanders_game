@@ -30,7 +30,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
             AnimationSid = PredefinedAnimationSid.Skill1,
             Type = SkillVisualizationStateType.Melee,
             SoundEffectType = GameObjectSoundType.SwordSlash,
-            IconOneBasedIndex = 1
+            IconOneBasedIndex = 38
         };
     }
 }

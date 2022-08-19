@@ -47,7 +47,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Commissar
         {
             Type = SkillVisualizationStateType.Range,
             SoundEffectType = GameObjectSoundType.Gunshot,
-            IconOneBasedIndex = 16
+            IconOneBasedIndex = 39
         };
 
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
