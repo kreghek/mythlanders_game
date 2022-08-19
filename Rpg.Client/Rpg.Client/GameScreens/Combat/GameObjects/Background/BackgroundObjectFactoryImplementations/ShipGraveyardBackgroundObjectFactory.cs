@@ -199,7 +199,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
         private readonly IDice _dice;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        private readonly Vector2 _haribdaPosition = new Vector2(245, 90);
+        private readonly Vector2 _haribdaPosition = new(245, 90);
 
         public ShipGraveyardBackgroundObjectFactory(GameObjectContentStorage gameObjectContentStorage, IDice dice)
         {
@@ -317,7 +317,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             }
         }
 
-        private IReadOnlyCollection<IBgMainObjectScheme> GetObjectSchemes()
+        private static IReadOnlyCollection<IBgMainObjectScheme> GetObjectSchemes()
         {
             return _bgObjectSchemes;
         }
