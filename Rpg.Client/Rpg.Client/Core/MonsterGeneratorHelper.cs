@@ -85,10 +85,10 @@ namespace Rpg.Client.Core
         private static int GetMonsterCount(GlobeNode node,
             int predefinedMinMonsterCount)
         {
-            if (node.IsLast /* && !biome.IsComplete*/)
-            {
-                return 1;
-            }
+            //if (node.IsLast /* && !biome.IsComplete*/)
+            //{
+            //    return 1;
+            //}
 
             return predefinedMinMonsterCount;
         }
@@ -99,7 +99,7 @@ namespace Rpg.Client.Core
             {
                 >= 0 and <= 10 => new[] { 2, 3 },
                 > 10 => new[] { 3, 3, 4, 4, 5 },
-                _ => new[] { 1 }
+                _ => new[] { 3 }
             };
         }
 
