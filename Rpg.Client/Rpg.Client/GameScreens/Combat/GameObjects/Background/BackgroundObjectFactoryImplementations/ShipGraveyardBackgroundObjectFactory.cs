@@ -329,7 +329,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
                 case BgMainObjectSchemeSize.Size256:
                     {
                         const int SIZE = 256;
-                        
+
                         var (x, y) = GetSourceRectCoords(index, colCount);
                         return new Rectangle(x * SIZE, y * SIZE, SIZE, SIZE);
                     }

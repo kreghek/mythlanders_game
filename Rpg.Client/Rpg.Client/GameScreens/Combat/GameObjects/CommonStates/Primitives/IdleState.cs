@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-    internal class IdleState: IUnitStateEngine
+    internal class IdleState : IUnitStateEngine
     {
         private double _durationSeconds;
 
