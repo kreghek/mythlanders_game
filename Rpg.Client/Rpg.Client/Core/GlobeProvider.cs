@@ -189,13 +189,6 @@ namespace Rpg.Client.Core
             }
         }
 
-        private Unit[] CreateHeroesByNames(UnitName[] names)
-        {
-            var startHeroes = names.Select(x => CreateStartHero(x)).ToArray();
-
-            return startHeroes;
-        }
-
         private static string CreateSaveData(string saveName, ProgressDto progress)
         {
             var saveDto = new SaveDto
@@ -240,14 +233,16 @@ namespace Rpg.Client.Core
 
         private Unit[] CreateStartPoolHeroes()
         {
-            var startHeroNames = new[]
-            {
-                UnitName.Archer,
-                UnitName.Herbalist,
-                UnitName.Hoplite,
-                UnitName.Monk,
-                UnitName.Spearman
-            };
+            //var startHeroNames = new[]
+            //{
+            //    UnitName.Archer,
+            //    UnitName.Herbalist,
+            //    UnitName.Hoplite,
+            //    UnitName.Monk,
+            //    UnitName.Spearman
+            //};
+
+            var startHeroNames = Array.Empty<UnitName>();
 
             var startHeroes = startHeroNames.Select(x => CreateStartHero(x)).ToArray();
 
