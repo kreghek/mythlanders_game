@@ -48,11 +48,6 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
             _frameSet = frameSet;
         }
 
-        protected virtual Vector2 CalcPositionModifier(double t)
-        {
-            return Vector2.Zero;
-        }
-
         protected Vector2 CurrentPosition
         {
             get
@@ -62,6 +57,11 @@ namespace Rpg.Client.Assets.InteractionDeliveryObjects
                 var modifierPosition = CalcPositionModifier(t);
                 return mainPosition + modifierPosition;
             }
+        }
+
+        protected virtual Vector2 CalcPositionModifier(double t)
+        {
+            return Vector2.Zero;
         }
 
         protected virtual void DrawForegroundAdditionalEffects(SpriteBatch spriteBatch) { }

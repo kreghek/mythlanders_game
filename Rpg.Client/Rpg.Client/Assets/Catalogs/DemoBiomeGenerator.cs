@@ -115,6 +115,16 @@ namespace Rpg.Client.Assets.Catalogs
             return currentLocationSid == START_AVAILABLE_LOCATION;
         }
 
+        private static IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
+        {
+            return new (UnitName name, int level)[]
+            {
+                new(UnitName.DigitalWolf, 2),
+                new(UnitName.BoldMarauder, 2),
+                new(UnitName.BlackTrooper, 2)
+            };
+        }
+
         private static bool IsBossAvailable(GlobeLevel globeLevel)
         {
             return globeLevel.Level >= 5;
@@ -240,16 +250,6 @@ namespace Rpg.Client.Assets.Catalogs
                 var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
                 combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
             }
-        }
-
-        private static IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()
-        {
-            return new (UnitName name, int level)[]
-            {
-                new(UnitName.DigitalWolf, 2),
-                new(UnitName.BoldMarauder, 2),
-                new(UnitName.BlackTrooper, 2)
-            };
         }
 
         public IReadOnlyList<Biome> GenerateStartState()

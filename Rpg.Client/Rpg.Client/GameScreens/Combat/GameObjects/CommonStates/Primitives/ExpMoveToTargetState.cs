@@ -80,7 +80,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 
                 var t = _counter / DURATION_SECONDS;
 
-                var horizontalPosition = Vector2.Lerp(_startPosition, _targetPosition, (float)Math.Sin(t * Math.PI * 0.5));
+                var horizontalPosition =
+                    Vector2.Lerp(_startPosition, _targetPosition, (float)Math.Sin(t * Math.PI * 0.5));
 
                 //var jumpTopPosition = Vector2.UnitY * -24 * (float)Math.Sin((float)_counter / DURATION * Math.PI);
 

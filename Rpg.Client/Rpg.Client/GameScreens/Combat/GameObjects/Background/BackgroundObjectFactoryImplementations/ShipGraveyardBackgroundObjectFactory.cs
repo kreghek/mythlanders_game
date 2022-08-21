@@ -422,6 +422,16 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
 
         private class StaticBgMainObjectScheme : IBgMainObjectScheme
         {
+            private static readonly
+                Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
+                _colCountDicts =
+                    new Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>
+                    {
+                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0), 3 },
+                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1), 3 },
+                        { new(BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2), 8 }
+                    };
+
             public Vector2 Origin { get; set; }
             public int SpriteIndex { get; set; }
 
@@ -429,13 +439,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectF
             public BgMainObjectSchemeSize Size { get; set; }
             public bool IsPassable { get; set; }
             public BackgroundLayerType BackgroundLayerType { get; set; }
-
-            private static Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int> _colCountDicts = new Dictionary<(BackgroundType Location, BackgroundLayerType Layer, int SpritesheetIndex), int>()
-            {
-                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 0), 3 },
-                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Main, 1), 3 },
-                { new (BackgroundType.GreekShipGraveyard, BackgroundLayerType.Far, 2), 8 }
-            };
 
             public IBackgroundObject Create(GameObjectContentStorage gameObjectContentStorage, Vector2 position)
             {

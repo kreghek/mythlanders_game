@@ -72,7 +72,8 @@ namespace Rpg.Client.Assets.Skills.Monster
             var moveBackwardState = new LinearMoveBackState(animatedUnitGameObject.Graphics,
                 animatedUnitGameObject.Graphics.Root, targetPosition, mainStateBlocker);
 
-            var sequence = new SequentialState(jumpState, hideIdleState, attackMoveState, attackState, moveBackwardState);
+            var sequence =
+                new SequentialState(jumpState, hideIdleState, attackMoveState, attackState, moveBackwardState);
 
             return sequence;
         }
