@@ -28,18 +28,16 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private TextHint? _equipmentHint;
         private Equipment? _equipmentUnderHint;
 
-        public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
-            Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player,
-            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(
-            texture, titleFont)
+        public EquipmentsInfoPanel(Unit hero, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player,
+            ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
-            _mainFont = mainFont;
+            _mainFont = UiThemeManager.UiContentStorage.GetMainFont();
             _hintTexture = hintTexture;
             _player = player;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _equipmentButtons = new List<EntityIconButton<Equipment>>();
 
-            InitEquipmentButtons(hero, controlTexture, equipmentIconsTexture);
+            InitEquipmentButtons(hero, equipmentIconsTexture);
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroEquipmentInfoTitle);
@@ -107,12 +105,12 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _equipmentHint = null;
         }
 
-        private EntityIconButton<Equipment> CreateEquipmentButton(Equipment equipment, Texture2D controlTexture,
+        private EntityIconButton<Equipment> CreateEquipmentButton(Equipment equipment,
             Texture2D equipmentIconsTexture)
         {
             var equipmentIconRect = GetEquipmentIconRect(equipment.Scheme.Metadata);
 
-            var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
+            var equipmentIconButton = new EntityIconButton<Equipment>(
                 new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
             equipmentIconButton.OnClick += EquipmentIconButton_OnClick;
             return equipmentIconButton;
@@ -230,13 +228,13 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private void InitEquipmentButtons(Unit hero, Texture2D controlTexture, Texture2D equipmentIconsTexture)
+        private void InitEquipmentButtons(Unit hero, Texture2D equipmentIconsTexture)
         {
             var equipmentList = hero.Equipments;
             foreach (var equipment in equipmentList)
             {
                 var equipmentIconButton =
-                    CreateEquipmentButton(equipment, controlTexture, equipmentIconsTexture);
+                    CreateEquipmentButton(equipment, equipmentIconsTexture);
 
                 _equipmentButtons.Add(equipmentIconButton);
             }

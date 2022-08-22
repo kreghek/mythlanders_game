@@ -11,13 +11,14 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly SpriteFont _font;
         private readonly string _optionText;
 
-        public DialogueOptionButton(string resourceSid, Texture2D texture, SpriteFont font) : base(
-            texture, Rectangle.Empty)
+        public DialogueOptionButton(string resourceSid)
         {
             _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid);
 
-            _font = font;
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
         }
+
+        public override Point CalcTextureOffset() => Point.Zero;
 
         public Vector2 GetContentSize()
         {

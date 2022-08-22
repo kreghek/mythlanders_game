@@ -13,6 +13,8 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
+        public bool ContentWasLoaded { get; private set; }
+
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
         private Texture2D? _buttonTexture;
@@ -257,6 +259,8 @@ namespace Rpg.Client.Engine
             _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
 
             _titleBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/TitleBackground");
+
+            ContentWasLoaded = true;
         }
 
         public Texture2D GetSocialTexture()

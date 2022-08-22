@@ -11,13 +11,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly AnimatedCountableUnitItemStat _progression;
         private readonly SpriteFont _textFont;
 
-        public CombatResultsBiomeProgression(Texture2D texture,
-            SpriteFont textFont,
-            AnimatedCountableUnitItemStat progression) : base(texture)
+        public CombatResultsBiomeProgression(AnimatedCountableUnitItemStat progression)
         {
-            _textFont = textFont;
+            _textFont = UiThemeManager.UiContentStorage.GetMainFont();
             _progression = progression;
         }
+
+        public override Point CalcTextureOffset() => Point.Zero;
 
         public void Update()
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
@@ -9,12 +8,6 @@ namespace Rpg.Client.Engine
     internal abstract class ButtonBase : ControlBase
     {
         protected UiButtonState _buttonState;
-
-        protected ButtonBase(Texture2D texture, Rectangle rect) : base(texture)
-        {
-            Rect = rect;
-            _buttonState = UiButtonState.OutOfButton;
-        }
 
         public bool IsEnabled { get; set; } = true;
 

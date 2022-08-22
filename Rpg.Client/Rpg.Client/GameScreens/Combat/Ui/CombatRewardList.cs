@@ -20,14 +20,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly SpriteFont _textFont;
         private readonly SpriteFont _titleFont;
 
-        public CombatRewardList(Texture2D texture,
-            SpriteFont titleFont,
-            SpriteFont textFont,
+        public CombatRewardList(
             Texture2D rewardIconsTexture,
-            IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems) : base(texture)
+            IReadOnlyCollection<AnimatedCountableUnitItemStat> rewardItems)
         {
-            _titleFont = titleFont;
-            _textFont = textFont;
+            _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
+            _textFont = UiThemeManager.UiContentStorage.GetMainFont();
             _rewardIconsTexture = rewardIconsTexture;
             _rewardItems = rewardItems;
         }
@@ -118,5 +116,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
+
+        public override Point CalcTextureOffset() => Point.Zero;
     }
 }

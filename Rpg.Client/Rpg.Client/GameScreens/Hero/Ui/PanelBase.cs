@@ -9,9 +9,9 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     {
         private readonly SpriteFont _titleFont;
 
-        protected PanelBase(Texture2D texture, SpriteFont titleFont) : base(texture)
+        protected PanelBase()
         {
-            _titleFont = titleFont;
+            _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
         protected abstract string TitleResourceId { get; }

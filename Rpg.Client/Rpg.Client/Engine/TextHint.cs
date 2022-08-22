@@ -7,13 +7,15 @@ namespace Rpg.Client.Engine
     {
         private readonly SpriteFont _font;
 
-        public TextHint(Texture2D texture, SpriteFont font, string text) : base(texture)
+        public TextHint(string text)
         {
-            _font = font;
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
             Text = text;
         }
 
         public string Text { get; }
+
+        public override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
