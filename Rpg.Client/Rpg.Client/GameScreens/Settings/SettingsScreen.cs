@@ -35,7 +35,7 @@ namespace Rpg.Client.GameScreens.Settings
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _camera = Game.Services.GetService<Camera2D>();
 
-            var buttonTexture = uiContentService.GetButtonTexture();
+            var buttonTexture = uiContentService.GetControlBackgroundTexture();
             var font = uiContentService.GetMainFont();
 
             _buttons = new List<ButtonBase>

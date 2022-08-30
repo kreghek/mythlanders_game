@@ -75,7 +75,7 @@ namespace Rpg.Client.Engine
                 }
             };
 
-            var _texture = UiThemeManager.UiContentStorage.GetButtonTexture();
+            var _texture = UiThemeManager.UiContentStorage.GetControlBackgroundTexture();
 
             for (var x = 0; x < 3; x++)
             {

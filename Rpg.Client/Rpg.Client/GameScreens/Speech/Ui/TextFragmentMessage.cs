@@ -13,14 +13,16 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly SpriteFont _font;
 
         private readonly Speech _speech;
+        private readonly bool _isCharacterSpeech;
 
         public TextFragmentMessage(EventTextFragment eventTextFragment,
-            SoundEffect textSoundEffect, IDice dice)
+            SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
         {
-            _font = UiThemeManager.UiContentStorage.GetMainFont();
+            _font = UiThemeManager.UiContentStorage.GetTitlesFont();
 
             var speechText = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
             _speech = new Speech(speechText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
+            _isCharacterSpeech = isCharacterSpeech;
         }
 
         public bool IsComplete => _speech.IsComplete;
@@ -42,7 +44,17 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             _speech.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            if (_isCharacterSpeech)
+            {
+                return ControlTextures.Speech;
+            }
+            else
+            {
+                return ControlTextures.Shadow;
+            }
+        }
 
         protected override Color CalculateColor()
         {

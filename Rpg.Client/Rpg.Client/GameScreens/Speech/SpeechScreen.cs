@@ -433,10 +433,11 @@ namespace Rpg.Client.GameScreens.Speech
             _currentFragmentIndex = 0;
             foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
             {
-                var speechTexture = _uiContentStorage.GetSpeechTexture();
+                var textureType = ControlTextures.Speech;
+
                 if (textFragment.Speaker == UnitName.Environment)
                 {
-                    speechTexture = _uiContentStorage.GetEnvSpeechTexture();
+                    textureType = ControlTextures.Shadow;
                 }
 
                 var textFragmentControl = new TextFragment(

@@ -15,10 +15,10 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         {
             _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid);
 
-            _font = UiThemeManager.UiContentStorage.GetMainFont();
+            _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => ControlTextures.Option;
 
         public Vector2 GetContentSize()
         {

@@ -78,7 +78,7 @@ namespace Rpg.Client.GameScreens.Party
                 {
                     var resources = new HeroPanelResources
                     (
-                        buttonTexture: _uiContentStorage.GetButtonTexture(),
+                        buttonTexture: _uiContentStorage.GetControlBackgroundTexture(),
                         buttonFont: _uiContentStorage.GetTitlesFont(),
                         indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
                         portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),

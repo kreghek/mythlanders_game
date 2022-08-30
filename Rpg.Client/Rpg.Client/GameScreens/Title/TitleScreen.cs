@@ -58,7 +58,7 @@ namespace Rpg.Client.GameScreens.Title
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
-            var buttonTexture = _uiContentStorage.GetButtonTexture();
+            var buttonTexture = _uiContentStorage.GetControlBackgroundTexture();
             var buttonFont = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
