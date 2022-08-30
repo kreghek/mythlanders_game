@@ -14,6 +14,6 @@ namespace Rpg.Client.Engine
         public static Point Option { get; } = CalcPointByIndex(4);
         public static Point Shadow { get; } = CalcPointByIndex(5);
 
-        private static Point CalcPointByIndex(int index) => new Point(index % COL_COUNT * TEXTURE_SIZE, index / COL_COUNT * TEXTURE_SIZE);
+        private static Point CalcPointByIndex(int index) => new(index % COL_COUNT * TEXTURE_SIZE, index / COL_COUNT * TEXTURE_SIZE);
     }
 }

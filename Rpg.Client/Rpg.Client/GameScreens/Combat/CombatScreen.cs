@@ -1029,7 +1029,11 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
         {
-            var interactButton = new UnitButton(_gameObjectContentStorage);
+            var buttonPosition = target.Position - new Vector2(64, 64);
+            var interactButton = new UnitButton(target, _gameObjectContentStorage)
+            {
+                Rect = new Rectangle(buttonPosition.ToPoint(), new Point(128, 64))
+            };
 
             interactButton.OnClick += (_, _) =>
             {
@@ -1041,6 +1045,16 @@ namespace Rpg.Client.GameScreens.Combat
                 _interactionButtons.Clear();
                 _interactButtonClicked = true;
                 _combat.UseSkill(skillCard, target.CombatUnit);
+            };
+
+            interactButton.OnHover += (_, _) =>
+            {
+                target.Graphics.OutlineMode = OutlineMode.SelectedEnemyTarget;
+            };
+
+            interactButton.OnLeave += (_, _) =>
+            {
+                target.Graphics.OutlineMode = OutlineMode.None;
             };
 
             _interactionButtons.Add(interactButton);
