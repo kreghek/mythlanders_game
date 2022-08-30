@@ -14,6 +14,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
+        protected override Point CalcTextureOffset() => Point.Zero;
+
         protected abstract string TitleResourceId { get; }
 
         public virtual void Update(GameTime gameTime) { }

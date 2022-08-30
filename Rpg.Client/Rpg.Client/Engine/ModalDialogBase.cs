@@ -6,11 +6,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
 {
-    internal enum ModalTopSymbol
-    {
-        Gears
-    }
-
     internal abstract class ModalDialogBase : IModalWindow
     {
         private const int CLOSE_BUTTON_SIZE = 16;
@@ -48,9 +43,7 @@ namespace Rpg.Client.Engine
                 MODAL_WIDTH,
                 MODAL_HEIGHT);
 
-            _closeButton = new TextButton("X", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont(),
-                new Rectangle(_dialogRect.Right - CLOSE_BUTTON_SIZE - CLOSE_BUTTON_PADDING,
-                    _dialogRect.Top + CLOSE_BUTTON_PADDING, CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE));
+            _closeButton = new TextButton("X");
             _closeButton.OnClick += CloseButton_OnClick;
 
             ContentRect = new Rectangle(
@@ -110,7 +103,7 @@ namespace Rpg.Client.Engine
                 Color.White * 0.5f);
         }
 
-        private int GetOneBasedSymbolIndex(ModalTopSymbol symbol)
+        private static int GetOneBasedSymbolIndex(ModalTopSymbol symbol)
         {
             return symbol switch
             {
@@ -146,6 +139,8 @@ namespace Rpg.Client.Engine
 
             DrawContent(spriteBatch);
 
+            _closeButton.Rect = new Rectangle(_dialogRect.Right - CLOSE_BUTTON_SIZE - CLOSE_BUTTON_PADDING,
+                    _dialogRect.Top + CLOSE_BUTTON_PADDING, CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE);
             _closeButton.Draw(spriteBatch);
         }
 

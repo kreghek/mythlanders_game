@@ -440,8 +440,6 @@ namespace Rpg.Client.GameScreens.Speech
                 }
 
                 var textFragmentControl = new TextFragment(
-                    speechTexture,
-                    _uiContentStorage.GetTitlesFont(),
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
                     _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
@@ -452,8 +450,7 @@ namespace Rpg.Client.GameScreens.Speech
             _optionButtons.Clear();
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
-                var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetSpeechTexture(),
-                    _uiContentStorage.GetTitlesFont());
+                var optionButton = new DialogueOptionButton(option.TextSid);
                 optionButton.OnClick += (_, _) =>
                 {
                     _dialoguePlayer.SelectOption(option);

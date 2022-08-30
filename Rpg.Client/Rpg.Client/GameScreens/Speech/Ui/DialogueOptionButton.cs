@@ -18,7 +18,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             _font = UiThemeManager.UiContentStorage.GetMainFont();
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         public Vector2 GetContentSize()
         {

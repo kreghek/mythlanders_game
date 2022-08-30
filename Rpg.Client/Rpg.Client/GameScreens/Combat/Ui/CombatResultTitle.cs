@@ -52,6 +52,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             };
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }

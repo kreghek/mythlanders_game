@@ -30,7 +30,7 @@ namespace Rpg.Client.Engine
             }
         };
 
-        public abstract Point CalcTextureOffset();
+        protected abstract Point CalcTextureOffset();
 
         public Rectangle Rect { get; set; }
 

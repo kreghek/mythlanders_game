@@ -31,8 +31,7 @@ namespace Rpg.Client.GameScreens.Map.Ui
             _unitSchemeCatalog = unitSchemeCatalog;
             _buttons = new List<ButtonBase>();
 
-            var combatButton = new TextButton(UiResource.ToTheCombatButtonTitle, _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), Rectangle.Empty);
+            var combatButton = new TextButton(UiResource.ToTheCombatButtonTitle);
             combatButton.OnClick += (s, e) =>
             {
                 context.CombatDelegate(context.SelectedNodeGameObject.GlobeNode, context.AvailableEvent);
@@ -89,11 +88,7 @@ namespace Rpg.Client.GameScreens.Map.Ui
 
             if (isAutoCombatAvailable)
             {
-                var autocombatButton = new ResourceTextButton(
-                    nameof(UiResource.AutocombatButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(),
-                    Rectangle.Empty);
+                var autocombatButton = new ResourceTextButton(nameof(UiResource.AutocombatButtonTitle));
 
                 autocombatButton.OnClick += (s, e) =>
                 {

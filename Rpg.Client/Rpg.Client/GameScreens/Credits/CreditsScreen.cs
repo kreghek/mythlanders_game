@@ -28,10 +28,7 @@ namespace Rpg.Client.GameScreens.Credits
 
             _font = _uiContentStorage.GetTitlesFont();
 
-            _backButton = new ResourceTextButton(
-                nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+            _backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
 
             _backButton.OnClick += (_, _) => { ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null); };
         }

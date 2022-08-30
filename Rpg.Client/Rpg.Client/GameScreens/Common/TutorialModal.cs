@@ -17,8 +17,7 @@ namespace Rpg.Client.GameScreens.Common
         {
             _pageDrawer = pageDrawer;
 
-            _skipTutorialButton = new ResourceTextButton(UiResource.SkipTutorialButtonTitle,
-                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            _skipTutorialButton = new ResourceTextButton(nameof(UiResource.SkipTutorialButtonTitle));
             _skipTutorialButton.OnClick += (_, _) =>
             {
                 player.AddPlayerAbility(PlayerAbility.SkipTutorials);

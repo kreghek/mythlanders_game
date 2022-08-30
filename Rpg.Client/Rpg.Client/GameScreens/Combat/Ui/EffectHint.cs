@@ -22,7 +22,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(font).ToArray();
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {

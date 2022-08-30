@@ -35,8 +35,7 @@ namespace Rpg.Client.GameScreens.Party
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
             backButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
@@ -74,8 +73,8 @@ namespace Rpg.Client.GameScreens.Party
 
             if (!_isInitialized)
             {
-                var characters = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
-                foreach (var character in characters)
+                var heroes = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
+                foreach (var hero in heroes)
                 {
                     var resources = new HeroPanelResources
                     (
@@ -88,8 +87,7 @@ namespace Rpg.Client.GameScreens.Party
                         mainFont: _uiContentStorage.GetMainFont()
                     );
 
-                    var panel = new HeroPanel(texture: _uiContentStorage.GetPanelTexture(), character: character,
-                        player: _globeProvider.Globe.Player, resources);
+                    var panel = new HeroPanel(hero, _globeProvider.Globe.Player, resources);
                     _characterPanels.Add(panel);
 
                     panel.SelectCharacter += Panel_SelectCharacter;

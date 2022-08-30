@@ -14,11 +14,10 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         private readonly Speech _speech;
 
-        public TextFragmentMessage(Texture2D texture, SpriteFont font, EventTextFragment eventTextFragment,
-            SoundEffect textSoundEffect, IDice dice) :
-            base(texture)
+        public TextFragmentMessage(EventTextFragment eventTextFragment,
+            SoundEffect textSoundEffect, IDice dice)
         {
-            _font = font;
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
 
             var speechText = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
             _speech = new Speech(speechText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
@@ -42,6 +41,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         {
             _speech.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override Color CalculateColor()
         {

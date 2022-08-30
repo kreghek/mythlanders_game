@@ -13,7 +13,7 @@ namespace Rpg.Client.Engine
                         $"{nameof(IUiSoundStorage)} must load content before assigning in Ui theme manager.");
             set
             {
-                if (_soundStorage?.ContentWasLoaded != true)
+                if (value?.ContentWasLoaded != true)
                 {
                     throw new InvalidOperationException(
                         $"{nameof(IUiSoundStorage)} must load content before assigning in Ui theme manager.");
@@ -29,7 +29,7 @@ namespace Rpg.Client.Engine
                         $"{nameof(IUiSoundStorage)} must load content before assigning in Ui theme manager.");
             set
             {
-                if (_uiContentStorage?.ContentWasLoaded != true)
+                if (value?.ContentWasLoaded != true)
                 {
                     throw new InvalidOperationException(
                         $"{nameof(IUiContentStorage)} must load content before assigning in Ui theme manager.");

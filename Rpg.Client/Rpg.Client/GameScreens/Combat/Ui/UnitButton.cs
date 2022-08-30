@@ -11,11 +11,12 @@ namespace Rpg.Client.GameScreens.Combat.Ui
     {
         private readonly GameObjectContentStorage _gameObjectContentStorage;
 
-        public UnitButton(Texture2D texture, Rectangle rect, GameObjectContentStorage gameObjectContentStorage) : base(
-            texture, rect)
+        public UnitButton(GameObjectContentStorage gameObjectContentStorage)
         {
             _gameObjectContentStorage = gameObjectContentStorage;
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {

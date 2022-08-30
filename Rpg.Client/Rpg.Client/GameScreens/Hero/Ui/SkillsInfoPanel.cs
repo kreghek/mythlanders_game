@@ -20,9 +20,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         private readonly IList<EntityIconButton<ISkill>> _skillList;
 
-        public SkillsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, Texture2D controlTexture,
-            Texture2D skillIconsTexture, SpriteFont mainFont) : base(
-            texture, titleFont)
+        public SkillsInfoPanel(Unit hero, Texture2D skillIconsTexture, SpriteFont mainFont)
         {
             _skillList = new List<EntityIconButton<ISkill>>();
             for (var index = 0; index < hero.Skills.Take(3).Count(); index++)
@@ -33,7 +31,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var iconRect = UnsortedHelpers.GetIconRect(skill.Sid, skillVisualization);
                 var iconData = new IconData(skillIconsTexture, iconRect);
 
-                var skillIconButton = new EntityIconButton<ISkill>(controlTexture, iconData, skill);
+                var skillIconButton = new EntityIconButton<ISkill>(iconData, skill);
                 _skillList.Add(skillIconButton);
 
                 skillIconButton.OnClick += SkillIconButton_OnClick;

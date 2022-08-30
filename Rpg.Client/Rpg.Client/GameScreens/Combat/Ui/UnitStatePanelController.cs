@@ -106,10 +106,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             HandleEffectHint(mouseRect);
         }
 
-        private HintBase CreateEffectHint((Rectangle, EffectBase) effectInfo)
+        private static HintBase CreateEffectHint((Rectangle, EffectBase) effectInfo)
         {
-            return new EffectHint(_uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), effectInfo.Item2)
+            return new EffectHint(effectInfo.Item2)
             {
                 Rect = new Rectangle(effectInfo.Item1.Location, new Point(200, 40))
             };

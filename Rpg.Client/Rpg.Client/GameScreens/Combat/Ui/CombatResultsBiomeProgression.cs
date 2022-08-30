@@ -17,7 +17,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _progression = progression;
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         public void Update()
         {

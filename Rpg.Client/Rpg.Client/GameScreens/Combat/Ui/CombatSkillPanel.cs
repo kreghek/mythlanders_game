@@ -144,8 +144,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_hoverButton is not null && _hoverButton != oldHoverButton && _unit is not null)
             {
-                _activeSkillHint = new SkillHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
-                    _hoverButton.Entity, _unit, _combat);
+                _activeSkillHint = new SkillHint(_hoverButton.Entity, _unit, _combat);
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
@@ -306,7 +305,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         public CombatSkill? SelectedSkill
         {

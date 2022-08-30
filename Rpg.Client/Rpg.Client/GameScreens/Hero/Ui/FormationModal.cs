@@ -88,10 +88,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             var isCharacterInGroup = GetIsCharacterInGroup(character);
             if (isCharacterInGroup)
             {
-                var reserveButton = new ResourceTextButton(
-                    nameof(UiResource.MoveToThePoolButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
+                var reserveButton = new ResourceTextButton(nameof(UiResource.MoveToThePoolButtonTitle));
                 _buttonList.Add(reserveButton);
 
                 reserveButton.OnClick += (_, _) =>
@@ -107,9 +104,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var availableSlots = GetAvailableSlots(freeSlots);
                 foreach (var slot in availableSlots)
                 {
-                    var slotButton = new TextButton(slot.Index.ToString(),
-                        _uiContentStorage.GetButtonTexture(),
-                        _uiContentStorage.GetMainFont());
+                    var slotButton = new TextButton(slot.Index.ToString());
 
                     _buttonList.Add(slotButton);
 

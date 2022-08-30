@@ -15,7 +15,7 @@ namespace Rpg.Client.Engine
 
         public string Text { get; }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {

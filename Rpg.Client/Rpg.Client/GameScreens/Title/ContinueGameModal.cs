@@ -44,11 +44,11 @@ namespace Rpg.Client.GameScreens.Title
             _screenManager = screenManager;
             _screen = screen;
 
-            CreateButtonOnEachSave(uiContentStorage);
+            CreateButtonOnEachSave();
 
-            CreateNewGameButton(uiContentStorage);
+            CreateNewGameButton();
 
-            CreatePageButtons(uiContentStorage);
+            CreatePageButtons();
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -100,7 +100,7 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private void CreateButtonOnEachSave(IUiContentStorage uiContentStorage)
+        private void CreateButtonOnEachSave()
         {
             var saves = _globeProvider.GetSaves().OrderByDescending(x => x.UpdateTime).Skip(_pageIndex * PAGE_SIZE)
                 .Take(PAGE_SIZE).ToArray();
@@ -108,9 +108,7 @@ namespace Rpg.Client.GameScreens.Title
             foreach (var saveInfo in saves)
             {
                 var localSaveTime = saveInfo.UpdateTime.ToLocalTime();
-                var continueGameButton = new TextButton(
-                    $"{saveInfo.PlayerName}{Environment.NewLine}{localSaveTime:f}",
-                    uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+                var continueGameButton = new TextButton($"{saveInfo.PlayerName}{Environment.NewLine}{localSaveTime:f}");
                 continueGameButton.OnClick += (_, _) =>
                 {
                     _globeProvider.LoadGlobe(saveInfo.FileName);
@@ -122,15 +120,14 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private void CreateNewGameButton(IUiContentStorage uiContentStorage)
+        private void CreateNewGameButton()
         {
-            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle),
-                uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            var newGameButton = new ResourceTextButton(nameof(UiResource.StartNewGameButtonTitle));
             newGameButton.OnClick += StartButton_OnClick;
             _continueGameButtons.Add(newGameButton);
         }
 
-        private void CreatePageButtons(IUiContentStorage uiContentStorage)
+        private void CreatePageButtons()
         {
             var saveCount = _globeProvider.GetSaves().Count;
             if (saveCount <= PAGE_SIZE)
@@ -140,41 +137,40 @@ namespace Rpg.Client.GameScreens.Title
 
             var pageCount = Math.Round((float)saveCount / PAGE_SIZE, 0, MidpointRounding.AwayFromZero);
 
-            var upButton = new TextButton("^", uiContentStorage.GetButtonTexture(), uiContentStorage.GetMainFont());
+            var upButton = new TextButton("^");
             upButton.OnClick += (_, _) =>
             {
                 if (_pageIndex > 0)
                 {
                     _pageIndex--;
 
-                    RefreshGameStartButtons(uiContentStorage);
+                    RefreshGameStartButtons();
                 }
             };
 
             _pageButtons.Add(upButton);
 
-            var downButton = new TextButton("v", uiContentStorage.GetButtonTexture(),
-                uiContentStorage.GetMainFont());
+            var downButton = new TextButton("v");
             downButton.OnClick += (_, _) =>
             {
                 if (_pageIndex < pageCount)
                 {
                     _pageIndex++;
 
-                    RefreshGameStartButtons(uiContentStorage);
+                    RefreshGameStartButtons();
                 }
             };
 
             _pageButtons.Add(downButton);
         }
 
-        private void RefreshGameStartButtons(IUiContentStorage uiContentStorage)
+        private void RefreshGameStartButtons()
         {
             _continueGameButtons.Clear();
 
-            CreateButtonOnEachSave(uiContentStorage);
+            CreateButtonOnEachSave();
 
-            CreateNewGameButton(uiContentStorage);
+            CreateNewGameButton();
         }
 
         private void StartButton_OnClick(object? sender, EventArgs e)

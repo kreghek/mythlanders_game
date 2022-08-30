@@ -63,46 +63,28 @@ namespace Rpg.Client.GameScreens.Title
 
             _buttons = new List<ButtonBase>();
 
-            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, buttonFont);
+            var loadGameButton = CreateLoadButtonOrNothing();
             if (loadGameButton is not null)
             {
                 _buttons.Add(loadGameButton);
             }
             else
             {
-                var startButton = new ResourceTextButton(
-                    nameof(UiResource.PlayGameButtonTitle),
-                    buttonTexture,
-                    buttonFont,
-                    Rectangle.Empty);
+                var startButton = new ResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
                 startButton.OnClick += StartButton_OnClick;
 
                 _buttons.Add(startButton);
             }
 
-            var settingsButton = new ResourceTextButton(
-                nameof(UiResource.SettingsButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty);
+            var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle));
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
 
-            var creditsButton = new ResourceTextButton(
-                nameof(UiResource.CreditsButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty
-            );
+            var creditsButton = new ResourceTextButton(nameof(UiResource.CreditsButtonTitle));
             creditsButton.OnClick += CreditsButton_OnClick;
             _buttons.Add(creditsButton);
 
-            var exitGameButton = new ResourceTextButton(
-                nameof(UiResource.ExitGameButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty
-            );
+            var exitGameButton = new ResourceTextButton(nameof(UiResource.ExitGameButtonTitle));
             exitGameButton.OnClick += (_, _) =>
             {
                 game.Exit();
@@ -241,7 +223,7 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase? CreateLoadButtonOrNothing()
         {
             if (!_globeProvider.CheckSavesExist())
             {
@@ -253,11 +235,7 @@ namespace Rpg.Client.GameScreens.Title
                 return null;
             }
 
-            var loadGameButton = new ResourceTextButton(
-                nameof(UiResource.PlayGameButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle(0, 0, 100, 25));
+            var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
 
             loadGameButton.OnClick += (_, _) =>
             {

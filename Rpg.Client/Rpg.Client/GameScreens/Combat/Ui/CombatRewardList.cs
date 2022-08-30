@@ -117,6 +117,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
 
-        public override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }
