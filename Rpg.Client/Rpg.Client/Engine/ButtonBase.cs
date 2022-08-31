@@ -9,6 +9,11 @@ namespace Rpg.Client.Engine
     {
         protected UiButtonState _buttonState;
 
+        protected ButtonBase()
+        {
+            _buttonState = UiButtonState.OutOfButton;
+        }
+
         public bool IsEnabled { get; set; } = true;
 
         public void Click()
