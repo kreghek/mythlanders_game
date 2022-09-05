@@ -7,8 +7,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map.GameObjects;
@@ -73,62 +75,73 @@ namespace Rpg.Client.GameScreens.Map
         {
             clearScreenHandlersDelegate?.Invoke();
 
-            if (availableEvent is not null)
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
             {
-                availableEvent.Counter++;
-
-                if (availableEvent.BeforeCombatStartNodeSid is not null)
+                CampaignStage = new CampaignStage
                 {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
+                    Items = new ICampaignStageItem[]
                     {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+                        new CombatStageItem(node, node.AssignedCombats)
                     }
-
-                    var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
-                    {
-                        Location = node,
-                        CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
-                        NextCombats = node.AssignedCombats,
-                        CombatVictoryDialogue = combatVictoryDialogue,
-                        IsStartDialogueEvent = availableEvent.IsGameStart
-                    };
-
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
                 }
-                else
-                {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
-                    {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
-                    }
+            });
 
-                    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                    {
-                        Location = node,
-                        CombatSequence = node.AssignedCombats,
-                        IsAutoplay = autoCombat,
-                        VictoryDialogue = combatVictoryDialogue
-                    };
+            //if (availableEvent is not null)
+            //{
+            //    availableEvent.Counter++;
 
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-                }
-            }
-            else
-            {
-                if (node.AssignedCombats is null)
-                {
-                    throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
-                }
+            //    if (availableEvent.BeforeCombatStartNodeSid is not null)
+            //    {
+            //        Dialogue? combatVictoryDialogue = null;
+            //        if (availableEvent.AfterCombatStartNodeSid is not null)
+            //        {
+            //            combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+            //        }
 
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                {
-                    Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
-                };
+            //        var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
+            //        {
+            //            Location = node,
+            //            CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
+            //            NextCombats = node.AssignedCombats,
+            //            CombatVictoryDialogue = combatVictoryDialogue,
+            //            IsStartDialogueEvent = availableEvent.IsGameStart
+            //        };
 
-                screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-            }
+            //        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
+            //    }
+            //    else
+            //    {
+            //        Dialogue? combatVictoryDialogue = null;
+            //        if (availableEvent.AfterCombatStartNodeSid is not null)
+            //        {
+            //            combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+            //        }
+
+            //        var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+            //        {
+            //            Location = node,
+            //            CombatSequence = node.AssignedCombats,
+            //            IsAutoplay = autoCombat,
+            //            VictoryDialogue = combatVictoryDialogue
+            //        };
+
+            //        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+            //    }
+            //}
+            //else
+            //{
+            //    if (node.AssignedCombats is null)
+            //    {
+            //        throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
+            //    }
+
+            //    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+            //    {
+            //        Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
+            //    };
+
+            //    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+            //}
         }
 
         protected override IList<ButtonBase> CreateMenu()

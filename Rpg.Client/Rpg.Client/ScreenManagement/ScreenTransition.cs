@@ -4,6 +4,7 @@
     {
         Title,
         Map,
+        Campaign,
         Party,
         Event,
         Combat,

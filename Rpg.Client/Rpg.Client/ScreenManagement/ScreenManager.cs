@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
@@ -106,6 +107,8 @@ namespace Rpg.Client.ScreenManagement
             {
                 ScreenTransition.Title => new TitleScreen(_game),
                 ScreenTransition.Map => new MapScreen(_game),
+                ScreenTransition.Campaign => new CampaignScreen(_game,
+                    (CampaignScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => new SpeechScreen(_game,
