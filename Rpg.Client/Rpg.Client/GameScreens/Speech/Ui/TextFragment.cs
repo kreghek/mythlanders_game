@@ -21,13 +21,15 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         private readonly Texture2D _portraitsTexture;
         private readonly UnitName _speaker;
 
-        public TextFragment(EventTextFragment eventTextFragment, Texture2D portraitsTexture, SoundEffect textSoundEffect, IDice dice)
+        public TextFragment(EventTextFragment eventTextFragment, Texture2D portraitsTexture,
+            SoundEffect textSoundEffect, IDice dice)
         {
             _font = UiThemeManager.UiContentStorage.GetMainFont();
             _portraitsTexture = portraitsTexture;
             _speaker = eventTextFragment.Speaker;
             _localizedSpeakerName = GetSpeaker(_speaker);
-            _message = new TextFragmentMessage(eventTextFragment, textSoundEffect, dice, _speaker != UnitName.Environment);
+            _message = new TextFragmentMessage(eventTextFragment, textSoundEffect, dice,
+                _speaker != UnitName.Environment);
         }
 
         public bool IsComplete => _message.IsComplete;
@@ -52,6 +54,11 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         public void Update(GameTime gameTime)
         {
             _message.Update(gameTime);
+        }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
         }
 
         protected override Color CalculateColor()
@@ -109,7 +116,5 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
             return GameObjectHelper.GetLocalized(speaker);
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }

@@ -30,8 +30,6 @@ namespace Rpg.Client.Engine
             }
         };
 
-        protected abstract Point CalcTextureOffset();
-
         public Rectangle Rect { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -48,6 +46,8 @@ namespace Rpg.Client.Engine
 
             DrawContent(spriteBatch, contentRect, color);
         }
+
+        protected abstract Point CalcTextureOffset();
 
         protected abstract Color CalculateColor();
 

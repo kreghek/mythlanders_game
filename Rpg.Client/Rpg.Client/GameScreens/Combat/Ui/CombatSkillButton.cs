@@ -24,7 +24,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _skillPanelState = skillPanelState;
         }
 
-        protected override Point CalcTextureOffset() => ControlTextures.Skill;
+        protected override Point CalcTextureOffset()
+        {
+            return ControlTextures.Skill;
+        }
 
         protected override Color CalculateColor()
         {

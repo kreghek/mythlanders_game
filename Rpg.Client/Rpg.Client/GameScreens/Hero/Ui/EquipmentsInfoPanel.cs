@@ -54,6 +54,11 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -238,7 +243,5 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 _equipmentButtons.Add(equipmentIconButton);
             }
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }

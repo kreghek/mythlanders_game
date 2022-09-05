@@ -18,16 +18,20 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
+        public Vector2 GetContentSize()
+        {
+            var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
+            return textSize;
+        }
+
         protected override Point CalcTextureOffset()
         {
             if (_buttonState == UiButtonState.Hover || _buttonState == UiButtonState.Pressed)
             {
                 return ControlTextures.OptionHover;
             }
-            else
-            {
-                return ControlTextures.OptionNormal;
-            }
+
+            return ControlTextures.OptionNormal;
         }
 
         protected Color CalculateTextColor()
@@ -36,16 +40,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             {
                 return Color.Wheat;
             }
-            else
-            {
-                return Color.SaddleBrown;
-            }
-        }
 
-        public Vector2 GetContentSize()
-        {
-            var textSize = _font.MeasureString(_optionText) + new Vector2(MARGIN * 2, MARGIN * 2);
-            return textSize;
+            return Color.SaddleBrown;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)

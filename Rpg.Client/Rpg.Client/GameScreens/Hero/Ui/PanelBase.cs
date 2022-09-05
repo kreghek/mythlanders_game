@@ -14,11 +14,14 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
-
         protected abstract string TitleResourceId { get; }
 
         public virtual void Update(GameTime gameTime) { }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {

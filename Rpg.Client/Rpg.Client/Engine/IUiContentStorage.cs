@@ -14,11 +14,11 @@ namespace Rpg.Client.Engine
 
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonIndicatorsTexture();
-        Texture2D GetControlBackgroundTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
         IReadOnlyCollection<CombatSoundtrack> GetCombatSongs(BiomeType currentBiome);
+        Texture2D GetControlBackgroundTexture();
         Texture2D GetCursorsTexture();
         Song GetDefeatSong();
         Texture2D GetDisabledTexture();

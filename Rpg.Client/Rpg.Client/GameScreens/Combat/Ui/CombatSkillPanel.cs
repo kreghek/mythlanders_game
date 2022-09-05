@@ -59,6 +59,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         public bool IsEnabled { get; set; }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -304,8 +309,6 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 button.OnClick += CombatPowerButton_OnClick;
             }
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
 
         public CombatSkill? SelectedSkill
         {

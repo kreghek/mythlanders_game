@@ -16,7 +16,10 @@ namespace Rpg.Client.Engine
             _font = UiThemeManager.UiContentStorage.GetMainFont();
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {

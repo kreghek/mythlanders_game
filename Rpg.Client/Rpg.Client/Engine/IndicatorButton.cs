@@ -22,7 +22,10 @@ namespace Rpg.Client.Engine
 
         public Func<bool>? IndicatingSelector { get; set; }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {

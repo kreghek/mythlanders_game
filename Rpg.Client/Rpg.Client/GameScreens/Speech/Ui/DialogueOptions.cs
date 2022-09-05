@@ -11,29 +11,20 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal class DialogueOptions : ControlBase
     {
+        private const int OPTION_BUTTON_MARGIN = 5;
+
         public DialogueOptions()
         {
             Options = new List<DialogueOptionButton>();
         }
 
-        protected override Point CalcTextureOffset() => ControlTextures.PanelBlack;
+        public IList<DialogueOptionButton> Options { get; }
 
-        protected override Color CalculateColor() => Color.White;
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+        public int GetHeight()
         {
-            var lastTopButtonPosition = 0;
-            foreach (var button in Options)
-            {
-                var optionButtonSize = CalcOptionButtonSize(button);
-                var optionPosition = new Vector2(OPTION_BUTTON_MARGIN + contentRect.Left, lastTopButtonPosition + contentRect.Top).ToPoint();
+            var sumOptionHeight = Options.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
 
-                button.Rect = new Rectangle(optionPosition, optionButtonSize + new Point(1000, 0));
-
-                button.Draw(spriteBatch);
-
-                lastTopButtonPosition += optionButtonSize.Y;
-            }
+            return sumOptionHeight;
         }
 
         public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
@@ -44,15 +35,31 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             }
         }
 
-        public IList<DialogueOptionButton> Options { get; }
-
-        private const int OPTION_BUTTON_MARGIN = 5;
-
-        public int GetHeight()
+        protected override Point CalcTextureOffset()
         {
-            var sumOptionHeight = Options.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
+            return ControlTextures.PanelBlack;
+        }
 
-            return sumOptionHeight;
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
+
+        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
+        {
+            var lastTopButtonPosition = 0;
+            foreach (var button in Options)
+            {
+                var optionButtonSize = CalcOptionButtonSize(button);
+                var optionPosition = new Vector2(OPTION_BUTTON_MARGIN + contentRect.Left,
+                    lastTopButtonPosition + contentRect.Top).ToPoint();
+
+                button.Rect = new Rectangle(optionPosition, optionButtonSize + new Point(1000, 0));
+
+                button.Draw(spriteBatch);
+
+                lastTopButtonPosition += optionButtonSize.Y;
+            }
         }
 
         private static Point CalcOptionButtonSize(DialogueOptionButton button)

@@ -38,6 +38,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             }
         }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -116,7 +121,5 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             return new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }

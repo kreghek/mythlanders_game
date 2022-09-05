@@ -17,11 +17,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _progression = progression;
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
-
         public void Update()
         {
             _progression.Update();
+        }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
         }
 
         protected override Color CalculateColor()

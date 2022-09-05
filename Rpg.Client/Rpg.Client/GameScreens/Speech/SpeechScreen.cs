@@ -33,6 +33,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
         private readonly CombatScreenTransitionArguments? _combatScreenArgs;
+        private readonly DialogueOptions _dialogueOptions;
         private readonly DialoguePlayer _dialoguePlayer;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -42,7 +43,6 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeNode _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly bool _isFirstDialogue;
-        private readonly DialogueOptions _dialogueOptions;
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
@@ -389,7 +389,9 @@ namespace Rpg.Client.GameScreens.Speech
                 const int OPTION_BUTTON_MARGIN = 5;
                 var lastTopButtonPosition = _textFragments[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
 
-                _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition, contentRectangle.Width - PORTRAIT_SIZE + 100, contentRectangle.Height - lastTopButtonPosition + 100);
+                _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition,
+                    contentRectangle.Width - PORTRAIT_SIZE + 100,
+                    contentRectangle.Height - lastTopButtonPosition + 100);
                 _dialogueOptions.Draw(spriteBatch);
             }
 
