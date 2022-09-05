@@ -75,7 +75,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipment = equipmentButton.Entity;
                 var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
                 var entityInfoText = string.Format(UiResource.EquipmentTitleTemplate, entityNameText, equipment.Level);
-                
+
                 spriteBatch.DrawString(mainFont, entityInfoText,
                     equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
 

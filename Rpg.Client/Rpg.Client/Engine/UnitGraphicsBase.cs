@@ -170,7 +170,7 @@ namespace Rpg.Client.Engine
         {
             _currentAnimationFrameSet.Update(gameTime);
 
-            foreach(var sprite in _sprites)
+            foreach (var sprite in _sprites)
             {
                 sprite.SourceRectangle = _currentAnimationFrameSet.GetFrameRect();
             }
