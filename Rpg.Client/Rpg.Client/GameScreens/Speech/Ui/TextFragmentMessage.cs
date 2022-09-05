@@ -11,9 +11,9 @@ namespace Rpg.Client.GameScreens.Speech.Ui
     internal sealed class TextFragmentMessage : ControlBase
     {
         private readonly SpriteFont _font;
+        private readonly bool _isCharacterSpeech;
 
         private readonly Speech _speech;
-        private readonly bool _isCharacterSpeech;
 
         public TextFragmentMessage(EventTextFragment eventTextFragment,
             SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
@@ -50,10 +50,8 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             {
                 return ControlTextures.Speech;
             }
-            else
-            {
-                return ControlTextures.Shadow;
-            }
+
+            return ControlTextures.Shadow;
         }
 
         protected override Color CalculateColor()

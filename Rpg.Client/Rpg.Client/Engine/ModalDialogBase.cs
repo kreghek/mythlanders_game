@@ -140,7 +140,7 @@ namespace Rpg.Client.Engine
             DrawContent(spriteBatch);
 
             _closeButton.Rect = new Rectangle(_dialogRect.Right - CLOSE_BUTTON_SIZE - CLOSE_BUTTON_PADDING,
-                    _dialogRect.Top + CLOSE_BUTTON_PADDING, CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE);
+                _dialogRect.Top + CLOSE_BUTTON_PADDING, CLOSE_BUTTON_SIZE, CLOSE_BUTTON_SIZE);
             _closeButton.Draw(spriteBatch);
         }
 

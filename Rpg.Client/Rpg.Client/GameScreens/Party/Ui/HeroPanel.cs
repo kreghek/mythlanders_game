@@ -50,6 +50,11 @@ namespace Rpg.Client.GameScreens.Party.Ui
             _infoButton.Update(resolutionIndependentRenderer);
         }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -115,8 +120,6 @@ namespace Rpg.Client.GameScreens.Party.Ui
                 equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
 
         public event EventHandler<SelectHeroEventArgs>? SelectCharacter;
     }

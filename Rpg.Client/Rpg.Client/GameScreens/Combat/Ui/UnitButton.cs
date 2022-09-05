@@ -19,7 +19,10 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _gameObjectContentStorage = gameObjectContentStorage;
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {

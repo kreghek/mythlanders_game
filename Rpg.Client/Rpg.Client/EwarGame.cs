@@ -144,14 +144,6 @@ namespace Rpg.Client
             Mouse.SetCursor(MouseCursor.FromTexture2D(uiContentStorage.GetCursorsTexture(), 1, 1));
         }
 
-        private void InitUiThemeManager()
-        {
-            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
-            var uiContentStorage = Services.GetService<IUiContentStorage>();
-            UiThemeManager.SoundStorage = uiSoundStorage;
-            UiThemeManager.UiContentStorage = uiContentStorage;
-        }
-
         protected override void Update(GameTime gameTime)
         {
             if (_screenManager is null)
@@ -196,6 +188,14 @@ namespace Rpg.Client
             _camera.Zoom = 1f;
             _camera.Position = _resolutionIndependence.VirtualBounds.Center.ToVector2();
             _camera.RecalculateTransformationMatrices();
+        }
+
+        private void InitUiThemeManager()
+        {
+            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            UiThemeManager.SoundStorage = uiSoundStorage;
+            UiThemeManager.UiContentStorage = uiContentStorage;
         }
 
         private void LogGameVersion()

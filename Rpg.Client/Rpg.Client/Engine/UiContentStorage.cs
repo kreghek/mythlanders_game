@@ -13,15 +13,13 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
-        public bool ContentWasLoaded { get; private set; }
-
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
-        private Texture2D? _controlBackgroundTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatPowerIconTextres;
         private Texture2D _combatSkillPanelTextre;
         private CombatSoundtrack[] _combatTracks;
+        private Texture2D? _controlBackgroundTexture;
         private Texture2D _cursonTextures;
         private Song _defeatTrack;
         private Texture2D _effectIconsTexture;
@@ -41,6 +39,11 @@ namespace Rpg.Client.Engine
         private Song _titleTrack;
         private Texture2D _unitPanelTexture;
         private Song _victoryTrack;
+
+        public Texture2D GetEnvSpeechTexture()
+        {
+            return _modalShadowTexture ?? throw new InvalidOperationException();
+        }
 
         private static string GetLanguageKey()
         {
@@ -77,6 +80,8 @@ namespace Rpg.Client.Engine
             return fontDict[languageKey];
         }
 
+        public bool ContentWasLoaded { get; private set; }
+
         public Texture2D GetCursorsTexture()
         {
             return _cursonTextures;
@@ -90,11 +95,6 @@ namespace Rpg.Client.Engine
         public Texture2D GetEffectIconsTexture()
         {
             return _effectIconsTexture;
-        }
-
-        public Texture2D GetEnvSpeechTexture()
-        {
-            return _modalShadowTexture ?? throw new InvalidOperationException();
         }
 
         public SpriteFont GetMainFont()

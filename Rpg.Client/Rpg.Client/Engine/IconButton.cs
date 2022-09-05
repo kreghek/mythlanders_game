@@ -19,7 +19,10 @@ namespace Rpg.Client.Engine
             _iconRect = iconData.SourceRect;
         }
 
-        protected override Point CalcTextureOffset() => Point.Zero;
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {

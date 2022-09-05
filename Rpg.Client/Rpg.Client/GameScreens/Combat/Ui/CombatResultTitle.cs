@@ -18,6 +18,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             _combatResult = combatResult;
         }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -51,7 +56,5 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 _ => throw new ArgumentOutOfRangeException(nameof(combatResult), combatResult, null)
             };
         }
-
-        protected override Point CalcTextureOffset() => Point.Zero;
     }
 }

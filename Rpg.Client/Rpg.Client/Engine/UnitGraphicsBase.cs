@@ -29,10 +29,10 @@ namespace Rpg.Client.Engine
 
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
-        protected Vector2 _position;
         private Sprite[] _outlines;
+        protected Vector2 _position;
 
-        public OutlineMode OutlineMode { get; set; }
+        private Sprite[] _sprites;
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
@@ -50,6 +50,8 @@ namespace Rpg.Client.Engine
 
             PlayAnimation(PredefinedAnimationSid.Idle);
         }
+
+        public OutlineMode OutlineMode { get; set; }
 
         public SpriteContainer Root { get; private set; }
 
@@ -128,7 +130,8 @@ namespace Rpg.Client.Engine
             var outlineLength = 2;
             _outlines = Enumerable.Range(0, outlineCount).Select(x => CreateSprite(
                 unitScheme,
-                new Vector2((float)Math.Cos(Math.PI * 2 / outlineCount * x), (float)Math.Sin(Math.PI * 2 / outlineCount * x)) * outlineLength,
+                new Vector2((float)Math.Cos(Math.PI * 2 / outlineCount * x),
+                    (float)Math.Sin(Math.PI * 2 / outlineCount * x)) * outlineLength,
                 Color.Red)
             ).ToArray();
 
@@ -146,8 +149,6 @@ namespace Rpg.Client.Engine
 
             _sprites = sprites.ToArray();
         }
-
-        private Sprite[] _sprites;
 
         private Sprite CreateSprite(UnitScheme unitScheme, Vector2 offset, Color baseColor)
         {
