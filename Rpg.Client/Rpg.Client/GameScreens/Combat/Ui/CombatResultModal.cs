@@ -30,26 +30,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
             CombatRewards combatRewards) : base(uiContentStorage, resolutionIndependentRenderer)
         {
             CombatResult = combatResult;
-            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle),
-                uiContentStorage.GetButtonTexture(),
-                uiContentStorage.GetMainFont());
+            _closeButton = new ResourceTextButton(nameof(UiResource.CloseButtonTitle));
             _closeButton.OnClick += CloseButton_OnClick;
 
-            _title = new CombatResultTitle(uiContentStorage.GetButtonTexture(), uiContentStorage.GetTitlesFont(),
-                combatResult);
+            _title = new CombatResultTitle(combatResult);
 
             var biomeProgress = new AnimatedCountableUnitItemStat(combatRewards.BiomeProgress);
 
-            _biomeProgression = new CombatResultsBiomeProgression(uiContentStorage.GetButtonTexture(),
-                uiContentStorage.GetMainFont(),
-                biomeProgress);
+            _biomeProgression = new CombatResultsBiomeProgression(biomeProgress);
 
             var resourceRewards = combatRewards.InventoryRewards.Select(x => new AnimatedCountableUnitItemStat(x))
                 .ToArray();
 
-            _combatRewardList = new CombatRewardList(uiContentStorage.GetButtonTexture(),
-                uiContentStorage.GetTitlesFont(),
-                uiContentStorage.GetMainFont(),
+            _combatRewardList = new CombatRewardList(
                 gameObjectContentStorage.GetEquipmentIcons(),
                 resourceRewards
             );

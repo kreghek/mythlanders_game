@@ -136,8 +136,7 @@ namespace Rpg.Client.GameScreens.Map
             var menuButtons = new List<ButtonBase>();
 
             var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
+                _uiContentStorage.GetButtonIndicatorsTexture());
             partyModalButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party, null);
@@ -162,9 +161,7 @@ namespace Rpg.Client.GameScreens.Map
 
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
+                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
                 bestiaryButton.OnClick += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, null);
@@ -284,10 +281,7 @@ namespace Rpg.Client.GameScreens.Map
             sb.AppendLine(combatSequenceSizeText);
             sb.AppendLine(rewards);
 
-            var hint = new TextHint(
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(),
-                sb.ToString());
+            var hint = new TextHint(sb.ToString());
             return hint;
         }
 

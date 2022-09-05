@@ -19,8 +19,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
         private readonly SpriteFont _nameFont;
         private readonly Texture2D _portraitTexture;
 
-        public HeroPanel(Texture2D texture, Unit character, Player player,
-            HeroPanelResources characterPanelResources) : base(texture)
+        public HeroPanel(Unit character, Player player,
+            HeroPanelResources characterPanelResources)
         {
             _character = character;
             _portraitTexture = characterPanelResources.PortraitTexture;
@@ -28,7 +28,6 @@ namespace Rpg.Client.GameScreens.Party.Ui
             _mainFont = characterPanelResources.MainFont;
 
             var infoButton = new IndicatorTextButton(nameof(UiResource.InfoButtonTitle),
-                characterPanelResources.ButtonTexture, characterPanelResources.ButtonFont,
                 characterPanelResources.IndicatorsTexture);
             infoButton.OnClick += (_, _) =>
             {
@@ -116,6 +115,8 @@ namespace Rpg.Client.GameScreens.Party.Ui
                 equipment.RequiredResourceAmountToLevelUp <= player.Inventory.Single(resource =>
                     resource.Type == equipment.Scheme.RequiredResourceToLevelUp).Amount);
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         public event EventHandler<SelectHeroEventArgs>? SelectCharacter;
     }

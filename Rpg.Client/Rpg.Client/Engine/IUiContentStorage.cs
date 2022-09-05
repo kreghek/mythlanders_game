@@ -10,9 +10,11 @@ namespace Rpg.Client.Engine
 {
     internal interface IUiContentStorage
     {
+        bool ContentWasLoaded { get; }
+
         Texture2D GetBiomeBackground(BiomeType type);
         Texture2D GetButtonIndicatorsTexture();
-        Texture2D GetButtonTexture();
+        Texture2D GetControlBackgroundTexture();
         SpriteFont GetCombatIndicatorFont();
         Texture2D GetCombatPowerIconsTexture();
         Texture2D GetCombatSkillPanelTexture();
@@ -22,7 +24,6 @@ namespace Rpg.Client.Engine
         Texture2D GetDisabledTexture();
 
         Texture2D GetEffectIconsTexture();
-        Texture2D GetEnvSpeechTexture();
         Texture2D GetEquipmentTextures();
         Song GetIntroSong();
         Texture2D[] GetIntroVideo();
@@ -33,11 +34,7 @@ namespace Rpg.Client.Engine
         Texture2D GetModalShadowTexture();
         Texture2D GetModalTopSymbolTextures();
         Texture2D[] GetModalTopTextures();
-        Texture2D GetPanelTexture();
-        Texture2D GetSkillButtonTexture();
-
         Texture2D GetSocialTexture();
-        Texture2D GetSpeechTexture();
         Texture2D GetTitleBackgroundTexture();
         SpriteFont GetTitlesFont();
         Song GetTitleSong();

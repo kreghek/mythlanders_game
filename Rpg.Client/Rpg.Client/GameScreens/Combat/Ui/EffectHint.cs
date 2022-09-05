@@ -15,12 +15,14 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly EffectBase _effect;
         private readonly ISkillEffectDrawer[] _effectDrawers;
 
-        public EffectHint(Texture2D texture, SpriteFont font, EffectBase effect) :
-            base(texture)
+        public EffectHint(EffectBase effect)
         {
+            var font = UiThemeManager.UiContentStorage.GetMainFont();
             _effect = effect;
             _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(font).ToArray();
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
         {

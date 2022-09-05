@@ -13,9 +13,11 @@ namespace Rpg.Client.Engine
 {
     internal sealed class UiContentStorage : IUiContentStorage
     {
+        public bool ContentWasLoaded { get; private set; }
+
         private IDictionary<BiomeType, Texture2D> _biomeBackgroundDict;
         private Texture2D _buttonIndicatorsTexture;
-        private Texture2D? _buttonTexture;
+        private Texture2D? _controlBackgroundTexture;
         private IDictionary<string, SpriteFont> _combatIndicatorFonts;
         private Texture2D _combatPowerIconTextres;
         private Texture2D _combatSkillPanelTextre;
@@ -33,10 +35,7 @@ namespace Rpg.Client.Engine
         private Texture2D _modalShadowTexture;
         private Texture2D _modalsTopSymbolTexture;
         private Texture2D[] _modalTopTextures;
-        private Texture2D? _panelTexture;
-        private Texture2D _skillButtonTexture;
         private Texture2D _socialTexture;
-        private Texture2D _speechTexture;
         private Texture2D _titleBackgroundTexture;
         private IDictionary<string, SpriteFont> _titlesFonts;
         private Song _titleTrack;
@@ -83,29 +82,14 @@ namespace Rpg.Client.Engine
             return _cursonTextures;
         }
 
-        public Texture2D GetButtonTexture()
+        public Texture2D GetControlBackgroundTexture()
         {
-            return _buttonTexture;
+            return _controlBackgroundTexture;
         }
 
         public Texture2D GetEffectIconsTexture()
         {
             return _effectIconsTexture;
-        }
-
-        public Texture2D GetSkillButtonTexture()
-        {
-            return _skillButtonTexture;
-        }
-
-        public Texture2D GetPanelTexture()
-        {
-            return _panelTexture;
-        }
-
-        public Texture2D GetSpeechTexture()
-        {
-            return _speechTexture;
         }
 
         public Texture2D GetEnvSpeechTexture()
@@ -163,10 +147,8 @@ namespace Rpg.Client.Engine
         {
             _logoTexture = contentManager.Load<Texture2D>("Sprites/Ui/GameLogo");
             _socialTexture = contentManager.Load<Texture2D>("Sprites/Ui/Social");
-            _buttonTexture = contentManager.Load<Texture2D>("Sprites/Ui/Button");
-            _skillButtonTexture = contentManager.Load<Texture2D>("Sprites/Ui/SkillButton");
-            _panelTexture = contentManager.Load<Texture2D>("Sprites/Ui/Panel");
-            _speechTexture = contentManager.Load<Texture2D>("Sprites/Ui/Speech");
+            _controlBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/ControlBackgrounds");
+
             _mainFonts = new Dictionary<string, SpriteFont>
             {
                 { "en", contentManager.Load<SpriteFont>("Fonts/Main") },
@@ -257,6 +239,8 @@ namespace Rpg.Client.Engine
             _cursonTextures = contentManager.Load<Texture2D>("Sprites/Ui/Cursors");
 
             _titleBackgroundTexture = contentManager.Load<Texture2D>("Sprites/Ui/TitleBackground");
+
+            ContentWasLoaded = true;
         }
 
         public Texture2D GetSocialTexture()

@@ -79,8 +79,7 @@ namespace Rpg.Client.ScreenManagement
 
                 if (CreateSettingsButton)
                 {
-                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle),
-                        _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+                    var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle));
                     settingsButton.OnClick += SettingsButton_OnClick;
                     _menuButtons.Add(settingsButton);
                 }

@@ -8,11 +8,13 @@ namespace Rpg.Client.Engine
         private readonly Texture2D _icon;
         private readonly Rectangle? _iconRect;
 
-        public EntityIconButton(Texture2D texture, IconData iconData, T entity) : base(texture, entity)
+        public EntityIconButton(IconData iconData, T entity) : base(entity)
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)
         {

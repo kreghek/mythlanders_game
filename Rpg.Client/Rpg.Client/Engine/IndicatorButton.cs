@@ -13,15 +13,16 @@ namespace Rpg.Client.Engine
 
         private float _counter;
 
-        public IndicatorTextButton(string resourceSid, Texture2D texture, SpriteFont font, Texture2D indicatorsTexture)
-            : base(texture, Rectangle.Empty)
+        public IndicatorTextButton(string resourceSid, Texture2D indicatorsTexture)
         {
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
             _resourceSid = resourceSid;
-            _font = font;
             _indicatorsTexture = indicatorsTexture;
         }
 
         public Func<bool>? IndicatingSelector { get; set; }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         protected override void DrawBackground(SpriteBatch spriteBatch, Color color)
         {

@@ -42,7 +42,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeNode _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly bool _isFirstDialogue;
-        private readonly IList<DialogueOptionButton> _optionButtons;
+        private readonly DialogueOptions _dialogueOptions;
         private readonly Player _player;
         private readonly Random _random;
         private readonly GameSettings _settings;
@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Speech
             _backgroundTexture = new Texture2D(game.GraphicsDevice, 1, 1);
             _backgroundTexture.SetData(data);
 
-            _optionButtons = new List<DialogueOptionButton>();
+            _dialogueOptions = new DialogueOptions();
             _textFragments = new List<TextFragment>();
 
             var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player);
@@ -105,11 +105,11 @@ namespace Rpg.Client.GameScreens.Speech
 
             _settings = game.Services.GetService<GameSettings>();
 
-            var endData = DetectCombatNext(args);
-            _areCombatsNext = endData.areCombatsNext;
+            var (areCombatsNext, combatScreenArgs) = DetectCombatNext(args);
+            _areCombatsNext = areCombatsNext;
             if (_areCombatsNext)
             {
-                _combatScreenArgs = endData.combatScreenArgs;
+                _combatScreenArgs = combatScreenArgs;
             }
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -191,7 +191,7 @@ namespace Rpg.Client.GameScreens.Speech
             AddModal(tutorialModal, isLate: false);
         }
 
-        private (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
+        private static (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
             SpeechScreenTransitionArgs args)
         {
             if (args.NextCombats is not null)
@@ -357,14 +357,6 @@ namespace Rpg.Client.GameScreens.Speech
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
             const int PORTRAIT_SIZE = 256;
-            const int OPTION_BUTTON_MARGIN = 5;
-
-            static Point CalcOptionButtonSize(DialogueOptionButton button)
-            {
-                var contentSize = button.GetContentSize();
-                return (contentSize + Vector2.One * ControlBase.CONTENT_MARGIN + Vector2.UnitY * OPTION_BUTTON_MARGIN)
-                    .ToPoint();
-            }
 
             if (_textFragments.Any())
             {
@@ -373,7 +365,7 @@ namespace Rpg.Client.GameScreens.Speech
                 var textFragmentSize = textFragmentControl.CalculateSize().ToPoint();
 
                 const int SPEECH_MARGIN = 50;
-                var sumOptionHeight = _optionButtons.Sum(x => CalcOptionButtonSize(x).Y) + OPTION_BUTTON_MARGIN;
+                var sumOptionHeight = _dialogueOptions.GetHeight();
                 var fragmentHeight = textFragmentSize.Y + SPEECH_MARGIN + sumOptionHeight;
                 var fragmentPosition = new Point(PORTRAIT_SIZE, contentRectangle.Bottom - fragmentHeight);
                 textFragmentControl.Rect = new Rectangle(fragmentPosition, textFragmentSize);
@@ -394,16 +386,11 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (_currentFragmentIndex == _textFragments.Count - 1 && _textFragments[_currentFragmentIndex].IsComplete)
             {
+                const int OPTION_BUTTON_MARGIN = 5;
                 var lastTopButtonPosition = _textFragments[_currentFragmentIndex].Rect.Bottom + OPTION_BUTTON_MARGIN;
-                foreach (var button in _optionButtons)
-                {
-                    var optionButtonSize = CalcOptionButtonSize(button);
-                    var optionPosition = new Vector2(PORTRAIT_SIZE, lastTopButtonPosition).ToPoint();
-                    button.Rect = new Rectangle(optionPosition, optionButtonSize);
-                    button.Draw(spriteBatch);
 
-                    lastTopButtonPosition += optionButtonSize.Y;
-                }
+                _dialogueOptions.Rect = new Rectangle(PORTRAIT_SIZE, lastTopButtonPosition, contentRectangle.Width - PORTRAIT_SIZE + 100, contentRectangle.Height - lastTopButtonPosition + 100);
+                _dialogueOptions.Draw(spriteBatch);
             }
 
             spriteBatch.End();
@@ -433,15 +420,14 @@ namespace Rpg.Client.GameScreens.Speech
             _currentFragmentIndex = 0;
             foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
             {
-                var speechTexture = _uiContentStorage.GetSpeechTexture();
+                var textureType = ControlTextures.Speech;
+
                 if (textFragment.Speaker == UnitName.Environment)
                 {
-                    speechTexture = _uiContentStorage.GetEnvSpeechTexture();
+                    textureType = ControlTextures.Shadow;
                 }
 
                 var textFragmentControl = new TextFragment(
-                    speechTexture,
-                    _uiContentStorage.GetTitlesFont(),
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
                     _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
@@ -449,11 +435,10 @@ namespace Rpg.Client.GameScreens.Speech
                 _textFragments.Add(textFragmentControl);
             }
 
-            _optionButtons.Clear();
+            _dialogueOptions.Options.Clear();
             foreach (var option in _dialoguePlayer.CurrentOptions)
             {
-                var optionButton = new DialogueOptionButton(option.TextSid, _uiContentStorage.GetSpeechTexture(),
-                    _uiContentStorage.GetTitlesFont());
+                var optionButton = new DialogueOptionButton(option.TextSid);
                 optionButton.OnClick += (_, _) =>
                 {
                     _dialoguePlayer.SelectOption(option);
@@ -468,7 +453,7 @@ namespace Rpg.Client.GameScreens.Speech
                     }
                 };
 
-                _optionButtons.Add(optionButton);
+                _dialogueOptions.Options.Add(optionButton);
             }
         }
 
@@ -525,10 +510,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             if (_currentFragmentIndex == maxFragmentIndex && _textFragments[_currentFragmentIndex].IsComplete)
             {
-                foreach (var button in _optionButtons)
-                {
-                    button.Update(ResolutionIndependentRenderer);
-                }
+                _dialogueOptions.Update(ResolutionIndependentRenderer);
             }
         }
 

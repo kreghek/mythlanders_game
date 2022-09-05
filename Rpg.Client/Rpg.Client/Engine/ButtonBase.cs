@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Rpg.Client.Engine
@@ -10,9 +9,8 @@ namespace Rpg.Client.Engine
     {
         protected UiButtonState _buttonState;
 
-        protected ButtonBase(Texture2D texture, Rectangle rect) : base(texture)
+        protected ButtonBase()
         {
-            Rect = rect;
             _buttonState = UiButtonState.OutOfButton;
         }
 
@@ -55,6 +53,7 @@ namespace Rpg.Client.Engine
                     if (_buttonState == UiButtonState.OutOfButton)
                     {
                         PlayHoverSoundIfExists();
+                        OnHover?.Invoke(this, EventArgs.Empty);
                     }
 
                     _buttonState = UiButtonState.Hover;
@@ -62,6 +61,11 @@ namespace Rpg.Client.Engine
             }
             else
             {
+                if (_buttonState != UiButtonState.OutOfButton)
+                {
+                    OnLeave?.Invoke(this, EventArgs.Empty);
+                }
+
                 _buttonState = UiButtonState.OutOfButton;
             }
         }
@@ -140,5 +144,7 @@ namespace Rpg.Client.Engine
         }
 
         public event EventHandler? OnClick;
+        public event EventHandler? OnHover;
+        public event EventHandler? OnLeave;
     }
 }

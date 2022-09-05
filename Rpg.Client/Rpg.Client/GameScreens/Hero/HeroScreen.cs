@@ -47,8 +47,7 @@ namespace Rpg.Client.GameScreens.Hero
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
             backButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party, null);
@@ -137,9 +136,7 @@ namespace Rpg.Client.GameScreens.Hero
 
             InitUpgradeButtons(character, player);
 
-            var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+            var slotButton = new ResourceTextButton(nameof(UiResource.FormationButtonTitle));
 
             _buttonList.Add(slotButton);
 
@@ -153,30 +150,18 @@ namespace Rpg.Client.GameScreens.Hero
 
         private void InitContent()
         {
-            _generalInfoPanel = new GeneralInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetMainFont());
+            _generalInfoPanel = new GeneralInfoPanel(_hero);
 
-            _skillsInfoPanel = new SkillsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
+            _skillsInfoPanel = new SkillsInfoPanel(
                 _hero,
-                _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetCombatPowerIconsTexture(),
                 _uiContentStorage.GetMainFont());
 
-            _perkInfoPanel = new PerkInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
-                _hero,
-                _uiContentStorage.GetMainFont());
+            _perkInfoPanel = new PerkInfoPanel(_hero);
 
-            _equipmentPanel = new EquipmentsInfoPanel(_uiContentStorage.GetPanelTexture(),
-                _uiContentStorage.GetTitlesFont(),
+            _equipmentPanel = new EquipmentsInfoPanel(
                 _hero,
-                _uiContentStorage.GetMainFont(),
-                _uiContentStorage.GetButtonTexture(),
                 _uiContentStorage.GetEquipmentTextures(),
-                _uiContentStorage.GetButtonTexture(),
                 _player,
                 ResolutionIndependentRenderer);
 
@@ -189,9 +174,7 @@ namespace Rpg.Client.GameScreens.Hero
             var xpAmount = player.Inventory.Single(x => x.Type == EquipmentItemType.ExperiencePoints).Amount;
             if (xpAmount >= character.LevelUpXpAmount)
             {
-                var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), Rectangle.Empty);
+                var levelUpButton = new ResourceTextButton(nameof(UiResource.LevelUpButtonTitle));
 
                 levelUpButton.OnClick += (_, _) =>
                 {

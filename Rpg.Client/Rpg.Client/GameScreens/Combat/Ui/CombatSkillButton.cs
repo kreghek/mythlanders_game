@@ -15,14 +15,16 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
         private float _counter;
 
-        public CombatSkillButton(Texture2D texture, IconData iconData, T skill,
-            ISkillPanelState skillPanelState) : base(texture, skill)
+        public CombatSkillButton(IconData iconData, T skill,
+            ISkillPanelState skillPanelState) : base(skill)
         {
             _icon = iconData.Spritesheet;
             _iconRect = iconData.SourceRect;
             _skill = skill;
             _skillPanelState = skillPanelState;
         }
+
+        protected override Point CalcTextureOffset() => ControlTextures.Skill;
 
         protected override Color CalculateColor()
         {

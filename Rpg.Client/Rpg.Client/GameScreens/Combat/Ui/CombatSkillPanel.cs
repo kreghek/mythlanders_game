@@ -30,7 +30,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private CombatSkill? _selectedSkill;
         private ICombatUnit? _unit;
 
-        public CombatSkillPanel(Texture2D texture, IUiContentStorage uiContentStorage, ICombat combat) : base(texture)
+        public CombatSkillPanel(IUiContentStorage uiContentStorage, ICombat combat)
         {
             _buttons = new List<EntityButtonBase<CombatSkill>>();
 
@@ -144,8 +144,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
             if (_hoverButton is not null && _hoverButton != oldHoverButton && _unit is not null)
             {
-                _activeSkillHint = new SkillHint(_uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont(),
-                    _hoverButton.Entity, _unit, _combat);
+                _activeSkillHint = new SkillHint(_hoverButton.Entity, _unit, _combat);
             }
             else if (_hoverButton is not null && _hoverButton == oldHoverButton && _unit is not null)
             {
@@ -300,12 +299,13 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 var skillVisualization = ((IVisualizedSkill)card.Skill).Visualization;
                 var iconRect = UnsortedHelpers.GetIconRect(card.Skill.Sid, skillVisualization);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton<CombatSkill>(_uiContentStorage.GetSkillButtonTexture(), iconData,
-                    card, this);
+                var button = new CombatSkillButton<CombatSkill>(iconData, card, this);
                 _buttons.Add(button);
                 button.OnClick += CombatPowerButton_OnClick;
             }
         }
+
+        protected override Point CalcTextureOffset() => Point.Zero;
 
         public CombatSkill? SelectedSkill
         {

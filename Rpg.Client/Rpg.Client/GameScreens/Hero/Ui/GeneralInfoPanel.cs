@@ -5,19 +5,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
     internal class GeneralInfoPanel : PanelBase
     {
-        private readonly Unit _character;
+        private readonly Unit _hero;
         private readonly SpriteFont _mainFont;
 
-        public GeneralInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
-            texture, titleFont)
+        public GeneralInfoPanel(Unit hero)
         {
-            _character = character;
-            _mainFont = mainFont;
+            _hero = hero;
+            _mainFont = UiThemeManager.UiContentStorage.GetMainFont();
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroGeneralInfoTitle);
@@ -29,20 +29,20 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            var unitName = _character.UnitScheme.Name;
+            var unitName = _hero.UnitScheme.Name;
             var name = GameObjectHelper.GetLocalized(unitName);
 
             var sb = new List<string>
             {
                 name,
                 string.Format(UiResource.HitPointsLabelTemplate,
-                    _character.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
+                    _hero.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.ActualMax),
                 string.Format(UiResource.ShieldPointsLabelTemplate,
-                    _character.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
+                    _hero.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.ActualMax),
                 string.Format(UiResource.ManaLabelTemplate, 0,
-                    _character.EnergyPoolSize),
-                string.Format(UiResource.CombatLevelTemplate, _character.Level),
-                string.Format(UiResource.CombatLevelUpTemplate, _character.LevelUpXpAmount)
+                    _hero.EnergyPoolSize),
+                string.Format(UiResource.CombatLevelTemplate, _hero.Level),
+                string.Format(UiResource.CombatLevelUpTemplate, _hero.LevelUpXpAmount)
             };
 
             for (var statIndex = 0; statIndex < sb.Count; statIndex++)

@@ -40,10 +40,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var backButton = new ResourceTextButton(
-                nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
 
             backButton.OnClick += (_, _) =>
             {
@@ -160,8 +157,7 @@ namespace Rpg.Client.GameScreens.Bestiary
                 var unitName = monsterScheme.Name;
                 var name = GameObjectHelper.GetLocalized(unitName);
 
-                var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle());
+                var button = new TextButton(name);
                 button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
                 _buttonList.Add(button);
             }

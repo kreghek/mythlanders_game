@@ -71,11 +71,6 @@ namespace Rpg.Client
             soundtrackComponent.Initialize(soundtrackManager);
             Components.Add(soundtrackComponent);
 
-            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
-            var uiContentStorage = Services.GetService<IUiContentStorage>();
-            UiThemeManager.SoundStorage = uiSoundStorage;
-            UiThemeManager.UiContentStorage = uiContentStorage;
-
             _resolutionIndependence = new ResolutionIndependentRenderer(this);
             Services.AddService(_resolutionIndependence);
 
@@ -126,6 +121,8 @@ namespace Rpg.Client
             var uiSoundStorage = Services.GetService<IUiSoundStorage>();
             uiSoundStorage.LoadContent(Content);
 
+            InitUiThemeManager();
+
             var soundtrackManager = Services.GetService<SoundtrackManager>();
             soundtrackManager.Initialize(uiContentStorage);
 
@@ -145,6 +142,14 @@ namespace Rpg.Client
 #endif
 
             Mouse.SetCursor(MouseCursor.FromTexture2D(uiContentStorage.GetCursorsTexture(), 1, 1));
+        }
+
+        private void InitUiThemeManager()
+        {
+            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            UiThemeManager.SoundStorage = uiSoundStorage;
+            UiThemeManager.UiContentStorage = uiContentStorage;
         }
 
         protected override void Update(GameTime gameTime)

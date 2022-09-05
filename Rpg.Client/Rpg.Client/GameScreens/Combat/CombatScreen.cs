@@ -121,8 +121,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle),
-                _uiContentStorage.GetButtonTexture(), _uiContentStorage.GetMainFont());
+            var surrenderButton = new ResourceTextButton(nameof(UiResource.SurrenderButtonTitle));
             surrenderButton.OnClick += EscapeButton_OnClick;
 
             return new ButtonBase[] { surrenderButton };
@@ -359,7 +358,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void CombatInitialize()
         {
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage.GetButtonTexture(), _uiContentStorage, _combat);
+            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combat);
             _combatSkillsPanel.SkillSelected += CombatSkillsPanel_CardSelected;
             _combat.ActiveCombatUnitChanged += Combat_UnitChanged;
             _combat.CombatUnitIsReadyToControl += Combat_UnitReadyToControl;
@@ -1031,10 +1030,10 @@ namespace Rpg.Client.GameScreens.Combat
         private void InitHudButton(UnitGameObject target, CombatSkill skillCard)
         {
             var buttonPosition = target.Position - new Vector2(64, 64);
-            var interactButton = new UnitButton(
-                _uiContentStorage.GetPanelTexture(),
-                new Rectangle(buttonPosition.ToPoint(), new Point(128, 64)),
-                _gameObjectContentStorage);
+            var interactButton = new UnitButton(target, _gameObjectContentStorage)
+            {
+                Rect = new Rectangle(buttonPosition.ToPoint(), new Point(128, 64))
+            };
 
             interactButton.OnClick += (_, _) =>
             {
@@ -1046,6 +1045,16 @@ namespace Rpg.Client.GameScreens.Combat
                 _interactionButtons.Clear();
                 _interactButtonClicked = true;
                 _combat.UseSkill(skillCard, target.CombatUnit);
+            };
+
+            interactButton.OnHover += (_, _) =>
+            {
+                target.Graphics.OutlineMode = OutlineMode.SelectedEnemyTarget;
+            };
+
+            interactButton.OnLeave += (_, _) =>
+            {
+                target.Graphics.OutlineMode = OutlineMode.None;
             };
 
             _interactionButtons.Add(interactButton);

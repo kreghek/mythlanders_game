@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +10,14 @@ using Rpg.Client.GameScreens;
 
 namespace Rpg.Client.Engine
 {
+    internal enum OutlineMode
+    {
+        None,
+        AvailableEnemyTarget,
+        SelectedEnemyTarget,
+        SelectedAlyTarget
+    }
+
     internal abstract class UnitGraphicsBase
     {
         private const int FRAME_WIDTH = 256;
@@ -20,6 +30,9 @@ namespace Rpg.Client.Engine
         private IAnimationFrameSet _currentAnimationFrameSet = null!;
         private Sprite _graphics;
         protected Vector2 _position;
+        private Sprite[] _outlines;
+
+        public OutlineMode OutlineMode { get; set; }
 
         public UnitGraphicsBase(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage)
         {
@@ -80,6 +93,11 @@ namespace Rpg.Client.Engine
             HandleSelectionMarker();
 
             UpdateAnimation(gameTime);
+
+            foreach (var outline in _outlines)
+            {
+                outline.Visible = OutlineMode != OutlineMode.None;
+            }
         }
 
         protected void InitializeSprites(UnitScheme unitScheme, bool isPlayerSide)
@@ -104,13 +122,42 @@ namespace Rpg.Client.Engine
 
             Root.AddChild(_selectedMarker);
 
-            _graphics = new Sprite(_gameObjectContentStorage.GetUnitGraphics(unitScheme.Name))
+            _graphics = CreateSprite(unitScheme, Vector2.Zero, Color.White);
+
+            var outlineCount = 4;
+            var outlineLength = 2;
+            _outlines = Enumerable.Range(0, outlineCount).Select(x => CreateSprite(
+                unitScheme,
+                new Vector2((float)Math.Cos(Math.PI * 2 / outlineCount * x), (float)Math.Sin(Math.PI * 2 / outlineCount * x)) * outlineLength,
+                Color.Red)
+            ).ToArray();
+
+            var sprites = new List<Sprite>();
+
+            foreach (var outline in _outlines)
+            {
+                outline.Visible = false;
+                sprites.Add(outline);
+                Root.AddChild(outline);
+            }
+
+            Root.AddChild(_graphics);
+            sprites.Add(_graphics);
+
+            _sprites = sprites.ToArray();
+        }
+
+        private Sprite[] _sprites;
+
+        private Sprite CreateSprite(UnitScheme unitScheme, Vector2 offset, Color baseColor)
+        {
+            return new Sprite(_gameObjectContentStorage.GetUnitGraphics(unitScheme.Name))
             {
                 Origin = new Vector2(0.5f, 0.875f),
                 SourceRectangle = new Rectangle(0, 0, FRAME_WIDTH, FRAME_HEIGHT),
-                Position = new Vector2(FRAME_WIDTH * 0.25f, 0)
+                Position = new Vector2(FRAME_WIDTH * 0.25f, 0) + offset,
+                Color = baseColor
             };
-            Root.AddChild(_graphics);
         }
 
         private void HandleSelectionMarker()
@@ -122,7 +169,11 @@ namespace Rpg.Client.Engine
         private void UpdateAnimation(GameTime gameTime)
         {
             _currentAnimationFrameSet.Update(gameTime);
-            _graphics.SourceRectangle = _currentAnimationFrameSet.GetFrameRect();
+
+            foreach(var sprite in _sprites)
+            {
+                sprite.SourceRectangle = _currentAnimationFrameSet.GetFrameRect();
+            }
         }
     }
 }
