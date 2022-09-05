@@ -7,7 +7,6 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-
     internal class LinearMoveToTargetState : IUnitStateEngine
     {
         private const double DURATION_SECONDS = 0.25;
