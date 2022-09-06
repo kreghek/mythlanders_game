@@ -1,9 +1,12 @@
-﻿using Rpg.Client.Core.Dialogues;
+﻿using Rpg.Client.Core.Campaigns;
+using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Core
 {
     internal sealed class GlobeNode
     {
+        public HeroCampaign? Campaign { get; set; }
+
         public CombatSequence? AssignedCombats { get; set; }
         public Event? AssignedEvent { get; private set; }
 

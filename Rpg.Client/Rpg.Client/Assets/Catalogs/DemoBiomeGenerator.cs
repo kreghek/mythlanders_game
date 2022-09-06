@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 
 namespace Rpg.Client.Assets.Catalogs
 {
@@ -130,7 +132,7 @@ namespace Rpg.Client.Assets.Catalogs
             return globeLevel.Level >= 5;
         }
 
-        private static (GlobeNode, bool)[] RollNodesWithCombats(Biome biome, IDice dice,
+        private static (GlobeNode Location, bool IsBoss)[] RollNodesWithCombats(Biome biome, IDice dice,
             IList<GlobeNode> availableNodes, GlobeLevel globeLevel)
         {
             const int COMBAT_UNDER_ATTACK_COUNT = 3;
@@ -168,7 +170,7 @@ namespace Rpg.Client.Assets.Catalogs
                     continue;
                 }
 
-                var nodesWithCombats = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel);
+                var nodesWithCombatTuples = RollNodesWithCombats(biome, _dice, availableNodes, globeLevel);
 
                 var combatCounts = GetCombatSequenceLength(globeLevel.Level);
                 var combatLevelAdditionalList = new[]
@@ -178,28 +180,28 @@ namespace Rpg.Client.Assets.Catalogs
                 var selectedNodeCombatCount = _dice.RollFromList(combatCounts, 3).ToArray();
                 var combatLevelAdditional = 0;
 
-                var combatToTrainingIndex = _dice.RollArrayIndex(nodesWithCombats);
+                var combatToTrainingIndex = _dice.RollArrayIndex(nodesWithCombatTuples);
 
                 var globeContext = new MonsterGenerationGlobeContext(globeLevel, biomes);
 
-                for (var locationIndex = 0; locationIndex < nodesWithCombats.Length; locationIndex++)
+                for (var locationIndex = 0; locationIndex < nodesWithCombatTuples.Length; locationIndex++)
                 {
-                    var selectedNode = nodesWithCombats[locationIndex];
-                    var targetCombatSenquenceLength = selectedNode.Item2 ? 1 : selectedNodeCombatCount[locationIndex];
+                    var selectedNodeTuple = nodesWithCombatTuples[locationIndex];
+                    var targetCombatSenquenceLength = selectedNodeTuple.IsBoss ? 1 : selectedNodeCombatCount[locationIndex];
 
                     var combatLevel = globeLevel.Level + combatLevelAdditionalList[combatLevelAdditional];
                     var combatList = new List<CombatSource>();
                     for (var combatIndex = 0; combatIndex < targetCombatSenquenceLength; combatIndex++)
                     {
                         var units = MonsterGeneratorHelper
-                            .CreateMonsters(selectedNode.Item1, _dice, combatLevel, _unitSchemeCatalog, globeContext)
+                            .CreateMonsters(selectedNodeTuple.Location, _dice, combatLevel, _unitSchemeCatalog, globeContext)
                             .ToArray();
 
                         var combat = new CombatSource
                         {
                             Level = combatLevel,
                             EnemyGroup = new Group(),
-                            IsBossLevel = selectedNode.Item2
+                            IsBossLevel = selectedNodeTuple.IsBoss
                         };
 
                         for (var slotIndex = 0; slotIndex < units.Length; slotIndex++)
@@ -216,7 +218,18 @@ namespace Rpg.Client.Assets.Catalogs
                         Combats = combatList
                     };
 
-                    selectedNode.Item1.AssignedCombats = combatSequence;
+                    var campaign = new HeroCampaign
+                    {
+                        CampaignStages = Enumerable.Range(0, 10).Select(x =>
+                            new CampaignStage
+                            {
+                                Items = Enumerable.Range(0, _dice.Roll(3))
+                                .Select(y => new CombatStageItem(selectedNodeTuple.Location, combatSequence)).ToArray()
+                            }
+                        ).ToArray()
+                    };
+
+                    selectedNodeTuple.Location.AssignedCombats = combatSequence;
 
                     combatLevelAdditional++;
                 }
@@ -237,12 +250,40 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             var startNode = globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == START_AVAILABLE_LOCATION);
+
+            var campaign = new HeroCampaign
+            {
+                CampaignStages = new[]
+                    {
+                        new CampaignStage
+                        {
+                            Items = new ICampaignStageItem[]
+                            {
+                                new CombatStageItem(startNode, combatSequence), new CombatStageItem(startNode, combatSequence)
+                            }
+                        },
+                    new CampaignStage
+                    {
+                        Items = new ICampaignStageItem[]
+                        {
+                            new CombatStageItem(startNode, combatSequence), new CombatStageItem(startNode, combatSequence), new CombatStageItem(startNode, combatSequence)
+                        }
+                    },
+                    new CampaignStage
+                    {
+                        Items = new ICampaignStageItem[]
+                        {
+                            new CombatStageItem(startNode, combatSequence)
+                        }
+                    }
+                }
+            };
+
+            startNode.Campaign = campaign;
+
             startNode.AssignedCombats = combatSequence;
-
             var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
-
             startNode.AssignEvent(startEvent);
-
             var monsterInfos = GetStartMonsterInfoList();
 
             for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
