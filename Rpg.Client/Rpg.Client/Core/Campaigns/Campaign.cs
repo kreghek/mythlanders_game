@@ -5,15 +5,15 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.Core.Campaigns
 {
-    internal sealed class Campaign
+    internal sealed class HeroCampaign
     {
+        public IReadOnlyList<CampaignStage> CampaignStages { get; set; }
+        public int CurrentStageIndex { get; set; }
     }
 
     internal sealed class CampaignStage
     {
         public IReadOnlyList<ICampaignStageItem> Items { get; set; }
-        public bool IsUsed { get; set; }
-
         public string Title { get; set; }
     }
 

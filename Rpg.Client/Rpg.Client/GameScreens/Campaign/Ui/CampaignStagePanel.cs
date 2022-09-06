@@ -14,30 +14,28 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
         private readonly IList<ButtonBase> _buttonList;
         private readonly CampaignStage _campaignStage;
 
-        public CampaignStagePanel(CampaignStage campaignStage, IScreen currentScreen, IScreenManager screenManager)
+        public CampaignStagePanel(CampaignStage campaignStage, IScreen currentScreen, IScreenManager screenManager, bool isActive)
         {
             _campaignStage = campaignStage;
-
             _buttonList = new List<ButtonBase>();
 
-            Init(currentScreen, screenManager, campaignStage.IsUsed);
+            Init(currentScreen, screenManager, isActive);
             
         }
 
-        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isUsed)
+        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
         {
             for (int i = 0; i < _campaignStage.Items.Count; i++)
             {
                 var campaignStageItem = _campaignStage.Items[i];
 
-                var button = new TextButton($"Combat {i + 1}");
+                var button = new TextButton($"Combat {i + 1}" + (isActive ? string.Empty : " (Completed)"));
                 _buttonList.Add(button);
 
-                if (!isUsed)
+                if (isActive)
                 {
                     button.OnClick += (s, e) =>
                     {
-                        _campaignStage.IsUsed = true;
                         campaignStageItem.ExecuteTransition(currentScreen, screenManager);
                     };
                 }
@@ -57,7 +55,13 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             const int STAGE_LABEL_HEIGHT = 20;
             const int WIDTH = 200;
 
-            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), _campaignStage.Title, new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Top + CONTENT_MARGIN), Color.Wheat);
+            spriteBatch.DrawString(
+                UiThemeManager.UiContentStorage.GetMainFont(),
+                _campaignStage.Title,
+                new Vector2(
+                    contentRect.Left + CONTENT_MARGIN, 
+                    contentRect.Top + CONTENT_MARGIN), 
+                Color.Wheat);
 
             var summaryButtonWidth = (WIDTH + CONTENT_MARGIN) * _buttonList.Count + CONTENT_MARGIN;
             var leftOffset = (contentRect.Width - summaryButtonWidth) / 2;
