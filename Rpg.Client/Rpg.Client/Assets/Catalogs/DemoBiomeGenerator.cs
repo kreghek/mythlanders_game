@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
+using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
@@ -251,6 +252,9 @@ namespace Rpg.Client.Assets.Catalogs
 
             var startNode = globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == START_AVAILABLE_LOCATION);
 
+            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
+            var startDialogue = _eventCatalog.GetDialogue(startEvent.BeforeCombatStartNodeSid);
+
             var campaign = new HeroCampaign
             {
                 CampaignStages = new[]
@@ -259,7 +263,7 @@ namespace Rpg.Client.Assets.Catalogs
                         {
                             Items = new ICampaignStageItem[]
                             {
-                                new CombatStageItem(startNode, combatSequence), new CombatStageItem(startNode, combatSequence)
+                                new CombatStageItem(startNode, combatSequence), new DialogueStageItem(startNode, startDialogue)
                             }
                         },
                     new CampaignStage
@@ -282,7 +286,6 @@ namespace Rpg.Client.Assets.Catalogs
             startNode.Campaign = campaign;
 
             startNode.AssignedCombats = combatSequence;
-            var startEvent = _eventCatalog.Events.Single(x => x.IsGameStart);
             startNode.AssignEvent(startEvent);
             var monsterInfos = GetStartMonsterInfoList();
 

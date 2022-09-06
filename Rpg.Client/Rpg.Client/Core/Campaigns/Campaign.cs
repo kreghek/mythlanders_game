@@ -21,25 +21,4 @@ namespace Rpg.Client.Core.Campaigns
     {
         void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager);
     }
-
-    internal sealed class CombatStageItem : ICampaignStageItem
-    {
-        private readonly GlobeNode _location;
-        private readonly CombatSequence _combatSequence;
-
-        public CombatStageItem(GlobeNode location, CombatSequence combatSequence)
-        {
-            _location = location;
-            _combatSequence = combatSequence;
-        }
-
-        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager)
-        {
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, new CombatScreenTransitionArguments
-            {
-                CombatSequence = _combatSequence,
-                Location = _location
-            });
-        }
-    }
 }
