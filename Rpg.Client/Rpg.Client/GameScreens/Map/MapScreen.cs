@@ -77,11 +77,21 @@ namespace Rpg.Client.GameScreens.Map
 
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
             {
-                CampaignStage = new CampaignStage
-                {
-                    Items = new ICampaignStageItem[]
+                CampaignStages = new[]{
+                    new CampaignStage
                     {
-                        new CombatStageItem(node, node.AssignedCombats)
+                        IsUsed = true,
+                        Items = new ICampaignStageItem[]
+                        {
+                            new CombatStageItem(node, node.AssignedCombats)
+                        }
+                    },
+                    new CampaignStage
+                    {
+                        Items = new ICampaignStageItem[]
+                        {
+                            new CombatStageItem(node, node.AssignedCombats)
+                        }
                     }
                 }
             });

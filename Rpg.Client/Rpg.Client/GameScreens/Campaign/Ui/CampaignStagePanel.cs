@@ -20,11 +20,11 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
 
             _buttonList = new List<ButtonBase>();
 
-            Init(currentScreen, screenManager);
+            Init(currentScreen, screenManager, campaignStage.IsUsed);
             
         }
 
-        private void Init(IScreen currentScreen, IScreenManager screenManager)
+        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isUsed)
         {
             for (int i = 0; i < _campaignStage.Items.Count; i++)
             {
@@ -33,10 +33,18 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                 var button = new TextButton($"Combat {i + 1}");
                 _buttonList.Add(button);
 
-                button.OnClick += (s, e) =>
+                if (!isUsed)
                 {
-                    campaignStageItem.ExecuteTransition(currentScreen, screenManager);
-                };
+                    button.OnClick += (s, e) =>
+                    {
+                        _campaignStage.IsUsed = true;
+                        campaignStageItem.ExecuteTransition(currentScreen, screenManager);
+                    };
+                }
+                else
+                {
+                    button.IsEnabled = false;
+                }
             }
         }
 
@@ -46,17 +54,23 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
+            const int STAGE_LABEL_HEIGHT = 20;
+            const int WIDTH = 200;
+
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), _campaignStage.Title, new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Top + CONTENT_MARGIN), Color.Wheat);
+
+            var summaryButtonWidth = (WIDTH + CONTENT_MARGIN) * _buttonList.Count + CONTENT_MARGIN;
+            var leftOffset = (contentRect.Width - summaryButtonWidth) / 2;
+
             for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
             {
                 var button = _buttonList[buttonIndex];
 
-                const int WIDTH = 200;
-
                 button.Rect = new Rectangle(
-                    contentRect.Left + CONTENT_MARGIN + (buttonIndex * (WIDTH + CONTENT_MARGIN)),
-                    contentRect.Top + CONTENT_MARGIN,
+                    leftOffset + CONTENT_MARGIN + (buttonIndex * (WIDTH + CONTENT_MARGIN)),
+                    contentRect.Top + CONTENT_MARGIN + STAGE_LABEL_HEIGHT,
                     WIDTH,
-                    contentRect.Height - (CONTENT_MARGIN * 2));
+                    contentRect.Height - (CONTENT_MARGIN * 2) - STAGE_LABEL_HEIGHT);
 
                 button.Draw(spriteBatch);
             }

@@ -12,6 +12,9 @@ namespace Rpg.Client.Core.Campaigns
     internal sealed class CampaignStage
     {
         public IReadOnlyList<ICampaignStageItem> Items { get; set; }
+        public bool IsUsed { get; set; }
+
+        public string Title { get; set; }
     }
 
     internal interface ICampaignStageItem

@@ -14,7 +14,7 @@ namespace Rpg.Client.GameScreens.Campaign
 {
     internal sealed class CampaignScreenTransitionArguments : IScreenTransitionArguments
     {
-        public CampaignStage CampaignStage { get; set; }
+        public IReadOnlyList<CampaignStage> CampaignStages { get; set; }
     }
 
     internal class CampaignScreen : GameScreenWithMenuBase
@@ -49,7 +49,7 @@ namespace Rpg.Client.GameScreens.Campaign
             {
                 var stagePanel = _panelList[panelIndex];
 
-                const int HEIGHT = 60;
+                const int HEIGHT = 160;
                 stagePanel.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + (HEIGHT + ControlBase.CONTENT_MARGIN) * panelIndex, contentRect.Width - ControlBase.CONTENT_MARGIN * 2, HEIGHT);
                 stagePanel.Draw(spriteBatch);
             }
@@ -78,9 +78,11 @@ namespace Rpg.Client.GameScreens.Campaign
 
         private void InitializeCampaignItemButtons()
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < _screenTransitionArguments.CampaignStages.Count; i++)
             {
-                var stagePanel = new CampaignStagePanel(_screenTransitionArguments.CampaignStage, this, ScreenManager);
+                var stage = _screenTransitionArguments.CampaignStages[i];
+                stage.Title = $"Stage {i}";
+                var stagePanel = new CampaignStagePanel(stage, this, ScreenManager);
                 _panelList.Add(stagePanel);
             }
         }
