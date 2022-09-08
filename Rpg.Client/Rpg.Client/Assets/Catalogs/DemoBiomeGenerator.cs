@@ -258,14 +258,14 @@ namespace Rpg.Client.Assets.Catalogs
             var campaign = new HeroCampaign
             {
                 CampaignStages = new[]
+                {
+                    new CampaignStage
                     {
-                        new CampaignStage
+                        Items = new ICampaignStageItem[]
                         {
-                            Items = new ICampaignStageItem[]
-                            {
-                                new CombatStageItem(startNode, combatSequence), new DialogueStageItem(startNode, startDialogue)
-                            }
-                        },
+                            new CombatStageItem(startNode, combatSequence), new DialogueStageItem(startNode, startDialogue)
+                        }
+                    },
                     new CampaignStage
                     {
                         Items = new ICampaignStageItem[]
