@@ -4,18 +4,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign.Ui;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Campaign
 {
-    internal sealed class CampaignScreenTransitionArguments : IScreenTransitionArguments
-    {
-        public HeroCampaign Campaign { get; set; }
-    }
 
     internal class CampaignScreen : GameScreenWithMenuBase
     {

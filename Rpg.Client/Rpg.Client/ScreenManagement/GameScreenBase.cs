@@ -96,10 +96,22 @@ namespace Rpg.Client.ScreenManagement
 
             if (!_modals.Any(x => x.IsVisible))
             {
-                UpdateContent(gameTime);
+                if (_isInitialized)
+                {
+                    UpdateContent(gameTime);
+                }
+                else
+                {
+                    InitializeContent();
+                    _isInitialized = true;
+                }
             }
 
             UpdateModals(gameTime);
         }
+
+        protected abstract void InitializeContent();
+
+        private bool _isInitialized;
     }
 }

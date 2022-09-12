@@ -263,7 +263,7 @@ namespace Rpg.Client.Assets.Catalogs
                     {
                         Items = new ICampaignStageItem[]
                         {
-                            new CombatStageItem(startNode, combatSequence), new DialogueStageItem(startNode, startDialogue)
+                            new CombatStageItem(startNode, combatSequence)
                         }
                     },
                     new CampaignStage

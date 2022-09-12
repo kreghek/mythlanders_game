@@ -6,5 +6,6 @@ namespace Rpg.Client.Core.Campaigns
     {
         public IReadOnlyList<CampaignStage> CampaignStages { get; set; }
         public int CurrentStageIndex { get; set; }
+
     }
 }
