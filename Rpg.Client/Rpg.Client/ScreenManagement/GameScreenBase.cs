@@ -45,7 +45,10 @@ namespace Rpg.Client.ScreenManagement
         {
             base.DoDraw(spriteBatch, zindex);
 
-            DrawContent(spriteBatch);
+            if (_isInitialized)
+            {
+                DrawContent(spriteBatch);
+            }
 
             DrawModals(spriteBatch);
         }
