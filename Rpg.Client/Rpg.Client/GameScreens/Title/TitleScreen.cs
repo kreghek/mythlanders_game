@@ -5,8 +5,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
@@ -120,18 +123,56 @@ namespace Rpg.Client.GameScreens.Title
         {
             globeProvider.GenerateNew();
 
-            globeProvider.Globe.IsNodeInitialized = true;
+            var combat = new CombatSource
+            {
+                Level = 1,
+                EnemyGroup = new Group()
+            };
 
-            var firstAvailableNodeInBiome =
-                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .First(x => x.IsAvailable);
+            var combatSequence = new CombatSequence
+            {
+                Combats = new[] { combat }
+            };
 
-            MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
-                eventCatalog: eventCatalog,
-                currentScreen: currentScreen,
-                screenManager,
-                clearScreenHandlersDelegate);
+            var campaigns = new[] { 
+                new HeroCampaign
+                {
+                    CampaignStages = new[]
+                    {
+                        new CampaignStage
+                        {
+                            Items = new[]
+                            {
+                                new CombatStageItem(new GlobeNode{ 
+                                    BiomeType = BiomeType.Slavic,
+                                    Sid = GlobeNodeSid.Thicket
+                                }, combatSequence)
+                            }
+                        }
+                    }
+                }
+            };
+
+            screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.CampaignSelection,
+                new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns,
+                });
+
+            //globeProvider.Globe.IsNodeInitialized = true;
+
+            //var firstAvailableNodeInBiome =
+            //    globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+            //        .First(x => x.IsAvailable);
+
+            //MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+            //    availableEvent: firstAvailableNodeInBiome.AssignedEvent,
+            //    eventCatalog: eventCatalog,
+            //    currentScreen: currentScreen,
+            //    screenManager,
+            //    clearScreenHandlersDelegate);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -371,6 +412,10 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
+        }
+
+        protected override void InitializeContent()
+        {
         }
     }
 }

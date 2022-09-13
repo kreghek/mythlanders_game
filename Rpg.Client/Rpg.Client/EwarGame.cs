@@ -239,10 +239,10 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IEventCatalog>());
-                Services.AddService<IBiomeGenerator>(biomeGenerator);
+                //var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
+                //    Services.GetService<IUnitSchemeCatalog>(),
+                //    Services.GetService<IEventCatalog>());
+                //Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var storyPointCatalog = new StoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
@@ -259,10 +259,10 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IEventCatalog>());
-                Services.AddService<IBiomeGenerator>(biomeGenerator);
+                //var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
+                //    Services.GetService<IUnitSchemeCatalog>(),
+                //    Services.GetService<IEventCatalog>());
+                //Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var storyPointCatalog = new DemoStoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
@@ -276,7 +276,7 @@ namespace Rpg.Client
                 new GlobeProvider(
                     Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IBiomeGenerator>(),
+                    //Services.GetService<IBiomeGenerator>(),
                     Services.GetService<IEventCatalog>(),
                     Services.GetService<IStoryPointInitializer>()));
 

@@ -18,7 +18,6 @@ namespace Rpg.Client.GameScreens.Bestiary
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        private bool _isInitialized;
         private UnitScheme? _selectedMonster;
 
         public BestiaryScreen(EwarGame game)
@@ -82,19 +81,12 @@ namespace Rpg.Client.GameScreens.Bestiary
         {
             base.UpdateContent(gameTime);
 
-            if (!_isInitialized)
-            {
-                InitializeMonsterButtons();
-
-                _isInitialized = true;
-            }
-            else
-            {
+           
                 foreach (var button in _buttonList)
                 {
                     button.Update(ResolutionIndependentRenderer);
                 }
-            }
+            
         }
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
@@ -156,6 +148,11 @@ namespace Rpg.Client.GameScreens.Bestiary
                 button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
                 _buttonList.Add(button);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            InitializeMonsterButtons();
         }
     }
 }

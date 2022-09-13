@@ -14,7 +14,7 @@ namespace Rpg.Client.Core
     internal sealed class GlobeProvider
     {
         private const string SAVE_FILE_TEMPLATE = "save-{0}.json";
-        private readonly IBiomeGenerator _biomeGenerator;
+        //private readonly IBiomeGenerator _biomeGenerator;
 
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
@@ -27,13 +27,13 @@ namespace Rpg.Client.Core
 
         public GlobeProvider(IDice dice,
             IUnitSchemeCatalog unitSchemeCatalog,
-            IBiomeGenerator biomeGenerator,
+            /*IBiomeGenerator biomeGenerator,*/
             IEventCatalog eventCatalog,
             IStoryPointInitializer storyPointInitializer)
         {
             _dice = dice;
             _unitSchemeCatalog = unitSchemeCatalog;
-            _biomeGenerator = biomeGenerator;
+            //_biomeGenerator = biomeGenerator;
             _eventCatalog = eventCatalog;
             _storyPointInitializer = storyPointInitializer;
             var binPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -68,7 +68,7 @@ namespace Rpg.Client.Core
 
         public void GenerateNew()
         {
-            var globe = new Globe(_biomeGenerator, new Player());
+            var globe = new Globe(new Player());
 
             InitStartStoryPoint(globe, _storyPointInitializer);
             AssignStartHeroes(globe);
@@ -125,7 +125,7 @@ namespace Rpg.Client.Core
 
             var player = new Player(saveDataDto.Name);
 
-            Globe = new Globe(_biomeGenerator, player);
+            Globe = new Globe(player);
 
             if (progressDto.Player is not null)
             {
@@ -138,7 +138,7 @@ namespace Rpg.Client.Core
 
             LoadEvents(progressDto.Events);
 
-            LoadBiomes(progressDto.Biomes, Globe.Biomes);
+            //LoadBiomes(progressDto.Biomes, Globe.Biomes);
 
             Globe.UpdateNodes(_dice, _eventCatalog);
         }
@@ -158,7 +158,7 @@ namespace Rpg.Client.Core
             {
                 Player = player,
                 Events = GetUsedEventDtos(_eventCatalog.Events),
-                Biomes = GetBiomeDtos(Globe.Biomes)
+                //Biomes = GetBiomeDtos(Globe.Biomes)
             };
 
             var saveName = GetSaveName(Globe.Player.Name);
@@ -206,7 +206,7 @@ namespace Rpg.Client.Core
 
         private void CreateStartCombat(Globe globe)
         {
-            _biomeGenerator.CreateStartCombat(globe);
+            //_biomeGenerator.CreateStartCombat(globe);
         }
 
         private Unit CreateStartHero(UnitName heroName)
@@ -249,18 +249,18 @@ namespace Rpg.Client.Core
             return startHeroes;
         }
 
-        private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Biome> biomes)
-        {
-            foreach (var biome in biomes)
-            {
-                yield return new BiomeDto
-                {
-                    Type = biome.Type,
-                    IsComplete = biome.IsComplete,
-                    Nodes = GetNodeDtos(biome)
-                };
-            }
-        }
+        //private static IEnumerable<BiomeDto> GetBiomeDtos(IEnumerable<Biome> biomes)
+        //{
+        //    foreach (var biome in biomes)
+        //    {
+        //        yield return new BiomeDto
+        //        {
+        //            Type = biome.Type,
+        //            IsComplete = biome.IsComplete,
+        //            Nodes = GetNodeDtos(biome)
+        //        };
+        //    }
+        //}
 
         private static EquipmentDto[] GetCharacterEquipmentToSave(Unit unit)
         {
@@ -285,19 +285,19 @@ namespace Rpg.Client.Core
             return knownMonsters.Select(x => x.Name.ToString()).ToArray();
         }
 
-        private static IEnumerable<GlobeNodeDto?> GetNodeDtos(Biome biome)
-        {
-            foreach (var node in biome.Nodes)
-            {
-                var nodeDto = new GlobeNodeDto
-                {
-                    Sid = node.Sid,
-                    IsAvailable = node.IsAvailable
-                };
+        //private static IEnumerable<GlobeNodeDto?> GetNodeDtos(Biome biome)
+        //{
+        //    foreach (var node in biome.Nodes)
+        //    {
+        //        var nodeDto = new GlobeNodeDto
+        //        {
+        //            Sid = node.Sid,
+        //            IsAvailable = node.IsAvailable
+        //        };
 
-                yield return nodeDto;
-            }
-        }
+        //        yield return nodeDto;
+        //    }
+        //}
 
         private static GroupDto GetPlayerGroupToSave(IEnumerable<Unit> units)
         {
@@ -374,27 +374,27 @@ namespace Rpg.Client.Core
             return !Directory.EnumerateFileSystemEntries(path).Any();
         }
 
-        private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Biome> biomes)
-        {
-            if (biomeDtoList is null)
-            {
-                return;
-            }
+        //private static void LoadBiomes(IEnumerable<BiomeDto?>? biomeDtoList, IEnumerable<Biome> biomes)
+        //{
+        //    if (biomeDtoList is null)
+        //    {
+        //        return;
+        //    }
 
-            var biomeMaterializedList = biomes as Biome[] ?? biomes.ToArray();
-            foreach (var biomeDto in biomeDtoList)
-            {
-                if (biomeDto is null)
-                {
-                    continue;
-                }
+        //    var biomeMaterializedList = biomes as Biome[] ?? biomes.ToArray();
+        //    foreach (var biomeDto in biomeDtoList)
+        //    {
+        //        if (biomeDto is null)
+        //        {
+        //            continue;
+        //        }
 
-                var targetBiome = biomeMaterializedList.Single(x => x.Type == biomeDto.Type);
-                targetBiome.IsComplete = biomeDto.IsComplete;
+        //        var targetBiome = biomeMaterializedList.Single(x => x.Type == biomeDto.Type);
+        //        targetBiome.IsComplete = biomeDto.IsComplete;
 
-                LoadNodes(targetBiome, biomeDto);
-            }
-        }
+        //        LoadNodes(targetBiome, biomeDto);
+        //    }
+        //}
 
         private static void LoadCharacterEquipments(Unit unit, EquipmentDto[]? unitDtoEquipments)
         {
@@ -445,29 +445,29 @@ namespace Rpg.Client.Core
             }
         }
 
-        private static void LoadNodes(Biome targetBiome, BiomeDto biomeDto)
-        {
-            if (biomeDto.Nodes is null)
-            {
-                Debug.Fail("The globe nodes must be defined in saved file.");
-                return;
-            }
+        //private static void LoadNodes(Biome targetBiome, BiomeDto biomeDto)
+        //{
+        //    if (biomeDto.Nodes is null)
+        //    {
+        //        Debug.Fail("The globe nodes must be defined in saved file.");
+        //        return;
+        //    }
 
-            foreach (var nodeDto in biomeDto.Nodes)
-            {
-                if (nodeDto is null)
-                {
-                    Debug.Fail("The node dto cannot be null.");
-                    continue;
-                }
+        //    foreach (var nodeDto in biomeDto.Nodes)
+        //    {
+        //        if (nodeDto is null)
+        //        {
+        //            Debug.Fail("The node dto cannot be null.");
+        //            continue;
+        //        }
 
-                var targetNode = targetBiome.Nodes.SingleOrDefault(x => x.Sid == nodeDto.Sid);
-                if (targetNode is not null)
-                {
-                    targetNode.IsAvailable = nodeDto.IsAvailable;
-                }
-            }
-        }
+        //        var targetNode = targetBiome.Nodes.SingleOrDefault(x => x.Sid == nodeDto.Sid);
+        //        if (targetNode is not null)
+        //        {
+        //            targetNode.IsAvailable = nodeDto.IsAvailable;
+        //        }
+        //    }
+        //}
 
         private void LoadPlayerAbilities(PlayerDto playerDto)
         {

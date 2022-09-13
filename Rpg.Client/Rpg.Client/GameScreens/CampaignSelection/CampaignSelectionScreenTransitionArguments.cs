@@ -5,7 +5,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.CampaignSelection
 {
-    internal sealed class CampaignSelectionScreenScreenTransitionArguments : IScreenTransitionArguments
+    internal sealed class CampaignSelectionScreenTransitionArguments : IScreenTransitionArguments
     {
         public IReadOnlyList<HeroCampaign> Campaigns { get; set; }
     }

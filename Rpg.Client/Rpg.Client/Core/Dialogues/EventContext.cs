@@ -51,7 +51,7 @@ namespace Rpg.Client.Core.Dialogues
 
         public void UnlockLocation(GlobeNodeSid locationSid)
         {
-            _globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
+            //_globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
         }
     }
 }

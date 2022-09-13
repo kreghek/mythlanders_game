@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.CampaignSelection.Ui;
 using Rpg.Client.ScreenManagement;
 
@@ -18,7 +19,7 @@ namespace Rpg.Client.GameScreens.CampaignSelection
 
         private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
 
-        public CampaignSelectionScreen(EwarGame game, CampaignSelectionScreenScreenTransitionArguments args) : base(game)
+        public CampaignSelectionScreen(EwarGame game, CampaignSelectionScreenTransitionArguments args) : base(game)
         {
             _campaigns = args.Campaigns;
         }
@@ -35,10 +36,22 @@ namespace Rpg.Client.GameScreens.CampaignSelection
                 throw new InvalidOperationException("Screen is not initialized");
             }
 
+            ResolutionIndependentRenderer.BeginDraw();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: Camera.GetViewTransformationMatrix());
+
             foreach (var panel in _availableCampaignPanels)
             {
+                panel.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 300, 100);
                 panel.Draw(spriteBatch);
             }
+
+            spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -64,6 +77,10 @@ namespace Rpg.Client.GameScreens.CampaignSelection
             {
                 var panel = new CampaignPanel(campaign);
                 panels.Add(panel);
+                panel.Selected += (_, _) => 
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments() { Campaign = campaign });
+                };
             }
 
             _availableCampaignPanels = panels;

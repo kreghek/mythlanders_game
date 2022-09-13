@@ -62,7 +62,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool? _combatFinishedVictory;
 
-        private bool _combatInitialized;
         private bool _combatResultModalShown;
         private CombatSkillPanel? _combatSkillsPanel;
 
@@ -152,26 +151,18 @@ namespace Rpg.Client.GameScreens.Combat
                 AddModal(tutorialModal, isLate: false);
             }
 
-            if (!_combatInitialized)
+            UpdateBackgroundObjects(gameTime);
+
+            HandleBullets(gameTime);
+
+            HandleUnits(gameTime);
+
+            if (!_combat.Finished && _combatFinishedVictory is null)
             {
-                CombatInitialize();
-                _combatInitialized = true;
+                HandleCombatHud();
             }
-            else
-            {
-                UpdateBackgroundObjects(gameTime);
 
-                HandleBullets(gameTime);
-
-                HandleUnits(gameTime);
-
-                if (!_combat.Finished && _combatFinishedVictory is null)
-                {
-                    HandleCombatHud();
-                }
-
-                _screenShaker.Update(gameTime);
-            }
+            _screenShaker.Update(gameTime);
 
             HandleBackgrounds();
 
@@ -1272,6 +1263,11 @@ namespace Rpg.Client.GameScreens.Combat
                 _combatResultModalShown = true;
                 ShowCombatResultModal(_combatFinishedVictory.Value);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            CombatInitialize();
         }
     }
 }

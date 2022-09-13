@@ -207,5 +207,9 @@ namespace Rpg.Client.GameScreens.Hero
             //     }
             // }
         }
+
+        protected override void InitializeContent()
+        {
+        }
     }
 }

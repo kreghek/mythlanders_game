@@ -218,21 +218,21 @@ namespace Rpg.Client.GameScreens.Map
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
-                        .Where(x => x.IsAvailable && x.AssignedCombats is not null).ToArray();
+                    //var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
+                    //    .Where(x => x.IsAvailable && x.AssignedCombats is not null).ToArray();
 
-                    for (var i = 0; i < nodeList.Length; i++)
-                    {
-                        var node = nodeList[i];
+                    //for (var i = 0; i < nodeList.Length; i++)
+                    //{
+                    //    var node = nodeList[i];
 
-                        var position = GetLocationMarkerPosition(node, i);
-                        var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage,
-                            _resolutionIndependenceRenderer);
-                        markerObject.MouseEnter += MarkerObject_MouseEnter;
-                        markerObject.MouseExit += MarkerObject_MouseExit;
-                        markerObject.Click += MarkerObject_Click;
-                        _markerList.Add(markerObject);
-                    }
+                    //    var position = GetLocationMarkerPosition(node, i);
+                    //    var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage,
+                    //        _resolutionIndependenceRenderer);
+                    //    markerObject.MouseEnter += MarkerObject_MouseEnter;
+                    //    markerObject.MouseExit += MarkerObject_MouseExit;
+                    //    markerObject.Click += MarkerObject_Click;
+                    //    _markerList.Add(markerObject);
+                    //}
 
                     _isNodeModelsCreated = true;
                 }
@@ -527,6 +527,11 @@ namespace Rpg.Client.GameScreens.Map
             {
                 globeNodeMarkerGameObject.Update(gameTime);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            throw new NotImplementedException();
         }
     }
 }

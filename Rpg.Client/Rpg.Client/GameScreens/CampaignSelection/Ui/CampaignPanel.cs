@@ -21,7 +21,10 @@ namespace Rpg.Client.GameScreens.CampaignSelection.Ui
         {
             _campaign = campaign;
             _selectButton = new TextButton("SELECT");
+            _selectButton.OnClick += (_, _) => { Selected?.Invoke(this, EventArgs.Empty); };
         }
+
+        public event EventHandler? Selected;
 
         protected override Point CalcTextureOffset() => ControlTextures.Panel;
 

@@ -56,6 +56,10 @@ namespace Rpg.Client.GameScreens.EndGame
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             _backButton.Update(_resolutionIndependentRenderer);

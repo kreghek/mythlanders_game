@@ -13,7 +13,6 @@ namespace Rpg.Client.GameScreens.Campaign
 
     internal class CampaignScreen : GameScreenWithMenuBase
     {
-        private bool _isInitialized;
         private readonly IList<CampaignStagePanel> _panelList;
         private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
 
@@ -44,7 +43,11 @@ namespace Rpg.Client.GameScreens.Campaign
                 var stagePanel = _panelList[panelIndex];
 
                 const int HEIGHT = 160;
-                stagePanel.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + (HEIGHT + ControlBase.CONTENT_MARGIN) * panelIndex, contentRect.Width - ControlBase.CONTENT_MARGIN * 2, HEIGHT);
+                stagePanel.Rect = new Rectangle(
+                    contentRect.Left + ControlBase.CONTENT_MARGIN,
+                    contentRect.Top + (HEIGHT + ControlBase.CONTENT_MARGIN) * panelIndex,
+                    contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
+                    HEIGHT);
                 stagePanel.Draw(spriteBatch);
             }
 
@@ -55,18 +58,9 @@ namespace Rpg.Client.GameScreens.Campaign
         {
             base.UpdateContent(gameTime);
 
-            if (!_isInitialized)
+            foreach (var stagePanel in _panelList)
             {
-                InitializeCampaignItemButtons();
-
-                _isInitialized = true;
-            }
-            else
-            {
-                foreach (var stagePanel in _panelList)
-                {
-                    stagePanel.Update(ResolutionIndependentRenderer);
-                }
+                stagePanel.Update(ResolutionIndependentRenderer);
             }
         }
 
@@ -80,6 +74,11 @@ namespace Rpg.Client.GameScreens.Campaign
                 var stagePanel = new CampaignStagePanel(stage, this, ScreenManager, i == _screenTransitionArguments.Campaign.CurrentStageIndex);
                 _panelList.Add(stagePanel);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            InitializeCampaignItemButtons();
         }
     }
 }

@@ -39,12 +39,12 @@ namespace Rpg.Client.Assets.Catalogs
                 },
                 Aftermaths = new IStoryPointAftermath[]
                 {
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Monastery)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.Desert)),
-                    new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
-                        .Single(x => x.Sid == GlobeNodeSid.ShipGraveyard))
+                    //new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
+                    //    .Single(x => x.Sid == GlobeNodeSid.Monastery)),
+                    //new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
+                    //    .Single(x => x.Sid == GlobeNodeSid.Desert)),
+                    //new UnlockLocationAftermath(globe.Biomes.SelectMany(x => x.Nodes)
+                    //    .Single(x => x.Sid == GlobeNodeSid.ShipGraveyard))
                 }
             };
 

@@ -60,6 +60,10 @@ namespace Rpg.Client.GameScreens.Intro
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
