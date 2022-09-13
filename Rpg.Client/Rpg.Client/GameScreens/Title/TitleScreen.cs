@@ -145,7 +145,8 @@ namespace Rpg.Client.GameScreens.Title
                             {
                                 new CombatStageItem(new GlobeNode{ 
                                     BiomeType = BiomeType.Slavic,
-                                    Sid = GlobeNodeSid.Thicket
+                                    Sid = GlobeNodeSid.Thicket,
+                                    AssignedCombats = combatSequence
                                 }, combatSequence)
                             }
                         }
