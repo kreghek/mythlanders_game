@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rpg.Client.Core.Campaigns
 {
@@ -8,5 +9,11 @@ namespace Rpg.Client.Core.Campaigns
 
         public int CurrentStageIndex { get; set; }
 
+        internal void CompleteCurrentStage()
+        {
+            CurrentStageIndex++;
+        }
+
+        public bool IsCampaignComplete => CampaignStages.Count - 1 <= CurrentStageIndex;
     }
 }

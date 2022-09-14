@@ -31,6 +31,24 @@ namespace Rpg.Client.Assets.Catalogs
 
         private HeroCampaign CreateCampaign()
         {
+
+            var stages = new List<CampaignStage>();
+            for (var i = 0; i < 3; i++)
+            {
+                var stage = CreateStage();
+                stages.Add(stage);
+            }
+
+            var campaign = new HeroCampaign
+            {
+                CampaignStages = stages
+            };            
+
+            return campaign;
+        }
+
+        private CampaignStage CreateStage()
+        {
             var combat = new CombatSource
             {
                 Level = 1,
@@ -42,23 +60,12 @@ namespace Rpg.Client.Assets.Catalogs
                 Combats = new[] { combat }
             };
 
-            var campaign = new HeroCampaign
+            var stageItem = new CombatStageItem(new GlobeNode
             {
-                CampaignStages = new[]
-                {
-                    new CampaignStage
-                    {
-                        Items = new[]
-                        {
-                            new CombatStageItem(new GlobeNode{
-                                BiomeType = BiomeType.Slavic,
-                                Sid = GlobeNodeSid.Thicket,
-                                AssignedCombats = combatSequence
-                            }, combatSequence)
-                        }
-                    }
-                }
-            };
+                BiomeType = BiomeType.Slavic,
+                Sid = GlobeNodeSid.Thicket,
+                AssignedCombats = combatSequence
+            }, combatSequence);
 
             var monsterInfos = GetStartMonsterInfoList();
 
@@ -68,7 +75,22 @@ namespace Rpg.Client.Assets.Catalogs
                 combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
             }
 
-            return campaign;
+            var stage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    new CombatStageItem(
+                        new GlobeNode
+                        {
+                            BiomeType = BiomeType.Slavic,
+                            Sid = GlobeNodeSid.Thicket,
+                            AssignedCombats = combatSequence
+                        },
+                        combatSequence)
+                }
+            };
+
+            return stage;
         }
 
         private static IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList()

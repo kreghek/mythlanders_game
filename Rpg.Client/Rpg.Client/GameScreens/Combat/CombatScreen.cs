@@ -10,8 +10,11 @@ using Microsoft.Xna.Framework.Input;
 using Rpg.Client.Assets.GlobalEffects;
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
+using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
@@ -46,6 +49,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
+        private readonly HeroCampaign _currentCampaign;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
         private readonly IJobProgressResolver _jobProgressResolver;
@@ -82,6 +86,8 @@ namespace Rpg.Client.GameScreens.Combat
             _globe = _globeProvider.Globe;
 
             _globeNode = args.Location;
+
+            _currentCampaign = args.CurrentCampaign;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -421,7 +427,11 @@ namespace Rpg.Client.GameScreens.Combat
                         if (_args.VictoryDialogue is null)
                         {
                             _globeProvider.Globe.Update(_dice, _eventCatalog);
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
+                            _currentCampaign.CompleteCurrentStage();
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
+                            {
+                                Campaign = _currentCampaign
+                            });
 
                             if (_gameSettings.Mode == GameMode.Full)
                             {
@@ -445,7 +455,14 @@ namespace Rpg.Client.GameScreens.Combat
             else if (combatResultModal.CombatResult == CombatResult.Defeat)
             {
                 RestoreGroupAfterCombat();
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
+
+                var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
+                var campaigns = campaignGenerator.CreateSet();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection, new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns
+                });
             }
             else
             {
@@ -453,9 +470,16 @@ namespace Rpg.Client.GameScreens.Combat
 
                 RestoreGroupAfterCombat();
 
-                // Fallback is just show biome.
+                // Fallback is just showing of new campaign selection.
                 _globeProvider.Globe.Update(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
+
+                var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
+                var campaigns = campaignGenerator.CreateSet();
+
+                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection, new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns
+                });
             }
         }
 
