@@ -45,9 +45,14 @@ namespace Rpg.Client.GameScreens.CampaignSelection
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            foreach (var panel in _availableCampaignPanels)
+            for (var campaignIndex = 0; campaignIndex < _availableCampaignPanels.Count; campaignIndex++)
             {
-                panel.Rect = new Rectangle(contentRect.Left + ControlBase.CONTENT_MARGIN, contentRect.Top + ControlBase.CONTENT_MARGIN, 300, 100);
+                var panel = _availableCampaignPanels[campaignIndex];
+                panel.Rect = new Rectangle(
+                    contentRect.Left + ControlBase.CONTENT_MARGIN + 300 * campaignIndex,
+                    contentRect.Top + ControlBase.CONTENT_MARGIN,
+                    300,
+                    100);
                 panel.Draw(spriteBatch);
             }
 

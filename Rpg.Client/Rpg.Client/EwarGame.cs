@@ -269,6 +269,9 @@ namespace Rpg.Client
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }
 
+            var campaignGenerator = new CampaignGenerator(Services.GetService<IUnitSchemeCatalog>());
+            Services.AddService<ICampaignGenerator>(campaignGenerator);
+
             var eventInitializer = Services.GetService<IEventInitializer>();
             eventInitializer.Init();
 

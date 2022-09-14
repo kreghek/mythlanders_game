@@ -26,6 +26,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
+        private readonly ICampaignGenerator _campaignGenerator;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -51,6 +52,7 @@ namespace Rpg.Client.GameScreens.Title
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
+            _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
 
             _dice = Game.Services.GetService<IDice>();
             _gameSettings = Game.Services.GetService<GameSettings>();
@@ -117,42 +119,13 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
-        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
+        public void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
             IScreen currentScreen, IScreenManager screenManager,
             Action? clearScreenHandlersDelegate)
         {
             globeProvider.GenerateNew();
 
-            var combat = new CombatSource
-            {
-                Level = 1,
-                EnemyGroup = new Group()
-            };
-
-            var combatSequence = new CombatSequence
-            {
-                Combats = new[] { combat }
-            };
-
-            var campaigns = new[] { 
-                new HeroCampaign
-                {
-                    CampaignStages = new[]
-                    {
-                        new CampaignStage
-                        {
-                            Items = new[]
-                            {
-                                new CombatStageItem(new GlobeNode{ 
-                                    BiomeType = BiomeType.Slavic,
-                                    Sid = GlobeNodeSid.Thicket,
-                                    AssignedCombats = combatSequence
-                                }, combatSequence)
-                            }
-                        }
-                    }
-                }
-            };
+            var campaigns = _campaignGenerator.CreateSet();
 
             screenManager.ExecuteTransition(
                 currentScreen,

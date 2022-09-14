@@ -175,7 +175,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
-            TitleScreen.StartClearNewGame(_globeProvider, _eventCatalog, _screen, _screenManager, () => { });
+            //TitleScreen.StartClearNewGame(_globeProvider, _eventCatalog, _screen, _screenManager, () => { });
         }
     }
 }
