@@ -24,6 +24,12 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Setup Wine
+      run: |
+        sudo apt update
+        sudo apt install wine64 p7zip-full
+        wget -qO- https://raw.githubusercontent.com/MonoGame/MonoGame/master/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | sh
+
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
 
