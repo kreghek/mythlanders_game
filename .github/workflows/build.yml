@@ -25,13 +25,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Rpg/Client.sln
+      run: dotnet restore Rpg.Client/Rpg.Client.sln
 
     - name: Build
-      run: dotnet build Rpg/Client.sln --no-restore
+      run: dotnet build Rpg.Client/Rpg.Client.sln --no-restore
 
     - name: Test
-      run: dotnet test Rpg/Client.sln --no-build --verbosity normal
+      run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
 
     - name: Publish
       run: dotnet publish Rpg/Client/Client.csproj --verbosity normal --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
