@@ -38,7 +38,7 @@ jobs:
       run: dotnet restore Rpg.Client/Rpg.Client.sln
 
     - name: Build
-      run: dotnet build Rpg.Client/Rpg.Client.sln --no-restore --verbosity diagnostic
+      run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
 
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
