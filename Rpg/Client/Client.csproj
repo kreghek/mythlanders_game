@@ -11,8 +11,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Content\bin\**" />
+		<Compile Remove="Content\obj\**" />
+		<EmbeddedResource Remove="Content\bin\**" />
+		<EmbeddedResource Remove="Content\obj\**" />
+		<None Remove="Content\bin\**" />
+		<None Remove="Content\obj\**" />
+	</ItemGroup>
   <ItemGroup>
-    <None Remove="Content\Content.mgcb" />
+    
     <None Remove="DialogueResources.fr.resources" />
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
@@ -33,13 +41,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\States\MosterSpecific\" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="CreditsResource.Designer.cs">
