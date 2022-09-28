@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
 using Rpg.Client;
 using System;
