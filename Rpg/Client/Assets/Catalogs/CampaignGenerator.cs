@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
+using Client.Assets.StageItems;
 using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
@@ -33,11 +33,21 @@ namespace Rpg.Client.Assets.Catalogs
         {
 
             var stages = new List<CampaignStage>();
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < 2; i++)
             {
                 var stage = CreateStage();
                 stages.Add(stage);
             }
+
+            var rewardStageItem = new RewardStageItem(this);
+            var rewardStage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    rewardStageItem
+                }
+            };
+            stages.Add(rewardStage);
 
             var campaign = new HeroCampaign
             {
@@ -65,7 +75,7 @@ namespace Rpg.Client.Assets.Catalogs
                 BiomeType = BiomeType.Slavic,
                 Sid = GlobeNodeSid.Thicket,
                 AssignedCombats = combatSequence
-            }, combatSequence);
+            }, combatSequence, this);
 
             var monsterInfos = GetStartMonsterInfoList();
 
@@ -86,7 +96,7 @@ namespace Rpg.Client.Assets.Catalogs
                             Sid = GlobeNodeSid.Thicket,
                             AssignedCombats = combatSequence
                         },
-                        combatSequence)
+                        combatSequence, this)
                 }
             };
 

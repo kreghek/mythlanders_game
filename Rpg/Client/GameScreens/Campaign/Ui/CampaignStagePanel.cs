@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using Client.Assets.StageItems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
@@ -30,7 +31,9 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             {
                 var campaignStageItem = _campaignStage.Items[i];
 
-                var button = new TextButton($"Combat {i + 1}" + (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
+                var stageItemDisplayName = GetStageItemDisplyayName(i, campaignStageItem);
+
+                var button = new TextButton(stageItemDisplayName + (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
                 _buttonList.Add(button);
 
                 if (isActive)
@@ -45,6 +48,20 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                     button.IsEnabled = false;
                 }
             }
+        }
+
+        private string GetStageItemDisplyayName(int stageIndex, ICampaignStageItem campaignStageItem)
+        {
+            if (campaignStageItem is CombatStageItem)
+            {
+                return $"Combat {stageIndex + 1}";
+            }
+            else if (campaignStageItem is RewardStageItem)
+            {
+                return "Complete";
+            }
+
+            return "???";
         }
 
         protected override Point CalcTextureOffset() => ControlTextures.Panel;
