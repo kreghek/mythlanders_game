@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -269,9 +269,6 @@ namespace Rpg.Client
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }
 
-            var campaignGenerator = new CampaignGenerator(Services.GetService<IUnitSchemeCatalog>());
-            Services.AddService<ICampaignGenerator>(campaignGenerator);
-
             var eventInitializer = Services.GetService<IEventInitializer>();
             eventInitializer.Init();
 
@@ -282,6 +279,12 @@ namespace Rpg.Client
                     //Services.GetService<IBiomeGenerator>(),
                     Services.GetService<IEventCatalog>(),
                     Services.GetService<IStoryPointInitializer>()));
+
+            var campaignGenerator = new CampaignGenerator(
+                Services.GetRequiredService<IUnitSchemeCatalog>(),
+                Services.GetRequiredService<GlobeProvider>(),
+                Services.GetRequiredService<IDice>());
+            Services.AddService<ICampaignGenerator>(campaignGenerator);
 
             Services.AddService(new AnimationManager());
 

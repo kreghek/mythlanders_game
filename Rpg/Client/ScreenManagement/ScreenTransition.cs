@@ -12,6 +12,7 @@
         Bestiary,
         EndGame,
         Credits,
-        Hero
+        Hero,
+        Training
     }
 }

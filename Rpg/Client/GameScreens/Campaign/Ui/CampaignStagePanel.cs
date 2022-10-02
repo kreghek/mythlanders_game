@@ -50,7 +50,7 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             }
         }
 
-        private string GetStageItemDisplyayName(int stageIndex, ICampaignStageItem campaignStageItem)
+        private static string GetStageItemDisplyayName(int stageIndex, ICampaignStageItem campaignStageItem)
         {
             if (campaignStageItem is CombatStageItem)
             {
@@ -58,7 +58,7 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             }
             else if (campaignStageItem is RewardStageItem)
             {
-                return "Complete";
+                return "Finish campaign";
             }
 
             return "???";

@@ -10,10 +10,14 @@ namespace Rpg.Client.Assets.Catalogs
     internal class CampaignGenerator : ICampaignGenerator
     {
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        private readonly GlobeProvider _globeProvider;
+        private readonly IDice _dice;
 
-        public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog)
+        public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IDice dice)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
+            _globeProvider = globeProvider;
+            _dice = dice;
         }
 
         public IReadOnlyList<HeroCampaign> CreateSet()
@@ -31,11 +35,10 @@ namespace Rpg.Client.Assets.Catalogs
 
         private HeroCampaign CreateCampaign()
         {
-
             var stages = new List<CampaignStage>();
             for (var i = 0; i < 2; i++)
             {
-                var stage = CreateStage();
+                var stage = CreateStage(i);
                 stages.Add(stage);
             }
 
@@ -57,7 +60,30 @@ namespace Rpg.Client.Assets.Catalogs
             return campaign;
         }
 
-        private CampaignStage CreateStage()
+        private CampaignStage CreateStage(int stageIndex)
+        {
+            if (stageIndex == 1)
+            {
+                return CreateTrainingStage();
+            }
+
+            return CreateCombatStage();
+        }
+
+        private CampaignStage CreateTrainingStage()
+        {
+            var stage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    new TrainingStageItem(_globeProvider.Globe.Player, _dice)
+                }
+            };
+
+            return stage;
+        }
+
+        private CampaignStage CreateCombatStage()
         {
             var combat = new CombatSource
             {
