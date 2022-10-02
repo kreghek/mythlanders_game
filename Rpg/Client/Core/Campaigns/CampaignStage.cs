@@ -6,5 +6,6 @@ namespace Rpg.Client.Core.Campaigns
     {
         public IReadOnlyList<ICampaignStageItem> Items { get; set; }
         public string Title { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

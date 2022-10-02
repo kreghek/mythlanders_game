@@ -16,12 +16,13 @@ namespace Rpg.Client.Assets.StageItems
             _combatSequence = combatSequence;
         }
 
-        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager)
+        public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
         {
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, new CombatScreenTransitionArguments
             {
                 CombatSequence = _combatSequence,
-                Location = _location
+                Location = _location,
+                CurrentCampaign = currentCampaign
             });
         }
     }

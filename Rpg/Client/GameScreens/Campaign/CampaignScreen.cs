@@ -66,12 +66,14 @@ namespace Rpg.Client.GameScreens.Campaign
 
         private void InitializeCampaignItemButtons()
         {
-            var campaignStages = _screenTransitionArguments.Campaign.CampaignStages;
-            for (int i = 0; i < campaignStages.Count; i++)
+            var currentCampaign = _screenTransitionArguments.Campaign;
+            var campaignStages = currentCampaign.CampaignStages;
+            for (int stageIndex = 0; stageIndex < campaignStages.Count; stageIndex++)
             {
-                var stage = campaignStages[i];
-                stage.Title = $"Stage {i}";
-                var stagePanel = new CampaignStagePanel(stage, this, ScreenManager, i == _screenTransitionArguments.Campaign.CurrentStageIndex);
+                var stage = campaignStages[stageIndex];
+                stage.Title = $"Stage {stageIndex}";
+                bool stageIsActive = stageIndex == currentCampaign.CurrentStageIndex;
+                var stagePanel = new CampaignStagePanel(stage, currentCampaign, this, ScreenManager, stageIsActive);
                 _panelList.Add(stagePanel);
             }
         }

@@ -13,14 +13,15 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
     {
         private readonly IList<ButtonBase> _buttonList;
         private readonly CampaignStage _campaignStage;
+        private readonly HeroCampaign _currentCampaign;
 
-        public CampaignStagePanel(CampaignStage campaignStage, IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        public CampaignStagePanel(CampaignStage campaignStage, HeroCampaign currentCampaign, IScreen currentScreen, IScreenManager screenManager, bool isActive)
         {
             _campaignStage = campaignStage;
+            _currentCampaign = currentCampaign;
             _buttonList = new List<ButtonBase>();
 
             Init(currentScreen, screenManager, isActive);
-            
         }
 
         private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
@@ -29,14 +30,14 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             {
                 var campaignStageItem = _campaignStage.Items[i];
 
-                var button = new TextButton($"Combat {i + 1}" + (isActive ? string.Empty : " (Completed)"));
+                var button = new TextButton($"Combat {i + 1}" + (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
                 _buttonList.Add(button);
 
                 if (isActive)
                 {
                     button.OnClick += (s, e) =>
                     {
-                        campaignStageItem.ExecuteTransition(currentScreen, screenManager);
+                        campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
                     };
                 }
                 else
