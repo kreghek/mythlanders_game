@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Client.Assets.StageItems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,11 +13,13 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
     {
         private readonly IList<ButtonBase> _buttonList;
         private readonly CampaignStage _campaignStage;
+        private readonly int _stageIndex;
         private readonly HeroCampaign _currentCampaign;
 
-        public CampaignStagePanel(CampaignStage campaignStage, HeroCampaign currentCampaign, IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        public CampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign, IScreen currentScreen, IScreenManager screenManager, bool isActive)
         {
             _campaignStage = campaignStage;
+            _stageIndex = stageIndex;
             _currentCampaign = currentCampaign;
             _buttonList = new List<ButtonBase>();
 
@@ -50,11 +51,11 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             }
         }
 
-        private static string GetStageItemDisplyayName(int stageIndex, ICampaignStageItem campaignStageItem)
+        private static string GetStageItemDisplyayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
         {
             if (campaignStageItem is CombatStageItem)
             {
-                return $"Combat {stageIndex + 1}";
+                return $"Combat {stageItemIndex + 1}";
             }
             else if (campaignStageItem is RewardStageItem)
             {
@@ -75,7 +76,7 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
 
             spriteBatch.DrawString(
                 UiThemeManager.UiContentStorage.GetMainFont(),
-                _campaignStage.Title,
+                $"Stage {_stageIndex}",
                 new Vector2(
                     contentRect.Left + CONTENT_MARGIN, 
                     contentRect.Top + CONTENT_MARGIN), 

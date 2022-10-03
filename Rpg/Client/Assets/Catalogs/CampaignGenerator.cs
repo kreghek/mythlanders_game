@@ -36,7 +36,7 @@ namespace Rpg.Client.Assets.Catalogs
         private HeroCampaign CreateCampaign()
         {
             var stages = new List<CampaignStage>();
-            for (var i = 0; i < 2; i++)
+            for (var i = 0; i < 20; i++)
             {
                 var stage = CreateStage(i);
                 stages.Add(stage);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.GameScreens.Campaign.Ui;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign.Ui;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Campaign
@@ -13,12 +14,11 @@ namespace Rpg.Client.GameScreens.Campaign
 
     internal class CampaignScreen : GameScreenWithMenuBase
     {
-        private readonly IList<CampaignStagePanel> _panelList;
+        private CampaignStagesPanel? _stagePanel;
         private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
 
         public CampaignScreen(EwarGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
         {
-            _panelList = new List<CampaignStagePanel>();
             _screenTransitionArguments = screenTransitionArguments;
         }
 
@@ -38,17 +38,10 @@ namespace Rpg.Client.GameScreens.Campaign
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            for (var panelIndex = 0; panelIndex < _panelList.Count; panelIndex++)
+            if (_stagePanel is not null)
             {
-                var stagePanel = _panelList[panelIndex];
-
-                const int HEIGHT = 160;
-                stagePanel.Rect = new Rectangle(
-                    contentRect.Left + ControlBase.CONTENT_MARGIN,
-                    contentRect.Top + (HEIGHT + ControlBase.CONTENT_MARGIN) * panelIndex,
-                    contentRect.Width - ControlBase.CONTENT_MARGIN * 2,
-                    HEIGHT);
-                stagePanel.Draw(spriteBatch);
+                _stagePanel.Rect = contentRect;
+                _stagePanel.Draw(spriteBatch);
             }
 
             spriteBatch.End();
@@ -58,24 +51,17 @@ namespace Rpg.Client.GameScreens.Campaign
         {
             base.UpdateContent(gameTime);
 
-            foreach (var stagePanel in _panelList)
+            if (_stagePanel is not null)
             {
-                stagePanel.Update(ResolutionIndependentRenderer);
+                _stagePanel.Update(ResolutionIndependentRenderer);
             }
         }
 
         private void InitializeCampaignItemButtons()
         {
             var currentCampaign = _screenTransitionArguments.Campaign;
-            var campaignStages = currentCampaign.CampaignStages;
-            for (int stageIndex = 0; stageIndex < campaignStages.Count; stageIndex++)
-            {
-                var stage = campaignStages[stageIndex];
-                stage.Title = $"Stage {stageIndex}";
-                bool stageIsActive = stageIndex == currentCampaign.CurrentStageIndex;
-                var stagePanel = new CampaignStagePanel(stage, currentCampaign, this, ScreenManager, stageIsActive);
-                _panelList.Add(stagePanel);
-            }
+
+            _stagePanel = new CampaignStagesPanel(currentCampaign, ScreenManager, this);
         }
 
         protected override void InitializeContent()
