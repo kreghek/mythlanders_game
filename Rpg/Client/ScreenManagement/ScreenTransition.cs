@@ -13,6 +13,7 @@
         EndGame,
         Credits,
         Hero,
-        Training
+        Training,
+        Armory
     }
 }
