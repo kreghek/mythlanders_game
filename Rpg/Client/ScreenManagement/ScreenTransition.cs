@@ -14,6 +14,7 @@
         Credits,
         Hero,
         Training,
-        Armory
+        Armory,
+        Tactical
     }
 }
