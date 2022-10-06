@@ -81,7 +81,7 @@ namespace Rpg.Client.Assets.Catalogs
             {
                 Items = new[]
                 {
-                    new SlidingPuzzlesStageItem(_globeProvider, _dice);
+                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
                 }
             };
 

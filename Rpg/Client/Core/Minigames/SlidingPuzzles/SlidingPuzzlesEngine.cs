@@ -9,17 +9,6 @@
         public SlidingPuzzlesEngine(SlidingPuzzlesMatrix startMatrix)
         {
             _matrix = startMatrix;
-
-            for (int x = 0; x < _matrix.Width; x++)
-            {
-                for (int y = 0; y < _matrix.Height; y++)
-                {
-                    if (_matrix[x, y] == 0)
-                    {
-                        _currentPosition = (x, y);
-                    }
-                }
-            }
         }
 
         public bool TryMove(int x, int y)
@@ -44,14 +33,6 @@
 
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
                 }
             }
 
@@ -66,14 +47,24 @@
                 {
                     for (int y = 0; y < _matrix.Height; y++)
                     {
-                        if (_matrix[x, y] == (x + y * _matrix.Width + 1))
-                        { 
-                            return true;
+                        if (x == _matrix.Width - 1 && y == _matrix.Height - 1)
+                        {
+                            if (_matrix[x, y] != 0)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            if (_matrix[x, y] != (x + y * _matrix.Width + 1))
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
 
-                return false;
+                return true;
             }
         }
     }

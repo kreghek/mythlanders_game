@@ -35,6 +35,7 @@ namespace Client.GameScreens.SlidingPuzzles
         private readonly int _height;
         private readonly SlidingPuzzlesMatrix _matrix;
         private readonly TextButton2[,] _buttonMatrix;
+        private TimeSpan _currentTime;
 
         public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
         {
@@ -80,22 +81,48 @@ namespace Client.GameScreens.SlidingPuzzles
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            ResolutionIndependentRenderer.BeginDraw();
+            spriteBatch.Begin(
+                sortMode: SpriteSortMode.Deferred,
+                blendState: BlendState.AlphaBlend,
+                samplerState: SamplerState.PointClamp,
+                depthStencilState: DepthStencilState.None,
+                rasterizerState: RasterizerState.CullNone,
+                transformMatrix: Camera.GetViewTransformationMatrix());
+
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Ходов: " + _puzzleEngine.TurnCounter.ToString(), new Vector2(contentRect.Right - 200, contentRect.Top), Color.Wheat);
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Время: " + _currentTime.ToString(), new Vector2(contentRect.Right - 200, contentRect.Top + 100), Color.Wheat);
+
+            if (_puzzleEngine.IsCompleted)
+            {
+                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Победа!", new Vector2(contentRect.Right - 200, contentRect.Top + 200), Color.Wheat);
+            }
+
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
                 {
                     var button = _buttonMatrix[x, y];
 
-                    button.Title = _matrix[x, y].ToString();
+                    button.Title = _matrix[x, y] == 0 ? string.Empty : _matrix[x, y].ToString();
                     button.Rect = new Rectangle(contentRect.Left + x * 50, contentRect.Top + y * 50, 50, 50);
                     button.Draw(spriteBatch);
                 }
             }
+
+            spriteBatch.End();
         }
 
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
+
+            if (_puzzleEngine.IsCompleted)
+            {
+                return;
+            }
+
+            _currentTime = _currentTime.Add(TimeSpan.FromSeconds(gameTime.ElapsedGameTime.TotalSeconds));
 
             for (int x = 0; x < _width; x++)
             {
@@ -110,18 +137,23 @@ namespace Client.GameScreens.SlidingPuzzles
 
         protected override void InitializeContent()
         {
-            for (int x = 0; x < _width; x++)
+            for (var x = 0; x < _width; x++)
             {
-                for (int y = 0; y < _height; y++)
+                for (var y = 0; y < _height; y++)
                 {
                     var button = new TextButton2(_matrix[x, y].ToString());
+
+                    var currentX = x;
+                    var currentY = y;
+
                     button.OnClick += (_, _) =>
                     {
-                        if (_puzzleEngine.TryMove(x, y))
+                        if (_puzzleEngine.TryMove(currentX, currentY))
                         { 
 
                         }
                     };
+
                     _buttonMatrix[x, y] = button;
                 }
             }
