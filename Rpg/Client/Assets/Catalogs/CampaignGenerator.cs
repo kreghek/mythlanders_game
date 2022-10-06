@@ -67,7 +67,25 @@ namespace Rpg.Client.Assets.Catalogs
                 return CreateTrainingStage();
             }
 
+            if (stageIndex == 2)
+            {
+                return CreateSlidingPuzzlesStage();
+            }
+
             return CreateCombatStage();
+        }
+
+        private CampaignStage CreateSlidingPuzzlesStage()
+        {
+            var stage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    new SlidingPuzzlesStageItem(_globeProvider, _dice);
+                }
+            };
+
+            return stage;
         }
 
         private CampaignStage CreateTrainingStage()

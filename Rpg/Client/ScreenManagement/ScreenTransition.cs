@@ -15,6 +15,7 @@
         Hero,
         Training,
         Armory,
-        Tactical
+        Tactical,
+        SlidingPuzzles
     }
 }

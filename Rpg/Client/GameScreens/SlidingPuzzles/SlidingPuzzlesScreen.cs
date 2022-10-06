@@ -123,7 +123,6 @@ namespace Client.GameScreens.SlidingPuzzles
                         }
                     };
                     _buttonMatrix[x, y] = button;
-
                 }
             }
         }
