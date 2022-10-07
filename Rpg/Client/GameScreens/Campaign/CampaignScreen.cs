@@ -11,7 +11,6 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Campaign
 {
-
     internal class CampaignScreen : GameScreenWithMenuBase
     {
         private CampaignStagesPanel? _stagePanel;

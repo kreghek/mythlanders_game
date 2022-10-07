@@ -36,6 +36,7 @@ namespace Rpg.Client.GameScreens
 
         private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
+        private Texture2D _puzzleTexture;
 
         public Effect GetAllWhiteEffect()
         {
@@ -305,6 +306,13 @@ namespace Rpg.Client.GameScreens
             {
                 return contentManager.Load<Texture2D>($"Sprites/GameObjects/PlayerUnits/{name}Face");
             }
+
+            _puzzleTexture = contentManager.Load<Texture2D>($"Sprites/GameObjects/Puzzle");
+        }
+
+        internal Texture2D GetPuzzleTexture()
+        {
+            return _puzzleTexture;
         }
 
         internal Texture2D GetBulletGraphics()

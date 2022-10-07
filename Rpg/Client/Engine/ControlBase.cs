@@ -39,13 +39,15 @@ namespace Rpg.Client.Engine
             DrawBackground(spriteBatch: spriteBatch, color: color);
 
             var contentRect = new Rectangle(
-                CONTENT_MARGIN + Rect.Left,
-                CONTENT_MARGIN + Rect.Top,
-                Rect.Width - (CONTENT_MARGIN * 2),
-                Rect.Height - (CONTENT_MARGIN * 2));
+                Margin + Rect.Left,
+                Margin + Rect.Top,
+                Rect.Width - (Margin * 2),
+                Rect.Height - (Margin * 2));
 
             DrawContent(spriteBatch, contentRect, color);
         }
+
+        protected virtual int Margin => CONTENT_MARGIN;
 
         protected abstract Point CalcTextureOffset();
 

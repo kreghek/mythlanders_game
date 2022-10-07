@@ -6,35 +6,30 @@ using System.Threading.Tasks;
 
 using Client.Core.Minigames.BarleyBreak;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.SlidingPuzzles
 {
-    internal sealed class SlidingPuzzlesScreenTransitionArguments: IScreenTransitionArguments
-    {
-        public HeroCampaign Campaign { get; }
-
-        public SlidingPuzzlesScreenTransitionArguments(HeroCampaign campaign)
-        {
-            Campaign = campaign;
-        }
-    }
 
     internal sealed class SlidingPuzzlesScreen : GameScreenWithMenuBase
     {
+        private const int BUTTON_SIZE = 75;
         private readonly HeroCampaign _campaign;
         private readonly SlidingPuzzlesEngine _puzzleEngine;
         private readonly int _width;
         private readonly int _height;
         private readonly SlidingPuzzlesMatrix _matrix;
-        private readonly TextButton2[,] _buttonMatrix;
+        private readonly PuzzleButton[,] _buttonMatrix;
+        private readonly GameObjectContentStorage _gameObjectContentStorage;
         private TimeSpan _currentTime;
 
         public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
@@ -56,7 +51,9 @@ namespace Client.GameScreens.SlidingPuzzles
 
             _matrix = matrix;
 
-            _buttonMatrix = new TextButton2[_width, _height];
+            _buttonMatrix = new PuzzleButton[_width, _height];
+
+            _gameObjectContentStorage = game.Services.GetRequiredService<GameObjectContentStorage>();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -96,17 +93,21 @@ namespace Client.GameScreens.SlidingPuzzles
             if (_puzzleEngine.IsCompleted)
             {
                 spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetTitlesFont(), "Победа!", new Vector2(contentRect.Right - 200, contentRect.Top + 200), Color.Wheat);
+                var destinationRectangle = new Rectangle(contentRect.Left, contentRect.Top, BUTTON_SIZE * _width, BUTTON_SIZE * _height);
+                spriteBatch.Draw(_gameObjectContentStorage.GetPuzzleTexture(), destinationRectangle, Color.White);
             }
-
-            for (int x = 0; x < _width; x++)
+            else
             {
-                for (int y = 0; y < _height; y++)
+                for (int x = 0; x < _width; x++)
                 {
-                    var button = _buttonMatrix[x, y];
+                    for (int y = 0; y < _height; y++)
+                    {
+                        var button = _buttonMatrix[x, y];
 
-                    button.Title = _matrix[x, y] == 0 ? string.Empty : _matrix[x, y].ToString();
-                    button.Rect = new Rectangle(contentRect.Left + x * 50, contentRect.Top + y * 50, 50, 50);
-                    button.Draw(spriteBatch);
+                        button.Number = _matrix[x, y];
+                        button.Rect = new Rectangle(contentRect.Left + x * BUTTON_SIZE, contentRect.Top + y * BUTTON_SIZE, BUTTON_SIZE, BUTTON_SIZE);
+                        button.Draw(spriteBatch);
+                    }
                 }
             }
 
@@ -141,7 +142,7 @@ namespace Client.GameScreens.SlidingPuzzles
             {
                 for (var y = 0; y < _height; y++)
                 {
-                    var button = new TextButton2(_matrix[x, y].ToString());
+                    var button = new PuzzleButton(_gameObjectContentStorage.GetPuzzleTexture(), _matrix.Width);
 
                     var currentX = x;
                     var currentY = y;
