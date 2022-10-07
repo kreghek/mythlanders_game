@@ -16,6 +16,6 @@ namespace Rpg.Client.Core.Campaigns
             CurrentStageIndex++;
         }
 
-        public bool IsCampaignComplete => CampaignStages.All(x=>x.IsCompleted);
+        public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
     }
 }

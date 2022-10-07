@@ -1,11 +1,12 @@
-﻿using Rpg.Client.Core;
+﻿using System.Collections.Generic;
+
+using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
-using System.Collections.Generic;
 
 namespace Client.GameScreens.Training
 {
-    internal sealed class TrainingScreenTransitionArguments: IScreenTransitionArguments
+    internal sealed class TrainingScreenTransitionArguments : IScreenTransitionArguments
     {
         private readonly HeroCampaign _campaign;
 

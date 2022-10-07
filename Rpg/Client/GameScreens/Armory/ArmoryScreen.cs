@@ -23,7 +23,7 @@ internal sealed class ArmoryScreenTransitionArguments : IScreenTransitionArgumen
     public IReadOnlyList<Equipment> AvailableEquipment { get; }
 }
 
-internal sealed class ArmoryScreen: GameScreenWithMenuBase
+internal sealed class ArmoryScreen : GameScreenWithMenuBase
 {
     private readonly ArmoryScreenTransitionArguments _args;
 

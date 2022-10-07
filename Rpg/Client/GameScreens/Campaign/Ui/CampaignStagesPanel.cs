@@ -28,7 +28,7 @@ namespace Client.GameScreens.Campaign.Ui
             InitChildControls(heroCampaign.CampaignStages, heroCampaign, _panelList);
         }
 
-        
+
 
         private void InitChildControls(IReadOnlyList<CampaignStage> stages, HeroCampaign currentCampaign, IList<CampaignStagePanel> panelList)
         {

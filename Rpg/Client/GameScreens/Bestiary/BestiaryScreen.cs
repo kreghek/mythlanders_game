@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Client;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -81,12 +83,12 @@ namespace Rpg.Client.GameScreens.Bestiary
         {
             base.UpdateContent(gameTime);
 
-           
-                foreach (var button in _buttonList)
-                {
-                    button.Update(ResolutionIndependentRenderer);
-                }
-            
+
+            foreach (var button in _buttonList)
+            {
+                button.Update(ResolutionIndependentRenderer);
+            }
+
         }
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)

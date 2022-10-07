@@ -82,7 +82,7 @@ namespace Rpg.Client.GameScreens.CampaignSelection
             {
                 var panel = new CampaignPanel(campaign);
                 panels.Add(panel);
-                panel.Selected += (_, _) => 
+                panel.Selected += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments() { Campaign = campaign });
                 };

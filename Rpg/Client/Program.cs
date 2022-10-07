@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using NReco.Logging.File;
-using Rpg.Client;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+
+using Microsoft.Extensions.Logging;
+
+using NReco.Logging.File;
+
+using Rpg.Client;
 
 static ILogger<EwarGame> CreateLogging()
 {

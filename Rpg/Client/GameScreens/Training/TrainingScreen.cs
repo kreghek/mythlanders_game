@@ -1,14 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Client.GameScreens.Training
 {
@@ -46,7 +48,8 @@ namespace Client.GameScreens.Training
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments { 
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
+            {
                 Campaign = _campaign
             });
         }

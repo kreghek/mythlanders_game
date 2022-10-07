@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Client;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 
