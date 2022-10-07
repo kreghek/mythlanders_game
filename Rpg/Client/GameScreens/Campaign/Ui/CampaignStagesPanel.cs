@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +10,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui
 {
+
     internal sealed class CampaignStagesPanel : ControlBase
     {
         private readonly IList<CampaignStagePanel> _panelList;
@@ -23,22 +23,12 @@ namespace Client.GameScreens.Campaign.Ui
             _panelList = new List<CampaignStagePanel>();
             _screenManager = screenManager;
             _currentScreen = currentScreen;
-            _minIndex = CalcMin(heroCampaign);
+            _minIndex = CampaignStagesPanelHelper.CalcMin(heroCampaign.CurrentStageIndex, heroCampaign.CampaignStages.Count, 3);
 
             InitChildControls(heroCampaign.CampaignStages, heroCampaign, _panelList);
         }
 
-        private static int CalcMin(HeroCampaign heroCampaign)
-        {
-            var min = Math.Max(0, heroCampaign.CurrentStageIndex - 1);
-
-            if (min + 3 > heroCampaign.CampaignStages.Count - 1)
-            {
-                min = heroCampaign.CampaignStages.Count - 1 - 3;
-            }
-
-            return min;
-        }
+        
 
         private void InitChildControls(IReadOnlyList<CampaignStage> stages, HeroCampaign currentCampaign, IList<CampaignStagePanel> panelList)
         {
