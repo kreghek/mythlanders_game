@@ -121,7 +121,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combat = CreateCombat(args.CombatSequence.Combats[args.CurrentCombatIndex], args.IsAutoplay,
                 args.Location);
 
-            soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
+            soundtrackManager.PlayCombatTrack((BiomeType)((int)args.Location.Sid / 100 * 100));
         }
 
         protected override IList<ButtonBase> CreateMenu()
