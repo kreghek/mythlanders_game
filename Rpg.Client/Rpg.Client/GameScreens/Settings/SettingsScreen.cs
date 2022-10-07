@@ -287,5 +287,9 @@ namespace Rpg.Client.GameScreens.Settings
 
             graphicsManager.ApplyChanges();
         }
+
+        protected override void InitializeContent()
+        {
+        }
     }
 }

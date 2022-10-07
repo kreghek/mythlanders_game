@@ -22,7 +22,6 @@ namespace Rpg.Client.GameScreens.Party
 
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
-        private bool _isInitialized;
 
         public PartyScreen(EwarGame game) : base(game)
         {
@@ -46,11 +45,6 @@ namespace Rpg.Client.GameScreens.Party
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            if (!_isInitialized)
-            {
-                return;
-            }
-
             ResolutionIndependentRenderer.BeginDraw();
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
@@ -67,40 +61,36 @@ namespace Rpg.Client.GameScreens.Party
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+            var heroes = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
+            foreach (var hero in heroes)
+            {
+                var resources = new HeroPanelResources
+                (
+                    buttonTexture: _uiContentStorage.GetControlBackgroundTexture(),
+                    buttonFont: _uiContentStorage.GetTitlesFont(),
+                    indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
+                    portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),
+                    disabledTexture: _uiContentStorage.GetDisabledTexture(),
+                    nameFont: _uiContentStorage.GetTitlesFont(),
+                    mainFont: _uiContentStorage.GetMainFont()
+                );
+
+                var panel = new HeroPanel(hero, _globeProvider.Globe.Player, resources);
+                _characterPanels.Add(panel);
+
+                panel.SelectCharacter += Panel_SelectCharacter;
+            }
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
 
-            if (!_isInitialized)
+            foreach (var characterPanel in _characterPanels)
             {
-                var heroes = _globeProvider.Globe.Player.GetAll().OrderBy(x => x.UnitScheme.Name).ToArray();
-                foreach (var hero in heroes)
-                {
-                    var resources = new HeroPanelResources
-                    (
-                        buttonTexture: _uiContentStorage.GetControlBackgroundTexture(),
-                        buttonFont: _uiContentStorage.GetTitlesFont(),
-                        indicatorsTexture: _uiContentStorage.GetButtonIndicatorsTexture(),
-                        portraitTexture: _gameObjectsContentStorage.GetUnitPortrains(),
-                        disabledTexture: _uiContentStorage.GetDisabledTexture(),
-                        nameFont: _uiContentStorage.GetTitlesFont(),
-                        mainFont: _uiContentStorage.GetMainFont()
-                    );
-
-                    var panel = new HeroPanel(hero, _globeProvider.Globe.Player, resources);
-                    _characterPanels.Add(panel);
-
-                    panel.SelectCharacter += Panel_SelectCharacter;
-                }
-
-                _isInitialized = true;
-            }
-            else
-            {
-                foreach (var characterPanel in _characterPanels)
-                {
-                    characterPanel.Update(ResolutionIndependentRenderer);
-                }
+                characterPanel.Update(ResolutionIndependentRenderer);
             }
         }
 

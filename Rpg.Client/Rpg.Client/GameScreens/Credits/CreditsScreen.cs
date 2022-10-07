@@ -55,6 +55,10 @@ namespace Rpg.Client.GameScreens.Credits
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             var size = _font.MeasureString(_creditsText);

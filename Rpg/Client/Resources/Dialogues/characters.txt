@@ -1,0 +1,29 @@
+﻿characters=[ {
+"name": "Swordsman",
+"portraits": [  ],
+"uuid": "01a8f20e-1d14-46b7-b802-7e4c4580662b"
+}, {
+"name": "Environment",
+"portraits": [  ],
+"uuid": "e44fc9e3-f6a9-49a5-a908-6cf5d7f03dec"
+}, {
+"name": "Comissar",
+"portraits": [  ],
+"uuid": "d7cdc5d1-b1ec-47b3-8f0a-fe03f1a3981b"
+}, {
+"name": "Assaulter",
+"portraits": [  ],
+"uuid": "0fc3c15a-0b64-4bcc-9d8c-c03834ea3f7e"
+}, {
+"name": "Archer",
+"portraits": [  ],
+"uuid": "1e8f866c-c8a4-4fb8-9032-ed1877a00ff1"
+}, {
+"name": "HQ",
+"portraits": [  ],
+"uuid": "0de02369-79af-4282-8f0c-d33b97db18e0"
+}, {
+"name": "Herbalist",
+"portraits": [  ],
+"uuid": "dd93b472-45e7-47c4-add1-e5c9b1bd8525"
+} ]

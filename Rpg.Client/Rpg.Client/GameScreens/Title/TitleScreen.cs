@@ -5,8 +5,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
@@ -23,6 +26,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
+        private readonly ICampaignGenerator _campaignGenerator;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -48,6 +52,7 @@ namespace Rpg.Client.GameScreens.Title
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
+            _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
 
             _dice = Game.Services.GetService<IDice>();
             _gameSettings = Game.Services.GetService<GameSettings>();
@@ -114,24 +119,34 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
-        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
+        public void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
             IScreen currentScreen, IScreenManager screenManager,
             Action? clearScreenHandlersDelegate)
         {
             globeProvider.GenerateNew();
 
-            globeProvider.Globe.IsNodeInitialized = true;
+            var campaigns = _campaignGenerator.CreateSet();
 
-            var firstAvailableNodeInBiome =
-                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .First(x => x.IsAvailable);
+            screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.CampaignSelection,
+                new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns,
+                });
 
-            MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
-                eventCatalog: eventCatalog,
-                currentScreen: currentScreen,
-                screenManager,
-                clearScreenHandlersDelegate);
+            //globeProvider.Globe.IsNodeInitialized = true;
+
+            //var firstAvailableNodeInBiome =
+            //    globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+            //        .First(x => x.IsAvailable);
+
+            //MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+            //    availableEvent: firstAvailableNodeInBiome.AssignedEvent,
+            //    eventCatalog: eventCatalog,
+            //    currentScreen: currentScreen,
+            //    screenManager,
+            //    clearScreenHandlersDelegate);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -371,6 +386,10 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
+        }
+
+        protected override void InitializeContent()
+        {
         }
     }
 }

@@ -542,5 +542,9 @@ namespace Rpg.Client.GameScreens.Speech
                 _frameIndex = 0;
             }
         }
+
+        protected override void InitializeContent()
+        {
+        }
     }
 }
