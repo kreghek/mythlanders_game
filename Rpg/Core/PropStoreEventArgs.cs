@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Game.Core
+namespace Core
 {
     /// <summary>
     /// Arguments for inventory events.

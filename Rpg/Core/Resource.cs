@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Game.Core
+namespace Core
 {
     public sealed class Resource : PropBase
     {

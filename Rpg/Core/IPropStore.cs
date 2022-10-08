@@ -1,4 +1,4 @@
-﻿namespace Game.Core
+﻿namespace Core
 {
     /// <summary>
     /// Item storage interface.

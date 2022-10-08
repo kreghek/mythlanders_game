@@ -1,4 +1,4 @@
-﻿namespace Game.Core
+﻿namespace Core
 {
     /// <summary>
     /// Базовый класс для всех хранилищ предметов.

@@ -1,4 +1,4 @@
-﻿using Game.Core;
+﻿using Core;
 
 namespace Client.Core
 {

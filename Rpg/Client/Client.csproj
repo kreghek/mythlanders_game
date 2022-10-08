@@ -149,6 +149,6 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Rpg.Client\Game.Core\Game.Core.csproj" />
+	  <ProjectReference Include="..\Core\Core.csproj" />
 	</ItemGroup>
 </Project>
