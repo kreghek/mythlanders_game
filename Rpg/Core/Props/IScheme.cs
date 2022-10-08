@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Core.Props
 {
     /// <summary>
     /// Interface of all schemes.

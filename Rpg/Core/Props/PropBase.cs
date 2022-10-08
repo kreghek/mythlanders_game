@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Core.Props
 {
     /// <summary>
     /// Base class for all items.

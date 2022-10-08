@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Core.Props
 {
     /// <summary>
     /// Базовый класс для всех хранилищ предметов.

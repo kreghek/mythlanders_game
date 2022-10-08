@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Core
+namespace Core.Props
 {
     public sealed class Resource : PropBase
     {

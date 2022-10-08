@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Core
+namespace Core.Props
 {
     /// <summary>
     /// Arguments for inventory events.
