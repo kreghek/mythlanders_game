@@ -1,8 +1,10 @@
-﻿using Client.GameScreens.Training;
+﻿using System.Linq;
+
+using Client.GameScreens.Training;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
-using System.Linq;
 
 namespace Client.Assets.StageItems
 {

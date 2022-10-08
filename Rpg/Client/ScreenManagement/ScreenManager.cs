@@ -2,6 +2,7 @@
 
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.Training;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -120,7 +121,7 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Combat => new CombatScreen(_game,
                     (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game, (TrainingScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,(SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game, (SlidingPuzzlesScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Client.Assets.StageItems;
 
 using Rpg.Client.Assets.Perks;
@@ -24,7 +25,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         public IReadOnlyList<HeroCampaign> CreateSet()
         {
-            var availbleLocations = new[] { 
+            var availbleLocations = new[] {
                 GlobeNodeSid.Thicket,
                 GlobeNodeSid.Monastery,
                 GlobeNodeSid.ShipGraveyard,
@@ -71,7 +72,7 @@ namespace Rpg.Client.Assets.Catalogs
             var campaign = new HeroCampaign
             {
                 CampaignStages = stages
-            };            
+            };
 
             return campaign;
         }

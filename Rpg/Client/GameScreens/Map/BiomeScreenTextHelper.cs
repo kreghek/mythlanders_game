@@ -1,5 +1,6 @@
-﻿using Client;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+
+using Client;
 
 namespace Rpg.Client.GameScreens.Map
 {

@@ -150,7 +150,7 @@ namespace Client.GameScreens.SlidingPuzzles
                     button.OnClick += (_, _) =>
                     {
                         if (_puzzleEngine.TryMove(currentX, currentY))
-                        { 
+                        {
 
                         }
                     };

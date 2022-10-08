@@ -3,7 +3,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.SlidingPuzzles
 {
-    internal sealed class SlidingPuzzlesScreenTransitionArguments: IScreenTransitionArguments
+    internal sealed class SlidingPuzzlesScreenTransitionArguments : IScreenTransitionArguments
     {
         public HeroCampaign Campaign { get; }
 

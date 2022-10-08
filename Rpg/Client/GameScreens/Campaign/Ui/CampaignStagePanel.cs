@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using Client.Assets.StageItems;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -78,8 +81,8 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                 UiThemeManager.UiContentStorage.GetMainFont(),
                 $"Stage {_stageIndex}",
                 new Vector2(
-                    contentRect.Left + CONTENT_MARGIN, 
-                    contentRect.Top + CONTENT_MARGIN), 
+                    contentRect.Left + CONTENT_MARGIN,
+                    contentRect.Top + CONTENT_MARGIN),
                 Color.Wheat);
 
             var summaryButtonWidth = (WIDTH + CONTENT_MARGIN) * _buttonList.Count + CONTENT_MARGIN;
