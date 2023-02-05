@@ -148,4 +148,7 @@
 			<_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Core\Core.csproj" />
+	</ItemGroup>
 </Project>
