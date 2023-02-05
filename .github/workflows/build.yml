@@ -75,9 +75,9 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        path: bin/version.txt
+        path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.1-dev#${{ github.run_number }}
+          ver 0.2-dev#${{ github.run_number }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite
