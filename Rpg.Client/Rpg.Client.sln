@@ -3,13 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rpg.Client", "Rpg.Client\Rpg.Client.csproj", "{BB90E00F-AE35-440B-A313-76732DBF7FDA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D89326DF-EE4E-4EE9-8C4E-112776FA7D85}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
 		..\.github\workflows\calibreapp-image-actions.yml = ..\.github\workflows\calibreapp-image-actions.yml
+		..\Rpg\Client\.config\dotnet-tools.json = ..\Rpg\Client\.config\dotnet-tools.json
 		..\.github\workflows\linter.yml = ..\.github\workflows\linter.yml
 		..\.github\workflows\remove-old-artifacts.yml = ..\.github\workflows\remove-old-artifacts.yml
 	EndProjectSection
@@ -26,16 +25,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialoguePlayer", "DialogueP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeDialoduesEditorResGenerator", "LeDialoduesEditorResGenerator\LeDialoduesEditorResGenerator.csproj", "{7A49F4AE-97F7-454B-86FD-6294B6C57C0E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "..\Rpg\Client\Client.csproj", "{F38AAA7D-5F2B-46CA-89E3-1EBBB78D421B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content", "..\Rpg\Content\Content.csproj", "{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.csproj", "{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB90E00F-AE35-440B-A313-76732DBF7FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB90E00F-AE35-440B-A313-76732DBF7FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB90E00F-AE35-440B-A313-76732DBF7FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB90E00F-AE35-440B-A313-76732DBF7FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DB303DC-804C-4B09-B980-8D25AF699675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DB303DC-804C-4B09-B980-8D25AF699675}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DB303DC-804C-4B09-B980-8D25AF699675}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -60,13 +61,25 @@ Global
 		{7A49F4AE-97F7-454B-86FD-6294B6C57C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A49F4AE-97F7-454B-86FD-6294B6C57C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A49F4AE-97F7-454B-86FD-6294B6C57C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38AAA7D-5F2B-46CA-89E3-1EBBB78D421B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38AAA7D-5F2B-46CA-89E3-1EBBB78D421B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38AAA7D-5F2B-46CA-89E3-1EBBB78D421B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38AAA7D-5F2B-46CA-89E3-1EBBB78D421B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD45E74-BC1B-4962-9951-2BDB3A84F60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
-		RESX_SortFileContentOnSave = True
 		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
 	EndGlobalSection
 EndGlobal

@@ -29,8 +29,7 @@ namespace DialoguePlayer
 
             var storyPointInitializer = new StoryPointCatalog();
             var dice = new LinearDice();
-            var globeProvider = new GlobeProvider(dice, unitSchemeCatalog,
-                new BiomeGenerator(dice, unitSchemeCatalog, eventCatalog), eventCatalog, storyPointInitializer);
+            var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog, storyPointInitializer);
             globeProvider.GenerateNew();
             var globe = globeProvider.Globe;
             var player = new Player();

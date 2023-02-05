@@ -14,22 +14,16 @@ namespace Rpg.Client.GameScreens.Bestiary
     {
         private readonly IList<ButtonBase> _buttonList;
 
-        private readonly Camera2D _camera;
         private readonly Player _player;
-        private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private readonly IUiContentStorage _uiContentStorage;
         private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-        private bool _isInitialized;
         private UnitScheme? _selectedMonster;
 
         public BestiaryScreen(EwarGame game)
             : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-
-            _camera = game.Services.GetService<Camera2D>();
-            _resolutionIndependentRenderer = game.Services.GetService<ResolutionIndependentRenderer>();
 
             _unitSchemeCatalog = game.Services.GetService<IUnitSchemeCatalog>();
             var globeProvider = game.Services.GetService<GlobeProvider>();
@@ -40,10 +34,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var backButton = new ResourceTextButton(
-                nameof(UiResource.BackButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont());
+            var backButton = new ResourceTextButton(nameof(UiResource.BackButtonTitle));
 
             backButton.OnClick += (_, _) =>
             {
@@ -55,14 +46,14 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
         {
-            _resolutionIndependentRenderer.BeginDraw();
+            ResolutionIndependentRenderer.BeginDraw();
             spriteBatch.Begin(
                 sortMode: SpriteSortMode.Deferred,
                 blendState: BlendState.AlphaBlend,
                 samplerState: SamplerState.PointClamp,
                 depthStencilState: DepthStencilState.None,
                 rasterizerState: RasterizerState.CullNone,
-                transformMatrix: _camera.GetViewTransformationMatrix());
+                transformMatrix: Camera.GetViewTransformationMatrix());
 
             for (var index = 0; index < _buttonList.Count; index++)
             {
@@ -90,19 +81,12 @@ namespace Rpg.Client.GameScreens.Bestiary
         {
             base.UpdateContent(gameTime);
 
-            if (!_isInitialized)
-            {
-                InitializeMonsterButtons();
-
-                _isInitialized = true;
-            }
-            else
-            {
+           
                 foreach (var button in _buttonList)
                 {
-                    button.Update(_resolutionIndependentRenderer);
+                    button.Update(ResolutionIndependentRenderer);
                 }
-            }
+            
         }
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
@@ -160,11 +144,15 @@ namespace Rpg.Client.GameScreens.Bestiary
                 var unitName = monsterScheme.Name;
                 var name = GameObjectHelper.GetLocalized(unitName);
 
-                var button = new TextButton(name, _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont(), new Rectangle());
+                var button = new TextButton(name);
                 button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
                 _buttonList.Add(button);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            InitializeMonsterButtons();
         }
     }
 }

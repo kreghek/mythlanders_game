@@ -17,14 +17,18 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly CombatSkill _skill;
         private readonly ICombatUnit _unit;
 
-        public SkillHint(Texture2D texture, SpriteFont font, CombatSkill skill, ICombatUnit unit, ICombat combat) :
-            base(texture)
+        public SkillHint(CombatSkill skill, ICombatUnit unit, ICombat combat)
         {
-            _font = font;
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
             _skill = skill;
             _unit = unit;
             _combat = combat;
             _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(_font).ToArray();
+        }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)

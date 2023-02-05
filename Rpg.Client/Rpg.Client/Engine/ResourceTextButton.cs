@@ -8,17 +8,16 @@ namespace Rpg.Client.Engine
         private readonly SpriteFont _font;
         private readonly string _resourceSid;
 
-        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font) : this(resourceSid, texture,
-            font, Rectangle.Empty)
-        {
-        }
-
-        public ResourceTextButton(string resourceSid, Texture2D texture, SpriteFont font, Rectangle rect) : base(
-            texture, rect)
+        public ResourceTextButton(string resourceSid)
         {
             _resourceSid = resourceSid;
 
-            _font = font;
+            _font = UiThemeManager.UiContentStorage.GetMainFont();
+        }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color color)

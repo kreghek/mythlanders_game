@@ -30,13 +30,6 @@ namespace Rpg.Client.Engine
             }
         };
 
-        private readonly Texture2D _texture;
-
-        protected ControlBase(Texture2D texture)
-        {
-            _texture = texture;
-        }
-
         public Rectangle Rect { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -53,6 +46,8 @@ namespace Rpg.Client.Engine
 
             DrawContent(spriteBatch, contentRect, color);
         }
+
+        protected abstract Point CalcTextureOffset();
 
         protected abstract Color CalculateColor();
 
@@ -80,14 +75,18 @@ namespace Rpg.Client.Engine
                 }
             };
 
+            var _texture = UiThemeManager.UiContentStorage.GetControlBackgroundTexture();
+
             for (var x = 0; x < 3; x++)
             {
                 for (var y = 0; y < 3; y++)
                 {
-                    var destRect =
-                        new Rectangle((destRectsBase[x, y].Location.ToVector2() + Rect.Location.ToVector2()).ToPoint(),
-                            destRectsBase[x, y].Size);
-                    spriteBatch.Draw(_texture, destRect, _sourceRects[x, y], color);
+                    var sourceRect = _sourceRects[x, y];
+                    sourceRect.Offset(CalcTextureOffset());
+
+                    var controlPosition = destRectsBase[x, y].Location + Rect.Location;
+                    var destRect = new Rectangle(controlPosition, destRectsBase[x, y].Size);
+                    spriteBatch.Draw(_texture, destRect, sourceRect, color);
                 }
             }
         }

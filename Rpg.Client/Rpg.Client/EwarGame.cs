@@ -71,11 +71,6 @@ namespace Rpg.Client
             soundtrackComponent.Initialize(soundtrackManager);
             Components.Add(soundtrackComponent);
 
-            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
-            var uiContentStorage = Services.GetService<IUiContentStorage>();
-            UiThemeManager.SoundStorage = uiSoundStorage;
-            UiThemeManager.UiContentStorage = uiContentStorage;
-
             _resolutionIndependence = new ResolutionIndependentRenderer(this);
             Services.AddService(_resolutionIndependence);
 
@@ -125,6 +120,8 @@ namespace Rpg.Client
 
             var uiSoundStorage = Services.GetService<IUiSoundStorage>();
             uiSoundStorage.LoadContent(Content);
+
+            InitUiThemeManager();
 
             var soundtrackManager = Services.GetService<SoundtrackManager>();
             soundtrackManager.Initialize(uiContentStorage);
@@ -193,6 +190,14 @@ namespace Rpg.Client
             _camera.RecalculateTransformationMatrices();
         }
 
+        private void InitUiThemeManager()
+        {
+            var uiSoundStorage = Services.GetService<IUiSoundStorage>();
+            var uiContentStorage = Services.GetService<IUiContentStorage>();
+            UiThemeManager.SoundStorage = uiSoundStorage;
+            UiThemeManager.UiContentStorage = uiContentStorage;
+        }
+
         private void LogGameVersion()
         {
             if (VersionHelper.TryReadVersion(out var version))
@@ -234,10 +239,10 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IEventCatalog>());
-                Services.AddService<IBiomeGenerator>(biomeGenerator);
+                //var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
+                //    Services.GetService<IUnitSchemeCatalog>(),
+                //    Services.GetService<IEventCatalog>());
+                //Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var storyPointCatalog = new StoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
@@ -254,15 +259,18 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IEventCatalog>());
-                Services.AddService<IBiomeGenerator>(biomeGenerator);
+                //var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
+                //    Services.GetService<IUnitSchemeCatalog>(),
+                //    Services.GetService<IEventCatalog>());
+                //Services.AddService<IBiomeGenerator>(biomeGenerator);
 
                 var storyPointCatalog = new DemoStoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }
+
+            var campaignGenerator = new CampaignGenerator(Services.GetService<IUnitSchemeCatalog>());
+            Services.AddService<ICampaignGenerator>(campaignGenerator);
 
             var eventInitializer = Services.GetService<IEventInitializer>();
             eventInitializer.Init();
@@ -271,7 +279,7 @@ namespace Rpg.Client
                 new GlobeProvider(
                     Services.GetService<IDice>(),
                     Services.GetService<IUnitSchemeCatalog>(),
-                    Services.GetService<IBiomeGenerator>(),
+                    //Services.GetService<IBiomeGenerator>(),
                     Services.GetService<IEventCatalog>(),
                     Services.GetService<IStoryPointInitializer>()));
 

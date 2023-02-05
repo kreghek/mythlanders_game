@@ -9,14 +9,19 @@ namespace Rpg.Client.GameScreens.Hero.Ui
     {
         private readonly SpriteFont _titleFont;
 
-        protected PanelBase(Texture2D texture, SpriteFont titleFont) : base(texture)
+        protected PanelBase()
         {
-            _titleFont = titleFont;
+            _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
         }
 
         protected abstract string TitleResourceId { get; }
 
         public virtual void Update(GameTime gameTime) { }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {

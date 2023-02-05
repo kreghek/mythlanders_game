@@ -20,26 +20,20 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private const int MARGIN = 5;
 
         private readonly IList<EntityIconButton<Equipment>> _equipmentButtons;
-        private readonly Texture2D _hintTexture;
-        private readonly SpriteFont _mainFont;
         private readonly Player _player;
         private readonly ResolutionIndependentRenderer _resolutionIndependentRenderer;
         private EntityIconButton<Equipment>? _equipmentButtonUnderHint;
         private TextHint? _equipmentHint;
         private Equipment? _equipmentUnderHint;
 
-        public EquipmentsInfoPanel(Texture2D texture, SpriteFont titleFont, Unit hero, SpriteFont mainFont,
-            Texture2D controlTexture, Texture2D equipmentIconsTexture, Texture2D hintTexture, Player player,
-            ResolutionIndependentRenderer resolutionIndependentRenderer) : base(
-            texture, titleFont)
+        public EquipmentsInfoPanel(Unit hero, Texture2D equipmentIconsTexture, Player player,
+            ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
-            _mainFont = mainFont;
-            _hintTexture = hintTexture;
             _player = player;
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
             _equipmentButtons = new List<EntityIconButton<Equipment>>();
 
-            InitEquipmentButtons(hero, controlTexture, equipmentIconsTexture);
+            InitEquipmentButtons(hero, equipmentIconsTexture);
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroEquipmentInfoTitle);
@@ -60,6 +54,11 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
+        }
+
         protected override Color CalculateColor()
         {
             return Color.White;
@@ -67,6 +66,8 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
         protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
         {
+            var mainFont = UiThemeManager.UiContentStorage.GetMainFont();
+
             for (var index = 0; index < _equipmentButtons.Count; index++)
             {
                 var equipmentButton = _equipmentButtons[index];
@@ -79,14 +80,15 @@ namespace Rpg.Client.GameScreens.Hero.Ui
                 var equipment = equipmentButton.Entity;
                 var entityNameText = GameObjectHelper.GetLocalized(equipment.Scheme.Sid);
                 var entityInfoText = string.Format(UiResource.EquipmentTitleTemplate, entityNameText, equipment.Level);
-                spriteBatch.DrawString(_mainFont, entityInfoText,
+
+                spriteBatch.DrawString(mainFont, entityInfoText,
                     equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 0), Color.Wheat);
 
                 var upgradeIsAvailable = CheckUpgradeIsAvailable(equipment);
                 if (upgradeIsAvailable)
                 {
                     var upgradeInfoText = UiResource.EquipmentUpgradeMarkerText;
-                    spriteBatch.DrawString(_mainFont, upgradeInfoText,
+                    spriteBatch.DrawString(mainFont, upgradeInfoText,
                         equipmentButton.Rect.Location.ToVector2() + new Vector2(ICON_SIZE + MARGIN, 20), Color.Cyan);
                 }
             }
@@ -107,12 +109,12 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             _equipmentHint = null;
         }
 
-        private EntityIconButton<Equipment> CreateEquipmentButton(Equipment equipment, Texture2D controlTexture,
+        private EntityIconButton<Equipment> CreateEquipmentButton(Equipment equipment,
             Texture2D equipmentIconsTexture)
         {
             var equipmentIconRect = GetEquipmentIconRect(equipment.Scheme.Metadata);
 
-            var equipmentIconButton = new EntityIconButton<Equipment>(controlTexture,
+            var equipmentIconButton = new EntityIconButton<Equipment>(
                 new IconData(equipmentIconsTexture, equipmentIconRect), equipment);
             equipmentIconButton.OnClick += EquipmentIconButton_OnClick;
             return equipmentIconButton;
@@ -136,7 +138,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             sb.AppendLine(Environment.NewLine);
             sb.AppendLine(equipmentDescriptionText);
 
-            _equipmentHint = new TextHint(_hintTexture, _mainFont, sb.ToString());
+            _equipmentHint = new TextHint(sb.ToString());
             _equipmentButtonUnderHint = equipmentButton;
         }
 
@@ -218,7 +220,7 @@ namespace Rpg.Client.GameScreens.Hero.Ui
 
             if (_equipmentHint is not null)
             {
-                var textSize = _mainFont.MeasureString(_equipmentHint.Text);
+                var textSize = UiThemeManager.UiContentStorage.GetMainFont().MeasureString(_equipmentHint.Text);
                 var marginVector = new Vector2(10, 15) * 2;
 
                 Debug.Assert(_equipmentButtonUnderHint is not null,
@@ -230,13 +232,13 @@ namespace Rpg.Client.GameScreens.Hero.Ui
             }
         }
 
-        private void InitEquipmentButtons(Unit hero, Texture2D controlTexture, Texture2D equipmentIconsTexture)
+        private void InitEquipmentButtons(Unit hero, Texture2D equipmentIconsTexture)
         {
             var equipmentList = hero.Equipments;
             foreach (var equipment in equipmentList)
             {
                 var equipmentIconButton =
-                    CreateEquipmentButton(equipment, controlTexture, equipmentIconsTexture);
+                    CreateEquipmentButton(equipment, equipmentIconsTexture);
 
                 _equipmentButtons.Add(equipmentIconButton);
             }

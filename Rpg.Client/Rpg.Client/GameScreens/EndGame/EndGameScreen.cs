@@ -21,10 +21,7 @@ namespace Rpg.Client.GameScreens.EndGame
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
 
-            _backButton = new ResourceTextButton(nameof(UiResource.CompleteGameButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(),
-                Rectangle.Empty);
+            _backButton = new ResourceTextButton(nameof(UiResource.CompleteGameButtonTitle));
             _backButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Credits, null);
@@ -57,6 +54,10 @@ namespace Rpg.Client.GameScreens.EndGame
             _backButton.Rect = new Rectangle(buttonPosition.ToPoint(), new Point(BUTTON_WIDTH, BUTTON_HEIGHT));
             _backButton.Draw(spriteBatch);
             spriteBatch.End();
+        }
+
+        protected override void InitializeContent()
+        {
         }
 
         protected override void UpdateContent(GameTime gameTime)

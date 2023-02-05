@@ -7,8 +7,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map.GameObjects;
@@ -73,62 +75,67 @@ namespace Rpg.Client.GameScreens.Map
         {
             clearScreenHandlersDelegate?.Invoke();
 
-            if (availableEvent is not null)
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
             {
-                availableEvent.Counter++;
+                Campaign = node.Campaign
+            });
 
-                if (availableEvent.BeforeCombatStartNodeSid is not null)
-                {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
-                    {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
-                    }
+            //if (availableEvent is not null)
+            //{
+            //    availableEvent.Counter++;
 
-                    var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
-                    {
-                        Location = node,
-                        CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
-                        NextCombats = node.AssignedCombats,
-                        CombatVictoryDialogue = combatVictoryDialogue,
-                        IsStartDialogueEvent = availableEvent.IsGameStart
-                    };
+            //    if (availableEvent.BeforeCombatStartNodeSid is not null)
+            //    {
+            //        Dialogue? combatVictoryDialogue = null;
+            //        if (availableEvent.AfterCombatStartNodeSid is not null)
+            //        {
+            //            combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+            //        }
 
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
-                }
-                else
-                {
-                    Dialogue? combatVictoryDialogue = null;
-                    if (availableEvent.AfterCombatStartNodeSid is not null)
-                    {
-                        combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
-                    }
+            //        var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
+            //        {
+            //            Location = node,
+            //            CurrentDialogue = eventCatalog.GetDialogue(availableEvent.BeforeCombatStartNodeSid),
+            //            NextCombats = node.AssignedCombats,
+            //            CombatVictoryDialogue = combatVictoryDialogue,
+            //            IsStartDialogueEvent = availableEvent.IsGameStart
+            //        };
 
-                    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                    {
-                        Location = node,
-                        CombatSequence = node.AssignedCombats,
-                        IsAutoplay = autoCombat,
-                        VictoryDialogue = combatVictoryDialogue
-                    };
+            //        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, speechScreenTransitionArgs);
+            //    }
+            //    else
+            //    {
+            //        Dialogue? combatVictoryDialogue = null;
+            //        if (availableEvent.AfterCombatStartNodeSid is not null)
+            //        {
+            //            combatVictoryDialogue = eventCatalog.GetDialogue(availableEvent.AfterCombatStartNodeSid);
+            //        }
 
-                    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-                }
-            }
-            else
-            {
-                if (node.AssignedCombats is null)
-                {
-                    throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
-                }
+            //        var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+            //        {
+            //            Location = node,
+            //            CombatSequence = node.AssignedCombats,
+            //            IsAutoplay = autoCombat,
+            //            VictoryDialogue = combatVictoryDialogue
+            //        };
 
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                {
-                    Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
-                };
+            //        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+            //    }
+            //}
+            //else
+            //{
+            //    if (node.AssignedCombats is null)
+            //    {
+            //        throw new InvalidOperationException("Event or combat must be assigned to clickable node.");
+            //    }
 
-                screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
-            }
+            //    var combatScreenTransitionArgs = new CombatScreenTransitionArguments
+            //    {
+            //        Location = node, CombatSequence = node.AssignedCombats, IsAutoplay = autoCombat
+            //    };
+
+            //    screenManager.ExecuteTransition(currentScreen, ScreenTransition.Combat, combatScreenTransitionArgs);
+            //}
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -136,8 +143,7 @@ namespace Rpg.Client.GameScreens.Map
             var menuButtons = new List<ButtonBase>();
 
             var partyModalButton = new IndicatorTextButton(nameof(UiResource.PartyButtonTitle),
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(), _uiContentStorage.GetButtonIndicatorsTexture());
+                _uiContentStorage.GetButtonIndicatorsTexture());
             partyModalButton.OnClick += (_, _) =>
             {
                 ScreenManager.ExecuteTransition(this, ScreenTransition.Party, null);
@@ -162,9 +168,7 @@ namespace Rpg.Client.GameScreens.Map
 
             if (_gameSettings.Mode == GameMode.Full)
             {
-                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle),
-                    _uiContentStorage.GetButtonTexture(),
-                    _uiContentStorage.GetMainFont());
+                var bestiaryButton = new ResourceTextButton(nameof(UiResource.BestiaryButtonTitle));
                 bestiaryButton.OnClick += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Bestiary, null);
@@ -214,21 +218,21 @@ namespace Rpg.Client.GameScreens.Map
             {
                 if (!_isNodeModelsCreated)
                 {
-                    var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
-                        .Where(x => x.IsAvailable && x.AssignedCombats is not null).ToArray();
+                    //var nodeList = _globe.Biomes.SelectMany(x => x.Nodes)
+                    //    .Where(x => x.IsAvailable && x.AssignedCombats is not null).ToArray();
 
-                    for (var i = 0; i < nodeList.Length; i++)
-                    {
-                        var node = nodeList[i];
+                    //for (var i = 0; i < nodeList.Length; i++)
+                    //{
+                    //    var node = nodeList[i];
 
-                        var position = GetLocationMarkerPosition(node, i);
-                        var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage,
-                            _resolutionIndependenceRenderer);
-                        markerObject.MouseEnter += MarkerObject_MouseEnter;
-                        markerObject.MouseExit += MarkerObject_MouseExit;
-                        markerObject.Click += MarkerObject_Click;
-                        _markerList.Add(markerObject);
-                    }
+                    //    var position = GetLocationMarkerPosition(node, i);
+                    //    var markerObject = new GlobeNodeMarkerGameObject(node, position, _gameObjectContentStorage,
+                    //        _resolutionIndependenceRenderer);
+                    //    markerObject.MouseEnter += MarkerObject_MouseEnter;
+                    //    markerObject.MouseExit += MarkerObject_MouseExit;
+                    //    markerObject.Click += MarkerObject_Click;
+                    //    _markerList.Add(markerObject);
+                    //}
 
                     _isNodeModelsCreated = true;
                 }
@@ -284,10 +288,7 @@ namespace Rpg.Client.GameScreens.Map
             sb.AppendLine(combatSequenceSizeText);
             sb.AppendLine(rewards);
 
-            var hint = new TextHint(
-                _uiContentStorage.GetButtonTexture(),
-                _uiContentStorage.GetMainFont(),
-                sb.ToString());
+            var hint = new TextHint(sb.ToString());
             return hint;
         }
 
@@ -526,6 +527,11 @@ namespace Rpg.Client.GameScreens.Map
             {
                 globeNodeMarkerGameObject.Update(gameTime);
             }
+        }
+
+        protected override void InitializeContent()
+        {
+            throw new NotImplementedException();
         }
     }
 }

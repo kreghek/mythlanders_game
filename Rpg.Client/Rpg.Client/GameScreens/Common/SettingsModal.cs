@@ -39,28 +39,25 @@ namespace Rpg.Client.GameScreens.Common
 
             _gameSettings = game.Services.GetService<GameSettings>();
 
-            var buttonTexture = uiContentStorage.GetButtonTexture();
-            var font = uiContentStorage.GetMainFont();
-
             _buttons = new List<ButtonBase>
             {
-                CreateSwitchFullScreenButton(buttonTexture, font),
-                CreateSwitchResolutionButton(buttonTexture, font),
-                CreateSwitchMusicButton(buttonTexture, font)
+                CreateSwitchFullScreenButton(),
+                CreateSwitchResolutionButton(),
+                CreateSwitchMusicButton()
             };
 
             if (_gameSettings.Mode == GameMode.Full)
             {
                 // Switch language only for showcase.
                 // On a showcase use default russian language.
-                _buttons.Add(CreateSwitchLanguageButton(buttonTexture, font));
+                _buttons.Add(CreateSwitchLanguageButton());
             }
             else
             {
                 if (isGameStarted)
                 {
                     // Fast restart available only in the demo game.
-                    var fastRestartButton = CreateFastRestartButton(buttonTexture, font);
+                    var fastRestartButton = CreateFastRestartButton();
                     _buttons.Add(fastRestartButton);
                 }
             }
@@ -69,12 +66,7 @@ namespace Rpg.Client.GameScreens.Common
 
             if (isGameStarted)
             {
-                var exitGameButton = new ResourceTextButton(
-                    nameof(UiResource.ExitGameButtonTitle),
-                    buttonTexture,
-                    font,
-                    Rectangle.Empty
-                );
+                var exitGameButton = new ResourceTextButton(nameof(UiResource.ExitGameButtonTitle));
                 exitGameButton.OnClick += (s, e) =>
                 {
                     game.Exit();
@@ -113,61 +105,41 @@ namespace Rpg.Client.GameScreens.Common
             }
         }
 
-        private ButtonBase CreateFastRestartButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase CreateFastRestartButton()
         {
-            var fastRestartButton = new TextButton(
-                "Рестарт",
-                buttonTexture,
-                font,
-                new Rectangle());
+            var fastRestartButton = new TextButton("Рестарт");
             fastRestartButton.OnClick += FastRestartButton_OnClick;
 
             return fastRestartButton;
         }
 
-        private ButtonBase CreateSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase CreateSwitchFullScreenButton()
         {
-            var switchFullScreenButton = new ResourceTextButton(
-                nameof(UiResource.SwitchFullScreenButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
+            var switchFullScreenButton = new ResourceTextButton(nameof(UiResource.SwitchFullScreenButtonTitle));
             switchFullScreenButton.OnClick += SwitchToFullScreenButton_OnClick;
 
             return switchFullScreenButton;
         }
 
-        private static ButtonBase CreateSwitchLanguageButton(Texture2D buttonTexture, SpriteFont font)
+        private static ButtonBase CreateSwitchLanguageButton()
         {
-            var switchLanguageButton = new ResourceTextButton(
-                nameof(UiResource.SwitchLanguageButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
+            var switchLanguageButton = new ResourceTextButton(nameof(UiResource.SwitchLanguageButtonTitle));
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
         }
 
-        private ButtonBase CreateSwitchMusicButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase CreateSwitchMusicButton()
         {
-            var button = new ResourceTextButton(
-                nameof(UiResource.SwitchMusicButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
+            var button = new ResourceTextButton(nameof(UiResource.SwitchMusicButtonTitle));
             button.OnClick += SwitchMusicButton_OnClick;
 
             return button;
         }
 
-        private ButtonBase CreateSwitchResolutionButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase CreateSwitchResolutionButton()
         {
-            var button = new ResourceTextButton(
-                nameof(UiResource.SwitchResolutionButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle());
+            var button = new ResourceTextButton(nameof(UiResource.SwitchResolutionButtonTitle));
             button.OnClick += SwitchResolutionButton_OnClick;
 
             return button;

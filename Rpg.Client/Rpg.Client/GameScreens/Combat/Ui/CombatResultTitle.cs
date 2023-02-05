@@ -12,10 +12,15 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private readonly CombatResult _combatResult;
         private readonly SpriteFont _titleFont;
 
-        public CombatResultTitle(Texture2D texture, SpriteFont titleFont, CombatResult combatResult) : base(texture)
+        public CombatResultTitle(CombatResult combatResult)
         {
-            _titleFont = titleFont;
+            _titleFont = UiThemeManager.UiContentStorage.GetTitlesFont();
             _combatResult = combatResult;
+        }
+
+        protected override Point CalcTextureOffset()
+        {
+            return Point.Zero;
         }
 
         protected override Color CalculateColor()

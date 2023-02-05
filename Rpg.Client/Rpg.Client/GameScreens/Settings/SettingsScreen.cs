@@ -35,14 +35,14 @@ namespace Rpg.Client.GameScreens.Settings
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _camera = Game.Services.GetService<Camera2D>();
 
-            var buttonTexture = uiContentService.GetButtonTexture();
+            var buttonTexture = uiContentService.GetControlBackgroundTexture();
             var font = uiContentService.GetMainFont();
 
             _buttons = new List<ButtonBase>
             {
-                GetBackToMainMenuButton(buttonTexture, font),
-                GetSwitchLanguageButton(buttonTexture, font),
-                GetSwitchFullScreenButton(buttonTexture, font)
+                GetBackToMainMenuButton(),
+                GetSwitchLanguageButton(),
+                GetSwitchFullScreenButton()
             };
 
             var resolutionsButtonsInfos = GetSupportedMonitorResolutionButtons(
@@ -107,35 +107,30 @@ namespace Rpg.Client.GameScreens.Settings
             _selectedMonitorResolutionButton.IsEnabled = false;
         }
 
-        private ButtonBase GetBackToMainMenuButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase GetBackToMainMenuButton()
         {
             var switchLanguageButton = new TextButton(
-                /*UiResource.BackToMainMenuButtonTitle*/ string.Empty,
-                buttonTexture,
-                font,
-                new Rectangle());
+                /*UiResource.BackToMainMenuButtonTitle*/ string.Empty);
             switchLanguageButton.OnClick +=
                 (_, _) => ScreenManager.ExecuteTransition(this, ScreenTransition.Title, null);
 
             return switchLanguageButton;
         }
 
-        private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo(
-            Texture2D buttonTexture,
-            SpriteFont font)
+        private (TextButton Button, (int Width, int Height) Resolution) GetDebugResolutionButtonInfo()
         {
             var (width, height) = (800, 480);
             var debugMonitorResolution = (Width: width, Height: height);
             var debugResolutionButtonLabel = $"{width}x{height}";
-            var debugResolutionButton = GetResolutionButton(buttonTexture, font, debugResolutionButtonLabel);
+            var debugResolutionButton = GetResolutionButton(debugResolutionButtonLabel);
             var debugResolutionButtonInfo = (Button: debugResolutionButton, Resolution: debugMonitorResolution);
 
             return debugResolutionButtonInfo;
         }
 
-        private TextButton GetResolutionButton(Texture2D buttonTexture, SpriteFont font, string buttonLabel)
+        private TextButton GetResolutionButton(string buttonLabel)
         {
-            var button = new TextButton(buttonLabel, buttonTexture, font, new Rectangle());
+            var button = new TextButton(buttonLabel);
             button.OnClick += SwitchResolutionButton_OnClick;
 
             return button;
@@ -161,12 +156,12 @@ namespace Rpg.Client.GameScreens.Settings
             var buttonInfos = supportedResolutions.Select(
                 x =>
                 {
-                    var button = GetResolutionButton(buttonTexture, font, x.BtnLabel);
+                    var button = GetResolutionButton(x.BtnLabel);
 
                     return ((ButtonBase)button, x.Resolution);
                 });
 #if DEBUG
-            var debugResolutionButtonInfo = GetDebugResolutionButtonInfo(buttonTexture, font);
+            var debugResolutionButtonInfo = GetDebugResolutionButtonInfo();
             _selectedMonitorResolutionButton = debugResolutionButtonInfo.Button;
             _selectedMonitorResolutionButton.IsEnabled = false;
             buttonInfos = buttonInfos.Append(debugResolutionButtonInfo);
@@ -175,25 +170,17 @@ namespace Rpg.Client.GameScreens.Settings
             return buttonInfos;
         }
 
-        private ButtonBase GetSwitchFullScreenButton(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase GetSwitchFullScreenButton()
         {
-            var switchFullScreenButton = new TextButton(
-                UiResource.SwitchFullScreenButtonTitle,
-                buttonTexture,
-                font,
-                new Rectangle());
+            var switchFullScreenButton = new TextButton(UiResource.SwitchFullScreenButtonTitle);
             switchFullScreenButton.OnClick += SwitchToFullScreenButton_OnClick;
 
             return switchFullScreenButton;
         }
 
-        private static ButtonBase GetSwitchLanguageButton(Texture2D buttonTexture, SpriteFont font)
+        private static ButtonBase GetSwitchLanguageButton()
         {
-            var switchLanguageButton = new TextButton(
-                UiResource.SwitchLanguageButtonTitle,
-                buttonTexture,
-                font,
-                new Rectangle());
+            var switchLanguageButton = new TextButton(UiResource.SwitchLanguageButtonTitle);
             switchLanguageButton.OnClick += SwitchLanguageButton_OnClick;
 
             return switchLanguageButton;
@@ -299,6 +286,10 @@ namespace Rpg.Client.GameScreens.Settings
             }
 
             graphicsManager.ApplyChanges();
+        }
+
+        protected override void InitializeContent()
+        {
         }
     }
 }

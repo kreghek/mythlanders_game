@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
+using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Hero.Ui
 {
@@ -12,11 +13,10 @@ namespace Rpg.Client.GameScreens.Hero.Ui
         private readonly Unit _character;
         private readonly SpriteFont _mainFont;
 
-        public PerkInfoPanel(Texture2D texture, SpriteFont titleFont, Unit character, SpriteFont mainFont) : base(
-            texture, titleFont)
+        public PerkInfoPanel(Unit character)
         {
             _character = character;
-            _mainFont = mainFont;
+            _mainFont = UiThemeManager.UiContentStorage.GetMainFont();
         }
 
         protected override string TitleResourceId => nameof(UiResource.HeroPerkInfoTitle);

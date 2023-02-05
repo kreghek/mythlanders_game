@@ -5,8 +5,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
@@ -23,6 +26,7 @@ namespace Rpg.Client.GameScreens.Title
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
+        private readonly ICampaignGenerator _campaignGenerator;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -48,6 +52,7 @@ namespace Rpg.Client.GameScreens.Title
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();
             _eventCatalog = game.Services.GetService<IEventCatalog>();
+            _campaignGenerator = game.Services.GetService<ICampaignGenerator>();
 
             _dice = Game.Services.GetService<IDice>();
             _gameSettings = Game.Services.GetService<GameSettings>();
@@ -58,51 +63,33 @@ namespace Rpg.Client.GameScreens.Title
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
 
-            var buttonTexture = _uiContentStorage.GetButtonTexture();
+            var buttonTexture = _uiContentStorage.GetControlBackgroundTexture();
             var buttonFont = _uiContentStorage.GetMainFont();
 
             _buttons = new List<ButtonBase>();
 
-            var loadGameButton = CreateLoadButtonOrNothing(buttonTexture, buttonFont);
+            var loadGameButton = CreateLoadButtonOrNothing();
             if (loadGameButton is not null)
             {
                 _buttons.Add(loadGameButton);
             }
             else
             {
-                var startButton = new ResourceTextButton(
-                    nameof(UiResource.PlayGameButtonTitle),
-                    buttonTexture,
-                    buttonFont,
-                    Rectangle.Empty);
+                var startButton = new ResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
                 startButton.OnClick += StartButton_OnClick;
 
                 _buttons.Add(startButton);
             }
 
-            var settingsButton = new ResourceTextButton(
-                nameof(UiResource.SettingsButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty);
+            var settingsButton = new ResourceTextButton(nameof(UiResource.SettingsButtonTitle));
             settingsButton.OnClick += SettingsButton_OnClick;
             _buttons.Add(settingsButton);
 
-            var creditsButton = new ResourceTextButton(
-                nameof(UiResource.CreditsButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty
-            );
+            var creditsButton = new ResourceTextButton(nameof(UiResource.CreditsButtonTitle));
             creditsButton.OnClick += CreditsButton_OnClick;
             _buttons.Add(creditsButton);
 
-            var exitGameButton = new ResourceTextButton(
-                nameof(UiResource.ExitGameButtonTitle),
-                buttonTexture,
-                buttonFont,
-                Rectangle.Empty
-            );
+            var exitGameButton = new ResourceTextButton(nameof(UiResource.ExitGameButtonTitle));
             exitGameButton.OnClick += (_, _) =>
             {
                 game.Exit();
@@ -132,24 +119,34 @@ namespace Rpg.Client.GameScreens.Title
             AddModal(_settingsModal, isLate: true);
         }
 
-        public static void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
+        public void StartClearNewGame(GlobeProvider globeProvider, IEventCatalog eventCatalog,
             IScreen currentScreen, IScreenManager screenManager,
             Action? clearScreenHandlersDelegate)
         {
             globeProvider.GenerateNew();
 
-            globeProvider.Globe.IsNodeInitialized = true;
+            var campaigns = _campaignGenerator.CreateSet();
 
-            var firstAvailableNodeInBiome =
-                globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
-                    .First(x => x.IsAvailable);
+            screenManager.ExecuteTransition(
+                currentScreen,
+                ScreenTransition.CampaignSelection,
+                new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns,
+                });
 
-            MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
-                availableEvent: firstAvailableNodeInBiome.AssignedEvent,
-                eventCatalog: eventCatalog,
-                currentScreen: currentScreen,
-                screenManager,
-                clearScreenHandlersDelegate);
+            //globeProvider.Globe.IsNodeInitialized = true;
+
+            //var firstAvailableNodeInBiome =
+            //    globeProvider.Globe.Biomes.SelectMany(x => x.Nodes)
+            //        .First(x => x.IsAvailable);
+
+            //MapScreen.HandleLocationSelect(autoCombat: false, node: firstAvailableNodeInBiome,
+            //    availableEvent: firstAvailableNodeInBiome.AssignedEvent,
+            //    eventCatalog: eventCatalog,
+            //    currentScreen: currentScreen,
+            //    screenManager,
+            //    clearScreenHandlersDelegate);
         }
 
         protected override void DrawContent(SpriteBatch spriteBatch)
@@ -241,7 +238,7 @@ namespace Rpg.Client.GameScreens.Title
             }
         }
 
-        private ButtonBase? CreateLoadButtonOrNothing(Texture2D buttonTexture, SpriteFont font)
+        private ButtonBase? CreateLoadButtonOrNothing()
         {
             if (!_globeProvider.CheckSavesExist())
             {
@@ -253,11 +250,7 @@ namespace Rpg.Client.GameScreens.Title
                 return null;
             }
 
-            var loadGameButton = new ResourceTextButton(
-                nameof(UiResource.PlayGameButtonTitle),
-                buttonTexture,
-                font,
-                new Rectangle(0, 0, 100, 25));
+            var loadGameButton = new ResourceTextButton(nameof(UiResource.PlayGameButtonTitle));
 
             loadGameButton.OnClick += (_, _) =>
             {
@@ -393,6 +386,10 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
+        }
+
+        protected override void InitializeContent()
+        {
         }
     }
 }
