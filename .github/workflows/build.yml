@@ -17,8 +17,9 @@ jobs:
     strategy:
       matrix:
         runtime:
-          - win-x64
-          - linux-x64
+          - win
+          - linux
+          - mac
 
     steps:
     - uses: actions/checkout@v2
@@ -52,8 +53,12 @@ jobs:
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
 
+    - name: Install GameBungle Tools
+      run: dotnet tool install --global GameBundle
+
     - name: Publish
-      run: dotnet publish Rpg/Client/Client.csproj --no-restore --verbosity diagnostic --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
+      run: gamebundle --source Rpg/Client/Client.csproj --output "bin" --${{matrix.runtime}}
+
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time
