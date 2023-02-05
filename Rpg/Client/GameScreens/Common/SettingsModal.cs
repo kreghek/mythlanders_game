@@ -174,18 +174,18 @@ namespace Rpg.Client.GameScreens.Common
         {
             var currentLanguage = Thread.CurrentThread.CurrentUICulture;
             if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
+                    currentLanguage.TwoLetterISOLanguageName,
+                    "en",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 var newCulture = CultureInfo.GetCultureInfo("zh");
                 Thread.CurrentThread.CurrentCulture = newCulture;
                 Thread.CurrentThread.CurrentUICulture = newCulture;
             }
             else if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "zh",
-                StringComparison.InvariantCultureIgnoreCase))
+                         currentLanguage.TwoLetterISOLanguageName,
+                         "zh",
+                         StringComparison.InvariantCultureIgnoreCase))
             {
                 var newCulture = CultureInfo.GetCultureInfo("ru-RU");
                 Thread.CurrentThread.CurrentCulture = newCulture;

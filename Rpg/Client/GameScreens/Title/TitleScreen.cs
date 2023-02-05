@@ -7,13 +7,10 @@ using Client;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
-using Rpg.Client.GameScreens.Map;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Title
@@ -26,9 +23,9 @@ namespace Rpg.Client.GameScreens.Title
         private const int TITLE_PORTRAIT_COUNT = 3;
         private readonly IList<ButtonBase> _buttons;
         private readonly Camera2D _camera;
+        private readonly ICampaignGenerator _campaignGenerator;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
-        private readonly ICampaignGenerator _campaignGenerator;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
 
@@ -134,7 +131,7 @@ namespace Rpg.Client.GameScreens.Title
                 ScreenTransition.CampaignSelection,
                 new CampaignSelectionScreenTransitionArguments
                 {
-                    Campaigns = campaigns,
+                    Campaigns = campaigns
                 });
 
             //globeProvider.Globe.IsNodeInitialized = true;
@@ -193,6 +190,10 @@ namespace Rpg.Client.GameScreens.Title
             spriteBatch.Draw(_uiContentStorage.GetSocialTexture(), socialPosition, Color.White);
 
             spriteBatch.End();
+        }
+
+        protected override void InitializeContent()
+        {
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -388,10 +389,6 @@ namespace Rpg.Client.GameScreens.Title
         private void StartButton_OnClick(object? sender, EventArgs e)
         {
             StartClearNewGame(_globeProvider, _eventCatalog, this, ScreenManager, () => { });
-        }
-
-        protected override void InitializeContent()
-        {
         }
     }
 }

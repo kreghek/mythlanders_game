@@ -9,7 +9,8 @@ namespace Client.Assets.StageItems
     {
         public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
         {
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Tactical, new TacticalScreenTransitionArguments(currentCampaign));
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Tactical,
+                new TacticalScreenTransitionArguments(currentCampaign));
         }
     }
 }

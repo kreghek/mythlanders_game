@@ -147,6 +147,10 @@ namespace Rpg.Client.GameScreens.Speech
             }
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
@@ -543,10 +547,6 @@ namespace Rpg.Client.GameScreens.Speech
             {
                 _frameIndex = 0;
             }
-        }
-
-        protected override void InitializeContent()
-        {
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Client.GameScreens.Campaign.Ui;
+﻿using Client.GameScreens.Campaign.Ui;
 
 using FluentAssertions;
 

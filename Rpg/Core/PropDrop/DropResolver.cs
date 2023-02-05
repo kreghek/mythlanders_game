@@ -1,5 +1,6 @@
-﻿using Core.Props;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+
+using Core.Props;
 
 namespace Core.PropDrop
 {
@@ -23,17 +24,13 @@ namespace Core.PropDrop
         {
             try
             {
-                if (record.SchemeSid is null)
-                {
-                    throw new InvalidOperationException();
-                }
+                if (record.SchemeSid is null) throw new InvalidOperationException();
 
                 var scheme = _schemeService.GetScheme<IPropScheme>(record.SchemeSid);
 
                 var rolledCount = _randomSource.RollResourceCount(record.MinCount, record.MaxCount);
                 var resource = _propFactory.CreateResource(scheme, rolledCount);
                 return resource;
-
             }
             catch (Exception exception)
             {
@@ -48,7 +45,6 @@ namespace Core.PropDrop
 
             var openDropTables = new List<IDropTableScheme>(dropTables);
             while (openDropTables.Any())
-            {
                 try
                 {
                     var table = openDropTables[0];
@@ -57,8 +53,8 @@ namespace Core.PropDrop
                     if (records is null || !records.Any())
                     {
                         Debug.Fail("The drop tables must have not null or empty records.");
-                        // Do not try to roll if drop table has no records.
 
+                        // Do not try to roll if drop table has no records.
                         // Don't forget to remove empty drop table from open to avoid endless loop.
                         openDropTables.RemoveAt(0);
                         continue;
@@ -71,29 +67,21 @@ namespace Core.PropDrop
                     Debug.Assert(table.Rolls > 0,
                         "There is no reason to have zero rolls in table. This is most likely a mistake.");
                     var rolls = table.Rolls;
-                    if (rolls == 0)
-                    {
-                        rolls = 1;
-                    }
+                    if (rolls == 0) rolls = 1;
 
                     for (var rollIndex = 0; rollIndex < rolls; rollIndex++)
                     {
                         var rolledWeight = _randomSource.RollWeight(totalWeight);
                         var recMod = DropRoller.GetRecord(recMods, rolledWeight);
 
-                        if (recMod?.SchemeSid == null)
-                        {
-                            continue;
-                        }
+                        if (recMod?.SchemeSid == null) continue;
 
                         rolledRecords.Add(recMod);
 
                         if (recMod.Extra != null)
-                        {
                             //TODO Доделать учёт Rolls для экстра.
                             // Сейчас все экстра гарантированно выпадают по разу.
                             openDropTables.AddRange(recMod.Extra);
-                        }
                     }
 
                     openDropTables.RemoveAt(0);
@@ -103,7 +91,6 @@ namespace Core.PropDrop
                     openDropTables.RemoveAt(0);
                     //TODO FIX
                 }
-            }
 
             var props = rolledRecords.Select(GenerateProp).ToArray();
 

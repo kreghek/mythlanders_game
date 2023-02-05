@@ -17,10 +17,11 @@ namespace Client.Assets.StageItems
         public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
         {
             var campaigns = _campaignGenerator.CreateSet();
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection, new CampaignSelectionScreenTransitionArguments
-            {
-                Campaigns = campaigns
-            });
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,
+                new CampaignSelectionScreenTransitionArguments
+                {
+                    Campaigns = campaigns
+                });
         }
     }
 }

@@ -20,7 +20,8 @@ namespace BalanceGenerator
 
             var globeLevel = new GlobeLevel { Level = 1 };
 
-            var globeContext = new MonsterGenerationGlobeContext(globeLevel/*, new[] { new Biome(BiomeType.Slavic) }*/);
+            var globeContext =
+                new MonsterGenerationGlobeContext(globeLevel /*, new[] { new Biome(BiomeType.Slavic) }*/);
 
             var monsters =
                 MonsterGeneratorHelper.CreateMonsters(globeNode, dice, 1, unitSchemeCatalog, globeContext);

@@ -16,10 +16,11 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
     {
         private readonly IList<ButtonBase> _buttonList;
         private readonly CampaignStage _campaignStage;
-        private readonly int _stageIndex;
         private readonly HeroCampaign _currentCampaign;
+        private readonly int _stageIndex;
 
-        public CampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign, IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        public CampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
+            IScreen currentScreen, IScreenManager screenManager, bool isActive)
         {
             _campaignStage = campaignStage;
             _stageIndex = stageIndex;
@@ -29,48 +30,23 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             Init(currentScreen, screenManager, isActive);
         }
 
-        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
         {
-            for (int i = 0; i < _campaignStage.Items.Count; i++)
+            foreach (var button in _buttonList)
             {
-                var campaignStageItem = _campaignStage.Items[i];
-
-                var stageItemDisplayName = GetStageItemDisplyayName(i, campaignStageItem);
-
-                var button = new TextButton(stageItemDisplayName + (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
-                _buttonList.Add(button);
-
-                if (isActive)
-                {
-                    button.OnClick += (s, e) =>
-                    {
-                        campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
-                    };
-                }
-                else
-                {
-                    button.IsEnabled = false;
-                }
+                button.Update(resolutionIndependentRenderer);
             }
         }
 
-        private static string GetStageItemDisplyayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
+        protected override Point CalcTextureOffset()
         {
-            if (campaignStageItem is CombatStageItem)
-            {
-                return $"Combat {stageItemIndex + 1}";
-            }
-            else if (campaignStageItem is RewardStageItem)
-            {
-                return "Finish campaign";
-            }
-
-            return "???";
+            return ControlTextures.Panel;
         }
 
-        protected override Point CalcTextureOffset() => ControlTextures.Panel;
-
-        protected override Color CalculateColor() => Color.White;
+        protected override Color CalculateColor()
+        {
+            return Color.White;
+        }
 
         protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
         {
@@ -102,11 +78,44 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             }
         }
 
-        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        private static string GetStageItemDisplyayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
         {
-            foreach (var button in _buttonList)
+            if (campaignStageItem is CombatStageItem)
             {
-                button.Update(resolutionIndependentRenderer);
+                return $"Combat {stageItemIndex + 1}";
+            }
+
+            if (campaignStageItem is RewardStageItem)
+            {
+                return "Finish campaign";
+            }
+
+            return "???";
+        }
+
+        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        {
+            for (var i = 0; i < _campaignStage.Items.Count; i++)
+            {
+                var campaignStageItem = _campaignStage.Items[i];
+
+                var stageItemDisplayName = GetStageItemDisplyayName(i, campaignStageItem);
+
+                var button = new TextButton(stageItemDisplayName +
+                                            (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
+                _buttonList.Add(button);
+
+                if (isActive)
+                {
+                    button.OnClick += (s, e) =>
+                    {
+                        campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
+                    };
+                }
+                else
+                {
+                    button.IsEnabled = false;
+                }
             }
         }
     }

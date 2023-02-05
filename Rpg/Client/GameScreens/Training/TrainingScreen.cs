@@ -18,9 +18,9 @@ namespace Client.GameScreens.Training
     {
         private readonly IReadOnlyList<Unit> _availableUnits;
         private readonly HeroCampaign _campaign;
-        private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
-        private readonly IList<ButtonBase> _usedButtons;
         private readonly Player _player;
+        private readonly IList<ButtonBase> _usedButtons;
+        private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
 
         public TrainingScreen(EwarGame game, TrainingScreenTransitionArguments args) : base(game)
         {
@@ -39,19 +39,10 @@ namespace Client.GameScreens.Training
             var closeButton = new TextButton("Close");
             closeButton.OnClick += CloseButton_OnClick;
 
-            return new[] {
+            return new[]
+            {
                 closeButton
             };
-        }
-
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            _campaign.CompleteCurrentStage();
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
         }
 
         protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -65,7 +56,7 @@ namespace Client.GameScreens.Training
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            for (int buttonIndex = 0; buttonIndex < _trainingButtons.Count; buttonIndex++)
+            for (var buttonIndex = 0; buttonIndex < _trainingButtons.Count; buttonIndex++)
             {
                 var button = _trainingButtons[buttonIndex];
 
@@ -112,6 +103,22 @@ namespace Client.GameScreens.Training
             _trainingButtons = buttonList;
         }
 
+        private void CloseButton_OnClick(object? sender, EventArgs e)
+        {
+            _campaign.CompleteCurrentStage();
+
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
+            {
+                Campaign = _campaign
+            });
+        }
+
+        private void MarkButtonAsUsed(TextButton trainingButton)
+        {
+            _usedButtons.Add(trainingButton);
+            trainingButton.IsEnabled = false;
+        }
+
         private void RefreshButtons()
         {
             foreach (var button in _trainingButtons)
@@ -122,12 +129,6 @@ namespace Client.GameScreens.Training
                     button.Item1.IsEnabled = false;
                 }
             }
-        }
-
-        private void MarkButtonAsUsed(TextButton trainingButton)
-        {
-            _usedButtons.Add(trainingButton);
-            trainingButton.IsEnabled = false;
         }
     }
 }

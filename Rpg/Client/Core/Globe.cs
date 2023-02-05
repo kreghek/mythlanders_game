@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Rpg.Client.Assets.StoryPointJobs;
-using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Core
 {
     internal sealed class Globe
     {
         private readonly IList<IStoryPoint> _activeStoryPointsList;
+
         //private readonly IBiomeGenerator _biomeGenerator;
         private readonly List<IGlobeEvent> _globeEvents;
 
-        public Globe(/*IBiomeGenerator biomeGenerator,*/ Player player)
+        public Globe( /*IBiomeGenerator biomeGenerator,*/ Player player)
         {
             _globeEvents = new List<IGlobeEvent>();
             _activeStoryPointsList = new List<IStoryPoint>();

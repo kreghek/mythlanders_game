@@ -79,16 +79,19 @@ namespace Rpg.Client.GameScreens.Bestiary
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+            InitializeMonsterButtons();
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
-
 
             foreach (var button in _buttonList)
             {
                 button.Update(ResolutionIndependentRenderer);
             }
-
         }
 
         private static IList<string> CollectMonsterStats(UnitScheme monsterScheme, int monsterLevel)
@@ -150,11 +153,6 @@ namespace Rpg.Client.GameScreens.Bestiary
                 button.OnClick += (_, _) => { _selectedMonster = monsterScheme; };
                 _buttonList.Add(button);
             }
-        }
-
-        protected override void InitializeContent()
-        {
-            InitializeMonsterButtons();
         }
     }
 }

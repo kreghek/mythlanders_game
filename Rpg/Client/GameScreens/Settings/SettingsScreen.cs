@@ -90,6 +90,10 @@ namespace Rpg.Client.GameScreens.Settings
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             foreach (var button in _buttons)
@@ -230,9 +234,9 @@ namespace Rpg.Client.GameScreens.Settings
         {
             var currentLanguage = Thread.CurrentThread.CurrentUICulture;
             if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
+                    currentLanguage.TwoLetterISOLanguageName,
+                    "en",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 var newCulture = CultureInfo.GetCultureInfo("ru-RU");
                 Thread.CurrentThread.CurrentCulture = newCulture;
@@ -288,10 +292,6 @@ namespace Rpg.Client.GameScreens.Settings
             }
 
             graphicsManager.ApplyChanges();
-        }
-
-        protected override void InitializeContent()
-        {
         }
     }
 }

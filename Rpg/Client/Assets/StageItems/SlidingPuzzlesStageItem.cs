@@ -8,8 +8,8 @@ namespace Client.Assets.StageItems;
 
 internal sealed class SlidingPuzzlesStageItem : ICampaignStageItem
 {
-    private readonly GlobeProvider _globeProvider;
     private readonly IDice _dice;
+    private readonly GlobeProvider _globeProvider;
 
     public SlidingPuzzlesStageItem(GlobeProvider globeProvider, IDice dice)
     {
