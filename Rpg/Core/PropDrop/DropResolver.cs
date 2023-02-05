@@ -33,7 +33,7 @@ namespace Core.PropDrop
                 var rolledCount = _randomSource.RollResourceCount(record.MinCount, record.MaxCount);
                 var resource = _propFactory.CreateResource(scheme, rolledCount);
                 return resource;
-                
+
             }
             catch (Exception exception)
             {
