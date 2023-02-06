@@ -40,10 +40,10 @@ internal class CampaignPanel : ControlBase
 
     protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
     {
-        spriteBatch.Draw(_campaignTexture, 
+        spriteBatch.Draw(_campaignTexture,
             new Rectangle(
                 contentRect.Left + CONTENT_MARGIN,
-                contentRect.Top + CONTENT_MARGIN, 
+                contentRect.Top + CONTENT_MARGIN,
                 contentRect.Width - (CONTENT_MARGIN * 2),
                 contentRect.Height - (CONTENT_MARGIN * 2) - 20),
             Color.White);

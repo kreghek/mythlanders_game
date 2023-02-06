@@ -35,7 +35,7 @@ namespace Client.GameScreens.CommandCenter
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter2"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter3"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter4")
-            }; 
+            };
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -59,7 +59,7 @@ namespace Client.GameScreens.CommandCenter
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: Camera.GetViewTransformationMatrix());
 
-            spriteBatch.Draw(_mapBackgroundTexture, 
+            spriteBatch.Draw(_mapBackgroundTexture,
                 new Rectangle(
                     contentRect.Left + ControlBase.CONTENT_MARGIN,
                     (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN,
