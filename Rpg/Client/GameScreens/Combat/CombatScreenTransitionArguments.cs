@@ -11,8 +11,8 @@ namespace Rpg.Client.GameScreens.Combat
 {
     internal sealed class CombatScreenTransitionArguments : IScreenTransitionArguments
     {
-        public HeroCampaign CurrentCampaign { get; set; }
         public CombatSequence CombatSequence { get; init; }
+        public HeroCampaign CurrentCampaign { get; set; }
         public int CurrentCombatIndex { get; init; }
         public bool IsAutoplay { get; init; }
         public GlobeNode Location { get; init; }

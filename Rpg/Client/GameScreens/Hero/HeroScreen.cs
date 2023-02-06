@@ -91,6 +91,10 @@ namespace Rpg.Client.GameScreens.Hero
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
@@ -208,10 +212,6 @@ namespace Rpg.Client.GameScreens.Hero
             //         _buttonList.Add(levelUpButton);
             //     }
             // }
-        }
-
-        protected override void InitializeContent()
-        {
         }
     }
 }

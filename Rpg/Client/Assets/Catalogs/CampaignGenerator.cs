@@ -12,42 +12,15 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal sealed class CampaignGenerator : ICampaignGenerator
     {
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
-        private readonly GlobeProvider _globeProvider;
         private readonly IDice _dice;
+        private readonly GlobeProvider _globeProvider;
+        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
         public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IDice dice)
         {
             _unitSchemeCatalog = unitSchemeCatalog;
             _globeProvider = globeProvider;
             _dice = dice;
-        }
-
-        public IReadOnlyList<HeroCampaign> CreateSet()
-        {
-            var availbleLocations = new[] {
-                GlobeNodeSid.Thicket,
-                GlobeNodeSid.Monastery,
-                GlobeNodeSid.ShipGraveyard,
-                GlobeNodeSid.Desert
-            };
-
-            var campaignLengths = new[] { 6, 12, 24 };
-
-            var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
-
-            var list = new List<HeroCampaign>();
-            for (var i = 0; i < selectedLocations.Count; i++)
-            {
-                var location = selectedLocations[i];
-                var length = campaignLengths[i];
-
-                var campaign = CreateCampaign(location, length);
-
-                list.Add(campaign);
-            }
-
-            return list;
         }
 
         private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
@@ -77,53 +50,10 @@ namespace Rpg.Client.Assets.Catalogs
             return campaign;
         }
 
-        private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
-        {
-            var stageType = stageIndex % 3;
-
-            if (stageType == 1)
-            {
-                return CreateTrainingStage();
-            }
-
-            if (stageType == 2)
-            {
-                return CreateSlidingPuzzlesStage();
-            }
-
-            return CreateCombatStage(locationSid);
-        }
-
-        private CampaignStage CreateSlidingPuzzlesStage()
-        {
-            var stage = new CampaignStage
-            {
-                Items = new[]
-                {
-                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
-                }
-            };
-
-            return stage;
-        }
-
-        private CampaignStage CreateTrainingStage()
-        {
-            var stage = new CampaignStage
-            {
-                Items = new[]
-                {
-                    new TrainingStageItem(_globeProvider.Globe.Player, _dice)
-                }
-            };
-
-            return stage;
-        }
-
         private CampaignStage CreateCombatStage(GlobeNodeSid locationSid)
         {
             var stageItems = new List<ICampaignStageItem>();
-            for (int combatIndex = 0; combatIndex < 3; combatIndex++)
+            for (var combatIndex = 0; combatIndex < 3; combatIndex++)
             {
                 var combat = new CombatSource
                 {
@@ -157,6 +87,49 @@ namespace Rpg.Client.Assets.Catalogs
             var stage = new CampaignStage
             {
                 Items = stageItems.ToArray()
+            };
+
+            return stage;
+        }
+
+        private CampaignStage CreateSlidingPuzzlesStage()
+        {
+            var stage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
+                }
+            };
+
+            return stage;
+        }
+
+        private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
+        {
+            var stageType = stageIndex % 3;
+
+            if (stageType == 1)
+            {
+                return CreateTrainingStage();
+            }
+
+            if (stageType == 2)
+            {
+                return CreateSlidingPuzzlesStage();
+            }
+
+            return CreateCombatStage(locationSid);
+        }
+
+        private CampaignStage CreateTrainingStage()
+        {
+            var stage = new CampaignStage
+            {
+                Items = new[]
+                {
+                    new TrainingStageItem(_globeProvider.Globe.Player, _dice)
+                }
             };
 
             return stage;
@@ -199,14 +172,41 @@ namespace Rpg.Client.Assets.Catalogs
                 units.Add(unit);
             }
 
-
             return rolledUnits.Select(x => (x.Name, 2)).ToArray();
         }
+
         private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
         {
             var unit = new Unit(unitScheme, combatLevel);
             return unit.Perks.OfType<TPerk>().Any();
         }
 
+        public IReadOnlyList<HeroCampaign> CreateSet()
+        {
+            var availbleLocations = new[]
+            {
+                GlobeNodeSid.Thicket,
+                GlobeNodeSid.Monastery,
+                GlobeNodeSid.ShipGraveyard,
+                GlobeNodeSid.Desert
+            };
+
+            var campaignLengths = new[] { 6, 12, 24 };
+
+            var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
+
+            var list = new List<HeroCampaign>();
+            for (var i = 0; i < selectedLocations.Count; i++)
+            {
+                var location = selectedLocations[i];
+                var length = campaignLengths[i];
+
+                var campaign = CreateCampaign(location, length);
+
+                list.Add(campaign);
+            }
+
+            return list;
+        }
     }
 }

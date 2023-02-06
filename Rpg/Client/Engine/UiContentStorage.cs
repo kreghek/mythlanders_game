@@ -49,25 +49,25 @@ namespace Rpg.Client.Engine
         {
             var currentLanguage = Thread.CurrentThread.CurrentUICulture;
             if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "ru",
-                StringComparison.InvariantCultureIgnoreCase))
+                    currentLanguage.TwoLetterISOLanguageName,
+                    "ru",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 return "ru";
             }
 
             if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "en",
-                StringComparison.InvariantCultureIgnoreCase))
+                    currentLanguage.TwoLetterISOLanguageName,
+                    "en",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 return "en";
             }
 
             if (string.Equals(
-                currentLanguage.TwoLetterISOLanguageName,
-                "zh",
-                StringComparison.InvariantCultureIgnoreCase))
+                    currentLanguage.TwoLetterISOLanguageName,
+                    "zh",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 return "zh";
             }

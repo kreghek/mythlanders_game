@@ -10,8 +10,8 @@ namespace Client.Assets.StageItems
 {
     internal sealed class TrainingStageItem : ICampaignStageItem
     {
-        private readonly Player _player;
         private readonly IDice _dice;
+        private readonly Player _player;
 
         public TrainingStageItem(Player player, IDice dice)
         {

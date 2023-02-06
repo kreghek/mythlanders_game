@@ -9,13 +9,13 @@ namespace Rpg.Client.Core.Campaigns
 
         public int CurrentStageIndex { get; set; }
 
+        public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
+
         internal void CompleteCurrentStage()
         {
             CampaignStages[CurrentStageIndex].IsCompleted = true;
 
             CurrentStageIndex++;
         }
-
-        public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
     }
 }

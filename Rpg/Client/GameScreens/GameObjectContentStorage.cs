@@ -29,6 +29,7 @@ namespace Rpg.Client.GameScreens
         private IDictionary<UnitName, Texture2D> _monsterUnitTextureDict;
         private Texture2D _particlesTexture;
         private IDictionary<UnitName, Texture2D> _playerUnitTextureDict;
+        private Texture2D _puzzleTexture;
         private Texture2D _shadowTexture;
 
         private Dictionary<GameObjectSoundType, SoundEffect> _skillSoundDict;
@@ -36,7 +37,6 @@ namespace Rpg.Client.GameScreens
 
         private IDictionary<UnitName, SoundEffect> _textSoundDict;
         private Texture2D _unitPortrains;
-        private Texture2D _puzzleTexture;
 
         public Effect GetAllWhiteEffect()
         {
@@ -307,12 +307,7 @@ namespace Rpg.Client.GameScreens
                 return contentManager.Load<Texture2D>($"Sprites/GameObjects/PlayerUnits/{name}Face");
             }
 
-            _puzzleTexture = contentManager.Load<Texture2D>($"Sprites/GameObjects/Puzzle");
-        }
-
-        internal Texture2D GetPuzzleTexture()
-        {
-            return _puzzleTexture;
+            _puzzleTexture = contentManager.Load<Texture2D>("Sprites/GameObjects/Puzzle");
         }
 
         internal Texture2D GetBulletGraphics()
@@ -369,6 +364,11 @@ namespace Rpg.Client.GameScreens
         internal Texture2D GetParticlesTexture()
         {
             return _particlesTexture;
+        }
+
+        internal Texture2D GetPuzzleTexture()
+        {
+            return _puzzleTexture;
         }
 
         internal SoundEffect GetSkillUsageSound(GameObjectSoundType soundType)

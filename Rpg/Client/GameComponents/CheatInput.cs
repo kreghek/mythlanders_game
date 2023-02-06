@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -280,7 +279,7 @@ namespace Rpg.Client.GameComponents
         /// </remarks>
         private static bool TryConvertKeyboardInput(KeyboardState keyboard, KeyboardState oldKeyboard, out char key)
         {
-            Keys[] keys = keyboard.GetPressedKeys();
+            var keys = keyboard.GetPressedKeys();
             var shift = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);
 
             if (keys.Length > 0 && !oldKeyboard.IsKeyDown(keys[0]))

@@ -5,11 +5,11 @@ namespace Client.GameScreens.SlidingPuzzles
 {
     internal sealed class SlidingPuzzlesScreenTransitionArguments : IScreenTransitionArguments
     {
-        public HeroCampaign Campaign { get; }
-
         public SlidingPuzzlesScreenTransitionArguments(HeroCampaign campaign)
         {
             Campaign = campaign;
         }
+
+        public HeroCampaign Campaign { get; }
     }
 }

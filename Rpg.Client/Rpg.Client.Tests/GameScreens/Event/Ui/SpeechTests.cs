@@ -1,5 +1,3 @@
-using System;
-
 using FluentAssertions;
 
 using Moq;
@@ -46,7 +44,7 @@ namespace Rpg.Client.Tests.GameScreens.Event.Ui
 
             // ACT
 
-            Action act = () =>
+            var act = () =>
             {
                 for (var iteration = 0; iteration < FULL_TEXT.Length; iteration++)
                 {

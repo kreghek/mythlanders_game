@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
@@ -19,8 +20,9 @@ internal sealed class ArmoryScreenTransitionArguments : IScreenTransitionArgumen
         AvailableEquipment = availableEquipment;
     }
 
-    public HeroCampaign CurrentCampaign { get; }
     public IReadOnlyList<Equipment> AvailableEquipment { get; }
+
+    public HeroCampaign CurrentCampaign { get; }
 }
 
 internal sealed class ArmoryScreen : GameScreenWithMenuBase
@@ -32,18 +34,18 @@ internal sealed class ArmoryScreen : GameScreenWithMenuBase
         _args = args;
     }
 
-    protected override void InitializeContent()
-    {
-        throw new System.NotImplementedException();
-    }
-
     protected override IList<ButtonBase> CreateMenu()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
+    }
+
+    protected override void InitializeContent()
+    {
+        throw new NotImplementedException();
     }
 }

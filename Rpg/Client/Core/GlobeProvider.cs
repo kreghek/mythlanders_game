@@ -157,7 +157,7 @@ namespace Rpg.Client.Core
             var progress = new ProgressDto
             {
                 Player = player,
-                Events = GetUsedEventDtos(_eventCatalog.Events),
+                Events = GetUsedEventDtos(_eventCatalog.Events)
                 //Biomes = GetBiomeDtos(Globe.Biomes)
             };
 

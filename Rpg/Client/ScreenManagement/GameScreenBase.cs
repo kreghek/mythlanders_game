@@ -15,6 +15,8 @@ namespace Rpg.Client.ScreenManagement
     {
         private readonly IList<IModalWindow> _modals;
 
+        private bool _isInitialized;
+
         public GameScreenBase(EwarGame game)
         {
             Game = game;
@@ -54,6 +56,8 @@ namespace Rpg.Client.ScreenManagement
         }
 
         protected abstract void DrawContent(SpriteBatch spriteBatch);
+
+        protected abstract void InitializeContent();
 
         protected abstract void UpdateContent(GameTime gameTime);
 
@@ -112,9 +116,5 @@ namespace Rpg.Client.ScreenManagement
 
             UpdateModals(gameTime);
         }
-
-        protected abstract void InitializeContent();
-
-        private bool _isInitialized;
     }
 }
