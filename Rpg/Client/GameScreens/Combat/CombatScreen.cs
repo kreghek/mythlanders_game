@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.GameScreens.CommandCenter;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,6 @@ using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
-using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
@@ -467,9 +467,9 @@ namespace Rpg.Client.GameScreens.Combat
                 var campaigns = campaignGenerator.CreateSet();
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
-                    new CampaignSelectionScreenTransitionArguments
+                    new CommandCenterScreenTransitionArguments
                     {
-                        Campaigns = campaigns
+                        AvailableCampaigns = campaigns
                     });
             }
             else
@@ -485,9 +485,9 @@ namespace Rpg.Client.GameScreens.Combat
                 var campaigns = campaignGenerator.CreateSet();
 
                 ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
-                    new CampaignSelectionScreenTransitionArguments
+                    new CommandCenterScreenTransitionArguments
                     {
-                        Campaigns = campaigns
+                        AvailableCampaigns = campaigns
                     });
             }
         }

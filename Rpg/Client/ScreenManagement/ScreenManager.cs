@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.GameScreens.CommandCenter;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.Training;
 
@@ -8,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
 using Rpg.Client.GameScreens.Campaign;
-using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
@@ -113,8 +113,8 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Map => new MapScreen(_game),
                 ScreenTransition.Campaign => new CampaignScreen(_game,
                     (CampaignScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.CampaignSelection => new CampaignSelectionScreen(_game,
-                    (CampaignSelectionScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.CampaignSelection => new CommandCenterScreen(_game,
+                    (CommandCenterScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
                 ScreenTransition.Event => new SpeechScreen(_game,
