@@ -1,6 +1,7 @@
-﻿using Rpg.Client.Core;
+﻿using Client.GameScreens.CommandCenter;
+
+using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
-using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems
@@ -18,9 +19,9 @@ namespace Client.Assets.StageItems
         {
             var campaigns = _campaignGenerator.CreateSet();
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,
-                new CampaignSelectionScreenTransitionArguments
+                new CommandCenterScreenTransitionArguments
                 {
-                    Campaigns = campaigns
+                    AvailableCampaigns = campaigns
                 });
         }
     }

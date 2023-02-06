@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.GameScreens.CommandCenter;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.CampaignSelection;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
 
@@ -129,9 +129,9 @@ namespace Rpg.Client.GameScreens.Title
             screenManager.ExecuteTransition(
                 currentScreen,
                 ScreenTransition.CampaignSelection,
-                new CampaignSelectionScreenTransitionArguments
+                new CommandCenterScreenTransitionArguments
                 {
-                    Campaigns = campaigns
+                    AvailableCampaigns = campaigns
                 });
 
             //globeProvider.Globe.IsNodeInitialized = true;
