@@ -5,11 +5,11 @@ namespace Client.GameScreens.Tactical
 {
     internal sealed class TacticalScreenTransitionArguments : IScreenTransitionArguments
     {
-        public HeroCampaign HeroCampaign { get; }
-
         public TacticalScreenTransitionArguments(HeroCampaign heroCampaign)
         {
             HeroCampaign = heroCampaign;
         }
+
+        public HeroCampaign HeroCampaign { get; }
     }
 }

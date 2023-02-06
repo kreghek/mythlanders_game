@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
@@ -17,7 +18,7 @@ namespace Rpg.Client.Assets.States
 
         public CommonSelfSkillUsageState(UnitGraphics graphics, AnimationBlocker mainAnimationBlocker,
             Action interaction,
-            Microsoft.Xna.Framework.Audio.SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
+            SoundEffectInstance hitSound, PredefinedAnimationSid animationSid)
         {
             _mainAnimationBlocker = mainAnimationBlocker;
 

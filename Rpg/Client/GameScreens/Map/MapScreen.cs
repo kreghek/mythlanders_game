@@ -9,16 +9,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
-using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map.GameObjects;
 using Rpg.Client.GameScreens.Map.Tutorial;
 using Rpg.Client.GameScreens.Map.Ui;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Map
@@ -77,10 +74,11 @@ namespace Rpg.Client.GameScreens.Map
         {
             clearScreenHandlersDelegate?.Invoke();
 
-            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = node.Campaign
-            });
+            screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments
+                {
+                    Campaign = node.Campaign
+                });
 
             //if (availableEvent is not null)
             //{
@@ -193,6 +191,11 @@ namespace Rpg.Client.GameScreens.Map
             DrawObjects(spriteBatch, contentRect);
 
             DrawHud(spriteBatch, contentRect);
+        }
+
+        protected override void InitializeContent()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -529,11 +532,6 @@ namespace Rpg.Client.GameScreens.Map
             {
                 globeNodeMarkerGameObject.Update(gameTime);
             }
-        }
-
-        protected override void InitializeContent()
-        {
-            throw new NotImplementedException();
         }
     }
 }

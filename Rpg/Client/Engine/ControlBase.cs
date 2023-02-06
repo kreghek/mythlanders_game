@@ -32,6 +32,8 @@ namespace Rpg.Client.Engine
 
         public Rectangle Rect { get; set; }
 
+        protected virtual int Margin => CONTENT_MARGIN;
+
         public void Draw(SpriteBatch spriteBatch)
         {
             var color = CalculateColor();
@@ -46,8 +48,6 @@ namespace Rpg.Client.Engine
 
             DrawContent(spriteBatch, contentRect, color);
         }
-
-        protected virtual int Margin => CONTENT_MARGIN;
 
         protected abstract Point CalcTextureOffset();
 

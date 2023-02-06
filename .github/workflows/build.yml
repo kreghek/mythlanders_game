@@ -17,8 +17,9 @@ jobs:
     strategy:
       matrix:
         runtime:
-          - win-x64
-          - linux-x64
+          - win
+          - linux
+          - mac
 
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +28,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
+    - name: Setup .NETCore 2.1
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.x
 
     - name: Setup Wine
       run: |
@@ -52,8 +58,12 @@ jobs:
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
 
+    - name: Install GameBungle Tools
+      run: dotnet tool install --global GameBundle
+
     - name: Publish
-      run: dotnet publish Rpg/Client/Client.csproj --no-restore --verbosity diagnostic --output bin --runtime ${{ matrix.runtime }} --configuration Release --self-contained true
+      run: gamebundle --source Rpg/Client/Client.csproj --output "bin" --${{matrix.runtime}}
+
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time
@@ -65,9 +75,9 @@ jobs:
       env:
         F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       with:
-        path: bin/version.txt
+        path: bin/${{matrix.runtime}}/version.txt
         contents: |
-          ver 0.1-dev#${{ github.run_number }}
+          ver 0.2-dev#${{ github.run_number }}
           ${{ env.F_TIME }}
           ${{ github.sha }}
         write-mode: overwrite

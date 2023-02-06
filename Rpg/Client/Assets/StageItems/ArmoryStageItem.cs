@@ -10,8 +10,8 @@ namespace Client.Assets.StageItems;
 
 internal sealed class ArmoryStageItem : ICampaignStageItem
 {
-    private readonly GlobeProvider _globeProvider;
     private readonly IDice _dice;
+    private readonly GlobeProvider _globeProvider;
 
     public ArmoryStageItem(GlobeProvider globeProvider, IDice dice)
     {

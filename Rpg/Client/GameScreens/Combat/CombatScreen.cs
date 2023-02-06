@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.Assets.GlobalEffects;
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
@@ -42,6 +41,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
         private readonly Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
+        private readonly HeroCampaign _currentCampaign;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
@@ -51,7 +51,6 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNode _globeNode;
-        private readonly HeroCampaign _currentCampaign;
         private readonly GlobeProvider _globeProvider;
         private readonly IList<ButtonBase> _interactionButtons;
         private readonly IJobProgressResolver _jobProgressResolver;
@@ -141,6 +140,11 @@ namespace Rpg.Client.GameScreens.Combat
             DrawGameObjects(spriteBatch);
 
             DrawHud(spriteBatch, contentRectangle);
+        }
+
+        protected override void InitializeContent()
+        {
+            CombatInitialize();
         }
 
         protected override void UpdateContent(GameTime gameTime)
@@ -430,10 +434,11 @@ namespace Rpg.Client.GameScreens.Combat
                         {
                             _globeProvider.Globe.Update(_dice, _eventCatalog);
                             _currentCampaign.CompleteCurrentStage();
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-                            {
-                                Campaign = _currentCampaign
-                            });
+                            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                                new CampaignScreenTransitionArguments
+                                {
+                                    Campaign = _currentCampaign
+                                });
 
                             if (_gameSettings.Mode == GameMode.Full)
                             {
@@ -461,10 +466,11 @@ namespace Rpg.Client.GameScreens.Combat
                 var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
                 var campaigns = campaignGenerator.CreateSet();
 
-                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection, new CampaignSelectionScreenTransitionArguments
-                {
-                    Campaigns = campaigns
-                });
+                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+                    new CampaignSelectionScreenTransitionArguments
+                    {
+                        Campaigns = campaigns
+                    });
             }
             else
             {
@@ -478,10 +484,11 @@ namespace Rpg.Client.GameScreens.Combat
                 var campaignGenerator = Game.Services.GetService<ICampaignGenerator>();
                 var campaigns = campaignGenerator.CreateSet();
 
-                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection, new CampaignSelectionScreenTransitionArguments
-                {
-                    Campaigns = campaigns
-                });
+                ScreenManager.ExecuteTransition(this, ScreenTransition.CampaignSelection,
+                    new CampaignSelectionScreenTransitionArguments
+                    {
+                        Campaigns = campaigns
+                    });
             }
         }
 
@@ -1289,11 +1296,6 @@ namespace Rpg.Client.GameScreens.Combat
                 _combatResultModalShown = true;
                 ShowCombatResultModal(_combatFinishedVictory.Value);
             }
-        }
-
-        protected override void InitializeContent()
-        {
-            CombatInitialize();
         }
     }
 }

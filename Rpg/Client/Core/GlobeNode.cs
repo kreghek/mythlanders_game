@@ -5,12 +5,11 @@ namespace Rpg.Client.Core
 {
     internal sealed class GlobeNode
     {
-        public HeroCampaign? Campaign { get; set; }
-
         public CombatSequence? AssignedCombats { get; set; }
         public Event? AssignedEvent { get; private set; }
 
         public BiomeType BiomeType { get; init; }
+        public HeroCampaign? Campaign { get; set; }
 
         public EquipmentItemType? EquipmentItem { get; set; }
 

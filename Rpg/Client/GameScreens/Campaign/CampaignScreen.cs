@@ -13,8 +13,8 @@ namespace Rpg.Client.GameScreens.Campaign
 {
     internal class CampaignScreen : GameScreenWithMenuBase
     {
-        private CampaignStagesPanel? _stagePanel;
         private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
+        private CampaignStagesPanel? _stagePanel;
 
         public CampaignScreen(EwarGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
         {
@@ -46,6 +46,11 @@ namespace Rpg.Client.GameScreens.Campaign
             spriteBatch.End();
         }
 
+        protected override void InitializeContent()
+        {
+            InitializeCampaignItemButtons();
+        }
+
         protected override void UpdateContent(GameTime gameTime)
         {
             base.UpdateContent(gameTime);
@@ -61,11 +66,6 @@ namespace Rpg.Client.GameScreens.Campaign
             var currentCampaign = _screenTransitionArguments.Campaign;
 
             _stagePanel = new CampaignStagesPanel(currentCampaign, ScreenManager, this);
-        }
-
-        protected override void InitializeContent()
-        {
-            InitializeCampaignItemButtons();
         }
     }
 }
