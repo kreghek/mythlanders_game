@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core
+﻿using Client.Core;
+
+namespace Rpg.Client.Core
 {
     internal sealed class AddPredefinedPerkUnitLevel : UnitLevelBase
     {

@@ -1,3 +1,7 @@
+using Client.Core;
+
+using Core.Dices;
+
 using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.Perks

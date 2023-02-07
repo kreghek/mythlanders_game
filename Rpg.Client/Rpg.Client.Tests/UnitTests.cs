@@ -1,5 +1,7 @@
 using System.Linq;
 
+using Client.Core;
+
 using FluentAssertions;
 
 using Moq;

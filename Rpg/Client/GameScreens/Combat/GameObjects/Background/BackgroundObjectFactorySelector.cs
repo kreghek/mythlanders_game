@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Core.Dices;
+
+using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background

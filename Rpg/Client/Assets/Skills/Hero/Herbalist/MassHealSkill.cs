@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core.SkillEffects;
+
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.GameScreens;

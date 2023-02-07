@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Core.Dices;
+
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.ProgressStorage;
 

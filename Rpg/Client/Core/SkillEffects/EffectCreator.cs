@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Client.Core;
+
 using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Core.SkillEffects

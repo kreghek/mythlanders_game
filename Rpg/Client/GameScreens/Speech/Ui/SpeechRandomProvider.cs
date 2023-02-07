@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core;
+﻿using Core.Dices;
+
+using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Speech.Ui
 {

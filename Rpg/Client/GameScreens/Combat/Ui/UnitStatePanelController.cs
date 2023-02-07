@@ -21,7 +21,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BAR_WIDTH = 118;
         private const int PANEL_BACKGROUND_VERTICAL_OFFSET = 12;
         private const int MARGIN = 10;
-        private readonly Core.Combat _activeCombat;
+        private readonly global::Client.Core.Combat _activeCombat;
 
         private readonly IList<(Rectangle, EffectBase)> _effectInfoList = new List<(Rectangle, EffectBase)>();
         private readonly GameObjectContentStorage _gameObjectContentStorage;
@@ -30,7 +30,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private HintBase? _effectHint;
         private EffectBase? _lastEffectWithHint;
 
-        public UnitStatePanelController(Core.Combat activeCombat,
+        public UnitStatePanelController(global::Client.Core.Combat activeCombat,
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {

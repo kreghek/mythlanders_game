@@ -5,7 +5,7 @@ using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.ScreenManagement;
 
-using static Rpg.Client.Core.Combat;
+using static Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat
 {

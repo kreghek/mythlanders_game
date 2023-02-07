@@ -1,5 +1,7 @@
 using System;
 
+using Client.Core;
+
 namespace Rpg.Client.Core
 {
     internal sealed class AddPerkUnitLevel<TPerk> : UnitLevelBase where TPerk : IPerk, new()

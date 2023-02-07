@@ -2,6 +2,8 @@
 
 using Client.GameScreens.Training;
 
+using Core.Dices;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;

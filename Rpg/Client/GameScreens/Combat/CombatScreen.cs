@@ -6,6 +6,8 @@ using System.Linq;
 using Client;
 using Client.GameScreens.CommandCenter;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,7 +26,7 @@ using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
-using static Rpg.Client.Core.Combat;
+using static Client.Core.Combat;
 
 namespace Rpg.Client.GameScreens.Combat
 {
@@ -39,7 +41,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
         private readonly IReadOnlyCollection<IBackgroundObject> _cloudLayerObjects;
-        private readonly Core.Combat _combat;
+        private readonly global::Client.Core.Combat _combat;
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly HeroCampaign _currentCampaign;
         private readonly IDice _dice;
@@ -642,9 +644,9 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
+        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
         {
-            return new Core.Combat(_globe.Player.Party,
+            return new global::Client.Core.Combat(_globe.Player.Party,
                 combatLocation,
                 combatSource,
                 _dice,

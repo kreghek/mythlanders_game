@@ -1,4 +1,6 @@
-﻿namespace Rpg.Client.Core.Skills
+﻿using Client.Core.Skills;
+
+namespace Rpg.Client.Core.Skills
 {
     internal static class SkillDirection
     {
