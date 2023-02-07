@@ -21,7 +21,7 @@ monsterSequence.Items.Add(new CombatMovement("Cyber claws",
         
     })
 );
-var monster = new Combatant(monsterSequence){Sid = "Digital wolf"};
+var monster = new Combatant(monsterSequence){Sid = "Digital wolf", IsPlayerControlled = false};
 
 combatCore.Initialize(
     new[]{new FormationSlot(0, 1){Combatant = hero}},
@@ -32,25 +32,12 @@ var roundIndex = 0;
 while (true)
 {
     Console.WriteLine($"==== Round {roundIndex} ====");
-    
-    Console.WriteLine("Heroes:");
 
-    foreach (var formationSlot in combatCore.Field.HeroSide)
+    Console.WriteLine("Round queue:");
+    for (var queueIndex = 0; queueIndex < combatCore.RoundQueue.Count; queueIndex++)
     {
-        if (formationSlot.Combatant is not null)
-        {
-            Console.WriteLine($"{formationSlot.ColumnIndex}-{formationSlot.LineIndex}: {formationSlot.Combatant.Sid}");
-        }
-    }
-    
-    Console.WriteLine("Monsters:");
-
-    foreach (var formationSlot in combatCore.Field.MonsterSide)
-    {
-        if (formationSlot.Combatant is not null)
-        {
-            Console.WriteLine($"{formationSlot.ColumnIndex}-{formationSlot.LineIndex}: {formationSlot.Combatant.Sid}");
-        }
+        var combatant = combatCore.RoundQueue[queueIndex];
+        Console.WriteLine($"{queueIndex}: {combatant.Sid}");
     }
 
     while (true)

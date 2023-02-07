@@ -7,8 +7,14 @@ namespace Core.Combats;
 public class CombatCore
 {
     private readonly IList<Combatant> _allUnitList;
+    private readonly IList<Combatant> _roundQueue;
+    
     private readonly IDice _dice;
     private readonly CombatField _combatField;
+    
+    private int _roundNumber;
+
+    public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
 
     public CombatCore(IDice dice)
     {
@@ -16,6 +22,7 @@ public class CombatCore
         _combatField = new CombatField();
 
         _allUnitList = new Collection<Combatant>();
+        _roundQueue = new List<Combatant>();
     }
 
     public void Initialize(IReadOnlyCollection<FormationSlot> heroes, IReadOnlyCollection<FormationSlot> monsters)
@@ -26,6 +33,33 @@ public class CombatCore
         foreach (var combatant in _allUnitList)
         {
             combatant.StartCombat();
+        }
+
+        StartRound();
+    }
+    
+    private void StartRound()
+    {
+        MakeUnitRoundQueue();
+
+        _roundNumber++;
+    }
+    
+    private void MakeUnitRoundQueue()
+    {
+        _roundQueue.Clear();
+
+        var orderedByResolve = _allUnitList
+            .OrderByDescending(x => x.Stats.Single(s => s.Type == UnitStatType.Resolve).Value.ActualMax)
+            .ThenByDescending(x => x.IsPlayerControlled)
+            .ToArray();
+
+        foreach (var unit in orderedByResolve)
+        {
+            if (!unit.IsDead)
+            {
+                _roundQueue.Add(unit);
+            }
         }
     }
 
@@ -43,40 +77,4 @@ public class CombatCore
     }
 
     public CombatField Field => _combatField;
-}
-
-public class CombatField
-{
-    public FormationSlot[,] HeroSide { get; }
-    public FormationSlot[,] MonsterSide { get; }
-
-    public CombatField()
-    {
-        HeroSide = new FormationSlot[2, 3];
-        MonsterSide = new FormationSlot[2, 3];
-
-        for (var columnIndex = 0; columnIndex < 2; columnIndex++)
-        {
-            for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-            {
-                var slotIndex = lineIndex + columnIndex;
-                HeroSide[columnIndex, lineIndex] = new FormationSlot(columnIndex, lineIndex);
-                MonsterSide[columnIndex, lineIndex] = new FormationSlot(columnIndex, lineIndex);
-            }
-        }
-    }
-}
-
-public class FormationSlot
-{
-    public int ColumnIndex { get; }
-    public int LineIndex { get; }
-
-    public FormationSlot(int columnIndex, int lineIndex)
-    {
-        ColumnIndex = columnIndex;
-        LineIndex = lineIndex;
-    }
-
-    public Combatant? Combatant { get; set; }
 }

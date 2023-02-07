@@ -4,7 +4,9 @@ public class Combatant
 {
     private IList<CombatMovement> _pool;
     private CombatMovement[] _hand;
-    
+
+    public IReadOnlyCollection<IUnitStat> Stats { get; }
+
     public Combatant(CombatMovementSequence sequence)
     {
         _pool = new List<CombatMovement>();
@@ -14,6 +16,11 @@ public class Combatant
         {
             _pool.Add(combatMovement);
         }
+
+        Stats = new List<IUnitStat>()
+        {
+            new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8)))
+        };
     }
 
     public string? Sid { get; set; }
@@ -33,4 +40,8 @@ public class Combatant
             }
         }
     }
+
+    public bool IsDead { get; }
+
+    public bool IsPlayerControlled { get; set; }
 }
