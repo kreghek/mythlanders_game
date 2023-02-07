@@ -34,18 +34,3 @@ public class Combatant
         }
     }
 }
-
-public sealed class CombatMovementSequence
-{
-    public CombatMovementSequence()
-    {
-        Items = new List<CombatMovement>();
-    }
-
-    public IList<CombatMovement> Items { get; }
-}
-
-public sealed class CombatMovement
-{
-    public string? Sid { get; set; }
-} 
