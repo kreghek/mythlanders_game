@@ -1,6 +1,24 @@
 ﻿using Core.Combats;
 using Core.Dices;
 
+using Stateless;
+
+using Text.Client;
+
+var clientStateMachine = new StateMachine<ClientState, ClientStateTrigger>(ClientState.Overview);
+
+clientStateMachine.Configure(ClientState.Overview)
+    .Permit(ClientStateTrigger.OnDisplayCombatantInfo, ClientState.CombatantInfo);
+
+clientStateMachine.Configure(ClientState.CombatantInfo)
+    .Permit(ClientStateTrigger.OnDisplayMoveInfo, ClientState.MoveInfo)
+    .Permit(ClientStateTrigger.OnOverview, ClientState.Overview);
+
+clientStateMachine.Configure(ClientState.MoveInfo)
+    .Permit(ClientStateTrigger.OnDisplayCombatantInfo, ClientState.CombatantInfo)
+    .Permit(ClientStateTrigger.OnOverview, ClientState.Overview);
+    
+
 var combatCore = new CombatCore(new LinearDice());
 
 var heroSequence = new CombatMovementSequence();
@@ -27,6 +45,16 @@ combatCore.Initialize(
     new[]{new FormationSlot(0, 1){Combatant = hero}},
     new[]{new FormationSlot(1, 1){Combatant = monster}}
     );
+
+clientStateMachine.OnTransitionCompleted(transition =>
+{
+    switch (transition.Destination)
+    {
+        case ClientState.Overview:
+            
+            break;
+    }
+});
 
 var roundIndex = 0;
 while (true)

@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Stateless" Version="5.11.0" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
