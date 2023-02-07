@@ -78,5 +78,49 @@ public class CombatCore
         }
     }
 
+    public CombatMovementExecution UseCombatMovement(CombatMovement movement)
+    {
+        var effectImposeItems = new List<CombatEffectImposeItem>();
+        foreach (var effect in movement.Effects)
+        {
+            void effectImposeDelegate(Combatant materializedTarget)
+            {
+                throw new NotImplementedException();
+            }
+
+            var effectTargets = effect.Selector.Get(CurrentCombatant, Field);
+
+            var effectImposeItem = new CombatEffectImposeItem(effectImposeDelegate, effectTargets);
+
+            effectImposeItems.Add(effectImposeItem);
+        }
+
+        void completeSkillAction()
+        {
+            //CurrentUnit.EnergyPool -= skill.EnergyCost;
+
+            CompleteStep();
+        }
+
+        var movementExecution = new CombatMovementExecution(completeSkillAction, effectImposeItems);
+
+        return movementExecution;
+    }
+
+    void CompleteStep()
+    {
+        throw new NotImplementedException();
+    }
+
     public CombatField Field => _combatField;
 }
+
+public delegate void CombatMovementCompleteCallback();
+
+public delegate void CombatEffectImposeDelegate(Combatant target);
+
+public record CombatMovementExecution(
+    CombatMovementCompleteCallback CompleteDelegate,
+    IReadOnlyCollection<CombatEffectImposeItem> EffectImposeItems);
+
+public record CombatEffectImposeItem(CombatEffectImposeDelegate ImposeDelegate, IReadOnlyList<Combatant> MaterializedTargets);

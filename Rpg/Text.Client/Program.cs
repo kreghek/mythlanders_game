@@ -129,6 +129,15 @@ void HandleOverview(CombatCore combatCore1, StateMachine<ClientState, ClientStat
         }
         else if (command.StartsWith("use"))
         {
+            var split = command.Split(" ");
+
+            var moveNumber = int.Parse(split[1]);
+
+            var selectedMove = combatCore1.CurrentCombatant.Hand.Skip(moveNumber).Take(1).Single();
+
+            var movementExecution = combatCore1.UseCombatMovement(selectedMove);
+            PseudoPlayback(movementExecution);
+
             break;
         }
     }
@@ -199,6 +208,17 @@ void HandleMoveInfo(CombatCore combatCore1, StateMachine<ClientState, ClientStat
         {
             stateMachine.Fire(ClientStateTrigger.OnOverview);
             break;
+        }
+    }
+}
+
+static void PseudoPlayback(CombatMovementExecution movementExecution)
+{
+    foreach (var imposeItem in movementExecution.EffectImposeItems)
+    {
+        foreach (var target in imposeItem.MaterializedTargets)
+        {
+            imposeItem.ImposeDelegate(target);
         }
     }
 }
