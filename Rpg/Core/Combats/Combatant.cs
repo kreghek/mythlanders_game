@@ -2,8 +2,8 @@ namespace Core.Combats;
 
 public class Combatant
 {
-    private IList<CombatMovement> _pool;
-    private CombatMovement[] _hand;
+    private readonly IList<CombatMovement> _pool;
+    private readonly CombatMovement[] _hand;
 
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 

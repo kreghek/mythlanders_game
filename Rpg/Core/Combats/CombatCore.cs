@@ -37,7 +37,9 @@ public class CombatCore
 
         StartRound();
     }
-    
+
+    public Combatant CurrentCombatant => _roundQueue.FirstOrDefault() ?? throw new InvalidOperationException();
+
     private void StartRound()
     {
         MakeUnitRoundQueue();
