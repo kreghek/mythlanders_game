@@ -1,9 +1,12 @@
+using System.Collections.ObjectModel;
+
 using Core.Dices;
 
 namespace Core.Combats;
 
 public class CombatCore
 {
+    private readonly IList<Combatant> _allUnitList;
     private readonly IDice _dice;
     private readonly CombatField _combatField;
 
@@ -11,19 +14,31 @@ public class CombatCore
     {
         _dice = dice;
         _combatField = new CombatField();
+
+        _allUnitList = new Collection<Combatant>();
     }
 
     public void Initialize(IReadOnlyCollection<FormationSlot> heroes, IReadOnlyCollection<FormationSlot> monsters)
     {
         InitializeCombatFieldSide(heroes, _combatField.HeroSide);
         InitializeCombatFieldSide(monsters, _combatField.MonsterSide);
+
+        foreach (var combatant in _allUnitList)
+        {
+            combatant.StartCombat();
+        }
     }
 
-    private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> heroes, FormationSlot[,] side)
+    private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, FormationSlot[,] side)
     {
-        foreach (var hero in heroes)
+        foreach (var slot in formationSlots)
         {
-            side[hero.Index % 2, hero.Index / 2].Combatant = hero.Combatant;
+            if (slot.Combatant is not null)
+            {
+                side[slot.ColumnIndex, slot.LineIndex].Combatant = slot.Combatant;
+
+                _allUnitList.Add(slot.Combatant);
+            }
         }
     }
 
@@ -45,8 +60,8 @@ public class CombatField
             for (var lineIndex = 0; lineIndex < 3; lineIndex++)
             {
                 var slotIndex = lineIndex + columnIndex;
-                HeroSide[columnIndex, lineIndex] = new FormationSlot(slotIndex);
-                MonsterSide[columnIndex, lineIndex] = new FormationSlot(slotIndex);
+                HeroSide[columnIndex, lineIndex] = new FormationSlot(columnIndex, lineIndex);
+                MonsterSide[columnIndex, lineIndex] = new FormationSlot(columnIndex, lineIndex);
             }
         }
     }
@@ -54,11 +69,14 @@ public class CombatField
 
 public class FormationSlot
 {
-    public FormationSlot(int index)
+    public int ColumnIndex { get; }
+    public int LineIndex { get; }
+
+    public FormationSlot(int columnIndex, int lineIndex)
     {
-        Index = index;
+        ColumnIndex = columnIndex;
+        LineIndex = lineIndex;
     }
 
-    public int Index { get; }
     public Combatant? Combatant { get; set; }
 }

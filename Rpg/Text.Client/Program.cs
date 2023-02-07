@@ -3,13 +3,17 @@ using Core.Dices;
 
 var combatCore = new CombatCore(new LinearDice());
 
-var hero = new Combatant(){ Sid = "Hero"};
+var heroSequence = new CombatMovementSequence();
+heroSequence.Items.Add(new CombatMovement(){Sid = "Sword slash"});
+var hero = new Combatant(heroSequence){ Sid = "Hero"};
 
-var monster = new Combatant(){Sid = "Monster"};
+var monsterSequence = new CombatMovementSequence();
+monsterSequence.Items.Add(new CombatMovement(){ Sid = "Claws" });
+var monster = new Combatant(monsterSequence){Sid = "Monster"};
 
 combatCore.Initialize(
-    new[]{new FormationSlot(1){Combatant = hero}},
-    new[]{new FormationSlot(2){Combatant = monster}}
+    new[]{new FormationSlot(0, 1){Combatant = hero}},
+    new[]{new FormationSlot(1, 2){Combatant = monster}}
     );
 
 var roundIndex = 0;
@@ -23,7 +27,7 @@ while (true)
     {
         if (formationSlot.Combatant is not null)
         {
-            Console.WriteLine($"{formationSlot.Index}: {formationSlot.Combatant.Sid}");
+            Console.WriteLine($"{formationSlot.ColumnIndex}-{formationSlot.LineIndex}: {formationSlot.Combatant.Sid}");
         }
     }
     
@@ -33,9 +37,25 @@ while (true)
     {
         if (formationSlot.Combatant is not null)
         {
-            Console.WriteLine($"{formationSlot.Index}: {formationSlot.Combatant.Sid}");
+            Console.WriteLine($"{formationSlot.ColumnIndex}-{formationSlot.LineIndex}: {formationSlot.Combatant.Sid}");
         }
     }
 
-    Console.ReadLine();
+    while (true)
+    {
+        Console.WriteLine("Enter command:");
+        var command = Console.ReadLine();
+
+        if (command == "list-moves")
+        {
+            var moveIndex = 0;
+            foreach (var movement in combatCore.Field.HeroSide[0, 1].Combatant.Hand)
+            {
+                if (movement is not null)
+                {
+                    Console.WriteLine($"{moveIndex}: {movement.Sid}");
+                }
+            }
+        }
+    }
 }
