@@ -13,7 +13,7 @@ internal static class CombatantFactory
                 new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(), Range<int>.CreateMono(2))
             })
         );
-        var hero = new Combatant(heroSequence) { Sid = "Berimir" };
+        var hero = new Combatant(heroSequence) { Sid = "Berimir", IsPlayerControlled = true };
 
         return new[] { new FormationSlot(0, 1) { Combatant = hero } };
     }

@@ -65,13 +65,14 @@ public class CombatCore
         }
     }
 
-    private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, FormationSlot[,] side)
+    private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)
     {
         foreach (var slot in formationSlots)
         {
             if (slot.Combatant is not null)
             {
-                side[slot.ColumnIndex, slot.LineIndex].Combatant = slot.Combatant;
+                var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
+                side[coords].Combatant = slot.Combatant;
 
                 _allUnitList.Add(slot.Combatant);
             }
@@ -90,7 +91,7 @@ public class CombatCore
                 effect.Imposer.Impose(effect, materializedTarget, effectContext);
             }
 
-            var effectTargets = effect.Selector.Get(CurrentCombatant, Field);
+            var effectTargets = effect.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
 
             var effectImposeItem = new CombatEffectImposeItem(effectImposeDelegate, effectTargets);
 
@@ -101,7 +102,7 @@ public class CombatCore
         {
             //CurrentUnit.EnergyPool -= skill.EnergyCost;
 
-            CompleteStep();
+            CompleteTurn();
         }
 
         var movementExecution = new CombatMovementExecution(completeSkillAction, effectImposeItems);
@@ -109,20 +110,48 @@ public class CombatCore
         return movementExecution;
     }
 
-    void CompleteStep()
+    public ITargetSelectorContext GetCurrentSelectorContext()
     {
-        throw new NotImplementedException();
+        if (CurrentCombatant.IsPlayerControlled)
+        {
+            return new TargetSelectorContext(Field.HeroSide, Field.MonsterSide);
+        }
+        else
+        {
+            return new TargetSelectorContext(Field.MonsterSide, Field.HeroSide);
+        }
+    }
+
+    public void CompleteTurn()
+    {
+        if (_roundQueue.Any())
+        {
+            RemoveCurrentCombatantFromRoundQueue();
+        }
+
+        while (true)
+        {
+            if (!_roundQueue.Any())
+            {
+                StartRound();
+                return;
+            }
+
+            if (_roundQueue.First().IsDead)
+            {
+                RemoveCurrentCombatantFromRoundQueue();
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    private void RemoveCurrentCombatantFromRoundQueue()
+    {
+        _roundQueue.RemoveAt(0);
     }
 
     public CombatField Field => _combatField;
 }
-
-public delegate void CombatMovementCompleteCallback();
-
-public delegate void CombatEffectImposeDelegate(Combatant target);
-
-public record CombatMovementExecution(
-    CombatMovementCompleteCallback CompleteDelegate,
-    IReadOnlyCollection<CombatEffectImposeItem> EffectImposeItems);
-
-public record CombatEffectImposeItem(CombatEffectImposeDelegate ImposeDelegate, IReadOnlyList<Combatant> MaterializedTargets);

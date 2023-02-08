@@ -48,73 +48,79 @@ clientStateMachine.Fire(ClientStateTrigger.OnOverview);
 
 void HandleOverview(CombatCore combatCore1, StateMachine<ClientState, ClientStateTrigger> stateMachine)
 {
-    Console.WriteLine("Round queue:");
-
-    // Print current queue
-    var queueSb = new StringBuilder();
-    for (var queueIndex = 0; queueIndex < combatCore1.RoundQueue.Count; queueIndex++)
-    {
-        var combatant = combatCore1.RoundQueue[queueIndex];
-        queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} |");
-    }
-    Console.WriteLine(queueSb.ToString());
-    Console.WriteLine(new string('=', 10));
-
-    // Print current field
-
-    for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-    {
-        for (var columnIndex = 1; columnIndex >= 0; columnIndex--)
-        {
-            var heroSlot = combatCore1.Field.HeroSide[columnIndex, lineIndex];
-            if (heroSlot.Combatant is not null)
-            {
-                Console.Write($" ({heroSlot.Combatant.Sid.First()}) ");
-            }
-            else
-            {
-                Console.Write(" - - ");
-            }
-        }
-
-        Console.Write("    ");
-
-        for (var columnIndex = 0; columnIndex < 2; columnIndex++)
-        {
-            var monsterSlot = combatCore1.Field.MonsterSide[columnIndex, lineIndex];
-            if (monsterSlot.Combatant is not null)
-            {
-                Console.Write($" ({monsterSlot.Combatant.Sid.First()}) ");
-            }
-            else
-            {
-                Console.Write(" - - ");
-            }
-        }
-
-        Console.WriteLine();
-    }
-
-    // Print current combatant moves
-
-    Console.WriteLine("Moves:");
-    var mIndex = 0;
-    foreach (var movement3 in combatCore1.CurrentCombatant.Hand)
-    {
-        if (movement3 is not null)
-        {
-            Console.WriteLine($"{mIndex}: {movement3.Sid}");
-        }
-        else
-        {
-            Console.WriteLine($"{mIndex}: -");
-        }
-
-        mIndex++;
-    }
-
     while (true)
     {
+        Console.WriteLine("Round queue:");
+
+        // Print current queue
+        var queueSb = new StringBuilder();
+        for (var queueIndex = 0; queueIndex < combatCore1.RoundQueue.Count; queueIndex++)
+        {
+            var combatant = combatCore1.RoundQueue[queueIndex];
+            queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} |");
+        }
+        Console.WriteLine(queueSb.ToString());
+        Console.WriteLine(new string('=', 10));
+
+        // Print current field
+
+        for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+        {
+            for (var columnIndex = 1; columnIndex >= 0; columnIndex--)
+            {
+                var coords = new FieldCoords(columnIndex, lineIndex);
+                var heroSlot = combatCore1.Field.HeroSide[coords];
+                if (heroSlot.Combatant is not null)
+                {
+                    Console.Write($" ({heroSlot.Combatant.Sid.First()}) ");
+                }
+                else
+                {
+                    Console.Write(" - - ");
+                }
+            }
+
+            Console.Write("    ");
+
+            for (var columnIndex = 0; columnIndex < 2; columnIndex++)
+            {
+                var coords = new FieldCoords(columnIndex, lineIndex);
+                var monsterSlot = combatCore1.Field.MonsterSide[coords];
+                if (monsterSlot.Combatant is not null)
+                {
+                    Console.Write($" ({monsterSlot.Combatant.Sid.First()}) ");
+                }
+                else
+                {
+                    Console.Write(" - - ");
+                }
+            }
+
+            Console.WriteLine();
+        }
+
+        // Print current combatant
+
+        Console.WriteLine($"Turn of {combatCore1.CurrentCombatant.Sid}");
+
+        // Print current combatant moves
+
+        Console.WriteLine("Moves:");
+        var mIndex = 0;
+        foreach (var movement3 in combatCore1.CurrentCombatant.Hand)
+        {
+            if (movement3 is not null)
+            {
+                Console.WriteLine($"{mIndex}: {movement3.Sid}");
+            }
+            else
+            {
+                Console.WriteLine($"{mIndex}: -");
+            }
+
+            mIndex++;
+        }
+
         Console.WriteLine(new string('=', 10));
         Console.WriteLine("- info {sid} - to display detailed combatant's info");
         Console.WriteLine("- move {movement-index} - to use combat movement");
@@ -142,6 +148,7 @@ void HandleOverview(CombatCore combatCore1, StateMachine<ClientState, ClientStat
 
             var movementExecution = combatCore1.UseCombatMovement(selectedMove);
             PseudoPlayback(movementExecution);
+            combatCore1.CompleteTurn();
         }
     }
 }
@@ -190,17 +197,18 @@ void HandleCombatantInfo(CombatCore combatCore1, StateMachine<ClientState, Clien
 
 void HandleMoveInfo(CombatCore combatCore1, StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant1, CombatMovement movement1)
 {
+    var selectorContext = combatCore1.GetCurrentSelectorContext();
     Console.WriteLine($"{movement1.Sid} targets:");
     foreach (var effect in movement1.Effects)
     {
-        var targets = effect.Selector.Get(targetCombatant1, combatCore1.Field);
+        var targets = effect.Selector.Get(targetCombatant1, selectorContext);
 
         foreach (var combatant in targets)
         {
             Console.WriteLine($"> {combatant.Sid}");
         }
     }
-    
+
     while (true)
     {
         Console.WriteLine("Enter command:");
@@ -257,9 +265,10 @@ static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid
     return null;
 }
 
-static Combatant? CheckSlot(CombatCore combatCore1, string shortSid, int colIndex, int lineIndex, FormationSlot[,] fieldSide)
+static Combatant? CheckSlot(CombatCore combatCore1, string shortSid, int colIndex, int lineIndex, CombatFieldSide fieldSide)
 {
-    var testCombatant = fieldSide[colIndex, lineIndex].Combatant;
+    var coorods = new FieldCoords(colIndex, lineIndex);
+    var testCombatant = fieldSide[coorods].Combatant;
     if (testCombatant is not null)
     {
         var testShortSid = testCombatant.Sid.First();

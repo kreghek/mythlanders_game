@@ -2,25 +2,28 @@ namespace Core.Combats;
 
 public sealed class ClosestInLineTargetSelector : ITargetSelector
 {
-    public IReadOnlyList<Combatant> Get(Combatant actor, CombatField combatField)
+    public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {
         var actorLine = 0;
 
-        for (var columnIndex = 0; columnIndex < combatField.HeroSide.GetLength(0); columnIndex++)
+        for (var columnIndex = 0; columnIndex < context.ActorSide.ColumnCount; columnIndex++)
         {
-            for (var lineIndex = 0; lineIndex < combatField.HeroSide.GetLength(1); lineIndex++)
+            for (var lineIndex = 0; lineIndex < context.ActorSide.LineCount; lineIndex++)
             {
-                if (combatField.HeroSide[columnIndex, lineIndex].Combatant == actor)
+                var fieldCoords = new FieldCoords(columnIndex, lineIndex);
+                if (context.ActorSide[fieldCoords].Combatant == actor)
                 {
                     actorLine = lineIndex;
                 }
             }
         }
 
-        var closestEnemySlot = combatField.MonsterSide[0, actorLine];
+        var vanguardCoords = new FieldCoords(0, actorLine);
+        var closestEnemySlot = context.EnemySide[vanguardCoords];
         if (closestEnemySlot.Combatant is null)
         {
-            closestEnemySlot = combatField.MonsterSide[1, actorLine];
+            var rearCoords = new FieldCoords(0, actorLine);
+            closestEnemySlot = context.EnemySide[rearCoords];
         }
 
         if (closestEnemySlot.Combatant is null)
