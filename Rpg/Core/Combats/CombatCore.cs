@@ -80,12 +80,14 @@ public class CombatCore
 
     public CombatMovementExecution UseCombatMovement(CombatMovement movement)
     {
+        var effectContext = new EffectCombatContext(Field, _dice);
+
         var effectImposeItems = new List<CombatEffectImposeItem>();
         foreach (var effect in movement.Effects)
         {
             void effectImposeDelegate(Combatant materializedTarget)
             {
-                throw new NotImplementedException();
+                effect.Imposer.Impose(effect, materializedTarget, effectContext);
             }
 
             var effectTargets = effect.Selector.Get(CurrentCombatant, Field);

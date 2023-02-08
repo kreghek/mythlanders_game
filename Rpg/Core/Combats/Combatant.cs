@@ -19,6 +19,8 @@ public class Combatant
 
         Stats = new List<IUnitStat>()
         {
+            new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
+            new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
             new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8)))
         };
     }

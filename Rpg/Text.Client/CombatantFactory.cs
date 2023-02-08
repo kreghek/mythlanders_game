@@ -10,8 +10,7 @@ internal static class CombatantFactory
         heroSequence.Items.Add(new CombatMovement("Die by sword!",
             new IEffect[]
             {
-        new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectLifetime())
-
+                new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(), Range<int>.CreateMono(2))
             })
         );
         var hero = new Combatant(heroSequence) { Sid = "Berimir" };
@@ -26,7 +25,7 @@ internal static class CombatantFactory
         monsterSequence.Items.Add(new CombatMovement("Cyber claws",
             new IEffect[]
             {
-        new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectLifetime())
+                new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(), Range<int>.CreateMono(1))
 
             })
         );

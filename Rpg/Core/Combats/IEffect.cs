@@ -4,5 +4,7 @@ public interface IEffect
 {
     ITargetSelector Selector { get; }
     
-    IEffectLifetime Lifetime { get; }
+    IEffectImposer Imposer { get; }
+
+    void Influence(Combatant target, IEffectCombatContext context);
 }

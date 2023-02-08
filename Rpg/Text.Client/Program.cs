@@ -115,19 +115,24 @@ void HandleOverview(CombatCore combatCore1, StateMachine<ClientState, ClientStat
 
     while (true)
     {
+        Console.WriteLine(new string('=', 10));
+        Console.WriteLine("- info {sid} - to display detailed combatant's info");
+        Console.WriteLine("- move {movement-index} - to use combat movement");
+        Console.WriteLine(new string('=', 10));
         Console.WriteLine("Enter command:");
         var command = Console.ReadLine();
 
-        if (command == "info")
+        if (command.StartsWith("info"))
         {
-            var combatant = combatCore1.Field.HeroSide[0, 1].Combatant;
+            var combatant = GetCombatantByShortSid(combatCore1, command.Split(" ")[1]);
+
             stateMachine.Fire(
                 new StateMachine<ClientState, ClientStateTrigger>.TriggerWithParameters(ClientStateTrigger
                     .OnDisplayCombatantInfo),
                 combatant);
             break;
         }
-        else if (command.StartsWith("use"))
+        else if (command.StartsWith("move"))
         {
             var split = command.Split(" ");
 
@@ -137,14 +142,19 @@ void HandleOverview(CombatCore combatCore1, StateMachine<ClientState, ClientStat
 
             var movementExecution = combatCore1.UseCombatMovement(selectedMove);
             PseudoPlayback(movementExecution);
-
-            break;
         }
     }
 }
 
 void HandleCombatantInfo(CombatCore combatCore1, StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant)
 {
+    Console.WriteLine("Stats:");
+    foreach (var stat in targetCombatant.Stats)
+    {
+        Console.WriteLine($"{stat.Type}: {stat.Value.Current}/{stat.Value.ActualMax}");
+    }
+
+    Console.WriteLine("Available movements:");
     var moveIndex = 0;
     foreach (var movement in targetCombatant.Hand)
     {
@@ -221,4 +231,44 @@ static void PseudoPlayback(CombatMovementExecution movementExecution)
             imposeItem.ImposeDelegate(target);
         }
     }
+}
+
+static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)
+{
+    for (int colIndex = 0; colIndex < 2; colIndex++)
+    {
+        for (int lineIndex = 0; lineIndex < 3; lineIndex++)
+        {
+            Combatant? foundCombatant = null;
+            foundCombatant = CheckSlot(combatCore1, shortSid, colIndex, lineIndex, combatCore1.Field.HeroSide);
+
+            if (foundCombatant is not null)
+            {
+                return foundCombatant;
+            }
+
+            foundCombatant = CheckSlot(combatCore1, shortSid, colIndex, lineIndex, combatCore1.Field.MonsterSide);
+            if (foundCombatant is not null)
+            {
+                return foundCombatant;
+            }
+        }
+    }
+    return null;
+}
+
+static Combatant? CheckSlot(CombatCore combatCore1, string shortSid, int colIndex, int lineIndex, FormationSlot[,] fieldSide)
+{
+    var testCombatant = fieldSide[colIndex, lineIndex].Combatant;
+    if (testCombatant is not null)
+    {
+        var testShortSid = testCombatant.Sid.First();
+
+        if (testShortSid.ToString() == shortSid)
+        {
+            return testCombatant;
+        }
+    }
+
+    return null;
 }
