@@ -15,7 +15,7 @@ internal static class Program
 
         var combatCore = new CombatCore(new LinearDice());
 
-
+        combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
 
         combatCore.Initialize(
             CombatantFactory.CreateHeroes(),
@@ -51,8 +51,11 @@ internal static class Program
         });
 
         clientStateMachine.Fire(ClientStateTrigger.OnOverview);
+    }
 
-
+    private static void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
+    {
+        Console.WriteLine($"! {e.Combatant.Sid} has taken damage {e.Value} to {e.StatType}");
     }
 
     private static void HandleOverview(CombatCore combatCore,
@@ -67,7 +70,7 @@ internal static class Program
             for (var queueIndex = 0; queueIndex < combatCore.RoundQueue.Count; queueIndex++)
             {
                 var combatant = combatCore.RoundQueue[queueIndex];
-                queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} |");
+                queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} (R:{combatant.Stats.Single(x=>x.Type == UnitStatType.Resolve).Value.Current}) |");
             }
 
             Console.WriteLine(queueSb.ToString());
@@ -112,12 +115,14 @@ internal static class Program
 
             // Print current combatant
 
-            Console.WriteLine($"Turn of {combatCore.CurrentCombatant.Sid}");
+            Console.Write($"Turn of {combatCore.CurrentCombatant.Sid}");
 
             if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
             {
                 Console.Write(" (can maneuver)");
             }
+
+            Console.WriteLine();
 
             // Print current combatant moves
 
@@ -209,6 +214,8 @@ internal static class Program
             {
                 Console.WriteLine($"{moveIndex}: {movement.Sid}");
             }
+
+            moveIndex++;
         }
 
         while (true)

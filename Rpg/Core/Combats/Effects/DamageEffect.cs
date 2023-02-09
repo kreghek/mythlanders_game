@@ -2,19 +2,26 @@ using Core.Dices;
 
 namespace Core.Combats.Effects;
 
+public enum DamageType
+{
+    Normal,
+    ShieldsOnly
+}
+
 public sealed class DamageEffect: IEffect
 {
-    public DamageEffect(ITargetSelector selector, IEffectImposer imposer, Range<int> damage)
+    public DamageEffect(ITargetSelector selector, IEffectImposer imposer, DamageType damageType, Range<int> damage)
     {
         Selector = selector;
         Imposer = imposer;
+        DamageType = damageType;
         Damage = damage;
     }
 
     public ITargetSelector Selector { get; }
 
     public IEffectImposer Imposer { get; }
-
+    public DamageType DamageType { get; }
     public Range<int> Damage { get; }
 
     public void Influence(Combatant target, IEffectCombatContext context)
@@ -25,9 +32,17 @@ public sealed class DamageEffect: IEffect
 
         var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
+        context.NotifyCombatantDamaged(target, UnitStatType.ShieldPoints, absorbedDamage - damageRemains);
+
+        if (DamageType == DamageType.ShieldsOnly)
+        {
+            return;
+        }
+
         if (damageRemains > 0)
         {
             TakeStat(target, UnitStatType.HitPoints, damageRemains);
+            context.NotifyCombatantDamaged(target, UnitStatType.HitPoints, damageRemains);
         }
     }
 

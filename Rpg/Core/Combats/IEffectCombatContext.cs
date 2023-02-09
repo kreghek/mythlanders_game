@@ -7,4 +7,6 @@ public interface IEffectCombatContext
     CombatField Field { get; }
 
     IDice Dice { get; }
+
+    void NotifyCombatantDamaged(Combatant combatant, UnitStatType statType, int value);
 }

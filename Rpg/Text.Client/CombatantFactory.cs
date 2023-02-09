@@ -17,10 +17,14 @@ internal static class CombatantFactory
         var heroSequence = new CombatMovementSequence();
 
         heroSequence.Items.Add(new CombatMovement("Die by sword!",
+            new CombatMovementCost(2),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(),
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(), 
+                        new InstantaneousEffectImposer(),
+                        DamageType.Normal,
                         Range<int>.CreateMono(2))
                 })
             )
@@ -30,6 +34,7 @@ internal static class CombatantFactory
         );
 
         heroSequence.Items.Add(new CombatMovement("Im  so strong",
+            new CombatMovementCost(2),
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
@@ -42,6 +47,23 @@ internal static class CombatantFactory
             )
         {
             Tags = CombatMovementTags.AutoDefense
+        }
+        );
+
+        heroSequence.Items.Add(new CombatMovement("Hit from shoulder",
+            new CombatMovementCost(3),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        new InstantaneousEffectImposer(),
+                        DamageType.Normal,
+                        Range<int>.CreateMono(3))
+                })
+            )
+        {
+            Tags = CombatMovementTags.Attack
         }
         );
 
@@ -55,17 +77,22 @@ internal static class CombatantFactory
     public static IReadOnlyCollection<FormationSlot> CreateMonsters()
     {
         var monsterSequence = new CombatMovementSequence();
-        monsterSequence.Items.Add(new CombatMovement("Cyber claws",
+        monsterSequence.Items.Add(new CombatMovement("Wolf teeth",
+            new CombatMovementCost(1),
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                    new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(),
+                    new DamageEffect(
+                        new ClosestInLineTargetSelector(),
+                        new InstantaneousEffectImposer(),
+                        DamageType.Normal,
                         Range<int>.CreateMono(3))
                 })
             )
         );
 
         monsterSequence.Items.Add(new CombatMovement("Veles protection",
+            new CombatMovementCost(1),
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
@@ -79,6 +106,20 @@ internal static class CombatantFactory
         {
             Tags = CombatMovementTags.AutoDefense
         }
+        );
+
+        monsterSequence.Items.Add(new CombatMovement("Cyber claws",
+            new CombatMovementCost(1),
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(
+                        new MostShieldChargedTargetSelector(),
+                        new InstantaneousEffectImposer(),
+                        DamageType.ShieldsOnly,
+                        Range<int>.CreateMono(3))
+                })
+            )
         );
 
         var monster = new Combatant(monsterSequence) { Sid = "Digital wolf", IsPlayerControlled = false };

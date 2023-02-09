@@ -14,6 +14,8 @@ public class CombatCore
     
     private int _roundNumber;
 
+    public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
+
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
 
     public CombatCore(IDice dice)
@@ -81,7 +83,12 @@ public class CombatCore
 
     public CombatMovementExecution UseCombatMovement(CombatMovement movement)
     {
-        var effectContext = new EffectCombatContext(Field, _dice);
+        var effectContext = new EffectCombatContext(Field, _dice,
+            (combatant, statType, value) =>
+            { 
+                CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
+            }
+        );
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
