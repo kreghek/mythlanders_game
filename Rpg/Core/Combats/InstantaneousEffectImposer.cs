@@ -6,4 +6,9 @@ public sealed class InstantaneousEffectImposer : IEffectImposer
     {
         effect.Influence(target, context);
     }
+
+    public void Update(EffectImposerUpdateType updateType)
+    {
+        // Do nothing
+    }
 }

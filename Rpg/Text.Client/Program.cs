@@ -281,6 +281,8 @@ internal static class Program
                 imposeItem.ImposeDelegate(target);
             }
         }
+
+        movementExecution.CompleteDelegate();
     }
 
     private static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)

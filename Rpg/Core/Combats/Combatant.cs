@@ -22,7 +22,8 @@ public class Combatant
             new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
             new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
             new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8))),
-            new CombatantStat(UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1)))
+            new CombatantStat(UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1))),
+            new CombatantStat(UnitStatType.Defense, new CombatantStatValue(new StatValue(0)))
         };
     }
 
@@ -40,6 +41,24 @@ public class Combatant
             {
                 _hand[i] = _pool.First();
                 _pool.RemoveAt(0);
+            }
+        }
+    }
+
+    private IList<IEffect> _effects = new List<IEffect>();
+
+    internal void AddEffect(IEffect effect)
+    {
+        _effects.Add(effect);
+    }
+
+    internal void DropMovement(CombatMovement movement)
+    {
+        for (int i = 0; i < _hand.Length; i++)
+        {
+            if (_hand[i] == movement)
+            {
+                _hand[i] = null!;
             }
         }
     }

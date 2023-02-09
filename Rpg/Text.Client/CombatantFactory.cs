@@ -15,13 +15,36 @@ internal static class CombatantFactory
     private static Combatant CreateSwordsman()
     {
         var heroSequence = new CombatMovementSequence();
+
         heroSequence.Items.Add(new CombatMovement("Die by sword!",
-            new IEffect[]
-            {
-                new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(),
-                    Range<int>.CreateMono(2))
-            })
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(),
+                        Range<int>.CreateMono(2))
+                })
+            )
+        { 
+            Tags = CombatMovementTags.Attack
+        }
         );
+
+        heroSequence.Items.Add(new CombatMovement("Im  so strong",
+            new CombatMovementEffectConfig(
+                new IEffect[]
+                {
+                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(3, 3))
+                },
+                new IEffect[]
+                {
+                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(1, 1))
+                })
+            )
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
+        );
+
         var hero = new Combatant(heroSequence)
         {
             Sid = "Berimir", IsPlayerControlled = true
@@ -33,12 +56,31 @@ internal static class CombatantFactory
     {
         var monsterSequence = new CombatMovementSequence();
         monsterSequence.Items.Add(new CombatMovement("Cyber claws",
-            new IEffect[]
-            {
-                new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(), Range<int>.CreateMono(1))
-
-            })
+            CombatMovementEffectConfig.Create(
+                new IEffect[]
+                {
+                    new DamageEffect(new ClosestInLineTargetSelector(), new InstantaneousEffectImposer(),
+                        Range<int>.CreateMono(3))
+                })
+            )
         );
+
+        monsterSequence.Items.Add(new CombatMovement("Veles protection",
+            new CombatMovementEffectConfig(
+                new IEffect[]
+                {
+                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(3, 3))
+                },
+                new IEffect[]
+                {
+                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(1, 1))
+                })
+            )
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
+        );
+
         var monster = new Combatant(monsterSequence) { Sid = "Digital wolf", IsPlayerControlled = false };
 
         return new[] { new FormationSlot(0, 1) { Combatant = monster } };

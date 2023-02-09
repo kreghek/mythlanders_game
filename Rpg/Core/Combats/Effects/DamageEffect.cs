@@ -19,23 +19,16 @@ public sealed class DamageEffect: IEffect
 
     public void Influence(Combatant target, IEffectCombatContext context)
     {
-        var targetDefenseMovement = GetAutoDefenseMovement(target);
-        
-        if 
-        
         var rolledDamage = context.Dice.Roll(Damage.Min, Damage.Max);
 
-        var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, rolledDamage);
+        var absorbedDamage = Math.Max(rolledDamage - target.Stats.Single(x => x.Type == UnitStatType.Defense).Value.Current, 0);
+
+        var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, absorbedDamage);
 
         if (damageRemains > 0)
         {
             TakeStat(target, UnitStatType.HitPoints, damageRemains);
         }
-    }
-
-    private CombatMovement? GetAutoDefenseMovement(Combatant target)
-    {
-        return target.Hand.First(x => x.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
 
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
@@ -53,5 +46,10 @@ public sealed class DamageEffect: IEffect
         var remains = value - d;
 
         return remains;
+    }
+
+    public void Despel(Combatant target)
+    {
+        // Do nothing
     }
 }

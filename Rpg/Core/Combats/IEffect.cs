@@ -7,4 +7,5 @@ public interface IEffect
     IEffectImposer Imposer { get; }
 
     void Influence(Combatant target, IEffectCombatContext context);
+    void Despel(Combatant target);
 }

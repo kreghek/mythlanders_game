@@ -84,6 +84,7 @@ public class CombatCore
         var effectContext = new EffectCombatContext(Field, _dice);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
+
         foreach (var effect in movement.Effects)
         {
             void effectImposeDelegate(Combatant materializedTarget)
@@ -93,6 +94,35 @@ public class CombatCore
 
             var effectTargets = effect.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
 
+            if (movement.Tags.HasFlag(CombatMovementTags.Attack))
+            {
+                foreach (var effectTarget in effectTargets)
+                {
+                    var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
+                    var targetIsInQueue = _roundQueue.Any(x => x == effectTarget);
+
+                    if (targetDefenseMovement is not null && targetIsInQueue)
+                    {
+                        foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
+                        {
+                            void autoEffectImposeDelegate(Combatant materializedTarget)
+                            {
+                                autoDefenseEffect.Imposer.Impose(autoDefenseEffect, materializedTarget, effectContext);
+                            }
+
+                            var autoDefenseEffectTargets = effect.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
+
+                            var autoDefenseEffectImposeItem = new CombatEffectImposeItem(autoEffectImposeDelegate, effectTargets);
+
+                            effectImposeItems.Add(autoDefenseEffectImposeItem);
+                        }
+
+                        _roundQueue.Remove(effectTarget);
+                        effectTarget.DropMovement(targetDefenseMovement);
+                    }
+                }
+            }
+
             var effectImposeItem = new CombatEffectImposeItem(effectImposeDelegate, effectTargets);
 
             effectImposeItems.Add(effectImposeItem);
@@ -100,9 +130,9 @@ public class CombatCore
 
         void completeSkillAction()
         {
-            //CurrentUnit.EnergyPool -= skill.EnergyCost;
+            CurrentCombatant.Stats.Single(x=>x.Type == UnitStatType.Resolve).Value.Consume(1);
 
-            CompleteTurn();
+            CurrentCombatant.DropMovement(movement);
         }
 
         var movementExecution = new CombatMovementExecution(completeSkillAction, effectImposeItems);
@@ -110,9 +140,19 @@ public class CombatCore
         return movementExecution;
     }
 
+    private static CombatMovement? GetAutoDefenseMovement(Combatant target)
+    {
+        return target.Hand.First(x => x.Tags.HasFlag(CombatMovementTags.AutoDefense));
+    }
+
     public ITargetSelectorContext GetCurrentSelectorContext()
     {
-        if (CurrentCombatant.IsPlayerControlled)
+        return GetSelectorContext(CurrentCombatant);
+    }
+
+    private ITargetSelectorContext GetSelectorContext(Combatant combatant)
+    {
+        if (combatant.IsPlayerControlled)
         {
             return new TargetSelectorContext(Field.HeroSide, Field.MonsterSide);
         }

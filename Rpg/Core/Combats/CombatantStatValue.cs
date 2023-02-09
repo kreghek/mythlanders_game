@@ -25,7 +25,7 @@ public sealed class CombatantStatValue: IStatValue
         }
     }
 
-    public int ActualMax => _baseValue.ActualMax /*+ _modifiers.Sum(x => x.GetBonus(_baseValue.ActualMax))*/;
+    public int ActualMax => _baseValue.ActualMax + _modifiers.Sum(x => x.Value);
 
     public int Current { get; private set; }
 

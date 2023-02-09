@@ -13,7 +13,7 @@ public sealed class CombatMovement
     public IReadOnlyCollection<IEffect> Effects { get; }
     public IReadOnlyCollection<IEffect> AutoDefenseEffects { get; }
 
-    public CombatMovementTags Tags { get; }
+    public CombatMovementTags Tags { get; set; }
 }
 
 public sealed record CombatMovementEffectConfig(IReadOnlyCollection<IEffect> Effects,
