@@ -21,7 +21,8 @@ public class Combatant
         {
             new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
             new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
-            new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8)))
+            new CombatantStat(UnitStatType.Resolve, new CombatantStatValue(new StatValue(8))),
+            new CombatantStat(UnitStatType.Maneuver, new CombatantStatValue(new StatValue(1)))
         };
     }
 
@@ -33,7 +34,7 @@ public class Combatant
 
     public void StartCombat()
     {
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             if (_pool.Any())
             {

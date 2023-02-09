@@ -4,5 +4,6 @@ public enum UnitStatType
 {
     HitPoints,
     ShieldPoints,
+    Maneuver,
     Resolve
 }

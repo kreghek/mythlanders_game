@@ -31,7 +31,7 @@ internal static class Program
                 case ClientState.Overview:
                     Console.WriteLine($"==== Round {roundIndex} ====");
 
-                    HandleOverview(combatCore1: combatCore, stateMachine: clientStateMachine);
+                    HandleOverview(combatCore: combatCore, stateMachine: clientStateMachine);
 
                     break;
 
@@ -55,7 +55,7 @@ internal static class Program
 
     }
 
-    private static void HandleOverview(CombatCore combatCore1,
+    private static void HandleOverview(CombatCore combatCore,
         StateMachine<ClientState, ClientStateTrigger> stateMachine)
     {
         while (true)
@@ -64,9 +64,9 @@ internal static class Program
 
             // Print current queue
             var queueSb = new StringBuilder();
-            for (var queueIndex = 0; queueIndex < combatCore1.RoundQueue.Count; queueIndex++)
+            for (var queueIndex = 0; queueIndex < combatCore.RoundQueue.Count; queueIndex++)
             {
-                var combatant = combatCore1.RoundQueue[queueIndex];
+                var combatant = combatCore.RoundQueue[queueIndex];
                 queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} |");
             }
 
@@ -80,7 +80,7 @@ internal static class Program
                 for (var columnIndex = 1; columnIndex >= 0; columnIndex--)
                 {
                     var coords = new FieldCoords(columnIndex, lineIndex);
-                    var heroSlot = combatCore1.Field.HeroSide[coords];
+                    var heroSlot = combatCore.Field.HeroSide[coords];
                     if (heroSlot.Combatant is not null)
                     {
                         Console.Write($" ({heroSlot.Combatant.Sid.First()}) ");
@@ -96,7 +96,7 @@ internal static class Program
                 for (var columnIndex = 0; columnIndex < 2; columnIndex++)
                 {
                     var coords = new FieldCoords(columnIndex, lineIndex);
-                    var monsterSlot = combatCore1.Field.MonsterSide[coords];
+                    var monsterSlot = combatCore.Field.MonsterSide[coords];
                     if (monsterSlot.Combatant is not null)
                     {
                         Console.Write($" ({monsterSlot.Combatant.Sid.First()}) ");
@@ -112,13 +112,18 @@ internal static class Program
 
             // Print current combatant
 
-            Console.WriteLine($"Turn of {combatCore1.CurrentCombatant.Sid}");
+            Console.WriteLine($"Turn of {combatCore.CurrentCombatant.Sid}");
+
+            if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+            {
+                Console.Write(" (can maneuver)");
+            }
 
             // Print current combatant moves
 
             Console.WriteLine("Moves:");
             var mIndex = 0;
-            foreach (var movement3 in combatCore1.CurrentCombatant.Hand)
+            foreach (var movement3 in combatCore.CurrentCombatant.Hand)
             {
                 if (movement3 is not null)
                 {
@@ -135,13 +140,14 @@ internal static class Program
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("- info {sid} - to display detailed combatant's info");
             Console.WriteLine("- move {movement-index} - to use combat movement");
+            Console.WriteLine("- step {direction} - to maneuver. Direction: up/down/left/right");
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("Enter command:");
             var command = Console.ReadLine();
 
             if (command.StartsWith("info"))
             {
-                var combatant = GetCombatantByShortSid(combatCore1, command.Split(" ")[1]);
+                var combatant = GetCombatantByShortSid(combatCore, command.Split(" ")[1]);
 
                 stateMachine.Fire(
                     new StateMachine<ClientState, ClientStateTrigger>.TriggerWithParameters(ClientStateTrigger
@@ -155,11 +161,33 @@ internal static class Program
 
                 var moveNumber = int.Parse(split[1]);
 
-                var selectedMove = combatCore1.CurrentCombatant.Hand.Skip(moveNumber).Take(1).Single();
+                var selectedMove = combatCore.CurrentCombatant.Hand.Skip(moveNumber).Take(1).Single();
 
-                var movementExecution = combatCore1.UseCombatMovement(selectedMove);
+                var movementExecution = combatCore.UseCombatMovement(selectedMove);
                 PseudoPlayback(movementExecution);
-                combatCore1.CompleteTurn();
+                combatCore.CompleteTurn();
+            }
+            else if (command.StartsWith("step"))
+            {
+                var directionStr = command.Split(" ")[1];
+
+                var direction = directionStr switch
+                {
+                    "up" or "u" => CombatStepDirection.Up,
+                    "down" or "d" => CombatStepDirection.Down,
+                    "backward" or "b" => CombatStepDirection.Backward,
+                    "forward" or "f" => CombatStepDirection.Forward,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+                {
+                    combatCore.UseCombatStep(direction);
+                }
+                else
+                {
+                    Console.WriteLine("ERROR can't maneuver");
+                }
             }
         }
     }
@@ -244,7 +272,7 @@ internal static class Program
         }
     }
 
-    static void PseudoPlayback(CombatMovementExecution movementExecution)
+    private static void PseudoPlayback(CombatMovementExecution movementExecution)
     {
         foreach (var imposeItem in movementExecution.EffectImposeItems)
         {
@@ -255,7 +283,7 @@ internal static class Program
         }
     }
 
-    static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)
+    private static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)
     {
         for (int colIndex = 0; colIndex < 2; colIndex++)
         {

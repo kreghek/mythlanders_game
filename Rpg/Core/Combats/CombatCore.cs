@@ -154,4 +154,63 @@ public class CombatCore
     }
 
     public CombatField Field => _combatField;
+
+    public void UseCombatStep(CombatStepDirection combatStepDirection)
+    {
+        var currentCoords = GetCurrentCoords();
+
+        var targetCoords = combatStepDirection switch
+        {
+            CombatStepDirection.Up => currentCoords with
+            {
+                LineIndex = currentCoords.LineIndex - 1
+            },
+            CombatStepDirection.Down => currentCoords with
+            {
+                LineIndex = currentCoords.LineIndex + 1
+            },
+            CombatStepDirection.Forward => currentCoords with
+            {
+                ColumentIndex = currentCoords.ColumentIndex - 1
+            },
+            CombatStepDirection.Backward => currentCoords with
+            {
+                ColumentIndex = currentCoords.ColumentIndex + 1
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
+        };
+        
+        var side = GetCurrentSelectorContext().ActorSide;
+
+        side[targetCoords].Combatant = CurrentCombatant;
+        side[currentCoords].Combatant = null;
+        
+        CurrentCombatant.Stats.Single(x=>x.Type == UnitStatType.Maneuver).Value.Consume(1);
+    }
+
+    private FieldCoords GetCurrentCoords()
+    {
+        var side = GetCurrentSelectorContext().ActorSide;
+        
+        for (int col = 0; col < side.ColumnCount; col++)
+        {
+            for (int lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            {
+                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                {
+                    return new FieldCoords(col, lineIndex);
+                }
+            }
+        }
+
+        throw new InvalidOperationException();
+    }
+}
+
+public enum CombatStepDirection
+{
+    Up,
+    Down,
+    Forward,
+    Backward
 }
