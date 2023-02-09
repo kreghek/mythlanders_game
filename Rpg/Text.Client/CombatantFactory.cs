@@ -1,4 +1,5 @@
 ﻿using Core.Combats;
+using Core.Combats.Effects;
 
 namespace Text.Client;
 

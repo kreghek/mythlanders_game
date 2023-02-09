@@ -1,26 +1,28 @@
 using Core.Dices;
 
-namespace Core.Combats;
+namespace Core.Combats.Effects;
 
 public sealed class DamageEffect: IEffect
 {
-    private readonly ITargetSelector _selector;
-    private readonly IEffectImposer _imposer;
-
     public DamageEffect(ITargetSelector selector, IEffectImposer imposer, Range<int> damage)
     {
-        _selector = selector;
-        _imposer = imposer;
+        Selector = selector;
+        Imposer = imposer;
         Damage = damage;
     }
 
-    public ITargetSelector Selector => _selector;
-    public IEffectImposer Imposer => _imposer;
+    public ITargetSelector Selector { get; }
+
+    public IEffectImposer Imposer { get; }
 
     public Range<int> Damage { get; }
 
     public void Influence(Combatant target, IEffectCombatContext context)
     {
+        var targetDefenseMovement = GetAutoDefenseMovement(target);
+        
+        if 
+        
         var rolledDamage = context.Dice.Roll(Damage.Min, Damage.Max);
 
         var damageRemains = TakeStat(target, UnitStatType.ShieldPoints, rolledDamage);
@@ -29,6 +31,11 @@ public sealed class DamageEffect: IEffect
         {
             TakeStat(target, UnitStatType.HitPoints, damageRemains);
         }
+    }
+
+    private CombatMovement? GetAutoDefenseMovement(Combatant target)
+    {
+        return target.Hand.First(x => x.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
 
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
