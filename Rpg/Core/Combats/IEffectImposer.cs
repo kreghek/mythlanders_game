@@ -6,9 +6,3 @@ public interface IEffectImposer
 
     void Update(EffectImposerUpdateType updateType);
 }
-
-public enum EffectImposerUpdateType
-{
-    StartRound,
-    EndRound
-}

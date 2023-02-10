@@ -47,8 +47,22 @@ public class CombatCore
         MakeUnitRoundQueue();
 
         _roundNumber++;
+
+        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
     }
-    
+
+    private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType)
+    {
+        foreach (var combatant in _allUnitList)
+        {
+            if (!combatant.IsDead)
+            {
+                combatant.UpdateEffects(updateType);
+            }
+        }
+    }
+
     private void MakeUnitRoundQueue()
     {
         _roundQueue.Clear();
@@ -171,6 +185,8 @@ public class CombatCore
 
     public void CompleteTurn()
     {
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn);
+        
         if (_roundQueue.Any())
         {
             RemoveCurrentCombatantFromRoundQueue();
@@ -180,6 +196,7 @@ public class CombatCore
         {
             if (!_roundQueue.Any())
             {
+                UpdateAllCombatantEffects(CombatantEffectUpdateType.EndRound);
                 StartRound();
                 return;
             }
@@ -193,6 +210,8 @@ public class CombatCore
                 break;
             }
         }
+        
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
     }
 
     private void RemoveCurrentCombatantFromRoundQueue()

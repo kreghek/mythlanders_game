@@ -1,4 +1,4 @@
-﻿namespace Core.Combats;
+﻿namespace Core.Combats.TargetSelectors;
 
 public sealed class SelfTargetSelector : ITargetSelector
 {

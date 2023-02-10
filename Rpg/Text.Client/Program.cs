@@ -226,6 +226,12 @@ internal static class Program
         {
             Console.WriteLine($"{stat.Type}: {stat.Value.Current}/{stat.Value.ActualMax}");
         }
+        
+        Console.WriteLine("Effects:");
+        foreach (var effect in targetCombatant.Effects)
+        {
+            PrintEffectInfo(effect);
+        }
 
         Console.WriteLine("Available movements:");
         var moveIndex = 0;
@@ -283,6 +289,16 @@ internal static class Program
                 stateMachine.Fire(ClientStateTrigger.OnOverview);
                 break;
             }
+        }
+    }
+
+    private static void PrintEffectInfo(ICombatantEffect effect)
+    {
+        switch (effect)
+        {
+            case ChangeStateCombatantEffect combatantEffect:
+                Console.WriteLine($"{combatantEffect.StatType} +{combatantEffect.Value} on {combatantEffect.Lifetime}");
+                break;
         }
     }
 

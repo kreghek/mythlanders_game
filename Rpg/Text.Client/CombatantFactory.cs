@@ -1,5 +1,7 @@
 ﻿using Core.Combats;
 using Core.Combats.Effects;
+using Core.Combats.Imposers;
+using Core.Combats.TargetSelectors;
 
 namespace Text.Client;
 
@@ -38,11 +40,19 @@ internal static class CombatantFactory
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(3, 3))
+                    new ChangeStatEffect(new SelfTargetSelector(),
+                        new InstantaneousEffectImposer(), 
+                        UnitStatType.Defense, 
+                        3, 
+                        typeof(ToNextCombatantTurnEffectLifetime))
                 },
                 new IEffect[]
                 {
-                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(1, 1))
+                    new ChangeStatEffect(new SelfTargetSelector(),
+                        new InstantaneousEffectImposer(), 
+                        UnitStatType.Defense, 
+                        1, 
+                        typeof(ToEndOfCurrentRoundEffectLifetime))
                 })
             )
         {
@@ -97,11 +107,21 @@ internal static class CombatantFactory
             new CombatMovementEffectConfig(
                 new IEffect[]
                 {
-                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(3, 3))
+                    new ChangeStatEffect(
+                        new SelfTargetSelector(),
+                        new InstantaneousEffectImposer(), 
+                        UnitStatType.Defense, 
+                        3, 
+                        typeof(ToNextCombatantTurnEffectLifetime))
                 },
                 new IEffect[]
                 {
-                    new DefenseEffect(new SelfTargetSelector(), new ToRoundEndEffectImposer(), new Range<int>(1, 1))
+                    new ChangeStatEffect(
+                        new SelfTargetSelector(),
+                        new InstantaneousEffectImposer(), 
+                        UnitStatType.Defense, 
+                        1, 
+                        typeof(ToEndOfCurrentRoundEffectLifetime))
                 })
             )
         {

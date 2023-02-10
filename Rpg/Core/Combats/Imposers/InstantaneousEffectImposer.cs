@@ -1,4 +1,4 @@
-namespace Core.Combats;
+namespace Core.Combats.Imposers;
 
 public sealed class InstantaneousEffectImposer : IEffectImposer
 {
