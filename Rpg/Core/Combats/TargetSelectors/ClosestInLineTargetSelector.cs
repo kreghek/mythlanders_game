@@ -22,7 +22,7 @@ public sealed class ClosestInLineTargetSelector : ITargetSelector
         var closestEnemySlot = context.EnemySide[vanguardCoords];
         if (closestEnemySlot.Combatant is null)
         {
-            var rearCoords = new FieldCoords(0, actorLine);
+            var rearCoords = new FieldCoords(1, actorLine);
             closestEnemySlot = context.EnemySide[rearCoords];
         }
 

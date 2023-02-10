@@ -17,5 +17,3 @@ public sealed class CombatMovement
 
     public CombatMovementTags Tags { get; set; }
 }
-
-public sealed record CombatMovementCost(int Value);

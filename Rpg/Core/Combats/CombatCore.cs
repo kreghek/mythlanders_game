@@ -108,7 +108,7 @@ public class CombatCore
 
         foreach (var effect in movement.Effects)
         {
-            void effectImposeDelegate(Combatant materializedTarget)
+            void EffectImposeDelegate(Combatant materializedTarget)
             {
                 effect.Imposer.Impose(effect, materializedTarget, effectContext);
             }
@@ -126,14 +126,14 @@ public class CombatCore
                     {
                         foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
                         {
-                            void autoEffectImposeDelegate(Combatant materializedTarget)
+                            void AutoEffectImposeDelegate(Combatant materializedTarget)
                             {
                                 autoDefenseEffect.Imposer.Impose(autoDefenseEffect, materializedTarget, effectContext);
                             }
 
                             var autoDefenseEffectTargets = effect.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
 
-                            var autoDefenseEffectImposeItem = new CombatEffectImposeItem(autoEffectImposeDelegate, effectTargets);
+                            var autoDefenseEffectImposeItem = new CombatEffectImposeItem(AutoEffectImposeDelegate, autoDefenseEffectTargets);
 
                             effectImposeItems.Add(autoDefenseEffectImposeItem);
                         }
@@ -144,19 +144,19 @@ public class CombatCore
                 }
             }
 
-            var effectImposeItem = new CombatEffectImposeItem(effectImposeDelegate, effectTargets);
+            var effectImposeItem = new CombatEffectImposeItem(EffectImposeDelegate, effectTargets);
 
             effectImposeItems.Add(effectImposeItem);
         }
 
-        void completeSkillAction()
+        void CompleteSkillAction()
         {
             CurrentCombatant.Stats.Single(x=>x.Type == UnitStatType.Resolve).Value.Consume(1);
 
             CurrentCombatant.DropMovement(movement);
         }
 
-        var movementExecution = new CombatMovementExecution(completeSkillAction, effectImposeItems);
+        var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
 
         return movementExecution;
     }
@@ -221,7 +221,7 @@ public class CombatCore
 
     public CombatField Field => _combatField;
 
-    public void UseCombatStep(CombatStepDirection combatStepDirection)
+    public void UseManeuver(CombatStepDirection combatStepDirection)
     {
         var currentCoords = GetCurrentCoords();
 
@@ -245,13 +245,15 @@ public class CombatCore
             },
             _ => throw new ArgumentOutOfRangeException(nameof(combatStepDirection), combatStepDirection, null)
         };
-        
+
         var side = GetCurrentSelectorContext().ActorSide;
 
+        var swapCombatant = side[targetCoords].Combatant;
+
         side[targetCoords].Combatant = CurrentCombatant;
-        side[currentCoords].Combatant = null;
-        
-        CurrentCombatant.Stats.Single(x=>x.Type == UnitStatType.Maneuver).Value.Consume(1);
+        side[currentCoords].Combatant = swapCombatant;
+
+        CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
 
     private FieldCoords GetCurrentCoords()

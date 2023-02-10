@@ -56,9 +56,4 @@ public sealed class DamageEffect: IEffect
 
         return remains;
     }
-
-    public void Dispel(Combatant target)
-    {
-        // Do nothing
-    }
 }

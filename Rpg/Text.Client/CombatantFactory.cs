@@ -89,6 +89,11 @@ internal static class CombatantFactory
     {
         var chaser = new ThiefChaserFactory();
 
-        return new[] { new FormationSlot(0, 1) { Combatant = chaser.Create("Chaser") } };
+        return new[]
+        {
+            new FormationSlot(0, 1) { Combatant = chaser.Create("Chaser") },
+            new FormationSlot(1, 2) { Combatant = chaser.Create("Guard") },
+            new FormationSlot(0, 2) { Combatant = chaser.Create("Tommy") }
+        };
     }
 }

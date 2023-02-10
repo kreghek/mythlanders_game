@@ -7,16 +7,33 @@ public static class CombatFieldSideExtensions
         return GetCombatantsIterator(side).ToArray();
     }
 
+    public static FieldCoords GetCombatantCoords(this CombatFieldSide side, Combatant combatant)
+    {
+        for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
+        {
+            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            {
+                var fieldCoords = new FieldCoords(colIndex, lineIndex);
+                if (side[fieldCoords].Combatant == combatant)
+                {
+                    return fieldCoords;
+                }
+            }
+        }
+
+        throw new ArgumentException("Not found", nameof(combatant));
+    }
+
     private static IEnumerable<Combatant> GetCombatantsIterator(CombatFieldSide side)
     {
-        for (int colIndex = 0; colIndex < side.ColumnCount; colIndex++)
+        for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
         {
-            for (int lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
             {
-                var combatant = side[new FieldCoords(colIndex, lineIndex)].Combatant;
-                if (combatant is not null)
+                var slot = side[new FieldCoords(colIndex, lineIndex)].Combatant;
+                if (slot is not null)
                 {
-                    yield return combatant;
+                    yield return slot;
                 }
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System.Text;
 
 using Core.Combats;
+using Core.Combats.Effects;
+using Core.Combats.TargetSelectors;
 using Core.Dices;
 
 using Stateless;
@@ -45,7 +47,7 @@ internal static class Program
                 case ClientState.MoveInfo:
                     var movement2 = (CombatMovement)transition.Parameters[0];
                     var combatant2 = (transition.Parameters[1]) as Combatant;
-                    HandleMoveInfo(combatCore1: combatCore, stateMachine: clientStateMachine, combatant2, movement2);
+                    HandleMoveDetailedInfo(combatCore: combatCore, stateMachine: clientStateMachine, combatant2, movement2);
                     break;
             }
         });
@@ -127,20 +129,7 @@ internal static class Program
             // Print current combatant moves
 
             Console.WriteLine("Moves:");
-            var mIndex = 0;
-            foreach (var movement in combatCore.CurrentCombatant.Hand)
-            {
-                if (movement is not null)
-                {
-                    Console.WriteLine($"{mIndex}: {movement.Sid}");
-                }
-                else
-                {
-                    Console.WriteLine($"{mIndex}: -");
-                }
-
-                mIndex++;
-            }
+            PrintMovementsInfo(combatCore.CurrentCombatant);
 
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("- info {sid} - to display detailed combatant's info");
@@ -199,20 +188,27 @@ internal static class Program
     {
         var directionStr = command.Split(" ")[1];
 
-        var direction = directionStr switch
+        try
         {
-            "up" or "u" => CombatStepDirection.Up,
-            "down" or "d" => CombatStepDirection.Down,
-            "backward" or "b" => CombatStepDirection.Backward,
-            "forward" or "f" => CombatStepDirection.Forward,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            var direction = directionStr switch
+            {
+                "up" or "u" => CombatStepDirection.Up,
+                "down" or "d" => CombatStepDirection.Down,
+                "backward" or "b" => CombatStepDirection.Backward,
+                "forward" or "f" => CombatStepDirection.Forward,
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
-        if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
-        {
-            combatCore.UseCombatStep(direction);
+            if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+            {
+                combatCore.UseManeuver(direction);
+            }
+            else
+            {
+                Console.WriteLine("ERROR: can't do maneuvers");
+            }
         }
-        else
+        catch (ArgumentOutOfRangeException)
         {
             Console.WriteLine("ERROR: can't do maneuvers");
         }
@@ -221,6 +217,8 @@ internal static class Program
     private static void HandleCombatantInfo(CombatCore combatCore,
         StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant)
     {
+        Console.WriteLine(targetCombatant.Sid);
+        
         Console.WriteLine("Stats:");
         foreach (var stat in targetCombatant.Stats)
         {
@@ -230,20 +228,11 @@ internal static class Program
         Console.WriteLine("Effects:");
         foreach (var effect in targetCombatant.Effects)
         {
-            PrintEffectInfo(effect);
+            PrintCombatantEffectInfo(effect);
         }
 
         Console.WriteLine("Available movements:");
-        var moveIndex = 0;
-        foreach (var movement in targetCombatant.Hand)
-        {
-            if (movement is not null)
-            {
-                Console.WriteLine($"{moveIndex}: {movement.Sid}");
-            }
-
-            moveIndex++;
-        }
+        PrintMovementsInfo(targetCombatant);
 
         while (true)
         {
@@ -261,9 +250,12 @@ internal static class Program
                 continue;
             }
 
-            if (command == "info")
+            if (command.StartsWith("info"))
             {
-                var movement = targetCombatant.Hand.First();
+                var movement = targetCombatant.Hand
+                    .Skip(int.Parse(command.Split(' ')[1]))
+                    .Take(1)
+                    .Single();
 
                 stateMachine.Fire(
                     new StateMachine<ClientState, ClientStateTrigger>.TriggerWithParameters(ClientStateTrigger
@@ -292,7 +284,25 @@ internal static class Program
         }
     }
 
-    private static void PrintEffectInfo(ICombatantEffect effect)
+    private static void PrintMovementsInfo(Combatant targetCombatant)
+    {
+        var moveIndex = 0;
+        foreach (var movement in targetCombatant.Hand)
+        {
+            if (movement is not null)
+            {
+                Console.WriteLine($"{moveIndex}: {movement.Sid}");
+            }
+            else
+            {
+                Console.WriteLine($"{moveIndex}: -");
+            }
+
+            moveIndex++;
+        }
+    }
+
+    private static void PrintCombatantEffectInfo(ICombatantEffect effect)
     {
         switch (effect)
         {
@@ -302,15 +312,16 @@ internal static class Program
         }
     }
 
-    private static void HandleMoveInfo(CombatCore combatCore1,
-        StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant1,
-        CombatMovement movement1)
+    private static void HandleMoveDetailedInfo(CombatCore combatCore,
+        StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant,
+        CombatMovement movement)
     {
-        var selectorContext = combatCore1.GetCurrentSelectorContext();
-        Console.WriteLine($"{movement1.Sid} targets:");
-        foreach (var effect in movement1.Effects)
+        var selectorContext = combatCore.GetCurrentSelectorContext();
+        Console.WriteLine($"{movement.Sid} targets:");
+        foreach (var effect in movement.Effects)
         {
-            var targets = effect.Selector.Get(targetCombatant1, selectorContext);
+            PrintEffectDetailedInfo(effect);
+            var targets = effect.Selector.Get(targetCombatant, selectorContext);
 
             foreach (var combatant in targets)
             {
@@ -328,7 +339,7 @@ internal static class Program
                 stateMachine.Fire(
                     new StateMachine<ClientState, ClientStateTrigger>.TriggerWithParameters(ClientStateTrigger
                         .OnDisplayCombatantInfo),
-                    targetCombatant1);
+                    targetCombatant);
                 break;
             }
             else if (command == "overview")
@@ -337,6 +348,55 @@ internal static class Program
                 break;
             }
         }
+    }
+
+    private static void PrintEffectDetailedInfo(IEffect effect)
+    {
+        Console.WriteLine();
+        switch (effect)
+        {
+            case DamageEffect attackEffect:
+                Console.Write($"Attack: {attackEffect.Damage.Min}");
+                if (attackEffect.DamageType != DamageType.Normal)
+                {
+                    Console.Write($" ({attackEffect.DamageType})");
+                }
+
+                break;
+
+            case ChangeStatEffect buffEffect:
+                Console.Write($"Buff: +{buffEffect.Value} {buffEffect.TargetStatType} on {buffEffect.LifetimeType}");
+                break;
+            
+            case ChangeCurrentStatEffect controlEffect:
+                Console.Write($"{controlEffect.StatValue.Min} {controlEffect.TargetStatType}");
+                break;
+            
+            case ChangePositionEffect repositionEffect:
+                Console.Write($"{repositionEffect.Direction}");
+                break;
+        }
+
+        switch (effect.Selector)
+        {
+            case ClosestInLineTargetSelector:
+                Console.Write(" to the closest in current line");
+                break;
+            
+            case SelfTargetSelector:
+                Console.Write(" to self");
+                break;
+            
+            case MostShieldChargedTargetSelector:
+                Console.Write(" to the most shield changed");
+                break;
+            
+            case AllVanguardTargetSelector:
+                Console.Write(" to all in the vanguard");
+                break;
+        }
+        
+        Console.WriteLine();
     }
 
     private static void PseudoPlayback(CombatMovementExecution movementExecution)
