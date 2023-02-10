@@ -149,7 +149,7 @@ public class CombatCore
 
     private static CombatMovement? GetAutoDefenseMovement(Combatant target)
     {
-        return target.Hand.First(x => x.Tags.HasFlag(CombatMovementTags.AutoDefense));
+        return target.Hand.FirstOrDefault(x => x != null && x.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
 
     public ITargetSelectorContext GetCurrentSelectorContext()

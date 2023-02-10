@@ -36,9 +36,9 @@ internal static class Program
                     break;
 
                 case ClientState.CombatantInfo:
-                    var combatant = (transition.Parameters[0]) as Combatant;
+                    var combatant = (Combatant)transition.Parameters[0];
 
-                    HandleCombatantInfo(combatCore1: combatCore, stateMachine: clientStateMachine, combatant);
+                    HandleCombatantInfo(combatCore, clientStateMachine, combatant);
 
                     break;
 
@@ -128,11 +128,11 @@ internal static class Program
 
             Console.WriteLine("Moves:");
             var mIndex = 0;
-            foreach (var movement3 in combatCore.CurrentCombatant.Hand)
+            foreach (var movement in combatCore.CurrentCombatant.Hand)
             {
-                if (movement3 is not null)
+                if (movement is not null)
                 {
-                    Console.WriteLine($"{mIndex}: {movement3.Sid}");
+                    Console.WriteLine($"{mIndex}: {movement.Sid}");
                 }
                 else
                 {
@@ -145,10 +145,15 @@ internal static class Program
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("- info {sid} - to display detailed combatant's info");
             Console.WriteLine("- move {movement-index} - to use combat movement");
-            Console.WriteLine("- step {direction} - to maneuver. Direction: up/down/left/right");
+            Console.WriteLine("- step {direction} - to maneuver. Direction: up/down/forward/backward");
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("Enter command:");
             var command = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(command))
+            {
+                continue;
+            }
 
             if (command.StartsWith("info"))
             {
@@ -162,42 +167,58 @@ internal static class Program
             }
             else if (command.StartsWith("move"))
             {
-                var split = command.Split(" ");
-
-                var moveNumber = int.Parse(split[1]);
-
-                var selectedMove = combatCore.CurrentCombatant.Hand.Skip(moveNumber).Take(1).Single();
-
-                var movementExecution = combatCore.UseCombatMovement(selectedMove);
-                PseudoPlayback(movementExecution);
-                combatCore.CompleteTurn();
+                ExecuteCombatMoveCommand(combatCore, command);
             }
             else if (command.StartsWith("step"))
             {
-                var directionStr = command.Split(" ")[1];
-
-                var direction = directionStr switch
-                {
-                    "up" or "u" => CombatStepDirection.Up,
-                    "down" or "d" => CombatStepDirection.Down,
-                    "backward" or "b" => CombatStepDirection.Backward,
-                    "forward" or "f" => CombatStepDirection.Forward,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-                if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
-                {
-                    combatCore.UseCombatStep(direction);
-                }
-                else
-                {
-                    Console.WriteLine("ERROR can't maneuver");
-                }
+                ExecuteManeuverCommand(combatCore, command);
             }
         }
     }
 
-    private static void HandleCombatantInfo(CombatCore combatCore1,
+    private static void ExecuteCombatMoveCommand(CombatCore combatCore, string command)
+    {
+        var split = command.Split(" ");
+
+        var moveNumber = int.Parse(split[1]);
+
+        var selectedMove = combatCore.CurrentCombatant.Hand.Skip(moveNumber).Take(1).Single();
+
+        if (selectedMove is null)
+        {
+            Console.WriteLine("ERROR: move is null");
+            return;
+        }
+
+        var movementExecution = combatCore.UseCombatMovement(selectedMove);
+        PseudoPlayback(movementExecution);
+        combatCore.CompleteTurn();
+    }
+
+    private static void ExecuteManeuverCommand(CombatCore combatCore, string command)
+    {
+        var directionStr = command.Split(" ")[1];
+
+        var direction = directionStr switch
+        {
+            "up" or "u" => CombatStepDirection.Up,
+            "down" or "d" => CombatStepDirection.Down,
+            "backward" or "b" => CombatStepDirection.Backward,
+            "forward" or "f" => CombatStepDirection.Forward,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        if (combatCore.CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Current > 0)
+        {
+            combatCore.UseCombatStep(direction);
+        }
+        else
+        {
+            Console.WriteLine("ERROR: can't do maneuvers");
+        }
+    }
+
+    private static void HandleCombatantInfo(CombatCore combatCore,
         StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant)
     {
         Console.WriteLine("Stats:");
@@ -220,8 +241,19 @@ internal static class Program
 
         while (true)
         {
+            Console.WriteLine(new string('=', 10));
+            Console.WriteLine("- move {movement-index} - to use combat movement");
+            Console.WriteLine("- step {direction} - to maneuver. Direction: up/down/forward/backward");
+            Console.WriteLine("- overview - to ga to combat overview");
+            Console.WriteLine(new string('=', 10));
+            
             Console.WriteLine("Enter command:");
             var command = Console.ReadLine();
+            
+            if (string.IsNullOrWhiteSpace(command))
+            {
+                continue;
+            }
 
             if (command == "info")
             {
@@ -236,6 +268,18 @@ internal static class Program
             }
             else if (command == "overview")
             {
+                stateMachine.Fire(ClientStateTrigger.OnOverview);
+                break;
+            }
+            else if (command.StartsWith("move"))
+            {
+                ExecuteCombatMoveCommand(combatCore, command);
+                stateMachine.Fire(ClientStateTrigger.OnOverview);
+                break;
+            }
+            else if (command.StartsWith("step"))
+            {
+                ExecuteManeuverCommand(combatCore, command);
                 stateMachine.Fire(ClientStateTrigger.OnOverview);
                 break;
             }

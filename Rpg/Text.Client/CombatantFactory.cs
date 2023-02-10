@@ -69,7 +69,8 @@ internal static class CombatantFactory
 
         var hero = new Combatant(heroSequence)
         {
-            Sid = "Berimir", IsPlayerControlled = true
+            Sid = "Berimir",
+            IsPlayerControlled = true
         };
         return hero;
     }

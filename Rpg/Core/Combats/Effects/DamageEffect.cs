@@ -2,12 +2,6 @@ using Core.Dices;
 
 namespace Core.Combats.Effects;
 
-public enum DamageType
-{
-    Normal,
-    ShieldsOnly
-}
-
 public sealed class DamageEffect: IEffect
 {
     public DamageEffect(ITargetSelector selector, IEffectImposer imposer, DamageType damageType, Range<int> damage)

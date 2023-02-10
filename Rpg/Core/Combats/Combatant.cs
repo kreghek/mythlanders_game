@@ -3,14 +3,14 @@ namespace Core.Combats;
 public class Combatant
 {
     private readonly IList<CombatMovement> _pool;
-    private readonly CombatMovement[] _hand;
+    private readonly CombatMovement?[] _hand;
 
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
     public Combatant(CombatMovementSequence sequence)
     {
         _pool = new List<CombatMovement>();
-        _hand = new CombatMovement[3];
+        _hand = new CombatMovement?[3];
         
         foreach (var combatMovement in sequence.Items)
         {
@@ -27,11 +27,11 @@ public class Combatant
         };
     }
 
-    public string? Sid { get; set; }
+    public string? Sid { get; init; }
 
     public IReadOnlyCollection<CombatMovement> Pool => _pool.ToArray();
 
-    public IReadOnlyCollection<CombatMovement> Hand => _hand;
+    public IReadOnlyCollection<CombatMovement?> Hand => _hand;
 
     public void StartCombat()
     {
@@ -45,7 +45,7 @@ public class Combatant
         }
     }
 
-    private IList<IEffect> _effects = new List<IEffect>();
+    private readonly IList<IEffect> _effects = new List<IEffect>();
 
     internal void AddEffect(IEffect effect)
     {
@@ -54,16 +54,16 @@ public class Combatant
 
     internal void DropMovement(CombatMovement movement)
     {
-        for (int i = 0; i < _hand.Length; i++)
+        for (var i = 0; i < _hand.Length; i++)
         {
             if (_hand[i] == movement)
             {
-                _hand[i] = null!;
+                _hand[i] = null;
             }
         }
     }
 
     public bool IsDead { get; }
 
-    public bool IsPlayerControlled { get; set; }
+    public bool IsPlayerControlled { get; init; }
 }
