@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;

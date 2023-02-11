@@ -5,6 +5,8 @@ using System.Linq;
 using Client;
 using Client.GameScreens.CommandCenter;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

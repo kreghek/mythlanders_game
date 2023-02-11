@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 
-using Rpg.Client.Core.Modifiers;
-using Rpg.Client.Core.SkillEffects;
+using Client.Core.SkillEffects;
 
-namespace Rpg.Client.Core
+using Core.Dices;
+
+using Rpg.Client.Core;
+using Rpg.Client.Core.Modifiers;
+
+namespace Client.Core;
+
+internal interface ICombat
 {
-    internal interface ICombat
-    {
-        IEnumerable<ICombatUnit> AliveUnits { get; }
-        IDice Dice { get; }
-        EffectProcessor EffectProcessor { get; }
-        ModifiersProcessor ModifiersProcessor { get; }
-        void Pass();
-    }
+    IEnumerable<ICombatUnit> AliveUnits { get; }
+    IDice Dice { get; }
+    EffectProcessor EffectProcessor { get; }
+    ModifiersProcessor ModifiersProcessor { get; }
+    void Pass();
 }

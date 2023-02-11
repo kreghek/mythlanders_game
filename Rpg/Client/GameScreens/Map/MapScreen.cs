@@ -5,6 +5,8 @@ using System.Text;
 
 using Client;
 
+using Core.Dices;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

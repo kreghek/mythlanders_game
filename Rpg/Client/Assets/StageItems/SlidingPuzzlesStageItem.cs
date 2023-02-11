@@ -1,5 +1,7 @@
 using Client.GameScreens.SlidingPuzzles;
 
+using Core.Dices;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;

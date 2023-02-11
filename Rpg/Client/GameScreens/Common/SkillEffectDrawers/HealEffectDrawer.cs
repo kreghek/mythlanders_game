@@ -1,4 +1,6 @@
 using Client;
+using Client.Core.SkillEffects;
+using Client.Core.Skills;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -3,6 +3,8 @@ using System.Linq;
 
 using Client.Assets.StageItems;
 
+using Core.Dices;
+
 using Rpg.Client.Assets.Perks;
 using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;

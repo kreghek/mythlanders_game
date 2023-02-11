@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Core.Dices;
+
 using Rpg.Client.Assets.Perks;
 
 namespace Rpg.Client.Core
