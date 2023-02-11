@@ -7,15 +7,13 @@ namespace Rpg.Client.Assets.StageItems
 {
     internal sealed class CombatStageItem : ICampaignStageItem
     {
-        private readonly ICampaignGenerator _campaignGenerator;
         private readonly CombatSequence _combatSequence;
         private readonly GlobeNode _location;
 
-        public CombatStageItem(GlobeNode location, CombatSequence combatSequence, ICampaignGenerator campaignGenerator)
+        public CombatStageItem(GlobeNode location, CombatSequence combatSequence)
         {
             _location = location;
             _combatSequence = combatSequence;
-            _campaignGenerator = campaignGenerator;
         }
 
         public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)

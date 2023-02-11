@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -10,205 +11,232 @@ using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
-namespace Rpg.Client.Assets.Catalogs
+namespace Client.Assets.Catalogs;
+
+internal enum CampaignTemplateStep
 {
-    internal sealed class CampaignGenerator : ICampaignGenerator
+    Combat,
+    Rest,
+    Evo,
+    Crysis
+}
+
+internal sealed class CampaignGenerator : ICampaignGenerator
+{
+    private readonly IDice _dice;
+    private readonly GlobeProvider _globeProvider;
+    private readonly IEventCatalog _eventCatalog;
+    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+
+    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IEventCatalog eventCatalog, IDice dice)
     {
-        private readonly IDice _dice;
-        private readonly GlobeProvider _globeProvider;
-        private readonly IUnitSchemeCatalog _unitSchemeCatalog;
+        _unitSchemeCatalog = unitSchemeCatalog;
+        _globeProvider = globeProvider;
+        _eventCatalog = eventCatalog;
+        _dice = dice;
+    }
 
-        public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IDice dice)
+    private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
+    {
+        var stages = new List<CampaignStage>();
+        for (var stageIndex = 0; stageIndex < length; stageIndex++)
         {
-            _unitSchemeCatalog = unitSchemeCatalog;
-            _globeProvider = globeProvider;
-            _dice = dice;
+            var stage = CreateStage(locationSid, stageIndex);
+            stages.Add(stage);
         }
 
-        private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
+        var rewardStageItem = new RewardStageItem(this);
+        var rewardStage = new CampaignStage
         {
-            var stages = new List<CampaignStage>();
-            for (var stageIndex = 0; stageIndex < length; stageIndex++)
+            Items = new[]
             {
-                var stage = CreateStage(locationSid, stageIndex);
-                stages.Add(stage);
+                rewardStageItem
             }
+        };
+        stages.Add(rewardStage);
 
-            var rewardStageItem = new RewardStageItem(this);
-            var rewardStage = new CampaignStage
-            {
-                Items = new[]
-                {
-                    rewardStageItem
-                }
-            };
-            stages.Add(rewardStage);
-
-            var campaign = new HeroCampaign
-            {
-                CampaignStages = stages
-            };
-
-            return campaign;
-        }
-
-        private CampaignStage CreateCombatStage(GlobeNodeSid locationSid)
+        var campaign = new HeroCampaign
         {
-            var stageItems = new List<ICampaignStageItem>();
-            for (var combatIndex = 0; combatIndex < 3; combatIndex++)
+            CampaignStages = stages
+        };
+
+        return campaign;
+    }
+
+    private CampaignStage CreateCombatStage(GlobeNodeSid locationSid)
+    {
+        var stageItems = new List<ICampaignStageItem>();
+        for (var combatIndex = 0; combatIndex < 3; combatIndex++)
+        {
+            var combat = new CombatSource
             {
-                var combat = new CombatSource
-                {
-                    Level = 1,
-                    EnemyGroup = new Group()
-                };
-
-                var combatSequence = new CombatSequence
-                {
-                    Combats = new[] { combat }
-                };
-
-                var location = new GlobeNode
-                {
-                    Sid = locationSid,
-                    AssignedCombats = combatSequence
-                };
-                var stageItem = new CombatStageItem(location, combatSequence, this);
-
-                var monsterInfos = GetStartMonsterInfoList(locationSid);
-
-                for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-                {
-                    var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-                    combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
-                }
-
-                stageItems.Add(stageItem);
-            }
-
-            var stage = new CampaignStage
-            {
-                Items = stageItems.ToArray()
+                Level = 1,
+                EnemyGroup = new Group()
             };
 
-            return stage;
-        }
-
-        private CampaignStage CreateSlidingPuzzlesStage()
-        {
-            var stage = new CampaignStage
+            var combatSequence = new CombatSequence
             {
-                Items = new[]
-                {
-                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
-                }
+                Combats = new[] { combat }
             };
 
-            return stage;
-        }
-
-        private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
-        {
-            var stageType = stageIndex % 3;
-
-            if (stageType == 1)
+            var location = new GlobeNode
             {
-                return CreateTrainingStage();
-            }
-
-            if (stageType == 2)
-            {
-                return CreateSlidingPuzzlesStage();
-            }
-
-            return CreateCombatStage(locationSid);
-        }
-
-        private CampaignStage CreateTrainingStage()
-        {
-            var stage = new CampaignStage
-            {
-                Items = new[]
-                {
-                    new TrainingStageItem(_globeProvider.Globe.Player, _dice)
-                }
+                Sid = locationSid,
+                AssignedCombats = combatSequence
             };
+            var stageItem = new CombatStageItem(location, combatSequence);
 
-            return stage;
-        }
+            var monsterInfos = GetStartMonsterInfoList(locationSid);
 
-        private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(GlobeNodeSid location)
-        {
-            var availableAllRegularMonsters = _unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
-
-            var filteredByLocationMonsters = availableAllRegularMonsters.Where(x =>
-                (x.LocationSids is null) || (x.LocationSids is not null && x.LocationSids.Contains(location)));
-
-            var availableMonsters = filteredByLocationMonsters.ToList();
-
-            var rolledUnits = new List<UnitScheme>();
-
-            for (var i = 0; i < 3; i++)
+            for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
             {
-                if (!availableMonsters.Any())
-                {
-                    break;
-                }
-
-                var scheme = _dice.RollFromList(availableMonsters, 1).Single();
-
-                rolledUnits.Add(scheme);
-
-                if (scheme.IsUnique)
-                {
-                    // Remove all unique monsters from roll list.
-                    availableMonsters.RemoveAll(x => x.IsUnique);
-                }
+                var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
+                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
             }
 
-            var units = new List<Unit>();
-            foreach (var unitScheme in rolledUnits)
+            stageItems.Add(stageItem);
+        }
+
+        var stage = new CampaignStage
+        {
+            Items = stageItems.ToArray()
+        };
+
+        return stage;
+    }
+
+    private CampaignStage CreateSlidingPuzzlesStage()
+    {
+        var stage = new CampaignStage
+        {
+            Items = new[]
             {
-                var unitLevel = 2;
-                var unit = new Unit(unitScheme, unitLevel);
-                units.Add(unit);
+                new SlidingPuzzlesStageItem(_globeProvider, _dice)
+            }
+        };
+
+        return stage;
+    }
+
+    private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
+    {
+        var stageType = stageIndex % 3;
+
+        if (stageType == 0)
+        {
+            return CreateTextEventStage(locationSid);
+        }
+
+        if (stageType == 1)
+        {
+            return CreateTrainingStage();
+        }
+
+        if (stageType == 2)
+        {
+            return CreateSlidingPuzzlesStage();
+        }
+
+        return CreateCombatStage(locationSid);
+    }
+
+    private CampaignStage CreateTextEventStage(GlobeNodeSid locationSid)
+    {
+        var stage = new CampaignStage
+        {
+            Items = new[]
+            {
+                new TextEventStageItem("SlavicMain1_Before", locationSid, _eventCatalog)
+            }
+        };
+
+        return stage;
+    }
+
+    private CampaignStage CreateTrainingStage()
+    {
+        var stage = new CampaignStage
+        {
+            Items = new[]
+            {
+                new TrainingStageItem(_globeProvider.Globe.Player, _dice)
+            }
+        };
+
+        return stage;
+    }
+
+    private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(GlobeNodeSid location)
+    {
+        var availableAllRegularMonsters = _unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
+
+        var filteredByLocationMonsters = availableAllRegularMonsters.Where(x =>
+            x.LocationSids is null || x.LocationSids is not null && x.LocationSids.Contains(location));
+
+        var availableMonsters = filteredByLocationMonsters.ToList();
+
+        var rolledUnits = new List<UnitScheme>();
+
+        for (var i = 0; i < 3; i++)
+        {
+            if (!availableMonsters.Any())
+            {
+                break;
             }
 
-            return rolledUnits.Select(x => (x.Name, 2)).ToArray();
-        }
+            var scheme = _dice.RollFromList(availableMonsters, 1).Single();
 
-        private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
-        {
-            var unit = new Unit(unitScheme, combatLevel);
-            return unit.Perks.OfType<TPerk>().Any();
-        }
+            rolledUnits.Add(scheme);
 
-        public IReadOnlyList<HeroCampaign> CreateSet()
-        {
-            var availbleLocations = new[]
+            if (scheme.IsUnique)
             {
-                GlobeNodeSid.Thicket,
-                GlobeNodeSid.Monastery,
-                GlobeNodeSid.ShipGraveyard,
-                GlobeNodeSid.Desert
-            };
-
-            var campaignLengths = new[] { 6, 12, 24 };
-
-            var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
-
-            var list = new List<HeroCampaign>();
-            for (var i = 0; i < selectedLocations.Count; i++)
-            {
-                var location = selectedLocations[i];
-                var length = campaignLengths[i];
-
-                var campaign = CreateCampaign(location, length);
-
-                list.Add(campaign);
+                // Remove all unique monsters from roll list.
+                availableMonsters.RemoveAll(x => x.IsUnique);
             }
-
-            return list;
         }
+
+        var units = new List<Unit>();
+        foreach (var unitScheme in rolledUnits)
+        {
+            var unitLevel = 2;
+            var unit = new Unit(unitScheme, unitLevel);
+            units.Add(unit);
+        }
+
+        return rolledUnits.Select(x => (x.Name, 2)).ToArray();
+    }
+
+    private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
+    {
+        var unit = new Unit(unitScheme, combatLevel);
+        return unit.Perks.OfType<TPerk>().Any();
+    }
+
+    public IReadOnlyList<HeroCampaign> CreateSet()
+    {
+        var availbleLocations = new[]
+        {
+            GlobeNodeSid.Thicket,
+            GlobeNodeSid.Monastery,
+            GlobeNodeSid.ShipGraveyard,
+            GlobeNodeSid.Desert
+        };
+
+        var campaignLengths = new[] { 6, 12, 24 };
+
+        var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
+
+        var list = new List<HeroCampaign>();
+        for (var i = 0; i < selectedLocations.Count; i++)
+        {
+            var location = selectedLocations[i];
+            var length = campaignLengths[i];
+
+            var campaign = CreateCampaign(location, length);
+
+            list.Add(campaign);
+        }
+
+        return list;
     }
 }

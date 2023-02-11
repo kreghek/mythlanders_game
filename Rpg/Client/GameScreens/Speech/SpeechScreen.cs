@@ -44,7 +44,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly GlobeNode _globeLocation;
+        private readonly GlobeNodeSid _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly bool _isFirstDialogue;
         private readonly Player _player;
@@ -86,7 +86,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeLocation.Sid);
+            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeLocation);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -109,17 +109,10 @@ namespace Rpg.Client.GameScreens.Speech
 
             _settings = game.Services.GetService<GameSettings>();
 
-            var (areCombatsNext, combatScreenArgs) = DetectCombatNext(args);
-            _areCombatsNext = areCombatsNext;
-            if (_areCombatsNext)
-            {
-                _combatScreenArgs = combatScreenArgs;
-            }
-
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
             if (args.IsCombatPreparingDialogue)
             {
-                soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
+                soundtrackManager.PlayCombatTrack((BiomeType)((int)_globeLocation / 100 * 100));
             }
             else
             {
@@ -197,26 +190,6 @@ namespace Rpg.Client.GameScreens.Speech
             var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
                 ResolutionIndependentRenderer, _player);
             AddModal(tutorialModal, isLate: false);
-        }
-
-        private static (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
-            SpeechScreenTransitionArgs args)
-        {
-            if (args.NextCombats is not null)
-            {
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                {
-                    Location = args.Location,
-                    CombatSequence = args.NextCombats,
-                    IsAutoplay = false,
-                    VictoryDialogue = args.CombatVictoryDialogue,
-                    VictoryDialogueIsStartEvent = args.IsStartDialogueEvent
-                };
-
-                return new(true, combatScreenTransitionArgs);
-            }
-
-            return new(false, null);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -332,7 +305,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = BackgroundHelper.GetBackgroundType(_globeLocation.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeLocation);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 

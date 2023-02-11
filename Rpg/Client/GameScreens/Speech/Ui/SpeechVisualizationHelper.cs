@@ -15,7 +15,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            _dialogueResourceManager = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+            _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
         }
 
         public static string PrepareLocalizedText(string dialogueResourceSid)

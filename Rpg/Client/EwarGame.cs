@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Client.Assets.Catalogs;
+
 using Core.Dices;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -272,20 +274,21 @@ namespace Rpg.Client
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }
 
-            var eventInitializer = Services.GetService<IEventInitializer>();
+            var eventInitializer = Services.GetRequiredService<IEventInitializer>();
             eventInitializer.Init();
 
             Services.AddService(
                 new GlobeProvider(
-                    Services.GetService<IDice>(),
-                    Services.GetService<IUnitSchemeCatalog>(),
-                    //Services.GetService<IBiomeGenerator>(),
-                    Services.GetService<IEventCatalog>(),
-                    Services.GetService<IStoryPointInitializer>()));
+                    Services.GetRequiredService<IDice>(),
+                    Services.GetRequiredService<IUnitSchemeCatalog>(),
+                    //Services.GetRequiredService<IBiomeGenerator>(),
+                    Services.GetRequiredService<IEventCatalog>(),
+                    Services.GetRequiredService<IStoryPointInitializer>()));
 
             var campaignGenerator = new CampaignGenerator(
                 Services.GetRequiredService<IUnitSchemeCatalog>(),
                 Services.GetRequiredService<GlobeProvider>(),
+                Services.GetRequiredService<IEventCatalog>(),
                 Services.GetRequiredService<IDice>());
             Services.AddService<ICampaignGenerator>(campaignGenerator);
 
