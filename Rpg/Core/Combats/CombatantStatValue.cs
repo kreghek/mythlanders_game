@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public sealed class CombatantStatValue: IStatValue
+public sealed class CombatantStatValue : IStatValue
 {
     private readonly IStatValue _baseValue;
 
@@ -15,6 +15,19 @@ public sealed class CombatantStatValue: IStatValue
         Current = ActualMax;
 
         _baseValue.ModifierAdded += BaseValue_ModifierAdded;
+    }
+
+    event EventHandler IStatValue.ModifierAdded
+    {
+        add
+        {
+            throw new System.NotImplementedException();
+        }
+
+        remove
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     private void BaseValue_ModifierAdded(object? sender, EventArgs e)

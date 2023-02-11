@@ -11,7 +11,7 @@ public class Combatant
     {
         _pool = new List<CombatMovement>();
         _hand = new CombatMovement?[3];
-        
+
         foreach (var combatMovement in sequence.Items)
         {
             _pool.Add(combatMovement);

@@ -8,10 +8,10 @@ public class CombatCore
 {
     private readonly IList<Combatant> _allUnitList;
     private readonly IList<Combatant> _roundQueue;
-    
+
     private readonly IDice _dice;
     private readonly CombatField _combatField;
-    
+
     private int _roundNumber;
 
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
@@ -99,7 +99,7 @@ public class CombatCore
     {
         var effectContext = new EffectCombatContext(Field, _dice,
             (combatant, statType, value) =>
-            { 
+            {
                 CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
             }
         );
@@ -151,7 +151,7 @@ public class CombatCore
 
         void CompleteSkillAction()
         {
-            CurrentCombatant.Stats.Single(x=>x.Type == UnitStatType.Resolve).Value.Consume(1);
+            CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
 
             CurrentCombatant.DropMovement(movement);
         }
@@ -186,7 +186,7 @@ public class CombatCore
     public void CompleteTurn()
     {
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn);
-        
+
         if (_roundQueue.Any())
         {
             RemoveCurrentCombatantFromRoundQueue();
@@ -210,7 +210,7 @@ public class CombatCore
                 break;
             }
         }
-        
+
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
     }
 
@@ -259,7 +259,7 @@ public class CombatCore
     private FieldCoords GetCurrentCoords()
     {
         var side = GetCurrentSelectorContext().ActorSide;
-        
+
         for (int col = 0; col < side.ColumnCount; col++)
         {
             for (int lineIndex = 0; lineIndex < side.LineCount; lineIndex++)

@@ -72,7 +72,7 @@ internal static class Program
             for (var queueIndex = 0; queueIndex < combatCore.RoundQueue.Count; queueIndex++)
             {
                 var combatant = combatCore.RoundQueue[queueIndex];
-                queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} (R:{combatant.Stats.Single(x=>x.Type == UnitStatType.Resolve).Value.Current}) |");
+                queueSb.Append($" ({combatant.Sid.First()}) {combatant.Sid} (R:{combatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Current}) |");
             }
 
             Console.WriteLine(queueSb.ToString());
@@ -218,13 +218,13 @@ internal static class Program
         StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant)
     {
         Console.WriteLine(targetCombatant.Sid);
-        
+
         Console.WriteLine("Stats:");
         foreach (var stat in targetCombatant.Stats)
         {
             Console.WriteLine($"{stat.Type}: {stat.Value.Current}/{stat.Value.ActualMax}");
         }
-        
+
         Console.WriteLine("Effects:");
         foreach (var effect in targetCombatant.Effects)
         {
@@ -241,10 +241,10 @@ internal static class Program
             Console.WriteLine("- step {direction} - to maneuver. Direction: up/down/forward/backward");
             Console.WriteLine("- overview - to ga to combat overview");
             Console.WriteLine(new string('=', 10));
-            
+
             Console.WriteLine("Enter command:");
             var command = Console.ReadLine();
-            
+
             if (string.IsNullOrWhiteSpace(command))
             {
                 continue;
@@ -367,11 +367,11 @@ internal static class Program
             case ChangeStatEffect buffEffect:
                 Console.Write($"Buff: +{buffEffect.Value} {buffEffect.TargetStatType} on {buffEffect.LifetimeType}");
                 break;
-            
+
             case ChangeCurrentStatEffect controlEffect:
                 Console.Write($"{controlEffect.StatValue.Min} {controlEffect.TargetStatType}");
                 break;
-            
+
             case ChangePositionEffect repositionEffect:
                 Console.Write($"{repositionEffect.Direction}");
                 break;
@@ -382,20 +382,20 @@ internal static class Program
             case ClosestInLineTargetSelector:
                 Console.Write(" to the closest in current line");
                 break;
-            
+
             case SelfTargetSelector:
                 Console.Write(" to self");
                 break;
-            
+
             case MostShieldChargedTargetSelector:
                 Console.Write(" to the most shield changed");
                 break;
-            
+
             case AllVanguardTargetSelector:
                 Console.Write(" to all in the vanguard");
                 break;
         }
-        
+
         Console.WriteLine();
     }
 

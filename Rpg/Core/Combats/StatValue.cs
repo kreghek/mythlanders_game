@@ -11,6 +11,19 @@ public class StatValue : IStatValue
         _modifiers = new List<IUnitStatModifier>();
     }
 
+    event EventHandler IStatValue.ModifierAdded
+    {
+        add
+        {
+            throw new System.NotImplementedException();
+        }
+
+        remove
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
     private int Base { get; set; }
 
     public event EventHandler? ModifierAdded;

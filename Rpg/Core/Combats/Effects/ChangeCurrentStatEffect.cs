@@ -2,7 +2,7 @@ using Core.Dices;
 
 namespace Core.Combats.Effects;
 
-public sealed class ChangeCurrentStatEffect: IEffect
+public sealed class ChangeCurrentStatEffect : IEffect
 {
     public UnitStatType TargetStatType { get; }
 
@@ -13,7 +13,7 @@ public sealed class ChangeCurrentStatEffect: IEffect
         Imposer = imposer;
         StatValue = statValue;
     }
-    
+
     public Range<int> StatValue { get; }
     public ITargetSelector Selector { get; }
     public IEffectImposer Imposer { get; }

@@ -31,18 +31,18 @@ public class DigitalWolfFactory
                 {
                     new ChangeStatEffect(
                         new SelfTargetSelector(),
-                        new InstantaneousEffectImposer(), 
-                        UnitStatType.Defense, 
-                        3, 
+                        new InstantaneousEffectImposer(),
+                        UnitStatType.Defense,
+                        3,
                         typeof(ToNextCombatantTurnEffectLifetime))
                 },
                 new IEffect[]
                 {
                     new ChangeStatEffect(
                         new SelfTargetSelector(),
-                        new InstantaneousEffectImposer(), 
-                        UnitStatType.Defense, 
-                        1, 
+                        new InstantaneousEffectImposer(),
+                        UnitStatType.Defense,
+                        1,
                         typeof(ToEndOfCurrentRoundEffectLifetime))
                 })
             )

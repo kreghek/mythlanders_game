@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public sealed class ToNextCombatantTurnEffectLifetime: ICombatantEffectLifetime
+public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
 {
     private bool _currentRoundEnd;
     public void Update(CombatantEffectUpdateType updateType)

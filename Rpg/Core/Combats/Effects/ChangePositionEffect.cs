@@ -1,6 +1,6 @@
 namespace Core.Combats.Effects;
 
-public sealed class ChangePositionEffect: IEffect
+public sealed class ChangePositionEffect : IEffect
 {
     public ChangePositionEffectDirection Direction { get; }
 
@@ -11,7 +11,7 @@ public sealed class ChangePositionEffect: IEffect
         Selector = selector;
         Imposer = imposer;
     }
-    
+
     public ITargetSelector Selector { get; }
     public IEffectImposer Imposer { get; }
     public void Influence(Combatant target, IEffectCombatContext context)

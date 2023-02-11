@@ -24,13 +24,13 @@ internal static class CombatantFactory
                 new IEffect[]
                 {
                     new DamageEffect(
-                        new ClosestInLineTargetSelector(), 
+                        new ClosestInLineTargetSelector(),
                         new InstantaneousEffectImposer(),
                         DamageType.Normal,
                         Range<int>.CreateMono(2))
                 })
             )
-        { 
+        {
             Tags = CombatMovementTags.Attack
         }
         );
@@ -41,17 +41,17 @@ internal static class CombatantFactory
                 new IEffect[]
                 {
                     new ChangeStatEffect(new SelfTargetSelector(),
-                        new InstantaneousEffectImposer(), 
-                        UnitStatType.Defense, 
-                        3, 
+                        new InstantaneousEffectImposer(),
+                        UnitStatType.Defense,
+                        3,
                         typeof(ToNextCombatantTurnEffectLifetime))
                 },
                 new IEffect[]
                 {
                     new ChangeStatEffect(new SelfTargetSelector(),
-                        new InstantaneousEffectImposer(), 
-                        UnitStatType.Defense, 
-                        1, 
+                        new InstantaneousEffectImposer(),
+                        UnitStatType.Defense,
+                        1,
                         typeof(ToEndOfCurrentRoundEffectLifetime))
                 })
             )

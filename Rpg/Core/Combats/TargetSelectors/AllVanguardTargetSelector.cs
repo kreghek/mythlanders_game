@@ -1,6 +1,6 @@
 namespace Core.Combats.TargetSelectors;
 
-public sealed class AllVanguardTargetSelector: ITargetSelector
+public sealed class AllVanguardTargetSelector : ITargetSelector
 {
     public IReadOnlyList<Combatant> Get(Combatant actor, ITargetSelectorContext context)
     {
