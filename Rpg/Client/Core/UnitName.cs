@@ -10,6 +10,7 @@
         Environment,
 
         Comissar,
+        Partisan, // Вместо Comissar
         Assaulter,
         Zoologist,
 
@@ -34,6 +35,7 @@
         GuardianWoman,
         StrangerWoman,
         Moira,
+        Synth,
 
         Marauder,
         BoldMarauder,

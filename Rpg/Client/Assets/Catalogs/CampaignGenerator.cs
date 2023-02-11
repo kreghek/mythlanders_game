@@ -146,7 +146,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         {
             Items = new[]
             {
-                new TextEventStageItem("SlavicMain1_Before", locationSid, _eventCatalog)
+                new TextEventStageItem("synth_as_parent_stage_1", locationSid, _eventCatalog)
             }
         };
 

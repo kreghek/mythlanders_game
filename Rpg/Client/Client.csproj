@@ -26,8 +26,6 @@
     <None Remove="DialogueResources.fr.resources" />
     <None Remove="DialogueResources.resources" />
     <None Remove="DialogueResources.ru.resources" />
-    <None Remove="Icon.ico" />
-    <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DialogueResources.fr.resources" />
