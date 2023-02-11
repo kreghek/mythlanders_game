@@ -18,19 +18,20 @@ namespace Client.GameScreens.CommandCenter
     {
         private readonly IReadOnlyList<HeroCampaign> _campaigns;
 
-        private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
-
-        private readonly Texture2D _mapBackgroundTexture;
+        private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
         private readonly Texture2D[] _commandCenterSegmentTexture;
 
-        private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
+        private readonly Texture2D _mapBackgroundTexture;
+
+        private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
 
         public CommandCenterScreen(EwarGame game, CommandCenterScreenTransitionArguments args) : base(game)
         {
             _campaigns = args.AvailableCampaigns;
 
             _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
-            _commandCenterSegmentTexture = new[] {
+            _commandCenterSegmentTexture = new[]
+            {
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter1"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter2"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter3"),
@@ -82,17 +83,21 @@ namespace Client.GameScreens.CommandCenter
                 panel.Draw(spriteBatch);
             }
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 spriteBatch.Draw(_commandCenterSegmentTexture[i],
-                    new Rectangle((contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN + (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                    200,
-                    200),
+                    new Rectangle(
+                        (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                        (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                        (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                        200,
+                        200),
                     Color.White);
 
-                _commandButtons[i].Rect = new Rectangle((contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN + (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                _commandButtons[i].Rect = new Rectangle(
+                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
                     100, 20);
 
                 _commandButtons[i].Draw(spriteBatch);
@@ -107,11 +112,12 @@ namespace Client.GameScreens.CommandCenter
 
             var index = 0;
 
-            var campaignTextures = new[] {
+            var campaignTextures = new[]
+            {
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign"),
+                Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign")
             };
 
             foreach (var campaign in _campaigns)
@@ -124,7 +130,7 @@ namespace Client.GameScreens.CommandCenter
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments
-                        { Campaign = campaign });
+                            { Campaign = campaign });
                 };
 
                 index++;

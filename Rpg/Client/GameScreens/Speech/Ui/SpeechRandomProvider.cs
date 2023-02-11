@@ -1,7 +1,5 @@
 ﻿using Core.Dices;
 
-using Rpg.Client.Core;
-
 namespace Rpg.Client.GameScreens.Speech.Ui
 {
     internal sealed class SpeechRandomProvider : ISpeechRandomProvider

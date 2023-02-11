@@ -1,3 +1,4 @@
 ﻿namespace Core.Combats;
 
-public record CombatEffectImposeItem(CombatEffectImposeDelegate ImposeDelegate, IReadOnlyList<Combatant> MaterializedTargets);
+public record CombatEffectImposeItem(CombatEffectImposeDelegate ImposeDelegate,
+    IReadOnlyList<Combatant> MaterializedTargets);

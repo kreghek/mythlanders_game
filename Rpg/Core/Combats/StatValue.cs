@@ -11,22 +11,14 @@ public class StatValue : IStatValue
         _modifiers = new List<IUnitStatModifier>();
     }
 
-    event EventHandler IStatValue.ModifierAdded
-    {
-        add
-        {
-            throw new System.NotImplementedException();
-        }
-
-        remove
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
     private int Base { get; set; }
 
-    public event EventHandler? ModifierAdded;
+    event EventHandler IStatValue.ModifierAdded
+    {
+        add => throw new NotImplementedException();
+
+        remove => throw new NotImplementedException();
+    }
 
     public int ActualMax => Base /*+ _modifiers.Sum(x => x.GetBonus(Base))*/;
 
@@ -35,10 +27,7 @@ public class StatValue : IStatValue
     public void AddModifier(IUnitStatModifier modifier)
     {
         _modifiers.Add(modifier);
-        if (Current > Base)
-        {
-            Current = Base;
-        }
+        if (Current > Base) Current = Base;
 
         ModifierAdded?.Invoke(this, new EventArgs());
     }
@@ -53,10 +42,7 @@ public class StatValue : IStatValue
     {
         Current -= value;
 
-        if (Current < 0)
-        {
-            Current = 0;
-        }
+        if (Current < 0) Current = 0;
     }
 
     public void CurrentChange(int newCurrent)
@@ -68,14 +54,13 @@ public class StatValue : IStatValue
     {
         Current += value;
 
-        if (Current > Base)
-        {
-            Current = Base;
-        }
+        if (Current > Base) Current = Base;
     }
 
     public void RemoveModifier(IUnitStatModifier modifier)
     {
         _modifiers.Remove(modifier);
     }
+
+    public event EventHandler? ModifierAdded;
 }

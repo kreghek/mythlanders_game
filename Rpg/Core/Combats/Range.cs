@@ -6,4 +6,4 @@ public sealed record Range<T>(T Min, T Max)
     {
         return new Range<T>(Value, Value);
     }
-};
+}

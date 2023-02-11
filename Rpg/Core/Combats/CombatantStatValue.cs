@@ -17,41 +17,27 @@ public sealed class CombatantStatValue : IStatValue
         _baseValue.ModifierAdded += BaseValue_ModifierAdded;
     }
 
-    event EventHandler IStatValue.ModifierAdded
-    {
-        add
-        {
-            throw new System.NotImplementedException();
-        }
-
-        remove
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
     private void BaseValue_ModifierAdded(object? sender, EventArgs e)
     {
-        if (Current > ActualMax)
-        {
-            Current = ActualMax;
-        }
+        if (Current > ActualMax) Current = ActualMax;
+    }
+
+    event EventHandler IStatValue.ModifierAdded
+    {
+        add => throw new NotImplementedException();
+
+        remove => throw new NotImplementedException();
     }
 
     public int ActualMax => _baseValue.ActualMax + _modifiers.Sum(x => x.Value);
 
     public int Current { get; private set; }
 
-    public event EventHandler? ModifierAdded;
-
     public void AddModifier(IUnitStatModifier modifier)
     {
         _modifiers.Add(modifier);
 
-        if (Current > ActualMax)
-        {
-            Current = ActualMax;
-        }
+        if (Current > ActualMax) Current = ActualMax;
 
         ModifierAdded?.Invoke(this, EventArgs.Empty);
     }
@@ -65,10 +51,7 @@ public sealed class CombatantStatValue : IStatValue
     {
         Current -= value;
 
-        if (Current < 0)
-        {
-            Current = 0;
-        }
+        if (Current < 0) Current = 0;
     }
 
     public void CurrentChange(int newCurrent)
@@ -85,9 +68,8 @@ public sealed class CombatantStatValue : IStatValue
     {
         Current += value;
 
-        if (Current > ActualMax)
-        {
-            Current = ActualMax;
-        }
+        if (Current > ActualMax) Current = ActualMax;
     }
+
+    public event EventHandler? ModifierAdded;
 }

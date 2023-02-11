@@ -2,9 +2,8 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangePositionEffect : IEffect
 {
-    public ChangePositionEffectDirection Direction { get; }
-
-    public ChangePositionEffect(ITargetSelector selector, IEffectImposer imposer, ChangePositionEffectDirection direction)
+    public ChangePositionEffect(ITargetSelector selector, IEffectImposer imposer,
+        ChangePositionEffectDirection direction)
     {
         Direction = direction;
 
@@ -12,8 +11,11 @@ public sealed class ChangePositionEffect : IEffect
         Imposer = imposer;
     }
 
+    public ChangePositionEffectDirection Direction { get; }
+
     public ITargetSelector Selector { get; }
     public IEffectImposer Imposer { get; }
+
     public void Influence(Combatant target, IEffectCombatContext context)
     {
         var currentCoords = context.Field.HeroSide.GetCombatantCoords(target);

@@ -644,7 +644,8 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
+        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay,
+            GlobeNode combatLocation)
         {
             return new global::Client.Core.Combat(_globe.Player.Party,
                 combatLocation,
