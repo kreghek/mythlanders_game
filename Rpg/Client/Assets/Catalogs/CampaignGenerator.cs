@@ -94,13 +94,13 @@ namespace Rpg.Client.Assets.Catalogs
             return stage;
         }
 
-        private CampaignStage CreateSlidingPuzzlesStage()
+        private static CampaignStage CreateSlidingPuzzlesStage()
         {
             var stage = new CampaignStage
             {
                 Items = new[]
                 {
-                    new SlidingPuzzlesStageItem(_globeProvider, _dice)
+                    new SlidingPuzzlesMinigameStageItem()
                 }
             };
 
@@ -110,6 +110,17 @@ namespace Rpg.Client.Assets.Catalogs
         private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
         {
             var stageType = stageIndex % 3;
+
+            if (stageType == 0)
+            { 
+                return new CampaignStage
+                {
+                    Items = new[]
+                    {
+                        new TowersMinigameStageItem()
+                    }
+                };
+            }
 
             if (stageType == 1)
             {

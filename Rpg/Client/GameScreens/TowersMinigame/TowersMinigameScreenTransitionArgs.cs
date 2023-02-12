@@ -3,9 +3,9 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.TowersMinigame;
 
-internal sealed class TowersMinigameScreenTransitionArgs: IScreenTransitionArguments
+internal sealed class TowersMinigameScreenTransitionArguments: IScreenTransitionArguments
 {
-    public TowersMinigameScreenTransitionArgs(HeroCampaign campaign) {
+    public TowersMinigameScreenTransitionArguments(HeroCampaign campaign) {
         Campaign = campaign;
     }
 

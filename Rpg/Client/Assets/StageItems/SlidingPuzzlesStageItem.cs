@@ -13,12 +13,3 @@ internal sealed class SlidingPuzzlesMinigameStageItem : ICampaignStageItem
             new SlidingPuzzlesMinigameScreenTransitionArguments(currentCampaign));
     }
 }
-
-internal sealed class TowersMinigameStageItem : ICampaignStageItem
-{
-    public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
-    {
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.TowersMinigame,
-            new SlidingPuzzlesMinigameScreenTransitionArguments(currentCampaign));
-    }
-}

@@ -19,10 +19,10 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
     private readonly HeroCampaign _campaign;
     private readonly TowersEngine _towersEngine;
     private TowerRing? _activeRing;
-
+    private Texture2D _textures;
     private readonly IList<ButtonBase> _barButtonList;
 
-    public TowersMinigameScreen(EwarGame game, TowersMinigameScreenTransitionArgs args) : base(game)
+    public TowersMinigameScreen(EwarGame game, TowersMinigameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
 
@@ -33,6 +33,8 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
         });
 
         _barButtonList = new List<ButtonBase>();
+
+        _textures = Game.Content.Load<Texture2D>("Sprites/GameObjects/TowersMinigame");
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -48,19 +50,33 @@ internal class TowersMinigameScreen : GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
+        ResolutionIndependentRenderer.BeginDraw();
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Deferred,
+            blendState: BlendState.AlphaBlend,
+            samplerState: SamplerState.PointClamp,
+            depthStencilState: DepthStencilState.None,
+            rasterizerState: RasterizerState.CullNone,
+            transformMatrix: Camera.GetViewTransformationMatrix());
+
         var towersContentRect = new Rectangle(contentRect.Left + 10, contentRect.Top + 10, contentRect.Width - 20, contentRect.Height - 20); 
 
         for (var barIndex = 0; barIndex < _barButtonList.Count; barIndex++)
         {
+            spriteBatch.Draw(_textures, new Rectangle(towersContentRect.Left + barIndex * 100 + 50, towersContentRect.Top + 10, 10, towersContentRect.Height - 20 - 10 - 10), new Rectangle(0, 0, 24, 128), Color.White);
+
+
             var button = _barButtonList[barIndex];
 
             button.Rect = new Rectangle(
                 towersContentRect.Left + barIndex * 100,
-                towersContentRect.Top + contentRect.Bottom - 20,
+                towersContentRect.Bottom - 20 - 10,
                 100,
                 20);
             button.Draw(spriteBatch);
         }
+
+        spriteBatch.End();
     }
 
     protected override void UpdateContent(GameTime gameTime)
