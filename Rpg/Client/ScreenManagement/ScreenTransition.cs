@@ -16,6 +16,7 @@
         Training,
         Armory,
         Tactical,
-        SlidingPuzzles
+        SlidingPuzzlesMinigame,
+        TowersMinigame
     }
 }

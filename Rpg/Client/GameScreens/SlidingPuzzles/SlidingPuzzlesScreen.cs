@@ -28,7 +28,7 @@ namespace Client.GameScreens.SlidingPuzzles
         private readonly int _width;
         private TimeSpan _currentTime;
 
-        public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
+        public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesMinigameScreenTransitionArguments args) : base(game)
         {
             _campaign = args.Campaign;
 
@@ -55,7 +55,7 @@ namespace Client.GameScreens.SlidingPuzzles
 
         protected override IList<ButtonBase> CreateMenu()
         {
-            var closeButton = new TextButton("Close");
+            var closeButton = new TextButton("Skip");
             closeButton.OnClick += CloseButton_OnClick;
 
             return new[]
