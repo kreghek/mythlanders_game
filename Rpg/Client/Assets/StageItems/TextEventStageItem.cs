@@ -22,10 +22,9 @@ internal sealed class TextEventStageItem : ICampaignStageItem
     {
         var dialogue = _eventCatalog.GetDialogue(_dialogueSid);
 
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Event, new SpeechScreenTransitionArgs
-        {
-            CurrentDialogue = dialogue,
-            Location = _location
-        });
+        screenManager.ExecuteTransition(
+            currentScreen,
+            ScreenTransition.Event,
+            new SpeechScreenTransitionArgs(currentCampaign, dialogue, _location));
     }
 }

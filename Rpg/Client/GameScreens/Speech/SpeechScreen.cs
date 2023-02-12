@@ -11,8 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
@@ -46,11 +48,10 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Globe _globe;
         private readonly GlobeNodeSid _globeLocation;
         private readonly GlobeProvider _globeProvider;
-        private readonly bool _isFirstDialogue;
         private readonly Player _player;
         private readonly Random _random;
-        private readonly GameSettings _settings;
-
+        private readonly GameSettings _gameSettings;
+        private readonly HeroCampaign _currentCampaign;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
 
@@ -101,23 +102,18 @@ namespace Rpg.Client.GameScreens.Speech
             var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player);
             _dialoguePlayer =
                 new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
-            _isFirstDialogue = args.IsStartDialogueEvent;
 
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
 
-            _settings = game.Services.GetService<GameSettings>();
+            _gameSettings = game.Services.GetService<GameSettings>();
+
+            _currentCampaign = args.CurrentCampaign;
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-            if (args.IsCombatPreparingDialogue)
-            {
-                soundtrackManager.PlayCombatTrack((BiomeType)((int)_globeLocation / 100 * 100));
-            }
-            else
-            {
-                soundtrackManager.PlayMapTrack();
-            }
+
+            soundtrackManager.PlayMapTrack();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -171,11 +167,6 @@ namespace Rpg.Client.GameScreens.Speech
         private void CheckTutorial()
         {
             if (_player.HasAbility(PlayerAbility.SkipTutorials))
-            {
-                return;
-            }
-
-            if (_isFirstDialogue)
             {
                 return;
             }
@@ -381,19 +372,17 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void HandleDialogueEnd()
         {
-            if (_areCombatsNext)
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, _combatScreenArgs!);
-            }
-            else
-            {
-                _globe.Update(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
-
-                if (_settings.Mode == GameMode.Full)
+            _globeProvider.Globe.Update(_dice, _eventCatalog);
+            _currentCampaign.CompleteCurrentStage();
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments
                 {
-                    _globeProvider.StoreCurrentGlobe();
-                }
+                    Campaign = _currentCampaign
+                });
+
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                _globeProvider.StoreCurrentGlobe();
             }
         }
 

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client;
+using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
@@ -107,16 +108,16 @@ namespace Client.GameScreens.CommandCenter
 
             var index = 0;
 
-            var campaignTextures = new[] {
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign"),
+            var campaignTexturesDict = new Dictionary<GlobeNodeSid, Texture2D> {
+                { GlobeNodeSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
+                { GlobeNodeSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
+                { GlobeNodeSid.ShipGraveyard, Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign") },
+                { GlobeNodeSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") },
             };
 
             foreach (var campaign in _campaigns)
             {
-                var campaignTexture = campaignTextures[index];
+                var campaignTexture = campaignTexturesDict[campaign.Location];
 
                 var panel = new CampaignPanel(campaign, campaignTexture);
                 panels.Add(panel);

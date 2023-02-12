@@ -55,10 +55,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         };
         stages.Add(rewardStage);
 
-        var campaign = new HeroCampaign
-        {
-            CampaignStages = stages
-        };
+        var campaign = new HeroCampaign(locationSid, stages);
 
         return campaign;
     }
