@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.Match3;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TowersMinigame;
 using Client.GameScreens.Training;
@@ -128,7 +129,9 @@ namespace Rpg.Client.ScreenManagement
                     (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.TowersMinigame => new TowersMinigameScreen(_game,
                     (TowersMinigameScreenTransitionArguments)screenTransitionArguments),
-            ScreenTransition.Bestiary => new BestiaryScreen(_game),
+                ScreenTransition.Match3Minigame => new TowersMinigameScreen(_game,
+                    (Match3MinigameScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))

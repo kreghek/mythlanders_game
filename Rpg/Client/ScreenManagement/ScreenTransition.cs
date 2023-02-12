@@ -17,6 +17,7 @@
         Armory,
         Tactical,
         SlidingPuzzlesMinigame,
-        TowersMinigame
+        TowersMinigame,
+        Match3Minigame
     }
 }
