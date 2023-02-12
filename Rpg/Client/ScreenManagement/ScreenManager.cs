@@ -129,7 +129,7 @@ namespace Rpg.Client.ScreenManagement
                     (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.TowersMinigame => new TowersMinigameScreen(_game,
                     (TowersMinigameScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.Match3Minigame => new TowersMinigameScreen(_game,
+                ScreenTransition.Match3Minigame => new Match3MinigameScreen(_game,
                     (Match3MinigameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),

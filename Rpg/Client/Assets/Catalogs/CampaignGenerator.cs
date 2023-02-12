@@ -117,7 +117,7 @@ namespace Rpg.Client.Assets.Catalogs
                 {
                     Items = new[]
                     {
-                        new TowersMinigameStageItem()
+                        new Match3MinigameStageItem()
                     }
                 };
             }
