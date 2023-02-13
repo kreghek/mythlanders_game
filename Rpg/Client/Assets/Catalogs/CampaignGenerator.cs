@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -12,14 +11,6 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs;
-
-internal enum CampaignTemplateStep
-{
-    Combat,
-    Rest,
-    Evo,
-    Crysis
-}
 
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
