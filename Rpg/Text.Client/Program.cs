@@ -124,16 +124,16 @@ internal static class Program
     private static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)
     {
         for (var colIndex = 0; colIndex < 2; colIndex++)
-        for (var lineIndex = 0; lineIndex < 3; lineIndex++)
-        {
-            Combatant? foundCombatant = null;
-            foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.HeroSide);
+            for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+            {
+                Combatant? foundCombatant = null;
+                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.HeroSide);
 
-            if (foundCombatant is not null) return foundCombatant;
+                if (foundCombatant is not null) return foundCombatant;
 
-            foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.MonsterSide);
-            if (foundCombatant is not null) return foundCombatant;
-        }
+                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.MonsterSide);
+                if (foundCombatant is not null) return foundCombatant;
+            }
 
         return null;
     }
@@ -401,8 +401,8 @@ internal static class Program
     private static void PseudoPlayback(CombatMovementExecution movementExecution)
     {
         foreach (var imposeItem in movementExecution.EffectImposeItems)
-        foreach (var target in imposeItem.MaterializedTargets)
-            imposeItem.ImposeDelegate(target);
+            foreach (var target in imposeItem.MaterializedTargets)
+                imposeItem.ImposeDelegate(target);
 
         movementExecution.CompleteDelegate();
     }
