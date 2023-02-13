@@ -93,13 +93,13 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return stage;
     }
 
-    private CampaignStage CreateSlidingPuzzlesStage()
+    private static CampaignStage CreateSlidingPuzzlesStage()
     {
         var stage = new CampaignStage
         {
             Items = new[]
             {
-                new SlidingPuzzlesStageItem(_globeProvider, _dice)
+                new SlidingPuzzlesStageItem()
             }
         };
 
