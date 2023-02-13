@@ -15,11 +15,12 @@ namespace Client.Assets.Catalogs;
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
     private readonly IDice _dice;
-    private readonly GlobeProvider _globeProvider;
     private readonly IEventCatalog _eventCatalog;
+    private readonly GlobeProvider _globeProvider;
     private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
-    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IEventCatalog eventCatalog, IDice dice)
+    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,
+        IEventCatalog eventCatalog, IDice dice)
     {
         _unitSchemeCatalog = unitSchemeCatalog;
         _globeProvider = globeProvider;

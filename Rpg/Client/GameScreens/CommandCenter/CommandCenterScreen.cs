@@ -113,11 +113,15 @@ namespace Client.GameScreens.CommandCenter
 
             var index = 0;
 
-            var campaignTexturesDict = new Dictionary<GlobeNodeSid, Texture2D> {
+            var campaignTexturesDict = new Dictionary<GlobeNodeSid, Texture2D>
+            {
                 { GlobeNodeSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
                 { GlobeNodeSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
-                { GlobeNodeSid.ShipGraveyard, Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign") },
-                { GlobeNodeSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") },
+                {
+                    GlobeNodeSid.ShipGraveyard,
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign")
+                },
+                { GlobeNodeSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") }
             };
 
             foreach (var campaign in _campaigns)
@@ -130,7 +134,7 @@ namespace Client.GameScreens.CommandCenter
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments
-                        { Campaign = campaign });
+                            { Campaign = campaign });
                 };
 
                 index++;

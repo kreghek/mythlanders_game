@@ -23,7 +23,6 @@ using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
 using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 using static Client.Core.Combat;
