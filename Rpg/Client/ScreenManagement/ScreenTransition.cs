@@ -16,6 +16,7 @@
         Training,
         Armory,
         Tactical,
-        SlidingPuzzles
+        SlidingPuzzles,
+        NotImplemented
     }
 }

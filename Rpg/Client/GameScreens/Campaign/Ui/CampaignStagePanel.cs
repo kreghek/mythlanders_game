@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
 
 using Microsoft.Xna.Framework;
@@ -88,6 +89,11 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
             if (campaignStageItem is RewardStageItem)
             {
                 return "Finish campaign";
+            }
+
+            if (campaignStageItem is NotImplemenetedStage notImplemenetedStage)
+            {
+                return notImplemenetedStage.StageSid + " (not implemented)";
             }
 
             return "???";
