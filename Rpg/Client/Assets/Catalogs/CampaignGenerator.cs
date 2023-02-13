@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
 
 using Core.Dices;
 
-using Rpg.Client.Assets.Perks;
-using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 
@@ -14,25 +14,35 @@ namespace Client.Assets.Catalogs;
 
 internal sealed class CampaignGenerator : ICampaignGenerator
 {
+    private readonly CampaignStageTemplateServices _services;
     private readonly IDice _dice;
-    private readonly GlobeProvider _globeProvider;
-    private readonly IEventCatalog _eventCatalog;
-    private readonly IUnitSchemeCatalog _unitSchemeCatalog;
 
     public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IEventCatalog eventCatalog, IDice dice)
     {
-        _unitSchemeCatalog = unitSchemeCatalog;
-        _globeProvider = globeProvider;
-        _eventCatalog = eventCatalog;
+        _services = new CampaignStageTemplateServices(unitSchemeCatalog, eventCatalog, globeProvider, dice);
         _dice = dice;
     }
 
     private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
     {
+        var shortTemplate = CreateShortTemplate(locationSid);
+
         var stages = new List<CampaignStage>();
-        for (var stageIndex = 0; stageIndex < length; stageIndex++)
+        for (var stageIndex = 0; stageIndex < shortTemplate.Length; stageIndex++)
         {
-            var stage = CreateStage(locationSid, stageIndex);
+            var itemList = new List<ICampaignStageItem>();
+
+            for (int stageItemIndex = 0; stageItemIndex < shortTemplate[stageIndex].Length; stageItemIndex++)
+            {
+                var stageItem = shortTemplate[stageIndex][stageItemIndex].Create();
+                itemList.Add(stageItem);
+            }
+
+            var stage = new CampaignStage
+            {
+                Items = itemList
+            };
+
             stages.Add(stage);
         }
 
@@ -51,153 +61,103 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private CampaignStage CreateCombatStage(GlobeNodeSid locationSid)
+    private ICampaignStageTemplate[][] CreateShortTemplate(GlobeNodeSid locationSid)
     {
-        var stageItems = new List<ICampaignStageItem>();
-        for (var combatIndex = 0; combatIndex < 3; combatIndex++)
-        {
-            var combat = new CombatSource
-            {
-                Level = 1,
-                EnemyGroup = new Group()
-            };
+        return new ICampaignStageTemplate[][] {
+            // Combat
 
-            var combatSequence = new CombatSequence
-            {
-                Combats = new[] { combat }
-            };
+            new ICampaignStageTemplate[]{
+                new CombatCampaignStageTemplate(locationSid, _services),
+                new CombatCampaignStageTemplate(locationSid, _services),
+                new CombatCampaignStageTemplate(locationSid, _services),
+            },
 
-            var location = new GlobeNode
-            {
-                Sid = locationSid,
-                AssignedCombats = combatSequence
-            };
-            var stageItem = new CombatStageItem(location, combatSequence);
+            // Rest
 
-            var monsterInfos = GetStartMonsterInfoList(locationSid);
+            new ICampaignStageTemplate[]{
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{ 
+                    new RestCampaignStageTemplate(),
+                    new ShopCampaignStageTemplate()
+                }, _services),
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new SacredCampaignStageTemplate(),
+                    new ShopCampaignStageTemplate(),
+                    new FindingCampaignStageTemplate()
+                }, _services),
 
-            for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-            {
-                var scheme = _unitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-                combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
-            }
+            },
 
-            stageItems.Add(stageItem);
-        }
+            // Evo
 
-        var stage = new CampaignStage
-        {
-            Items = stageItems.ToArray()
+            new ICampaignStageTemplate[]{
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new TrainingCampaignStageTemplate(_services),
+                    new WorkshopCampaignStageTemplate(_services)
+                    }, _services),
+
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new SideQuestStageTemplate(locationSid, _services),
+                    new SacredCampaignStageTemplate(),
+                    new MinigameCampaignStageTemplate()
+                }, _services)
+            },
+
+            // Crisis
+
+            new ICampaignStageTemplate[]{
+                new CrisisCampaignStageTemplate()
+            },
+
+            // Combat
+
+            new ICampaignStageTemplate[]{
+                new CombatCampaignStageTemplate(locationSid, _services),
+                new CombatCampaignStageTemplate(locationSid, _services),
+                new CombatCampaignStageTemplate(locationSid, _services),
+            },
+
+            // Rest
+
+            new ICampaignStageTemplate[]{
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new RestCampaignStageTemplate(),
+                    new ShopCampaignStageTemplate()
+                }, _services),
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new SacredCampaignStageTemplate(),
+                    new ShopCampaignStageTemplate(),
+                    new FindingCampaignStageTemplate()
+                }, _services),
+
+            },
+
+            // Evo
+
+            new ICampaignStageTemplate[]{
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new TrainingCampaignStageTemplate(_services),
+                    new WorkshopCampaignStageTemplate(_services)
+                    }, _services),
+
+                new RandomSelectCampaignStageTemplate(new ICampaignStageTemplate[]{
+                    new SideQuestStageTemplate(locationSid, _services),
+                    new SacredCampaignStageTemplate(),
+                    new MinigameCampaignStageTemplate()
+                }, _services)
+            },
+
+            // Crisis
+
+            new ICampaignStageTemplate[]{
+                new CrisisCampaignStageTemplate()
+            },
+
+            // Combat
+
+            new ICampaignStageTemplate[]{
+                new CombatCampaignStageTemplate(locationSid, _services)
+            },
         };
-
-        return stage;
-    }
-
-    private static CampaignStage CreateSlidingPuzzlesStage()
-    {
-        var stage = new CampaignStage
-        {
-            Items = new[]
-            {
-                new SlidingPuzzlesStageItem()
-            }
-        };
-
-        return stage;
-    }
-
-    private CampaignStage CreateStage(GlobeNodeSid locationSid, int stageIndex)
-    {
-        var stageType = stageIndex % 3;
-
-        if (stageType == 0)
-        {
-            return CreateTextEventStage(locationSid);
-        }
-
-        if (stageType == 1)
-        {
-            return CreateTrainingStage();
-        }
-
-        if (stageType == 2)
-        {
-            return CreateSlidingPuzzlesStage();
-        }
-
-        return CreateCombatStage(locationSid);
-    }
-
-    private CampaignStage CreateTextEventStage(GlobeNodeSid locationSid)
-    {
-        var stage = new CampaignStage
-        {
-            Items = new[]
-            {
-                new TextEventStageItem("synth_as_parent_stage_1", locationSid, _eventCatalog)
-            }
-        };
-
-        return stage;
-    }
-
-    private CampaignStage CreateTrainingStage()
-    {
-        var stage = new CampaignStage
-        {
-            Items = new[]
-            {
-                new TrainingStageItem(_globeProvider.Globe.Player, _dice)
-            }
-        };
-
-        return stage;
-    }
-
-    private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(GlobeNodeSid location)
-    {
-        var availableAllRegularMonsters = _unitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
-
-        var filteredByLocationMonsters = availableAllRegularMonsters.Where(x =>
-            x.LocationSids is null || x.LocationSids is not null && x.LocationSids.Contains(location));
-
-        var availableMonsters = filteredByLocationMonsters.ToList();
-
-        var rolledUnits = new List<UnitScheme>();
-
-        for (var i = 0; i < 3; i++)
-        {
-            if (!availableMonsters.Any())
-            {
-                break;
-            }
-
-            var scheme = _dice.RollFromList(availableMonsters, 1).Single();
-
-            rolledUnits.Add(scheme);
-
-            if (scheme.IsUnique)
-            {
-                // Remove all unique monsters from roll list.
-                availableMonsters.RemoveAll(x => x.IsUnique);
-            }
-        }
-
-        var units = new List<Unit>();
-        foreach (var unitScheme in rolledUnits)
-        {
-            var unitLevel = 2;
-            var unit = new Unit(unitScheme, unitLevel);
-            units.Add(unit);
-        }
-
-        return rolledUnits.Select(x => (x.Name, 2)).ToArray();
-    }
-
-    private static bool HasPerk<TPerk>(UnitScheme unitScheme, int combatLevel)
-    {
-        var unit = new Unit(unitScheme, combatLevel);
-        return unit.Perks.OfType<TPerk>().Any();
     }
 
     public IReadOnlyList<HeroCampaign> CreateSet()
