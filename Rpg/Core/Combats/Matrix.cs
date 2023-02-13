@@ -59,29 +59,17 @@ public sealed class Matrix<T>
 
     public bool IsIn(int x, int y)
     {
-        if (x >= Width || y >= Height)
-        {
-            return false;
-        }
+        if (x >= Width || y >= Height) return false;
 
-        if (x < 0 || y < 0)
-        {
-            return false;
-        }
+        if (x < 0 || y < 0) return false;
 
         return true;
     }
 
     private static void CheckArguments(int width, int height)
     {
-        if (width <= 0)
-        {
-            throw new ArgumentException("Ширина должна быть больше 0.", nameof(width));
-        }
+        if (width <= 0) throw new ArgumentException("Ширина должна быть больше 0.", nameof(width));
 
-        if (height <= 0)
-        {
-            throw new ArgumentException("Высота должна быть больше 0.", nameof(height));
-        }
+        if (height <= 0) throw new ArgumentException("Высота должна быть больше 0.", nameof(height));
     }
 }

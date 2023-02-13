@@ -1,4 +1,5 @@
 using System;
+
 using Core.Dices;
 
 namespace Rpg.Client.Core.SkillEffects

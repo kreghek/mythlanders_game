@@ -2,9 +2,8 @@ namespace Core.Combats;
 
 public interface IEffect
 {
-    ITargetSelector Selector { get; }
-    
     IEffectImposer Imposer { get; }
+    ITargetSelector Selector { get; }
 
     void Influence(Combatant target, IEffectCombatContext context);
 }

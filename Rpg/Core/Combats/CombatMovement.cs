@@ -10,10 +10,11 @@ public sealed class CombatMovement
         AutoDefenseEffects = effectConfig.AutoDefenseEffects;
     }
 
-    public string Sid { get; }
+    public IReadOnlyCollection<IEffect> AutoDefenseEffects { get; }
     public CombatMovementCost Cost { get; }
     public IReadOnlyCollection<IEffect> Effects { get; }
-    public IReadOnlyCollection<IEffect> AutoDefenseEffects { get; }
+
+    public string Sid { get; }
 
     public CombatMovementTags Tags { get; set; }
 }

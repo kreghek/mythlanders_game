@@ -1,6 +1,6 @@
 namespace Core.Combats;
 
-public sealed class CombatantStat: IUnitStat
+public sealed class CombatantStat : IUnitStat
 {
     public CombatantStat(UnitStatType type, IStatValue value)
     {

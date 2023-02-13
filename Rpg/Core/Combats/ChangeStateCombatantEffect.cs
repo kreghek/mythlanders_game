@@ -1,11 +1,9 @@
 namespace Core.Combats;
 
-public sealed class ChangeStateCombatantEffect: ICombatantEffect
+public sealed class ChangeStateCombatantEffect : ICombatantEffect
 {
-    public UnitStatType StatType { get; }
-    public int Value { get; }
     private readonly IUnitStatModifier _statModifier;
-    
+
     public ChangeStateCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
     {
         StatType = statType;
@@ -14,6 +12,9 @@ public sealed class ChangeStateCombatantEffect: ICombatantEffect
 
         _statModifier = new StatModifier(value);
     }
+
+    public UnitStatType StatType { get; }
+    public int Value { get; }
 
     public void Impose(Combatant combatant)
     {
