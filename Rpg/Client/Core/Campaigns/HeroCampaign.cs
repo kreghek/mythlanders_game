@@ -5,9 +5,16 @@ namespace Rpg.Client.Core.Campaigns
 {
     internal sealed class HeroCampaign
     {
-        public IReadOnlyList<CampaignStage> CampaignStages { get; set; }
+        public GlobeNodeSid Location { get; }
+        public IReadOnlyList<CampaignStage> CampaignStages { get; }
 
-        public int CurrentStageIndex { get; set; }
+        public HeroCampaign(GlobeNodeSid location, IReadOnlyList<CampaignStage> campaignStages)
+        {
+            Location = location;
+            CampaignStages = campaignStages;
+        }
+
+        public int CurrentStageIndex { get; private set; }
 
         public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
 

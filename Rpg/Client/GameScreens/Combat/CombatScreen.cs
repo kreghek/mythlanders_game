@@ -432,31 +432,17 @@ namespace Rpg.Client.GameScreens.Combat
                     }
                     else
                     {
-                        if (_args.VictoryDialogue is null)
-                        {
-                            _globeProvider.Globe.Update(_dice, _eventCatalog);
-                            _currentCampaign.CompleteCurrentStage();
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                                new CampaignScreenTransitionArguments
-                                {
-                                    Campaign = _currentCampaign
-                                });
-
-                            if (_gameSettings.Mode == GameMode.Full)
+                        _globeProvider.Globe.Update(_dice, _eventCatalog);
+                        _currentCampaign.CompleteCurrentStage();
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments
                             {
-                                _globeProvider.StoreCurrentGlobe();
-                            }
-                        }
-                        else
-                        {
-                            var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
-                            {
-                                CurrentDialogue = _args.VictoryDialogue,
-                                Location = _args.Location,
-                                IsStartDialogueEvent = _args.VictoryDialogueIsStartEvent
-                            };
+                                Campaign = _currentCampaign
+                            });
 
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);
+                        if (_gameSettings.Mode == GameMode.Full)
+                        {
+                            _globeProvider.StoreCurrentGlobe();
                         }
                     }
                 }

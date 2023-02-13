@@ -376,6 +376,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Somewhere in the Desert....
+        /// </summary>
+        internal static string Desert {
+            get {
+                return ResourceManager.GetString("Desert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Destroyed village.
         /// </summary>
         internal static string DestroyedVillage {
@@ -673,6 +682,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monastery in the flames.
+        /// </summary>
+        internal static string Monastery {
+            get {
+                return ResourceManager.GetString("Monastery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maosin.
         /// </summary>
         internal static string Monk {
@@ -741,6 +759,15 @@ namespace Client {
         internal static string ScarabeusKingLeg {
             get {
                 return ResourceManager.GetString("ScarabeusKingLeg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ship Graveyard.
+        /// </summary>
+        internal static string ShipGraveyard {
+            get {
+                return ResourceManager.GetString("ShipGraveyard", resourceCulture);
             }
         }
         
@@ -844,7 +871,7 @@ namespace Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Thicket.
+        ///   Looks up a localized string similar to Dark Thicket.
         /// </summary>
         internal static string Thicket {
             get {

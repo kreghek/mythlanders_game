@@ -51,7 +51,7 @@ internal class CampaignPanel : ControlBase
 
         spriteBatch.DrawString(
             UiThemeManager.UiContentStorage.GetTitlesFont(),
-            GameObjectHelper.GetLocalized(GlobeNodeSid.Desert),
+            GameObjectHelper.GetLocalized(_campaign.Location),
             new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20),
             Color.Wheat);
 

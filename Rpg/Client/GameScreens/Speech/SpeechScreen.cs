@@ -11,8 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
+using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
@@ -44,13 +46,12 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly Globe _globe;
-        private readonly GlobeNode _globeLocation;
+        private readonly GlobeNodeSid _globeLocation;
         private readonly GlobeProvider _globeProvider;
-        private readonly bool _isFirstDialogue;
         private readonly Player _player;
         private readonly Random _random;
-        private readonly GameSettings _settings;
-
+        private readonly GameSettings _gameSettings;
+        private readonly HeroCampaign _currentCampaign;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
 
@@ -86,7 +87,7 @@ namespace Rpg.Client.GameScreens.Speech
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
-            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeLocation.Sid);
+            var backgroundObjectFactory = bgofSelector.GetBackgroundObjectFactory(_globeLocation);
 
             _cloudLayerObjects = backgroundObjectFactory.CreateCloudLayerObjects();
             _foregroundLayerObjects = backgroundObjectFactory.CreateForegroundLayerObjects();
@@ -101,30 +102,18 @@ namespace Rpg.Client.GameScreens.Speech
             var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player);
             _dialoguePlayer =
                 new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
-            _isFirstDialogue = args.IsStartDialogueEvent;
 
             _eventCatalog = game.Services.GetService<IEventCatalog>();
 
             _dice = Game.Services.GetService<IDice>();
 
-            _settings = game.Services.GetService<GameSettings>();
+            _gameSettings = game.Services.GetService<GameSettings>();
 
-            var (areCombatsNext, combatScreenArgs) = DetectCombatNext(args);
-            _areCombatsNext = areCombatsNext;
-            if (_areCombatsNext)
-            {
-                _combatScreenArgs = combatScreenArgs;
-            }
+            _currentCampaign = args.CurrentCampaign;
 
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
-            if (args.IsCombatPreparingDialogue)
-            {
-                soundtrackManager.PlayCombatTrack(args.Location.BiomeType);
-            }
-            else
-            {
-                soundtrackManager.PlayMapTrack();
-            }
+
+            soundtrackManager.PlayMapTrack();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -182,11 +171,6 @@ namespace Rpg.Client.GameScreens.Speech
                 return;
             }
 
-            if (_isFirstDialogue)
-            {
-                return;
-            }
-
             if (_player.HasAbility(PlayerAbility.ReadEventTutorial))
             {
                 return;
@@ -197,26 +181,6 @@ namespace Rpg.Client.GameScreens.Speech
             var tutorialModal = new TutorialModal(new EventTutorialPageDrawer(_uiContentStorage), _uiContentStorage,
                 ResolutionIndependentRenderer, _player);
             AddModal(tutorialModal, isLate: false);
-        }
-
-        private static (bool areCombatsNext, CombatScreenTransitionArguments? combatScreenArgs) DetectCombatNext(
-            SpeechScreenTransitionArgs args)
-        {
-            if (args.NextCombats is not null)
-            {
-                var combatScreenTransitionArgs = new CombatScreenTransitionArguments
-                {
-                    Location = args.Location,
-                    CombatSequence = args.NextCombats,
-                    IsAutoplay = false,
-                    VictoryDialogue = args.CombatVictoryDialogue,
-                    VictoryDialogueIsStartEvent = args.IsStartDialogueEvent
-                };
-
-                return new(true, combatScreenTransitionArgs);
-            }
-
-            return new(false, null);
         }
 
         private void DrawBackgroundLayers(SpriteBatch spriteBatch, Texture2D[] backgrounds, int backgroundStartOffset,
@@ -332,7 +296,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void DrawGameObjects(SpriteBatch spriteBatch)
         {
-            var backgroundType = BackgroundHelper.GetBackgroundType(_globeLocation.Sid);
+            var backgroundType = BackgroundHelper.GetBackgroundType(_globeLocation);
 
             var backgrounds = _gameObjectContentStorage.GetCombatBackgrounds(backgroundType);
 
@@ -408,19 +372,17 @@ namespace Rpg.Client.GameScreens.Speech
 
         private void HandleDialogueEnd()
         {
-            if (_areCombatsNext)
-            {
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, _combatScreenArgs!);
-            }
-            else
-            {
-                _globe.Update(_dice, _eventCatalog);
-                ScreenManager.ExecuteTransition(this, ScreenTransition.Map, null);
-
-                if (_settings.Mode == GameMode.Full)
+            _globeProvider.Globe.Update(_dice, _eventCatalog);
+            _currentCampaign.CompleteCurrentStage();
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments
                 {
-                    _globeProvider.StoreCurrentGlobe();
-                }
+                    Campaign = _currentCampaign
+                });
+
+            if (_gameSettings.Mode == GameMode.Full)
+            {
+                _globeProvider.StoreCurrentGlobe();
             }
         }
 
