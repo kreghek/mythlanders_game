@@ -3,11 +3,11 @@ using Client.Assets.StageItems;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class TrainingCampaignStageTemplate : ICampaignStageTemplate
+internal sealed class TrainingCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly CampaignStageTemplateServices _services;
 
-    public TrainingCampaignStageTemplate(CampaignStageTemplateServices services)
+    public TrainingCampaignStageTemplateFactory(CampaignStageTemplateServices services)
     {
         _services = services;
     }

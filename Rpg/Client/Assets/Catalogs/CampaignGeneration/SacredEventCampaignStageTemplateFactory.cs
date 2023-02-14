@@ -2,7 +2,7 @@
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class SacredCampaignStageTemplate : ICampaignStageTemplate
+internal sealed class SacredEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     public ICampaignStageItem Create()
     {

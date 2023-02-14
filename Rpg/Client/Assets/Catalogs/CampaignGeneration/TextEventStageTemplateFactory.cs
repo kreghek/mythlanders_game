@@ -4,12 +4,12 @@ using Client.Assets.StageItems;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class SideQuestStageTemplate : ICampaignStageTemplate
+internal sealed class TextEventStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly GlobeNodeSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public SideQuestStageTemplate(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
+    public SideQuestStageTemplateFactory(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;

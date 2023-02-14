@@ -9,12 +9,12 @@ using Rpg.Client.Assets.Perks;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class CombatCampaignStageTemplate : ICampaignStageTemplate
+internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly GlobeNodeSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public CombatCampaignStageTemplate(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
+    public CombatCampaignStageTemplateFactory(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;

@@ -3,7 +3,7 @@ using Client.Assets.StageItems;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class MinigameCampaignStageTemplate : ICampaignStageTemplate
+internal sealed class MinigameEventCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     public ICampaignStageItem Create()
     {

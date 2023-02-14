@@ -2,10 +2,10 @@
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class ShopCampaignStageTemplate : ICampaignStageTemplate
+internal sealed class RestCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Shop");
+        return new NotImplemenetedStage("Rest");
     }
 }
