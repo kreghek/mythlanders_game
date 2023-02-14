@@ -39,19 +39,19 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
         private readonly CombatScreenTransitionArguments? _combatScreenArgs;
+        private readonly HeroCampaign _currentCampaign;
         private readonly DialogueOptions _dialogueOptions;
         private readonly DialoguePlayer _dialoguePlayer;
         private readonly IDice _dice;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
+        private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
         private readonly GlobeNodeSid _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly Player _player;
         private readonly Random _random;
-        private readonly GameSettings _gameSettings;
-        private readonly HeroCampaign _currentCampaign;
         private readonly IList<TextFragment> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
 

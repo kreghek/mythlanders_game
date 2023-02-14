@@ -5,7 +5,8 @@ using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.GameScreens.Speech
 {
-    internal sealed record SpeechScreenTransitionArgs(HeroCampaign CurrentCampaign, Dialogue CurrentDialogue, GlobeNodeSid Location) : IScreenTransitionArguments
+    internal sealed record SpeechScreenTransitionArgs(HeroCampaign CurrentCampaign, Dialogue CurrentDialogue,
+        GlobeNodeSid Location) : IScreenTransitionArguments
     {
         /*public HeroCampaign CurrentCampaign { get; }
         public Dialogue? CombatVictoryDialogue { get; init; }

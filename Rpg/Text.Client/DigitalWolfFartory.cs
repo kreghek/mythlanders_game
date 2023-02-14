@@ -46,9 +46,9 @@ public class DigitalWolfFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         monsterSequence.Items.Add(new CombatMovement("Cyber claws",
@@ -67,8 +67,7 @@ public class DigitalWolfFactory
 
         var monster = new Combatant(monsterSequence)
         {
-            Sid = "Digital wolf",
-            IsPlayerControlled = false
+            Sid = "Digital wolf", IsPlayerControlled = false
         };
 
         return monster;

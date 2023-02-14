@@ -17,7 +17,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private readonly CampaignStageTemplateServices _services;
     private readonly IDice _dice;
 
-    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider, IEventCatalog eventCatalog, IDice dice)
+    public CampaignGenerator(IUnitSchemeCatalog unitSchemeCatalog, GlobeProvider globeProvider,
+        IEventCatalog eventCatalog, IDice dice)
     {
         _services = new CampaignStageTemplateServices(unitSchemeCatalog, eventCatalog, globeProvider, dice);
         _dice = dice;
