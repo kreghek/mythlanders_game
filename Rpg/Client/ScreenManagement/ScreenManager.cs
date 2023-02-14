@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Client.GameScreens.CommandCenter;
+using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.Training;
 
@@ -128,6 +129,8 @@ namespace Rpg.Client.ScreenManagement
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
+                ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
+                    (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }

@@ -56,9 +56,9 @@ internal static class CombatantFactory
                             Range<int>.CreateMono(2))
                     })
             )
-            {
-                Tags = CombatMovementTags.Attack
-            }
+        {
+            Tags = CombatMovementTags.Attack
+        }
         );
 
         movementPool.Add(new CombatMovement("I'm so strong",
@@ -79,9 +79,9 @@ internal static class CombatantFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         movementPool.Add(new CombatMovement("Hit from shoulder",
@@ -95,9 +95,9 @@ internal static class CombatantFactory
                             Range<int>.CreateMono(3))
                     })
             )
-            {
-                Tags = CombatMovementTags.Attack
-            }
+        {
+            Tags = CombatMovementTags.Attack
+        }
         );
         
         movementPool.Add(new CombatMovement("Look out!",
@@ -146,7 +146,8 @@ internal static class CombatantFactory
 
         var hero = new Combatant(heroSequence)
         {
-            Sid = "Berimir", IsPlayerControlled = true
+            Sid = "Berimir",
+            IsPlayerControlled = true
         };
         return hero;
     }

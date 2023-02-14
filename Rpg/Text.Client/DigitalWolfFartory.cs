@@ -42,9 +42,9 @@ public class DigitalWolfFactory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-            {
-                Tags = CombatMovementTags.AutoDefense
-            }
+        {
+            Tags = CombatMovementTags.AutoDefense
+        }
         );
 
         monsterSequence.Items.Add(new CombatMovement("Cyber claws",
