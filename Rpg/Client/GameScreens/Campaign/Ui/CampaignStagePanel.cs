@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                 return "Finish campaign";
             }
 
-            if (campaignStageItem is NotImplemenetedStage notImplemenetedStage)
+            if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
             {
                 return notImplemenetedStage.StageSid + " (not implemented)";
             }

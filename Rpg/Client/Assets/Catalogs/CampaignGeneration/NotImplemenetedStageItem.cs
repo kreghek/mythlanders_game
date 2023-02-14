@@ -5,13 +5,19 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class NotImplemenetedStage : ICampaignStageItem
+/// <summary>
+/// Temporal stage item to test campaign generation.
+/// </summary>
+internal sealed class NotImplemenetedStageItem : ICampaignStageItem
 {
-    public NotImplemenetedStage(string stageSid)
+    public NotImplemenetedStageItem(string stageSid)
     {
         StageSid = stageSid;
     }
 
+    /// <summary>
+    /// Sid to display stage item's fake.
+    /// </summary>
     public string StageSid { get; }
 
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)

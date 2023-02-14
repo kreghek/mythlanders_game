@@ -6,6 +6,6 @@ internal sealed class CrisisEventCampaignStageTemplateFactory : ICampaignStageTe
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Crisis");
+        return new NotImplemenetedStageItem("Crisis");
     }
 }

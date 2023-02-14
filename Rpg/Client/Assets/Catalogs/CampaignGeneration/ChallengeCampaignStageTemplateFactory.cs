@@ -6,6 +6,6 @@ internal sealed class ChallengeCampaignStageTemplateFactory : ICampaignStageTemp
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Challenge");
+        return new NotImplemenetedStageItem("Challenge");
     }
 }

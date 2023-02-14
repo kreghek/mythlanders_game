@@ -6,6 +6,6 @@ internal sealed class FindingEventCampaignStageTemplateFactory : ICampaignStageT
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Finding");
+        return new NotImplemenetedStageItem("Finding");
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,48 +10,45 @@ using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
-namespace Client.GameScreens.NotImplementedStage
+namespace Client.GameScreens.NotImplementedStage;
+
+internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
-    internal sealed record NotImplementedStageScreenTransitionArguments(HeroCampaign Campaign) : IScreenTransitionArguments;
+    private HeroCampaign _campaign;
 
-    internal class NotImplementedStageScreen : GameScreenWithMenuBase
+    public NotImplementedStageScreen(EwarGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
-        private HeroCampaign _campaign;
+        _campaign = args.Campaign;
+    }
 
-        public NotImplementedStageScreen(EwarGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
+    protected override IList<ButtonBase> CreateMenu()
+    {
+        var closeButton = new TextButton("Skip");
+        closeButton.OnClick += CloseButton_OnClick;
+
+        return new[]
         {
-            _campaign = args.Campaign;
-        }
+            closeButton
+        };
+    }
 
-        protected override IList<ButtonBase> CreateMenu()
+    protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        
+    }
+
+    protected override void InitializeContent()
+    {
+        
+    }
+
+    private void CloseButton_OnClick(object? sender, EventArgs e)
+    {
+        _campaign.CompleteCurrentStage();
+
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
         {
-            var closeButton = new TextButton("Skip");
-            closeButton.OnClick += CloseButton_OnClick;
-
-            return new[]
-            {
-                closeButton
-            };
-        }
-
-        protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
-        {
-            
-        }
-
-        protected override void InitializeContent()
-        {
-            
-        }
-
-        private void CloseButton_OnClick(object? sender, EventArgs e)
-        {
-            _campaign.CompleteCurrentStage();
-
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
-        }
+            Campaign = _campaign
+        });
     }
 }

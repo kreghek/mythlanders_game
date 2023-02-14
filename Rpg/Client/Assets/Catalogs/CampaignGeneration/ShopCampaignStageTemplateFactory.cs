@@ -6,6 +6,6 @@ internal sealed class ShopCampaignStageTemplateFactory : ICampaignStageTemplateF
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Shop");
+        return new NotImplemenetedStageItem("Shop");
     }
 }

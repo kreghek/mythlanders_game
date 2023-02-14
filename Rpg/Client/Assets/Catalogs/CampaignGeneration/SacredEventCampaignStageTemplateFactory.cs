@@ -6,6 +6,6 @@ internal sealed class SacredEventCampaignStageTemplateFactory : ICampaignStageTe
 {
     public ICampaignStageItem Create()
     {
-        return new NotImplemenetedStage("Sacred place");
+        return new NotImplemenetedStageItem("Sacred place");
     }
 }
