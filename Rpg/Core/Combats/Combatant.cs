@@ -1,17 +1,43 @@
 namespace Core.Combats;
 
+public interface IEffectModifier
+{
+    int Value { get; }
+}
+
+public sealed class EffectModifier: IEffectModifier
+{
+    public EffectModifier(int value)
+    {
+        Value = value;
+    }
+
+    public int Value { get; }
+}
+
+public interface IEffectInstance
+{
+    void Influence(Combatant target, IEffectCombatContext context);
+    void AddModifier(IUnitStatModifier modifier);
+    void RemoveModifier(IUnitStatModifier modifier);
+}
+
 public class Combatant
 {
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
-    private readonly CombatMovement?[] _hand;
-    private readonly IList<CombatMovement> _pool;
+    private readonly CombatMovementInstance?[] _hand;
+    private readonly IList<CombatMovementInstance> _pool;
 
     public Combatant(CombatMovementSequence sequence)
     {
-        _pool = new List<CombatMovement>();
-        _hand = new CombatMovement?[3];
+        _pool = new List<CombatMovementInstance>();
+        _hand = new CombatMovementInstance?[3];
 
-        foreach (var combatMovement in sequence.Items) _pool.Add(combatMovement);
+        foreach (var combatMovement in sequence.Items)
+        {
+            var instance = new CombatMovementInstance(combatMovement);
+            _pool.Add(instance);
+        }
 
         Stats = new List<IUnitStat>
         {
@@ -22,16 +48,14 @@ public class Combatant
             new CombatantStat(UnitStatType.Defense, new CombatantStatValue(new StatValue(0)))
         };
     }
-
+    
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 
-    public IReadOnlyCollection<CombatMovement?> Hand => _hand;
+    public IReadOnlyCollection<CombatMovementInstance?> Hand => _hand;
 
     public bool IsDead { get; }
 
     public bool IsPlayerControlled { get; init; }
-
-    public IReadOnlyCollection<CombatMovement> Pool => _pool.ToArray();
 
     public string? Sid { get; init; }
 
@@ -76,7 +100,7 @@ public class Combatant
         }
     }
 
-    internal void DropMovement(CombatMovement movement)
+    internal void DropMovement(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
             if (_hand[i] == movement)

@@ -11,8 +11,6 @@ public class CombatCore
     private readonly IDice _dice;
     private readonly IList<Combatant> _roundQueue;
 
-    private int _roundNumber;
-
     public CombatCore(IDice dice)
     {
         _dice = dice;
@@ -80,9 +78,9 @@ public class CombatCore
 
         foreach (var effect in movement.Effects)
         {
-            void EffectImposeDelegate(Combatant materializedTarget)
+            void EffectInfluenceDelegate(Combatant materializedTarget)
             {
-                effect.Imposer.Impose(effect, materializedTarget, effectContext);
+                effect.Influence(materializedTarget, effectContext);
             }
 
             var effectTargets = effect.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
@@ -97,16 +95,16 @@ public class CombatCore
                     {
                         foreach (var autoDefenseEffect in targetDefenseMovement.AutoDefenseEffects)
                         {
-                            void AutoEffectImposeDelegate(Combatant materializedTarget)
+                            void AutoEffectInfluenceDelegate(Combatant materializedTarget)
                             {
-                                autoDefenseEffect.Imposer.Impose(autoDefenseEffect, materializedTarget, effectContext);
+                                autoDefenseEffect.Influence(materializedTarget, effectContext);
                             }
 
                             var autoDefenseEffectTargets =
                                 effect.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
 
                             var autoDefenseEffectImposeItem =
-                                new CombatEffectImposeItem(AutoEffectImposeDelegate, autoDefenseEffectTargets);
+                                new CombatEffectImposeItem(AutoEffectInfluenceDelegate, autoDefenseEffectTargets);
 
                             effectImposeItems.Add(autoDefenseEffectImposeItem);
                         }
@@ -116,7 +114,7 @@ public class CombatCore
                     }
                 }
 
-            var effectImposeItem = new CombatEffectImposeItem(EffectImposeDelegate, effectTargets);
+            var effectImposeItem = new CombatEffectImposeItem(EffectInfluenceDelegate, effectTargets);
 
             effectImposeItems.Add(effectImposeItem);
         }
@@ -188,8 +186,8 @@ public class CombatCore
     private ITargetSelectorContext GetSelectorContext(Combatant combatant)
     {
         if (combatant.IsPlayerControlled)
-            return new TargetSelectorContext(Field.HeroSide, Field.MonsterSide);
-        return new TargetSelectorContext(Field.MonsterSide, Field.HeroSide);
+            return new TargetSelectorContext(Field.HeroSide, Field.MonsterSide, _dice);
+        return new TargetSelectorContext(Field.MonsterSide, Field.HeroSide, _dice);
     }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)
@@ -226,8 +224,6 @@ public class CombatCore
     private void StartRound()
     {
         MakeUnitRoundQueue();
-
-        _roundNumber++;
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);

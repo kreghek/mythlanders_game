@@ -4,19 +4,17 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangeCurrentStatEffect : IEffect
 {
-    public ChangeCurrentStatEffect(ITargetSelector selector, IEffectImposer imposer, UnitStatType statType,
+    public ChangeCurrentStatEffect(ITargetSelector selector, UnitStatType statType,
         Range<int> statValue)
     {
         TargetStatType = statType;
         Selector = selector;
-        Imposer = imposer;
         StatValue = statValue;
     }
 
     public Range<int> StatValue { get; }
     public UnitStatType TargetStatType { get; }
     public ITargetSelector Selector { get; }
-    public IEffectImposer Imposer { get; }
 
     public void Influence(Combatant target, IEffectCombatContext context)
     {

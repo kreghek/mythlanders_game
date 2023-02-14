@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
 using Core.Combats;
+using Core.Combats.CombatantEffects;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 using Core.Dices;

@@ -4,10 +4,9 @@ namespace Core.Combats.Effects;
 
 public sealed class DamageEffect : IEffect
 {
-    public DamageEffect(ITargetSelector selector, IEffectImposer imposer, DamageType damageType, Range<int> damage)
+    public DamageEffect(ITargetSelector selector, DamageType damageType, Range<int> damage)
     {
         Selector = selector;
-        Imposer = imposer;
         DamageType = damageType;
         Damage = damage;
     }
@@ -30,8 +29,10 @@ public sealed class DamageEffect : IEffect
     }
 
     public ITargetSelector Selector { get; }
-
-    public IEffectImposer Imposer { get; }
+    public IEffectInstance CreateInstance()
+    {
+        return new DamageEffectInstance(this);
+    }
 
     public void Influence(Combatant target, IEffectCombatContext context)
     {

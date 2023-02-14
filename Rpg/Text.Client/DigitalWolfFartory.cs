@@ -1,13 +1,12 @@
 using Core.Combats;
 using Core.Combats.Effects;
-using Core.Combats.Imposers;
 using Core.Combats.TargetSelectors;
 
 namespace Text.Client;
 
 public class DigitalWolfFactory
 {
-    public Combatant Create()
+    public Combatant Create(string sid)
     {
         var monsterSequence = new CombatMovementSequence();
         monsterSequence.Items.Add(new CombatMovement("Wolf teeth",
@@ -17,7 +16,6 @@ public class DigitalWolfFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3))
                     })
@@ -31,7 +29,6 @@ public class DigitalWolfFactory
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Defense,
                             3,
                             typeof(ToNextCombatantTurnEffectLifetime))
@@ -40,7 +37,6 @@ public class DigitalWolfFactory
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Defense,
                             1,
                             typeof(ToEndOfCurrentRoundEffectLifetime))
@@ -58,7 +54,6 @@ public class DigitalWolfFactory
                     {
                         new DamageEffect(
                             new MostShieldChargedTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.ShieldsOnly,
                             Range<int>.CreateMono(3))
                     })
@@ -67,7 +62,7 @@ public class DigitalWolfFactory
 
         var monster = new Combatant(monsterSequence)
         {
-            Sid = "Digital wolf", IsPlayerControlled = false
+            Sid = sid, IsPlayerControlled = false
         };
 
         return monster;
