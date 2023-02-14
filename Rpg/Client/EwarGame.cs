@@ -153,7 +153,7 @@ namespace Rpg.Client
         {
             if (_screenManager is null)
             {
-                throw new InvalidOperationException("screen manager is not initialized before game updates.");
+                throw new InvalidOperationException("Screen manager is not initialized before game updates.");
             }
 
             if (_screenManager.ActiveScreen is null)
@@ -244,11 +244,6 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                //var biomeGenerator = new BiomeGenerator(Services.GetService<IDice>(),
-                //    Services.GetService<IUnitSchemeCatalog>(),
-                //    Services.GetService<IEventCatalog>());
-                //Services.AddService<IBiomeGenerator>(biomeGenerator);
-
                 var storyPointCatalog = new StoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
@@ -264,11 +259,6 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                //var biomeGenerator = new DemoBiomeGenerator(Services.GetService<IDice>(),
-                //    Services.GetService<IUnitSchemeCatalog>(),
-                //    Services.GetService<IEventCatalog>());
-                //Services.AddService<IBiomeGenerator>(biomeGenerator);
-
                 var storyPointCatalog = new DemoStoryPointCatalog();
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
@@ -281,7 +271,6 @@ namespace Rpg.Client
                 new GlobeProvider(
                     Services.GetRequiredService<IDice>(),
                     Services.GetRequiredService<IUnitSchemeCatalog>(),
-                    //Services.GetRequiredService<IBiomeGenerator>(),
                     Services.GetRequiredService<IEventCatalog>(),
                     Services.GetRequiredService<IStoryPointInitializer>()));
 
