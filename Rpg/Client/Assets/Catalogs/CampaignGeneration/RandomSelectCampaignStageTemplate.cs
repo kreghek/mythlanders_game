@@ -1,5 +1,7 @@
-﻿using Core.Dices;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using Core.Dices;
+
 using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;

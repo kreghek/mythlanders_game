@@ -76,7 +76,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             // Rest
 
             new ICampaignStageTemplateFactory[]{
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{ 
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
                     new RestCampaignStageTemplateFactory(),
                     new ShopCampaignStageTemplateFactory()
                 }, _services),

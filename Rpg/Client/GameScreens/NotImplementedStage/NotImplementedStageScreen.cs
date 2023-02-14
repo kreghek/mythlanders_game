@@ -34,12 +34,12 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        
+
     }
 
     protected override void InitializeContent()
     {
-        
+
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)

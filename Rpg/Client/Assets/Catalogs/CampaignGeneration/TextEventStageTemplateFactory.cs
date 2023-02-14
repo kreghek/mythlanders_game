@@ -1,6 +1,7 @@
-﻿using Rpg.Client.Core;
+﻿using Client.Assets.StageItems;
+
+using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
-using Client.Assets.StageItems;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
