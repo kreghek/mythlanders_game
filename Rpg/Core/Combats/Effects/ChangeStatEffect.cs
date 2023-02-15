@@ -34,7 +34,7 @@ public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffe
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
         var lifetime = (ICombatantEffectLifetime)Activator.CreateInstance(BaseEffect.LifetimeType)!;
-        var combatantEffect = new ChangeStateCombatantEffect(lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
+        var combatantEffect = new ChangeStatCombatantEffect(lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
         target.AddEffect(combatantEffect);
     }
 }

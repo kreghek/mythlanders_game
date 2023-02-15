@@ -5,12 +5,14 @@ namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffect: IEffect
 {
-    public ModifyEffectsEffect(ITargetSelector selector)
+    public ModifyEffectsEffect(ITargetSelector selector, int value)
     {
         Selector = selector;
+        Value = value;
     }
 
     public ITargetSelector Selector { get; }
+    public int Value { get; }
 
     public IEffectInstance CreateInstance()
     {
@@ -20,12 +22,12 @@ public sealed class ModifyEffectsEffect: IEffect
 
 public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffectsEffect>
 {
-    public ModifyEffectsEffectInstance(ModifyEffectsEffect baseEffect): base(baseEffect)
+    public ModifyEffectsEffectInstance(ModifyEffectsEffect baseEffect) : base(baseEffect)
     {
     }
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        target.AddEffect(new ModifyEffectsCombatantEffect(new MultipleCombatantTurnEffectLifetime(2)));
+        target.AddEffect(new ModifyEffectsCombatantEffect(new MultipleCombatantTurnEffectLifetime(2), BaseEffect.Value));
     }
 }

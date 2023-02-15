@@ -1,10 +1,10 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ChangeStateCombatantEffect : ICombatantEffect
+public sealed class ChangeStatCombatantEffect : ICombatantEffect
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStateCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
+    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
     {
         StatType = statType;
         Value = value;
@@ -36,18 +36,19 @@ public sealed class ChangeStateCombatantEffect : ICombatantEffect
 
 public sealed class ModifyEffectsCombatantEffect: ICombatantEffect
 {
-    private readonly IEffectModifier _modifier;
     private readonly IUnitStatModifier _statModifier;
 
-    public ModifyEffectsCombatantEffect(ICombatantEffectLifetime lifetime)
+    public ModifyEffectsCombatantEffect(ICombatantEffectLifetime lifetime, int value)
     {
         Lifetime = lifetime;
-
-        _modifier = new EffectModifier(1);
-        _statModifier = new StatModifier(1);
+        Value = value;
+        _statModifier = new StatModifier(Value);
     }
 
     public ICombatantEffectLifetime Lifetime { get; }
+
+    public int Value { get; }
+
     public void Dispel(Combatant combatant)
     {
         foreach (var combatMovementInstance in combatant.Hand)

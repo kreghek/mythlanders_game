@@ -333,8 +333,12 @@ internal static class Program
     {
         switch (effect)
         {
-            case ChangeStateCombatantEffect combatantEffect:
-                Console.WriteLine($"{combatantEffect.StatType} +{combatantEffect.Value} on {combatantEffect.Lifetime}");
+            case ChangeStatCombatantEffect changeStatEffect:
+                Console.WriteLine($"{changeStatEffect.StatType} +{changeStatEffect.Value} during {changeStatEffect.Lifetime}");
+                break;
+
+            case ModifyEffectsCombatantEffect modifyEffect:
+                Console.WriteLine($"+{modifyEffect.Value} Damage during {modifyEffect.Lifetime}");
                 break;
         }
     }
