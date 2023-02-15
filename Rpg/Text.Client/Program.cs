@@ -345,7 +345,7 @@ internal static class Program
         switch (effect)
         {
             case DamageEffectInstance attackEffect:
-                Console.Write($"Attack: {attackEffect.Damage.Min.Current}");
+                Console.Write($"Attack: {attackEffect.Damage.Min.ActualMax}");
                 if (attackEffect.BaseEffect.DamageType != DamageType.Normal) Console.Write($" ({attackEffect.BaseEffect.DamageType})");
 
                 break;

@@ -54,6 +54,6 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 
     public override void RemoveModifier(IUnitStatModifier modifier)
     {
-        Damage.Max.RemoveModifier(modifier);
+        Damage.Min.RemoveModifier(modifier);
     }
 }
