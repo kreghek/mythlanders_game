@@ -7,10 +7,10 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class TextEventStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly GlobeNodeSid _locationSid;
+    private readonly LocationSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public SideQuestStageTemplateFactory(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
+    public TextEventStageTemplateFactory(LocationSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;

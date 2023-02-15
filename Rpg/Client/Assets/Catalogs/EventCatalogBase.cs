@@ -96,7 +96,7 @@ namespace Rpg.Client.Assets.Catalogs
 
         private static LocationInfo GetLocationInfo(string location)
         {
-            var locationSid = Enum.Parse<GlobeNodeSid>(location);
+            var locationSid = Enum.Parse<LocationSid>(location);
             var biomeValue = (((int)locationSid) / 100) * 100;
             var biome = (BiomeType)biomeValue;
             return new LocationInfo { Biome = biome, LocationSid = locationSid };
@@ -168,7 +168,7 @@ namespace Rpg.Client.Assets.Catalogs
         private sealed record LocationInfo
         {
             public BiomeType Biome { get; init; }
-            public GlobeNodeSid LocationSid { get; init; }
+            public LocationSid LocationSid { get; init; }
         }
     }
 }

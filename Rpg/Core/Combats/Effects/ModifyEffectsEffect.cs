@@ -1,30 +1,31 @@
+using Core.Combats.CombatantEffectLifetimes;
+using Core.Combats.CombatantEffects;
+
 namespace Core.Combats.Effects;
 
 public sealed class ModifyEffectsEffect: IEffect
 {
-    public ITargetSelector Selector { get; }
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public ModifyEffectsEffect(ITargetSelector selector)
     {
-        throw new NotImplementedException();
+        Selector = selector;
+    }
+
+    public ITargetSelector Selector { get; }
+
+    public IEffectInstance CreateInstance()
+    {
+        return new ModifyEffectsEffectInstance(this);
     }
 }
 
-public sealed class ModifyEffectsEffectInstance : IEffectInstance
+public sealed class ModifyEffectsEffectInstance : EffectInstanceBase<ModifyEffectsEffect>
 {
-    private int _value;
-    public ITargetSelector Selector { get; }
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public ModifyEffectsEffectInstance(ModifyEffectsEffect baseEffect): base(baseEffect)
     {
-        target.AddEffect(new Com);
     }
 
-    public void AddModifier(IUnitStatModifier modifier)
+    public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        throw new NotImplementedException();
-    }
-
-    public void RemoveModifier(IUnitStatModifier modifier)
-    {
-        throw new NotImplementedException();
+        target.AddEffect(new ModifyEffectsCombatantEffect(new ToNextCombatantTurnEffectLifetime()));
     }
 }

@@ -17,7 +17,7 @@ namespace Rpg.Client.Core
 
         public bool IsLast { get; internal set; }
 
-        public GlobeNodeSid Sid { get; set; }
+        public LocationSid Sid { get; set; }
 
         public void AssignEvent(Event locationEvent)
         {

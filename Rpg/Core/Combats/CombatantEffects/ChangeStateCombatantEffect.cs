@@ -37,18 +37,29 @@ public sealed class ChangeStateCombatantEffect : ICombatantEffect
 public sealed class ModifyEffectsCombatantEffect: ICombatantEffect
 {
     private readonly IEffectModifier _modifier;
+    private readonly IUnitStatModifier _statModifier;
 
     public ModifyEffectsCombatantEffect(ICombatantEffectLifetime lifetime)
     {
         Lifetime = lifetime;
 
         _modifier = new EffectModifier(1);
+        _statModifier = new StatModifier(1);
     }
 
     public ICombatantEffectLifetime Lifetime { get; }
     public void Dispel(Combatant combatant)
     {
-        throw new NotImplementedException();
+        foreach (var combatMovementInstance in combatant.Hand)
+        {
+            if (combatMovementInstance is not null)
+            {
+                foreach (var effectInstance in combatMovementInstance.Effects)
+                {
+                    effectInstance.RemoveModifier(_statModifier);
+                }
+            }
+        }
     }
 
     public void Impose(Combatant combatant)
@@ -59,7 +70,7 @@ public sealed class ModifyEffectsCombatantEffect: ICombatantEffect
             {
                 foreach (var effectInstance in combatMovementInstance.Effects)
                 {
-                    effectInstance.AddModifier();
+                    effectInstance.AddModifier(_statModifier);
                 }
             }
         }

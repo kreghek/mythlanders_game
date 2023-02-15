@@ -5,7 +5,7 @@ namespace Rpg.Client.Core.Campaigns
 {
     internal sealed class HeroCampaign
     {
-        public HeroCampaign(GlobeNodeSid location, IReadOnlyList<CampaignStage> campaignStages)
+        public HeroCampaign(LocationSid location, IReadOnlyList<CampaignStage> campaignStages)
         {
             Location = location;
             CampaignStages = campaignStages;
@@ -16,7 +16,7 @@ namespace Rpg.Client.Core.Campaigns
         public int CurrentStageIndex { get; private set; }
 
         public bool IsCampaignComplete => CampaignStages.All(x => x.IsCompleted);
-        public GlobeNodeSid Location { get; }
+        public LocationSid Location { get; }
 
         internal void CompleteCurrentStage()
         {

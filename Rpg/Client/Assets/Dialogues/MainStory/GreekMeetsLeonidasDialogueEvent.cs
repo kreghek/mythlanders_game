@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Dialogues.MainStory
             {
                 new LocationEventRequirement(new[]
                 {
-                    GlobeNodeSid.ShipGraveyard
+                    LocationSid.ShipGraveyard
                 })
             };
         }

@@ -49,7 +49,7 @@ namespace Rpg.Client.Core.Dialogues
             throw new NotImplementedException();
         }
 
-        public void UnlockLocation(GlobeNodeSid locationSid)
+        public void UnlockLocation(LocationSid locationSid)
         {
             //_globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
         }

@@ -21,7 +21,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Bear,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Swamp
+                    LocationSid.Battleground, LocationSid.DestroyedVillage, LocationSid.Swamp
                 },
                 IsMonster = true,
 

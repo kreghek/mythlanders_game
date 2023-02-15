@@ -19,10 +19,22 @@ public sealed class ChangeStatEffect : IEffect
 
     public ITargetSelector Selector { get; }
 
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public IEffectInstance CreateInstance()
     {
-        var lifetime = (ICombatantEffectLifetime)Activator.CreateInstance(LifetimeType)!;
-        var combatantEffect = new ChangeStateCombatantEffect(lifetime, TargetStatType, Value);
+        return new ChangeStatEffectInstance(this);
+    }
+}
+
+public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffect>
+{
+    public ChangeStatEffectInstance(ChangeStatEffect baseEffect): base(baseEffect)
+    {
+    }
+
+    public override void Influence(Combatant target, IEffectCombatContext context)
+    {
+        var lifetime = (ICombatantEffectLifetime)Activator.CreateInstance(BaseEffect.LifetimeType)!;
+        var combatantEffect = new ChangeStateCombatantEffect(lifetime, BaseEffect.TargetStatType, BaseEffect.Value);
         target.AddEffect(combatantEffect);
     }
 }

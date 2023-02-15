@@ -24,7 +24,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         _dice = dice;
     }
 
-    private HeroCampaign CreateCampaign(GlobeNodeSid locationSid, int length)
+    private HeroCampaign CreateCampaign(LocationSid locationSid)
     {
         var shortTemplate = CreateShortTemplate(locationSid);
 
@@ -62,7 +62,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private ICampaignStageTemplateFactory[][] CreateShortTemplate(GlobeNodeSid locationSid)
+    private ICampaignStageTemplateFactory[][] CreateShortTemplate(LocationSid locationSid)
     {
         return new ICampaignStageTemplateFactory[][] {
             // Combat
@@ -141,7 +141,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     }, _services),
 
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-                    new SideQuestStageTemplateFactory(locationSid, _services),
+                    new TextEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)
@@ -165,10 +165,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         var availbleLocations = new[]
         {
-            GlobeNodeSid.Thicket,
-            GlobeNodeSid.Monastery,
-            GlobeNodeSid.ShipGraveyard,
-            GlobeNodeSid.Desert
+            LocationSid.Thicket,
+            LocationSid.Monastery,
+            LocationSid.ShipGraveyard,
+            LocationSid.Desert
         };
 
         var campaignLengths = new[] { 6, 12, 24 };
@@ -181,7 +181,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
             var location = selectedLocations[i];
             var length = campaignLengths[i];
 
-            var campaign = CreateCampaign(location, length);
+            var campaign = CreateCampaign(location);
 
             list.Add(campaign);
         }

@@ -1,4 +1,5 @@
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 

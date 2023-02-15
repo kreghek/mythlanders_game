@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Dialogues.MainStory
             {
                 new LocationEventRequirement(new[]
                 {
-                    GlobeNodeSid.Battleground
+                    LocationSid.Battleground
                 }),
                 new RequiredEventsCompletedEventRequirement(eventCatalog, new[] { "SlavicMain2" })
             };

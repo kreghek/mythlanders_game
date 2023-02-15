@@ -14,11 +14,23 @@ public sealed class ChangePositionEffect : IEffect
 
     public ITargetSelector Selector { get; }
 
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public IEffectInstance CreateInstance()
+    {
+        return new ChangePositionEffectInstance(this);
+    }
+}
+
+public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePositionEffect>
+{
+    public ChangePositionEffectInstance(ChangePositionEffect baseEffect): base(baseEffect)
+    {
+    }
+
+    public override void Influence(Combatant target, IEffectCombatContext context)
     {
         var currentCoords = context.Field.HeroSide.GetCombatantCoords(target);
 
-        var targetCoords = Direction switch
+        var targetCoords = BaseEffect.Direction switch
         {
             ChangePositionEffectDirection.ToVanguard => currentCoords with
             {

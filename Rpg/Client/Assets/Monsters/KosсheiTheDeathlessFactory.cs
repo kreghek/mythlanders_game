@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Monsters
                 },
 
                 UnitGraphicsConfig = new SingleSpriteGraphicsConfig(),
-                LocationSids = new[] { GlobeNodeSid.Castle },
+                LocationSids = new[] { LocationSid.Castle },
                 MinRequiredBiomeLevel = 10,
 
                 SchemeAutoTransition = new UnitSchemeAutoTransition

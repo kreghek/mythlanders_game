@@ -65,7 +65,7 @@ public class CombatCore
         StartRound();
     }
 
-    public CombatMovementExecution UseCombatMovement(CombatMovement movement)
+    public CombatMovementExecution UseCombatMovement(CombatMovementInstance movement)
     {
         var effectContext = new EffectCombatContext(Field, _dice,
             (combatant, statType, value) =>
@@ -76,16 +76,16 @@ public class CombatCore
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
-        foreach (var effect in movement.Effects)
+        foreach (var effectInstanse in movement.Effects)
         {
             void EffectInfluenceDelegate(Combatant materializedTarget)
             {
-                effect.Influence(materializedTarget, effectContext);
+                effectInstanse.Influence(materializedTarget, effectContext);
             }
 
-            var effectTargets = effect.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
+            var effectTargets = effectInstanse.Selector.Get(CurrentCombatant, GetCurrentSelectorContext());
 
-            if (movement.Tags.HasFlag(CombatMovementTags.Attack))
+            if (movement.SourceMovement.Tags.HasFlag(CombatMovementTags.Attack))
                 foreach (var effectTarget in effectTargets)
                 {
                     var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
@@ -101,7 +101,7 @@ public class CombatCore
                             }
 
                             var autoDefenseEffectTargets =
-                                effect.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
+                                effectInstanse.Selector.Get(effectTarget, GetSelectorContext(effectTarget));
 
                             var autoDefenseEffectImposeItem =
                                 new CombatEffectImposeItem(AutoEffectInfluenceDelegate, autoDefenseEffectTargets);
@@ -166,9 +166,9 @@ public class CombatCore
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
 
-    private static CombatMovement? GetAutoDefenseMovement(Combatant target)
+    private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
     {
-        return target.Hand.FirstOrDefault(x => x != null && x.Tags.HasFlag(CombatMovementTags.AutoDefense));
+        return target.Hand.FirstOrDefault(x => x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
 
     private FieldCoords GetCurrentCoords()

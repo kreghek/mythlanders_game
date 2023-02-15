@@ -3,26 +3,19 @@ using Core.Dices;
 
 namespace Core.Combats;
 
-public sealed class DamageEffectInstance : IEffectInstance
+public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 {
-    private readonly DamageEffect _damageEffect;
-    private IList<IEffectModifier> _modifiers;
 
-    private Range<IStatValue> _damage;
-    public DamageEffectInstance(DamageEffect damageEffect)
+    public DamageEffectInstance(DamageEffect damageEffect): base(damageEffect)
     {
-        _damageEffect = damageEffect;
-
-        _damage = new Range<IStatValue>(new StatValue(damageEffect.Damage.Min), new StatValue(damageEffect.Damage.Max));
-
-        _modifiers = new List<IEffectModifier>();
+        Damage = new Range<IStatValue>(new StatValue(damageEffect.Damage.Min), new StatValue(damageEffect.Damage.Max));
     }
 
-    public ITargetSelector Selector => _damageEffect.Selector;
+    public Range<IStatValue> Damage { get; }
 
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        var rolledDamage = context.Dice.Roll(_damage.Min.ActualMax, _damage.Max.ActualMax);
+        var rolledDamage = context.Dice.Roll(Damage.Min.ActualMax, Damage.Max.ActualMax);
 
         var absorbedDamage =
             Math.Max(rolledDamage - target.Stats.Single(x => x.Type == UnitStatType.Defense).Value.Current, 0);
@@ -31,7 +24,7 @@ public sealed class DamageEffectInstance : IEffectInstance
 
         context.NotifyCombatantDamaged(target, UnitStatType.ShieldPoints, absorbedDamage - damageRemains);
 
-        if (_damageEffect.DamageType == DamageType.ShieldsOnly) return;
+        if (BaseEffect.DamageType == DamageType.ShieldsOnly) return;
 
         if (damageRemains > 0)
         {
@@ -54,13 +47,13 @@ public sealed class DamageEffectInstance : IEffectInstance
         return remains;
     }
 
-    public void AddModifier(IUnitStatModifier modifier)
+    public override void AddModifier(IUnitStatModifier modifier)
     {
-        _damage.Min.AddModifier(modifier);
+        Damage.Min.AddModifier(modifier);
     }
 
-    public void RemoveModifier(IUnitStatModifier modifier)
+    public override void RemoveModifier(IUnitStatModifier modifier)
     {
-        _damage.Max.RemoveModifier(modifier);
+        Damage.Max.RemoveModifier(modifier);
     }
 }

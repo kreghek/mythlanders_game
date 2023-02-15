@@ -46,10 +46,10 @@ internal static class Program
                     break;
 
                 case ClientState.MoveInfo:
-                    var movement2 = (CombatMovement)transition.Parameters[0];
+                    var selectedMovement = (CombatMovementInstance)transition.Parameters[0];
                     var combatant2 = (transition.Parameters[1]) as Combatant;
                     HandleMoveDetailedInfo(combatCore: combatCore, stateMachine: clientStateMachine, combatant2,
-                        movement2);
+                        selectedMovement);
                     break;
             }
         });
@@ -206,10 +206,10 @@ internal static class Program
 
     private static void HandleMoveDetailedInfo(CombatCore combatCore,
         StateMachine<ClientState, ClientStateTrigger> stateMachine, Combatant targetCombatant,
-        CombatMovement movement)
+        CombatMovementInstance movement)
     {
         var selectorContext = combatCore.GetCurrentSelectorContext();
-        Console.WriteLine($"{movement.Sid} targets:");
+        Console.WriteLine($"{movement.SourceMovement.Sid} targets:");
         foreach (var effect in movement.Effects)
         {
             PrintEffectDetailedInfo(effect);
@@ -339,27 +339,27 @@ internal static class Program
         }
     }
 
-    private static void PrintEffectDetailedInfo(IEffect effect)
+    private static void PrintEffectDetailedInfo(IEffectInstance effect)
     {
         Console.WriteLine();
         switch (effect)
         {
-            case DamageEffect attackEffect:
-                Console.Write($"Attack: {attackEffect.Damage.Min}");
-                if (attackEffect.DamageType != DamageType.Normal) Console.Write($" ({attackEffect.DamageType})");
+            case DamageEffectInstance attackEffect:
+                Console.Write($"Attack: {attackEffect.Damage.Min.Current}");
+                if (attackEffect.BaseEffect.DamageType != DamageType.Normal) Console.Write($" ({attackEffect.BaseEffect.DamageType})");
 
                 break;
 
-            case ChangeStatEffect buffEffect:
-                Console.Write($"Buff: +{buffEffect.Value} {buffEffect.TargetStatType} on {buffEffect.LifetimeType}");
+            case ChangeStatEffectInstance buffEffect:
+                Console.Write($"Buff: +{buffEffect.BaseEffect.Value} {buffEffect.BaseEffect.TargetStatType} on {buffEffect.BaseEffect.LifetimeType}");
                 break;
 
-            case ChangeCurrentStatEffect controlEffect:
-                Console.Write($"{controlEffect.StatValue.Min} {controlEffect.TargetStatType}");
+            case ChangeCurrentStatEffectInstance controlEffect:
+                Console.Write($"{controlEffect.BaseEffect.StatValue.Min} {controlEffect.BaseEffect.TargetStatType}");
                 break;
 
-            case ChangePositionEffect repositionEffect:
-                Console.Write($"{repositionEffect.Direction}");
+            case ChangePositionEffectInstance repositionEffect:
+                Console.Write($"{repositionEffect.BaseEffect.Direction}");
                 break;
         }
 
@@ -391,7 +391,7 @@ internal static class Program
         foreach (var movement in targetCombatant.Hand)
         {
             if (movement is not null)
-                Console.WriteLine($"{moveIndex}: {movement.Sid}");
+                Console.WriteLine($"{moveIndex}: {movement.SourceMovement.Sid}");
             else
                 Console.WriteLine($"{moveIndex}: -");
 
