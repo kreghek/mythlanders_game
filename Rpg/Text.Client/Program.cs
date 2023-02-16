@@ -122,17 +122,16 @@ internal static class Program
         }
     }
 
-    private static Combatant? GetCombatantByShortSid(CombatCore combatCore1, string shortSid)
+    private static Combatant? GetCombatantByShortSid(CombatCore combatCore, string shortSid)
     {
         for (var colIndex = 0; colIndex < 2; colIndex++)
             for (var lineIndex = 0; lineIndex < 3; lineIndex++)
             {
-                Combatant? foundCombatant = null;
-                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.HeroSide);
+                var foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.HeroSide);
 
                 if (foundCombatant is not null) return foundCombatant;
 
-                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore1.Field.MonsterSide);
+                foundCombatant = CheckSlot(shortSid, colIndex, lineIndex, combatCore.Field.MonsterSide);
                 if (foundCombatant is not null) return foundCombatant;
             }
 
@@ -152,7 +151,7 @@ internal static class Program
         foreach (var effect in targetCombatant.Effects) PrintCombatantEffectInfo(effect);
 
         Console.WriteLine("Available movements:");
-        PrintMovementsInfo(targetCombatant);
+        PrintMovementsHand(targetCombatant);
 
         while (true)
         {
@@ -267,10 +266,7 @@ internal static class Program
                 {
                     var coords = new FieldCoords(columnIndex, lineIndex);
                     var heroSlot = combatCore.Field.HeroSide[coords];
-                    if (heroSlot.Combatant is not null)
-                        Console.Write($" ({heroSlot.Combatant.Sid.First()}) ");
-                    else
-                        Console.Write(" - - ");
+                    PrintSlot(heroSlot);
                 }
 
                 Console.Write("    ");
@@ -279,16 +275,38 @@ internal static class Program
                 {
                     var coords = new FieldCoords(columnIndex, lineIndex);
                     var monsterSlot = combatCore.Field.MonsterSide[coords];
-                    if (monsterSlot.Combatant is not null)
-                        Console.Write($" ({monsterSlot.Combatant.Sid.First()}) ");
-                    else
-                        Console.Write(" - - ");
+                    PrintSlot(monsterSlot);
                 }
 
                 Console.WriteLine();
             }
 
+            // Print combatants stats
+
+            for (var columnIndex = 1; columnIndex >= 0; columnIndex--)
+            {
+                for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+                {
+                    var coords = new FieldCoords(columnIndex, lineIndex);
+                    var heroSlot = combatCore.Field.HeroSide[coords];
+                    PrintCombatantShortInfo(heroSlot);
+                }
+            }
+
+            for (var columnIndex = 0; columnIndex < 2; columnIndex++)
+            {
+                for (var lineIndex = 0; lineIndex < 3; lineIndex++)
+                {
+                    var coords = new FieldCoords(columnIndex, lineIndex);
+                    var monsterSlot = combatCore.Field.MonsterSide[coords];
+                    PrintCombatantShortInfo(monsterSlot);
+                }
+            }
+
+
             // Print current combatant
+
+            Console.WriteLine(new string('-', 5) + "CURRENT" + new string('-', 5));
 
             Console.Write($"Turn of {combatCore.CurrentCombatant.Sid}");
 
@@ -300,7 +318,7 @@ internal static class Program
             // Print current combatant moves
 
             Console.WriteLine("Moves:");
-            PrintMovementsInfo(combatCore.CurrentCombatant);
+            PrintMovementsHand(combatCore.CurrentCombatant);
 
             Console.WriteLine(new string('=', 10));
             Console.WriteLine("- info {sid} - to display detailed combatant's info");
@@ -326,6 +344,23 @@ internal static class Program
             if (command.StartsWith("move"))
                 ExecuteCombatMoveCommand(combatCore, command);
             else if (command.StartsWith("step")) ExecuteManeuverCommand(combatCore, command);
+        }
+    }
+
+    private static void PrintSlot(FormationSlot slot)
+    {
+        if (slot.Combatant is not null)
+            Console.Write($" ({slot.Combatant.Sid.First()}) ");
+        else
+            Console.Write(" - - ");
+    }
+
+    private static void PrintCombatantShortInfo(FormationSlot slot)
+    {
+        var combatant = slot.Combatant;
+        if (combatant is not null)
+        {
+            Console.WriteLine($"{combatant.Sid} HP: {combatant.Stats.SingleOrDefault(x=>x.Type == UnitStatType.HitPoints).Value.Current} SP: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.ShieldPoints).Value.Current} R: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.Resolve).Value.Current}");
         }
     }
 
@@ -389,13 +424,13 @@ internal static class Program
         Console.WriteLine();
     }
 
-    private static void PrintMovementsInfo(Combatant targetCombatant)
+    private static void PrintMovementsHand(Combatant targetCombatant)
     {
         var moveIndex = 0;
-        foreach (var movement in targetCombatant.Hand)
+        foreach (var movementInstanсe in targetCombatant.Hand)
         {
-            if (movement is not null)
-                Console.WriteLine($"{moveIndex}: {movement.SourceMovement.Sid}");
+            if (movementInstanсe is not null)
+                Console.WriteLine($"{moveIndex}: {movementInstanсe.SourceMovement.Sid} (cost: {movementInstanсe.SourceMovement.Cost.Value})");
             else
                 Console.WriteLine($"{moveIndex}: -");
 

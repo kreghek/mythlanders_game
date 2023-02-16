@@ -12,7 +12,15 @@ internal static class CombatantFactory
         {
             new FormationSlot(0, 1)
             {
-                Combatant = swordsmanHero.Create("Berimir")
+                Combatant = swordsmanHero.Create("Berimir"),
+            },
+            new FormationSlot(1, 0)
+            {
+                Combatant = swordsmanHero.Create("Warrior"),
+            },
+            new FormationSlot(1, 2)
+            {
+                Combatant = swordsmanHero.Create("Soldier"),
             }
         };
     }

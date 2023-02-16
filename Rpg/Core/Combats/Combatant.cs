@@ -52,7 +52,23 @@ public class Combatant
     
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 
-    public IReadOnlyCollection<CombatMovementInstance?> Hand => _hand;
+    public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
+
+    public CombatMovementInstance? PopNextPoolMovement()
+    {
+        var move = _pool.FirstOrDefault();
+        if (move is not null)
+        {
+            _pool.RemoveAt(0);
+        }
+
+        return move;
+    }
+
+    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
+    {
+        _hand[handIndex] = movement;
+    }
 
     public bool IsDead { get; }
 
@@ -101,7 +117,7 @@ public class Combatant
         }
     }
 
-    internal void DropMovement(CombatMovementInstance movement)
+    internal void DropMovementFromHand(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
             if (_hand[i] == movement)

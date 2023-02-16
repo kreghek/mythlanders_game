@@ -28,7 +28,9 @@ public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePosi
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
-        var currentCoords = context.Field.HeroSide.GetCombatantCoords(target);
+        var targetSide = GetTargetSide(target, context.Field);
+
+        var currentCoords = targetSide.GetCombatantCoords(target);
 
         var targetCoords = BaseEffect.Direction switch
         {
@@ -43,10 +45,24 @@ public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePosi
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var targetCombatant = context.Field.HeroSide[targetCoords].Combatant;
+        var targetCombatant = targetSide[targetCoords].Combatant;
 
-        context.Field.HeroSide[targetCoords].Combatant = target;
-        context.Field.HeroSide[currentCoords].Combatant = targetCombatant;
+        targetSide[targetCoords].Combatant = target;
+        targetSide[currentCoords].Combatant = targetCombatant;
+    }
+
+    private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
+    {
+        try
+        {
+            var _ = field.HeroSide.GetCombatantCoords(target);
+            return field.HeroSide;
+        }
+        catch (ArgumentException)
+        {
+            var _ = field.MonsterSide.GetCombatantCoords(target);
+            return field.MonsterSide;
+        }
     }
 }
 

@@ -6,7 +6,7 @@ namespace Core.Combats;
 
 public class CombatCore
 {
-    private readonly IList<Combatant> _allUnitList;
+    private readonly IList<Combatant> _allCombatantList;
 
     private readonly IDice _dice;
     private readonly IList<Combatant> _roundQueue;
@@ -16,7 +16,7 @@ public class CombatCore
         _dice = dice;
         Field = new CombatField();
 
-        _allUnitList = new Collection<Combatant>();
+        _allCombatantList = new Collection<Combatant>();
         _roundQueue = new List<Combatant>();
     }
 
@@ -60,7 +60,7 @@ public class CombatCore
         InitializeCombatFieldSide(heroes, Field.HeroSide);
         InitializeCombatFieldSide(monsters, Field.MonsterSide);
 
-        foreach (var combatant in _allUnitList) combatant.StartCombat();
+        foreach (var combatant in _allCombatantList) combatant.StartCombat();
 
         StartRound();
     }
@@ -110,7 +110,7 @@ public class CombatCore
                         }
 
                         _roundQueue.Remove(effectTarget);
-                        effectTarget.DropMovement(targetDefenseMovement);
+                        effectTarget.DropMovementFromHand(targetDefenseMovement);
                     }
                 }
 
@@ -123,7 +123,7 @@ public class CombatCore
         {
             CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Resolve).Value.Consume(1);
 
-            CurrentCombatant.DropMovement(movement);
+            CurrentCombatant.DropMovementFromHand(movement);
         }
 
         var movementExecution = new CombatMovementExecution(CompleteSkillAction, effectImposeItems);
@@ -198,7 +198,7 @@ public class CombatCore
                 var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
                 side[coords].Combatant = slot.Combatant;
 
-                _allUnitList.Add(slot.Combatant);
+                _allCombatantList.Add(slot.Combatant);
             }
     }
 
@@ -206,7 +206,7 @@ public class CombatCore
     {
         _roundQueue.Clear();
 
-        var orderedByResolve = _allUnitList
+        var orderedByResolve = _allCombatantList
             .OrderByDescending(x => x.Stats.Single(s => s.Type == UnitStatType.Resolve).Value.ActualMax)
             .ThenByDescending(x => x.IsPlayerControlled)
             .ToArray();
@@ -224,14 +224,48 @@ public class CombatCore
     private void StartRound()
     {
         MakeUnitRoundQueue();
+        RestoreShields();
+        RestoreHands();
 
         UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
     }
 
+    private void RestoreHands()
+    {
+        foreach (var combatant in _allCombatantList)
+        {
+            for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
+            {
+                if (combatant.Hand[handSlotIndex] is null)
+                {
+                    var nextMove = combatant.PopNextPoolMovement();
+                    if (nextMove is not null)
+                    {
+                        combatant.AssignMoveToHand(handSlotIndex, nextMove);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void RestoreShields()
+    {
+        foreach (var combatant in _allCombatantList)
+        {
+            var shields = combatant.Stats.Single(x => x.Type == UnitStatType.ShieldPoints);
+            var valueToRestore = shields.Value.ActualMax - shields.Value.Current;
+            shields.Value.Restore(valueToRestore);
+        }
+    }
+
     private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType)
     {
-        foreach (var combatant in _allUnitList)
+        foreach (var combatant in _allCombatantList)
             if (!combatant.IsDead)
                 combatant.UpdateEffects(updateType);
     }
