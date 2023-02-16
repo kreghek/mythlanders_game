@@ -17,7 +17,7 @@ public class SwordsmanFartory
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                            new ModifyEffectsEffect(new SelfTargetSelector())
+                            new ModifyEffectsEffect(new SelfTargetSelector(), 1)
                 })
         ));
 
