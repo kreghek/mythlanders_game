@@ -2,7 +2,6 @@ using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
-using System;
 
 namespace Text.Client;
 
@@ -17,7 +16,7 @@ public class SwordsmanFartory
             CombatMovementEffectConfig.Create(
                 new IEffect[]
                 {
-                            new ModifyEffectsEffect(new SelfTargetSelector(), 1)
+                    new ModifyEffectsEffect(new SelfTargetSelector(), 1)
                 })
         ));
 
