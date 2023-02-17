@@ -19,6 +19,9 @@ internal static class Program
         var combatCore = new CombatCore(new LinearDice());
 
         combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
+        combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
+        combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
+        combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
 
         combatCore.Initialize(
             CombatantFactory.CreateHeroes(),
@@ -55,6 +58,21 @@ internal static class Program
         });
 
         clientStateMachine.Fire(ClientStateTrigger.OnOverview);
+    }
+
+    private static void CombatCore_CombatantEndsTurn(object? sender, CombatantEndsTurnEventArgs e)
+    {
+        Console.WriteLine($"{e.Combatant.Sid} ends turn");
+    }
+
+    private static void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
+    {
+        Console.WriteLine($"{e.Combatant.Sid} starts turn");
+    }
+
+    private static void CombatCore_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
+    {
+        Console.WriteLine($"! {e.Combatant.Sid} has been defeated");
     }
 
     private static Combatant? CheckSlot(string shortSid, int colIndex, int lineIndex,
@@ -340,10 +358,9 @@ internal static class Program
                     combatant);
                 break;
             }
-
-            if (command.StartsWith("move"))
-                ExecuteCombatMoveCommand(combatCore, command);
+            else if (command.StartsWith("move")) ExecuteCombatMoveCommand(combatCore, command);
             else if (command.StartsWith("step")) ExecuteManeuverCommand(combatCore, command);
+            else if (command.StartsWith("wait")) combatCore.Wait();
         }
     }
 
@@ -427,10 +444,10 @@ internal static class Program
     private static void PrintMovementsHand(Combatant targetCombatant)
     {
         var moveIndex = 0;
-        foreach (var movementInstanсe in targetCombatant.Hand)
+        foreach (var movementInstance in targetCombatant.Hand)
         {
-            if (movementInstanсe is not null)
-                Console.WriteLine($"{moveIndex}: {movementInstanсe.SourceMovement.Sid} (cost: {movementInstanсe.SourceMovement.Cost.Value})");
+            if (movementInstance is not null)
+                Console.WriteLine($"{moveIndex}: {movementInstance.SourceMovement.Sid} (cost: {movementInstance.SourceMovement.Cost.Value})");
             else
                 Console.WriteLine($"{moveIndex}: -");
 

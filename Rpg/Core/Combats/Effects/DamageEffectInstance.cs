@@ -1,7 +1,6 @@
-using Core.Combats.Effects;
 using Core.Dices;
 
-namespace Core.Combats;
+namespace Core.Combats.Effects;
 
 public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 {
@@ -50,10 +49,12 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
     public override void AddModifier(IUnitStatModifier modifier)
     {
         Damage.Min.AddModifier(modifier);
+        Damage.Max.AddModifier(modifier);
     }
 
     public override void RemoveModifier(IUnitStatModifier modifier)
     {
         Damage.Min.RemoveModifier(modifier);
+        Damage.Max.RemoveModifier(modifier);
     }
 }

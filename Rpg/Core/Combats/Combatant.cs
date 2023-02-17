@@ -1,28 +1,5 @@
 namespace Core.Combats;
 
-public interface IEffectModifier
-{
-    int Value { get; }
-}
-
-public sealed class EffectModifier: IEffectModifier
-{
-    public EffectModifier(int value)
-    {
-        Value = value;
-    }
-
-    public int Value { get; }
-}
-
-public interface IEffectInstance
-{
-    void Influence(Combatant target, IEffectCombatContext context);
-    void AddModifier(IUnitStatModifier modifier);
-    void RemoveModifier(IUnitStatModifier modifier);
-    ITargetSelector Selector { get; }
-}
-
 public class Combatant
 {
     private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
@@ -70,13 +47,18 @@ public class Combatant
         _hand[handIndex] = movement;
     }
 
-    public bool IsDead { get; }
+    public bool IsDead { get; private set; }
 
     public bool IsPlayerControlled { get; init; }
 
     public string? Sid { get; init; }
 
     public IReadOnlyCollection<IUnitStat> Stats { get; }
+
+    public void SetDead()
+    {
+        IsDead = true;
+    }
 
     public void AddEffect(ICombatantEffect effect)
     {

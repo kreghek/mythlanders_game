@@ -9,8 +9,10 @@ public class DigitalWolfFactory
 {
     public Combatant Create(string sid)
     {
-        var monsterSequence = new CombatMovementSequence();
-        monsterSequence.Items.Add(new CombatMovement("Wolf teeth",
+        // ReSharper disable once UseObjectOrCollectionInitializer
+        var list = new List<CombatMovement>();
+        
+        list.Add(new CombatMovement("Wolf teeth",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
@@ -18,12 +20,15 @@ public class DigitalWolfFactory
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
                             DamageType.Normal,
-                            Range<int>.CreateMono(3))
+                            Range<int>.CreateMono(3)),
+                        new ChangePositionEffect(
+                            new SelfTargetSelector(),
+                            ChangePositionEffectDirection.ToVanguard)
                     })
             )
         );
 
-        monsterSequence.Items.Add(new CombatMovement("Veles protection",
+        list.Add(new CombatMovement("Veles protection",
                 new CombatMovementCost(1),
                 new CombatMovementEffectConfig(
                     new IEffect[]
@@ -48,7 +53,7 @@ public class DigitalWolfFactory
         }
         );
 
-        monsterSequence.Items.Add(new CombatMovement("Cyber claws",
+        list.Add(new CombatMovement("Cyber claws",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
                     new IEffect[]
@@ -60,6 +65,15 @@ public class DigitalWolfFactory
                     })
             )
         );
+        
+        var monsterSequence = new CombatMovementSequence();
+        for (var i = 0; i < 2; i++)
+        {
+            foreach (var combatMovement in list)
+            {
+                monsterSequence.Items.Add(combatMovement);
+            }
+        }
 
         var monster = new Combatant(monsterSequence)
         {
