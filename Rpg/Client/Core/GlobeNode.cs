@@ -7,7 +7,7 @@ namespace Rpg.Client.Core
     internal sealed class GlobeNode
     {
         public CombatSequence? AssignedCombats { get; set; }
-        public Event? AssignedEvent { get; private set; }
+        public DialogueEvent? AssignedEvent { get; private set; }
 
         public BiomeType BiomeType { get; init; }
         public HeroCampaign? Campaign { get; set; }
@@ -20,7 +20,7 @@ namespace Rpg.Client.Core
 
         public LocationSid Sid { get; set; }
 
-        public void AssignEvent(Event locationEvent)
+        public void AssignEvent(DialogueEvent locationEvent)
         {
             AssignedEvent = locationEvent;
         }

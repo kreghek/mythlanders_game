@@ -3,7 +3,7 @@ using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal sealed class UnlockLocationOptionAftermath : IOptionAftermath
+    internal sealed class UnlockLocationOptionAftermath : IDialogueOptionAftermath
     {
         private readonly LocationSid _locationSid;
 

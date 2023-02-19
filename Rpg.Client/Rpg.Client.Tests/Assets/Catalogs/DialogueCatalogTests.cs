@@ -42,7 +42,7 @@ namespace Rpg.Client.Tests
             factDialogue.Root.TextBlock.Fragments.Should().HaveCount(1);
             factDialogue.Root.TextBlock.Fragments.First().Speaker.Should().Be(UnitName.Environment);
             factDialogue.Root.Options.Should().HaveCount(1);
-            factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
+            factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Rpg.Client.Tests
             factDialogue.Root.TextBlock.Fragments[0].Speaker.Should().Be(UnitName.Environment);
             factDialogue.Root.TextBlock.Fragments[1].Speaker.Should().Be(UnitName.Swordsman);
             factDialogue.Root.Options.Should().HaveCount(1);
-            factDialogue.Root.Options.First().Next.Should().Be(EventNode.EndNode);
+            factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
         }
 
         private string ReadResource(string name)

@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal class CombatOptionAftermath : IOptionAftermath
+    internal class CombatOptionAftermath : IDialogueOptionAftermath
     {
         private readonly string _sid;
 

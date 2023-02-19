@@ -11,12 +11,12 @@ using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
-internal sealed class SideStoryTextEventStageTemplateFactory : ICampaignStageTemplateFactory
+internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStageTemplateFactory
 {
     private readonly LocationSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public SideStoryTextEventStageTemplateFactory(LocationSid locationSid, CampaignStageTemplateServices services)
+    public SideStoryDialogueEventStageTemplateFactory(LocationSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;
@@ -30,7 +30,7 @@ internal sealed class SideStoryTextEventStageTemplateFactory : ICampaignStageTem
         return availableStoies.Any();
     }
 
-    private bool MeetRequirements(Event textEvent)
+    private bool MeetRequirements(DialogueEvent textEvent)
     {
         return textEvent.GetRequirements().All(r => r.IsApplicableFor(_services.GlobeProvider.Globe, _locationSid));
     }

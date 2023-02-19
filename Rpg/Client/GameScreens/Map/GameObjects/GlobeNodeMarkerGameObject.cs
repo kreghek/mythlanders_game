@@ -60,7 +60,7 @@ namespace Rpg.Client.GameScreens.Map.GameObjects
             AvailableEvent = globeNode.AssignedEvent;
         }
 
-        public Event? AvailableEvent { get; }
+        public DialogueEvent? AvailableEvent { get; }
 
         public CombatSource? CombatSource { get; }
         public GlobeNode GlobeNode { get; }

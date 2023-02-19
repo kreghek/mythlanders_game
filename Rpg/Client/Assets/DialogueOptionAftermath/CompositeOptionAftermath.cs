@@ -5,11 +5,11 @@ using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal sealed class CompositeOptionAftermath : IOptionAftermath
+    internal sealed class CompositeOptionAftermath : IDialogueOptionAftermath
     {
-        private readonly IOptionAftermath[] _list;
+        private readonly IDialogueOptionAftermath[] _list;
 
-        public CompositeOptionAftermath(IEnumerable<IOptionAftermath> list)
+        public CompositeOptionAftermath(IEnumerable<IDialogueOptionAftermath> list)
         {
             _list = list.ToArray();
         }

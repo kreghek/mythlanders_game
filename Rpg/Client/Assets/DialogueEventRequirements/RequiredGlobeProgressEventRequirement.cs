@@ -4,7 +4,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
-    internal sealed class RequiredGlobeProgressEventRequirement : ITextEventRequirement
+    internal sealed class RequiredGlobeProgressEventRequirement : IDialogueEventRequirement
     {
         private readonly int _progress;
 

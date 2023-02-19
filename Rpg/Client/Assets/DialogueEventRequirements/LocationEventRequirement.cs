@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
-    internal sealed class LocationEventRequirement : ITextEventRequirement
+    internal sealed class LocationEventRequirement : IDialogueEventRequirement
     {
         private readonly IReadOnlyCollection<LocationSid> _locationSids;
 

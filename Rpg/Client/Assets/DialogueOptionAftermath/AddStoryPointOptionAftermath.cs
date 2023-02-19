@@ -2,7 +2,7 @@
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal class AddStoryPointOptionAftermath : IOptionAftermath
+    internal class AddStoryPointOptionAftermath : IDialogueOptionAftermath
     {
         private readonly string _storyPointSid;
 

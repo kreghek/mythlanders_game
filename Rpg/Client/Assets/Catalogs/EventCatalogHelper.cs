@@ -12,7 +12,7 @@ namespace Rpg.Client.Assets.Catalogs
     {
         private const int SPEECH_TEXT_MAX_SYMBOL_COUNT = 60;
 
-        public static EventNode BuildEventNode(
+        public static DialogueNode BuildEventNode(
             EventNodeStorageModel nodeStorageModel, EventPosition position,
             string? aftermath,
             IUnitSchemeCatalog unitSchemeCatalog,
@@ -24,13 +24,13 @@ namespace Rpg.Client.Assets.Catalogs
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
-                var option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                    EventNode.EndNode)
+                var option = new DialogueOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                    DialogueNode.EndNode)
                 {
                     Aftermath = optionAftermath
                 };
 
-                return new EventNode
+                return new DialogueNode
                 {
                     CombatPosition = position,
                     Options = new[]
@@ -54,17 +54,17 @@ namespace Rpg.Client.Assets.Catalogs
 
                 var optionAftermath = CreateAftermath(aftermath, unitSchemeCatalog);
 
-                EventOption option;
+                DialogueOption option;
 
                 if (innerStorageFragments.Any())
                 {
-                    option = new EventOption("Continue", new EventNode
+                    option = new DialogueOption("Continue", new DialogueNode
                     {
                         CombatPosition = position,
                         Options = new[]
                         {
-                            new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                                EventNode.EndNode)
+                            new DialogueOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                                DialogueNode.EndNode)
                             {
                                 Aftermath = optionAftermath
                             }
@@ -77,14 +77,14 @@ namespace Rpg.Client.Assets.Catalogs
                 }
                 else
                 {
-                    option = new EventOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
-                        EventNode.EndNode)
+                    option = new DialogueOption(position == EventPosition.BeforeCombat ? "Combat" : "Continue",
+                        DialogueNode.EndNode)
                     {
                         Aftermath = optionAftermath
                     };
                 }
 
-                return new EventNode
+                return new DialogueNode
                 {
                     CombatPosition = position,
                     Options = new[]
@@ -99,9 +99,9 @@ namespace Rpg.Client.Assets.Catalogs
             }
         }
 
-        private static IOptionAftermath? CreateAftermath(string? aftermath, IUnitSchemeCatalog unitSchemeCatalog)
+        private static IDialogueOptionAftermath? CreateAftermath(string? aftermath, IUnitSchemeCatalog unitSchemeCatalog)
         {
-            IOptionAftermath? optionAftermath = null;
+            IDialogueOptionAftermath? optionAftermath = null;
             if (aftermath is not null)
             {
                 optionAftermath = aftermath switch

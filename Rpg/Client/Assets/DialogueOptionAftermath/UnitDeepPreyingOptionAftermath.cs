@@ -4,7 +4,7 @@ using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
-    internal sealed class UnitDeepPreyingOptionAftermath : IOptionAftermath
+    internal sealed class UnitDeepPreyingOptionAftermath : IDialogueOptionAftermath
     {
         private readonly UnitName _name;
 

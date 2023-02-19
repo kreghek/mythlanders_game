@@ -8,7 +8,7 @@ namespace Rpg.Client.Core
 {
     internal interface IEventCatalog
     {
-        IEnumerable<Event> Events { get; }
+        IEnumerable<DialogueEvent> Events { get; }
 
         Dialogue GetDialogue(string sid);
     }

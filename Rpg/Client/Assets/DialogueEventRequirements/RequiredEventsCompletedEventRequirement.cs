@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
-    internal sealed class RequiredEventsCompletedEventRequirement : ITextEventRequirement
+    internal sealed class RequiredEventsCompletedEventRequirement : IDialogueEventRequirement
     {
         private readonly IEventCatalog _eventCatalog;
         private readonly string[] _requiredEvents;

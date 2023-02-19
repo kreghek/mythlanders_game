@@ -1,5 +1,7 @@
 using System;
 
+using Client.Assets.DialogueOptionAftermath;
+
 using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
@@ -15,9 +17,9 @@ namespace Rpg.Client.Assets.Catalogs
             _unitSchemeCatalog = unitSchemeCatalog;
         }
 
-        public IOptionAftermath Create(string aftermathTypeSid, string data)
+        public IDialogueOptionAftermath Create(string aftermathTypeSid, string data)
         {
-            IOptionAftermath? aftermath = null;
+            IDialogueOptionAftermath? aftermath = null;
 
             if (aftermathTypeSid == "MeetHero")
             {
@@ -35,6 +37,11 @@ namespace Rpg.Client.Assets.Catalogs
                 var sid = data;
                 var locationId = Enum.Parse<LocationSid>(sid);
                 aftermath = new UnlockLocationOptionAftermath(locationId);
+            }
+            else if (aftermathTypeSid == "Trigger")
+            {
+                var trigger = data;
+                aftermath = new DialogueEventTriggerOptonAftermath(trigger); 
             }
 
             if (aftermath is null)
