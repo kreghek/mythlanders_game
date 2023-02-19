@@ -8,9 +8,9 @@ namespace Rpg.Client.Assets.DialogueEventRequirements
 {
     internal sealed class LocationEventRequirement : ITextEventRequirement
     {
-        private readonly IReadOnlyCollection<GlobeNodeSid> _locationSids;
+        private readonly IReadOnlyCollection<LocationSid> _locationSids;
 
-        public LocationEventRequirement(IReadOnlyCollection<GlobeNodeSid> locationSids)
+        public LocationEventRequirement(IReadOnlyCollection<LocationSid> locationSids)
         {
             _locationSids = locationSids;
         }

@@ -1,7 +1,4 @@
 ﻿using Core.Combats;
-using Core.Combats.Effects;
-using Core.Combats.Imposers;
-using Core.Combats.TargetSelectors;
 
 namespace Text.Client;
 
@@ -9,106 +6,44 @@ internal static class CombatantFactory
 {
     public static IReadOnlyCollection<FormationSlot> CreateHeroes()
     {
-        var swordsmanHero = CreateSwordsman();
+        var swordsmanHero = new SwordsmanFartory();
 
         return new[]
         {
             new FormationSlot(0, 1)
             {
-                Combatant = swordsmanHero
+                Combatant = swordsmanHero.Create("Berimir"),
+            },
+            new FormationSlot(1, 0)
+            {
+                Combatant = swordsmanHero.Create("Warrior"),
+            },
+            new FormationSlot(1, 2)
+            {
+                Combatant = swordsmanHero.Create("Soldier"),
             }
         };
     }
 
     public static IReadOnlyCollection<FormationSlot> CreateMonsters()
     {
-        var chaser = new ThiefChaserFactory();
+        var chaserFactory = new ThiefChaserFactory();
+        var wolfFactory = new DigitalWolfFactory();
 
         return new[]
         {
             new FormationSlot(0, 1)
             {
-                Combatant = chaser.Create("Chaser")
+                Combatant = chaserFactory.Create("Chaser")
             },
             new FormationSlot(1, 2)
             {
-                Combatant = chaser.Create("Guard")
+                Combatant = chaserFactory.Create("Guard Chaser")
             },
             new FormationSlot(0, 2)
             {
-                Combatant = chaser.Create("Tommy")
+                Combatant = wolfFactory.Create("Evil Digital wolf")
             }
         };
-    }
-
-    private static Combatant CreateSwordsman()
-    {
-        var heroSequence = new CombatMovementSequence();
-
-        heroSequence.Items.Add(new CombatMovement("Die by sword!",
-                new CombatMovementCost(2),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2))
-                    })
-            )
-        {
-            Tags = CombatMovementTags.Attack
-        }
-        );
-
-        heroSequence.Items.Add(new CombatMovement("Im  so strong",
-                new CombatMovementCost(2),
-                new CombatMovementEffectConfig(
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
-                            UnitStatType.Defense,
-                            3,
-                            typeof(ToNextCombatantTurnEffectLifetime))
-                    },
-                    new IEffect[]
-                    {
-                        new ChangeStatEffect(new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
-                            UnitStatType.Defense,
-                            1,
-                            typeof(ToEndOfCurrentRoundEffectLifetime))
-                    })
-            )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
-        );
-
-        heroSequence.Items.Add(new CombatMovement("Hit from shoulder",
-                new CombatMovementCost(3),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(3))
-                    })
-            )
-        {
-            Tags = CombatMovementTags.Attack
-        }
-        );
-
-        var hero = new Combatant(heroSequence)
-        {
-            Sid = "Berimir",
-            IsPlayerControlled = true
-        };
-        return hero;
     }
 }

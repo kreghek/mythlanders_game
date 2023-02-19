@@ -12,10 +12,10 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 
 internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly GlobeNodeSid _locationSid;
+    private readonly LocationSid _locationSid;
     private readonly CampaignStageTemplateServices _services;
 
-    public CombatCampaignStageTemplateFactory(GlobeNodeSid locationSid, CampaignStageTemplateServices services)
+    public CombatCampaignStageTemplateFactory(LocationSid locationSid, CampaignStageTemplateServices services)
     {
         _locationSid = locationSid;
         _services = services;
@@ -52,7 +52,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return stageItem;
     }
 
-    private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(GlobeNodeSid location)
+    private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(LocationSid location)
     {
         var availableAllRegularMonsters = _services.UnitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
 

@@ -18,3 +18,18 @@ public sealed class CombatMovement
 
     public CombatMovementTags Tags { get; set; }
 }
+
+public sealed class CombatMovementInstance
+{
+    public CombatMovementInstance(CombatMovement sourceMovement)
+    {
+        SourceMovement = sourceMovement;
+        Effects = sourceMovement.Effects.Select(x => x.CreateInstance()).ToArray();
+        AutoDefenseEffects = sourceMovement.AutoDefenseEffects.Select(x => x.CreateInstance()).ToArray();
+    }
+
+    public CombatMovement SourceMovement { get; }
+    
+    public IReadOnlyCollection<IEffectInstance> Effects { get; }
+    public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
+}

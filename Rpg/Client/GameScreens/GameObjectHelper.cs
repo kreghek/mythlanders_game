@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens
             return GetLocalizedInner(skillSid.ToString());
         }
 
-        public static string GetLocalized(GlobeNodeSid locationSid)
+        public static string GetLocalized(LocationSid locationSid)
         {
             return GetLocalizedInner(locationSid.ToString());
         }

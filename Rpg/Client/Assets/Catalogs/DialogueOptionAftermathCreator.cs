@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Catalogs
             else if (aftermathTypeSid == "UnlockLocation")
             {
                 var sid = data;
-                var locationId = Enum.Parse<GlobeNodeSid>(sid);
+                var locationId = Enum.Parse<LocationSid>(sid);
                 aftermath = new UnlockLocationOptionAftermath(locationId);
             }
 

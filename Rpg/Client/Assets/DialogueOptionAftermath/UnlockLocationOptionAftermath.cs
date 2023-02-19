@@ -5,9 +5,9 @@ namespace Rpg.Client.Assets.DialogueOptionAftermath
 {
     internal sealed class UnlockLocationOptionAftermath : IOptionAftermath
     {
-        private readonly GlobeNodeSid _locationSid;
+        private readonly LocationSid _locationSid;
 
-        public UnlockLocationOptionAftermath(GlobeNodeSid locationSid)
+        public UnlockLocationOptionAftermath(LocationSid locationSid)
         {
             _locationSid = locationSid;
         }

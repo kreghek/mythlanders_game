@@ -1,10 +1,10 @@
-namespace Core.Combats;
+namespace Core.Combats.CombatantEffects;
 
-public sealed class ChangeStateCombatantEffect : ICombatantEffect
+public sealed class ChangeStatCombatantEffect : ICombatantEffect
 {
     private readonly IUnitStatModifier _statModifier;
 
-    public ChangeStateCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
+    public ChangeStatCombatantEffect(ICombatantEffectLifetime lifetime, UnitStatType statType, int value)
     {
         StatType = statType;
         Value = value;

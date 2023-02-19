@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal enum GlobeNodeSid
+    internal enum LocationSid
     {
         Thicket = 101,
         Swamp = 102,

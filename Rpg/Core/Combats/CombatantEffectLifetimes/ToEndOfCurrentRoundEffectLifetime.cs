@@ -1,4 +1,4 @@
-namespace Core.Combats;
+namespace Core.Combats.CombatantEffectLifetimes;
 
 public sealed class ToEndOfCurrentRoundEffectLifetime : ICombatantEffectLifetime
 {

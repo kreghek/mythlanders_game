@@ -113,15 +113,15 @@ namespace Client.GameScreens.CommandCenter
 
             var index = 0;
 
-            var campaignTexturesDict = new Dictionary<GlobeNodeSid, Texture2D>
+            var campaignTexturesDict = new Dictionary<LocationSid, Texture2D>
             {
-                { GlobeNodeSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
-                { GlobeNodeSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
+                { LocationSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
+                { LocationSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
                 {
-                    GlobeNodeSid.ShipGraveyard,
+                    LocationSid.ShipGraveyard,
                     Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign")
                 },
-                { GlobeNodeSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") }
+                { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") }
             };
 
             foreach (var campaign in _campaigns)

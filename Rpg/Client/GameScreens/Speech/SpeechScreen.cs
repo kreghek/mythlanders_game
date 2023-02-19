@@ -48,7 +48,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly GameSettings _gameSettings;
         private readonly Globe _globe;
-        private readonly GlobeNodeSid _globeLocation;
+        private readonly LocationSid _globeLocation;
         private readonly GlobeProvider _globeProvider;
         private readonly Player _player;
         private readonly Random _random;

@@ -1,6 +1,6 @@
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
-using Core.Combats.Imposers;
 using Core.Combats.TargetSelectors;
 
 namespace Text.Client;
@@ -19,17 +19,14 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard
                         )
                     })
@@ -43,12 +40,10 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard
                         )
                     })
@@ -62,16 +57,13 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new ChangePositionEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard),
                         new ChangeCurrentStatEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Resolve,
                             Range<int>.CreateMono(-2))
                     })
@@ -85,7 +77,6 @@ public class ThiefChaserFactory
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Defense,
                             3,
                             typeof(ToNextCombatantTurnEffectLifetime))
@@ -94,7 +85,6 @@ public class ThiefChaserFactory
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Defense,
                             1,
                             typeof(ToEndOfCurrentRoundEffectLifetime))
@@ -112,12 +102,10 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new AllVanguardTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard
                         )
                     })

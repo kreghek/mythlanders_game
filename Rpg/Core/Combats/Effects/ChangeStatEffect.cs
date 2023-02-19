@@ -2,12 +2,11 @@
 
 public sealed class ChangeStatEffect : IEffect
 {
-    public ChangeStatEffect(ITargetSelector selector, IEffectImposer imposer, UnitStatType statType, int value,
+    public ChangeStatEffect(ITargetSelector selector, UnitStatType statType, int value,
         Type lifetimeType)
     {
         TargetStatType = statType;
         Selector = selector;
-        Imposer = imposer;
         Value = value;
         LifetimeType = lifetimeType;
     }
@@ -18,12 +17,8 @@ public sealed class ChangeStatEffect : IEffect
 
     public ITargetSelector Selector { get; }
 
-    public IEffectImposer Imposer { get; }
-
-    public void Influence(Combatant target, IEffectCombatContext context)
+    public IEffectInstance CreateInstance()
     {
-        var lifetime = (ICombatantEffectLifetime)Activator.CreateInstance(LifetimeType)!;
-        var combatantEffect = new ChangeStateCombatantEffect(lifetime, TargetStatType, Value);
-        target.AddEffect(combatantEffect);
+        return new ChangeStatEffectInstance(this);
     }
 }
