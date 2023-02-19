@@ -97,7 +97,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     }, _services),
 
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-                    new TextEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryTextEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)
@@ -141,7 +141,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                     }, _services),
 
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
-                    new TextEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryTextEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)

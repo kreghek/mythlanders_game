@@ -97,4 +97,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         var unit = new Unit(unitScheme, combatLevel);
         return unit.Perks.OfType<TPerk>().Any();
     }
+
+    public bool CanCreate()
+    {
+        return true;
+    }
 }

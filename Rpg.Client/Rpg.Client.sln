@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Content", "..\Rpg\Content\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.csproj", "{F3878C6F-6E6E-438E-B6B5-619BED0EAEB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{CE4DDDBD-CA11-4395-9343-7C90FFC48096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{CE4DDDBD-CA11-4395-9343-7C90FFC48096}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,8 +84,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {109FC733-76F8-4327-BE39-B9303FDD86EA}
+		RESX_SortFileContentOnSave = True
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail"]}
 	EndGlobalSection
 EndGlobal

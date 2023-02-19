@@ -13,6 +13,11 @@ internal sealed class WorkshopCampaignStageTemplateFactory : ICampaignStageTempl
         _services = services;
     }
 
+    public bool CanCreate()
+    {
+        return true;
+    }
+
     public ICampaignStageItem Create()
     {
         return new TrainingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);

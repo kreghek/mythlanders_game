@@ -12,4 +12,6 @@ internal interface ICampaignStageTemplateFactory
     /// </summary>
     /// <returns></returns>
     public ICampaignStageItem Create();
+
+    public bool CanCreate();
 }

@@ -1,7 +1,8 @@
-namespace Rpg.Client.Core.Dialogues
+using Rpg.Client.Core;
+
+namespace Client.Core.Dialogues;
+
+internal interface ITextEventRequirement
 {
-    internal interface ITextEventRequirement
-    {
-        bool IsApplicableFor(Globe globe, GlobeNode targetNode);
-    }
+    bool IsApplicableFor(Globe globe, LocationSid targetLocation);
 }

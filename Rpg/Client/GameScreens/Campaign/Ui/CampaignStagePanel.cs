@@ -91,6 +91,11 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                 return "Finish campaign";
             }
 
+            if (campaignStageItem is TextEventStageItem)
+            {
+                return "Text event";
+            }
+
             if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
             {
                 return notImplemenetedStage.StageSid + " (not implemented)";

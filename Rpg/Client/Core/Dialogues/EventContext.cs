@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 
+using Client.Core;
+
 namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventContext : IEventContext

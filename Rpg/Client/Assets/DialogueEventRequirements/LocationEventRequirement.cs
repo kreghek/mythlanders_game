@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
@@ -15,9 +16,9 @@ namespace Rpg.Client.Assets.DialogueEventRequirements
             _locationSids = locationSids;
         }
 
-        public bool IsApplicableFor(Globe globe, GlobeNode targetNode)
+        public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
         {
-            return _locationSids.Contains(targetNode.Sid);
+            return _locationSids.Contains(targetLocation);
         }
     }
 }

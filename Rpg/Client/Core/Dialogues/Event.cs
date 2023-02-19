@@ -1,17 +1,38 @@
 ﻿using System.Collections.Generic;
 
-namespace Rpg.Client.Core.Dialogues
+using Stateless;
+
+namespace Client.Core.Dialogues;
+
+internal sealed class Event
 {
-    internal sealed class Event
+    private readonly StateMachine<EventState, string> _stateMachine;
+    private readonly IDictionary<EventState, IReadOnlyCollection<ITextEventRequirement>> _requirements;
+    private readonly IDictionary<EventState, string> _dialogueDict;
+
+    public Event(string sid, StateMachine<EventState,
+        string> stateMachine,
+        IDictionary<EventState, IReadOnlyCollection<ITextEventRequirement>> requirements,
+        IDictionary<EventState, string> dialogueDict)
     {
-        public string? AfterCombatStartNodeSid { get; init; }
-        public string? BeforeCombatStartNodeSid { get; init; }
-        public bool Completed => Counter > 0;
-        public int Counter { get; set; }
-        public bool IsGameStart { get; init; }
-        public bool IsUnique { get; init; }
-        public TextEventPriority Priority { get; init; }
-        public IReadOnlyCollection<ITextEventRequirement>? Requirements { get; init; }
-        public string? Sid { get; init; }
+        Sid = sid;
+        _stateMachine = stateMachine;
+        _requirements = requirements;
+        _dialogueDict = dialogueDict;
     }
+
+    public string GetDialogSid()
+    {
+        return _dialogueDict[_stateMachine.State];
+    }
+
+    public bool Completed => _stateMachine.State.Sid == "complete";
+    public IReadOnlyCollection<ITextEventRequirement> GetRequirements()
+    {
+        return _requirements[_stateMachine.State];
+    }
+
+    public string Sid { get; }
 }
+
+internal sealed record EventState(string Sid);

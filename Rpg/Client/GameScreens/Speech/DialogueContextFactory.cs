@@ -1,3 +1,5 @@
+using Client.Core;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 

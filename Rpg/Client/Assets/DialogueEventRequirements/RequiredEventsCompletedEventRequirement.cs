@@ -1,7 +1,8 @@
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
@@ -16,7 +17,7 @@ namespace Rpg.Client.Assets.DialogueEventRequirements
             _requiredEvents = requiredEvents;
         }
 
-        public bool IsApplicableFor(Globe globe, GlobeNode targetNode)
+        public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
         {
             foreach (var eventSid in _requiredEvents)
             {

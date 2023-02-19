@@ -1,5 +1,6 @@
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 
 namespace Rpg.Client.Assets.DialogueEventRequirements
 {
@@ -12,7 +13,7 @@ namespace Rpg.Client.Assets.DialogueEventRequirements
             _progress = progress;
         }
 
-        public bool IsApplicableFor(Globe globe, GlobeNode targetNode)
+        public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
         {
             return globe.GlobeLevel.Level >= _progress;
         }

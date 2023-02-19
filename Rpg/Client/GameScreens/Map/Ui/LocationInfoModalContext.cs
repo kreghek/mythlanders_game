@@ -1,5 +1,6 @@
-﻿using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
+﻿using Client.Core.Dialogues;
+
+using Rpg.Client.Core;
 using Rpg.Client.GameScreens.Map.GameObjects;
 
 namespace Rpg.Client.GameScreens.Map.Ui
