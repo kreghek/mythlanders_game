@@ -377,7 +377,7 @@ internal static class Program
         var combatant = slot.Combatant;
         if (combatant is not null)
         {
-            Console.WriteLine($"{combatant.Sid} HP: {combatant.Stats.SingleOrDefault(x=>x.Type == UnitStatType.HitPoints).Value.Current} SP: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.ShieldPoints).Value.Current} R: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.Resolve).Value.Current}");
+            Console.WriteLine($"{combatant.Sid} HP: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.HitPoints).Value.Current} SP: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.ShieldPoints).Value.Current} R: {combatant.Stats.SingleOrDefault(x => x.Type == UnitStatType.Resolve).Value.Current}");
         }
     }
 

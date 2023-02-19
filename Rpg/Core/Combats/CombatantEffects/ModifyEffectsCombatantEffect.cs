@@ -1,6 +1,6 @@
 namespace Core.Combats.CombatantEffects;
 
-public sealed class ModifyEffectsCombatantEffect: ICombatantEffect
+public sealed class ModifyEffectsCombatantEffect : ICombatantEffect
 {
     private readonly IUnitStatModifier _statModifier;
 

@@ -1,6 +1,6 @@
 namespace Core.Combats.Effects;
 
-public sealed class ModifyEffectsEffect: IEffect
+public sealed class ModifyEffectsEffect : IEffect
 {
     public ModifyEffectsEffect(ITargetSelector selector, int value)
     {

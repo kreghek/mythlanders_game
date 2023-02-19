@@ -29,7 +29,7 @@ public sealed class CombatMovementInstance
     }
 
     public CombatMovement SourceMovement { get; }
-    
+
     public IReadOnlyCollection<IEffectInstance> Effects { get; }
     public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
 }

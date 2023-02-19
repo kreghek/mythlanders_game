@@ -5,7 +5,7 @@ namespace Core.Combats.Effects;
 public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 {
 
-    public DamageEffectInstance(DamageEffect damageEffect): base(damageEffect)
+    public DamageEffectInstance(DamageEffect damageEffect) : base(damageEffect)
     {
         Damage = new Range<IStatValue>(new StatValue(damageEffect.Damage.Min), new StatValue(damageEffect.Damage.Max));
     }

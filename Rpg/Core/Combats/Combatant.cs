@@ -26,7 +26,7 @@ public class Combatant
             new CombatantStat(UnitStatType.Defense, new CombatantStatValue(new StatValue(0)))
         };
     }
-    
+
     public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 
     public IReadOnlyList<CombatMovementInstance?> Hand => _hand;

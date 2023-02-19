@@ -11,7 +11,7 @@ public class DigitalWolfFactory
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
-        
+
         list.Add(new CombatMovement("Wolf teeth",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
@@ -65,7 +65,7 @@ public class DigitalWolfFactory
                     })
             )
         );
-        
+
         var monsterSequence = new CombatMovementSequence();
         for (var i = 0; i < 2; i++)
         {
@@ -77,7 +77,8 @@ public class DigitalWolfFactory
 
         var monster = new Combatant(monsterSequence)
         {
-            Sid = sid, IsPlayerControlled = false
+            Sid = sid,
+            IsPlayerControlled = false
         };
 
         return monster;

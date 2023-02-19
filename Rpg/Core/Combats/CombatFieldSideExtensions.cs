@@ -32,16 +32,16 @@ public static class CombatFieldSideExtensions
     private static IEnumerable<Combatant> GetCombatantsIterator(CombatFieldSide side, Func<Combatant, bool> predicate)
     {
         for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
-        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-        {
-            var combatant = side[new FieldCoords(colIndex, lineIndex)].Combatant;
-            if (combatant is not null)
+            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
             {
-                if (predicate(combatant))
+                var combatant = side[new FieldCoords(colIndex, lineIndex)].Combatant;
+                if (combatant is not null)
                 {
-                    yield return combatant;
+                    if (predicate(combatant))
+                    {
+                        yield return combatant;
+                    }
                 }
             }
-        }
     }
 }

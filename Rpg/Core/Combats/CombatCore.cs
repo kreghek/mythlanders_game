@@ -29,7 +29,7 @@ public class CombatCore
     public void CompleteTurn()
     {
         CombatantEndsTurn?.Invoke(this, new CombatantEndsTurnEventArgs(CurrentCombatant));
-        
+
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.EndCombatantTurn);
 
         if (_roundQueue.Any()) RemoveCurrentCombatantFromRoundQueue();
@@ -50,7 +50,7 @@ public class CombatCore
         }
 
         CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
-        
+
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
@@ -154,7 +154,7 @@ public class CombatCore
             targetSide[coords].Combatant = null;
         }
     }
-    
+
     private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
     {
         try
@@ -245,7 +245,7 @@ public class CombatCore
         _roundQueue.Clear();
 
         var orderedByResolve = _allCombatantList
-            .Where(x=>!x.IsDead)
+            .Where(x => !x.IsDead)
             .OrderByDescending(x => x.Stats.Single(s => s.Type == UnitStatType.Resolve).Value.Current)
             .ThenByDescending(x => x.IsPlayerControlled)
             .ToArray();
@@ -258,7 +258,7 @@ public class CombatCore
     public void Wait()
     {
         RestoreStatOfAllCombatants(UnitStatType.Resolve);
-        
+
         CompleteTurn();
     }
 
@@ -309,7 +309,7 @@ public class CombatCore
     {
         RestoreStatOfAllCombatants(UnitStatType.ShieldPoints);
     }
-    
+
     private void RestoreStatOfAllCombatants(UnitStatType statType)
     {
         var combatants = _allCombatantList.Where(x => !x.IsDead);

@@ -6,7 +6,7 @@ public abstract class CombatantEventArgsBase : EventArgs
     {
         Combatant = combatant;
     }
-    
+
     public Combatant Combatant { get; }
 }
 
