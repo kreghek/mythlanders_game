@@ -31,22 +31,6 @@ public class Combatant
 
     public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
 
-    public CombatMovementInstance? PopNextPoolMovement()
-    {
-        var move = _pool.FirstOrDefault();
-        if (move is not null)
-        {
-            _pool.RemoveAt(0);
-        }
-
-        return move;
-    }
-
-    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
-    {
-        _hand[handIndex] = movement;
-    }
-
     public bool IsDead { get; private set; }
 
     public bool IsPlayerControlled { get; init; }
@@ -55,21 +39,34 @@ public class Combatant
 
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
-    public void SetDead()
-    {
-        IsDead = true;
-    }
-
     public void AddEffect(ICombatantEffect effect)
     {
         effect.Impose(this);
         _effects.Add(effect);
     }
 
+    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
+    {
+        _hand[handIndex] = movement;
+    }
+
+    public CombatMovementInstance? PopNextPoolMovement()
+    {
+        var move = _pool.FirstOrDefault();
+        if (move is not null) _pool.RemoveAt(0);
+
+        return move;
+    }
+
     public void RemoveEffect(ICombatantEffect effect)
     {
         effect.Dispel(this);
         _effects.Remove(effect);
+    }
+
+    public void SetDead()
+    {
+        IsDead = true;
     }
 
     public void StartCombat()

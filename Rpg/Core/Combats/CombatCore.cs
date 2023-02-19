@@ -54,9 +54,6 @@ public class CombatCore
         CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
-    public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
-    public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
-
     public ITargetSelectorContext GetCurrentSelectorContext()
     {
         return GetSelectorContext(CurrentCombatant);
@@ -91,10 +88,8 @@ public class CombatCore
                 foreach (var effectTarget in effectTargets)
                 {
                     if (effectTarget == CurrentCombatant)
-                    {
                         // Does not defence against yourself.
                         continue;
-                    }
 
                     var targetDefenseMovement = GetAutoDefenseMovement(effectTarget);
                     var targetIsInQueue = _roundQueue.Any(x => x == effectTarget);
@@ -140,35 +135,6 @@ public class CombatCore
         return movementExecution;
     }
 
-    private void HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
-    {
-        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
-
-        if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
-        {
-            combatant.SetDead();
-            CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
-
-            var targetSide = GetTargetSide(combatant, Field);
-            var coords = targetSide.GetCombatantCoords(combatant);
-            targetSide[coords].Combatant = null;
-        }
-    }
-
-    private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
-    {
-        try
-        {
-            var _ = field.HeroSide.GetCombatantCoords(target);
-            return field.HeroSide;
-        }
-        catch (ArgumentException)
-        {
-            var _ = field.MonsterSide.GetCombatantCoords(target);
-            return field.MonsterSide;
-        }
-    }
-
     public void UseManeuver(CombatStepDirection combatStepDirection)
     {
         var currentCoords = GetCurrentCoords();
@@ -204,9 +170,17 @@ public class CombatCore
         CurrentCombatant.Stats.Single(x => x.Type == UnitStatType.Maneuver).Value.Consume(1);
     }
 
+    public void Wait()
+    {
+        RestoreStatOfAllCombatants(UnitStatType.Resolve);
+
+        CompleteTurn();
+    }
+
     private static CombatMovementInstance? GetAutoDefenseMovement(Combatant target)
     {
-        return target.Hand.FirstOrDefault(x => x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
+        return target.Hand.FirstOrDefault(x =>
+            x != null && x.SourceMovement.Tags.HasFlag(CombatMovementTags.AutoDefense));
     }
 
     private FieldCoords GetCurrentCoords()
@@ -214,9 +188,9 @@ public class CombatCore
         var side = GetCurrentSelectorContext().ActorSide;
 
         for (var col = 0; col < side.ColumnCount; col++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-                if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
-                    return new FieldCoords(col, lineIndex);
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+            if (CurrentCombatant == side[new FieldCoords(col, lineIndex)].Combatant)
+                return new FieldCoords(col, lineIndex);
 
         throw new InvalidOperationException();
     }
@@ -226,6 +200,35 @@ public class CombatCore
         if (combatant.IsPlayerControlled)
             return new TargetSelectorContext(Field.HeroSide, Field.MonsterSide, _dice);
         return new TargetSelectorContext(Field.MonsterSide, Field.HeroSide, _dice);
+    }
+
+    private static CombatFieldSide GetTargetSide(Combatant target, CombatField field)
+    {
+        try
+        {
+            var _ = field.HeroSide.GetCombatantCoords(target);
+            return field.HeroSide;
+        }
+        catch (ArgumentException)
+        {
+            var _ = field.MonsterSide.GetCombatantCoords(target);
+            return field.MonsterSide;
+        }
+    }
+
+    private void HandleCombatantDamaged(Combatant combatant, UnitStatType statType, int value)
+    {
+        CombatantHasBeenDamaged?.Invoke(this, new CombatantDamagedEventArgs(combatant, statType, value));
+
+        if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
+        {
+            combatant.SetDead();
+            CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
+
+            var targetSide = GetTargetSide(combatant, Field);
+            var coords = targetSide.GetCombatantCoords(combatant);
+            targetSide[coords].Combatant = null;
+        }
     }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)
@@ -255,54 +258,28 @@ public class CombatCore
                 _roundQueue.Add(unit);
     }
 
-    public void Wait()
-    {
-        RestoreStatOfAllCombatants(UnitStatType.Resolve);
-
-        CompleteTurn();
-    }
-
     private void RemoveCurrentCombatantFromRoundQueue()
     {
         _roundQueue.RemoveAt(0);
     }
 
-    private void StartRound()
+    private void RestoreHands()
     {
-        MakeUnitRoundQueue();
-        RestoreShieldsOfAllCombatants();
-        RestoreManeuversOfAllCombatants();
-        RestoreHands();
-
-        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
-        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
+        foreach (var combatant in _allCombatantList)
+            for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
+                if (combatant.Hand[handSlotIndex] is null)
+                {
+                    var nextMove = combatant.PopNextPoolMovement();
+                    if (nextMove is not null)
+                        combatant.AssignMoveToHand(handSlotIndex, nextMove);
+                    else
+                        break;
+                }
     }
 
     private void RestoreManeuversOfAllCombatants()
     {
         RestoreStatOfAllCombatants(UnitStatType.Maneuver);
-    }
-
-    private void RestoreHands()
-    {
-        foreach (var combatant in _allCombatantList)
-        {
-            for (var handSlotIndex = 0; handSlotIndex < combatant.Hand.Count; handSlotIndex++)
-            {
-                if (combatant.Hand[handSlotIndex] is null)
-                {
-                    var nextMove = combatant.PopNextPoolMovement();
-                    if (nextMove is not null)
-                    {
-                        combatant.AssignMoveToHand(handSlotIndex, nextMove);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     private void RestoreShieldsOfAllCombatants()
@@ -321,12 +298,26 @@ public class CombatCore
         }
     }
 
+    private void StartRound()
+    {
+        MakeUnitRoundQueue();
+        RestoreShieldsOfAllCombatants();
+        RestoreManeuversOfAllCombatants();
+        RestoreHands();
+
+        UpdateAllCombatantEffects(CombatantEffectUpdateType.StartRound);
+        CurrentCombatant.UpdateEffects(CombatantEffectUpdateType.StartCombatantTurn);
+    }
+
     private void UpdateAllCombatantEffects(CombatantEffectUpdateType updateType)
     {
         foreach (var combatant in _allCombatantList)
             if (!combatant.IsDead)
                 combatant.UpdateEffects(updateType);
     }
+
+    public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
+    public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
 
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;

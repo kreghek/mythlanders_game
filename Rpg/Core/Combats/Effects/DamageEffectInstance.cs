@@ -4,13 +4,18 @@ namespace Core.Combats.Effects;
 
 public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
 {
-
     public DamageEffectInstance(DamageEffect damageEffect) : base(damageEffect)
     {
         Damage = new Range<IStatValue>(new StatValue(damageEffect.Damage.Min), new StatValue(damageEffect.Damage.Max));
     }
 
     public Range<IStatValue> Damage { get; }
+
+    public override void AddModifier(IUnitStatModifier modifier)
+    {
+        Damage.Min.AddModifier(modifier);
+        Damage.Max.AddModifier(modifier);
+    }
 
     public override void Influence(Combatant target, IEffectCombatContext context)
     {
@@ -32,6 +37,12 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         }
     }
 
+    public override void RemoveModifier(IUnitStatModifier modifier)
+    {
+        Damage.Min.RemoveModifier(modifier);
+        Damage.Max.RemoveModifier(modifier);
+    }
+
     private static int TakeStat(Combatant combatant, UnitStatType statType, int value)
     {
         var stat = combatant.Stats.SingleOrDefault(x => x.Type == statType);
@@ -44,17 +55,5 @@ public sealed class DamageEffectInstance : EffectInstanceBase<DamageEffect>
         var remains = value - d;
 
         return remains;
-    }
-
-    public override void AddModifier(IUnitStatModifier modifier)
-    {
-        Damage.Min.AddModifier(modifier);
-        Damage.Max.AddModifier(modifier);
-    }
-
-    public override void RemoveModifier(IUnitStatModifier modifier)
-    {
-        Damage.Min.RemoveModifier(modifier);
-        Damage.Max.RemoveModifier(modifier);
     }
 }

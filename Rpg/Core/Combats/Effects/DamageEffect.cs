@@ -13,6 +13,7 @@ public sealed class DamageEffect : IEffect
     public DamageType DamageType { get; }
 
     public ITargetSelector Selector { get; }
+
     public IEffectInstance CreateInstance()
     {
         return new DamageEffectInstance(this);

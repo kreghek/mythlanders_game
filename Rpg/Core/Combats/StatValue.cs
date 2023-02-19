@@ -11,20 +11,14 @@ public class StatValue : IStatValue
         _modifiers = new List<IUnitStatModifier>();
     }
 
+    private int Base { get; set; }
+
     event EventHandler IStatValue.ModifierAdded
     {
-        add
-        {
-            throw new System.NotImplementedException();
-        }
+        add => throw new NotImplementedException();
 
-        remove
-        {
-            throw new System.NotImplementedException();
-        }
+        remove => throw new NotImplementedException();
     }
-
-    private int Base { get; set; }
 
     public int ActualMax => Base + _modifiers.Sum(x => x.Value);
 

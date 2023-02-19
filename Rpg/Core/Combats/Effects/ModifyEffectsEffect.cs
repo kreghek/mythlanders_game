@@ -8,8 +8,9 @@ public sealed class ModifyEffectsEffect : IEffect
         Value = value;
     }
 
-    public ITargetSelector Selector { get; }
     public int Value { get; }
+
+    public ITargetSelector Selector { get; }
 
     public IEffectInstance CreateInstance()
     {
