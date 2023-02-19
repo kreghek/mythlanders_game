@@ -47,6 +47,6 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
             throw new InvalidOperationException();
         }
 
-        return new TextEventStageItem(rolledStory.Sid, _locationSid, _services.EventCatalog);
+        return new DialogueEventStageItem(rolledStory.Sid, _locationSid, _services.EventCatalog);
     }
 }

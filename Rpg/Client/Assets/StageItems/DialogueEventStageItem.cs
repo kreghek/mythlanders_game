@@ -1,19 +1,20 @@
 ﻿using System.Linq;
 
+using Client.GameScreens.Speech;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
 
-internal sealed class TextEventStageItem : ICampaignStageItem
+internal sealed class DialogueEventStageItem : ICampaignStageItem
 {
     private readonly string _eventSid;
     private readonly IEventCatalog _eventCatalog;
     private readonly LocationSid _location;
 
-    public TextEventStageItem(string eventSid, LocationSid location, IEventCatalog eventCatalog)
+    public DialogueEventStageItem(string eventSid, LocationSid location, IEventCatalog eventCatalog)
     {
         _eventSid = eventSid;
         _location = location;
@@ -31,6 +32,6 @@ internal sealed class TextEventStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(
             currentScreen,
             ScreenTransition.Event,
-            new SpeechScreenTransitionArgs(currentCampaign, dialogue, _location));
+            new SpeechScreenTransitionArgs(currentCampaign, dialogue, textEvent, _location));
     }
 }

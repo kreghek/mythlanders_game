@@ -13,6 +13,6 @@ internal class DialogueEventTriggerOptonAftermath : IDialogueOptionAftermath
 
     public void Apply(IEventContext dialogContext)
     {
-        dialogContext.CurrentEvent.Trigger(new Core.Dialogues.DialogueEventTrigger(_trigger));
+        dialogContext.CurrentDualogueEvent.Trigger(new Core.Dialogues.DialogueEventTrigger(_trigger));
     }
 }

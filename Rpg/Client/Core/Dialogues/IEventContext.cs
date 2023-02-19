@@ -10,6 +10,6 @@ namespace Rpg.Client.Core.Dialogues
         void StartCombat(string sid);
         void UnlockLocation(LocationSid locationSid);
 
-        DialogueEvent CurrentEvent { get; }
+        DialogueEvent CurrentDualogueEvent { get; }
     }
 }

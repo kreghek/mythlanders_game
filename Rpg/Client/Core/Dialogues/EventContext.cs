@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Client.Core;
+using Client.Core.Dialogues;
 
 namespace Rpg.Client.Core.Dialogues
 {
@@ -11,12 +12,16 @@ namespace Rpg.Client.Core.Dialogues
         private readonly Player _player;
         private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player, DialogueEvent currentDialogueEvent)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;
             _player = player;
+
+            CurrentDualogueEvent = currentDialogueEvent;
         }
+
+        public DialogueEvent CurrentDualogueEvent { get; }
 
         public void AddNewCharacter(Unit unit)
         {

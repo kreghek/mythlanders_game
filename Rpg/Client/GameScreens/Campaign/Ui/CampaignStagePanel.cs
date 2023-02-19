@@ -91,7 +91,7 @@ namespace Rpg.Client.GameScreens.Campaign.Ui
                 return "Finish campaign";
             }
 
-            if (campaignStageItem is TextEventStageItem)
+            if (campaignStageItem is DialogueEventStageItem)
             {
                 return "Text event";
             }
