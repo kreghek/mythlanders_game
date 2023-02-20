@@ -18,8 +18,8 @@ internal sealed class SynthAsParentDualogueEventFactory : IDialogueEventFactory
         var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(initialState);
         questStateMachine.Configure(initialState)
             .Permit(new DialogueEventTrigger("stage_1_ignore"), new DialogueEventState("complete"))
-            .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_2_fast"))
-            .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_2"));
+            .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_1_fast"))
+            .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_1_help"));
 
         questStateMachine.Configure(new DialogueEventState("stage_2_fast"))
             .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("complete"));
