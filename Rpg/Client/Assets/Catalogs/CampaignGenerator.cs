@@ -65,6 +65,17 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     private ICampaignStageTemplateFactory[][] CreateShortTemplate(LocationSid locationSid)
     {
         return new ICampaignStageTemplateFactory[][] {
+
+            new ICampaignStageTemplateFactory[]{
+                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new RestCampaignStageTemplateFactory(),
+                }, _services)
+            },
+
             // Combat
 
             new ICampaignStageTemplateFactory[]{

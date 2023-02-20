@@ -112,6 +112,8 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
             }
         };
 
+        spList.Add(synthStage1Story);
+
         _storyPoints = spList;
 
         return activeList;
