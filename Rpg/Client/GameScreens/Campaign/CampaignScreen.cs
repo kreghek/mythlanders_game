@@ -49,18 +49,42 @@ namespace Rpg.Client.GameScreens.Campaign
                 _stagePanel.Draw(spriteBatch);
             }
 
+            const int STORY_POINT_PANEL_WIDTH = 200;
+            const int STORY_POINT_PANEL_HEIGHT = 400;
+            var storyPointRect = new Rectangle(
+                contentRect.Right - STORY_POINT_PANEL_WIDTH - ControlBase.CONTENT_MARGIN,
+                contentRect.Top + ControlBase.CONTENT_MARGIN,
+                STORY_POINT_PANEL_WIDTH,
+                STORY_POINT_PANEL_HEIGHT);
+
+            DrawCurrentStoryPoints(spriteBatch, storyPointRect);
+
+            spriteBatch.End();
+        }
+
+        private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
+        {
             if (_globe.Globe.ActiveStoryPoints.Any())
             {
                 var storyPointIndex = 0;
-                foreach (var storyPoint in _globe.Globe.ActiveStoryPoints.OrderBy(x=>x.Sid).ToArray())
+                foreach (var storyPoint in _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray())
                 {
-                    spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid, new Vector2(contentRect.Right - 200, contentRect.Top + 5 + storyPointIndex * 20), Color.Wheat);
+                    spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid, new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
+                    if (storyPoint.CurrentJobs is not null)
+                    {
+                        var currentJobs = storyPoint.CurrentJobs.ToList();
+                        for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
+                        {
+                            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), 
+                                currentJobs[jobNumber].ToString(), 
+                                new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20 + 20  * jobNumber), 
+                                Color.Wheat);
+                        }
+                    }
 
                     storyPointIndex++;
                 }
             }
-
-            spriteBatch.End();
         }
 
         protected override void InitializeContent()
