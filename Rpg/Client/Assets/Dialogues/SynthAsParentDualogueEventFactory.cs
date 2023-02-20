@@ -21,11 +21,11 @@ internal sealed class SynthAsParentDualogueEventFactory : IDialogueEventFactory
             .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_1_fast"))
             .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_1_help"));
 
-        questStateMachine.Configure(new DialogueEventState("stage_2_fast"))
-            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("complete"));
+        questStateMachine.Configure(new DialogueEventState("stage_1_fast"))
+            .Permit(new DialogueEventTrigger("stage_1_complete"), new DialogueEventState("complete"));
 
-        questStateMachine.Configure(new DialogueEventState("stage_2"))
-            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("complete"));
+        questStateMachine.Configure(new DialogueEventState("stage_1_help"))
+            .Permit(new DialogueEventTrigger("stage_1_complete"), new DialogueEventState("stage_2"));
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {

@@ -1,3 +1,3 @@
 ﻿namespace Client.Core.Dialogues;
 
-internal sealed record DialogueEventTrigger(string Sid);
+public sealed record DialogueEventTrigger(string Sid);

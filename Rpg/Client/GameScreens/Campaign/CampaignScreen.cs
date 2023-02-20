@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Client.GameScreens.Campaign.Ui;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -14,11 +17,14 @@ namespace Rpg.Client.GameScreens.Campaign
     internal class CampaignScreen : GameScreenWithMenuBase
     {
         private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
+        private readonly GlobeProvider _globe;
         private CampaignStagesPanel? _stagePanel;
 
         public CampaignScreen(EwarGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
         {
             _screenTransitionArguments = screenTransitionArguments;
+
+            _globe = game.Services.GetRequiredService<GlobeProvider>();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -41,6 +47,17 @@ namespace Rpg.Client.GameScreens.Campaign
             {
                 _stagePanel.Rect = contentRect;
                 _stagePanel.Draw(spriteBatch);
+            }
+
+            if (_globe.Globe.ActiveStoryPoints.Any())
+            {
+                var storyPointIndex = 0;
+                foreach (var storyPoint in _globe.Globe.ActiveStoryPoints.OrderBy(x=>x.Sid).ToArray())
+                {
+                    spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid, new Vector2(contentRect.Right - 200, contentRect.Top + 5 + storyPointIndex * 20), Color.Wheat);
+
+                    storyPointIndex++;
+                }
             }
 
             spriteBatch.End();

@@ -302,10 +302,10 @@ namespace Rpg.Client.Core
         private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
         {
             var startStoryPoints = storyPointCatalog.Init(globe);
-            foreach (var storyPoint in startStoryPoints)
-            {
-                globe.AddActiveStoryPoint(storyPoint);
-            }
+            //foreach (var storyPoint in startStoryPoints)
+            //{
+            //    globe.AddActiveStoryPoint(storyPoint);
+            //}
         }
 
         private static bool IsDirectoryEmpty(string path)
