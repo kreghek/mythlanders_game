@@ -30,7 +30,7 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         else if (aftermathTypeSid == "ActivateStoryPoint")
         {
             var spId = data;
-            aftermath = new AddStoryPointOptionAftermath(spId);
+            aftermath = new ActivateStoryPointOptionAftermath(spId);
         }
         else if (aftermathTypeSid == "UnlockLocation")
         {

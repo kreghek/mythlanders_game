@@ -236,10 +236,13 @@ namespace Rpg.Client.Assets.Catalogs
             var dialogueFactoryType = typeof(IDialogueEventFactory);
             var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
                 dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
-            var factories = factoryTypes.Select(x => Activator.CreateInstance(x)).OfType<IDialogueEventFactory>();
+            var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
+
+            var factoryServices = new DialogueEventFactoryServices(this);
+            
             foreach (var factory in factories)
             {
-                var dialogueEvent = factory.Create(this);
+                var dialogueEvent = factory.CreateEvent(factoryServices);
                 events.Add(dialogueEvent);
             }
 

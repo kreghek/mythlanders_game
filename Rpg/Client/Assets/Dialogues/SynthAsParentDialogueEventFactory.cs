@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.StoryPointAftermaths;
 using Client.Core.Dialogues;
 
+using JetBrains.Annotations;
+
 using Rpg.Client.Assets.DialogueEventRequirements;
+using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 
 using Stateless;
 
 namespace Client.Assets.Dialogues;
 
-internal sealed class SynthAsParentDualogueEventFactory : IDialogueEventFactory
+[UsedImplicitly]
+internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 {
-    public DialogueEvent Create(IEventCatalog eventCatalog)
+    public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
         var initialState = new DialogueEventState("start");
 
@@ -41,5 +46,35 @@ internal sealed class SynthAsParentDualogueEventFactory : IDialogueEventFactory
         };
 
         return new DialogueEvent("synth_as_parent", questStateMachine, requirements, dialogues);
+    }
+
+    public IReadOnlyCollection<IStoryPoint> CreateStoryPoints(IDialogueEventFactoryServices services)
+    {
+        var spList = new List<IStoryPoint>();
+        
+        var synthStage1Story = new StoryPoint("synth_as_parent_stage_1")
+        {
+            TitleSid = "synth_as_parent",
+            CurrentJobs = new[]
+            {
+                new Job("Победа над противниками", "{0}: {1}/{2}", "{0} - завершено")
+                {
+                    Scheme = new JobScheme
+                    {
+                        Scope = JobScopeCatalog.Global,
+                        Type = JobTypeCatalog.Defeats,
+                        Value = 12
+                    }
+                }
+            },
+            Aftermaths = new IStoryPointAftermath[]
+            {
+                new TriggerQuestStoryPointAftermath("synth_as_parent", new DialogueEventTrigger("stage_1_complete"), services.EventCatalog)
+            }
+        };
+
+        spList.Add(synthStage1Story);
+
+        return spList;
     }
 }

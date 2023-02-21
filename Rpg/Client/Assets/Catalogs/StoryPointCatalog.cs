@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Client.Assets.Dialogues;
 using Client.Assets.StoryPointAftermaths;
 using Client.Core.Dialogues;
 
@@ -91,28 +94,21 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
         activeList.Add(story1);
         spList.Add(story1);
 
-        var synthStage1Story = new StoryPoint("synth_as_parent_stage_1")
-        {
-            TitleSid = "synth_as_parent",
-            CurrentJobs = new[]
-            {
-                new Job("Победа над противниками", "{0}: {1}/{2}", "{0} - завершено")
-                {
-                    Scheme = new JobScheme
-                    {
-                        Scope = JobScopeCatalog.Global,
-                        Type = JobTypeCatalog.Defeats,
-                        Value = 12
-                    }
-                }
-            },
-            Aftermaths = new IStoryPointAftermath[]
-            {
-                new TriggerQuestStoryPointAftermath("synth_as_parent", new DialogueEventTrigger("stage_1_complete"), _eventCatalog)
-            }
-        };
+        var dialogueFactoryType = typeof(IDialogueEventFactory);
+        var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
+            dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
+        var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
 
-        spList.Add(synthStage1Story);
+        var factoryServices = new DialogueEventFactoryServices(_eventCatalog);
+            
+        foreach (var factory in factories)
+        {
+            var storyPoints = factory.CreateStoryPoints(factoryServices);
+            foreach (var storyPoint in storyPoints)
+            {
+                spList.Add(storyPoint);
+            }
+        }
 
         _storyPoints = spList;
 

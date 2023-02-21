@@ -2,11 +2,11 @@
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class AddStoryPointOptionAftermath : IDialogueOptionAftermath
+internal class ActivateStoryPointOptionAftermath : IDialogueOptionAftermath
 {
     private readonly string _storyPointSid;
 
-    public AddStoryPointOptionAftermath(string storyPointSid)
+    public ActivateStoryPointOptionAftermath(string storyPointSid)
     {
         _storyPointSid = storyPointSid;
     }
