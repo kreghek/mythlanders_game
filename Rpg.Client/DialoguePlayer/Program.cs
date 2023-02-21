@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Resources;
 
+using Client.Assets.Catalogs;
+using Client.Core;
+
 using Core.Dices;
 
 using Rpg.Client.Assets;
@@ -25,22 +28,34 @@ namespace DialoguePlayer
             var eventCatalog = new DialogueCatalog(resourceProvider, aftermathCreator);
             eventCatalog.Init();
 
-            var dialogueSid = Console.ReadLine();
+            var availableEvents = eventCatalog.Events;
+            foreach (var dialogueEvent in availableEvents)
+            {
+                Console.WriteLine($@"- {dialogueEvent.Sid}");
+            }
 
-            var dialogue = eventCatalog.GetDialogue(dialogueSid ?? throw new InvalidOperationException());
+            var eventSid = Console.ReadLine();
 
-            var storyPointInitializer = new StoryPointCatalog();
+            var selectedEvent = eventCatalog.Events.Single(x => x.Sid == eventSid);
+
+            var dialogueSid = selectedEvent.GetDialogSid();
+            
+            Console.WriteLine(@$"Selected dialogue sid: {dialogueSid}");
+
+            var dialogue = eventCatalog.GetDialogue(dialogueSid);
+
+            var storyPointCatalog = new StoryPointCatalog(eventCatalog);
             var dice = new LinearDice();
-            var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog, storyPointInitializer);
+            var globeProvider = new GlobeProvider(dice, unitSchemeCatalog, eventCatalog, storyPointCatalog);
             globeProvider.GenerateNew();
             var globe = globeProvider.Globe;
             var player = new Player();
 
             var dialogPlayer = new Rpg.Client.Core.Dialogues.DialoguePlayer(dialogue,
-                new DialogueContextFactory(globe, new StoryPointCatalog(), player));
+                new DialogueContextFactory(globe, storyPointCatalog, player, selectedEvent));
 
             var assembly = dialogue.GetType().Assembly;
-            var rm = new ResourceManager("Rpg.Client.DialogueResources", assembly);
+            var rm = new ResourceManager("Client.DialogueResources", assembly);
 
             while (!dialogPlayer.IsEnd)
             {

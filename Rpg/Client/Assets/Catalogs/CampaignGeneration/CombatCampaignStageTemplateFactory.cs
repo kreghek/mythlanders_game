@@ -98,4 +98,9 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
 
         return stageItem;
     }
+
+    public bool CanCreate()
+    {
+        return true;
+    }
 }

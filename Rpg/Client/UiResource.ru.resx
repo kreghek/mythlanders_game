@@ -414,4 +414,13 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Победа над противниками</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
 </root>

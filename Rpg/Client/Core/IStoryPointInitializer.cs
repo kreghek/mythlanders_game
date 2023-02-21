@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+using Rpg.Client.Core;
 
-namespace Rpg.Client.Core
+namespace Client.Core;
+
+internal interface IStoryPointInitializer
 {
-    internal interface IStoryPointInitializer
-    {
-        IReadOnlyCollection<IStoryPoint> Init(Globe globe);
-    }
+    void Init(Globe globe);
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.Core;
 using Client.GameScreens.CommandCenter;
 
 using Core.Dices;

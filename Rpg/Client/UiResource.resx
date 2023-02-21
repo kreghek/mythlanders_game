@@ -406,4 +406,15 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
   </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Defeats</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+  </data>
 </root>

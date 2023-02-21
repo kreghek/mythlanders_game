@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
+using Client.GameScreens.Speech;
 using Client.GameScreens.Training;
 
 using Microsoft.Xna.Framework;

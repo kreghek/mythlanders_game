@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Core.Dices;
 
@@ -22,8 +24,30 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
     }
 
     /// <inheritdoc />
+    public bool CanCreate()
+    {
+        return true;
+    }
+
+    /// <inheritdoc/>
     public ICampaignStageItem Create()
     {
-        return _services.Dice.RollFromList(_templates).Create();
+        var openList = new List<ICampaignStageTemplateFactory>(_templates);
+
+        while (openList.Any())
+        {
+            var rolledTemplate = _services.Dice.RollFromList(openList);
+            if (rolledTemplate.CanCreate())
+            {
+                return rolledTemplate.Create();
+            }
+            else
+            { 
+                openList.Remove(rolledTemplate);
+            }
+        }
+
+        
+        throw new InvalidOperationException("Can't select template to create stage.");
     }
 }

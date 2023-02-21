@@ -6,9 +6,11 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Client.Core;
+using Client.Core.Dialogues;
+
 using Core.Dices;
 
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Core.ProgressStorage;
 
 namespace Rpg.Client.Core
@@ -135,8 +137,6 @@ namespace Rpg.Client.Core
                 LoadPlayerKnownMonsters(progressDto.Player, _unitSchemeCatalog, Globe.Player);
             }
 
-            LoadEvents(progressDto.Events);
-
             Globe.UpdateNodes(_dice, _eventCatalog);
         }
 
@@ -153,8 +153,7 @@ namespace Rpg.Client.Core
 
             var progress = new ProgressDto
             {
-                Player = player,
-                Events = GetUsedEventDtos(_eventCatalog.Events)
+                Player = player
             };
 
             var saveName = GetSaveName(Globe.Player.Name);
@@ -300,32 +299,9 @@ namespace Rpg.Client.Core
             return currentSave.FileName;
         }
 
-        private static IEnumerable<EventDto> GetUsedEventDtos(IEnumerable<Event> events)
-        {
-            foreach (var eventItem in events)
-            {
-                if (eventItem.Counter <= 0)
-                {
-                    continue;
-                }
-
-                var dto = new EventDto
-                {
-                    Sid = eventItem.Sid,
-                    Counter = eventItem.Counter
-                };
-
-                yield return dto;
-            }
-        }
-
         private static void InitStartStoryPoint(Globe globe, IStoryPointInitializer storyPointCatalog)
         {
-            var startStoryPoints = storyPointCatalog.Init(globe);
-            foreach (var storyPoint in startStoryPoints)
-            {
-                globe.AddActiveStoryPoint(storyPoint);
-            }
+            storyPointCatalog.Init(globe);
         }
 
         private static bool IsDirectoryEmpty(string path)
@@ -355,30 +331,6 @@ namespace Rpg.Client.Core
                 {
                     equipment.LevelUp();
                 }
-            }
-        }
-
-        private void LoadEvents(IEnumerable<EventDto?>? eventDtoList)
-        {
-            foreach (var eventItem in _eventCatalog.Events)
-            {
-                eventItem.Counter = 0;
-            }
-
-            if (eventDtoList is null)
-            {
-                return;
-            }
-
-            foreach (var eventDto in eventDtoList)
-            {
-                if (eventDto is null)
-                {
-                    continue;
-                }
-
-                var eventItem = _eventCatalog.Events.Single(x => x.Sid == eventDto.Sid);
-                eventItem.Counter = eventDto.Counter;
             }
         }
 

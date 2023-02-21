@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Client;
+using Client.Core;
+using Client.Core.Dialogues;
 
 using Core.Dices;
 
@@ -11,7 +13,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Common;
@@ -70,7 +71,7 @@ namespace Rpg.Client.GameScreens.Map
             _globe.Updated += Globe_Updated;
         }
 
-        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, Event? availableEvent,
+        public static void HandleLocationSelect(bool autoCombat, GlobeNode node, DialogueEvent? availableEvent,
             IEventCatalog eventCatalog, IScreen currentScreen, IScreenManager screenManager,
             Action? clearScreenHandlersDelegate)
         {
@@ -253,7 +254,7 @@ namespace Rpg.Client.GameScreens.Map
             }
         }
 
-        private void AutoCombatDelegate(GlobeNode node, Event? availableEvent)
+        private void AutoCombatDelegate(GlobeNode node, DialogueEvent? availableEvent)
         {
             CombatDelegateInner(true, node, availableEvent);
         }
@@ -263,12 +264,12 @@ namespace Rpg.Client.GameScreens.Map
             globe.Updated -= Globe_Updated;
         }
 
-        private void CombatDelegate(GlobeNode node, Event? availableEvent)
+        private void CombatDelegate(GlobeNode node, DialogueEvent? availableEvent)
         {
             CombatDelegateInner(false, node, availableEvent);
         }
 
-        private void CombatDelegateInner(bool autoCombat, GlobeNode node, Event? availableEvent)
+        private void CombatDelegateInner(bool autoCombat, GlobeNode node, DialogueEvent? availableEvent)
         {
             _screenTransition = true;
 

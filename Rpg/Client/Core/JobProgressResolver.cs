@@ -21,7 +21,7 @@ namespace Rpg.Client.Core
             {
                 // Опеределяем, какие из прогрессировавших работ завершены.
                 // И фиксируем их состояние завершения.
-                if (job.Progress >= job.Scheme.Value)
+                if (job.Progress >= job.Scheme.GoalValue.Value)
                 {
                     job.IsComplete = true;
                 }

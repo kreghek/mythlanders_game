@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core.Dialogues
 {
-    internal interface IOptionAftermath
+    internal interface IDialogueOptionAftermath
     {
         void Apply(IEventContext dialogContext);
     }

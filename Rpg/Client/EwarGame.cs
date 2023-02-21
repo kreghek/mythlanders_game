@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 using Client.Assets.Catalogs;
+using Client.Core;
 
 using Core.Dices;
 
@@ -244,7 +245,7 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var storyPointCatalog = new StoryPointCatalog();
+                var storyPointCatalog = new StoryPointCatalog(dialogueCatalog);
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }
@@ -259,7 +260,7 @@ namespace Rpg.Client
                 Services.AddService<IEventInitializer>(dialogueCatalog);
                 Services.AddService<IEventCatalog>(dialogueCatalog);
 
-                var storyPointCatalog = new DemoStoryPointCatalog();
+                var storyPointCatalog = new StoryPointCatalog(dialogueCatalog);
                 Services.AddService<IStoryPointInitializer>(storyPointCatalog);
                 Services.AddService<IStoryPointCatalog>(storyPointCatalog);
             }

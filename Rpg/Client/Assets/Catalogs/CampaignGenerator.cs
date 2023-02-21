@@ -65,6 +65,17 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
+
+            new ICampaignStageTemplateFactory[]{
+                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new RestCampaignStageTemplateFactory(),
+                }, _services)
+            },
+
             // Combat
 
             new ICampaignStageTemplateFactory[]
@@ -103,7 +114,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
-                    new TextEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)
@@ -154,7 +165,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
                 {
-                    new TextEventStageTemplateFactory(locationSid, _services),
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
                     new MinigameEventCampaignStageTemplateFactory()
                 }, _services)

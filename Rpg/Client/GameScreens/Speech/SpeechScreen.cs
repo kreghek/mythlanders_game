@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client;
+using Client.Core;
+using Client.GameScreens.Speech;
 
 using Core.Dices;
 
@@ -99,7 +101,7 @@ namespace Rpg.Client.GameScreens.Speech
             _dialogueOptions = new DialogueOptions();
             _textFragments = new List<TextFragment>();
 
-            var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player);
+            var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player, args.dualogueEvent);
             _dialoguePlayer =
                 new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
 
