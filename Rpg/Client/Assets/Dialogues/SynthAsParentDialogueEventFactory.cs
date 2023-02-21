@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Client.Assets.StoryPointAftermaths;
+using Client.Core;
 using Client.Core.Dialogues;
 
 using JetBrains.Annotations;
@@ -57,15 +58,11 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             TitleSid = "synth_as_parent",
             CurrentJobs = new[]
             {
-                new Job("Победа над противниками", "{0}: {1}/{2}", "{0} - завершено")
-                {
-                    Scheme = new JobScheme
-                    {
-                        Scope = JobScopeCatalog.Global,
-                        Type = JobTypeCatalog.Defeats,
-                        Value = 12
-                    }
-                }
+                new Job(
+                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(12)),
+                    nameof(UiResource.DefeatsJobTitleSid),
+                    nameof(UiResource.DefeatsJobProgressPatternSid),
+                    nameof(UiResource.DefeatsJobCompletePatternSid))
             },
             Aftermaths = new IStoryPointAftermath[]
             {

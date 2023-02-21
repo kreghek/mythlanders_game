@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 using Client.Assets.Catalogs;
+using Client.Core;
 
 using Core.Dices;
 

@@ -66,25 +66,28 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-        if (_globe.Globe.ActiveStoryPoints.Any())
+        if (!_globe.Globe.ActiveStoryPoints.Any())
         {
-            var storyPointIndex = 0;
-            foreach (var storyPoint in _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray())
-            {
-                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid, new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
-                if (storyPoint.CurrentJobs is not null)
-                {
-                    var currentJobs = storyPoint.CurrentJobs.ToList();
-                    for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
-                    {
-                        spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), 
-                            currentJobs[jobNumber].ToString(), 
-                            new Vector2(contentRect.Left, contentRect.Top + 20 + 20  * jobNumber), 
-                            Color.Wheat);
-                    }
-                }
+            return;
+        }
 
-                storyPointIndex++;
+        var storyPoints = _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
+        for (var storyPointIndex = 0; storyPointIndex < storyPoints.Length; storyPointIndex++)
+        {
+            var storyPoint = storyPoints[storyPointIndex];
+            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid,
+                new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
+            if (storyPoint.CurrentJobs is not null)
+            {
+                var currentJobs = storyPoint.CurrentJobs.ToList();
+                for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
+                {
+                    var jobTextOffsetY = 20 * jobNumber;
+                    spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
+                        currentJobs[jobNumber].ToString(),
+                        new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
+                        Color.Wheat);
+                }
             }
         }
     }

@@ -1,31 +1,39 @@
-namespace Rpg.Client.Core
+using Rpg.Client.Core;
+
+namespace Client.Core;
+
+internal sealed class Job : IJob
 {
-    internal sealed class Job : IJob
+    private readonly string _completePatternResourceSid;
+    private readonly string _patternResourceSid;
+
+    public Job(
+        IJobSubScheme scheme,
+        string titleResourceSid,
+        string patternResourceSid,
+        string completePatternResourceSid)
     {
-        private readonly string _completePattern;
-        private readonly string _pattern;
-
-        public Job(string title, string pattern, string completePattern)
-        {
-            Title = title;
-            _pattern = pattern;
-            _completePattern = completePattern;
-        }
-
-        public string Title { get; }
-
-        public override string ToString()
-        {
-            if (IsComplete)
-            {
-                return string.Format(_completePattern, Title);
-            }
-
-            return string.Format(_pattern, Title, Progress, Scheme.Value);
-        }
-
-        public bool IsComplete { get; set; }
-        public int Progress { get; set; }
-        public IJobSubScheme Scheme { get; set; } = null!;
+        _titleResourceSid = titleResourceSid;
+        _patternResourceSid = patternResourceSid;
+        _completePatternResourceSid = completePatternResourceSid;
+        Scheme = scheme;
     }
+
+    private readonly string _titleResourceSid;
+
+    public override string ToString()
+    {
+        var rm = UiResource.ResourceManager!;
+        if (IsComplete)
+        {
+            return string.Format(rm.GetString(_completePatternResourceSid), _titleResourceSid);
+        }
+
+        return string.Format(rm.GetString(_patternResourceSid), rm.GetString(_titleResourceSid), Progress,
+            Scheme.GoalValue.Value);
+    }
+
+    public bool IsComplete { get; set; }
+    public int Progress { get; set; }
+    public IJobSubScheme Scheme { get; }
 }

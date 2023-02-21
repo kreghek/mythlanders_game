@@ -1,9 +1,10 @@
-namespace Rpg.Client.Core
+using Rpg.Client.Core;
+
+namespace Client.Core;
+
+public interface IJobSubScheme
 {
-    public interface IJobSubScheme
-    {
-        IJobScope Scope { get; }
-        IJobType Type { get; }
-        int Value { get; }
-    }
+    IJobScope Scope { get; }
+    IJobType Type { get; }
+    JobGoalValue GoalValue { get; }
 }
