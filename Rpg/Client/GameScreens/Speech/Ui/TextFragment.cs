@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
 
+using Client.Core.Dialogues;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
@@ -8,7 +10,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Speech.Ui

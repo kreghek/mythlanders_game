@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Dialogues;
+
 namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class DialogueNode
@@ -11,7 +13,7 @@ namespace Rpg.Client.Core.Dialogues
             TextBlock = textBlock;
         }
 
-        public static DialogueNode EndNode { get; } = new(new EventTextBlock(), Array.Empty<DialogueOption>());
+        public static DialogueNode EndNode { get; } = new(new EventTextBlock(Array.Empty<EventTextFragment>()), Array.Empty<DialogueOption>());
 
         public IReadOnlyCollection<DialogueOption> Options { get; }
 

@@ -33,10 +33,8 @@ namespace Rpg.Client.Assets.Catalogs
         {
             var jsonSpeaker = obj.GetProperty("name").GetString();
 
-            var fragment = new EventTextFragment
-            {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
-            };
+            var unitName = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true);
+            var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}");
             return fragment;
         }
 
@@ -93,10 +91,7 @@ namespace Rpg.Client.Assets.Catalogs
                 {
                     var dialogueTextFragments = new List<EventTextFragment>();
 
-                    var textBlock = new EventTextBlock
-                    {
-                        Fragments = dialogueTextFragments
-                    };
+                    var textBlock = new EventTextBlock(dialogueTextFragments);
 
                     var dialogOptions = new List<DialogueOption>();
 
