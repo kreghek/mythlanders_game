@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+using Client.Assets.DialogueEventEnviroment;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
@@ -97,6 +98,8 @@ namespace Rpg.Client.Assets.Catalogs
 
                     var dialogueNode = new DialogueNode(textBlock, dialogOptions);
 
+                    HERE !@!!
+
                     var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                     dialogueTextFragments.Add(fragment);
@@ -145,33 +148,28 @@ namespace Rpg.Client.Assets.Catalogs
                                 if (nextJson.Value.TryGetProperty("signals", out var signals))
                                 {
                                     var aftermathList = new List<IDialogueOptionAftermath>();
+                                    var enviromentList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
                                     foreach (var signalProperty in signals.EnumerateObject())
                                     {
                                         const string AFTERMATH_PREFIX = "AM_";
+                                        const string ENVIRONMENT_PREFFIX = "ENV_";
                                         if (signalProperty.Name.StartsWith(AFTERMATH_PREFIX))
                                         {
-                                            var aftermathTypeName =
-                                                signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
-                                            if (aftermathTypeName.Contains('_'))
+                                            var (aftermathTypeName, aftermathData) = Handle(signalProperty, AFTERMATH_PREFIX);
+                                            var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName, aftermathData);
+
+                                            aftermathList.Add(aftermathItem);
+                                        }
+                                        else if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                                        {
+                                            var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
+
+                                            if (envTypeName == "PlaySound")
                                             {
-                                                var postfixPosition = aftermathTypeName.LastIndexOf("_");
-                                                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+                                                var command = new PlaySoundEnviromentCommand(envData, envData);
+                                                enviromentList.Add(command);
                                             }
 
-                                            var signalStringData =
-                                                signalProperty.Value.GetProperty("String").GetString();
-
-                                            if (signalStringData is not null)
-                                            {
-                                                var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName,
-                                                    signalStringData);
-
-                                                aftermathList.Add(aftermathItem);
-                                            }
-                                            else
-                                            {
-                                                throw new InvalidOperationException("Data is not defined");
-                                            }
                                         }
                                     }
 
@@ -208,6 +206,27 @@ namespace Rpg.Client.Assets.Catalogs
             var dialogue = new Dialogue(rootNode);
 
             return dialogue;
+        }
+
+        private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
+        {
+            var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
+            if (aftermathTypeName.Contains('_'))
+            {
+                var postfixPosition = aftermathTypeName.LastIndexOf("_");
+                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+            }
+
+            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
+
+            if (signalStringData is not null)
+            {
+                return (aftermathTypeName, signalStringData);
+            }
+            else
+            {
+                throw new InvalidOperationException("Data is not defined");
+            }
         }
 
         public IEnumerable<DialogueEvent> Events { get; private set; }

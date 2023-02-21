@@ -1,4 +1,7 @@
-﻿using Rpg.Client.Core;
+﻿using System;
+using System.Collections.Generic;
+
+using Rpg.Client.Core;
 
 namespace Client.Core.Dialogues;
 
@@ -11,5 +14,9 @@ internal sealed class EventTextFragment
     {
         TextSid = textSid;
         Speaker = speaker;
+
+        EnvironmentCommands = Array.Empty<IDialogueEventTextFragmentEnvironmentCommand>();
     }
+
+    public IReadOnlyCollection<IDialogueEventTextFragmentEnvironmentCommand> EnvironmentCommands { get; init; }
 }
