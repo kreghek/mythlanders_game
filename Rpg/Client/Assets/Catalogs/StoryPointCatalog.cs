@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Assets.Dialogues;
 using Client.Core;
+
 using Rpg.Client.Core;
 
 namespace Client.Assets.Catalogs;
@@ -33,7 +34,7 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
         var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
 
         var factoryServices = new DialogueEventFactoryServices(_eventCatalog);
-            
+
         foreach (var factory in factories)
         {
             var storyPoints = factory.CreateStoryPoints(factoryServices);

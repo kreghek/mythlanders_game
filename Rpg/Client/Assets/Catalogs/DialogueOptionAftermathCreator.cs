@@ -41,7 +41,7 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         else if (aftermathTypeSid == "Trigger")
         {
             var trigger = data;
-            aftermath = new DialogueEventTriggerOptionAftermath(trigger); 
+            aftermath = new DialogueEventTriggerOptionAftermath(trigger);
         }
 
         if (aftermath is null)

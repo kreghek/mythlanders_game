@@ -239,7 +239,7 @@ namespace Rpg.Client.Assets.Catalogs
             var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
 
             var factoryServices = new DialogueEventFactoryServices(this);
-            
+
             foreach (var factory in factories)
             {
                 var dialogueEvent = factory.CreateEvent(factoryServices);

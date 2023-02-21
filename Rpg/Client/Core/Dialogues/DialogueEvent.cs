@@ -34,7 +34,7 @@ internal sealed class DialogueEvent
     public string Sid { get; }
 
     public void Trigger(DialogueEventTrigger trigger)
-    { 
+    {
         _stateMachine.Fire(trigger);
     }
 }

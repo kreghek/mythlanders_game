@@ -35,7 +35,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
-            [initialState] = new[] 
+            [initialState] = new[]
             {
                 new LocationEventRequirement(new[] { LocationSid.Desert })
             }
@@ -52,7 +52,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
     public IReadOnlyCollection<IStoryPoint> CreateStoryPoints(IDialogueEventFactoryServices services)
     {
         var spList = new List<IStoryPoint>();
-        
+
         var synthStage1Story = new StoryPoint("synth_as_parent_stage_1")
         {
             TitleSid = "synth_as_parent",

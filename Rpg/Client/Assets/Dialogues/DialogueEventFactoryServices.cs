@@ -2,4 +2,4 @@ using Rpg.Client.Core;
 
 namespace Client.Assets.Dialogues;
 
-internal sealed record DialogueEventFactoryServices(IEventCatalog EventCatalog): IDialogueEventFactoryServices;
+internal sealed record DialogueEventFactoryServices(IEventCatalog EventCatalog) : IDialogueEventFactoryServices;

@@ -39,7 +39,7 @@ namespace DialoguePlayer
             var selectedEvent = eventCatalog.Events.Single(x => x.Sid == eventSid);
 
             var dialogueSid = selectedEvent.GetDialogSid();
-            
+
             Console.WriteLine(@$"Selected dialogue sid: {dialogueSid}");
 
             var dialogue = eventCatalog.GetDialogue(dialogueSid);

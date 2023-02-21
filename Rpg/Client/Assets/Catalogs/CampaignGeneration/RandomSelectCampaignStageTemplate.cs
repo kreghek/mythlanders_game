@@ -42,12 +42,12 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
                 return rolledTemplate.Create();
             }
             else
-            { 
+            {
                 openList.Remove(rolledTemplate);
             }
         }
 
-        
+
         throw new InvalidOperationException("Can't select template to create stage.");
     }
 }
