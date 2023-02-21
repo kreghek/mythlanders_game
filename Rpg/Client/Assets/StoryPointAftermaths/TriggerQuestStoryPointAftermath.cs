@@ -8,9 +8,9 @@ namespace Client.Assets.StoryPointAftermaths;
 
 internal sealed class TriggerQuestStoryPointAftermath : IStoryPointAftermath
 {
+    private readonly IEventCatalog _eventCatalog;
     private readonly string _eventSid;
     private readonly DialogueEventTrigger _trigger;
-    private readonly IEventCatalog _eventCatalog;
 
     public TriggerQuestStoryPointAftermath(string eventSid, DialogueEventTrigger trigger, IEventCatalog eventCatalog)
     {

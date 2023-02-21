@@ -12,7 +12,8 @@ namespace Rpg.Client.Core.Dialogues
         private readonly Player _player;
         private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player, DialogueEvent currentDialogueEvent)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+            DialogueEvent currentDialogueEvent)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;

@@ -7,11 +7,11 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 /// </summary>
 internal interface ICampaignStageTemplateFactory
 {
+    public bool CanCreate();
+
     /// <summary>
     /// Create stage item of the campaign.
     /// </summary>
     /// <returns></returns>
     public ICampaignStageItem Create();
-
-    public bool CanCreate();
 }

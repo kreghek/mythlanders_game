@@ -7,6 +7,8 @@ internal sealed class Job : IJob
     private readonly string _completePatternResourceSid;
     private readonly string _patternResourceSid;
 
+    private readonly string _titleResourceSid;
+
     public Job(
         IJobSubScheme scheme,
         string titleResourceSid,
@@ -18,8 +20,6 @@ internal sealed class Job : IJob
         _completePatternResourceSid = completePatternResourceSid;
         Scheme = scheme;
     }
-
-    private readonly string _titleResourceSid;
 
     public override string ToString()
     {

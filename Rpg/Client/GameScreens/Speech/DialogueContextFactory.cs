@@ -8,12 +8,13 @@ namespace Rpg.Client.GameScreens.Speech
 {
     internal sealed class DialogueContextFactory
     {
+        private readonly DialogueEvent _currentDialogueEvent;
         private readonly Globe _globe;
         private readonly Player _player;
-        private readonly DialogueEvent _currentDialogueEvent;
         private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player, DialogueEvent currentDialogueEvent)
+        public DialogueContextFactory(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+            DialogueEvent currentDialogueEvent)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;

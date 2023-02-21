@@ -29,7 +29,7 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
         return true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ICampaignStageItem Create()
     {
         var openList = new List<ICampaignStageTemplateFactory>(_templates);
@@ -41,12 +41,9 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
             {
                 return rolledTemplate.Create();
             }
-            else
-            {
-                openList.Remove(rolledTemplate);
-            }
-        }
 
+            openList.Remove(rolledTemplate);
+        }
 
         throw new InvalidOperationException("Can't select template to create stage.");
     }

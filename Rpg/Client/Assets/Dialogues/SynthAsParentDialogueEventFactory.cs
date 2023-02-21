@@ -66,7 +66,8 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             },
             Aftermaths = new IStoryPointAftermath[]
             {
-                new TriggerQuestStoryPointAftermath("synth_as_parent", new DialogueEventTrigger("stage_1_complete"), services.EventCatalog)
+                new TriggerQuestStoryPointAftermath("synth_as_parent", new DialogueEventTrigger("stage_1_complete"),
+                    services.EventCatalog)
             }
         };
 

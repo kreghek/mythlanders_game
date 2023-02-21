@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Rpg.Client.Core.ProgressStorage
+﻿namespace Rpg.Client.Core.ProgressStorage
 {
     internal sealed record ProgressDto
     {

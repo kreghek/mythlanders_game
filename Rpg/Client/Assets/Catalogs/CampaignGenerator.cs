@@ -65,14 +65,15 @@ internal sealed class CampaignGenerator : ICampaignGenerator
     {
         return new[]
         {
-
-            new ICampaignStageTemplateFactory[]{
-                 new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]{
+            new ICampaignStageTemplateFactory[]
+            {
+                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new RestCampaignStageTemplateFactory(),
+                    new RestCampaignStageTemplateFactory()
                 }, _services)
             },
 

@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core.Dialogues;
+﻿using Client.Core.Dialogues;
+
+using Rpg.Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueOptionAftermath;
 
@@ -13,6 +15,6 @@ internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
 
     public void Apply(IEventContext dialogContext)
     {
-        dialogContext.CurrentDualogueEvent.Trigger(new Core.Dialogues.DialogueEventTrigger(_trigger));
+        dialogContext.CurrentDualogueEvent.Trigger(new DialogueEventTrigger(_trigger));
     }
 }

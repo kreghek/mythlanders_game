@@ -22,7 +22,12 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         _services = services;
     }
 
-    /// <inheritdoc/>
+    private bool MeetRequirements(DialogueEvent textEvent)
+    {
+        return textEvent.GetRequirements().All(r => r.IsApplicableFor(_services.GlobeProvider.Globe, _locationSid));
+    }
+
+    /// <inheritdoc />
     public bool CanCreate()
     {
         var availableStoies = _services.EventCatalog.Events.Where(x => MeetRequirements(x)).ToArray();
@@ -30,12 +35,7 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         return availableStoies.Any();
     }
 
-    private bool MeetRequirements(DialogueEvent textEvent)
-    {
-        return textEvent.GetRequirements().All(r => r.IsApplicableFor(_services.GlobeProvider.Globe, _locationSid));
-    }
-
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public ICampaignStageItem Create()
     {
         var availableStoies = _services.EventCatalog.Events.Where(x => MeetRequirements(x)).ToArray();

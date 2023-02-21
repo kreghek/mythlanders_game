@@ -51,7 +51,9 @@ namespace Rpg.Client.Assets.Catalogs
 
             // Fill node list
 
-            var nodeList = new List<(string sid, IList<EventTextFragment> fragmentList, DialogueNode node, List<DialogueOption> options)>();
+            var nodeList =
+                new List<(string sid, IList<EventTextFragment> fragmentList, DialogueNode node, List<DialogueOption>
+                    options)>();
 
             var deserializedDialogueNodesOpenList = deserializedDialogueNodes.ToList();
 

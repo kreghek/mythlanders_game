@@ -6,9 +6,9 @@ namespace Client.Core.Dialogues;
 
 internal sealed class DialogueEvent
 {
-    private readonly StateMachine<DialogueEventState, DialogueEventTrigger> _stateMachine;
-    private readonly IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> _requirements;
     private readonly IDictionary<DialogueEventState, string> _dialogueDict;
+    private readonly IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> _requirements;
+    private readonly StateMachine<DialogueEventState, DialogueEventTrigger> _stateMachine;
 
     public DialogueEvent(string sid, StateMachine<DialogueEventState, DialogueEventTrigger> stateMachine,
         IDictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>> requirements,
@@ -20,18 +20,19 @@ internal sealed class DialogueEvent
         _dialogueDict = dialogueDict;
     }
 
+    public bool Completed => _stateMachine.State.Sid == "complete";
+
+    public string Sid { get; }
+
     public string GetDialogSid()
     {
         return _dialogueDict[_stateMachine.State];
     }
 
-    public bool Completed => _stateMachine.State.Sid == "complete";
     public IReadOnlyCollection<IDialogueEventRequirement> GetRequirements()
     {
         return _requirements[_stateMachine.State];
     }
-
-    public string Sid { get; }
 
     public void Trigger(DialogueEventTrigger trigger)
     {

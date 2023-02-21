@@ -10,8 +10,8 @@ namespace Client.Assets.StageItems;
 
 internal sealed class DialogueEventStageItem : ICampaignStageItem
 {
-    private readonly string _eventSid;
     private readonly IEventCatalog _eventCatalog;
+    private readonly string _eventSid;
     private readonly LocationSid _location;
 
     public DialogueEventStageItem(string eventSid, LocationSid location, IEventCatalog eventCatalog)

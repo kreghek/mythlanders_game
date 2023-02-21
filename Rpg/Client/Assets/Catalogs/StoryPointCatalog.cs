@@ -14,6 +14,7 @@ internal sealed class StoryPointCatalog : IStoryPointCatalog, IStoryPointInitial
     private readonly IEventCatalog _eventCatalog;
 
     private IReadOnlyCollection<IStoryPoint> _storyPoints = new List<IStoryPoint>();
+
     public StoryPointCatalog(IEventCatalog eventCatalog)
     {
         _eventCatalog = eventCatalog;

@@ -101,7 +101,8 @@ namespace Rpg.Client.GameScreens.Speech
             _dialogueOptions = new DialogueOptions();
             _textFragments = new List<TextFragment>();
 
-            var dualogueContextFactory = new DialogueContextFactory(_globe, storyPointCatalog, _player, args.dualogueEvent);
+            var dualogueContextFactory =
+                new DialogueContextFactory(_globe, storyPointCatalog, _player, args.dualogueEvent);
             _dialoguePlayer =
                 new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
 

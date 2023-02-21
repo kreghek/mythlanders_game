@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Client.Core;
-using Client.Core.Dialogues;
 
 using Core.Dices;
 

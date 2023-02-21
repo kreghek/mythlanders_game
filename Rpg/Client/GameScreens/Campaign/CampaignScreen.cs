@@ -18,8 +18,8 @@ namespace Client.GameScreens.Campaign;
 
 internal class CampaignScreen : GameScreenWithMenuBase
 {
-    private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private readonly GlobeProvider _globe;
+    private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private CampaignStagesPanel? _stagePanel;
 
     public CampaignScreen(EwarGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
@@ -64,6 +64,21 @@ internal class CampaignScreen : GameScreenWithMenuBase
         spriteBatch.End();
     }
 
+    protected override void InitializeContent()
+    {
+        InitializeCampaignItemButtons();
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        if (_stagePanel is not null)
+        {
+            _stagePanel.Update(ResolutionIndependentRenderer);
+        }
+    }
+
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         if (!_globe.Globe.ActiveStoryPoints.Any())
@@ -89,21 +104,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
                         Color.Wheat);
                 }
             }
-        }
-    }
-
-    protected override void InitializeContent()
-    {
-        InitializeCampaignItemButtons();
-    }
-
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        if (_stagePanel is not null)
-        {
-            _stagePanel.Update(ResolutionIndependentRenderer);
         }
     }
 
