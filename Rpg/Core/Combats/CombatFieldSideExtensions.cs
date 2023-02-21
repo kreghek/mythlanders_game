@@ -20,11 +20,11 @@ public static class CombatFieldSideExtensions
     public static FieldCoords GetCombatantCoords(this CombatFieldSide side, Combatant combatant)
     {
         for (var colIndex = 0; colIndex < side.ColumnCount; colIndex++)
-            for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
-            {
-                var fieldCoords = new FieldCoords(colIndex, lineIndex);
-                if (side[fieldCoords].Combatant == combatant) return fieldCoords;
-            }
+        for (var lineIndex = 0; lineIndex < side.LineCount; lineIndex++)
+        {
+            var fieldCoords = new FieldCoords(colIndex, lineIndex);
+            if (side[fieldCoords].Combatant == combatant) return fieldCoords;
+        }
 
         throw new ArgumentException("Not found", nameof(combatant));
     }
@@ -36,12 +36,8 @@ public static class CombatFieldSideExtensions
         {
             var combatant = side[new FieldCoords(colIndex, lineIndex)].Combatant;
             if (combatant is not null)
-            {
                 if (predicate(combatant))
-                {
                     yield return combatant;
-                }
-            }
         }
     }
 }

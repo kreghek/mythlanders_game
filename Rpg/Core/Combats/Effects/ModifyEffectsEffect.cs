@@ -1,6 +1,6 @@
 namespace Core.Combats.Effects;
 
-public sealed class ModifyEffectsEffect: IEffect
+public sealed class ModifyEffectsEffect : IEffect
 {
     public ModifyEffectsEffect(ITargetSelector selector, int value)
     {
@@ -8,8 +8,9 @@ public sealed class ModifyEffectsEffect: IEffect
         Value = value;
     }
 
-    public ITargetSelector Selector { get; }
     public int Value { get; }
+
+    public ITargetSelector Selector { get; }
 
     public IEffectInstance CreateInstance()
     {

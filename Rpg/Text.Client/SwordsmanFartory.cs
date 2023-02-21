@@ -32,12 +32,12 @@ public class SwordsmanFartory
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
-                            )
+                        )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("I'm so strong",
@@ -58,9 +58,9 @@ public class SwordsmanFartory
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
-        {
-            Tags = CombatMovementTags.AutoDefense
-        }
+            {
+                Tags = CombatMovementTags.AutoDefense
+            }
         );
 
         movementPool.Add(new CombatMovement("Hit from shoulder",
@@ -75,12 +75,12 @@ public class SwordsmanFartory
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
                             ChangePositionEffectDirection.ToVanguard
-                            )
+                        )
                     })
             )
-        {
-            Tags = CombatMovementTags.Attack
-        }
+            {
+                Tags = CombatMovementTags.Attack
+            }
         );
 
         movementPool.Add(new CombatMovement("Look out!",
@@ -93,9 +93,9 @@ public class SwordsmanFartory
                         3,
                         typeof(ToNextCombatantTurnEffectLifetime)),
                     new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                            )
+                        new SelfTargetSelector(),
+                        ChangePositionEffectDirection.ToVanguard
+                    )
                 },
                 new IEffect[]
                 {
@@ -112,17 +112,12 @@ public class SwordsmanFartory
         var heroSequence = new CombatMovementSequence();
 
         for (var i = 0; i < 2; i++)
-        {
             foreach (var movement in movementPool)
-            {
                 heroSequence.Items.Add(movement);
-            }
-        }
 
         var hero = new Combatant(heroSequence)
         {
-            Sid = sid,
-            IsPlayerControlled = true
+            Sid = sid, IsPlayerControlled = true
         };
         return hero;
     }

@@ -28,8 +28,9 @@ public sealed class CombatMovementInstance
         AutoDefenseEffects = sourceMovement.AutoDefenseEffects.Select(x => x.CreateInstance()).ToArray();
     }
 
-    public CombatMovement SourceMovement { get; }
-    
-    public IReadOnlyCollection<IEffectInstance> Effects { get; }
     public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
+
+    public IReadOnlyCollection<IEffectInstance> Effects { get; }
+
+    public CombatMovement SourceMovement { get; }
 }

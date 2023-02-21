@@ -4,7 +4,7 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangeStatEffectInstance : EffectInstanceBase<ChangeStatEffect>
 {
-    public ChangeStatEffectInstance(ChangeStatEffect baseEffect): base(baseEffect)
+    public ChangeStatEffectInstance(ChangeStatEffect baseEffect) : base(baseEffect)
     {
     }
 

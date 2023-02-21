@@ -13,10 +13,7 @@ public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
 
         foreach (var allyCombatant in allyInColumn)
         {
-            if (allyCombatant == actor)
-            {
-                continue;
-            }
+            if (allyCombatant == actor) continue;
 
             var allyCoords = context.ActorSide.GetCombatantCoords(allyCombatant);
 
@@ -30,15 +27,10 @@ public sealed class ClosestAllyInColumnTargetSelector : ITargetSelector
         }
 
         if (closestAlly is not null)
-        {
             return new[]
             {
                 closestAlly
             };
-        }
-        else
-        {
-            return ArraySegment<Combatant>.Empty;
-        }
+        return ArraySegment<Combatant>.Empty;
     }
 }

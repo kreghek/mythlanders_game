@@ -2,7 +2,7 @@ namespace Core.Combats.Effects;
 
 public sealed class ChangePositionEffectInstance : EffectInstanceBase<ChangePositionEffect>
 {
-    public ChangePositionEffectInstance(ChangePositionEffect baseEffect): base(baseEffect)
+    public ChangePositionEffectInstance(ChangePositionEffect baseEffect) : base(baseEffect)
     {
     }
 

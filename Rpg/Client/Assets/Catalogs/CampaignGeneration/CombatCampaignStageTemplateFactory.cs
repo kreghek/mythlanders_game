@@ -21,40 +21,10 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         _services = services;
     }
 
-    public ICampaignStageItem Create()
-    {
-        var combat = new CombatSource
-        {
-            Level = 1,
-            EnemyGroup = new Group()
-        };
-
-        var combatSequence = new CombatSequence
-        {
-            Combats = new[] { combat }
-        };
-
-        var location = new GlobeNode
-        {
-            Sid = _locationSid,
-            AssignedCombats = combatSequence
-        };
-        var stageItem = new CombatStageItem(location, combatSequence);
-
-        var monsterInfos = GetStartMonsterInfoList(_locationSid);
-
-        for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
-        {
-            var scheme = _services.UnitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
-            combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
-        }
-
-        return stageItem;
-    }
-
     private IReadOnlyList<(UnitName name, int level)> GetStartMonsterInfoList(LocationSid location)
     {
-        var availableAllRegularMonsters = _services.UnitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
+        var availableAllRegularMonsters =
+            _services.UnitSchemeCatalog.AllMonsters.Where(x => !HasPerk<BossMonster>(x, 1));
 
         var filteredByLocationMonsters = availableAllRegularMonsters.Where(x =>
             x.LocationSids is null || x.LocationSids is not null && x.LocationSids.Contains(location));
@@ -96,6 +66,37 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
     {
         var unit = new Unit(unitScheme, combatLevel);
         return unit.Perks.OfType<TPerk>().Any();
+    }
+
+    public ICampaignStageItem Create()
+    {
+        var combat = new CombatSource
+        {
+            Level = 1,
+            EnemyGroup = new Group()
+        };
+
+        var combatSequence = new CombatSequence
+        {
+            Combats = new[] { combat }
+        };
+
+        var location = new GlobeNode
+        {
+            Sid = _locationSid,
+            AssignedCombats = combatSequence
+        };
+        var stageItem = new CombatStageItem(location, combatSequence);
+
+        var monsterInfos = GetStartMonsterInfoList(_locationSid);
+
+        for (var slotIndex = 0; slotIndex < monsterInfos.Count; slotIndex++)
+        {
+            var scheme = _services.UnitSchemeCatalog.AllMonsters.Single(x => x.Name == monsterInfos[slotIndex].name);
+            combat.EnemyGroup.Slots[slotIndex].Unit = new Unit(scheme, monsterInfos[slotIndex].level);
+        }
+
+        return stageItem;
     }
 
     public bool CanCreate()

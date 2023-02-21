@@ -13,15 +13,17 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 /// </summary>
 internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageTemplateFactory
 {
-    private readonly IReadOnlyList<ICampaignStageTemplateFactory> _templates;
     private readonly CampaignStageTemplateServices _services;
+    private readonly IReadOnlyList<ICampaignStageTemplateFactory> _templates;
 
-    public RandomSelectCampaignStageTemplateFactory(IReadOnlyList<ICampaignStageTemplateFactory> templates, CampaignStageTemplateServices services)
+    public RandomSelectCampaignStageTemplateFactory(IReadOnlyList<ICampaignStageTemplateFactory> templates,
+        CampaignStageTemplateServices services)
     {
         _templates = templates;
         _services = services;
     }
 
+    /// <inheritdoc />
     public bool CanCreate()
     {
         return true;

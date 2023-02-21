@@ -13,6 +13,13 @@ public class StatValue : IStatValue
 
     private int Base { get; set; }
 
+    event EventHandler IStatValue.ModifierAdded
+    {
+        add => throw new NotImplementedException();
+
+        remove => throw new NotImplementedException();
+    }
+
     public int ActualMax => Base + _modifiers.Sum(x => x.Value);
 
     public int Current { get; private set; }

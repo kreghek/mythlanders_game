@@ -1,14 +1,14 @@
 namespace Core.Combats.Effects;
 
-public abstract class EffectInstanceBase<TEffect> : IEffectInstance where TEffect: IEffect
+public abstract class EffectInstanceBase<TEffect> : IEffectInstance where TEffect : IEffect
 {
-    public TEffect BaseEffect { get; }
-    public ITargetSelector Selector => BaseEffect.Selector;
-
     protected EffectInstanceBase(TEffect baseEffect)
     {
         BaseEffect = baseEffect;
     }
+
+    public TEffect BaseEffect { get; }
+    public ITargetSelector Selector => BaseEffect.Selector;
 
     public virtual void AddModifier(IUnitStatModifier modifier)
     {

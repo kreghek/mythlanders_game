@@ -14,7 +14,7 @@ namespace Client.GameScreens.NotImplementedStage;
 
 internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
-    private HeroCampaign _campaign;
+    private readonly HeroCampaign _campaign;
 
     public NotImplementedStageScreen(EwarGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
@@ -34,12 +34,10 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
     {
-
     }
 
     protected override void InitializeContent()
     {
-
     }
 
     private void CloseButton_OnClick(object? sender, EventArgs e)

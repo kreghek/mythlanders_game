@@ -16,8 +16,8 @@ public sealed class ToNextCombatantTurnEffectLifetime : ICombatantEffectLifetime
 
 public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifetime
 {
-    private bool _currentRoundEnd;
     private int _counter;
+    private bool _currentRoundEnd;
 
     public MultipleCombatantTurnEffectLifetime(int duration)
     {
@@ -31,10 +31,7 @@ public sealed class MultipleCombatantTurnEffectLifetime : ICombatantEffectLifeti
         if (_currentRoundEnd && updateType == CombatantEffectUpdateType.EndRound)
         {
             _counter--;
-            if (_counter == 0)
-            {
-                IsDead = true;
-            }
+            if (_counter == 0) IsDead = true;
         }
     }
 

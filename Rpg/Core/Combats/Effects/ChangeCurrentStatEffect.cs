@@ -1,5 +1,3 @@
-using Core.Combats;
-
 namespace Core.Combats.Effects;
 
 public sealed class ChangeCurrentStatEffect : IEffect
