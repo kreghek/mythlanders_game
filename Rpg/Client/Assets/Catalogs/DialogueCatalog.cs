@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+using Client.Assets.DialogueOptionAftermath;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Assets.DialogueOptionAftermath;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 

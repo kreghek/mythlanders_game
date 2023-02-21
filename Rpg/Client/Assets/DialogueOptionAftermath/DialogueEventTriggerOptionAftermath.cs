@@ -2,11 +2,11 @@
 
 namespace Client.Assets.DialogueOptionAftermath;
 
-internal class DialogueEventTriggerOptonAftermath : IDialogueOptionAftermath
+internal class DialogueEventTriggerOptionAftermath : IDialogueOptionAftermath
 {
     private readonly string _trigger;
 
-    public DialogueEventTriggerOptonAftermath(string trigger)
+    public DialogueEventTriggerOptionAftermath(string trigger)
     {
         _trigger = trigger;
     }
