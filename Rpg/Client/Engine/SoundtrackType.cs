@@ -8,6 +8,7 @@
         Map,
         Combat,
         Victory,
-        Defeat
+        Defeat,
+        Custom
     }
 }

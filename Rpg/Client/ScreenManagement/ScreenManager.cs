@@ -1,10 +1,12 @@
 ﻿using System;
 
+using Client;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
-using Client.GameScreens.Speech;
+using Client.GameScreens.TextDialogue;
+using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Training;
 
 using Microsoft.Xna.Framework;
@@ -27,14 +29,14 @@ namespace Rpg.Client.ScreenManagement
     internal class ScreenManager : IScreenManager
     {
         private const double TRANSITION_DURATION = 1;
-        private readonly EwarGame _game;
+        private readonly TestamentGame _game;
         private readonly GameSettings _gameSettings;
         private readonly Texture2D _transitionTexture;
         private bool _screenChanged;
 
         private double? _transitionCounter;
 
-        public ScreenManager(EwarGame game, GameSettings gameSettings)
+        public ScreenManager(TestamentGame game, GameSettings gameSettings)
         {
             _game = game;
             _gameSettings = gameSettings;
@@ -120,8 +122,8 @@ namespace Rpg.Client.ScreenManagement
                     (CommandCenterScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new SpeechScreen(_game,
-                    (SpeechScreenTransitionArgs)screenTransitionArguments),
+                ScreenTransition.Event => new TextDialogueScreen(_game,
+                    (TextDialogueScreenTransitionArgs)screenTransitionArguments),
                 ScreenTransition.Combat => new CombatScreen(_game,
                     (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game,

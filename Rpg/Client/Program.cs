@@ -2,13 +2,15 @@
 using System.IO;
 using System.Text;
 
+using Client;
+
 using Microsoft.Extensions.Logging;
 
 using NReco.Logging.File;
 
 using Rpg.Client;
 
-static ILogger<EwarGame> CreateLogging()
+static ILogger<TestamentGame> CreateLogging()
 {
     using var loggerFactory = LoggerFactory.Create(builder =>
     {
@@ -35,7 +37,7 @@ static ILogger<EwarGame> CreateLogging()
             .AddFilter("Microsoft", LogLevel.Warning)
             .AddFilter("System", LogLevel.Warning);
     });
-    var logger = loggerFactory.CreateLogger<EwarGame>();
+    var logger = loggerFactory.CreateLogger<TestamentGame>();
     return logger;
 }
 
@@ -72,7 +74,7 @@ var logger = CreateLogging();
 var gameMode = ReadGameMode();
 
 #if DEBUG
-using var game = new EwarGame(logger, gameMode);
+using var game = new TestamentGame(logger, gameMode);
 game.Run();
 #else
             try

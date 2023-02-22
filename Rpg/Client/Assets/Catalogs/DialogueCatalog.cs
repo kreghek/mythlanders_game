@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+using Client.Assets.Catalogs;
+using Client.Assets.DialogueEventEnviroment;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Assets.Dialogues;
 using Client.Core.Dialogues;
@@ -16,6 +18,7 @@ namespace Rpg.Client.Assets.Catalogs
     {
         private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
         private readonly IDialogueResourceProvider _resourceProvider;
+        private readonly DialogueEnvCommandCreator _envCommandCreator;
 
         private bool _isInitialized;
 
@@ -25,18 +28,45 @@ namespace Rpg.Client.Assets.Catalogs
             _resourceProvider = resourceProvider;
             _optionAftermathCreator = optionAftermathCreator;
 
+            _envCommandCreator = new DialogueEnvCommandCreator();
+
             _isInitialized = false;
             Events = Array.Empty<DialogueEvent>();
         }
 
-        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
+        private EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
         {
             var jsonSpeaker = obj.GetProperty("name").GetString();
 
-            var fragment = new EventTextFragment
+            if (!Enum.TryParse<UnitName>(jsonSpeaker, ignoreCase: true, out var unitName))
             {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
+                unitName = UnitName.Environment;
+            }
+
+            var enviromentCommandList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
+
+            if (obj.TryGetProperty("signals", out var signals))
+            {
+                foreach (var signalProperty in signals.EnumerateObject())
+                {
+                    const string ENVIRONMENT_PREFFIX = "ENV_";
+                    if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                    {
+                        var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
+
+                        var envCommand = _envCommandCreator.Create(envTypeName, envData);
+
+                        enviromentCommandList.Add(envCommand);
+
+                    }
+                }
+            }
+
+            var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}")
+            {
+                EnvironmentCommands = enviromentCommandList
             };
+
             return fragment;
         }
 
@@ -93,10 +123,7 @@ namespace Rpg.Client.Assets.Catalogs
                 {
                     var dialogueTextFragments = new List<EventTextFragment>();
 
-                    var textBlock = new EventTextBlock
-                    {
-                        Fragments = dialogueTextFragments
-                    };
+                    var textBlock = new EventTextBlock(dialogueTextFragments);
 
                     var dialogOptions = new List<DialogueOption>();
 
@@ -150,33 +177,28 @@ namespace Rpg.Client.Assets.Catalogs
                                 if (nextJson.Value.TryGetProperty("signals", out var signals))
                                 {
                                     var aftermathList = new List<IDialogueOptionAftermath>();
+                                    var enviromentList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
                                     foreach (var signalProperty in signals.EnumerateObject())
                                     {
                                         const string AFTERMATH_PREFIX = "AM_";
+                                        const string ENVIRONMENT_PREFFIX = "ENV_";
                                         if (signalProperty.Name.StartsWith(AFTERMATH_PREFIX))
                                         {
-                                            var aftermathTypeName =
-                                                signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
-                                            if (aftermathTypeName.Contains('_'))
+                                            var (aftermathTypeName, aftermathData) = Handle(signalProperty, AFTERMATH_PREFIX);
+                                            var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName, aftermathData);
+
+                                            aftermathList.Add(aftermathItem);
+                                        }
+                                        else if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                                        {
+                                            var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
+
+                                            if (envTypeName == "PlaySound")
                                             {
-                                                var postfixPosition = aftermathTypeName.LastIndexOf("_");
-                                                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+                                                var command = new PlayEffectEnviromentCommand(envData, envData);
+                                                enviromentList.Add(command);
                                             }
 
-                                            var signalStringData =
-                                                signalProperty.Value.GetProperty("String").GetString();
-
-                                            if (signalStringData is not null)
-                                            {
-                                                var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName,
-                                                    signalStringData);
-
-                                                aftermathList.Add(aftermathItem);
-                                            }
-                                            else
-                                            {
-                                                throw new InvalidOperationException("Data is not defined");
-                                            }
                                         }
                                     }
 
@@ -213,6 +235,27 @@ namespace Rpg.Client.Assets.Catalogs
             var dialogue = new Dialogue(rootNode);
 
             return dialogue;
+        }
+
+        private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
+        {
+            var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
+            if (aftermathTypeName.Contains('_'))
+            {
+                var postfixPosition = aftermathTypeName.LastIndexOf("_");
+                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+            }
+
+            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
+
+            if (signalStringData is not null)
+            {
+                return (aftermathTypeName, signalStringData);
+            }
+            else
+            {
+                throw new InvalidOperationException("Data is not defined");
+            }
         }
 
         public IEnumerable<DialogueEvent> Events { get; private set; }

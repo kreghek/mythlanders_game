@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens.Map
         private bool _isNodeModelsCreated;
         private bool _screenTransition;
 
-        public MapScreen(EwarGame game) : base(game)
+        public MapScreen(TestamentGame game) : base(game)
         {
             _camera = Game.Services.GetService<Camera2D>();
             _resolutionIndependenceRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
@@ -16,7 +15,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
 
-    public NotImplementedStageScreen(EwarGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
+    public NotImplementedStageScreen(TestamentGame game, NotImplementedStageScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
     }

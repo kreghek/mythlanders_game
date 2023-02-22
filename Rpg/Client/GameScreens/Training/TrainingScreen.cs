@@ -7,7 +7,6 @@ using Client.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -24,7 +23,7 @@ namespace Client.GameScreens.Training
         private readonly IList<ButtonBase> _usedButtons;
         private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
 
-        public TrainingScreen(EwarGame game, TrainingScreenTransitionArguments args) : base(game)
+        public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
 

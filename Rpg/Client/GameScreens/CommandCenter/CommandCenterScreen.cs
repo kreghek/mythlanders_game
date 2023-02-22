@@ -6,7 +6,6 @@ using Client.GameScreens.CommandCenter.Ui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -26,7 +25,7 @@ namespace Client.GameScreens.CommandCenter
 
         private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
 
-        public CommandCenterScreen(EwarGame game, CommandCenterScreenTransitionArguments args) : base(game)
+        public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
         {
             _campaigns = args.AvailableCampaigns;
 

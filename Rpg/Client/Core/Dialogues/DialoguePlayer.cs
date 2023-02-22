@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core.Dialogues;
+
 using Rpg.Client.GameScreens.Speech;
 
 namespace Rpg.Client.Core.Dialogues

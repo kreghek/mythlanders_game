@@ -28,7 +28,7 @@ namespace Rpg.Client.GameScreens.Hero
         private PerkInfoPanel _perkInfoPanel = null!;
         private SkillsInfoPanel _skillsInfoPanel = null!;
 
-        public HeroScreen(EwarGame game) : base(game)
+        public HeroScreen(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             var gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();

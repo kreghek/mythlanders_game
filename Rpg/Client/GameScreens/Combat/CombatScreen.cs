@@ -78,7 +78,7 @@ namespace Rpg.Client.GameScreens.Combat
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
 
-        public CombatScreen(EwarGame game, CombatScreenTransitionArguments args) : base(game)
+        public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
         {
             _args = args;
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();

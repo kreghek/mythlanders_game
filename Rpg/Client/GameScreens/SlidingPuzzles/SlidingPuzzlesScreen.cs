@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
@@ -28,7 +27,7 @@ namespace Client.GameScreens.SlidingPuzzles
         private readonly int _width;
         private TimeSpan _currentTime;
 
-        public SlidingPuzzlesScreen(EwarGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
+        public SlidingPuzzlesScreen(TestamentGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
         {
             _campaign = args.Campaign;
 

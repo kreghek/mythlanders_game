@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
@@ -16,7 +15,7 @@ namespace Client.GameScreens.Tactical
     {
         private readonly HeroCampaign _campaign;
 
-        public TacticalScreen(EwarGame game, TacticalScreenTransitionArguments args) : base(game)
+        public TacticalScreen(TestamentGame game, TacticalScreenTransitionArguments args) : base(game)
         {
             _campaign = args.HeroCampaign;
         }

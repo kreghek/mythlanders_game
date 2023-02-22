@@ -17,28 +17,28 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
         _unitSchemeCatalog = unitSchemeCatalog;
     }
 
-    public IDialogueOptionAftermath Create(string aftermathTypeSid, string data)
+    public IDialogueOptionAftermath Create(string typeSid, string data)
     {
         IDialogueOptionAftermath? aftermath = null;
 
-        if (aftermathTypeSid == "MeetHero")
+        if (typeSid == "MeetHero")
         {
             var heroNameStr = data;
             var heroName = Enum.Parse<UnitName>(heroNameStr);
             aftermath = new AddHeroOptionAftermath(_unitSchemeCatalog.Heroes[heroName]);
         }
-        else if (aftermathTypeSid == "ActivateStoryPoint")
+        else if (typeSid == "ActivateStoryPoint")
         {
             var spId = data;
             aftermath = new ActivateStoryPointOptionAftermath(spId);
         }
-        else if (aftermathTypeSid == "UnlockLocation")
+        else if (typeSid == "UnlockLocation")
         {
             var sid = data;
             var locationId = Enum.Parse<LocationSid>(sid);
             aftermath = new UnlockLocationOptionAftermath(locationId);
         }
-        else if (aftermathTypeSid == "Trigger")
+        else if (typeSid == "Trigger")
         {
             var trigger = data;
             aftermath = new DialogueEventTriggerOptionAftermath(trigger);
@@ -46,7 +46,7 @@ internal sealed class DialogueOptionAftermathCreator : IDialogueOptionAftermathC
 
         if (aftermath is null)
         {
-            throw new InvalidOperationException($"Type {aftermathTypeSid} is unknown.");
+            throw new InvalidOperationException($"Type {typeSid} is unknown.");
         }
 
         return aftermath;
