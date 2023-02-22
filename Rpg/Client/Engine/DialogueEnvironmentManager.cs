@@ -55,8 +55,8 @@ internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
     }
 
     public void Clean()
-    { 
-        foreach(var effect in _currentEffects)
+    {
+        foreach (var effect in _currentEffects)
         {
             effect.Value.Stop();
         }

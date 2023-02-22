@@ -10,7 +10,7 @@ internal sealed class DialogueEnvCommandCreator
     public IDialogueEventTextFragmentEnvironmentCommand Create(string typeSid, string data)
     {
         if (typeSid == "PlayEffect")
-        { 
+        {
             return new PlayEffectEnviromentCommand(typeSid, data);
         }
         else if (typeSid == "PlayMusic")

@@ -133,7 +133,7 @@ namespace Client.GameScreens.CommandCenter
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
                         new CampaignScreenTransitionArguments
-                            { Campaign = campaign });
+                        { Campaign = campaign });
                 };
 
                 index++;
