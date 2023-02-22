@@ -2,7 +2,7 @@
 
 namespace Client.Assets.DialogueEventEnviroment;
 
-internal class PlaySongEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
+internal sealed class PlaySongEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
 {
     private readonly string _resourceName;
 
@@ -11,7 +11,7 @@ internal class PlaySongEnviromentCommand : IDialogueEventTextFragmentEnvironment
         _resourceName = resourceName;
     }
 
-    public void Execute(IDialogueTextEventSoundManager soundEffectManager)
+    public void Execute(IDialogueEnvironmentManager soundEffectManager)
     {
         soundEffectManager.PlaySong(_resourceName);
     }

@@ -1,7 +1,8 @@
 ﻿namespace Client.Core.Dialogues;
 
-interface IDialogueTextEventSoundManager
+interface IDialogueEnvironmentManager
 {
+    void Clean();
     void PlayEffect(string effectSid, string resourceName);
     void PlaySong(string resourceName);
 }

@@ -65,10 +65,6 @@ namespace Rpg.Client.Assets.Catalogs
             var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}")
             {
                 EnvironmentCommands = enviromentCommandList
-                //new IDialogueEventTextFragmentEnvironmentCommand[]
-                //{
-                //    new PlaySoundEnviromentCommand("desert_winds", "DesertWind")
-                //}
             };
 
             return fragment;

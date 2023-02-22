@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-using Client.GameScreens.Speech;
+using Client.GameScreens.TextDialogue;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
@@ -32,6 +32,6 @@ internal sealed class DialogueEventStageItem : ICampaignStageItem
         screenManager.ExecuteTransition(
             currentScreen,
             ScreenTransition.Event,
-            new SpeechScreenTransitionArgs(currentCampaign, dialogue, textEvent, _location));
+            new TextDialogueScreenTransitionArgs(currentCampaign, dialogue, textEvent, _location));
     }
 }

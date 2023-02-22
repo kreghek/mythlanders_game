@@ -5,7 +5,8 @@ using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
-using Client.GameScreens.Speech;
+using Client.GameScreens.TextDialogue;
+using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Training;
 
 using Microsoft.Xna.Framework;
@@ -121,8 +122,8 @@ namespace Rpg.Client.ScreenManagement
                     (CommandCenterScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new SpeechScreen(_game,
-                    (SpeechScreenTransitionArgs)screenTransitionArguments),
+                ScreenTransition.Event => new TextDialogueScreen(_game,
+                    (TextDialogueScreenTransitionArgs)screenTransitionArguments),
                 ScreenTransition.Combat => new CombatScreen(_game,
                     (CombatScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game,

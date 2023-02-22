@@ -2,7 +2,7 @@
 
 namespace Client.Assets.DialogueEventEnviroment;
 
-internal class PlayEffectEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
+internal sealed class PlayEffectEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
 {
     private readonly string _effectSid;
     private readonly string _resourceName;
@@ -13,7 +13,7 @@ internal class PlayEffectEnviromentCommand : IDialogueEventTextFragmentEnvironme
         _resourceName = resourceName;
     }
 
-    public void Execute(IDialogueTextEventSoundManager soundEffectManager)
+    public void Execute(IDialogueEnvironmentManager soundEffectManager)
     {
         soundEffectManager.PlayEffect(_effectSid, _resourceName);
     }

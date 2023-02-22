@@ -135,8 +135,8 @@ public sealed class TestamentGame : Game
         var soundtrackManager = Services.GetService<SoundtrackManager>();
         soundtrackManager.Initialize(uiContentStorage);
 
-        var dialogueEnvManager = Services.GetRequiredService<IDialogueTextEventSoundManager>();
-        ((DialogueTextEventSoundManager)dialogueEnvManager).Init(Content);
+        var dialogueEnvManager = Services.GetRequiredService<IDialogueEnvironmentManager>();
+        ((DialogueEnvironmentManager)dialogueEnvManager).Init(Content);
 
         var bgofSelector = Services.GetService<BackgroundObjectFactorySelector>();
 
@@ -300,7 +300,7 @@ public sealed class TestamentGame : Game
 
         Services.AddService(new ScreenService());
 
-        var dialogEnvManager = new DialogueTextEventSoundManager(soundtrackManager);
-        Services.AddService<IDialogueTextEventSoundManager>(dialogEnvManager);
+        var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
+        Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
     }
 }

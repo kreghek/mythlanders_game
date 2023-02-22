@@ -54,6 +54,7 @@ namespace Rpg.Client.Engine
 
         public void PlaySilence()
         {
+            _customSong = null;
             _state = SoundtrackType.Silence;
         }
 

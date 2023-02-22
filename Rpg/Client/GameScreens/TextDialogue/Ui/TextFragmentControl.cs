@@ -13,9 +13,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Speech.Ui;
 
-namespace Client.GameScreens.Speech.Ui;
+namespace Client.GameScreens.TextDialogue.Ui;
 
 internal sealed class TextFragmentControl : ControlBase
 {
@@ -23,21 +22,21 @@ internal sealed class TextFragmentControl : ControlBase
 
     private readonly SpriteFont _font;
     private readonly string? _localizedSpeakerName;
-    private readonly TextFragmentMessage _message;
+    private readonly TextFragmentMessageControl _message;
     private readonly IReadOnlyCollection<IDialogueEventTextFragmentEnvironmentCommand> _envCommands;
     private readonly Texture2D _portraitsTexture;
-    private readonly IDialogueTextEventSoundManager _envManager;
+    private readonly IDialogueEnvironmentManager _envManager;
     private readonly UnitName _speaker;
 
     public TextFragmentControl(EventTextFragment eventTextFragment, Texture2D portraitsTexture,
-        SoundEffect textSoundEffect, IDice dice, IDialogueTextEventSoundManager envManager)
+        SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager)
     {
         _font = UiThemeManager.UiContentStorage.GetMainFont();
         _portraitsTexture = portraitsTexture;
         _envManager = envManager;
         _speaker = eventTextFragment.Speaker;
         _localizedSpeakerName = GetSpeaker(_speaker);
-        _message = new TextFragmentMessage(eventTextFragment, textSoundEffect, dice,
+        _message = new TextFragmentMessageControl(eventTextFragment, textSoundEffect, dice,
             _speaker != UnitName.Environment);
         _envCommands = eventTextFragment.EnvironmentCommands;
     }

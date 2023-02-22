@@ -2,5 +2,5 @@
 
 internal interface IDialogueEventTextFragmentEnvironmentCommand
 {
-    void Execute(IDialogueTextEventSoundManager soundEffectManager);
+    void Execute(IDialogueEnvironmentManager soundEffectManager);
 }
