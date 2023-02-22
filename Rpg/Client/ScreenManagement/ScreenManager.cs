@@ -6,7 +6,6 @@ using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
 using Client.GameScreens.TextDialogue;
-using Client.GameScreens.TextDialogue;
 using Client.GameScreens.Training;
 
 using Microsoft.Xna.Framework;
@@ -21,7 +20,6 @@ using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
 
 namespace Rpg.Client.ScreenManagement

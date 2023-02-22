@@ -13,7 +13,8 @@ namespace Rpg.Client.Core.Dialogues
             TextBlock = textBlock;
         }
 
-        public static DialogueNode EndNode { get; } = new(new EventTextBlock(Array.Empty<EventTextFragment>()), Array.Empty<DialogueOption>());
+        public static DialogueNode EndNode { get; } = new(new EventTextBlock(Array.Empty<EventTextFragment>()),
+            Array.Empty<DialogueOption>());
 
         public IReadOnlyCollection<DialogueOption> Options { get; }
 

@@ -6,11 +6,11 @@ namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventTextBlock
     {
-        public IReadOnlyList<EventTextFragment> Fragments { get; }
-
         public EventTextBlock(IReadOnlyList<EventTextFragment> fragments)
         {
             Fragments = fragments;
         }
+
+        public IReadOnlyList<EventTextFragment> Fragments { get; }
     }
 }

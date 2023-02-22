@@ -13,7 +13,8 @@ internal sealed class DialogueEnvCommandCreator
         {
             return new PlayEffectEnviromentCommand(typeSid, data);
         }
-        else if (typeSid == "PlayMusic")
+
+        if (typeSid == "PlayMusic")
         {
             return new PlaySongEnviromentCommand(data);
         }

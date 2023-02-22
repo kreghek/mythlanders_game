@@ -1,6 +1,6 @@
 ﻿namespace Client.Core.Dialogues;
 
-interface IDialogueEnvironmentManager
+internal interface IDialogueEnvironmentManager
 {
     void Clean();
     void PlayEffect(string effectSid, string resourceName);

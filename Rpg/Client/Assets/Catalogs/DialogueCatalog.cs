@@ -16,9 +16,9 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal class DialogueCatalog : IEventCatalog, IEventInitializer
     {
+        private readonly DialogueEnvCommandCreator _envCommandCreator;
         private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
         private readonly IDialogueResourceProvider _resourceProvider;
-        private readonly DialogueEnvCommandCreator _envCommandCreator;
 
         private bool _isInitialized;
 
@@ -57,7 +57,6 @@ namespace Rpg.Client.Assets.Catalogs
                         var envCommand = _envCommandCreator.Create(envTypeName, envData);
 
                         enviromentCommandList.Add(envCommand);
-
                     }
                 }
             }
@@ -68,6 +67,25 @@ namespace Rpg.Client.Assets.Catalogs
             };
 
             return fragment;
+        }
+
+        private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
+        {
+            var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
+            if (aftermathTypeName.Contains('_'))
+            {
+                var postfixPosition = aftermathTypeName.LastIndexOf("_");
+                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+            }
+
+            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
+
+            if (signalStringData is not null)
+            {
+                return (aftermathTypeName, signalStringData);
+            }
+
+            throw new InvalidOperationException("Data is not defined");
         }
 
         private Dialogue LoadDialogueFromResources(string dialogueSid)
@@ -184,8 +202,10 @@ namespace Rpg.Client.Assets.Catalogs
                                         const string ENVIRONMENT_PREFFIX = "ENV_";
                                         if (signalProperty.Name.StartsWith(AFTERMATH_PREFIX))
                                         {
-                                            var (aftermathTypeName, aftermathData) = Handle(signalProperty, AFTERMATH_PREFIX);
-                                            var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName, aftermathData);
+                                            var (aftermathTypeName, aftermathData) =
+                                                Handle(signalProperty, AFTERMATH_PREFIX);
+                                            var aftermathItem =
+                                                _optionAftermathCreator.Create(aftermathTypeName, aftermathData);
 
                                             aftermathList.Add(aftermathItem);
                                         }
@@ -198,7 +218,6 @@ namespace Rpg.Client.Assets.Catalogs
                                                 var command = new PlayEffectEnviromentCommand(envData, envData);
                                                 enviromentList.Add(command);
                                             }
-
                                         }
                                     }
 
@@ -235,27 +254,6 @@ namespace Rpg.Client.Assets.Catalogs
             var dialogue = new Dialogue(rootNode);
 
             return dialogue;
-        }
-
-        private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
-        {
-            var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
-            if (aftermathTypeName.Contains('_'))
-            {
-                var postfixPosition = aftermathTypeName.LastIndexOf("_");
-                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
-            }
-
-            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
-
-            if (signalStringData is not null)
-            {
-                return (aftermathTypeName, signalStringData);
-            }
-            else
-            {
-                throw new InvalidOperationException("Data is not defined");
-            }
         }
 
         public IEnumerable<DialogueEvent> Events { get; private set; }

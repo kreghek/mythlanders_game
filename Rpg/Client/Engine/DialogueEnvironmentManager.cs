@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Client.Core.Dialogues;
 
@@ -13,9 +12,9 @@ namespace Client.Engine;
 
 internal sealed class DialogueEnvironmentManager : IDialogueEnvironmentManager
 {
+    private readonly IDictionary<string, SoundEffectInstance> _currentEffects;
     private readonly IDictionary<string, SoundEffect> _effectsDict;
     private readonly IDictionary<string, Song> _musicDict;
-    private readonly IDictionary<string, SoundEffectInstance> _currentEffects;
     private readonly SoundtrackManager _soundtrackManager;
 
     public DialogueEnvironmentManager(SoundtrackManager soundtrackManager)
