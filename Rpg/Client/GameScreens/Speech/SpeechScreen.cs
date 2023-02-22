@@ -4,10 +4,13 @@ using System.Linq;
 
 using Client;
 using Client.Core;
+using Client.Core.Dialogues;
 using Client.GameScreens.Speech;
+using Client.GameScreens.Speech.Ui;
 
 using Core.Dices;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -35,13 +38,10 @@ namespace Rpg.Client.GameScreens.Speech
         /// Event screen has no background parallax.
         /// </summary>
         private const float BG_CENTER_OFFSET_PERCENTAGE = 0;
-
-        private readonly bool _areCombatsNext;
-
         private readonly Texture2D _backgroundTexture;
         private readonly IReadOnlyList<IBackgroundObject> _cloudLayerObjects;
-        private readonly CombatScreenTransitionArguments? _combatScreenArgs;
         private readonly HeroCampaign _currentCampaign;
+        private readonly IDialogueTextEventSoundManager _envSoundManager;
         private readonly DialogueOptions _dialogueOptions;
         private readonly DialoguePlayer _dialoguePlayer;
         private readonly IDice _dice;
@@ -54,7 +54,7 @@ namespace Rpg.Client.GameScreens.Speech
         private readonly GlobeProvider _globeProvider;
         private readonly Player _player;
         private readonly Random _random;
-        private readonly IList<TextFragment> _textFragments;
+        private readonly IList<TextFragmentControl> _textFragments;
         private readonly IUiContentStorage _uiContentStorage;
 
         private double _counter;
@@ -68,7 +68,7 @@ namespace Rpg.Client.GameScreens.Speech
 
         private double _pressToContinueCounter;
 
-        public SpeechScreen(EwarGame game, SpeechScreenTransitionArgs args) : base(game)
+        public SpeechScreen(TestamentGame game, SpeechScreenTransitionArgs args) : base(game)
         {
             _random = new Random();
 
@@ -99,7 +99,7 @@ namespace Rpg.Client.GameScreens.Speech
             _backgroundTexture.SetData(data);
 
             _dialogueOptions = new DialogueOptions();
-            _textFragments = new List<TextFragment>();
+            _textFragments = new List<TextFragmentControl>();
 
             var dualogueContextFactory =
                 new DialogueContextFactory(_globe, storyPointCatalog, _player, args.dualogueEvent);
@@ -114,9 +114,11 @@ namespace Rpg.Client.GameScreens.Speech
 
             _currentCampaign = args.CurrentCampaign;
 
+            _envSoundManager = game.Services.GetRequiredService<IDialogueTextEventSoundManager>();
+
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
 
-            soundtrackManager.PlayMapTrack();
+            soundtrackManager.PlaySilence();
         }
 
         protected override IList<ButtonBase> CreateMenu()
@@ -402,11 +404,12 @@ namespace Rpg.Client.GameScreens.Speech
                     textureType = ControlTextures.Shadow;
                 }
 
-                var textFragmentControl = new TextFragment(
+                var textFragmentControl = new TextFragmentControl(
                     textFragment,
                     _gameObjectContentStorage.GetUnitPortrains(),
                     _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
-                    _dice);
+                    _dice,
+                    _envSoundManager);
                 _textFragments.Add(textFragmentControl);
             }
 

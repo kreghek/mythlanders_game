@@ -24,7 +24,7 @@ namespace Rpg.Client.ScreenManagement
 
         private bool _menuCreated;
 
-        protected GameScreenWithMenuBase(EwarGame game) : base(game)
+        protected GameScreenWithMenuBase(TestamentGame game) : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _resolutionIndependentRenderer = Game.Services.GetService<ResolutionIndependentRenderer>();

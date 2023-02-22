@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
@@ -27,14 +28,14 @@ namespace Rpg.Client.ScreenManagement
     internal class ScreenManager : IScreenManager
     {
         private const double TRANSITION_DURATION = 1;
-        private readonly EwarGame _game;
+        private readonly TestamentGame _game;
         private readonly GameSettings _gameSettings;
         private readonly Texture2D _transitionTexture;
         private bool _screenChanged;
 
         private double? _transitionCounter;
 
-        public ScreenManager(EwarGame game, GameSettings gameSettings)
+        public ScreenManager(TestamentGame game, GameSettings gameSettings)
         {
             _game = game;
             _gameSettings = gameSettings;

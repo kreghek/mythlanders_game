@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Campaign;
@@ -22,7 +21,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private CampaignStagesPanel? _stagePanel;
 
-    public CampaignScreen(EwarGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
+    public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
         _screenTransitionArguments = screenTransitionArguments;
 

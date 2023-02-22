@@ -188,6 +188,22 @@ namespace Rpg.Client.Engine
                     }
 
                     break;
+
+                case SoundtrackType.Custom:
+                    if (_changeTrack)
+                    {
+                        _changeTrack = false;
+
+                        if (_uiContentStorage is not null && _customSong is not null)
+                        {
+                            _currentSong = _customSong;
+
+                            MediaPlayer.IsRepeating = false;
+                            MediaPlayer.Play(_customSong, TimeSpan.Zero);
+                        }
+                    }
+
+                    break;
             }
         }
 
@@ -195,6 +211,15 @@ namespace Rpg.Client.Engine
         {
             ChangeState(SoundtrackType.Intro);
         }
+
+        internal void PlayCustomTrack(Song song)
+        {
+            MediaPlayer.Stop();
+            _customSong = song;
+            ChangeState(SoundtrackType.Custom);
+        }
+
+        private Song? _customSong;
 
         private void ChangeState(SoundtrackType targetState)
         {

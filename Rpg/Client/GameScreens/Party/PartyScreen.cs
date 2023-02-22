@@ -25,7 +25,7 @@ namespace Rpg.Client.GameScreens.Party
         private readonly GlobeProvider _globeProvider;
         private readonly IUiContentStorage _uiContentStorage;
 
-        public PartyScreen(EwarGame game) : base(game)
+        public PartyScreen(TestamentGame game) : base(game)
         {
             _globeProvider = game.Services.GetService<GlobeProvider>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();

@@ -18,6 +18,12 @@
         "parent": "1ae0b241-fc9d-460a-aea3-b47f0390bfc3"
       }
     ],
+	"signals": {
+      "ENV_PlayEffect": {
+        "String": "DesertWind"
+      },
+      "parent": "1ae0b241-fc9d-460a-aea3-b47f0390bfc3"
+    },
     "parent": "root"
   },
   "04d29bf9-61db-4944-8d61-a362eae1f9ef": {
@@ -39,7 +45,13 @@
         "next": "28d3e2b1-da3b-4b6a-8ac1-f8890eceaf0c",
         "parent": "04d29bf9-61db-4944-8d61-a362eae1f9ef"
       }
-    ]
+    ],
+	"signals": {
+      "ENV_PlayMusic": {
+        "String": "EgyptianThriller"
+      },
+      "parent": "04d29bf9-61db-4944-8d61-a362eae1f9ef"
+    }
   },
   "28d3e2b1-da3b-4b6a-8ac1-f8890eceaf0c": {
     "name": "Environment",

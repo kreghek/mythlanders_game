@@ -2,12 +2,12 @@
 
 namespace Client.Assets.DialogueEventEnviroment;
 
-internal class PlaySoundEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
+internal class PlayEffectEnviromentCommand : IDialogueEventTextFragmentEnvironmentCommand
 {
     private readonly string _effectSid;
     private readonly string _resourceName;
 
-    public PlaySoundEnviromentCommand(string effectSid, string resourceName)
+    public PlayEffectEnviromentCommand(string effectSid, string resourceName)
     {
         _effectSid = effectSid;
         _resourceName = resourceName;

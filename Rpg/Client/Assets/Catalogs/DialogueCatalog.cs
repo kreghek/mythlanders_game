@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+using Client.Assets.Catalogs;
 using Client.Assets.DialogueEventEnviroment;
 using Client.Assets.DialogueOptionAftermath;
 using Client.Assets.Dialogues;
@@ -17,6 +18,7 @@ namespace Rpg.Client.Assets.Catalogs
     {
         private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
         private readonly IDialogueResourceProvider _resourceProvider;
+        private readonly DialogueEnvCommandCreator _envCommandCreator;
 
         private bool _isInitialized;
 
@@ -26,16 +28,49 @@ namespace Rpg.Client.Assets.Catalogs
             _resourceProvider = resourceProvider;
             _optionAftermathCreator = optionAftermathCreator;
 
+            _envCommandCreator = new DialogueEnvCommandCreator();
+
             _isInitialized = false;
             Events = Array.Empty<DialogueEvent>();
         }
 
-        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
+        private EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
         {
             var jsonSpeaker = obj.GetProperty("name").GetString();
 
-            var unitName = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true);
-            var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}");
+            if (!Enum.TryParse<UnitName>(jsonSpeaker, ignoreCase: true, out var unitName))
+            {
+                unitName = UnitName.Environment;
+            }
+
+            var enviromentCommandList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
+
+            if (obj.TryGetProperty("signals", out var signals))
+            {
+                foreach (var signalProperty in signals.EnumerateObject())
+                {
+                    const string ENVIRONMENT_PREFFIX = "ENV_";
+                    if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                    {
+                        var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
+
+                        var envCommand = _envCommandCreator.Create(envTypeName, envData);
+
+                        enviromentCommandList.Add(envCommand);
+
+                    }
+                }
+            }
+
+            var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}")
+            {
+                EnvironmentCommands = enviromentCommandList
+                //new IDialogueEventTextFragmentEnvironmentCommand[]
+                //{
+                //    new PlaySoundEnviromentCommand("desert_winds", "DesertWind")
+                //}
+            };
+
             return fragment;
         }
 
@@ -97,8 +132,6 @@ namespace Rpg.Client.Assets.Catalogs
                     var dialogOptions = new List<DialogueOption>();
 
                     var dialogueNode = new DialogueNode(textBlock, dialogOptions);
-
-                    HERE !@!!
 
                     var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
@@ -166,7 +199,7 @@ namespace Rpg.Client.Assets.Catalogs
 
                                             if (envTypeName == "PlaySound")
                                             {
-                                                var command = new PlaySoundEnviromentCommand(envData, envData);
+                                                var command = new PlayEffectEnviromentCommand(envData, envData);
                                                 enviromentList.Add(command);
                                             }
 

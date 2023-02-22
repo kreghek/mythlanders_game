@@ -23,7 +23,7 @@ namespace Rpg.Client.GameScreens.Bestiary
 
         private UnitScheme? _selectedMonster;
 
-        public BestiaryScreen(EwarGame game)
+        public BestiaryScreen(TestamentGame game)
             : base(game)
         {
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();

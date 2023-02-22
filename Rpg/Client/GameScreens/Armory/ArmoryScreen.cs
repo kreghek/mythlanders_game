@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
@@ -29,7 +28,7 @@ internal sealed class ArmoryScreen : GameScreenWithMenuBase
 {
     private readonly ArmoryScreenTransitionArguments _args;
 
-    public ArmoryScreen(EwarGame game, ArmoryScreenTransitionArguments args) : base(game)
+    public ArmoryScreen(TestamentGame game, ArmoryScreenTransitionArguments args) : base(game)
     {
         _args = args;
     }
