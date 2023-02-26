@@ -20,7 +20,6 @@ using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;

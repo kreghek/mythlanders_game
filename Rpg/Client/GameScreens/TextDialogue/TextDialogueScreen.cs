@@ -20,7 +20,6 @@ using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Speech;
@@ -382,7 +381,8 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _globeProvider.Globe.Update(_dice, _eventCatalog);
         _currentCampaign.CompleteCurrentStage();
         _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_currentCampaign));
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_currentCampaign));
 
         if (_gameSettings.Mode == GameMode.Full)
         {

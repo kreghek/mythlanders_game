@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.GameScreens.Map.GameObjects;
 using Rpg.Client.GameScreens.Map.Tutorial;

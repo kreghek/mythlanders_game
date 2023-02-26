@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.NotImplementedStage;
@@ -45,6 +44,7 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
     {
         _campaign.CompleteCurrentStage();
 
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_campaign));
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 }
