@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Client.Core.Minigames.BarleyBreak;
+using Client.GameScreens.Campaign;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
@@ -156,10 +157,7 @@ namespace Client.GameScreens.SlidingPuzzles
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_campaign));
         }
     }
 }

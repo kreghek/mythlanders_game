@@ -5,6 +5,8 @@ using System.Linq;
 
 using Client;
 using Client.Core;
+using Client.GameScreens.Campaign;
+using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 
 using Core.Dices;
@@ -90,7 +92,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globeNode = args.Location;
 
-            _currentCampaign = args.CurrentCampaign;
+            _currentCampaign = args.Campaign;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -398,15 +400,13 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     var startHpItems = CreateStartHpList();
 
-                    var combatScreenArgs = new CombatScreenTransitionArguments
-                    {
-                        Location = _globeNode,
-                        VictoryDialogue = _args.VictoryDialogue,
-                        CombatSequence = _args.CombatSequence,
-                        CurrentCombatIndex = nextCombatIndex,
-                        IsAutoplay = _args.IsAutoplay,
-                        StartHpItems = startHpItems
-                    };
+                    var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
+                        _args.CombatSequence,
+                        nextCombatIndex,
+                        _args.IsAutoplay,
+                        _globeNode,
+                        startHpItems,
+                        _args.VictoryDialogue);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
                 }
@@ -435,10 +435,7 @@ namespace Rpg.Client.GameScreens.Combat
                         _globeProvider.Globe.Update(_dice, _eventCatalog);
                         _currentCampaign.CompleteCurrentStage();
                         ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                            new CampaignScreenTransitionArguments
-                            {
-                                Campaign = _currentCampaign
-                            });
+                            new CampaignScreenTransitionArguments(_currentCampaign));
 
                         if (_gameSettings.Mode == GameMode.Full)
                         {

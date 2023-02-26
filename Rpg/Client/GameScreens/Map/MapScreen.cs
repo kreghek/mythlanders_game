@@ -6,6 +6,7 @@ using System.Text;
 using Client;
 using Client.Core;
 using Client.Core.Dialogues;
+using Client.GameScreens.Campaign;
 
 using Core.Dices;
 
@@ -78,10 +79,7 @@ namespace Rpg.Client.GameScreens.Map
             clearScreenHandlersDelegate?.Invoke();
 
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.Campaign,
-                new CampaignScreenTransitionArguments
-                {
-                    Campaign = node.Campaign
-                });
+                new CampaignScreenTransitionArguments(node.Campaign));
 
             //if (availableEvent is not null)
             //{
