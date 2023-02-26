@@ -4,6 +4,7 @@ using System.Linq;
 
 using Client.Core;
 using Client.Core.Dialogues;
+using Client.GameScreens.Campaign;
 using Client.GameScreens.TextDialogue.Ui;
 
 using Core.Dices;
@@ -381,11 +382,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _globeProvider.Globe.Update(_dice, _eventCatalog);
         _currentCampaign.CompleteCurrentStage();
         _dialogueEnvironmentManager.Clean();
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-            new CampaignScreenTransitionArguments
-            {
-                Campaign = _currentCampaign
-            });
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_currentCampaign));
 
         if (_gameSettings.Mode == GameMode.Full)
         {

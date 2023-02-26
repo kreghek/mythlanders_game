@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 
 using Microsoft.Xna.Framework;
@@ -132,8 +133,7 @@ namespace Client.GameScreens.CommandCenter
                 panel.Selected += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments
-                            { Campaign = campaign });
+                        new CampaignScreenTransitionArguments(campaign));
                 };
 
                 index++;

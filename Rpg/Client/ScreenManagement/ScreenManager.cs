@@ -2,6 +2,7 @@
 
 using Client;
 using Client.GameScreens.Campaign;
+using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.NotImplementedStage;
 using Client.GameScreens.SlidingPuzzles;
@@ -12,7 +13,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;

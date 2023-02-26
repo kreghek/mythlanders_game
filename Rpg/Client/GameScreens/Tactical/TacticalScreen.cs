@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.GameScreens.Campaign;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -45,10 +47,7 @@ namespace Client.GameScreens.Tactical
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments(_campaign));
         }
     }
 }
