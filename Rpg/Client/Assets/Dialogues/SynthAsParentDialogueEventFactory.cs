@@ -44,17 +44,20 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             [new DialogueEventState("stage_2_fast")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new StoryKeyRequirement("synth_as_parent_stage_2_fast")
+                new StoryKeyRequirement("synth_as_parent_stage_2_fast"),
+                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_2_help")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new StoryKeyRequirement("synth_as_parent_stage_2_help")
+                new StoryKeyRequirement("synth_as_parent_stage_2_help"),
+                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_3")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new StoryKeyRequirement("synth_as_parent_stage_3")
+                new StoryKeyRequirement("synth_as_parent_stage_3"),
+                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             }
         };
 

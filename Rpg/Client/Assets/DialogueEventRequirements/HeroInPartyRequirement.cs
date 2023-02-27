@@ -15,9 +15,9 @@ internal sealed class HeroInPartyRequirement : IDialogueEventRequirement
         _heroSids = heroSids;
     }
 
-    public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
+    public bool IsApplicableFor(IDialogueEventRequirementContext context)
     {
-        var heroes = globe.Player.Party.GetUnits().Select(x=>x.UnitScheme.Name);
+        var heroes = context.ActiveHeroesInParty;
         return _heroSids.All(x => heroes.Contains(x));
     }
 }

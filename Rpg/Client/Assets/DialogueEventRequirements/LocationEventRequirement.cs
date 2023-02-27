@@ -15,24 +15,8 @@ internal sealed class LocationRequirement : IDialogueEventRequirement
         _locationSids = locationSids;
     }
 
-    public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
+    public bool IsApplicableFor(IDialogueEventRequirementContext context)
     {
-        return _locationSids.Contains(targetLocation);
-    }
-}
-
-internal sealed class StoryKeyRequirement: IDialogueEventRequirement
-{
-    private readonly string[] _requiredKeys;
-
-    public StoryKeyRequirement(params string[] keys)
-    {
-        _requiredKeys = keys;
-    }
-
-    public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
-    {
-        var activeKeys = globe.Player.StoryState.Keys;
-        return _requiredKeys.All(x => activeKeys.Contains(x));
+        return _locationSids.Contains(context.CurrentLocation);
     }
 }

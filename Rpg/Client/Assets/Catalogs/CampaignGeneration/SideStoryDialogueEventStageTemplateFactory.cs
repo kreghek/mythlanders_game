@@ -24,12 +24,14 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
 
     private bool MeetRequirements(DialogueEvent textEvent)
     {
-        return textEvent.GetRequirements().All(r => r.IsApplicableFor(_services.GlobeProvider.Globe, _locationSid));
+        return textEvent.GetRequirements().All(r => r.IsApplicableFor(TODO));
     }
 
     /// <inheritdoc />
     public bool CanCreate()
     {
+        var requirementContext = new 
+        
         var availableStoies = _services.EventCatalog.Events.Where(x => MeetRequirements(x)).ToArray();
 
         return availableStoies.Any();
