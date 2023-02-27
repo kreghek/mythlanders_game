@@ -31,6 +31,11 @@ internal sealed class DialogueEvent
 
     public IReadOnlyCollection<IDialogueEventRequirement> GetRequirements()
     {
+        if (_stateMachine.State.IsProgressStage)
+        {
+            return new[] { new IsInProgressEventRequirement() };
+        }
+
         return _requirements[_stateMachine.State];
     }
 
@@ -41,5 +46,12 @@ internal sealed class DialogueEvent
 
     public bool IsStarted => _stateMachine.State.Sid == "stage_1";
 
-    public bool IsInProgress => _stateMachine.State.IsProgressStage;
+    private sealed class IsInProgressEventRequirement : IDialogueEventRequirement
+    {
+        public bool IsApplicableFor(IDialogueEventRequirementContext context)
+        {
+            // Quests in progress is not available to be a base of campaign stage.
+            return false;
+        }
+    }
 }

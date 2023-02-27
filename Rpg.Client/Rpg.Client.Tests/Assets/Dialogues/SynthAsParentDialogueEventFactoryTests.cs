@@ -18,25 +18,6 @@ namespace Rpg.Client.Tests.Assets.Dialogues;
 public class SynthAsParentDialogueEventFactoryTests
 {
     [Test]
-    public void Starts_stage_1_challange_when_decide_to_repair()
-    {
-        // ARRANGE
-
-        var factory = new SynthAsParentDialogueEventFactory();
-
-        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
-
-        // ACT
-
-        var isInProgress = dialogueEvent.IsInProgress;
-
-        // ASSERT
-
-        isInProgress.Should().BeTrue();
-    }
-    
-    [Test]
     public void Get_canon_stage_2_dialogue_when_complete_stage_1_challange()
     {
         // ARRANGE
@@ -125,9 +106,33 @@ public class SynthAsParentDialogueEventFactoryTests
         var dialogueEventRequirements = dialogueEvent.GetRequirements();
         var isAvailable = dialogueEventRequirements.All(r => r.IsApplicableFor(requirementContext));
 
-
         // ASSERT
 
         isAvailable.Should().BeTrue();
+    }
+
+    [Test]
+    public void No_available_when_was_started()
+    {
+        // ARRANGE
+
+        var factory = new SynthAsParentDialogueEventFactory();
+
+        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
+        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+
+        var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
+        x.CurrentLocation == LocationSid.Desert &&
+        x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+        x.ActiveStories == Array.Empty<string>());
+
+        // ACT
+
+        var isAvailable = dialogueEvent.GetRequirements().All(r => r.IsApplicableFor(requirementContext));
+
+
+        // ASSERT
+
+        isAvailable.Should().BeFalse();
     }
 }
