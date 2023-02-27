@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.DialogueEventRequirements;
 using Client.Assets.StoryPointAftermaths;
 using Client.Core;
 using Client.Core.Dialogues;
@@ -19,31 +20,50 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
-        var initialState = new DialogueEventState("start");
+        var initialState = new DialogueEventState("stage_1");
 
         var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(initialState);
         questStateMachine.Configure(initialState)
             .Permit(new DialogueEventTrigger("stage_1_ignore"), new DialogueEventState("complete"))
-            .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_1_fast"))
-            .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_1_help"));
+            .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_2_fast"))
+            .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_2_help"));
 
-        questStateMachine.Configure(new DialogueEventState("stage_1_fast"))
-            .Permit(new DialogueEventTrigger("stage_1_complete"), new DialogueEventState("complete"));
+        questStateMachine.Configure(new DialogueEventState("stage_2_fast"))
+            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("complete"));
 
-        questStateMachine.Configure(new DialogueEventState("stage_1_help"))
-            .Permit(new DialogueEventTrigger("stage_1_complete"), new DialogueEventState("stage_2"));
+        questStateMachine.Configure(new DialogueEventState("stage_2_help"))
+            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("stage_3"));
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
-            [initialState] = new[]
+            [initialState] = new IDialogueEventRequirement[]
             {
-                new LocationEventRequirement(new[] { LocationSid.Desert })
+                new LocationRequirement(LocationSid.Desert),
+                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
+            },
+            [new DialogueEventState("stage_2_fast")] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
+                new StoryKeyRequirement("synth_as_parent_stage_2_fast")
+            },
+            [new DialogueEventState("stage_2_help")] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
+                new StoryKeyRequirement("synth_as_parent_stage_2_help")
+            },
+            [new DialogueEventState("stage_3")] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
+                new StoryKeyRequirement("synth_as_parent_stage_3")
             }
         };
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [initialState] = "synth_as_parent_stage_1"
+            [initialState] = "synth_as_parent_stage_1",
+            [new DialogueEventState("stage_2_fast")] = "synth_as_parent_stage_2_fast",
+            [new DialogueEventState("stage_2_help")] = "synth_as_parent_stage_2",
+            [new DialogueEventState("stage_3")] = "synth_as_parent_stage_3"
         };
 
         return new DialogueEvent("synth_as_parent", questStateMachine, requirements, dialogues);

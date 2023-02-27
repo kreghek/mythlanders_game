@@ -1,6 +1,6 @@
 ﻿namespace Rpg.Client.Core
 {
-    internal enum UnitName
+    public enum UnitName
     {
         Undefined,
 

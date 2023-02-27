@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
+using Client.Core;
 using Client.Core.Dialogues;
 
 using Core.Dices;
@@ -31,13 +33,17 @@ internal sealed class TextFragmentControl : ControlBase
     private bool _envCommandsExecuted;
 
     public TextFragmentControl(EventTextFragment eventTextFragment, Texture2D portraitsTexture,
-        SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager)
+        SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager, IStoryState storyState)
     {
         _font = UiThemeManager.UiContentStorage.GetMainFont();
         _portraitsTexture = portraitsTexture;
         _envManager = envManager;
         _speaker = eventTextFragment.Speaker;
-        _localizedSpeakerName = GetSpeaker(_speaker);
+
+        var speakerState = storyState.Characters.SingleOrDefault(x => x.Name == _speaker) ??
+                           new CharacterRelation(_speaker);
+        
+        _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextFragmentMessageControl(eventTextFragment, textSoundEffect, dice,
             _speaker != UnitName.Environment);
         _envCommands = eventTextFragment.EnvironmentCommands;
@@ -122,19 +128,19 @@ internal sealed class TextFragmentControl : ControlBase
         spriteBatch.DrawString(_font, _localizedSpeakerName, alignedSpeakerNameTextPosition, Color.White);
     }
 
-    private static string? GetSpeaker(UnitName speaker)
+    private static string? GetSpeakerDisplayName(CharacterRelation characterRelation)
     {
-        if (speaker == UnitName.Environment)
+        if (characterRelation.Name == UnitName.Environment)
         {
             return null;
         }
 
-        if (speaker == UnitName.Undefined)
+        if (characterRelation.Name == UnitName.Undefined)
         {
             Debug.Fail("Speaker is undefined.");
             return null;
         }
 
-        return GameObjectHelper.GetLocalized(speaker);
+        return GameObjectHelper.GetLocalized(characterRelation);
     }
 }

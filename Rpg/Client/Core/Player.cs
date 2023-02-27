@@ -6,12 +6,6 @@ using Rpg.Client.Core;
 
 namespace Client.Core;
 
-public interface IStoryState
-{
-    string[] Keys { get; }
-    void AddKey(string storySid, string key);
-}
-
 internal sealed class Player
 {
     private readonly HashSet<PlayerAbility> _abilities;
