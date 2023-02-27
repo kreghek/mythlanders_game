@@ -38,4 +38,6 @@ internal sealed class DialogueEvent
     {
         _stateMachine.Fire(trigger);
     }
+
+    public bool IsStarted => _stateMachine.State.Sid == "stage_1";
 }

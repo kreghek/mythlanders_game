@@ -7,7 +7,6 @@ using Client.Core.Dialogues;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.DialogueEventRequirements;
 using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 
@@ -15,42 +14,76 @@ using Stateless;
 
 namespace Client.Assets.Dialogues;
 
+internal static class DialogueConsts
+{
+    public static DialogueEventState InitialStage { get; } = new DialogueEventState("stage_1");
+    public static DialogueEventState CompleteStage { get; } = new DialogueEventState("complete");
+
+    public static DialogueEventTrigger CompleteStageChallangeTrigger { get; } = new DialogueEventTrigger("complete_challange");
+
+    public static class SideQuests
+    {
+        public static class SynthAsParent
+        {
+            public static DialogueEventState State1_Canon { get; } = new DialogueEventState("stage_1_canon");
+            public static DialogueEventState State2_Canon { get; } = new DialogueEventState("stage_2_canon");
+            public static DialogueEventState State3_Canon { get; } = new DialogueEventState("stage_3_canon");
+
+            public static DialogueEventState State1_Fast { get; } = new DialogueEventState("stage_1_fast");
+            public static DialogueEventState State2_Fast { get; } = new DialogueEventState("stage_2_fast");
+
+            public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new DialogueEventTrigger("stage_1_ignore");
+            public static DialogueEventTrigger Stage1_Fast_Trigger { get; } = new DialogueEventTrigger("stage_1_fast");
+            public static DialogueEventTrigger Stage1_Help_Trigger { get; } = new DialogueEventTrigger("stage_1_help");
+        }
+    }
+}
+
 [UsedImplicitly]
 internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
-        var initialState = new DialogueEventState("stage_1");
+        // Canoniacal story
+        var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConsts.InitialStage);
+        questStateMachine.Configure(DialogueConsts.InitialStage)
+            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConsts.CompleteStage)
+            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Fast_Trigger, DialogueConsts.SideQuests.SynthAsParent.State1_Fast)
+            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Help_Trigger, DialogueConsts.SideQuests.SynthAsParent.State1_Canon);
 
-        var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(initialState);
-        questStateMachine.Configure(initialState)
-            .Permit(new DialogueEventTrigger("stage_1_ignore"), new DialogueEventState("complete"))
-            .Permit(new DialogueEventTrigger("stage_1_fast"), new DialogueEventState("stage_2_fast"))
-            .Permit(new DialogueEventTrigger("stage_1_help"), new DialogueEventState("stage_2_help"));
+        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.State1_Canon)
+            .Permit(DialogueConsts.CompleteStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.State2_Canon);
 
-        questStateMachine.Configure(new DialogueEventState("stage_2_fast"))
-            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("complete"));
+        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.State2_Canon)
+            .Permit(DialogueConsts.CompleteStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.State3_Canon);
 
-        questStateMachine.Configure(new DialogueEventState("stage_2_help"))
-            .Permit(new DialogueEventTrigger("stage_2_complete"), new DialogueEventState("stage_3"));
+        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.State3_Canon)
+            .Permit(DialogueConsts.CompleteStageChallangeTrigger, DialogueConsts.CompleteStage);
+
+        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.State1_Fast)
+            .Permit(DialogueConsts.CompleteStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.State2_Fast);
+
+        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.State2_Fast)
+            .Permit(DialogueConsts.CompleteStageChallangeTrigger, DialogueConsts.CompleteStage);
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
-            [initialState] = new IDialogueEventRequirement[]
+            [DialogueConsts.InitialStage] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
+                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan),
+                new NoSideQuestRequirement()
+            },
+            [DialogueConsts.SideQuests.SynthAsParent.State2_Canon] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
+                new StoryKeyRequirement("synth_as_parent_stage_2_help"),
                 new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_2_fast")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
                 new StoryKeyRequirement("synth_as_parent_stage_2_fast"),
-                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
-            },
-            [new DialogueEventState("stage_2_help")] = new IDialogueEventRequirement[]
-            {
-                new LocationRequirement(LocationSid.Desert),
-                new StoryKeyRequirement("synth_as_parent_stage_2_help"),
                 new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_3")] = new IDialogueEventRequirement[]
@@ -63,10 +96,11 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [initialState] = "synth_as_parent_stage_1",
-            [new DialogueEventState("stage_2_fast")] = "synth_as_parent_stage_2_fast",
-            [new DialogueEventState("stage_2_help")] = "synth_as_parent_stage_2",
-            [new DialogueEventState("stage_3")] = "synth_as_parent_stage_3"
+            [DialogueConsts.InitialStage] = "synth_as_parent_stage_1",
+            [DialogueConsts.SideQuests.SynthAsParent.State2_Canon] = "synth_as_parent_stage_2",
+            [DialogueConsts.SideQuests.SynthAsParent.State3_Canon] = "synth_as_parent_stage_3",
+
+            [DialogueConsts.SideQuests.SynthAsParent.State2_Fast] = "synth_as_parent_stage_2_fast",
         };
 
         return new DialogueEvent("synth_as_parent", questStateMachine, requirements, dialogues);
@@ -89,7 +123,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             },
             Aftermaths = new IStoryPointAftermath[]
             {
-                new TriggerQuestStoryPointAftermath("synth_as_parent", new DialogueEventTrigger("stage_1_complete"),
+                new TriggerQuestStoryPointAftermath("synth_as_parent", DialogueConsts.CompleteStageChallangeTrigger,
                     services.EventCatalog)
             }
         };
