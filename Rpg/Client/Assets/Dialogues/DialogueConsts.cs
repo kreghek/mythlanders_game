@@ -13,17 +13,17 @@ internal static class DialogueConsts
     {
         public static class SynthAsParent
         {
-            public static DialogueEventState Stage1_Canon_In_Progress { get; } = new DialogueEventState("stage_1_canon_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage1_Canon_In_Progress { get; } = new DialogueEventState("stage_1_canon_in_progress") { NoDialogue = true };
             public static DialogueEventState Stage2_Canon { get; } = new DialogueEventState("stage_2_canon");
-            public static DialogueEventState Stage2_Canon_In_Progress { get; } = new DialogueEventState("stage_2_canon_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage2_Canon_In_Progress { get; } = new DialogueEventState("stage_2_canon_in_progress") { NoDialogue = true };
             public static DialogueEventState Stage3_Canon { get; } = new DialogueEventState("stage_3_canon");
-            public static DialogueEventState Stage3_Canon_In_Progress { get; } = new DialogueEventState("stage_3_canon_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage3_Canon_In_Progress { get; } = new DialogueEventState("stage_3_canon_in_progress") { NoDialogue = true };
             public static DialogueEventState Stage4_Canon { get; } = new DialogueEventState("stage_4_canon");
-            public static DialogueEventState Stage4_Canon_In_Progress { get; } = new DialogueEventState("stage_4_canon_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage4_Canon_In_Progress { get; } = new DialogueEventState("stage_4_canon_in_progress") { NoDialogue = true };
             public static DialogueEventState Stage5_Canon { get; } = new DialogueEventState("stage_5_canon");
-            public static DialogueEventState Stage5_Canon_In_Progress { get; } = new DialogueEventState("stage_5_canon_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage5_Canon_In_Progress { get; } = new DialogueEventState("stage_5_canon_in_progress") { NoDialogue = true };
 
-            public static DialogueEventState Stage1_Fast_In_Progress { get; } = new DialogueEventState("stage_1_fast_in_progress") { IsProgressStage = true };
+            public static DialogueEventState Stage1_Fast_In_Progress { get; } = new DialogueEventState("stage_1_fast_in_progress") { NoDialogue = true };
             public static DialogueEventState Stage2_Fast { get; } = new DialogueEventState("stage_2_fast");
 
             public static DialogueEventTrigger Stage1_Ignore_Trigger { get; } = new DialogueEventTrigger("stage_1_ignore");

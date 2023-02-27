@@ -40,7 +40,7 @@ internal sealed class TextFragmentControl : ControlBase
         _envManager = envManager;
         _speaker = eventTextFragment.Speaker;
 
-        var speakerState = storyState.Characters.SingleOrDefault(x => x.Name == _speaker) ??
+        var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Name == _speaker) ??
                            new CharacterRelation(_speaker);
         
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);

@@ -24,7 +24,8 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
 
     private static bool MeetRequirements(DialogueEvent textEvent, DialogueEventRequirementContext requirementContext)
     {
-        return textEvent.GetRequirements().All(r => r.IsApplicableFor(requirementContext));
+        var dialogueEventRequirements = textEvent.GetRequirements();
+        return dialogueEventRequirements.All(r => r.IsApplicableFor(requirementContext));
     }
 
     /// <inheritdoc />

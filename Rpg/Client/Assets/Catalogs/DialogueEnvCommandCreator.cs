@@ -11,7 +11,7 @@ internal sealed class DialogueEnvCommandCreator
     {
         if (typeSid == "PlayEffect")
         {
-            return new PlayEffectEnviromentCommand(typeSid, data);
+            return new PlayEffectEnviromentCommand(data, data);
         }
 
         if (typeSid == "PlayMusic")

@@ -31,7 +31,7 @@ internal sealed class DialogueEvent
 
     public IReadOnlyCollection<IDialogueEventRequirement> GetRequirements()
     {
-        if (_stateMachine.State.IsProgressStage)
+        if (_stateMachine.State.NoDialogue)
         {
             return new[] { new IsInProgressEventRequirement() };
         }
@@ -44,7 +44,7 @@ internal sealed class DialogueEvent
         _stateMachine.Fire(trigger);
     }
 
-    public bool IsStarted => _stateMachine.State.Sid == "stage_1";
+    public bool IsStarted => _stateMachine.State.Sid != "stage_1";
 
     private sealed class IsInProgressEventRequirement : IDialogueEventRequirement
     {

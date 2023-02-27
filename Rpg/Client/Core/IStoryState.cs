@@ -9,8 +9,8 @@ public interface IStoryState
     IReadOnlyCollection<string> Keys { get; }
     void AddKey(string storySid, string key);
 
-    void AddCharacter(UnitName name);
-    IReadOnlyCollection<CharacterRelation> Characters { get; }
+    void AddCharacterRelations(UnitName name);
+    IReadOnlyCollection<CharacterRelation> CharacterRelations { get; }
 }
 
 public enum CharacterKnowledgeLevel
@@ -27,6 +27,6 @@ public sealed class CharacterRelation
         Name = name;
     }
 
-    public CharacterKnowledgeLevel Level { get; private set; }
+    public CharacterKnowledgeLevel Level { get; set; }
     public UnitName Name { get; }
 }

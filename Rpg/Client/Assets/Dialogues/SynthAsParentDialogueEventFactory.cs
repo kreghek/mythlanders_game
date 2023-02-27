@@ -62,23 +62,23 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             [DialogueConsts.InitialStage] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan),
+                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan),
                 new NoSideQuestRequirement()
             },
             [DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
+                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_2_fast")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
+                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
             [new DialogueEventState("stage_3")] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
+                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             }
         };
 
