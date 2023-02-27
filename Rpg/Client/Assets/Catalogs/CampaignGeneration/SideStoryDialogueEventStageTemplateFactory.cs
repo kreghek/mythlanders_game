@@ -29,8 +29,13 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
     }
 
     /// <inheritdoc />
-    public bool CanCreate()
+    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
+        if (currentStageItems.OfType<DialogueEventStageItem>().Any())
+        {
+            return false;
+        }
+
         var availableStoies = GetAvailableStories();
 
         return availableStoies.Any();
@@ -45,7 +50,7 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
     }
 
     /// <inheritdoc />
-    public ICampaignStageItem Create()
+    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         var availableStoies = GetAvailableStories();
 

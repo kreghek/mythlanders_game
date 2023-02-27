@@ -13,12 +13,12 @@ internal sealed class TrainingCampaignStageTemplateFactory : ICampaignStageTempl
         _services = services;
     }
 
-    public bool CanCreate()
+    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
     }
 
-    public ICampaignStageItem Create()
+    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return new TrainingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
     }

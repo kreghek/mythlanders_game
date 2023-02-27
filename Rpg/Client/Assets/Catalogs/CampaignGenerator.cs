@@ -34,7 +34,8 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
             for (var stageItemIndex = 0; stageItemIndex < shortTemplate[stageIndex].Length; stageItemIndex++)
             {
-                var stageItem = shortTemplate[stageIndex][stageItemIndex].Create();
+                var currentStageItems = (IReadOnlyList<ICampaignStageItem>)itemList.ToArray();
+                var stageItem = shortTemplate[stageIndex][stageItemIndex].Create(currentStageItems);
                 itemList.Add(stageItem);
             }
 
