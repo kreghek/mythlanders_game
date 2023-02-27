@@ -18,51 +18,34 @@ namespace Rpg.Client.Tests.Assets.Dialogues;
 public class SynthAsParentDialogueEventFactoryTests
 {
     [Test]
-    public void Check_dialogues_in_different_states_Initial()
+    public void Starts_stage_1_challange_when_decide_to_repair()
     {
         // ARRANGE
 
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
+        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
 
         // ACT
 
-        var dialogueSid = dialogueEvent.GetDialogSid();
+        var isInProgress = dialogueEvent.IsInProgress;
 
         // ASSERT
 
-        dialogueSid.Should().Be("synth_as_parent_stage_1");
+        isInProgress.Should().BeTrue();
     }
     
     [Test]
-    public void Check_dialogues_in_different_states_Ignore_stage1()
+    public void Get_canon_stage_2_dialogue_when_complete_stage_1_challange()
     {
         // ARRANGE
 
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(new DialogueEventTrigger("stage_1_fast"));
-
-        // ACT
-
-        var dialogueSid = dialogueEvent.GetDialogSid();
-
-        // ASSERT
-
-        dialogueSid.Should().Be("synth_as_parent_stage_2_fast");
-    }
-    
-    [Test]
-    public void Check_dialogues_in_different_states_Help_stage1()
-    {
-        // ARRANGE
-
-        var factory = new SynthAsParentDialogueEventFactory();
-
-        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(new DialogueEventTrigger("stage_1_help"));
+        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+        dialogueEvent.Trigger(DialogueConsts.CompleteCurrentStageChallangeTrigger);
 
         // ACT
 
@@ -72,29 +55,9 @@ public class SynthAsParentDialogueEventFactoryTests
 
         dialogueSid.Should().Be("synth_as_parent_stage_2");
     }
-    
-    [Test]
-    public void Check_dialogues_in_different_states_Help_stage2_complete()
-    {
-        // ARRANGE
-
-        var factory = new SynthAsParentDialogueEventFactory();
-
-        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(new DialogueEventTrigger("stage_1_help"));
-        dialogueEvent.Trigger(new DialogueEventTrigger("stage_2_complete"));
-
-        // ACT
-
-        var dialogueSid = dialogueEvent.GetDialogSid();
-
-        // ASSERT
-
-        dialogueSid.Should().Be("synth_as_parent_stage_3");
-    }
 
     [Test]
-    public void Check_Availability_InitStateWithEmptyContext()
+    public void Available_with_initial_story_state()
     {
         // ARRANGE
 
@@ -118,7 +81,7 @@ public class SynthAsParentDialogueEventFactoryTests
     }
 
     [Test]
-    public void Check_Availability_NotAvailableWhenSomeStoryStarted()
+    public void Not_available_when_other_side_quest_was_started()
     {
         // ARRANGE
 
@@ -142,15 +105,15 @@ public class SynthAsParentDialogueEventFactoryTests
     }
 
     [Test]
-    public void Check_Availability_State2WithEmptyContext()
+    public void Available_when_stage_1_canan_complete()
     {
         // ARRANGE
 
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Help_Trigger);
-        dialogueEvent.Trigger(DialogueConsts.CompleteStageChallangeTrigger);
+        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+        dialogueEvent.Trigger(DialogueConsts.CompleteCurrentStageChallangeTrigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
         x.CurrentLocation == LocationSid.Desert &&

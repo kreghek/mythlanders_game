@@ -40,4 +40,6 @@ internal sealed class DialogueEvent
     }
 
     public bool IsStarted => _stateMachine.State.Sid == "stage_1";
+
+    public bool IsInProgress => _stateMachine.State.IsProgressStage;
 }
