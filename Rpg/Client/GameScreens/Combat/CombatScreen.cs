@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
@@ -15,7 +16,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Skills;

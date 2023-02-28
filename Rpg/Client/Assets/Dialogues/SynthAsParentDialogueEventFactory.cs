@@ -2,12 +2,12 @@
 
 using Client.Assets.DialogueEventRequirements;
 using Client.Assets.StoryPointAftermaths;
+using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Dialogues;
 
 using JetBrains.Annotations;
 
-using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
 
 using Stateless;
@@ -19,79 +19,98 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
 {
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
-        // Canoniacal story
-        var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConsts.InitialStage);
-        questStateMachine.Configure(DialogueConsts.InitialStage)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConsts.CompleteStage)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Fast_Trigger, DialogueConsts.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger, DialogueConsts.SideQuests.SynthAsParent.Stage1_Canon_In_Progress);
+        // Canonical story
+        var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
+        questStateMachine.Configure(DialogueConstants.InitialStage)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConstants.CompleteStage)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage1_Canon_In_Progress)
-            .Permit(DialogueConsts.CompleteCurrentStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress)
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage2_Continue_Trigger, DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon_In_Progress);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage2_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon_In_Progress);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon_In_Progress)
-            .Permit(DialogueConsts.CompleteCurrentStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.Stage3_Canon);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon_In_Progress)
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage3_Canon)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage3_Continue_Trigger, DialogueConsts.SideQuests.SynthAsParent.Stage3_Canon_In_Progress);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage3_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon_In_Progress);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage3_Canon_In_Progress)
-            .Permit(DialogueConsts.CompleteCurrentStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.Stage4_Canon);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon_In_Progress)
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage4_Canon)
-            .Permit(DialogueConsts.SideQuests.SynthAsParent.Stage4_Continue_Trigger, DialogueConsts.SideQuests.SynthAsParent.Stage4_Canon_In_Progress);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage4_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon_In_Progress);
 
-        questStateMachine.Configure(DialogueConsts.SideQuests.SynthAsParent.Stage4_Canon_In_Progress)
-            .Permit(DialogueConsts.CompleteCurrentStageChallangeTrigger, DialogueConsts.SideQuests.SynthAsParent.Stage5_Canon);
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon_In_Progress)
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon);
+        
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage5_Lead_Trigger, DialogueConstants.CompleteStage);
+        
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage5_Leave_Trigger, DialogueConstants.CompleteStage);
+
+        string GetDialogueFileName(string stageName)
+        {
+            var sid = DialogueConstants.SideQuests.SynthAsParent.Sid;
+            return $"{sid}_{stageName}";
+        }
 
         var dialogues = new Dictionary<DialogueEventState, string>
         {
-            [DialogueConsts.InitialStage] = "synth_as_parent_stage_1",
-            [DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon] = "synth_as_parent_stage_2",
-            [DialogueConsts.SideQuests.SynthAsParent.Stage3_Canon] = "synth_as_parent_stage_3",
+            [DialogueConstants.InitialStage] = GetDialogueFileName("stage_1"),
+            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon] = GetDialogueFileName("stage_2"),
+            [DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon] = GetDialogueFileName("stage_3"),
+            [DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon] = GetDialogueFileName("stage_4"),
+            [DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon] = GetDialogueFileName("stage_5"),
 
-            [DialogueConsts.SideQuests.SynthAsParent.Stage2_Fast] = "synth_as_parent_stage_2_fast",
+            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = GetDialogueFileName("stage_2_fast"),
         };
 
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
-            [DialogueConsts.InitialStage] = new IDialogueEventRequirement[]
+            [DialogueConstants.InitialStage] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan),
                 new NoSideQuestRequirement()
             },
-            [DialogueConsts.SideQuests.SynthAsParent.Stage2_Canon] = new IDialogueEventRequirement[]
+            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
-            [new DialogueEventState("stage_2_fast")] = new IDialogueEventRequirement[]
+            [DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
             },
-            [new DialogueEventState("stage_3")] = new IDialogueEventRequirement[]
+            [DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon] = new IDialogueEventRequirement[]
             {
                 new LocationRequirement(LocationSid.Desert),
-                //new HeroInPartyRequirement(UnitName.Swordsman, UnitName.Partisan)
+            },
+            [DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
+            },
+            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = new IDialogueEventRequirement[]
+            {
+                new LocationRequirement(LocationSid.Desert),
             }
         };
 
-        return new DialogueEvent("synth_as_parent", questStateMachine, requirements, dialogues);
+        return new DialogueEvent(DialogueConstants.SideQuests.SynthAsParent.Sid, questStateMachine, requirements,
+            dialogues);
     }
 
     public IReadOnlyCollection<IStoryPoint> CreateStoryPoints(IDialogueEventFactoryServices services)
     {
         var spList = new List<IStoryPoint>();
 
-        var synthStage1Story = new StoryPoint("synth_as_parent_stage_1")
+        var synthStage1Task = new StoryPoint($"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_1")
         {
-            TitleSid = "synth_as_parent",
+            TitleSid = DialogueConstants.SideQuests.SynthAsParent.Sid,
             CurrentJobs = new[]
             {
                 new Job(
@@ -102,12 +121,32 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             },
             Aftermaths = new IStoryPointAftermath[]
             {
-                new TriggerQuestStoryPointAftermath("synth_as_parent", DialogueConsts.CompleteCurrentStageChallangeTrigger,
+                new TriggerQuestStoryPointAftermath(DialogueConstants.SideQuests.SynthAsParent.Sid,
+                    DialogueConstants.CompleteCurrentStageChallengeTrigger,
                     services.EventCatalog)
             }
         };
-
-        spList.Add(synthStage1Story);
+        spList.Add(synthStage1Task);
+        
+        var synthStage2Task = new StoryPoint($"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2")
+        {
+            TitleSid = DialogueConstants.SideQuests.SynthAsParent.Sid,
+            CurrentJobs = new[]
+            {
+                new Job(
+                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(12)),
+                    nameof(UiResource.DefeatsJobTitleSid),
+                    nameof(UiResource.DefeatsJobProgressPatternSid),
+                    nameof(UiResource.DefeatsJobCompletePatternSid))
+            },
+            Aftermaths = new IStoryPointAftermath[]
+            {
+                new TriggerQuestStoryPointAftermath(DialogueConstants.SideQuests.SynthAsParent.Sid,
+                    DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                    services.EventCatalog)
+            }
+        };
+        spList.Add(synthStage2Task);
 
         return spList;
     }

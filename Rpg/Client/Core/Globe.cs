@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Assets.StoryPointJobs;
 using Client.Core;
 
 using Core.Dices;
-
-using Rpg.Client.Assets.StoryPointJobs;
 
 namespace Rpg.Client.Core
 {

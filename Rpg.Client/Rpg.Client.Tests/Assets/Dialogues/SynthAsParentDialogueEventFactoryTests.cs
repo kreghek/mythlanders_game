@@ -18,15 +18,33 @@ namespace Rpg.Client.Tests.Assets.Dialogues;
 public class SynthAsParentDialogueEventFactoryTests
 {
     [Test]
-    public void Get_canon_stage_2_dialogue_when_complete_stage_1_challange()
+    public void Get_stage_1_dialogue_on_start()
     {
         // ARRANGE
 
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
-        dialogueEvent.Trigger(DialogueConsts.CompleteCurrentStageChallangeTrigger);
+
+        // ACT
+
+        var dialogueSid = dialogueEvent.GetDialogSid();
+
+        // ASSERT
+
+        dialogueSid.Should().Be("synth_as_parent_stage_1");
+    }
+    
+    [Test]
+    public void Get_canon_stage_2_dialogue_when_complete_stage_1_challenge()
+    {
+        // ARRANGE
+
+        var factory = new SynthAsParentDialogueEventFactory();
+
+        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
+        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+        dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         // ACT
 
@@ -35,6 +53,26 @@ public class SynthAsParentDialogueEventFactoryTests
         // ASSERT
 
         dialogueSid.Should().Be("synth_as_parent_stage_2");
+    }
+    
+    [Test]
+    public void Get_fast_stage_2_dialogue_when_complete_stage_1_challenge()
+    {
+        // ARRANGE
+
+        var factory = new SynthAsParentDialogueEventFactory();
+
+        var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
+        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger);
+        dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
+
+        // ACT
+
+        var dialogueSid = dialogueEvent.GetDialogSid();
+
+        // ASSERT
+
+        dialogueSid.Should().Be("synth_as_parent_stage_2_fast");
     }
 
     [Test]
@@ -93,8 +131,8 @@ public class SynthAsParentDialogueEventFactoryTests
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
-        dialogueEvent.Trigger(DialogueConsts.CompleteCurrentStageChallangeTrigger);
+        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+        dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
         x.CurrentLocation == LocationSid.Desert &&
@@ -119,7 +157,7 @@ public class SynthAsParentDialogueEventFactoryTests
         var factory = new SynthAsParentDialogueEventFactory();
 
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
-        dialogueEvent.Trigger(DialogueConsts.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
+        dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
         x.CurrentLocation == LocationSid.Desert &&

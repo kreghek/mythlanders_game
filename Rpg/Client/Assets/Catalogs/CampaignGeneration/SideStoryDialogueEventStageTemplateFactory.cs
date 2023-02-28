@@ -36,9 +36,9 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
             return false;
         }
 
-        var availableStoies = GetAvailableStories();
+        var availableStories = GetAvailableStories();
 
-        return availableStoies.Any();
+        return availableStories.Any();
     }
 
     private DialogueEvent[] GetAvailableStories()
