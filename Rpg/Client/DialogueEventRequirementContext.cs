@@ -7,7 +7,7 @@ using Rpg.Client.Core;
 
 namespace Client;
 
-internal class DialogueEventRequirementContext: IDialogueEventRequirementContext
+internal class DialogueEventRequirementContext : IDialogueEventRequirementContext
 {
     private readonly Globe _globe;
     private readonly IEventCatalog _eventCatalog;

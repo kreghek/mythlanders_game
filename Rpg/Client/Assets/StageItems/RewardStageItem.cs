@@ -32,7 +32,7 @@ namespace Client.Assets.StageItems
             {
                 _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
             }
-                
+
             var campaigns = _campaignGenerator.CreateSet();
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,
                 new CommandCenterScreenTransitionArguments

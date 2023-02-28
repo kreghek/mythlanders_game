@@ -50,7 +50,7 @@ internal static class Program
             }
 
             var trigger = new DialogueEventTrigger(triggerInput);
-                
+
             selectedEvent.Trigger(trigger);
         }
 

@@ -12,7 +12,7 @@ internal static class GameObjectHelper
     {
         return GetLocalizedInner(unitName.ToString());
     }
-        
+
     public static string GetLocalized(CharacterRelation relation)
     {
         if (relation.Level == CharacterKnowledgeLevel.FullName)

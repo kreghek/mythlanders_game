@@ -34,7 +34,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         dialogueSid.Should().Be("synth_as_parent_stage_1");
     }
-    
+
     [Test]
     public void Get_canon_stage_2_dialogue_when_complete_stage_1_challenge()
     {
@@ -54,7 +54,7 @@ public class SynthAsParentDialogueEventFactoryTests
 
         dialogueSid.Should().Be("synth_as_parent_stage_2");
     }
-    
+
     [Test]
     public void Get_fast_stage_2_dialogue_when_complete_stage_1_challenge()
     {

@@ -4,7 +4,7 @@ using Client.Core.Dialogues;
 
 namespace Client.Assets.DialogueEventRequirements;
 
-internal sealed class StoryKeyRequirement: IDialogueEventRequirement
+internal sealed class StoryKeyRequirement : IDialogueEventRequirement
 {
     private readonly string[] _requiredKeys;
 

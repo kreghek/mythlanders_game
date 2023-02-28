@@ -145,7 +145,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             }
         };
         spList.Add(synthStage1Task);
-        
+
         var synthStage2Task = new StoryPoint($"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2")
         {
             TitleSid = DialogueConstants.SideQuests.SynthAsParent.Sid,

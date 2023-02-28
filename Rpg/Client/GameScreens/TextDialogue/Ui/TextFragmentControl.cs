@@ -42,7 +42,7 @@ internal sealed class TextFragmentControl : ControlBase
 
         var speakerState = storyState.CharacterRelations.SingleOrDefault(x => x.Name == _speaker) ??
                            new CharacterRelation(_speaker);
-        
+
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextFragmentMessageControl(eventTextFragment, textSoundEffect, dice,
             _speaker != UnitName.Environment);

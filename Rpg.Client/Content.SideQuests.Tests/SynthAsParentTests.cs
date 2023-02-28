@@ -93,7 +93,7 @@ public class SynthAsParentTests
         var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
-        globeProvider.Globe.ActiveStoryPoints.Single(x=>x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
+        globeProvider.Globe.ActiveStoryPoints.Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
             .BeFalse();
     }
 

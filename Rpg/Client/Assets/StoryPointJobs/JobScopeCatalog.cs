@@ -19,7 +19,7 @@ internal static class JobScopeCatalog
     /// Если работы в рамках одной высадки не выполнены, то прогресс будет сброшен.
     /// </summary>
     public static IJobScope Combat { get; } = new JobScope();
-    
+
     /// <summary>
     /// Complete sets of jobs during current campaign. 
     /// </summary>
