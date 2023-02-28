@@ -3,6 +3,7 @@ using System.Linq;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 
 using Core.Dices;
 

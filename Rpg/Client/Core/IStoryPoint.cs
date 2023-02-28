@@ -1,6 +1,8 @@
 using System;
 
-namespace Rpg.Client.Core
+using Rpg.Client.Core;
+
+namespace Client.Core
 {
     public interface IStoryPoint : IJobExecutable
     {

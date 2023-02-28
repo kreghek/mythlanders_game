@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.TextDialogue.Ui;

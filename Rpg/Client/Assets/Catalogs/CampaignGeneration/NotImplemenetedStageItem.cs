@@ -1,4 +1,5 @@
-﻿using Client.GameScreens.NotImplementedStage;
+﻿using Client.Core.Campaigns;
+using Client.GameScreens.NotImplementedStage;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;

@@ -6,6 +6,7 @@ using System.Linq;
 using Client;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;

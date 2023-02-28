@@ -13,4 +13,9 @@ internal static class JobTypeCatalog
     /// Defeat any enemies.
     /// </summary>
     public static readonly IJobType Defeats = new JobType();
+
+    /// <summary>
+    /// Complete any campaigns.
+    /// </summary>
+    public static readonly IJobType CompleteCampaigns = new JobType();
 }
