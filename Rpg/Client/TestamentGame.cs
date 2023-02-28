@@ -237,6 +237,8 @@ public sealed class TestamentGame : Game
 
         Services.AddService<IDice>(new LinearDice());
 
+        Services.AddService<IJobProgressResolver>(new JobProgressResolver());
+
         var dialogueResourceProvider = new DialogueResourceProvider();
 
         var balanceTable = new BalanceTable();
