@@ -1,4 +1,6 @@
-﻿using Client.Assets.StageItems;
+﻿using System.Collections.Generic;
+
+using Client.Assets.StageItems;
 
 using Rpg.Client.Core.Campaigns;
 
@@ -13,12 +15,12 @@ internal sealed class TrainingCampaignStageTemplateFactory : ICampaignStageTempl
         _services = services;
     }
 
-    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
+    public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
     }
 
-    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
+    public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return new TrainingStageItem(_services.GlobeProvider.Globe.Player, _services.Dice);
     }

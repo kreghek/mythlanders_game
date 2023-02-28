@@ -1,8 +1,6 @@
 ﻿using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Core.Campaigns;
-
 namespace Rpg.Client.Core
 {
     internal sealed class GlobeNode

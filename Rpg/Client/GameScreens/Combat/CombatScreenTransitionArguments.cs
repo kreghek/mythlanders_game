@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Client.Core.Campaigns;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.ScreenManagement;
 

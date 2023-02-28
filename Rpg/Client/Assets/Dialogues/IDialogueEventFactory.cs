@@ -3,8 +3,6 @@
 using Client.Core;
 using Client.Core.Dialogues;
 
-using Rpg.Client.Core;
-
 namespace Client.Assets.Dialogues;
 
 internal interface IDialogueEventFactory

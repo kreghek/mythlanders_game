@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Dialogues;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;

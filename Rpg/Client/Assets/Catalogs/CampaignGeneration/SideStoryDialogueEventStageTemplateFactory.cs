@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Client.Assets.StageItems;
@@ -22,6 +23,16 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         _services = services;
     }
 
+    private DialogueEvent[] GetAvailableStories()
+    {
+        var requirementContext =
+            new DialogueEventRequirementContext(_services.GlobeProvider.Globe, _locationSid, _services.EventCatalog);
+
+        var availableStories =
+            _services.EventCatalog.Events.Where(x => MeetRequirements(x, requirementContext)).ToArray();
+        return availableStories;
+    }
+
     private static bool MeetRequirements(DialogueEvent textEvent, DialogueEventRequirementContext requirementContext)
     {
         var dialogueEventRequirements = textEvent.GetRequirements();
@@ -29,7 +40,7 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
     }
 
     /// <inheritdoc />
-    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
+    public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         if (currentStageItems.OfType<DialogueEventStageItem>().Any())
         {
@@ -41,16 +52,8 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         return availableStories.Any();
     }
 
-    private DialogueEvent[] GetAvailableStories()
-    {
-        var requirementContext = new DialogueEventRequirementContext(_services.GlobeProvider.Globe, _locationSid, _services.EventCatalog);
-
-        var availableStories = _services.EventCatalog.Events.Where(x => MeetRequirements(x, requirementContext)).ToArray();
-        return availableStories;
-    }
-
     /// <inheritdoc />
-    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
+    public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         var availableStoies = GetAvailableStories();
 

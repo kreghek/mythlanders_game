@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Resources;
 
 using Client;
 using Client.Assets.Catalogs;
@@ -93,13 +92,16 @@ public class SynthAsParentTests
         var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
         CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
-        globeProvider.Globe.ActiveStoryPoints.Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
+        globeProvider.Globe.ActiveStoryPoints
+            .Single(x => x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
             .BeFalse();
     }
 
-    private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog, GlobeProvider globeProvider, DialogueEvent textEvent)
+    private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog,
+        GlobeProvider globeProvider, DialogueEvent textEvent)
     {
-        var dialogueContextFactory = new DialogueContextFactory(globeProvider.Globe, storyPointCatalog, globeProvider.Globe.Player, textEvent);
+        var dialogueContextFactory = new DialogueContextFactory(globeProvider.Globe, storyPointCatalog,
+            globeProvider.Globe.Player, textEvent);
         var dialoguePlayer = new DialoguePlayer(testDialog, dialogueContextFactory);
 
         foreach (var optionIndex in targetOptions)

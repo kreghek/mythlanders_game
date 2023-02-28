@@ -85,14 +85,13 @@ public class SynthAsParentDialogueEventFactoryTests
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-        x.CurrentLocation == LocationSid.Desert &&
-        x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
-        x.ActiveStories == Array.Empty<string>());
+            x.CurrentLocation == LocationSid.Desert &&
+            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveStories == Array.Empty<string>());
 
         // ACT
 
         var isAvailable = dialogueEvent.GetRequirements().All(r => r.IsApplicableFor(requirementContext));
-
 
         // ASSERT
 
@@ -109,14 +108,13 @@ public class SynthAsParentDialogueEventFactoryTests
         var dialogueEvent = factory.CreateEvent(Mock.Of<IDialogueEventFactoryServices>());
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-        x.CurrentLocation == LocationSid.Desert &&
-        x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
-        x.ActiveStories == new[] { "test" });
+            x.CurrentLocation == LocationSid.Desert &&
+            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveStories == new[] { "test" });
 
         // ACT
 
         var isAvailable = dialogueEvent.GetRequirements().All(r => r.IsApplicableFor(requirementContext));
-
 
         // ASSERT
 
@@ -135,9 +133,9 @@ public class SynthAsParentDialogueEventFactoryTests
         dialogueEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-        x.CurrentLocation == LocationSid.Desert &&
-        x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
-        x.ActiveStories == Array.Empty<string>());
+            x.CurrentLocation == LocationSid.Desert &&
+            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveStories == Array.Empty<string>());
 
         // ACT
 
@@ -160,14 +158,13 @@ public class SynthAsParentDialogueEventFactoryTests
         dialogueEvent.Trigger(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger);
 
         var requirementContext = Mock.Of<IDialogueEventRequirementContext>(x =>
-        x.CurrentLocation == LocationSid.Desert &&
-        x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
-        x.ActiveStories == Array.Empty<string>());
+            x.CurrentLocation == LocationSid.Desert &&
+            x.ActiveHeroesInParty == new[] { UnitName.Swordsman, UnitName.Partisan } &&
+            x.ActiveStories == Array.Empty<string>());
 
         // ACT
 
         var isAvailable = dialogueEvent.GetRequirements().All(r => r.IsApplicableFor(requirementContext));
-
 
         // ASSERT
 

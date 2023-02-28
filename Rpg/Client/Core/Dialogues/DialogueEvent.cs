@@ -22,6 +22,8 @@ internal sealed class DialogueEvent
 
     public bool Completed => _stateMachine.State.Sid == "complete";
 
+    public bool IsStarted => _stateMachine.State.Sid != "stage_1";
+
     public string Sid { get; }
 
     public string GetDialogSid()
@@ -43,8 +45,6 @@ internal sealed class DialogueEvent
     {
         _stateMachine.Fire(trigger);
     }
-
-    public bool IsStarted => _stateMachine.State.Sid != "stage_1";
 
     private sealed class IsInProgressEventRequirement : IDialogueEventRequirement
     {

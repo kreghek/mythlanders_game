@@ -16,7 +16,8 @@ namespace Client.Assets.StageItems
         private readonly GlobeProvider _globeProvider;
         private readonly IJobProgressResolver _jobProgressResolver;
 
-        public RewardStageItem(ICampaignGenerator campaignGenerator, GlobeProvider globeProvider, IJobProgressResolver jobProgressResolver)
+        public RewardStageItem(ICampaignGenerator campaignGenerator, GlobeProvider globeProvider,
+            IJobProgressResolver jobProgressResolver)
         {
             _campaignGenerator = campaignGenerator;
             _globeProvider = globeProvider;

@@ -6,11 +6,11 @@ namespace Client.Core;
 
 public interface IStoryState
 {
+    IReadOnlyCollection<CharacterRelation> CharacterRelations { get; }
     IReadOnlyCollection<string> Keys { get; }
-    void AddKey(string storySid, string key);
 
     void AddCharacterRelations(UnitName name);
-    IReadOnlyCollection<CharacterRelation> CharacterRelations { get; }
+    void AddKey(string storySid, string key);
 }
 
 public enum CharacterKnowledgeLevel

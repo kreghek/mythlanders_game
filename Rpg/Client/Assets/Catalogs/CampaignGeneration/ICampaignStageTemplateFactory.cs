@@ -1,4 +1,6 @@
-﻿using Rpg.Client.Core.Campaigns;
+﻿using System.Collections.Generic;
+
+using Rpg.Client.Core.Campaigns;
 
 namespace Client.Assets.Catalogs.CampaignGeneration;
 
@@ -7,11 +9,11 @@ namespace Client.Assets.Catalogs.CampaignGeneration;
 /// </summary>
 internal interface ICampaignStageTemplateFactory
 {
-    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems);
+    public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems);
 
     /// <summary>
     /// Create stage item of the campaign.
     /// </summary>
     /// <returns></returns>
-    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems);
+    public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems);
 }

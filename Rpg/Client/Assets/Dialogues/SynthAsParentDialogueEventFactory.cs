@@ -85,9 +85,8 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             [DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon] = GetDialogueFileName("stage_4"),
             [DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon] = GetDialogueFileName("stage_5"),
 
-            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = GetDialogueFileName("stage_2_fast"),
+            [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = GetDialogueFileName("stage_2_fast")
         };
-
 
         var requirements = new Dictionary<DialogueEventState, IReadOnlyCollection<IDialogueEventRequirement>>
         {
@@ -98,23 +97,23 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSid.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSid.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSid.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSid.Desert)
             },
             [DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast] = new IDialogueEventRequirement[]
             {
-                new LocationRequirement(LocationSid.Desert),
+                new LocationRequirement(LocationSid.Desert)
             }
         };
 
