@@ -79,7 +79,7 @@ game.Run();
 #else
             try
             {
-                using var game = new EwarGame(logger, gameMode);
+                using var game = new TestamentGame(logger, gameMode);
                 game.Run();
             }
             catch (Exception exception)

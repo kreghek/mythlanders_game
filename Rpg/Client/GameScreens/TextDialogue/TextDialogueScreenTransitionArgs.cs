@@ -1,3 +1,4 @@
+using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 
 using Rpg.Client.Core;

@@ -6,10 +6,35 @@ using Rpg.Client.Core;
 
 namespace Client.Core;
 
-public interface IStoryState
+internal sealed class StoryState : IStoryState
 {
-    string[] Keys { get; }
-    void AddKey(string storySid, string key);
+    private readonly IList<string> _storyKeys = new List<string>();
+    private readonly IList<CharacterRelation> _relations = new List<CharacterRelation>();
+    private Group _heroParty;
+
+    public StoryState(Group heroParty)
+    {
+        _heroParty = heroParty;
+    }
+
+    public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();
+
+    public IReadOnlyCollection<CharacterRelation> CharacterRelations => _relations.Concat(GetPlayerUnitsAsFullKnown(_heroParty)).ToArray();
+
+    public void AddCharacterRelations(UnitName name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AddKey(string storySid, string key)
+    {
+        throw new NotImplementedException();
+    }
+
+    private IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
+    {
+        return heroParty.GetUnits().Select(x => new CharacterRelation(x.UnitScheme.Name) { Level = CharacterKnowledgeLevel.FullName }).ToArray();
+    }
 }
 
 internal sealed class Player
@@ -34,6 +59,8 @@ internal sealed class Player
         _abilities = new HashSet<PlayerAbility>();
 
         Name = CreateRandomName();
+
+        StoryState = new StoryState(Party);
     }
 
     public IReadOnlyCollection<PlayerAbility> Abilities => _abilities;
@@ -47,7 +74,7 @@ internal sealed class Player
     public Group Party { get; }
 
     public PoolGroup Pool { get; }
-    public IStoryState StoryState { get; internal set; }
+    public IStoryState StoryState { get; }
 
     public void AddPlayerAbility(PlayerAbility ability)
     {

@@ -69,7 +69,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return unit.Perks.OfType<TPerk>().Any();
     }
 
-    public ICampaignStageItem Create()
+    public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         var combat = new CombatSource
         {
@@ -100,7 +100,7 @@ internal sealed class CombatCampaignStageTemplateFactory : ICampaignStageTemplat
         return stageItem;
     }
 
-    public bool CanCreate()
+    public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
     }

@@ -2,6 +2,7 @@
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

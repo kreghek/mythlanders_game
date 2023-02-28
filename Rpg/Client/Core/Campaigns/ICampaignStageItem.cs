@@ -1,4 +1,6 @@
-﻿using Rpg.Client.ScreenManagement;
+﻿using Client.Core.Campaigns;
+
+using Rpg.Client.ScreenManagement;
 
 namespace Rpg.Client.Core.Campaigns
 {

@@ -346,7 +346,7 @@
     "parent": "b69f4cb4-9313-4196-a1b3-57899629a63a",
     "signals": {
       "AM_Trigger": {
-        "String": "stage_1_help"
+        "String": "stage_1_repair"
       },
       "AM_ActivateStoryPoint": {
         "String": "synth_as_parent_stage_1"
@@ -534,7 +534,7 @@
         "parent": "8013a468-64b9-46fc-b7a1-7a7ca00e4d38",
         "data": {
           "AM_Trigger": {
-            "String": "stage_1_help"
+            "String": "stage_1_repair"
           },
           "parent": "8013a468-64b9-46fc-b7a1-7a7ca00e4d38"
         }

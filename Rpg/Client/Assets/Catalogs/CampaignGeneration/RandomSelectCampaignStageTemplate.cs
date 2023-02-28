@@ -24,22 +24,22 @@ internal sealed class RandomSelectCampaignStageTemplateFactory : ICampaignStageT
     }
 
     /// <inheritdoc />
-    public bool CanCreate()
+    public bool CanCreate(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         return true;
     }
 
     /// <inheritdoc />
-    public ICampaignStageItem Create()
+    public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
         var openList = new List<ICampaignStageTemplateFactory>(_templates);
 
         while (openList.Any())
         {
             var rolledTemplate = _services.Dice.RollFromList(openList);
-            if (rolledTemplate.CanCreate())
+            if (rolledTemplate.CanCreate(currentStageItems))
             {
-                return rolledTemplate.Create();
+                return rolledTemplate.Create(currentStageItems);
             }
 
             openList.Remove(rolledTemplate);

@@ -31,11 +31,27 @@ internal sealed class DialogueEvent
 
     public IReadOnlyCollection<IDialogueEventRequirement> GetRequirements()
     {
+        if (_stateMachine.State.NoDialogue)
+        {
+            return new[] { new IsInProgressEventRequirement() };
+        }
+
         return _requirements[_stateMachine.State];
     }
 
     public void Trigger(DialogueEventTrigger trigger)
     {
         _stateMachine.Fire(trigger);
+    }
+
+    public bool IsStarted => _stateMachine.State.Sid != "stage_1";
+
+    private sealed class IsInProgressEventRequirement : IDialogueEventRequirement
+    {
+        public bool IsApplicableFor(IDialogueEventRequirementContext context)
+        {
+            // Quests in progress is not available to be a base of campaign stage.
+            return false;
+        }
     }
 }

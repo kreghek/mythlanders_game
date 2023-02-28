@@ -22,23 +22,37 @@ internal sealed class SideStoryDialogueEventStageTemplateFactory : ICampaignStag
         _services = services;
     }
 
-    private bool MeetRequirements(DialogueEvent textEvent)
+    private static bool MeetRequirements(DialogueEvent textEvent, DialogueEventRequirementContext requirementContext)
     {
-        return textEvent.GetRequirements().All(r => r.IsApplicableFor(_services.GlobeProvider.Globe, _locationSid));
+        var dialogueEventRequirements = textEvent.GetRequirements();
+        return dialogueEventRequirements.All(r => r.IsApplicableFor(requirementContext));
     }
 
     /// <inheritdoc />
-    public bool CanCreate()
+    public bool CanCreate(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var availableStoies = _services.EventCatalog.Events.Where(x => MeetRequirements(x)).ToArray();
+        if (currentStageItems.OfType<DialogueEventStageItem>().Any())
+        {
+            return false;
+        }
 
-        return availableStoies.Any();
+        var availableStories = GetAvailableStories();
+
+        return availableStories.Any();
+    }
+
+    private DialogueEvent[] GetAvailableStories()
+    {
+        var requirementContext = new DialogueEventRequirementContext(_services.GlobeProvider.Globe, _locationSid, _services.EventCatalog);
+
+        var availableStories = _services.EventCatalog.Events.Where(x => MeetRequirements(x, requirementContext)).ToArray();
+        return availableStories;
     }
 
     /// <inheritdoc />
-    public ICampaignStageItem Create()
+    public ICampaignStageItem Create(System.Collections.Generic.IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var availableStoies = _services.EventCatalog.Events.Where(x => MeetRequirements(x)).ToArray();
+        var availableStoies = GetAvailableStories();
 
         var rolledStory = _services.Dice.RollFromList(availableStoies);
 

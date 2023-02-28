@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

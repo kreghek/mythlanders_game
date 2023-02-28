@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Client.Core.Campaigns;
 using Client.GameScreens.Combat;
 
 using Rpg.Client.Core;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Client.Core;
+using Client.Core.Campaigns;
 using Client.Core.Dialogues;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.TextDialogue.Ui;
@@ -50,7 +51,6 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
     private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
     private readonly GameObjectContentStorage _gameObjectContentStorage;
     private readonly GameSettings _gameSettings;
-    private readonly Globe _globe;
     private readonly LocationSid _globeLocation;
     private readonly GlobeProvider _globeProvider;
     private readonly Player _player;
@@ -74,13 +74,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _random = new Random();
 
         _globeProvider = game.Services.GetService<GlobeProvider>();
-        _globe = _globeProvider.Globe;
-        if (_globe is null)
+        var globe = _globeProvider.Globe;
+        if (globe is null)
         {
             throw new InvalidOperationException();
         }
 
-        _player = _globe.Player ?? throw new InvalidOperationException();
+        _player = globe.Player ?? throw new InvalidOperationException();
 
         _uiContentStorage = game.Services.GetService<IUiContentStorage>();
         _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
@@ -103,7 +103,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _textFragments = new List<TextFragmentControl>();
 
         var dualogueContextFactory =
-            new DialogueContextFactory(_globe, storyPointCatalog, _player, args.DualogueEvent);
+            new DialogueContextFactory(globe, storyPointCatalog, _player, args.DualogueEvent);
         _dialoguePlayer =
             new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
 
@@ -396,19 +396,13 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _currentFragmentIndex = 0;
         foreach (var textFragment in _dialoguePlayer.CurrentTextFragments)
         {
-            var textureType = ControlTextures.Speech;
-
-            if (textFragment.Speaker == UnitName.Environment)
-            {
-                textureType = ControlTextures.Shadow;
-            }
-
             var textFragmentControl = new TextFragmentControl(
                 textFragment,
                 _gameObjectContentStorage.GetUnitPortrains(),
                 _gameObjectContentStorage.GetTextSoundEffect(textFragment.Speaker),
                 _dice,
-                _dialogueEnvironmentManager);
+                _dialogueEnvironmentManager,
+                _player.StoryState);
             _textFragments.Add(textFragmentControl);
         }
 

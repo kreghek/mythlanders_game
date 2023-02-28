@@ -18,19 +18,24 @@ namespace Rpg.Client.GameScreens.Speech.Ui
             _dialogueResourceManager = new ResourceManager("Client.DialogueResources", assembly);
         }
 
-        public static string PrepareLocalizedText(string dialogueResourceSid)
+        public static (string text, bool isLocalized) PrepareLocalizedText(string dialogueResourceSid)
         {
-            var fullText = GetLocalizedText(dialogueResourceSid);
+            var (fullText, isLocalized) = GetLocalizedText(dialogueResourceSid);
             var fixedFullText = StringHelper.FixText(fullText);
             var wordBreakFullText = StringHelper.LineBreaking(fixedFullText, MAX_IN_LINE);
 
-            return wordBreakFullText;
+            return (wordBreakFullText, isLocalized);
         }
 
-        private static string GetLocalizedText(string textSid)
+        private static (string text, bool isLocalized) GetLocalizedText(string textSid)
         {
             var localizedText = _dialogueResourceManager.GetString(textSid);
-            return localizedText ?? $"#{textSid}";
+            if (localizedText is not null)
+            {
+                return (localizedText, true);
+            }
+
+            return ($"#{textSid}", false);
         }
     }
 }

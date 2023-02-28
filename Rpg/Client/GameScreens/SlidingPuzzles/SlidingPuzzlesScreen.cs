@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
 using Client.Core.Minigames.BarleyBreak;
 using Client.GameScreens.Campaign;
 

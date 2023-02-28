@@ -135,6 +135,15 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Ур.</value>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Пройти любые кампании</value>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
   </data>
@@ -209,6 +218,15 @@
   </data>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Уменьшает урон на {0}% по {2} на {1} ходов</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - завершено</value>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Победа над противниками</value>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Нажмите [ПРОБЕЛ] чтобы продолжить</value>
@@ -413,14 +431,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
-  </data>
-  <data name="DefeatsJobTitleSid" xml:space="preserve">
-    <value>Победа над противниками</value>
-  </data>
-  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - завершено</value>
-  </data>
-  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
   </data>
 </root>

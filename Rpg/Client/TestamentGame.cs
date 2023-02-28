@@ -285,7 +285,8 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<IUnitSchemeCatalog>(),
             Services.GetRequiredService<GlobeProvider>(),
             Services.GetRequiredService<IEventCatalog>(),
-            Services.GetRequiredService<IDice>());
+            Services.GetRequiredService<IDice>(),
+            Services.GetRequiredService<IJobProgressResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
         Services.AddService(new AnimationManager());

@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.DialogueEventRequirements
             _requiredEvents = requiredEvents;
         }
 
-        public bool IsApplicableFor(Globe globe, LocationSid targetLocation)
+        public bool IsApplicableFor(IDialogueEventRequirementContext context)
         {
             foreach (var eventSid in _requiredEvents)
             {
