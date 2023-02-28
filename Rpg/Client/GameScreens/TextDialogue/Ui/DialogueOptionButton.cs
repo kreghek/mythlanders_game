@@ -13,7 +13,7 @@ namespace Rpg.Client.GameScreens.Speech.Ui
 
         public DialogueOptionButton(string resourceSid)
         {
-            _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid);
+            _optionText = SpeechVisualizationHelper.PrepareLocalizedText(resourceSid).text;
 
             _font = UiThemeManager.UiContentStorage.GetTitlesFont();
         }

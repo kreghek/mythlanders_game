@@ -20,38 +20,56 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
     public DialogueEvent CreateEvent(IDialogueEventFactoryServices services)
     {
         // Canonical story
-        var questStateMachine = new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
+        var questStateMachine =
+            new StateMachine<DialogueEventState, DialogueEventTrigger>(DialogueConstants.InitialStage);
         questStateMachine.Configure(DialogueConstants.InitialStage)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Ignore_Trigger, DialogueConstants.CompleteStage)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress);
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_Trigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage1_Repair_Trigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage1_Canon_In_Progress)
-            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon);
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage2_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon_In_Progress);
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage2_Continue_Trigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon_In_Progress);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage2_Canon_In_Progress)
-            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon);
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage3_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon_In_Progress);
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage3_Continue_Trigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon_In_Progress);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage3_Canon_In_Progress)
-            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon);
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon)
-            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage4_Continue_Trigger, DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon_In_Progress);
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage4_Continue_Trigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon_In_Progress);
 
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage4_Canon_In_Progress)
-            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger, DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon);
-        
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon);
+
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage5_Lead_Trigger, DialogueConstants.CompleteStage);
-        
+
         questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage5_Canon)
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage5_Leave_Trigger, DialogueConstants.CompleteStage);
+
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage1_Fast_In_Progress)
+            .Permit(DialogueConstants.CompleteCurrentStageChallengeTrigger,
+                DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast);
+
+        questStateMachine.Configure(DialogueConstants.SideQuests.SynthAsParent.Stage2_Fast)
+            .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage2_Continue_Trigger,
+                DialogueConstants.CompleteStage);
 
         string GetDialogueFileName(string stageName)
         {

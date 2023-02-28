@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Rpg\Core\Core.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text.Client", "..\Rpg\Text.Client\Text.Client.csproj", "{CE4DDDBD-CA11-4395-9343-7C90FFC48096}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Content.SideQuests.Tests", "Content.SideQuests.Tests\Content.SideQuests.Tests.csproj", "{5E146E5E-3D21-494F-B896-0B4AE64B99C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE4DDDBD-CA11-4395-9343-7C90FFC48096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E146E5E-3D21-494F-B896-0B4AE64B99C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

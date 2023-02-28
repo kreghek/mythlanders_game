@@ -24,7 +24,7 @@ internal sealed class TextFragmentMessageControl : ControlBase
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();
 
         var speechText = SpeechVisualizationHelper.PrepareLocalizedText(eventTextFragment.TextSid);
-        _speech = new Speech(speechText, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
+        _speech = new Speech(speechText.text, new SpeechSoundWrapper(textSoundEffect), new SpeechRandomProvider(dice));
         _isCharacterSpeech = isCharacterSpeech;
     }
 

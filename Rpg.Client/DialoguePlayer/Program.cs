@@ -4,6 +4,7 @@ using System.Resources;
 
 using Client.Assets.Catalogs;
 using Client.Core;
+using Client.Core.Dialogues;
 
 using Core.Dices;
 
@@ -37,6 +38,21 @@ namespace DialoguePlayer
             var eventSid = Console.ReadLine();
 
             var selectedEvent = eventCatalog.Events.Single(x => x.Sid == eventSid);
+
+            Console.WriteLine(@"Prepare event state:");
+            while (true)
+            {
+                var triggerInput = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(triggerInput))
+                {
+                    break;
+                }
+
+                var trigger = new DialogueEventTrigger(triggerInput);
+                
+                selectedEvent.Trigger(trigger);
+            }
 
             var dialogueSid = selectedEvent.GetDialogSid();
 
