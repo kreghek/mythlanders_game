@@ -18,7 +18,7 @@ internal class CampaignScreen : GameScreenWithMenuBase
 {
     private readonly GlobeProvider _globe;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
-    private CampaignStagesPanel? _stagePanel;
+    private CampaignPanel? _stagePanel;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
     {
@@ -109,6 +109,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
     {
         var currentCampaign = _screenTransitionArguments.Campaign;
 
-        _stagePanel = new CampaignStagesPanel(currentCampaign, ScreenManager, this);
+        _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this);
     }
 }

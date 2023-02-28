@@ -144,6 +144,9 @@
   <data name="CampaignsJobTitleSid" xml:space="preserve">
     <value>Пройти любые кампании</value>
   </data>
+  <data name="CampaignStageTitle" xml:space="preserve">
+    <value>Этап {0}</value>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Закрыть</value>
   </data>

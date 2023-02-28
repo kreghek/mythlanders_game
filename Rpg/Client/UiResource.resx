@@ -148,6 +148,10 @@
     <value>Complete any campaigns</value>
     <comment>Jobs</comment>
   </data>
+  <data name="CampaignStageTitle" xml:space="preserve">
+    <value>Stage {0}</value>
+    <comment>0 - это номер</comment>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
   </data>

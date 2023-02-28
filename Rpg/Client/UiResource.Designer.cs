@@ -142,6 +142,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stage {0}.
+        /// </summary>
+        internal static string CampaignStageTitle {
+            get {
+                return ResourceManager.GetString("CampaignStageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string CloseButtonTitle {

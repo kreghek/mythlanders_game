@@ -134,6 +134,11 @@ namespace Rpg.Client.Engine
         {
             var color = GetStartColor();
 
+            if (!IsEnabled)
+            {
+                return Color.Lerp(color, Color.Gray, 0.5f);
+            }
+
             return _buttonState switch
             {
                 UiButtonState.OutOfButton => color, // Do not modify start color.
