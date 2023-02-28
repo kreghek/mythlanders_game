@@ -27,8 +27,11 @@ namespace Client.Assets.StageItems
         {
             var completeCampaignProgress = new CampaignCompleteJobProgress();
             var currentJobs = _globeProvider.Globe.ActiveStoryPoints.ToArray();
-            
-            _jobProgressResolver.ApplyProgress(completeCampaignProgress, currentJobs);
+
+            foreach (var job in currentJobs)
+            {
+                _jobProgressResolver.ApplyProgress(completeCampaignProgress, job);
+            }
                 
             var campaigns = _campaignGenerator.CreateSet();
             screenManager.ExecuteTransition(currentScreen, ScreenTransition.CampaignSelection,

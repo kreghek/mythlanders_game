@@ -71,7 +71,7 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             .Permit(DialogueConstants.SideQuests.SynthAsParent.Stage2_Continue_Trigger,
                 DialogueConstants.CompleteStage);
 
-        string GetDialogueFileName(string stageName)
+        static string GetDialogueFileName(string stageName)
         {
             var sid = DialogueConstants.SideQuests.SynthAsParent.Sid;
             return $"{sid}_{stageName}";
@@ -152,10 +152,10 @@ internal sealed class SynthAsParentDialogueEventFactory : IDialogueEventFactory
             CurrentJobs = new[]
             {
                 new Job(
-                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.Defeats, new JobGoalValue(12)),
-                    nameof(UiResource.DefeatsJobTitleSid),
-                    nameof(UiResource.DefeatsJobProgressPatternSid),
-                    nameof(UiResource.DefeatsJobCompletePatternSid))
+                    new JobScheme(JobScopeCatalog.Global, JobTypeCatalog.CompleteCampaigns, new JobGoalValue(1)),
+                    nameof(UiResource.CampaignsJobTitleSid),
+                    nameof(UiResource.CampaignsJobProgressPatternSid),
+                    nameof(UiResource.CampaignsJobCompletePatternSid))
             },
             Aftermaths = new IStoryPointAftermath[]
             {

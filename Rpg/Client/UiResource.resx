@@ -136,6 +136,18 @@
   <data name="BiomeLevelText" xml:space="preserve">
     <value>Lvl</value>
   </data>
+  <data name="CampaignsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="CampaignsJobTitleSid" xml:space="preserve">
+    <value>Complete any campaigns</value>
+    <comment>Jobs</comment>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -201,6 +213,18 @@
   </data>
   <data name="DecreseDamagePercentEffectRuleText" xml:space="preserve">
     <value>Decrease damage on {0}% of {2} on {1} turns</value>
+  </data>
+  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
+    <value>{0} - done</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
+    <value>{0}: {1}/{2}</value>
+    <comment>Jobs</comment>
+  </data>
+  <data name="DefeatsJobTitleSid" xml:space="preserve">
+    <value>Defeats</value>
+    <comment>Jobs</comment>
   </data>
   <data name="DialogueContinueText" xml:space="preserve">
     <value>Press [SPACE] to continue</value>
@@ -405,16 +429,5 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
-  </data>
-  <data name="DefeatsJobTitleSid" xml:space="preserve">
-    <value>Defeats</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="DefeatsJobProgressPatternSid" xml:space="preserve">
-    <value>{0}: {1}/{2}</value>
-    <comment>Jobs</comment>
-  </data>
-  <data name="DefeatsJobCompletePatternSid" xml:space="preserve">
-    <value>{0} - done</value>
   </data>
 </root>

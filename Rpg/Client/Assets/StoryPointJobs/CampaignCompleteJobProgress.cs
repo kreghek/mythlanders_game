@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Rpg.Client.Core;
 
 namespace Client.Assets.StoryPointJobs;
 
-internal sealed class CombatCompleteJobProgress : IJobProgress
+internal sealed class CampaignCompleteJobProgress : IJobProgress
 {
     private static void ProcessJob(IJob job, ICollection<IJob> modifiedJobs)
     {
@@ -23,7 +23,7 @@ internal sealed class CombatCompleteJobProgress : IJobProgress
         var modifiedJobs = new List<IJob>();
         foreach (var job in currentJobs)
         {
-            if (job.Scheme.Type != JobTypeCatalog.Combats)
+            if (job.Scheme.Type != JobTypeCatalog.CompleteCampaigns)
             {
                 continue;
             }
