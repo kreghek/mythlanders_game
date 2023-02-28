@@ -1,8 +1,10 @@
+using System.Globalization;
 using System.Resources;
 
 using Client;
 using Client.Assets.Catalogs;
 using Client.Assets.Dialogues;
+using Client.Core.Dialogues;
 
 using Core.Dices;
 
@@ -24,6 +26,10 @@ public class SynthAsParentTests
     public void CanonTest()
     {
         // Services
+        var newCulture = CultureInfo.GetCultureInfo("ru-RU");
+        Thread.CurrentThread.CurrentCulture = newCulture;
+        Thread.CurrentThread.CurrentUICulture = newCulture;
+
         var balanceTable = new BalanceTable();
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, false);
 
@@ -32,12 +38,12 @@ public class SynthAsParentTests
         eventCatalog.Init();
 
         var storyPointCatalog = new StoryPointCatalog(eventCatalog);
-        
+
         var globeProvider = new GlobeProvider(new LinearDice(), unitSchemeCatalog, eventCatalog,
             storyPointCatalog);
-        
+
         globeProvider.GenerateNew();
-        
+
         storyPointCatalog.Init(globeProvider.Globe);
 
         // Start testing
@@ -45,7 +51,7 @@ public class SynthAsParentTests
         var textEvent = eventCatalog.Events.Single(x => x.Sid == DialogueConstants.SideQuests.SynthAsParent.Sid);
 
         // Stage 1 - availability in a campaigns
-        
+
         var requirements = textEvent.GetRequirements();
 
         var dialogueRequirementsContext =
@@ -54,58 +60,73 @@ public class SynthAsParentTests
         var stage1IsAvailable = requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
 
         stage1IsAvailable.Should().BeTrue();
-        
+
         // Stage 1 - play dialogue and select canon
 
-        var stage1Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
-
-        var stage1CanonDialoguePlayer = new DialoguePlayer(stage1Dialogue,
-            new DialogueContextFactory(globeProvider.Globe, storyPointCatalog, globeProvider.Globe.Player, textEvent));
-
         var stage1TargetOptions = new[] { 1, 1, 1, 1, 1, 1, 3, 1 };
-        foreach (var optionIndex in stage1TargetOptions)
-        {
-            foreach (var currentTextFragment in stage1CanonDialoguePlayer.CurrentTextFragments)
-            {
-                var (_, isLocalized) =
-                    SpeechVisualizationHelper.PrepareLocalizedText(currentTextFragment.TextSid);
-
-                isLocalized.Should().BeTrue();
-            }
-            
-            foreach (var dualogueOption in stage1CanonDialoguePlayer.CurrentOptions)
-            {
-                var (_, isLocalized) =
-                    SpeechVisualizationHelper.PrepareLocalizedText(dualogueOption.TextSid);
-
-                isLocalized.Should().BeTrue();
-            }
-            
-            var currentOptionList = stage1CanonDialoguePlayer.CurrentOptions.ToArray();
-            var targetOption = currentOptionList[optionIndex - 1];
-            stage1CanonDialoguePlayer.SelectOption(targetOption);
-        }
-
-        stage1CanonDialoguePlayer.IsEnd.Should().BeTrue();
+        var stage1Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
+        CheckDialogue(stage1Dialogue, stage1TargetOptions, storyPointCatalog, globeProvider, textEvent);
 
         globeProvider.Globe.ActiveStoryPoints.Single().Sid.Should()
             .Be($"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_1");
-        
+
         // Quest is not available until in progress
-        
+
         var stage1InProgressRequirements = textEvent.GetRequirements();
         var questIsNotAvailable = stage1InProgressRequirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
         questIsNotAvailable.Should().BeFalse();
-        
+
         // Complete progress
-        
+
         textEvent.Trigger(DialogueConstants.CompleteCurrentStageChallengeTrigger);
-        
+
         // Quest available to continue
 
         var stage2Requirements = textEvent.GetRequirements();
         var questStage2IsAvailable = stage2Requirements.All(x => x.IsApplicableFor(dialogueRequirementsContext));
 
         questStage2IsAvailable.Should().BeTrue();
+
+        // Stage 2 - play dialogue to the end
+
+        var stage2TargetOptions = new[] { 1, 1 };
+        var stage2Dialogue = eventCatalog.GetDialogue(textEvent.GetDialogSid());
+        CheckDialogue(stage2Dialogue, stage2TargetOptions, storyPointCatalog, globeProvider, textEvent);
+
+        globeProvider.Globe.ActiveStoryPoints.Single(x=>x.Sid == $"{DialogueConstants.SideQuests.SynthAsParent.Sid}_stage_2").IsComplete.Should()
+            .BeFalse();
+    }
+
+    private static void CheckDialogue(Dialogue testDialog, int[] targetOptions, StoryPointCatalog storyPointCatalog, GlobeProvider globeProvider, DialogueEvent textEvent)
+    {
+        var dialogueContextFactory = new DialogueContextFactory(globeProvider.Globe, storyPointCatalog, globeProvider.Globe.Player, textEvent);
+        var dialoguePlayer = new DialoguePlayer(testDialog, dialogueContextFactory);
+
+        foreach (var optionIndex in targetOptions)
+        {
+            foreach (var currentTextFragment in dialoguePlayer.CurrentTextFragments)
+            {
+                var (text, isLocalized) =
+                    SpeechVisualizationHelper.PrepareLocalizedText(currentTextFragment.TextSid);
+
+                text.Should().NotBeNullOrWhiteSpace();
+                isLocalized.Should().BeTrue();
+            }
+
+            foreach (var dualogueOption in dialoguePlayer.CurrentOptions)
+            {
+                var (text, isLocalized) =
+                    SpeechVisualizationHelper.PrepareLocalizedText(dualogueOption.TextSid);
+
+                text.Should().NotBeNullOrWhiteSpace();
+                isLocalized.Should().BeTrue();
+            }
+
+            var currentOptionList = dialoguePlayer.CurrentOptions.ToArray();
+            var targetOption = currentOptionList[optionIndex - 1];
+            dialoguePlayer.SelectOption(targetOption);
+        }
+
+        dialoguePlayer.IsEnd.Should().BeTrue();
     }
 }
