@@ -30,50 +30,9 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
     }
 
-    protected override void InitializeContent()
-    {
-        var improvedRestActionButton = new ResourceTextButton(nameof(UiResource.RestActionImprovedRest));
-        _actionButtons.Add(improvedRestActionButton);
-
-        var scoutingActionButton = new ResourceTextButton(nameof(UiResource.RestActionScouting));
-        _actionButtons.Add(scoutingActionButton);
-
-        var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
-        _actionButtons.Add(chatActionButton);
-
-        foreach (var actionButton in _actionButtons)
-        {
-            actionButton.OnClick += (_, _) =>
-            {
-                var underConstructionModal = new UnderConstructionModal(
-                    _uiContentStorage,
-                    ResolutionIndependentRenderer);
-
-                underConstructionModal.Closed += (_, _) =>
-                {
-                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments(_campaign));
-                };
-
-                AddModal(underConstructionModal, false);
-                _campaign.CompleteCurrentStage();
-            };
-        }
-    }
-
     protected override IList<ButtonBase> CreateMenu()
     {
         return ArraySegment<ButtonBase>.Empty;
-    }
-
-    protected override void UpdateContent(GameTime gameTime)
-    {
-        base.UpdateContent(gameTime);
-
-        foreach (var actionButton in _actionButtons)
-        {
-            actionButton.Update(ResolutionIndependentRenderer);
-        }
     }
 
     protected override void DrawContentWithoutMenu(SpriteBatch spriteBatch, Rectangle contentRect)
@@ -109,5 +68,46 @@ internal sealed class RestScreen : GameScreenWithMenuBase
         }
 
         spriteBatch.End();
+    }
+
+    protected override void InitializeContent()
+    {
+        var improvedRestActionButton = new ResourceTextButton(nameof(UiResource.RestActionImprovedRest));
+        _actionButtons.Add(improvedRestActionButton);
+
+        var scoutingActionButton = new ResourceTextButton(nameof(UiResource.RestActionScouting));
+        _actionButtons.Add(scoutingActionButton);
+
+        var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
+        _actionButtons.Add(chatActionButton);
+
+        foreach (var actionButton in _actionButtons)
+        {
+            actionButton.OnClick += (_, _) =>
+            {
+                var underConstructionModal = new UnderConstructionModal(
+                    _uiContentStorage,
+                    ResolutionIndependentRenderer);
+
+                underConstructionModal.Closed += (_, _) =>
+                {
+                    ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                        new CampaignScreenTransitionArguments(_campaign));
+                };
+
+                AddModal(underConstructionModal, false);
+                _campaign.CompleteCurrentStage();
+            };
+        }
+    }
+
+    protected override void UpdateContent(GameTime gameTime)
+    {
+        base.UpdateContent(gameTime);
+
+        foreach (var actionButton in _actionButtons)
+        {
+            actionButton.Update(ResolutionIndependentRenderer);
+        }
     }
 }

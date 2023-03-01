@@ -45,7 +45,8 @@ internal class NotImplementedStageScreen : GameScreenWithMenuBase
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
 
-        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Under construction\n\n(press Skip to continue)", contentRect.Center.ToVector2(), Color.Wheat);
+        spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), "Under construction\n\n(press Skip to continue)",
+            contentRect.Center.ToVector2(), Color.Wheat);
 
         spriteBatch.End();
     }

@@ -95,7 +95,6 @@ internal sealed class CampaignPanel : ControlBase
                     panelList.Add(stagePanel);
                 }
             }
-
         }
     }
 }

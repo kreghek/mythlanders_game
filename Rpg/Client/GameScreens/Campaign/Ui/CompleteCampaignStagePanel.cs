@@ -23,6 +23,5 @@ internal class CompleteCampaignStagePanel : CampaignStagePanelBase
 
     protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle rectangle)
     {
-
     }
 }

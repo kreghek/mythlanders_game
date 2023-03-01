@@ -9,7 +9,9 @@ internal sealed class UnderConstructionModal : ModalDialogBase
 {
     private readonly IUiContentStorage _uiContentStorage;
 
-    public UnderConstructionModal(IUiContentStorage uiContentStorage, ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage, resolutionIndependentRenderer)
+    public UnderConstructionModal(IUiContentStorage uiContentStorage,
+        ResolutionIndependentRenderer resolutionIndependentRenderer) : base(uiContentStorage,
+        resolutionIndependentRenderer)
     {
         _uiContentStorage = uiContentStorage;
     }

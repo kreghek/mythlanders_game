@@ -10,6 +10,7 @@ internal sealed class RestStageItem : ICampaignStageItem
 {
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
-        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Rest, new RestScreenTransitionArguments(currentCampaign));
+        screenManager.ExecuteTransition(currentScreen, ScreenTransition.Rest,
+            new RestScreenTransitionArguments(currentCampaign));
     }
 }

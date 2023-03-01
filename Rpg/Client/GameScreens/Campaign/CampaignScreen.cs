@@ -17,8 +17,10 @@ namespace Client.GameScreens.Campaign;
 internal class CampaignScreen : GameScreenWithMenuBase
 {
     private readonly GlobeProvider _globe;
-    private readonly ButtonBase _showStoryPointsButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
+    private readonly ButtonBase _showStoryPointsButton;
+
+    private bool _showStoryPoints;
     private CampaignPanel? _stagePanel;
 
     public CampaignScreen(TestamentGame game, CampaignScreenTransitionArguments screenTransitionArguments) : base(game)
@@ -29,11 +31,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
 
         _showStoryPointsButton = new TextButton("Quests");
         _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
-    }
-
-    private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)
-    {
-        _showStoryPoints = !_showStoryPoints;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -88,8 +85,6 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _showStoryPointsButton.Update(ResolutionIndependentRenderer);
     }
 
-    private bool _showStoryPoints;
-
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
         if (!_globe.Globe.ActiveStoryPoints.Any())
@@ -129,5 +124,10 @@ internal class CampaignScreen : GameScreenWithMenuBase
         var currentCampaign = _screenTransitionArguments.Campaign;
 
         _stagePanel = new CampaignPanel(currentCampaign, ScreenManager, this);
+    }
+
+    private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)
+    {
+        _showStoryPoints = !_showStoryPoints;
     }
 }

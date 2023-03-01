@@ -8,9 +8,9 @@ namespace Client.Core;
 
 internal sealed class StoryState : IStoryState
 {
+    private readonly Group _heroParty;
     private readonly IList<CharacterRelation> _relations = new List<CharacterRelation>();
     private readonly IList<string> _storyKeys = new List<string>();
-    private readonly Group _heroParty;
 
     public StoryState(Group heroParty)
     {
@@ -20,7 +20,7 @@ internal sealed class StoryState : IStoryState
     private IReadOnlyCollection<CharacterRelation> GetPlayerUnitsAsFullKnown(Group heroParty)
     {
         return heroParty.GetUnits().Select(x => new CharacterRelation(x.UnitScheme.Name)
-        { Level = CharacterKnowledgeLevel.FullName }).ToArray();
+            { Level = CharacterKnowledgeLevel.FullName }).ToArray();
     }
 
     public IReadOnlyCollection<string> Keys => _storyKeys.ToArray();
