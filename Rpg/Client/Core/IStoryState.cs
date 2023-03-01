@@ -12,21 +12,3 @@ public interface IStoryState
     void AddCharacterRelations(UnitName name);
     void AddKey(string storySid, string key);
 }
-
-public enum CharacterKnowledgeLevel
-{
-    Hidden,
-    Unknown,
-    FullName
-}
-
-public sealed class CharacterRelation
-{
-    public CharacterRelation(UnitName name)
-    {
-        Name = name;
-    }
-
-    public CharacterKnowledgeLevel Level { get; set; }
-    public UnitName Name { get; }
-}

@@ -391,6 +391,12 @@
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Символ Бога</value>
   </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Нафрит</value>
+  </data>
+  <data name="Synth_Hidden" xml:space="preserve">
+    <value>Синт низшей касты</value>
+  </data>
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Тактический манёвр</value>
   </data>

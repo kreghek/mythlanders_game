@@ -17,6 +17,7 @@ namespace Client.GameScreens.Campaign;
 internal class CampaignScreen : GameScreenWithMenuBase
 {
     private readonly GlobeProvider _globe;
+    private readonly ButtonBase _showStoryPointsButton;
     private readonly CampaignScreenTransitionArguments _screenTransitionArguments;
     private CampaignPanel? _stagePanel;
 
@@ -25,6 +26,14 @@ internal class CampaignScreen : GameScreenWithMenuBase
         _screenTransitionArguments = screenTransitionArguments;
 
         _globe = game.Services.GetRequiredService<GlobeProvider>();
+
+        _showStoryPointsButton = new TextButton("Quests");
+        _showStoryPointsButton.OnClick += ShowStoryPointsButton_OnClick;
+    }
+
+    private void ShowStoryPointsButton_OnClick(object? sender, EventArgs e)
+    {
+        _showStoryPoints = !_showStoryPoints;
     }
 
     protected override IList<ButtonBase> CreateMenu()
@@ -75,7 +84,11 @@ internal class CampaignScreen : GameScreenWithMenuBase
         {
             _stagePanel.Update(ResolutionIndependentRenderer);
         }
+
+        _showStoryPointsButton.Update(ResolutionIndependentRenderer);
     }
+
+    private bool _showStoryPoints;
 
     private void DrawCurrentStoryPoints(SpriteBatch spriteBatch, Rectangle contentRect)
     {
@@ -84,22 +97,28 @@ internal class CampaignScreen : GameScreenWithMenuBase
             return;
         }
 
-        var storyPoints = _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
-        for (var storyPointIndex = 0; storyPointIndex < storyPoints.Length; storyPointIndex++)
+        _showStoryPointsButton.Rect = new Rectangle(contentRect.Right - 50, contentRect.Top, 50, 20);
+        _showStoryPointsButton.Draw(spriteBatch);
+
+        if (_showStoryPoints)
         {
-            var storyPoint = storyPoints[storyPointIndex];
-            spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid,
-                new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
-            if (storyPoint.CurrentJobs is not null)
+            var storyPoints = _globe.Globe.ActiveStoryPoints.OrderBy(x => x.Sid).ToArray();
+            for (var storyPointIndex = 0; storyPointIndex < storyPoints.Length; storyPointIndex++)
             {
-                var currentJobs = storyPoint.CurrentJobs.ToList();
-                for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
+                var storyPoint = storyPoints[storyPointIndex];
+                spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(), storyPoint.TitleSid,
+                    new Vector2(contentRect.Left, contentRect.Top + storyPointIndex * 20), Color.Wheat);
+                if (storyPoint.CurrentJobs is not null)
                 {
-                    var jobTextOffsetY = 20 * jobNumber;
-                    spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
-                        currentJobs[jobNumber].ToString(),
-                        new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
-                        Color.Wheat);
+                    var currentJobs = storyPoint.CurrentJobs.ToList();
+                    for (var jobNumber = 0; jobNumber < currentJobs.Count; jobNumber++)
+                    {
+                        var jobTextOffsetY = 20 * jobNumber;
+                        spriteBatch.DrawString(UiThemeManager.UiContentStorage.GetMainFont(),
+                            currentJobs[jobNumber].ToString(),
+                            new Vector2(contentRect.Left, contentRect.Top + 20 + jobTextOffsetY),
+                            Color.Wheat);
+                    }
                 }
             }
         }

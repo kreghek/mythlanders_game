@@ -80,6 +80,16 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 new CombatCampaignStageTemplateFactory(locationSid, _services)
             },
 
+            new ICampaignStageTemplateFactory[]
+            {
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SacredEventCampaignStageTemplateFactory(),
+                    new MinigameEventCampaignStageTemplateFactory()
+                })
+            },
+
             // Rest
 
             new ICampaignStageTemplateFactory[]
