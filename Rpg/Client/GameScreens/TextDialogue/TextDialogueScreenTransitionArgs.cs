@@ -3,12 +3,11 @@ using Client.Core.Dialogues;
 
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
-using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.TextDialogue;
 
 internal sealed record TextDialogueScreenTransitionArgs(
-    HeroCampaign CurrentCampaign,
+    HeroCampaign Campaign,
     Dialogue CurrentDialogue,
-    DialogueEvent DualogueEvent,
-    LocationSid Location) : IScreenTransitionArguments;
+    DialogueEvent DialogueEvent,
+    LocationSid Location) : CampaignScreenTransitionArgumentsBase(Campaign);

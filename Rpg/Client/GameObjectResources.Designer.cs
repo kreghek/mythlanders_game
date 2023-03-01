@@ -862,6 +862,24 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nafrit.
+        /// </summary>
+        internal static string Synth {
+            get {
+                return ResourceManager.GetString("Synth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Lower Caste Synth.
+        /// </summary>
+        internal static string Synth_Hidden {
+            get {
+                return ResourceManager.GetString("Synth_Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tactical maneuver.
         /// </summary>
         internal static string TacticalManeuver {

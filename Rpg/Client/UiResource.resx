@@ -148,6 +148,10 @@
     <value>Complete any campaigns</value>
     <comment>Jobs</comment>
   </data>
+  <data name="CampaignStageTitle" xml:space="preserve">
+    <value>Stage {0}</value>
+    <comment>0 - это номер</comment>
+  </data>
   <data name="CloseButtonTitle" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -429,5 +433,29 @@
   </data>
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp Reward</value>
+  </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Improved rest</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Scouting</value>
+  </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Combat {0}</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Finish campaign</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Some event</value>
+  </data>
+  <data name="CampaignStageDisplayName" xml:space="preserve">
+    <value>Rest</value>
+  </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Rest</value>
   </data>
 </root>

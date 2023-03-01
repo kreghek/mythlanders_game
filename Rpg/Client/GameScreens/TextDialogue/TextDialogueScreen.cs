@@ -102,7 +102,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
         _textFragments = new List<TextFragmentControl>();
 
         var dualogueContextFactory =
-            new DialogueContextFactory(globe, storyPointCatalog, _player, args.DualogueEvent);
+            new DialogueContextFactory(globe, storyPointCatalog, _player, args.DialogueEvent);
         _dialoguePlayer =
             new DialoguePlayer(args.CurrentDialogue, dualogueContextFactory);
 
@@ -112,7 +112,7 @@ internal class TextDialogueScreen : GameScreenWithMenuBase
 
         _gameSettings = game.Services.GetService<GameSettings>();
 
-        _currentCampaign = args.CurrentCampaign;
+        _currentCampaign = args.Campaign;
 
         _dialogueEnvironmentManager = game.Services.GetRequiredService<IDialogueEnvironmentManager>();
 

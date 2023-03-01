@@ -425,6 +425,14 @@
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value><comment>Equipment</comment>
   </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Nafrit</value>
+    <comment>NPC</comment>
+  </data>
+  <data name="Synth_Hidden" xml:space="preserve">
+    <value>The Lower Caste Synth</value>
+    <comment>NPC</comment>
+  </data>
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Tactical maneuver</value>
     <comment>Skill</comment>

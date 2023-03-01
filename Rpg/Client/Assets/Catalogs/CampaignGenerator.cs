@@ -30,7 +30,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     private HeroCampaign CreateCampaign(LocationSid locationSid)
     {
-        var shortTemplate = CreateShortTemplate(locationSid);
+        var shortTemplate = CreateGrindShortTemplate(locationSid);
 
         var stages = new List<CampaignStage>();
         for (var stageIndex = 0; stageIndex < shortTemplate.Length; stageIndex++)
@@ -67,22 +67,10 @@ internal sealed class CampaignGenerator : ICampaignGenerator
         return campaign;
     }
 
-    private ICampaignStageTemplateFactory[][] CreateShortTemplate(LocationSid locationSid)
+    private ICampaignStageTemplateFactory[][] CreateGrindShortTemplate(LocationSid locationSid)
     {
         return new[]
         {
-            new ICampaignStageTemplateFactory[]
-            {
-                new RandomSelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
-                {
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
-                    new RestCampaignStageTemplateFactory()
-                }, _services)
-            },
-
             // Combat
 
             new ICampaignStageTemplateFactory[]
@@ -90,6 +78,16 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 new CombatCampaignStageTemplateFactory(locationSid, _services),
                 new CombatCampaignStageTemplateFactory(locationSid, _services),
                 new CombatCampaignStageTemplateFactory(locationSid, _services)
+            },
+
+            new ICampaignStageTemplateFactory[]
+            {
+                new PrioritySelectCampaignStageTemplateFactory(new ICampaignStageTemplateFactory[]
+                {
+                    new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
+                    new SacredEventCampaignStageTemplateFactory(),
+                    new MinigameEventCampaignStageTemplateFactory()
+                })
             },
 
             // Rest
