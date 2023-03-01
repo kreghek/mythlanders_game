@@ -456,4 +456,7 @@
   <data name="CampaignStageDisplayName" xml:space="preserve">
     <value>Отдых</value>
   </data>
+  <data name="RestScreen_Title" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
 </root>

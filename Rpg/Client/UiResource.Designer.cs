@@ -771,6 +771,15 @@ namespace Client {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rest.
+        /// </summary>
+        internal static string RestScreen_Title {
+            get {
+                return ResourceManager.GetString("RestScreen_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsButtonTitle {
