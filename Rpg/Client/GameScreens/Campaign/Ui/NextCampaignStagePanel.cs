@@ -95,7 +95,7 @@ internal class NextCampaignStagePanel : CampaignStagePanelBase
         {
             return notImplemenetedStage.StageSid + " (not implemented)";
         }
-        
+
         if (campaignStageItem is RestStageItem)
         {
             return UiResource.CampaignStageDisplayName;

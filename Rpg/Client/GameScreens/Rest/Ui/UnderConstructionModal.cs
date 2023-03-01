@@ -5,7 +5,7 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Rest.Ui;
 
-internal sealed class UnderConstructionModal: ModalDialogBase
+internal sealed class UnderConstructionModal : ModalDialogBase
 {
     private readonly IUiContentStorage _uiContentStorage;
 

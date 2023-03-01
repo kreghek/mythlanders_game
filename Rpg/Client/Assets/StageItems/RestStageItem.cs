@@ -6,7 +6,7 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.Assets.StageItems;
 
-internal sealed class RestStageItem: ICampaignStageItem
+internal sealed class RestStageItem : ICampaignStageItem
 {
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {

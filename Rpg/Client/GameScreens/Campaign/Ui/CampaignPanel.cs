@@ -53,7 +53,7 @@ internal sealed class CampaignPanel : ControlBase
                 contentRect.Top + CONTENT_MARGIN,
                 STAGE_ITEM_PANEL_WIDTH,
                 contentRect.Height - CONTENT_MARGIN * 2);
-            
+
             stagePanel.Draw(spriteBatch);
         }
     }
@@ -95,7 +95,7 @@ internal sealed class CampaignPanel : ControlBase
                     panelList.Add(stagePanel);
                 }
             }
-            
+
         }
     }
 }

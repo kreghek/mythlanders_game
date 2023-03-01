@@ -14,17 +14,17 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Rest;
 
-internal sealed class RestScreen: GameScreenWithMenuBase
+internal sealed class RestScreen : GameScreenWithMenuBase
 {
     private readonly IList<ButtonBase> _actionButtons;
-    
+
     private readonly HeroCampaign _campaign;
     private readonly IUiContentStorage _uiContentStorage;
 
     public RestScreen(TestamentGame game, RestScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
-        
+
         _actionButtons = new List<ButtonBase>();
 
         _uiContentStorage = Game.Services.GetRequiredService<IUiContentStorage>();
@@ -34,10 +34,10 @@ internal sealed class RestScreen: GameScreenWithMenuBase
     {
         var improvedRestActionButton = new ResourceTextButton(nameof(UiResource.RestActionImprovedRest));
         _actionButtons.Add(improvedRestActionButton);
-        
+
         var scoutingActionButton = new ResourceTextButton(nameof(UiResource.RestActionScouting));
         _actionButtons.Add(scoutingActionButton);
-        
+
         var chatActionButton = new ResourceTextButton(nameof(UiResource.RestActionChat));
         _actionButtons.Add(chatActionButton);
 
@@ -86,10 +86,10 @@ internal sealed class RestScreen: GameScreenWithMenuBase
             depthStencilState: DepthStencilState.None,
             rasterizerState: RasterizerState.CullNone,
             transformMatrix: Camera.GetViewTransformationMatrix());
-        
+
         const int ACTION_BUTTON_WIDTH = 200;
         const int ACTION_BUTTON_HEIGHT = 40;
-        
+
         const int HEADER_HEIGHT = 100;
 
         spriteBatch.DrawString(_uiContentStorage.GetTitlesFont(), UiResource.RestScreen_Title,
@@ -104,10 +104,10 @@ internal sealed class RestScreen: GameScreenWithMenuBase
                 ACTION_BUTTON_WIDTH,
                 ACTION_BUTTON_HEIGHT
             );
-            
+
             actionButton.Draw(spriteBatch);
         }
-        
+
         spriteBatch.End();
     }
 }
