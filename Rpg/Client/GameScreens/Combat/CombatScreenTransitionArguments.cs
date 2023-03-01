@@ -17,4 +17,4 @@ internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
     GlobeNode Location,
     IReadOnlyCollection<HeroHp> StartHpItems,
     Dialogue? VictoryDialogue) :
-    CampaignScreenTransitionArgumentsBase(Campaign), IScreenTransitionArguments;
+    CampaignScreenTransitionArgumentsBase(Campaign);

@@ -435,4 +435,25 @@
   <data name="XpRewardText" xml:space="preserve">
     <value>Xp</value>
   </data>
+  <data name="RestActionImprovedRest" xml:space="preserve">
+    <value>Хорошо отдохнуть</value>
+  </data>
+  <data name="RestActionScouting" xml:space="preserve">
+    <value>Разведадть местность</value>
+  </data>
+  <data name="RestActionChat" xml:space="preserve">
+    <value>Пообщаться</value>
+  </data>
+  <data name="CampaignStageDisplayNameCombat" xml:space="preserve">
+    <value>Бой {0}</value>
+  </data>
+  <data name="CampaignStageDisplayNameFinish" xml:space="preserve">
+    <value>Завршить кампанию</value>
+  </data>
+  <data name="CampaignStageDisplayNameTextEvent" xml:space="preserve">
+    <value>Какое-то событие</value>
+  </data>
+  <data name="CampaignStageDisplayName" xml:space="preserve">
+    <value>Отдых</value>
+  </data>
 </root>

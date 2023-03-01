@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
@@ -13,14 +13,14 @@ using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Campaign.Ui;
 
-internal class ActiveCampaignStagePanel : CampaignStagePanelBase
+internal class NextCampaignStagePanel : CampaignStagePanelBase
 {
     private readonly IList<ButtonBase> _buttonList;
     private readonly CampaignStage _campaignStage;
     private readonly HeroCampaign _currentCampaign;
     private readonly bool _isActive;
 
-    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
+    public NextCampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
         IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
         _campaignStage = campaignStage;
@@ -78,8 +78,7 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
     {
         if (campaignStageItem is CombatStageItem)
         {
-            var humanReadableCombatNumber = stageItemIndex + 1;
-            return string.Format(UiResource.CampaignStageDisplayNameCombat, humanReadableCombatNumber);
+            return string.Format(UiResource.CampaignStageDisplayNameCombat, stageItemIndex + 1);
         }
 
         if (campaignStageItem is RewardStageItem)
@@ -92,11 +91,11 @@ internal class ActiveCampaignStagePanel : CampaignStagePanelBase
             return UiResource.CampaignStageDisplayNameTextEvent;
         }
 
-        if (campaignStageItem is NotImplemenetedStageItem notImplementedStage)
+        if (campaignStageItem is NotImplemenetedStageItem notImplemenetedStage)
         {
-            return notImplementedStage.StageSid + " (not implemented)";
+            return notImplemenetedStage.StageSid + " (not implemented)";
         }
-
+        
         if (campaignStageItem is RestStageItem)
         {
             return UiResource.CampaignStageDisplayName;

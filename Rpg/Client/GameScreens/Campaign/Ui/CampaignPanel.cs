@@ -84,7 +84,7 @@ internal sealed class CampaignPanel : ControlBase
             {
                 if (stageIsActive)
                 {
-                    var stagePanel = new CampaignStagePanel(stage, stageIndex, currentCampaign, _currentScreen,
+                    var stagePanel = new ActiveCampaignStagePanel(stage, stageIndex, currentCampaign, _currentScreen,
                         _screenManager, stageIsActive);
                     panelList.Add(stagePanel);
                 }
