@@ -6,8 +6,9 @@ public class Combatant
     private readonly CombatMovementInstance?[] _hand;
     private readonly IList<CombatMovementInstance> _pool;
 
-    public Combatant(CombatMovementSequence sequence)
+    public Combatant(string classSid, CombatMovementSequence sequence)
     {
+        ClassSid = classSid;
         _pool = new List<CombatMovementInstance>();
         _hand = new CombatMovementInstance?[3];
 
@@ -36,6 +37,8 @@ public class Combatant
     public bool IsPlayerControlled { get; init; }
 
     public string? Sid { get; init; }
+
+    public string ClassSid { get; }
 
     public IReadOnlyCollection<IUnitStat> Stats { get; }
 
@@ -69,14 +72,20 @@ public class Combatant
         IsDead = true;
     }
 
-    public void StartCombat()
+    public void PrepareToCombat()
     {
         for (var i = 0; i < 3; i++)
-            if (_pool.Any())
+        {
+            if (!_pool.Any())
             {
-                _hand[i] = _pool.First();
-                _pool.RemoveAt(0);
+                // Pool is empty.
+                // Stop to prepare first movements.
+                break;
             }
+            
+            _hand[i] = _pool.First();
+            _pool.RemoveAt(0);
+        }
     }
 
     public void UpdateEffects(CombatantEffectUpdateType updateType)

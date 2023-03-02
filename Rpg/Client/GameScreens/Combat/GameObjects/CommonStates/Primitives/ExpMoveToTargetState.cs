@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Core;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client.GameScreens.Combat.GameObjects;
+
+using Microsoft.Xna.Framework;
 
 using Rpg.Client.Assets.States.Primitives;
 using Rpg.Client.Core;

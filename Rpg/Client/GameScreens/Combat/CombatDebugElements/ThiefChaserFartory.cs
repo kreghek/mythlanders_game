@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
 using Core.Combats.TargetSelectors;
 
-namespace Text.Client;
+namespace Client.GameScreens.Combat.CombatDebugElements;
 
 public class ThiefChaserFactory
 {

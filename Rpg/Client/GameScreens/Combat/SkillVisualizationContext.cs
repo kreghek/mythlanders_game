@@ -36,7 +36,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         public UnitGameObject GetGameObject(ICombatUnit combatUnit)
         {
-            return _unitGameObjects.Single(x => x.CombatUnit == combatUnit);
+            return _unitGameObjects.Single(x => x.Combatant == combatUnit);
         }
 
         public IDice Dice { get; init; } = null!;

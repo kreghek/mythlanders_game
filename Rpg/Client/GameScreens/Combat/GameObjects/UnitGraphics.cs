@@ -2,22 +2,27 @@
 
 using Rpg.Client.Core;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Client.GameScreens.Combat.GameObjects;
+
+internal sealed class UnitGraphics : UnitGraphicsBase
 {
-    internal sealed class UnitGraphics : UnitGraphicsBase
+    private readonly UnitName _spriteSheetId;
+    private readonly bool _isNormalOrientation;
+
+    public UnitGraphics(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig, bool isNormalOrientation, Vector2 position, GameObjectContentStorage gameObjectContentStorage) : 
+        base(spriteSheetId, graphicsConfig, isNormalOrientation, position, gameObjectContentStorage)
     {
-        public UnitGraphics(Unit unit, Vector2 position, GameObjectContentStorage gameObjectContentStorage) : base(unit,
-            position, gameObjectContentStorage)
-        {
-        }
+        _spriteSheetId = spriteSheetId;
+        _isNormalOrientation = isNormalOrientation;
+    }
 
-        public bool IsDamaged { get; set; }
+    public bool IsDamaged { get; set; }
 
-        public void ChangePosition(Vector2 position, Unit unit)
-        {
-            _position = position;
-            InitializeSprites(unit.UnitScheme, unit.IsPlayerControlled);
-        }
+    public void ChangePosition(Vector2 position)
+    {
+        _position = position;
+        InitializeSprites(_spriteSheetId, _isNormalOrientation);
     }
 }

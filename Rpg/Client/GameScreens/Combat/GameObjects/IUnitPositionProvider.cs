@@ -1,9 +1,10 @@
+using Core.Combats;
+
 using Microsoft.Xna.Framework;
 
-namespace Rpg.Client.GameScreens.Combat.GameObjects
+namespace Client.GameScreens.Combat.GameObjects;
+
+internal interface IUnitPositionProvider
 {
-    internal interface IUnitPositionProvider
-    {
-        Vector2 GetPosition(int slotIndex, bool isPlayerSide);
-    }
+    Vector2 GetPosition(FieldCoords formationCoords, bool isPlayerSide);
 }

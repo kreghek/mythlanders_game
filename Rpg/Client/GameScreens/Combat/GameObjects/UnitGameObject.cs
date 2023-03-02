@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Combat.GameObjects;
+
+using Core.Combats;
 using Core.Dices;
 
 using Microsoft.Xna.Framework;
@@ -21,21 +24,26 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly AnimationManager _animationManager;
         private readonly Camera2D _camera;
         private readonly IDice _dice;
+        private readonly bool _isPlayerSide;
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly ScreenShaker _screenShaker;
         private readonly IUnitPositionProvider _unitPositionProvider;
 
-        public UnitGameObject(CombatUnit combatUnit, IUnitPositionProvider unitPositionProvider,
+        public UnitGameObject(Combatant combatant, FieldCoords formationCoords, IUnitPositionProvider unitPositionProvider,
             GameObjectContentStorage gameObjectContentStorage,
             Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager,
-            IDice dice)
+            IDice dice,
+            bool isPlayerSide)
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
-            var position = unitPositionProvider.GetPosition(combatUnit.SlotIndex, combatUnit.Unit.IsPlayerControlled);
-            Graphics = new UnitGraphics(combatUnit.Unit, position, gameObjectContentStorage);
+            var actorGraphicsConfig = GetCombatantActorGraphicsConfig(combatant);
+            
+            var position = unitPositionProvider.GetPosition(formationCoords, isPlayerSide);
+            var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid);
+            Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, isPlayerSide, position, gameObjectContentStorage);
 
-            CombatUnit = combatUnit;
+            Combatant = combatant;
             _unitPositionProvider = unitPositionProvider;
             Position = position;
             _gameObjectContentStorage = gameObjectContentStorage;
@@ -43,12 +51,19 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _screenShaker = screenShaker;
             _animationManager = animationManager;
             _dice = dice;
+            _isPlayerSide = isPlayerSide;
 
-            combatUnit.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
-            combatUnit.PositionChanged += CombatUnit_PositionChanged;
+            // TODO Call ShiftShape from external combat core
+            // combatant.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
+            // combatant.PositionChanged += CombatUnit_PositionChanged;
         }
 
-        public CombatUnit CombatUnit { get; }
+        private UnitGraphicsConfigBase GetCombatantActorGraphicsConfig(Combatant combatant)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Combatant Combatant { get; }
 
         public UnitGraphics Graphics { get; }
 
@@ -64,7 +79,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public CorpseGameObject CreateCorpse()
         {
-            var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(CombatUnit.Unit.UnitScheme.Name)
+            var spriteSheetId = Enum.Parse<UnitName>(Combatant.ClassSid);
+            var deathSoundEffect = _gameObjectContentStorage.GetDeathSound(spriteSheetId)
                 .CreateInstance();
 
             deathSoundEffect.Play();
@@ -215,10 +231,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _actorStateEngineList.Add(actorStateEngine);
         }
 
-        private void CombatUnit_PositionChanged(object? sender, EventArgs e)
+        public void ChangeFieldPosition(FieldCoords fieldCoords)
         {
-            var position = _unitPositionProvider.GetPosition(CombatUnit.SlotIndex, CombatUnit.Unit.IsPlayerControlled);
-            Graphics.ChangePosition(position, CombatUnit.Unit);
+            var position = _unitPositionProvider.GetPosition(fieldCoords, _isPlayerSide);
+            Graphics.ChangePosition(position);
             Position = position;
         }
 
@@ -238,7 +254,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
                 if (!_actorStateEngineList.Any())
                 {
-                    AddStateEngine(new UnitIdleState(Graphics, CombatUnit.State));
+                    AddStateEngine(new UnitIdleState(Graphics, CombatUnitState.Idle /*Combatant.State*/));
                 }
 
                 ResetActorRootSpritePosition();
@@ -260,7 +276,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Graphics.Root.Position = Position;
         }
 
-        private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
+        // {
+        //     var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
+        //     var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
+        //     AddStateEngine(new ShapeShiftState(Graphics, deathSound.CreateInstance(), shapeShiftBlocker));
+        //
+        //     shapeShiftBlocker.Released += (_, _) =>
+        //     {
+        //         Graphics.SwitchSourceUnit(Combatant.Unit);
+        //         AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
+        //     };
+        // }
+
+        public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
         {
             var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
             var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
@@ -268,8 +297,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
             shapeShiftBlocker.Released += (_, _) =>
             {
-                Graphics.SwitchSourceUnit(CombatUnit.Unit);
-                AddStateEngine(new UnitIdleState(Graphics, CombatUnit.State));
+                Graphics.SwitchSourceUnit(Combatant.Unit);
+                AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
             };
         }
 

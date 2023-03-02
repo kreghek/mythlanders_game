@@ -48,7 +48,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            animatedUnitGameObject.CombatUnit.ChangeState(CombatUnitState.Defense);
+            animatedUnitGameObject.Combatant.ChangeState(CombatUnitState.Defense);
             return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
 

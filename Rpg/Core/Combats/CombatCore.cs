@@ -64,14 +64,14 @@ public class CombatCore
         InitializeCombatFieldSide(heroes, Field.HeroSide);
         InitializeCombatFieldSide(monsters, Field.MonsterSide);
 
-        foreach (var combatant in _allCombatantList) combatant.StartCombat();
+        foreach (var combatant in _allCombatantList) combatant.PrepareToCombat();
 
         StartRound();
     }
 
     public CombatMovementExecution UseCombatMovement(CombatMovementInstance movement)
     {
-        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged);
+        var effectContext = new EffectCombatContext(Field, _dice, HandleCombatantDamaged, HandleCombatantHasBeenMoved);
 
         var effectImposeItems = new List<CombatEffectImposeItem>();
 
@@ -230,17 +230,38 @@ public class CombatCore
             targetSide[coords].Combatant = null;
         }
     }
+    
+    private void HandleCombatantHasBeenMoved(Combatant combatant, FieldCoords fieldCoords)
+    {
+        var targetSide = GetTargetSide(combatant, Field);
+        targetSide[fieldCoords].Combatant = combatant;
+        
+        CombatantHasBeenMoved?.Invoke(this, new CombatantHasBeenMovedEventArgs(combatant));
+    }
 
     private void InitializeCombatFieldSide(IReadOnlyCollection<FormationSlot> formationSlots, CombatFieldSide side)
     {
         foreach (var slot in formationSlots)
-            if (slot.Combatant is not null)
+        {
+            if (slot.Combatant is null)
             {
-                var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
-                side[coords].Combatant = slot.Combatant;
-
-                _allCombatantList.Add(slot.Combatant);
+                continue;
             }
+            
+            var coords = new FieldCoords(slot.ColumnIndex, slot.LineIndex);
+            side[coords].Combatant = slot.Combatant;
+
+            _allCombatantList.Add(slot.Combatant);
+
+            DoCombatantHasBeenAdded(targetSide: side, targetCoords: coords, slot.Combatant);
+        }
+    }
+
+    private void DoCombatantHasBeenAdded(CombatFieldSide targetSide, FieldCoords targetCoords, Combatant combatant)
+    {
+        var combatFieldInfo = new CombatFieldInfo(targetSide, targetCoords);
+        var args = new CombatantHasBeenAddedEventArgs(combatant, combatFieldInfo);
+        CombatantHasBeenAdded?.Invoke(this, args);
     }
 
     private void MakeUnitRoundQueue()
@@ -316,9 +337,12 @@ public class CombatCore
                 combatant.UpdateEffects(updateType);
     }
 
+    public event EventHandler<CombatantHasBeenAddedEventArgs>? CombatantHasBeenAdded;
     public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
     public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
-
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
+    public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
+    
+    public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
 }

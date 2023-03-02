@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework;

@@ -1,3 +1,7 @@
+using Client.GameScreens.Combat.GameObjects;
+
+using Core.Combats;
+
 using Microsoft.Xna.Framework;
 
 using Rpg.Client.Engine;
@@ -23,9 +27,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             _resolutionIndependentRenderer = resolutionIndependentRenderer;
         }
 
-        public Vector2 GetPosition(int slotIndex, bool isPlayerSide)
+        public Vector2 GetPosition(FieldCoords formationCoords, bool isPlayerSide)
         {
-            var predefinedPosition = _unitPredefinedPositions[slotIndex];
+            var predefinedPosition = _unitPredefinedPositions[formationCoords];
 
             Vector2 calculatedPosition;
 
