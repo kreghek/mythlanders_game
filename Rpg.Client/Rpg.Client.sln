@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Minigames.Towers", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Minigames.Match3", "..\Rpg\Core.Minigames.Match3\Core.Minigames.Match3.csproj", "{EE61180A-D7FF-49E0-91D4-26472B781BF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.MiniGames.Match3.Tests", "..\Rpg\Core.MiniGames.Match3.Tests\Core.MiniGames.Match3.Tests.csproj", "{078FC39A-EF86-4728-BC4E-298EBDADC6B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,10 @@ Global
 		{EE61180A-D7FF-49E0-91D4-26472B781BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE61180A-D7FF-49E0-91D4-26472B781BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE61180A-D7FF-49E0-91D4-26472B781BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{078FC39A-EF86-4728-BC4E-298EBDADC6B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{078FC39A-EF86-4728-BC4E-298EBDADC6B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{078FC39A-EF86-4728-BC4E-298EBDADC6B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{078FC39A-EF86-4728-BC4E-298EBDADC6B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

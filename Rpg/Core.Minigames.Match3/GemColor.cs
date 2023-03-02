@@ -2,6 +2,7 @@
 
 public enum GemColor
 {
+    Empty,
     Red,
     Green,
     Blue
