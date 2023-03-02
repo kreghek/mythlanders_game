@@ -27,7 +27,7 @@ namespace Client.GameScreens.SlidingPuzzles
         private readonly int _width;
         private TimeSpan _currentTime;
 
-        public SlidingPuzzlesScreen(TestamentGame game, SlidingPuzzlesScreenTransitionArguments args) : base(game)
+        public SlidingPuzzlesScreen(TestamentGame game, SlidingPuzzlesMinigameScreenTransitionArguments args) : base(game)
         {
             _campaign = args.Campaign;
 

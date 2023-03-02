@@ -86,7 +86,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
-                    new MinigameEventCampaignStageTemplateFactory()
+                    new MiniGameEventCampaignStageTemplateFactory(_services)
                 })
             },
 
@@ -121,7 +121,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
-                    new MinigameEventCampaignStageTemplateFactory()
+                    new MiniGameEventCampaignStageTemplateFactory(_services)
                 }, _services)
             },
 
@@ -172,7 +172,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
                 {
                     new SideStoryDialogueEventStageTemplateFactory(locationSid, _services),
                     new SacredEventCampaignStageTemplateFactory(),
-                    new MinigameEventCampaignStageTemplateFactory()
+                    new MiniGameEventCampaignStageTemplateFactory(_services)
                 }, _services)
             },
 
@@ -194,7 +194,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
     public IReadOnlyList<HeroCampaign> CreateSet()
     {
-        var availbleLocations = new[]
+        var availableLocations = new[]
         {
             LocationSid.Thicket,
             LocationSid.Monastery,
@@ -204,7 +204,7 @@ internal sealed class CampaignGenerator : ICampaignGenerator
 
         var campaignLengths = new[] { 6, 12, 24 };
 
-        var selectedLocations = _dice.RollFromList(availbleLocations, 3).ToList();
+        var selectedLocations = _dice.RollFromList(availableLocations, 3).ToList();
 
         var list = new List<HeroCampaign>();
         for (var i = 0; i < selectedLocations.Count; i++)
