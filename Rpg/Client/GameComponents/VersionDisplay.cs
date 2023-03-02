@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Client;
+
+using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,11 +11,11 @@ namespace Rpg.Client.GameComponents
     internal class VersionDisplay : DrawableGameComponent
     {
         private readonly SpriteFont _font;
-        private readonly ILogger<EwarGame> _logger;
+        private readonly ILogger<TestamentGame> _logger;
         private readonly SpriteBatch _spriteBatch;
         private string? _version;
 
-        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font, ILogger<EwarGame> logger) :
+        public VersionDisplay(Game game, SpriteBatch spriteBatch, SpriteFont font, ILogger<TestamentGame> logger) :
             base(game)
         {
             _spriteBatch = spriteBatch;

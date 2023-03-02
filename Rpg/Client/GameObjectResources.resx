@@ -221,9 +221,17 @@
       <value>Defense stance</value>
     <comment>Skill</comment>
   </data>
+  <data name="Desert" xml:space="preserve">
+    <value>Somewhere in the Desert...</value>
+    <comment>Location</comment>
+  </data>
   <data name="DestroyedVillage" xml:space="preserve">
     <value>Destroyed village</value>
     <comment>Location</comment>
+  </data>
+  <data name="DieBySword" xml:space="preserve">
+      <value>Die by the sword</value>
+    <comment>Skill</comment>
   </data>
   <data name="DopeHerb" xml:space="preserve">
       <value>Dope herb</value>
@@ -342,6 +350,10 @@
     <value />
     <comment>Equipment</comment>
   </data>
+  <data name="Monastery" xml:space="preserve">
+    <value>Monastery in the flames</value>
+    <comment>Location</comment>
+  </data>
   <data name="Monk" xml:space="preserve">
     <value>Maosin</value>
     <comment>Hero</comment>
@@ -370,6 +382,10 @@
   </data>
   <data name="ScarabeusKingLeg" xml:space="preserve">
     <value>Scarabeus King's Leg</value><comment>Equipment</comment>
+  </data>
+  <data name="ShipGraveyard" xml:space="preserve">
+    <value>Ship Graveyard</value>
+    <comment>Location</comment>
   </data>
   <data name="SilverWindNecklace" xml:space="preserve">
     <value>Silver wind necklace</value><comment>Equipment</comment>
@@ -402,10 +418,6 @@
     <value>Evil swamp</value>
     <comment>Location</comment>
   </data>
-  <data name="DieBySword" xml:space="preserve">
-      <value>Die by the sword</value>
-    <comment>Skill</comment>
-  </data>
   <data name="Swordsman" xml:space="preserve">
     <value>Berimir</value>
     <comment>Hero</comment>
@@ -413,12 +425,20 @@
   <data name="SymbolOfGod" xml:space="preserve">
     <value>Symbol of the God</value><comment>Equipment</comment>
   </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Nafrit</value>
+    <comment>NPC</comment>
+  </data>
+  <data name="Synth_Hidden" xml:space="preserve">
+    <value>The Lower Caste Synth</value>
+    <comment>NPC</comment>
+  </data>
   <data name="TacticalManeuver" xml:space="preserve">
     <value>Tactical maneuver</value>
     <comment>Skill</comment>
   </data>
   <data name="Thicket" xml:space="preserve">
-    <value>The Thicket</value>
+    <value>Dark Thicket</value>
     <comment>Location</comment>
   </data>
   <data name="ToxicGasBomb" xml:space="preserve">

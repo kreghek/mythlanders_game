@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Huapigui,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Monastery
+                    LocationSid.Monastery
                 },
                 IsMonster = true,
 

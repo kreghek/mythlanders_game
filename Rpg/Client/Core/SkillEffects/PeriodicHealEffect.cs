@@ -1,7 +1,8 @@
 ﻿using System;
 
-using Rpg.Client.Core.Modifiers;
 using Core.Dices;
+
+using Rpg.Client.Core.Modifiers;
 
 namespace Rpg.Client.Core.SkillEffects
 {

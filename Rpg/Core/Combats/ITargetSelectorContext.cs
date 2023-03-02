@@ -1,7 +1,10 @@
-﻿namespace Core.Combats;
+﻿using Core.Dices;
+
+namespace Core.Combats;
 
 public interface ITargetSelectorContext
-{ 
+{
     CombatFieldSide ActorSide { get; }
+    IDice Dice { get; }
     CombatFieldSide EnemySide { get; }
 }

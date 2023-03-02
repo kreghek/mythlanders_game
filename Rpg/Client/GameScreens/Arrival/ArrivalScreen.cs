@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
@@ -12,7 +11,7 @@ namespace Client.GameScreens.Arrival;
 
 internal class ArrivalScreen : GameScreenWithMenuBase
 {
-    public ArrivalScreen(EwarGame game) : base(game)
+    public ArrivalScreen(TestamentGame game) : base(game)
     {
     }
 

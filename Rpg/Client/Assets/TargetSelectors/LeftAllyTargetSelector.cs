@@ -8,7 +8,6 @@ using Client.Core.Skills;
 using Core.Dices;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.Assets.TargetSelectors
 {

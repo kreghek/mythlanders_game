@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Monsters
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
                 Name = UnitName.Sphinx,
-                LocationSids = new[] { GlobeNodeSid.ScreamValley },
+                LocationSids = new[] { LocationSid.ScreamValley },
 
                 IsMonster = true,
 

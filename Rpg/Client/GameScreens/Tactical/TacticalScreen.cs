@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
+using Client.GameScreens.Campaign;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Tactical
@@ -16,7 +16,7 @@ namespace Client.GameScreens.Tactical
     {
         private readonly HeroCampaign _campaign;
 
-        public TacticalScreen(EwarGame game, TacticalScreenTransitionArguments args) : base(game)
+        public TacticalScreen(TestamentGame game, TacticalScreenTransitionArguments args) : base(game)
         {
             _campaign = args.HeroCampaign;
         }
@@ -46,10 +46,8 @@ namespace Client.GameScreens.Tactical
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
         }
     }
 }

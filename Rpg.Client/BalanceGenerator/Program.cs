@@ -47,7 +47,7 @@ namespace BalanceGenerator
 
             var globeNode = new GlobeNode
             {
-                Sid = GlobeNodeSid.Thicket
+                Sid = LocationSid.Thicket
             };
 
             var dice = new LinearDice();

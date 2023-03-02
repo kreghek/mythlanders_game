@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
+using Client.Core.Campaigns;
+using Client.GameScreens.Campaign;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Training
@@ -22,7 +23,7 @@ namespace Client.GameScreens.Training
         private readonly IList<ButtonBase> _usedButtons;
         private IReadOnlyList<(ButtonBase, Unit)> _trainingButtons;
 
-        public TrainingScreen(EwarGame game, TrainingScreenTransitionArguments args) : base(game)
+        public TrainingScreen(TestamentGame game, TrainingScreenTransitionArguments args) : base(game)
         {
             var globeProvider = game.Services.GetService<GlobeProvider>();
 
@@ -107,10 +108,8 @@ namespace Client.GameScreens.Training
         {
             _campaign.CompleteCurrentStage();
 
-            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-            {
-                Campaign = _campaign
-            });
+            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                new CampaignScreenTransitionArguments(_campaign));
         }
 
         private void MarkButtonAsUsed(TextButton trainingButton)

@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Settings
         private readonly IReadOnlyDictionary<ButtonBase, (int Width, int Height)> _resolutionsButtonsInfos;
         private ButtonBase? _selectedMonitorResolutionButton;
 
-        public SettingsScreen(EwarGame game)
+        public SettingsScreen(TestamentGame game)
             : base(game)
         {
             var uiContentService = game.Services.GetService<IUiContentStorage>();

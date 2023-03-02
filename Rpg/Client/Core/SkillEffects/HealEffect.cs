@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Core.Dices;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Core.Skills;
-using Core.Dices;
 
 namespace Client.Core.SkillEffects;
 

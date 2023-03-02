@@ -4,6 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.Assets.StoryPointJobs;
+using Client.Core;
+using Client.Core.Campaigns;
+using Client.GameScreens.Campaign;
+using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 
 using Core.Dices;
@@ -12,18 +17,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Rpg.Client.Assets.StoryPointJobs;
 using Rpg.Client.Core;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
 using Rpg.Client.GameScreens.Combat.Tutorial;
 using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.ScreenManagement;
 
 using static Client.Core.Combat;
@@ -78,7 +79,7 @@ namespace Rpg.Client.GameScreens.Combat
         private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
 
-        public CombatScreen(EwarGame game, CombatScreenTransitionArguments args) : base(game)
+        public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
         {
             _args = args;
             var soundtrackManager = Game.Services.GetService<SoundtrackManager>();
@@ -90,7 +91,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _globeNode = args.Location;
 
-            _currentCampaign = args.CurrentCampaign;
+            _currentCampaign = args.Campaign;
 
             _gameObjects = new List<UnitGameObject>();
             _corpseObjects = new List<CorpseGameObject>();
@@ -398,15 +399,13 @@ namespace Rpg.Client.GameScreens.Combat
                 {
                     var startHpItems = CreateStartHpList();
 
-                    var combatScreenArgs = new CombatScreenTransitionArguments
-                    {
-                        Location = _globeNode,
-                        VictoryDialogue = _args.VictoryDialogue,
-                        CombatSequence = _args.CombatSequence,
-                        CurrentCombatIndex = nextCombatIndex,
-                        IsAutoplay = _args.IsAutoplay,
-                        StartHpItems = startHpItems
-                    };
+                    var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
+                        _args.CombatSequence,
+                        nextCombatIndex,
+                        _args.IsAutoplay,
+                        _globeNode,
+                        startHpItems,
+                        _args.VictoryDialogue);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
                 }
@@ -432,31 +431,14 @@ namespace Rpg.Client.GameScreens.Combat
                     }
                     else
                     {
-                        if (_args.VictoryDialogue is null)
-                        {
-                            _globeProvider.Globe.Update(_dice, _eventCatalog);
-                            _currentCampaign.CompleteCurrentStage();
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                                new CampaignScreenTransitionArguments
-                                {
-                                    Campaign = _currentCampaign
-                                });
+                        _globeProvider.Globe.Update(_dice, _eventCatalog);
+                        _currentCampaign.CompleteCurrentStage();
+                        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+                            new CampaignScreenTransitionArguments(_currentCampaign));
 
-                            if (_gameSettings.Mode == GameMode.Full)
-                            {
-                                _globeProvider.StoreCurrentGlobe();
-                            }
-                        }
-                        else
+                        if (_gameSettings.Mode == GameMode.Full)
                         {
-                            var speechScreenTransitionArgs = new SpeechScreenTransitionArgs
-                            {
-                                CurrentDialogue = _args.VictoryDialogue,
-                                Location = _args.Location,
-                                IsStartDialogueEvent = _args.VictoryDialogueIsStartEvent
-                            };
-
-                            ScreenManager.ExecuteTransition(this, ScreenTransition.Event, speechScreenTransitionArgs);
+                            _globeProvider.StoreCurrentGlobe();
                         }
                     }
                 }
@@ -644,7 +626,8 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay, GlobeNode combatLocation)
+        private global::Client.Core.Combat CreateCombat(CombatSource combatSource, bool isAutoplay,
+            GlobeNode combatLocation)
         {
             return new global::Client.Core.Combat(_globe.Player.Party,
                 combatLocation,

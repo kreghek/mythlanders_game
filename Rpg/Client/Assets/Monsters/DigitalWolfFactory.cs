@@ -17,8 +17,8 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.DigitalWolf,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Thicket, GlobeNodeSid.Battleground, GlobeNodeSid.DestroyedVillage,
-                    GlobeNodeSid.Swamp
+                    LocationSid.Thicket, LocationSid.Battleground, LocationSid.DestroyedVillage,
+                    LocationSid.Swamp
                 },
                 IsMonster = true,
 

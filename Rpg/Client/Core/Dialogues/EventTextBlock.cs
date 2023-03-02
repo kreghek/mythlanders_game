@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
 
+using Client.Core.Dialogues;
+
 namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventTextBlock
     {
-        public IReadOnlyList<EventTextFragment> Fragments { get; set; }
+        public EventTextBlock(IReadOnlyList<EventTextFragment> fragments)
+        {
+            Fragments = fragments;
+        }
+
+        public IReadOnlyList<EventTextFragment> Fragments { get; }
     }
 }

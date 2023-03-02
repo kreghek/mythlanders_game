@@ -4,6 +4,6 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal interface IDialogueOptionAftermathCreator
     {
-        IOptionAftermath Create(string aftermathTypeSid, string data);
+        IDialogueOptionAftermath Create(string aftermathTypeSid, string data);
     }
 }

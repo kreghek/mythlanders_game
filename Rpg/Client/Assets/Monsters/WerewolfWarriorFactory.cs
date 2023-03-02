@@ -19,7 +19,7 @@ namespace Rpg.Client.Assets.Monsters
                 SupportRank = 0.0f,
 
                 Name = UnitName.VolkolakWarrior,
-                LocationSids = new[] { GlobeNodeSid.Swamp },
+                LocationSids = new[] { LocationSid.Swamp },
                 IsUnique = true,
                 IsMonster = true,
                 MinRequiredBiomeLevel = 5,

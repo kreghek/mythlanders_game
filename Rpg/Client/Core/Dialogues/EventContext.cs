@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
 
+using Client.Core;
+using Client.Core.Dialogues;
+
 namespace Rpg.Client.Core.Dialogues
 {
     internal sealed class EventContext : IEventContext
@@ -9,12 +12,17 @@ namespace Rpg.Client.Core.Dialogues
         private readonly Player _player;
         private readonly IStoryPointCatalog _storyPointCatalog;
 
-        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player)
+        public EventContext(Globe globe, IStoryPointCatalog storyPointCatalog, Player player,
+            DialogueEvent currentDialogueEvent)
         {
             _globe = globe;
             _storyPointCatalog = storyPointCatalog;
             _player = player;
+
+            CurrentDualogueEvent = currentDialogueEvent;
         }
+
+        public DialogueEvent CurrentDualogueEvent { get; }
 
         public void AddNewCharacter(Unit unit)
         {
@@ -49,7 +57,7 @@ namespace Rpg.Client.Core.Dialogues
             throw new NotImplementedException();
         }
 
-        public void UnlockLocation(GlobeNodeSid locationSid)
+        public void UnlockLocation(LocationSid locationSid)
         {
             //_globe.Biomes.SelectMany(x => x.Nodes).Single(x => x.Sid == locationSid).IsAvailable = true;
         }
