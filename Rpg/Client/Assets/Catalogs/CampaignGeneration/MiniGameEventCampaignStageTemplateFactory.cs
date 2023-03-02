@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Client.Assets.StageItems;
 
@@ -22,14 +23,13 @@ internal sealed class MiniGameEventCampaignStageTemplateFactory : ICampaignStage
 
     public ICampaignStageItem Create(IReadOnlyList<ICampaignStageItem> currentStageItems)
     {
-        var roll = _services.Dice.Roll(2);
-        if (roll == 1)
+        var roll = _services.Dice.Roll(3);
+        return roll switch
         {
-            return new SlidingPuzzlesMiniGameStageItem();
-        }
-        else
-        {
-            return new TowersMinigameStageItem();
-        }
+            1 => new SlidingPuzzlesMiniGameStageItem(),
+            2 => new TowersMinigameStageItem(),
+            3 => new Match3MinigameStageItem(),
+            _ => throw new InvalidOperationException()
+        };
     }
 }
