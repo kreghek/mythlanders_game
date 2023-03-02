@@ -1,4 +1,6 @@
-﻿using Client.GameScreens.TowersMinigame;
+﻿using Client.Core.Campaigns;
+using Client.GameScreens.SlidingPuzzles;
+using Client.GameScreens.TowersMinigame;
 
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.ScreenManagement;
@@ -10,6 +12,6 @@ internal sealed class TowersMinigameStageItem : ICampaignStageItem
     public void ExecuteTransition(IScreen currentScreen, IScreenManager screenManager, HeroCampaign currentCampaign)
     {
         screenManager.ExecuteTransition(currentScreen, ScreenTransition.TowersMinigame,
-            new TowersMinigameScreenTransitionArguments(currentCampaign));
+            new TowersMiniGameScreenTransitionArguments(currentCampaign));
     }
 }

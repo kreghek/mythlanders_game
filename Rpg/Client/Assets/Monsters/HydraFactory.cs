@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Monsters
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
                 Name = UnitName.Hydra,
-                LocationSids = new[] { GlobeNodeSid.Labyrinth },
+                LocationSids = new[] { LocationSid.Labyrinth },
 
                 IsMonster = true,
 

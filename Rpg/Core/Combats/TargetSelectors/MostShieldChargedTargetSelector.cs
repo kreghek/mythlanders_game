@@ -6,6 +6,10 @@ public sealed class MostShieldChargedTargetSelector : ITargetSelector
     {
         var enemies = context.EnemySide.GetAllCombatants();
 
-        return new[] { enemies.OrderByDescending(x => x.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.Current).First() };
+        return new[]
+        {
+            enemies.OrderByDescending(x => x.Stats.Single(x => x.Type == UnitStatType.ShieldPoints).Value.Current)
+                .First()
+        };
     }
 }

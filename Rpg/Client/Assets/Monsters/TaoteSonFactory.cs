@@ -15,7 +15,7 @@ namespace Rpg.Client.Assets.Monsters
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
                 Name = UnitName.Taote,
-                LocationSids = new[] { GlobeNodeSid.SkyTower },
+                LocationSids = new[] { LocationSid.SkyTower },
                 IsMonster = true,
 
                 Levels = new IUnitLevelScheme[]

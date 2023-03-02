@@ -16,7 +16,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Stryga,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Pit, GlobeNodeSid.Swamp
+                    LocationSid.Pit, LocationSid.Swamp
                 },
                 IsMonster = true,
 

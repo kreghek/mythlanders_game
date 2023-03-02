@@ -1,8 +1,14 @@
 ﻿using System;
 
+using Client;
+using Client.GameScreens.Campaign;
+using Client.GameScreens.Combat;
 using Client.GameScreens.CommandCenter;
 using Client.GameScreens.Match3;
+using Client.GameScreens.NotImplementedStage;
+using Client.GameScreens.Rest;
 using Client.GameScreens.SlidingPuzzles;
+using Client.GameScreens.TextDialogue;
 using Client.GameScreens.TowersMinigame;
 using Client.GameScreens.Training;
 
@@ -10,7 +16,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.GameScreens.Bestiary;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.GameScreens.Combat;
 using Rpg.Client.GameScreens.Credits;
 using Rpg.Client.GameScreens.EndGame;
@@ -18,7 +23,6 @@ using Rpg.Client.GameScreens.Hero;
 using Rpg.Client.GameScreens.Intro;
 using Rpg.Client.GameScreens.Map;
 using Rpg.Client.GameScreens.Party;
-using Rpg.Client.GameScreens.Speech;
 using Rpg.Client.GameScreens.Title;
 
 namespace Rpg.Client.ScreenManagement
@@ -26,14 +30,14 @@ namespace Rpg.Client.ScreenManagement
     internal class ScreenManager : IScreenManager
     {
         private const double TRANSITION_DURATION = 1;
-        private readonly EwarGame _game;
+        private readonly TestamentGame _game;
         private readonly GameSettings _gameSettings;
         private readonly Texture2D _transitionTexture;
         private bool _screenChanged;
 
         private double? _transitionCounter;
 
-        public ScreenManager(EwarGame game, GameSettings gameSettings)
+        public ScreenManager(TestamentGame game, GameSettings gameSettings)
         {
             _game = game;
             _gameSettings = gameSettings;
@@ -119,21 +123,25 @@ namespace Rpg.Client.ScreenManagement
                     (CommandCenterScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Party => new PartyScreen(_game),
                 ScreenTransition.Hero => new HeroScreen(_game),
-                ScreenTransition.Event => new SpeechScreen(_game,
-                    (SpeechScreenTransitionArgs)screenTransitionArguments),
+                ScreenTransition.Event => new TextDialogueScreen(_game,
+                    (TextDialogueScreenTransitionArgs)screenTransitionArguments),
                 ScreenTransition.Combat => new CombatScreen(_game,
                     (CombatScreenTransitionArguments)screenTransitionArguments),
+                ScreenTransition.Rest => new RestScreen(_game,
+                    (RestScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Training => new TrainingScreen(_game,
                     (TrainingScreenTransitionArguments)screenTransitionArguments),
-                ScreenTransition.SlidingPuzzlesMinigame => new SlidingPuzzlesScreen(_game,
+                ScreenTransition.SlidingPuzzles => new SlidingPuzzlesScreen(_game,
                     (SlidingPuzzlesMinigameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.TowersMinigame => new TowersMinigameScreen(_game,
-                    (TowersMinigameScreenTransitionArguments)screenTransitionArguments),
+                    (TowersMiniGameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Match3Minigame => new Match3MinigameScreen(_game,
                     (Match3MinigameScreenTransitionArguments)screenTransitionArguments),
                 ScreenTransition.Bestiary => new BestiaryScreen(_game),
                 ScreenTransition.Credits => new CreditsScreen(_game),
                 ScreenTransition.EndGame => new EndGameScreen(_game),
+                ScreenTransition.NotImplemented => new NotImplementedStageScreen(_game,
+                    (NotImplementedStageScreenTransitionArguments)screenTransitionArguments),
                 _ => throw new ArgumentException("Unknown transition", nameof(targetTransition))
             };
         }

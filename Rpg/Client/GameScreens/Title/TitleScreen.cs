@@ -45,7 +45,7 @@ namespace Rpg.Client.GameScreens.Title
 
         private Vector2 _bgMoveVector = Vector2.One * 0.2f;
 
-        public TitleScreen(EwarGame game)
+        public TitleScreen(TestamentGame game)
             : base(game)
         {
             _globeProvider = Game.Services.GetService<GlobeProvider>();

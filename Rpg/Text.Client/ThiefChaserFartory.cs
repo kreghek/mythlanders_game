@@ -1,6 +1,6 @@
 using Core.Combats;
+using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
-using Core.Combats.Imposers;
 using Core.Combats.TargetSelectors;
 
 namespace Text.Client;
@@ -11,31 +11,28 @@ public class ThiefChaserFactory
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var list = new List<CombatMovement>();
-        
+
         list.Add(new CombatMovement("Crossing hit",
-            new CombatMovementCost(1),
-            CombatMovementEffectConfig.Create(
-                new IEffect[]
-                {
-                    new DamageEffect(
-                        new ClosestInLineTargetSelector(),
-                        new InstantaneousEffectImposer(),
-                        DamageType.Normal,
-                        Range<int>.CreateMono(1)),
-                    new DamageEffect(
-                        new ClosestInLineTargetSelector(),
-                        new InstantaneousEffectImposer(),
-                        DamageType.Normal,
-                        Range<int>.CreateMono(1)),
-                    new ChangePositionEffect(
-                        new SelfTargetSelector(),
-                        new InstantaneousEffectImposer(),
-                        ChangePositionEffectDirection.ToVanguard
+                new CombatMovementCost(1),
+                CombatMovementEffectConfig.Create(
+                    new IEffect[]
+                    {
+                        new DamageEffect(
+                            new ClosestInLineTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(1)),
+                        new DamageEffect(
+                            new ClosestInLineTargetSelector(),
+                            DamageType.Normal,
+                            Range<int>.CreateMono(1)),
+                        new ChangePositionEffect(
+                            new SelfTargetSelector(),
+                            ChangePositionEffectDirection.ToVanguard
                         )
-                })
+                    })
             )
         );
-        
+
         list.Add(new CombatMovement("Double kopesh!",
                 new CombatMovementCost(2),
                 CombatMovementEffectConfig.Create(
@@ -43,12 +40,10 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(3)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard
                         )
                     })
@@ -62,22 +57,19 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new ChangePositionEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard),
                         new ChangeCurrentStatEffect(
                             new ClosestInLineTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             UnitStatType.Resolve,
                             Range<int>.CreateMono(-2))
                     })
             )
         );
-        
+
         list.Add(new CombatMovement("Guardian promise",
                 new CombatMovementCost(1),
                 new CombatMovementEffectConfig(
@@ -85,18 +77,16 @@ public class ThiefChaserFactory
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(), 
-                            UnitStatType.Defense, 
-                            3, 
+                            UnitStatType.Defense,
+                            3,
                             typeof(ToNextCombatantTurnEffectLifetime))
                     },
                     new IEffect[]
                     {
                         new ChangeStatEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(), 
-                            UnitStatType.Defense, 
-                            1, 
+                            UnitStatType.Defense,
+                            1,
                             typeof(ToEndOfCurrentRoundEffectLifetime))
                     })
             )
@@ -104,7 +94,7 @@ public class ThiefChaserFactory
                 Tags = CombatMovementTags.AutoDefense
             }
         );
-        
+
         list.Add(new CombatMovement("Afterlife Whirlwind",
                 new CombatMovementCost(1),
                 CombatMovementEffectConfig.Create(
@@ -112,12 +102,10 @@ public class ThiefChaserFactory
                     {
                         new DamageEffect(
                             new AllVanguardTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             DamageType.Normal,
                             Range<int>.CreateMono(1)),
                         new ChangePositionEffect(
                             new SelfTargetSelector(),
-                            new InstantaneousEffectImposer(),
                             ChangePositionEffectDirection.ToVanguard
                         )
                     })
@@ -128,14 +116,13 @@ public class ThiefChaserFactory
 
         var monsterSequence = new CombatMovementSequence();
         for (var i = 0; i < 2; i++)
-        {
             foreach (var movement in rolledSequence)
-            {
                 monsterSequence.Items.Add(movement);
-            }
-        }
 
-        var monster = new Combatant(monsterSequence) { Sid = sid, IsPlayerControlled = false };
+        var monster = new Combatant(monsterSequence)
+        {
+            Sid = sid, IsPlayerControlled = false
+        };
 
         return monster;
     }

@@ -16,8 +16,14 @@
         Training,
         Armory,
         Tactical,
-        SlidingPuzzlesMinigame,
+        SlidingPuzzles,
         TowersMinigame,
-        Match3Minigame
+        Match3Minigame,
+        Rest,
+
+        /// <summary>
+        /// Temporal screen to fake transition to stage items which not implemented yet.
+        /// </summary>
+        NotImplemented
     }
 }

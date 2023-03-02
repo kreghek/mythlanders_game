@@ -21,14 +21,14 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Marauder,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Thicket, GlobeNodeSid.Swamp, GlobeNodeSid.Battleground, GlobeNodeSid.DeathPath,
-                    GlobeNodeSid.Mines,
+                    LocationSid.Thicket, LocationSid.Swamp, LocationSid.Battleground, LocationSid.DeathPath,
+                    LocationSid.Mines,
 
-                    GlobeNodeSid.Desert, GlobeNodeSid.SacredPlace,
+                    LocationSid.Desert, LocationSid.SacredPlace,
 
-                    GlobeNodeSid.ShipGraveyard,
+                    LocationSid.ShipGraveyard,
 
-                    GlobeNodeSid.Monastery
+                    LocationSid.Monastery
                 },
                 IsMonster = true,
 

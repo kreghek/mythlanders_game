@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.Core;
+
 using Microsoft.Xna.Framework;
 
 namespace Rpg.Client.Core

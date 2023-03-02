@@ -1,9 +1,10 @@
 ﻿using System;
 
+using Client.Core.Campaigns;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens;
 
@@ -50,12 +51,12 @@ internal class CampaignPanel : ControlBase
 
         spriteBatch.DrawString(
             UiThemeManager.UiContentStorage.GetTitlesFont(),
-
-            GameObjectHelper.GetLocalized(Rpg.Client.Core.GlobeNodeSid.Desert),
+            GameObjectHelper.GetLocalized(_campaign.Location),
             new Vector2(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN - 20),
             Color.Wheat);
 
-        _selectButton.Rect = new Rectangle(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN, 100, 20);
+        _selectButton.Rect =
+            new Rectangle(contentRect.Left + CONTENT_MARGIN, contentRect.Bottom - CONTENT_MARGIN, 100, 20);
         _selectButton.Draw(spriteBatch);
     }
 

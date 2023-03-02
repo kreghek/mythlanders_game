@@ -2,22 +2,22 @@ namespace Core.Combats;
 
 public class Combatant
 {
-    private readonly IList<CombatMovement> _pool;
-    private readonly CombatMovement?[] _hand;
-
-    public IReadOnlyCollection<IUnitStat> Stats { get; }
+    private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
+    private readonly CombatMovementInstance?[] _hand;
+    private readonly IList<CombatMovementInstance> _pool;
 
     public Combatant(CombatMovementSequence sequence)
     {
-        _pool = new List<CombatMovement>();
-        _hand = new CombatMovement?[3];
-        
+        _pool = new List<CombatMovementInstance>();
+        _hand = new CombatMovementInstance?[3];
+
         foreach (var combatMovement in sequence.Items)
         {
-            _pool.Add(combatMovement);
+            var instance = new CombatMovementInstance(combatMovement);
+            _pool.Add(instance);
         }
 
-        Stats = new List<IUnitStat>()
+        Stats = new List<IUnitStat>
         {
             new CombatantStat(UnitStatType.ShieldPoints, new CombatantStatValue(new StatValue(1))),
             new CombatantStat(UnitStatType.HitPoints, new CombatantStatValue(new StatValue(3))),
@@ -27,25 +27,17 @@ public class Combatant
         };
     }
 
+    public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
+
+    public IReadOnlyList<CombatMovementInstance?> Hand => _hand;
+
+    public bool IsDead { get; private set; }
+
+    public bool IsPlayerControlled { get; init; }
+
     public string? Sid { get; init; }
 
-    public IReadOnlyCollection<CombatMovement> Pool => _pool.ToArray();
-
-    public IReadOnlyCollection<CombatMovement?> Hand => _hand;
-
-    public void StartCombat()
-    {
-        for (var i = 0; i < 3; i++)
-        {
-            if (_pool.Any())
-            {
-                _hand[i] = _pool.First();
-                _pool.RemoveAt(0);
-            }
-        }
-    }
-
-    private readonly IList<ICombatantEffect> _effects = new List<ICombatantEffect>();
+    public IReadOnlyCollection<IUnitStat> Stats { get; }
 
     public void AddEffect(ICombatantEffect effect)
     {
@@ -53,10 +45,38 @@ public class Combatant
         _effects.Add(effect);
     }
 
+    public void AssignMoveToHand(int handIndex, CombatMovementInstance movement)
+    {
+        _hand[handIndex] = movement;
+    }
+
+    public CombatMovementInstance? PopNextPoolMovement()
+    {
+        var move = _pool.FirstOrDefault();
+        if (move is not null) _pool.RemoveAt(0);
+
+        return move;
+    }
+
     public void RemoveEffect(ICombatantEffect effect)
     {
         effect.Dispel(this);
         _effects.Remove(effect);
+    }
+
+    public void SetDead()
+    {
+        IsDead = true;
+    }
+
+    public void StartCombat()
+    {
+        for (var i = 0; i < 3; i++)
+            if (_pool.Any())
+            {
+                _hand[i] = _pool.First();
+                _pool.RemoveAt(0);
+            }
     }
 
     public void UpdateEffects(CombatantEffectUpdateType updateType)
@@ -66,10 +86,7 @@ public class Combatant
         {
             effect.Update(updateType);
 
-            if (effect.Lifetime.IsDead)
-            {
-                effectToDispel.Add(effect);
-            }
+            if (effect.Lifetime.IsDead) effectToDispel.Add(effect);
         }
 
         foreach (var effect in effectToDispel)
@@ -79,19 +96,10 @@ public class Combatant
         }
     }
 
-    internal void DropMovement(CombatMovement movement)
+    internal void DropMovementFromHand(CombatMovementInstance movement)
     {
         for (var i = 0; i < _hand.Length; i++)
-        {
             if (_hand[i] == movement)
-            {
                 _hand[i] = null;
-            }
-        }
     }
-
-    public bool IsDead { get; }
-
-    public bool IsPlayerControlled { get; init; }
-    public IReadOnlyCollection<ICombatantEffect> Effects => _effects.ToArray();
 }

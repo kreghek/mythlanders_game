@@ -1,10 +1,16 @@
 name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - 'demo/**'
+      - 'dev/**'
+      - 'master'
+  pull_request:
+    branches:
+      - 'demo/**'
+      - 'dev/**'
+      - 'master'
 
 jobs:
   build:
@@ -14,13 +20,6 @@ jobs:
     env:
       MGFXC_WINE_PATH: /home/runner/.winemonogame
 
-    strategy:
-      matrix:
-        runtime:
-          - win
-          - linux
-          - mac
-
     steps:
     - uses: actions/checkout@v2
 
@@ -28,11 +27,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-
-    - name: Setup .NETCore 2.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.1.x
 
     - name: Setup Wine
       run: |
@@ -48,7 +42,6 @@ jobs:
 
         rm dotnet-sdk.zip
 
-
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
 
@@ -57,35 +50,3 @@ jobs:
 
     - name: Test
       run: dotnet test Rpg.Client/Rpg.Client.sln --no-build --verbosity normal
-
-    - name: Install GameBungle Tools
-      run: dotnet tool install --global GameBundle
-
-    - name: Publish
-      run: gamebundle --source Rpg/Client/Client.csproj --output "bin" --${{matrix.runtime}}
-
-    - name: Get current time
-      uses: srfrnk/current-time@master
-      id: current-time
-      with:
-        format: YYYY-MM-DD
-    
-    - name: Write version to file
-      uses: DamianReeves/write-file-action@v1.0
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-      with:
-        path: bin/${{matrix.runtime}}/version.txt
-        contents: |
-          ver 0.2-dev#${{ github.run_number }}
-          ${{ env.F_TIME }}
-          ${{ github.sha }}
-        write-mode: overwrite
-
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.4
-      env:
-        F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-      with:
-        name: ewar-${{ matrix.runtime }}-v0.1-dev${{ github.run_number }}-${{ env.F_TIME }}
-        path: bin

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Client;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -18,7 +20,7 @@ namespace Rpg.Client.GameScreens.Intro
         private double _frameCounter;
         private int _frameIndex;
 
-        public IntroScreen(EwarGame game) : base(game)
+        public IntroScreen(TestamentGame game) : base(game)
         {
             var uiContentStorage = game.Services.GetService<IUiContentStorage>();
 

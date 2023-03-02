@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Core.Dices;
+
 using Rpg.Client.Core.Modifiers;
 using Rpg.Client.Core.Skills;
-using Core.Dices;
 
 namespace Rpg.Client.Core.SkillEffects
 {

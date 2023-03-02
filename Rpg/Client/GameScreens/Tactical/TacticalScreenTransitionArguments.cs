@@ -1,4 +1,5 @@
-﻿using Rpg.Client.Core.Campaigns;
+﻿using Client.Core.Campaigns;
+
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Tactical

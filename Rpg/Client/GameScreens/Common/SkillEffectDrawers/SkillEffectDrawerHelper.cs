@@ -1,7 +1,5 @@
 using Client.Core.Skills;
 
-using Rpg.Client.Core.Skills;
-
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
     internal static class SkillEffectDrawerHelper

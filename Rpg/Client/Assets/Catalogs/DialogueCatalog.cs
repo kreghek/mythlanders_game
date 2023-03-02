@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-using Rpg.Client.Assets.DialogueOptionAftermath;
-using Rpg.Client.Assets.Dialogues;
+using Client.Assets.Catalogs;
+using Client.Assets.DialogueEventEnviroment;
+using Client.Assets.DialogueOptionAftermath;
+using Client.Assets.Dialogues;
+using Client.Core.Dialogues;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Dialogues;
 
@@ -12,6 +16,7 @@ namespace Rpg.Client.Assets.Catalogs
 {
     internal class DialogueCatalog : IEventCatalog, IEventInitializer
     {
+        private readonly DialogueEnvCommandCreator _envCommandCreator;
         private readonly IDialogueOptionAftermathCreator _optionAftermathCreator;
         private readonly IDialogueResourceProvider _resourceProvider;
 
@@ -23,19 +28,64 @@ namespace Rpg.Client.Assets.Catalogs
             _resourceProvider = resourceProvider;
             _optionAftermathCreator = optionAftermathCreator;
 
+            _envCommandCreator = new DialogueEnvCommandCreator();
+
             _isInitialized = false;
-            Events = Array.Empty<Event>();
+            Events = Array.Empty<DialogueEvent>();
         }
 
-        private static EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
+        private EventTextFragment CreateEventTextFragment(string dialogueSid, JsonElement obj, string? key)
         {
             var jsonSpeaker = obj.GetProperty("name").GetString();
 
-            var fragment = new EventTextFragment
+            if (!Enum.TryParse<UnitName>(jsonSpeaker, ignoreCase: true, out var unitName))
             {
-                Speaker = Enum.Parse<UnitName>(jsonSpeaker, ignoreCase: true), TextSid = $"{dialogueSid}_TextNode_{key}"
+                unitName = UnitName.Environment;
+            }
+
+            var enviromentCommandList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
+
+            if (obj.TryGetProperty("signals", out var signals))
+            {
+                foreach (var signalProperty in signals.EnumerateObject())
+                {
+                    const string ENVIRONMENT_PREFFIX = "ENV_";
+                    if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                    {
+                        var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
+
+                        var envCommand = _envCommandCreator.Create(envTypeName, envData);
+
+                        enviromentCommandList.Add(envCommand);
+                    }
+                }
+            }
+
+            var fragment = new EventTextFragment(unitName, $"{dialogueSid}_TextNode_{key}")
+            {
+                EnvironmentCommands = enviromentCommandList
             };
+
             return fragment;
+        }
+
+        private static (string typeName, string data) Handle(JsonProperty signalProperty, string preffix)
+        {
+            var aftermathTypeName = signalProperty.Name.Substring(preffix.Length);
+            if (aftermathTypeName.Contains('_'))
+            {
+                var postfixPosition = aftermathTypeName.LastIndexOf("_");
+                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
+            }
+
+            var signalStringData = signalProperty.Value.GetProperty("String").GetString();
+
+            if (signalStringData is not null)
+            {
+                return (aftermathTypeName, signalStringData);
+            }
+
+            throw new InvalidOperationException("Data is not defined");
         }
 
         private Dialogue LoadDialogueFromResources(string dialogueSid)
@@ -49,7 +99,9 @@ namespace Rpg.Client.Assets.Catalogs
 
             // Fill node list
 
-            var nodeList = new List<(string sid, IList<EventTextFragment> fragmentList, EventNode node)>();
+            var nodeList =
+                new List<(string sid, IList<EventTextFragment> fragmentList, DialogueNode node, List<DialogueOption>
+                    options)>();
 
             var deserializedDialogueNodesOpenList = deserializedDialogueNodes.ToList();
 
@@ -88,19 +140,18 @@ namespace Rpg.Client.Assets.Catalogs
                 else
                 {
                     var dialogueTextFragments = new List<EventTextFragment>();
-                    var dialogueNode = new EventNode
-                    {
-                        TextBlock = new EventTextBlock
-                        {
-                            Fragments = dialogueTextFragments
-                        }
-                    };
+
+                    var textBlock = new EventTextBlock(dialogueTextFragments);
+
+                    var dialogOptions = new List<DialogueOption>();
+
+                    var dialogueNode = new DialogueNode(textBlock, dialogOptions);
 
                     var fragment = CreateEventTextFragment(dialogueSid: dialogueSid, obj: obj, key: key);
 
                     dialogueTextFragments.Add(fragment);
 
-                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode));
+                    nodeList.Add(new(key, dialogueTextFragments, dialogueNode, dialogOptions));
 
                     textFragmentMergeMap.Add(key, key);
                 }
@@ -116,16 +167,15 @@ namespace Rpg.Client.Assets.Catalogs
                     continue;
                 }
 
-                var (sid, fragmentList, node) = nodeList.Single(x => x.sid == key);
+                var (sid, fragmentList, node, dialogOptions) = nodeList.Single(x => x.sid == key);
 
                 if (obj.TryGetProperty("choices", out var choices))
                 {
                     var optionIndex = 0;
-                    var optionList = new List<EventOption>();
                     foreach (var choice in choices.EnumerateArray())
                     {
-                        EventNode nextNode;
-                        IOptionAftermath? aftermath = null;
+                        DialogueNode nextNode;
+                        IDialogueOptionAftermath? aftermath = null;
 
                         if (choice.TryGetProperty("next", out var choiceNext) &&
                             !string.IsNullOrEmpty(choiceNext.GetString()))
@@ -144,33 +194,29 @@ namespace Rpg.Client.Assets.Catalogs
 
                                 if (nextJson.Value.TryGetProperty("signals", out var signals))
                                 {
-                                    var aftermathList = new List<IOptionAftermath>();
+                                    var aftermathList = new List<IDialogueOptionAftermath>();
+                                    var enviromentList = new List<IDialogueEventTextFragmentEnvironmentCommand>();
                                     foreach (var signalProperty in signals.EnumerateObject())
                                     {
                                         const string AFTERMATH_PREFIX = "AM_";
+                                        const string ENVIRONMENT_PREFFIX = "ENV_";
                                         if (signalProperty.Name.StartsWith(AFTERMATH_PREFIX))
                                         {
-                                            var aftermathTypeName =
-                                                signalProperty.Name.Substring(AFTERMATH_PREFIX.Length);
-                                            if (aftermathTypeName.Contains("_"))
-                                            {
-                                                var postfixPosition = aftermathTypeName.LastIndexOf("_");
-                                                aftermathTypeName = aftermathTypeName.Substring(0, postfixPosition);
-                                            }
+                                            var (aftermathTypeName, aftermathData) =
+                                                Handle(signalProperty, AFTERMATH_PREFIX);
+                                            var aftermathItem =
+                                                _optionAftermathCreator.Create(aftermathTypeName, aftermathData);
 
-                                            var signalStringData =
-                                                signalProperty.Value.GetProperty("String").GetString();
+                                            aftermathList.Add(aftermathItem);
+                                        }
+                                        else if (signalProperty.Name.StartsWith(ENVIRONMENT_PREFFIX))
+                                        {
+                                            var (envTypeName, envData) = Handle(signalProperty, ENVIRONMENT_PREFFIX);
 
-                                            if (signalStringData is not null)
+                                            if (envTypeName == "PlaySound")
                                             {
-                                                var aftermathItem = _optionAftermathCreator.Create(aftermathTypeName,
-                                                    signalStringData);
-
-                                                aftermathList.Add(aftermathItem);
-                                            }
-                                            else
-                                            {
-                                                throw new InvalidOperationException("Data is not defined");
+                                                var command = new PlayEffectEnviromentCommand(envData, envData);
+                                                enviromentList.Add(command);
                                             }
                                         }
                                     }
@@ -184,20 +230,18 @@ namespace Rpg.Client.Assets.Catalogs
                         }
                         else
                         {
-                            nextNode = EventNode.EndNode;
+                            nextNode = DialogueNode.EndNode;
                         }
 
-                        var option = new EventOption($"{dialogueSid}_TextNode_{key}_Option_{optionIndex}", nextNode)
+                        var option = new DialogueOption($"{dialogueSid}_TextNode_{key}_Option_{optionIndex}", nextNode)
                         {
                             Aftermath = aftermath
                         };
 
-                        optionList.Add(option);
+                        dialogOptions.Add(option);
 
                         optionIndex += 1;
                     }
-
-                    node.Options = optionList;
                 }
             }
 
@@ -207,14 +251,12 @@ namespace Rpg.Client.Assets.Catalogs
 
             var rootNode = nodeList.Single(x => x.sid == rootNodeIdFromMap).node;
 
-            var position = dialogueSid.Contains("Before") ? EventPosition.BeforeCombat : EventPosition.AfterCombat;
-
-            var dialogue = new Dialogue(rootNode, position);
+            var dialogue = new Dialogue(rootNode);
 
             return dialogue;
         }
 
-        public IEnumerable<Event> Events { get; private set; }
+        public IEnumerable<DialogueEvent> Events { get; private set; }
 
         public Dialogue GetDialogue(string sid)
         {
@@ -230,17 +272,20 @@ namespace Rpg.Client.Assets.Catalogs
 
         public void Init()
         {
-            var events = new List<Event>();
+            var events = new List<DialogueEvent>();
 
             Events = events;
 
-            var dialogueFactoryType = typeof(IDialogueFactory);
+            var dialogueFactoryType = typeof(IDialogueEventFactory);
             var factoryTypes = dialogueFactoryType.Assembly.GetTypes().Where(x =>
                 dialogueFactoryType.IsAssignableFrom(x) && x != dialogueFactoryType && !x.IsAbstract);
-            var factories = factoryTypes.Select(x => Activator.CreateInstance(x)).OfType<IDialogueFactory>();
+            var factories = factoryTypes.Select(Activator.CreateInstance).OfType<IDialogueEventFactory>();
+
+            var factoryServices = new DialogueEventFactoryServices(this);
+
             foreach (var factory in factories)
             {
-                var dialogueEvent = factory.Create(this);
+                var dialogueEvent = factory.CreateEvent(factoryServices);
                 events.Add(dialogueEvent);
             }
 

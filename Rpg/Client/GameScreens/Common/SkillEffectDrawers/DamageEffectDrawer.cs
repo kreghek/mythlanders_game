@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.SkillEffects;
-using Rpg.Client.Core.Skills;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {

@@ -1,5 +1,6 @@
 using System.Linq;
 
+using Client.Core.Campaigns;
 using Client.GameScreens.Armory;
 
 using Core.Dices;

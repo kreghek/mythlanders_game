@@ -16,6 +16,8 @@ namespace Rpg.Client.Engine
         private BiomeType _currentBiome;
         private Song? _currentSong;
 
+        private Song? _customSong;
+
         private SoundtrackType _state;
 
         private IUiContentStorage? _uiContentStorage;
@@ -54,6 +56,7 @@ namespace Rpg.Client.Engine
 
         public void PlaySilence()
         {
+            _customSong = null;
             _state = SoundtrackType.Silence;
         }
 
@@ -188,7 +191,30 @@ namespace Rpg.Client.Engine
                     }
 
                     break;
+
+                case SoundtrackType.Custom:
+                    if (_changeTrack)
+                    {
+                        _changeTrack = false;
+
+                        if (_uiContentStorage is not null && _customSong is not null)
+                        {
+                            _currentSong = _customSong;
+
+                            MediaPlayer.IsRepeating = false;
+                            MediaPlayer.Play(_customSong, TimeSpan.Zero);
+                        }
+                    }
+
+                    break;
             }
+        }
+
+        internal void PlayCustomTrack(Song song)
+        {
+            MediaPlayer.Stop();
+            _customSong = song;
+            ChangeState(SoundtrackType.Custom);
         }
 
         internal void PlayIntroTrack()

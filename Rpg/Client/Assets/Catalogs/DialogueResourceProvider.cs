@@ -9,7 +9,7 @@ namespace Rpg.Client.Assets.Catalogs
         public string GetResource(string resourceSid)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            const string RESOURCE_PATH = "Rpg.Client.Resources.Dialogues";
+            const string RESOURCE_PATH = "Client.Resources.Dialogues";
 
             var dialogueSourcePath = RESOURCE_PATH + "." + resourceSid + ".json";
 

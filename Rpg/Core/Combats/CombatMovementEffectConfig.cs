@@ -7,4 +7,4 @@ public sealed record CombatMovementEffectConfig(IReadOnlyCollection<IEffect> Eff
     {
         return new CombatMovementEffectConfig(effects, ArraySegment<IEffect>.Empty);
     }
-};
+}

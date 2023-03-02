@@ -5,8 +5,6 @@ using Core.Dices;
 
 using Microsoft.Xna.Framework;
 
-using Rpg.Client.Core;
-
 namespace Rpg.Client.GameScreens.Combat.GameObjects.Background.BackgroundObjectFactoryImplementations
 {
     internal sealed class MonasteryBackgroundObjectFactory : IBackgroundObjectFactory

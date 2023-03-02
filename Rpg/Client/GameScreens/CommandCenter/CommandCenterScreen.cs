@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
+using Client.GameScreens.Campaign;
 using Client.GameScreens.CommandCenter.Ui;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
-using Rpg.Client.Core.Campaigns;
+using Rpg.Client.Core;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.CommandCenter
@@ -18,19 +18,20 @@ namespace Client.GameScreens.CommandCenter
     {
         private readonly IReadOnlyList<HeroCampaign> _campaigns;
 
-        private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
-
-        private readonly Texture2D _mapBackgroundTexture;
+        private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
         private readonly Texture2D[] _commandCenterSegmentTexture;
 
-        private readonly ButtonBase[] _commandButtons = new ButtonBase[4];
+        private readonly Texture2D _mapBackgroundTexture;
 
-        public CommandCenterScreen(EwarGame game, CommandCenterScreenTransitionArguments args) : base(game)
+        private IReadOnlyList<CampaignPanel>? _availableCampaignPanels;
+
+        public CommandCenterScreen(TestamentGame game, CommandCenterScreenTransitionArguments args) : base(game)
         {
             _campaigns = args.AvailableCampaigns;
 
             _mapBackgroundTexture = Game.Content.Load<Texture2D>("Sprites/GameObjects/Map/Map");
-            _commandCenterSegmentTexture = new[] {
+            _commandCenterSegmentTexture = new[]
+            {
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter1"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter2"),
                 Game.Content.Load<Texture2D>("Sprites/GameObjects/CommandCenter3"),
@@ -82,17 +83,21 @@ namespace Client.GameScreens.CommandCenter
                 panel.Draw(spriteBatch);
             }
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 spriteBatch.Draw(_commandCenterSegmentTexture[i],
-                    new Rectangle((contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN + (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
-                    200,
-                    200),
+                    new Rectangle(
+                        (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                        (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                        (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                        200,
+                        200),
                     Color.White);
 
-                _commandButtons[i].Rect = new Rectangle((contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
-                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN + (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
+                _commandButtons[i].Rect = new Rectangle(
+                    (contentRect.Left + ControlBase.CONTENT_MARGIN) + i * (200 + ControlBase.CONTENT_MARGIN),
+                    (contentRect.Top + (contentRect.Height / 8)) + ControlBase.CONTENT_MARGIN +
+                    (contentRect.Height / 2) - ControlBase.CONTENT_MARGIN * 2,
                     100, 20);
 
                 _commandButtons[i].Draw(spriteBatch);
@@ -107,24 +112,27 @@ namespace Client.GameScreens.CommandCenter
 
             var index = 0;
 
-            var campaignTextures = new[] {
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign"),
-                Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign"),
+            var campaignTexturesDict = new Dictionary<LocationSid, Texture2D>
+            {
+                { LocationSid.Desert, Game.Content.Load<Texture2D>("Sprites/GameObjects/DesertCampaign") },
+                { LocationSid.Monastery, Game.Content.Load<Texture2D>("Sprites/GameObjects/MonasteryCampaign") },
+                {
+                    LocationSid.ShipGraveyard,
+                    Game.Content.Load<Texture2D>("Sprites/GameObjects/ShipGraveyardCampaign")
+                },
+                { LocationSid.Thicket, Game.Content.Load<Texture2D>("Sprites/GameObjects/DarkThinketCampaign") }
             };
 
             foreach (var campaign in _campaigns)
             {
-                var campaignTexture = campaignTextures[index];
+                var campaignTexture = campaignTexturesDict[campaign.Location];
 
                 var panel = new CampaignPanel(campaign, campaignTexture);
                 panels.Add(panel);
                 panel.Selected += (_, _) =>
                 {
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
-                        new CampaignScreenTransitionArguments
-                        { Campaign = campaign });
+                        new CampaignScreenTransitionArguments(campaign));
                 };
 
                 index++;

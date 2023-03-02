@@ -1,121 +1,132 @@
 ﻿using System.Collections.Generic;
 
+using Client.Assets.Catalogs.CampaignGeneration;
 using Client.Assets.StageItems;
+using Client.Core.Campaigns;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Assets.StageItems;
 using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
 using Rpg.Client.ScreenManagement;
 
-namespace Rpg.Client.GameScreens.Campaign.Ui
+namespace Client.GameScreens.Campaign.Ui;
+
+internal class ActiveCampaignStagePanel : CampaignStagePanelBase
 {
-    internal class CampaignStagePanel : ControlBase
+    private readonly IList<ButtonBase> _buttonList;
+    private readonly CampaignStage _campaignStage;
+    private readonly HeroCampaign _currentCampaign;
+    private readonly bool _isActive;
+
+    public ActiveCampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
+        IScreen currentScreen, IScreenManager screenManager, bool isActive) : base(stageIndex)
     {
-        private readonly IList<ButtonBase> _buttonList;
-        private readonly CampaignStage _campaignStage;
-        private readonly HeroCampaign _currentCampaign;
-        private readonly int _stageIndex;
+        _campaignStage = campaignStage;
+        _currentCampaign = currentCampaign;
+        _isActive = isActive;
+        _buttonList = new List<ButtonBase>();
 
-        public CampaignStagePanel(CampaignStage campaignStage, int stageIndex, HeroCampaign currentCampaign,
-            IScreen currentScreen, IScreenManager screenManager, bool isActive)
+        Init(currentScreen, screenManager, isActive);
+    }
+
+    public override void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+    {
+        foreach (var button in _buttonList)
         {
-            _campaignStage = campaignStage;
-            _stageIndex = stageIndex;
-            _currentCampaign = currentCampaign;
-            _buttonList = new List<ButtonBase>();
+            button.Update(resolutionIndependentRenderer);
+        }
+    }
 
-            Init(currentScreen, screenManager, isActive);
+    protected override Point CalcTextureOffset()
+    {
+        return _isActive ? ControlTextures.Panel : ControlTextures.PanelBlack;
+    }
+
+    protected override Color CalculateColor()
+    {
+        return Color.White;
+    }
+
+    protected override void DrawPanelContent(SpriteBatch spriteBatch, Rectangle contentRect)
+    {
+        const int BUTTON_HEIGHT = 40;
+
+        const int BOTH_TOP_BOTTOM_MARGIN = CONTENT_MARGIN * 2;
+
+        const int BUTTON_MARGIN_HEIGHT = BUTTON_HEIGHT + CONTENT_MARGIN;
+
+        var summaryButtonHeight = BUTTON_MARGIN_HEIGHT * _buttonList.Count + BOTH_TOP_BOTTOM_MARGIN;
+        var topOffset = (contentRect.Height - summaryButtonHeight) / 2;
+
+        for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
+        {
+            var button = _buttonList[buttonIndex];
+
+            button.Rect = new Rectangle(
+                contentRect.Left + CONTENT_MARGIN,
+                topOffset + contentRect.Top + (buttonIndex * BUTTON_MARGIN_HEIGHT),
+                contentRect.Width - CONTENT_MARGIN * 2,
+                BUTTON_HEIGHT);
+
+            button.Draw(spriteBatch);
+        }
+    }
+
+    private static string GetStageItemDisplayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
+    {
+        if (campaignStageItem is CombatStageItem)
+        {
+            var humanReadableCombatNumber = stageItemIndex + 1;
+            return string.Format(UiResource.CampaignStageDisplayNameCombat, humanReadableCombatNumber);
         }
 
-        public void Update(ResolutionIndependentRenderer resolutionIndependentRenderer)
+        if (campaignStageItem is RewardStageItem)
         {
-            foreach (var button in _buttonList)
+            return UiResource.CampaignStageDisplayNameFinish;
+        }
+
+        if (campaignStageItem is DialogueEventStageItem)
+        {
+            return UiResource.CampaignStageDisplayNameTextEvent;
+        }
+
+        if (campaignStageItem is NotImplemenetedStageItem notImplementedStage)
+        {
+            return notImplementedStage.StageSid + " (not implemented)";
+        }
+
+        if (campaignStageItem is RestStageItem)
+        {
+            return UiResource.CampaignStageDisplayName;
+        }
+
+        return "???";
+    }
+
+    private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
+    {
+        for (var i = 0; i < _campaignStage.Items.Count; i++)
+        {
+            var campaignStageItem = _campaignStage.Items[i];
+
+            var stageItemDisplayName = GetStageItemDisplayName(i, campaignStageItem);
+
+            var button = new TextButton(stageItemDisplayName +
+                                        (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
+            _buttonList.Add(button);
+
+            if (isActive)
             {
-                button.Update(resolutionIndependentRenderer);
-            }
-        }
-
-        protected override Point CalcTextureOffset()
-        {
-            return ControlTextures.Panel;
-        }
-
-        protected override Color CalculateColor()
-        {
-            return Color.White;
-        }
-
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle contentRect, Color contentColor)
-        {
-            const int STAGE_LABEL_HEIGHT = 20;
-            const int WIDTH = 200;
-
-            spriteBatch.DrawString(
-                UiThemeManager.UiContentStorage.GetMainFont(),
-                $"Stage {_stageIndex}",
-                new Vector2(
-                    contentRect.Left + CONTENT_MARGIN,
-                    contentRect.Top + CONTENT_MARGIN),
-                Color.Wheat);
-
-            var summaryButtonWidth = (WIDTH + CONTENT_MARGIN) * _buttonList.Count + CONTENT_MARGIN;
-            var leftOffset = (contentRect.Width - summaryButtonWidth) / 2;
-
-            for (var buttonIndex = 0; buttonIndex < _buttonList.Count; buttonIndex++)
-            {
-                var button = _buttonList[buttonIndex];
-
-                button.Rect = new Rectangle(
-                    leftOffset + CONTENT_MARGIN + (buttonIndex * (WIDTH + CONTENT_MARGIN)),
-                    contentRect.Top + CONTENT_MARGIN + STAGE_LABEL_HEIGHT,
-                    WIDTH,
-                    contentRect.Height - (CONTENT_MARGIN * 2) - STAGE_LABEL_HEIGHT);
-
-                button.Draw(spriteBatch);
-            }
-        }
-
-        private static string GetStageItemDisplyayName(int stageItemIndex, ICampaignStageItem campaignStageItem)
-        {
-            if (campaignStageItem is CombatStageItem)
-            {
-                return $"Combat {stageItemIndex + 1}";
-            }
-
-            if (campaignStageItem is RewardStageItem)
-            {
-                return "Finish campaign";
-            }
-
-            return "???";
-        }
-
-        private void Init(IScreen currentScreen, IScreenManager screenManager, bool isActive)
-        {
-            for (var i = 0; i < _campaignStage.Items.Count; i++)
-            {
-                var campaignStageItem = _campaignStage.Items[i];
-
-                var stageItemDisplayName = GetStageItemDisplyayName(i, campaignStageItem);
-
-                var button = new TextButton(stageItemDisplayName +
-                                            (_campaignStage.IsCompleted ? " (Completed)" : string.Empty));
-                _buttonList.Add(button);
-
-                if (isActive)
+                button.OnClick += (s, e) =>
                 {
-                    button.OnClick += (s, e) =>
-                    {
-                        campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
-                    };
-                }
-                else
-                {
-                    button.IsEnabled = false;
-                }
+                    campaignStageItem.ExecuteTransition(currentScreen, screenManager, _currentCampaign);
+                };
+            }
+            else
+            {
+                button.IsEnabled = false;
             }
         }
     }

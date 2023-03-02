@@ -17,7 +17,7 @@ namespace Rpg.Client.Assets.Monsters
                 Name = UnitName.Vampire,
                 LocationSids = new[]
                 {
-                    GlobeNodeSid.Pit, GlobeNodeSid.DestroyedVillage, GlobeNodeSid.Castle
+                    LocationSid.Pit, LocationSid.DestroyedVillage, LocationSid.Castle
                 },
                 IsMonster = true,
 
