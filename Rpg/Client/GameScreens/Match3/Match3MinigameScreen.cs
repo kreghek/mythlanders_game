@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Client.Core.Campaigns;
+using Client.GameScreens.Campaign;
+
 using Core.Combats;
 using Core.Dices;
 using Core.Minigames.Match3;
@@ -9,10 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client;
-using Rpg.Client.Core.Campaigns;
 using Rpg.Client.Engine;
-using Rpg.Client.GameScreens.Campaign;
 using Rpg.Client.ScreenManagement;
 
 namespace Client.GameScreens.Match3;
@@ -20,14 +20,13 @@ namespace Client.GameScreens.Match3;
 internal class Match3MinigameScreen : GameScreenWithMenuBase
 {
     private readonly HeroCampaign _campaign;
-    private readonly IDice _dice;
     private readonly Match3Engine _match3Engine;
     private readonly Matrix<ButtonBase> _gemButtonMatrix;
 
-    public Match3MinigameScreen(EwarGame game, Match3MinigameScreenTransitionArguments args) : base(game)
+    public Match3MinigameScreen(TestamentGame game, Match3MiniGameScreenTransitionArguments args) : base(game)
     {
         _campaign = args.Campaign;
-        _dice = game.Services.GetRequiredService<IDice>();
+        var dice = game.Services.GetRequiredService<IDice>();
 
         var initialMatrix = new Matrix<GemColor>(8, 8);
 
@@ -35,7 +34,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
         {
             for (var rowIndex = 0; rowIndex < initialMatrix.Height; rowIndex++)
             {
-                initialMatrix[colIndex, rowIndex] = _dice.RollFromList(new[] { GemColor.Green, GemColor.Red, GemColor.Blue });
+                initialMatrix[colIndex, rowIndex] = dice.RollFromList(new[] { GemColor.Green, GemColor.Red, GemColor.Blue });
             }
         }
 
@@ -127,9 +126,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
     {
         _campaign.CompleteCurrentStage();
 
-        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign, new CampaignScreenTransitionArguments
-        {
-            Campaign = _campaign
-        });
+        ScreenManager.ExecuteTransition(this, ScreenTransition.Campaign,
+            new CampaignScreenTransitionArguments(_campaign));
     }
 }
