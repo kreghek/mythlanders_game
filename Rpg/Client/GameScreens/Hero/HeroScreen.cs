@@ -41,9 +41,9 @@ namespace Rpg.Client.GameScreens.Hero
 
             _player = globeProvider.Globe.Player;
 
-            _unitGraphics = new UnitGraphics(_hero,
-                new Vector2(),
-                gameObjectContentStorage);
+            //_unitGraphics = new UnitGraphics(_hero,
+            //    new Vector2(),
+            //    gameObjectContentStorage);
 
             InitContent();
         }

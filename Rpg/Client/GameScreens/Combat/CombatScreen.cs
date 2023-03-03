@@ -10,6 +10,7 @@ using Client.Core.Campaigns;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.CombatDebugElements;
+using Client.GameScreens.Combat.GameObjects;
 using Client.GameScreens.Combat.Ui;
 using Client.GameScreens.CommandCenter;
 
@@ -79,8 +80,6 @@ namespace Rpg.Client.GameScreens.Combat
 
         private bool _finalBossWasDefeat;
 
-
-        private bool _interactButtonClicked;
         private UnitStatePanelController? _unitStatePanelController;
 
         public CombatScreen(TestamentGame game, CombatScreenTransitionArguments args) : base(game)
@@ -176,7 +175,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (!_combatCore.Finished && _combatFinishedVictory is null)
             {
-                HandleCombatHud();
+                UpdateCombatHud();
             }
 
             _screenShaker.Update(gameTime);
@@ -232,7 +231,7 @@ namespace Rpg.Client.GameScreens.Combat
             return rewards;
         }
 
-        private void CombatCode_CombatantHasBeenRemoved(object? sender, CombatantHasBeenRemovedEventArgs e)
+        private void CombatCode_CombatantHasBeenDefeated(object? sender, CombatantDefeatedEventArgs e)
         {
             var gameObject = GetUnitGameObject(e.Combatant);
             _gameObjects.Remove(gameObject);
@@ -322,7 +321,7 @@ namespace Rpg.Client.GameScreens.Combat
         private void CombatInitialize()
         {
             _combatCore.CombatantHasBeenAdded += CombatCode_CombatantHasBeenAdded;
-            _combatCore.CombatantHasBeenRemoved += CombatCode_CombatantHasBeenRemoved;
+            _combatCore.CombatantHasBeenDefeated += CombatCode_CombatantHasBeenDefeated;
             _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
             _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
             _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
@@ -370,14 +369,11 @@ namespace Rpg.Client.GameScreens.Combat
                 var areAllCombatsWon = nextCombatIndex >= _args.CombatSequence.Combats.Count;
                 if (!areAllCombatsWon)
                 {
-                    var startHpItems = CreateStartHpList();
-
                     var combatScreenArgs = new CombatScreenTransitionArguments(_currentCampaign,
                         _args.CombatSequence,
                         nextCombatIndex,
                         _args.IsAutoplay,
                         _globeNode,
-                        startHpItems,
                         _args.VictoryDialogue);
 
                     ScreenManager.ExecuteTransition(this, ScreenTransition.Combat, combatScreenArgs);
@@ -627,7 +623,7 @@ namespace Rpg.Client.GameScreens.Combat
                     position, Color.White);
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    string.Format(UiResource.MonsterDangerTemplate, _combatCore.CombatSource.Level),
+                    string.Format(UiResource.MonsterDangerTemplate, 1),
                     position + new Vector2(0, 10), Color.White);
             }
         }
@@ -746,10 +742,9 @@ namespace Rpg.Client.GameScreens.Combat
                 rasterizerState: RasterizerState.CullNone,
                 transformMatrix: _camera.GetViewTransformationMatrix());
 
-            if (_combatCore.CurrentUnit?.Unit.IsPlayerControlled == true && !_animationManager.HasBlockers)
+            if (_combatCore.CurrentCombatant.IsPlayerControlled == true && !_animationManager.HasBlockers)
             {
                 DrawCombatSkillsPanel(spriteBatch, contentRectangle);
-                DrawInteractionButtons(spriteBatch);
             }
 
             try
@@ -763,14 +758,6 @@ namespace Rpg.Client.GameScreens.Combat
             }
 
             spriteBatch.End();
-        }
-
-        private void DrawInteractionButtons(SpriteBatch spriteBatch)
-        {
-            foreach (var button in _interactionButtons)
-            {
-                button.Draw(spriteBatch);
-            }
         }
 
         private void DrawUnits(SpriteBatch spriteBatch)
@@ -801,7 +788,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void EscapeButton_OnClick(object? sender, EventArgs e)
         {
-            _combatCore.Surrender();
+            //_combatCore.Surrender();
             _combatFinishedVictory = false;
         }
 
@@ -853,9 +840,9 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void HandleCombatHud()
+        private void UpdateCombatHud()
         {
-            if (!_interactButtonClicked)
+            //if (!_interactButtonClicked)
             {
                 _combatSkillsPanel?.Update(ResolutionIndependentRenderer);
 
@@ -933,11 +920,10 @@ namespace Rpg.Client.GameScreens.Combat
 
             if (isVictory)
             {
-                var completedCombats = _globeNode.AssignedCombats.CompletedCombats;
-                completedCombats.Add(_combatCore.CombatSource);
+                var completedCombats = new List<CombatSource>() { _args.CombatSequence.Combats.First() };
 
-                var currentCombatList = _combatCore.Node.AssignedCombats.Combats.ToList();
-                if (completedCombats.Count >= currentCombatList.Count)
+                var isAllCombatSequenceComplete = true;
+                if (isAllCombatSequenceComplete)
                 {
                     // End the combat sequence
                     var rewardItems = CalculateRewardGaining(completedCombats, _globeNode,

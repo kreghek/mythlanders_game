@@ -247,6 +247,12 @@ public class CombatCore
 
         if (combatant.Stats.Single(x => x.Type == UnitStatType.HitPoints).Value.Current <= 0)
         {
+            var shiftShape = DetectShapeShifting();
+            if (shiftShape)
+            { 
+                CombatantShiftShaped?.Invoke(this, new CombatantShiftShapedEventArgs(combatant));
+            }
+
             combatant.SetDead();
             CombatantHasBeenDefeated?.Invoke(this, new CombatantDefeatedEventArgs(combatant));
 
@@ -255,7 +261,12 @@ public class CombatCore
             targetSide[coords].Combatant = null;
         }
     }
-    
+
+    private bool DetectShapeShifting()
+    {
+        return false;
+    }
+
     private void HandleCombatantHasBeenMoved(Combatant combatant, FieldCoords fieldCoords)
     {
         var targetSide = GetTargetSide(combatant, Field);
@@ -363,12 +374,10 @@ public class CombatCore
     }
 
     public event EventHandler<CombatantHasBeenAddedEventArgs>? CombatantHasBeenAdded;
-    public event EventHandler<CombatantHasBeenRemovedEventArgs>? CombatantHasBeenRemoved;
     public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
     public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;
     public event EventHandler<CombatantDefeatedEventArgs>? CombatantHasBeenDefeated;
     public event EventHandler<CombatantShiftShapedEventArgs>? CombatantShiftShaped;
-    
     public event EventHandler<CombatantHasBeenMovedEventArgs>? CombatantHasBeenMoved;
 }

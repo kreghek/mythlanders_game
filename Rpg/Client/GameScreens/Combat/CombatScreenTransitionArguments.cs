@@ -14,6 +14,5 @@ internal sealed record CombatScreenTransitionArguments(HeroCampaign Campaign,
     int CurrentCombatIndex,
     bool IsAutoplay,
     GlobeNode Location,
-    IReadOnlyCollection<HeroHp> StartHpItems,
     Dialogue? VictoryDialogue) :
     CampaignScreenTransitionArgumentsBase(Campaign);

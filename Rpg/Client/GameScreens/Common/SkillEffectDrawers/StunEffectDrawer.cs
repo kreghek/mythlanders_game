@@ -25,17 +25,17 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
         public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
             Vector2 position)
         {
-            if (effectToDisplay is not StunEffect stunEffect)
-            {
-                return false;
-            }
+            //if (effectToDisplay is not StunEffect stunEffect)
+            //{
+            //    return false;
+            //}
 
-            var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
+            //var ruleDirectionText = SkillEffectDrawerHelper.GetLocalized(direction);
 
-            spriteBatch.DrawString(_font,
-                string.Format(UiResource.StunEffectRuleText, stunEffect.EffectLifetime.GetTextDescription(),
-                    ruleDirectionText),
-                position, Color.Wheat);
+            //spriteBatch.DrawString(_font,
+            //    string.Format(UiResource.StunEffectRuleText, stunEffect.EffectLifetime.GetTextDescription(),
+            //        ruleDirectionText),
+            //    position, Color.Wheat);
 
             return true;
         }

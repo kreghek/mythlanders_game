@@ -84,7 +84,7 @@ namespace Rpg.Client.GameScreens.Combat
             var interactionDeliveryBlocker = context.AnimationManager.CreateAndUseBlocker();
 
             List<IInteractionDelivery>? interactionDeliveries;
-            if (animatedUnitGameObject.Combatant.Unit.IsPlayerControlled)
+            if (animatedUnitGameObject.Combatant.IsPlayerControlled)
             {
                 interactionDeliveries = new List<IInteractionDelivery>
                 {

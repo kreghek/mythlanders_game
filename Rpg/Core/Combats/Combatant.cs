@@ -95,7 +95,10 @@ public class Combatant
         {
             effect.Update(updateType);
 
-            if (effect.Lifetime.IsDead) effectToDispel.Add(effect);
+            if (effect.Lifetime.IsDead)
+            {
+                effectToDispel.Add(effect);
+            }
         }
 
         foreach (var effect in effectToDispel)

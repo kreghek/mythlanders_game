@@ -37,7 +37,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Swordsman
         public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            animatedUnitGameObject.Combatant.ChangeState(CombatUnitState.Defense);
+            animatedUnitGameObject.ChangeState(CombatUnitState.Defense);
             return base.CreateState(animatedUnitGameObject, targetUnitGameObject, mainStateBlocker, context);
         }
     }

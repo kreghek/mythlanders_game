@@ -289,6 +289,13 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Graphics.Root.Position = Position;
         }
 
+        private CombatUnitState _visualIdleState;
+
+        internal void ChangeState(CombatUnitState visualIdleState)
+        {
+            _visualIdleState = visualIdleState;
+        }
+
         // private void Unit_SchemeAutoTransition(object? sender, AutoTransitionEventArgs e)
         // {
         //     var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
