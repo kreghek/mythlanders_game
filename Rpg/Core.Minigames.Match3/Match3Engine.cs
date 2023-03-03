@@ -1,10 +1,30 @@
 ﻿using Core.Combats;
+using Core.Dices;
 
 namespace Core.Minigames.Match3;
 
 public interface IGemSource
 {
     GemColor GetNextGem();
+}
+
+public sealed class GemSource : IGemSource {
+    private readonly IDice _dice;
+
+    public GemSource(IDice dice)
+    {
+        _dice = dice;
+    }
+
+    public GemColor GetNextGem()
+    {
+        return _dice.RollFromList(new[]
+        {
+            GemColor.Red,
+            GemColor.Green,
+            GemColor.Blue
+        });
+    }
 }
 
 public sealed class Match3Engine
@@ -45,6 +65,7 @@ public sealed class Match3Engine
                 {
                     if (current[col] != row)
                     {
+                        // ReSharper disable once SwapViaDeconstruction
                         var t = matrix[col, row];
                         matrix[col, row] = matrix[col, current[col]];
                         matrix[col, current[col]] = t;

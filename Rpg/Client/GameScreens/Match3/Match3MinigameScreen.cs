@@ -38,7 +38,7 @@ internal class Match3MinigameScreen : GameScreenWithMenuBase
             }
         }
 
-        _match3Engine = new Match3Engine(initialMatrix);
+        _match3Engine = new Match3Engine(initialMatrix, new GemSource());
 
         _gemButtonMatrix = new Matrix<ButtonBase>(8, 8);
     }

@@ -6,6 +6,7 @@ namespace Core.MiniGames.Match3.Tests.TestCases;
 
 public static class Match3EngineTestCases
 {
+    // ReSharper disable once InconsistentNaming
     public static IEnumerable PrepareField_GemsRainsDown
     {
         get
