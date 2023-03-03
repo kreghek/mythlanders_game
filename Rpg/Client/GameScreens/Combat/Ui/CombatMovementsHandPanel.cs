@@ -15,7 +15,7 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatSkillPanel : ControlBase, ISkillPanelState
+internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
 {
     private const int ICON_SIZE = 64;
     private const int BUTTON_PADDING = 5;
@@ -33,7 +33,7 @@ internal class CombatSkillPanel : ControlBase, ISkillPanelState
     private CombatMovementInstance? _selectedSkill;
     private Combatant? _combatant;
 
-    public CombatSkillPanel(IUiContentStorage uiContentStorage, CombatCore combat)
+    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage, CombatCore combat)
     {
         _buttons = new List<EntityButtonBase<CombatMovementInstance>>();
 

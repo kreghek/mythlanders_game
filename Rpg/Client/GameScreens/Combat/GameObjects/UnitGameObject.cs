@@ -29,7 +29,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         private readonly ScreenShaker _screenShaker;
         private readonly IUnitPositionProvider _unitPositionProvider;
 
-        public UnitGameObject(Combatant combatant, FieldCoords formationCoords, IUnitPositionProvider unitPositionProvider,
+        public UnitGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, IUnitPositionProvider unitPositionProvider,
             GameObjectContentStorage gameObjectContentStorage,
             Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager,
             IDice dice,
@@ -37,10 +37,10 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         {
             _actorStateEngineList = new List<IUnitStateEngine>();
 
-            var actorGraphicsConfig = GetCombatantActorGraphicsConfig(combatant);
+            var actorGraphicsConfig = combatantGraphicsConfig;
             
             var position = unitPositionProvider.GetPosition(formationCoords, isPlayerSide);
-            var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid);
+            var spriteSheetId = Enum.Parse<UnitName>(combatant.ClassSid, ignoreCase: true);
             Graphics = new UnitGraphics(spriteSheetId, actorGraphicsConfig, isPlayerSide, position, gameObjectContentStorage);
 
             Combatant = combatant;
@@ -56,11 +56,6 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             // TODO Call ShiftShape from external combat core
             // combatant.Unit.SchemeAutoTransition += Unit_SchemeAutoTransition;
             // combatant.PositionChanged += CombatUnit_PositionChanged;
-        }
-
-        private UnitGraphicsConfigBase GetCombatantActorGraphicsConfig(Combatant combatant)
-        {
-            throw new NotImplementedException();
         }
 
         public Combatant Combatant { get; }

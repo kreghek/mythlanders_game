@@ -64,7 +64,7 @@
         Huapigui,
         Taote,
 
-        MummyWarrior,
+        Chaser,
         Sphinx,
 
         Hydra,

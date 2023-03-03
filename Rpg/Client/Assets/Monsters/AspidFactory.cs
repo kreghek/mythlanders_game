@@ -8,13 +8,15 @@ using Rpg.Client.Core;
 namespace Rpg.Client.Assets.Monsters
 {
     [UsedImplicitly]
-    internal sealed class AspidFactory : IMonsterFactory
+    internal sealed class AspidFactory : MonsterFactoryBase
     {
-        public UnitScheme Create(IBalanceTable balanceTable)
+        public override UnitName ClassName => UnitName.Aspid;
+
+        public override UnitScheme Create(IBalanceTable balanceTable)
         {
             return new UnitScheme(balanceTable.GetCommonUnitBasics())
             {
-                Name = UnitName.Aspid,
+                Name = ClassName,
                 LocationSids = new[]
                 {
                     LocationSid.DestroyedVillage, LocationSid.Swamp

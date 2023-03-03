@@ -305,5 +305,8 @@ public sealed class TestamentGame : Game
 
         var dialogEnvManager = new DialogueEnvironmentManager(soundtrackManager);
         Services.AddService<IDialogueEnvironmentManager>(dialogEnvManager);
+
+        var unitGraphicsCatalog = new UnitGraphicsCatalog(gameObjectsContentStorage);
+        Services.AddService<IUnitGraphicsCatalog>(unitGraphicsCatalog);
     }
 }

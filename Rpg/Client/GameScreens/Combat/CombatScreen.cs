@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using Client;
+using Client.Assets.Catalogs;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -17,6 +18,7 @@ using Client.GameScreens.CommandCenter;
 using Core.Combats;
 using Core.Dices;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -76,7 +78,7 @@ namespace Rpg.Client.GameScreens.Combat
         private bool? _combatFinishedVictory;
 
         private bool _combatResultModalShown;
-        private CombatSkillPanel? _combatSkillsPanel;
+        private CombatMovementsHandPanel? _combatSkillsPanel;
 
         private bool _finalBossWasDefeat;
 
@@ -290,10 +292,14 @@ namespace Rpg.Client.GameScreens.Combat
             // {
             //     AddMonstersFromCombatIntoKnownMonsters(combatUnit.Unit, _globe.Player.KnownMonsters);
             // }
-            
+
+            var unitCatalog = Game.Services.GetRequiredService<IUnitGraphicsCatalog>();
+            var graphicConfig = unitCatalog.GetGraphics(e.Combatant.ClassSid);
+
+
             var isPlayerSide = e.FieldInfo.FieldSide == _combatCore.Field.HeroSide;
             var gameObject =
-                new UnitGameObject(e.Combatant, e.FieldInfo.CombatantCoords, _unitPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
+                new UnitGameObject(e.Combatant, graphicConfig, e.FieldInfo.CombatantCoords, _unitPositionProvider, _gameObjectContentStorage, _camera, _screenShaker,
                     _animationManager, _dice, isPlayerSide);
             _gameObjects.Add(gameObject);
 
@@ -345,7 +351,7 @@ namespace Rpg.Client.GameScreens.Combat
                 CombatantFactory.CreateHeroes(),
                 CombatantFactory.CreateMonsters());
 
-            _combatSkillsPanel = new CombatSkillPanel(_uiContentStorage, _combatCore);
+            _combatSkillsPanel = new CombatMovementsHandPanel(_uiContentStorage, _combatCore);
             _combatSkillsPanel.CombatMovementPicked += CombatSkillsPanel_CardSelected;
             
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
