@@ -20,8 +20,8 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 {
     internal sealed class UnitGameObject : EwarRenderableBase
     {
-        private readonly IList<IUnitStateEngine> _actorStateEngineList;
-        private readonly AnimationManager _animationManager;
+        private readonly IList<IActorVisualizationState> _actorStateEngineList;
+        private readonly IAnimationManager _animationManager;
         private readonly Camera2D _camera;
         private readonly IDice _dice;
         private readonly bool _isPlayerSide;
@@ -31,11 +31,11 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
 
         public UnitGameObject(Combatant combatant, UnitGraphicsConfigBase combatantGraphicsConfig, FieldCoords formationCoords, IUnitPositionProvider unitPositionProvider,
             GameObjectContentStorage gameObjectContentStorage,
-            Camera2D camera, ScreenShaker screenShaker, AnimationManager animationManager,
+            Camera2D camera, ScreenShaker screenShaker, IAnimationManager animationManager,
             IDice dice,
             bool isPlayerSide)
         {
-            _actorStateEngineList = new List<IUnitStateEngine>();
+            _actorStateEngineList = new List<IActorVisualizationState>();
 
             var actorGraphicsConfig = combatantGraphicsConfig;
             
@@ -108,9 +108,9 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Graphics.Update(gameTime);
         }
 
-        public AnimationBlocker PlaybackCombatMovement(CombatMovementExecution movementExecution)
+        public IAnimationBlocker PlaybackCombatMovement(CombatMovementExecution movementExecution)
         {
-            var mainAnimationBlocker = _animationManager.CreateAndUseBlocker();
+            var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
             
             foreach (var imposeItem in movementExecution.EffectImposeItems)
             foreach (var target in imposeItem.MaterializedTargets)
@@ -135,7 +135,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
                 Dice = _dice
             };
 
-            var mainAnimationBlocker = _animationManager.CreateAndUseBlocker();
+            var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
 
             var actorStateEngine = skill.CreateState(this, target, mainAnimationBlocker, context);
 
@@ -226,7 +226,7 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             return Graphics.Root.Position.Y;
         }
 
-        private void AddStateEngine(IUnitStateEngine actorStateEngine)
+        private void AddStateEngine(IActorVisualizationState actorStateEngine)
         {
             foreach (var state in _actorStateEngineList.ToArray())
             {

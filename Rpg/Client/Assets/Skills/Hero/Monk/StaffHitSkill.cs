@@ -41,7 +41,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Monk
         public override SkillTargetType TargetType => SkillTargetType.Enemy;
         public override SkillType Type => SkillType.Melee;
 
-        public override IUnitStateEngine CreateState(
+        public override IActorVisualizationState CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,

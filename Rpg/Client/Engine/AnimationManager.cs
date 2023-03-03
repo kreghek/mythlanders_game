@@ -4,26 +4,17 @@ namespace Rpg.Client.Engine
 {
     internal class AnimationManager : IAnimationManager
     {
-        private readonly IList<AnimationBlocker> _blockers = new List<AnimationBlocker>();
+        private readonly IList<IAnimationBlocker> _blockers = new List<IAnimationBlocker>();
 
-        private void AddBlocker(AnimationBlocker blocker)
+        public bool HasBlockers => _blockers.Count > 0;
+
+        public void RegisterBlocker(IAnimationBlocker blocker)
         {
             _blockers.Add(blocker);
             blocker.Released += (_, _) =>
             {
                 _blockers.Remove(blocker);
             };
-        }
-
-        public bool HasBlockers => _blockers.Count > 0;
-
-        public AnimationBlocker CreateAndUseBlocker()
-        {
-            var blocker = new AnimationBlocker();
-
-            AddBlocker(blocker);
-
-            return blocker;
         }
 
         public void DropBlockers()

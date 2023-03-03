@@ -8,7 +8,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal class ShapeShiftState : IUnitStateEngine
+    internal class ShapeShiftState : IActorVisualizationState
     {
         private readonly UnitGraphics _graphics;
         private readonly AnimationBlocker _shapeShiftBlocker;

@@ -11,7 +11,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolAppearingState : IUnitStateEngine
+    internal sealed class SvarogSymbolAppearingState : IActorVisualizationState
     {
         private readonly UnitGraphics _graphics;
         private readonly IList<IInteractionDelivery> _interactionDeliveryList;

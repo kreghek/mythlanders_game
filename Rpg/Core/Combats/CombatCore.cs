@@ -92,6 +92,8 @@ public class CombatCore
         foreach (var combatant in _allCombatantList) combatant.PrepareToCombat();
 
         StartRound();
+
+        CombatantStartsTurn?.Invoke(this, new CombatantTurnStartedEventArgs(CurrentCombatant));
     }
 
     public CombatMovementExecution UseCombatMovement(CombatMovementInstance movement)

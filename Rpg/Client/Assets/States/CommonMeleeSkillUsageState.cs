@@ -11,10 +11,10 @@ using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class CommonMeleeSkillUsageState : IUnitStateEngine
+    internal sealed class CommonMeleeSkillUsageState : IActorVisualizationState
     {
         private readonly AnimationBlocker _blocker;
-        private readonly IUnitStateEngine _innerState;
+        private readonly IActorVisualizationState _innerState;
 
         public CommonMeleeSkillUsageState(UnitGraphics graphics, SpriteContainer graphicsRoot,
             Renderable targetGraphicsRoot,
@@ -24,7 +24,7 @@ namespace Rpg.Client.Assets.States
             var targetPosition =
                 targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
 
-            var subStates = new IUnitStateEngine[]
+            var subStates = new IActorVisualizationState[]
             {
                 new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
                 new DirectInteractionState(graphics, animationInfo, animationSid),

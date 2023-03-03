@@ -9,20 +9,19 @@ using Rpg.Client.Engine;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal sealed class CombatSkillButton : EntityButtonBase<CombatMovementInstance>
+internal sealed class CombatMovementButton : EntityButtonBase<CombatMovementInstance>
 {
     private readonly Texture2D _icon;
     private readonly Rectangle? _iconRect;
-    private readonly ISkillPanelState _skillPanelState;
 
     private float _counter;
 
-    public CombatSkillButton(IconData iconData, CombatMovementInstance combatMovement,
-        ISkillPanelState skillPanelState) : base(combatMovement)
+    public bool IsSelected => _buttonState == UiButtonState.Hover;
+
+    public CombatMovementButton(IconData iconData, CombatMovementInstance combatMovement) : base(combatMovement)
     {
         _icon = iconData.Spritesheet;
         _iconRect = iconData.SourceRect;
-        _skillPanelState = skillPanelState;
     }
 
     protected override Point CalcTextureOffset()
@@ -32,11 +31,6 @@ internal sealed class CombatSkillButton : EntityButtonBase<CombatMovementInstanc
 
     protected override Color CalculateColor()
     {
-        if (Entity != _skillPanelState.SelectedCombatMovement)
-        {
-            return base.CalculateColor();
-        }
-
         return Color.Lerp(Color.White, Color.Cyan, _counter);
     }
 

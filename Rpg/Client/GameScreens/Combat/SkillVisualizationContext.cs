@@ -43,7 +43,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         public AnimationBlocker AddAnimationBlocker()
         {
-            return AnimationManager.CreateAndUseBlocker();
+            return AnimationManager.CreateAndRegisterBlocker();
         }
 
         public GameObjectContentStorage GameObjectContentStorage { get; init; } = null!;

@@ -45,7 +45,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Hoplite
             AnimationSid = PredefinedAnimationSid.Skill2
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+        public override IActorVisualizationState CreateState(UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject, AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
             animatedUnitGameObject.ChangeState(CombatUnitState.Defense);

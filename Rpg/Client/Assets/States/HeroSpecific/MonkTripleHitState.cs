@@ -13,7 +13,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal class MonkTripleHitState : IUnitStateEngine
+    internal class MonkTripleHitState : IActorVisualizationState
     {
         private readonly CommonMeleeSkillUsageState _innerState;
 

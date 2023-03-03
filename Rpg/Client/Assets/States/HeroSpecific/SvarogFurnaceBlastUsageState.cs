@@ -13,9 +13,9 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class SvarogFurnaceBlastUsageState : IUnitStateEngine
+    internal sealed class SvarogFurnaceBlastUsageState : IActorVisualizationState
     {
-        private readonly IUnitStateEngine[] _subStates;
+        private readonly IActorVisualizationState[] _subStates;
         private readonly AnimationBlocker _svarogSymbolAnimationBlocker;
         private int _subStateIndex;
 
@@ -31,7 +31,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             SoundEffectInstance fireDamageSoundEffect,
             ScreenShaker screenShaker)
         {
-            _svarogSymbolAnimationBlocker = animationManager.CreateAndUseBlocker();
+            _svarogSymbolAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
             void FullInteractionAction()
             {
@@ -52,7 +52,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 mainAnimationBlocker.Release();
             };
 
-            _subStates = new IUnitStateEngine[]
+            _subStates = new IActorVisualizationState[]
             {
                 new SvarogSymbolAppearingState(actorGameObject.Graphics, svarogSymbol, interactionDeliveryList,
                     symbolAppearingSoundEffect),

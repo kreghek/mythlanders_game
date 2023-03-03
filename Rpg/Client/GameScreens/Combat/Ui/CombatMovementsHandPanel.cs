@@ -15,7 +15,7 @@ using Rpg.Client.GameScreens;
 
 namespace Client.GameScreens.Combat.Ui;
 
-internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
+internal class CombatMovementsHandPanel : ControlBase
 {
     private const int ICON_SIZE = 64;
     private const int BUTTON_PADDING = 5;
@@ -23,19 +23,18 @@ internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
     private const int SKILL_BUTTON_SIZE = ICON_SIZE + BUTTON_PADDING;
     private const int SKILL_SELECTION_OFFSET = SKILL_BUTTON_SIZE / 8;
 
-    private readonly IList<EntityButtonBase<CombatMovementInstance>> _buttons;
+    private readonly IList<CombatMovementButton> _buttons;
     private readonly IUiContentStorage _uiContentStorage;
     private SkillHint? _activeSkillHint;
     private KeyboardState _currentKeyboardState;
 
     private EntityButtonBase<CombatMovementInstance>? _hoverButton;
     private KeyboardState? _lastKeyboardState;
-    private CombatMovementInstance? _selectedSkill;
     private Combatant? _combatant;
 
-    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage, CombatCore combat)
+    public CombatMovementsHandPanel(IUiContentStorage uiContentStorage)
     {
-        _buttons = new List<EntityButtonBase<CombatMovementInstance>>();
+        _buttons = new List<CombatMovementButton>();
 
         _uiContentStorage = uiContentStorage;
         IsEnabled = true;
@@ -110,7 +109,7 @@ internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
         for (var buttonIndex = 0; buttonIndex < _buttons.Count; buttonIndex++)
         {
             var button = _buttons[buttonIndex];
-            var isSelected = SelectedCombatMovement == button.Entity;
+            var isSelected = button.IsSelected;
 
             button.Rect = GetButtonRectangle(buttonsRect, buttonIndex, isSelected);
             button.Draw(spriteBatch);
@@ -171,7 +170,8 @@ internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
         }
 
         var entityButton = (EntityButtonBase<CombatMovementInstance>)sender;
-        SelectedCombatMovement = entityButton.Entity;
+
+        CombatMovementPicked?.Invoke(this, new CombatMovementPickedEventArgs(entityButton.Entity));
     }
 
     private void DetectMouseHoverOnButton(Rectangle mouseRect, EntityButtonBase<CombatMovementInstance> button)
@@ -287,11 +287,9 @@ internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
     private void RecreateButtons()
     {
         _buttons.Clear();
-        SelectedCombatMovement = null;
 
         if (_combatant is null)
         {
-            SelectedCombatMovement = null;
             return;
             //throw new InvalidOperationException("Unit required to be initialized before.");
         }
@@ -302,28 +300,10 @@ internal class CombatMovementsHandPanel : ControlBase, ISkillPanelState
             {
                 var iconRect = UnsortedHelpers.GetIconRect(movement.SourceMovement.Visualization.IconIndex);
                 var iconData = new IconData(_uiContentStorage.GetCombatPowerIconsTexture(), iconRect);
-                var button = new CombatSkillButton(iconData, movement, this);
+                var button = new CombatMovementButton(iconData, movement);
                 _buttons.Add(button);
                 button.OnClick += CombatMovementButton_OnClick;
             }
-        }
-    }
-
-    public CombatMovementInstance? SelectedCombatMovement
-    {
-        get => _selectedSkill;
-        set
-        {
-            // Comment this block because monsters can transforms into other unit (See scheme auto transition).
-            // But interaction buttons keep reference to old unit. This is reason of a errors.
-            /*if (_selectedCard == value)
-            {
-                return;
-            }*/
-
-            _selectedSkill = value;
-
-            CombatMovementPicked?.Invoke(this, new CombatMovementPickedEventArgs(_selectedSkill));
         }
     }
 

@@ -50,7 +50,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Herbalist
             IconOneBasedIndex = 9
         };
 
-        public override IUnitStateEngine CreateState(
+        public override IActorVisualizationState CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainAnimationBlocker,

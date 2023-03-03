@@ -14,7 +14,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class HerbalistHealingSalveUsageState : IUnitStateEngine
+    internal sealed class HerbalistHealingSalveUsageState : IActorVisualizationState
     {
         private readonly AnimationBlocker _healingLightAnimationBlocker;
         private readonly CommonDistantSkillUsageState _innerState;
@@ -28,8 +28,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             IAnimationManager animationManager,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
-            var animationBlocker = animationManager.CreateAndUseBlocker();
-            _healingLightAnimationBlocker = animationManager.CreateAndUseBlocker();
+            var animationBlocker = animationManager.CreateAndRegisterBlocker();
+            _healingLightAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
             var healingLightInteractionDelivery = new HealLightObject(
                 targetUnitGameObject.Position - Vector2.UnitY * (64 + 32),

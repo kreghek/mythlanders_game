@@ -13,10 +13,10 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class CommonDistantSkillUsageState : IUnitStateEngine
+    internal sealed class CommonDistantSkillUsageState : IActorVisualizationState
     {
         private readonly AnimationBlocker _mainStateBlocker;
-        private readonly IUnitStateEngine[] _subStates;
+        private readonly IActorVisualizationState[] _subStates;
         private int _subStateIndex;
 
         public CommonDistantSkillUsageState(UnitGraphics graphics,
@@ -25,7 +25,7 @@ namespace Rpg.Client.Assets.States
             IList<IInteractionDelivery> interactionDeliveryList,
             SoundEffectInstance createProjectileSound, PredefinedAnimationSid animationSid)
         {
-            _subStates = new IUnitStateEngine[]
+            _subStates = new IActorVisualizationState[]
             {
                 new LaunchInteractionDeliveryState(graphics, interactionDelivery, interactionDeliveryList,
                     createProjectileSound,

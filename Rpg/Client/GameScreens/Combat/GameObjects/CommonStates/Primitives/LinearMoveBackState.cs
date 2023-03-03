@@ -9,7 +9,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates.Primitives
 {
-    internal class LinearMoveBackState : IUnitStateEngine
+    internal class LinearMoveBackState : IActorVisualizationState
     {
         private const double DURATION = 0.25;
         private readonly AnimationBlocker _blocker;

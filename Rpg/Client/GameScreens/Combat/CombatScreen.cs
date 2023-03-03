@@ -24,7 +24,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Rpg.Client.Core;
-using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 using Rpg.Client.GameScreens.Combat.GameObjects.Background;
@@ -32,8 +31,6 @@ using Rpg.Client.GameScreens.Combat.Tutorial;
 using Rpg.Client.GameScreens.Combat.Ui;
 using Rpg.Client.GameScreens.Common;
 using Rpg.Client.ScreenManagement;
-
-using static Client.Core.Combat;
 
 using UnitStatType = Core.Combats.UnitStatType;
 
@@ -45,7 +42,7 @@ namespace Rpg.Client.GameScreens.Combat
         private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
         private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
-        private readonly AnimationManager _animationManager;
+        private readonly IAnimationManager _animationManager;
         private readonly CombatScreenTransitionArguments _args;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
@@ -78,7 +75,7 @@ namespace Rpg.Client.GameScreens.Combat
         private bool? _combatFinishedVictory;
 
         private bool _combatResultModalShown;
-        private CombatMovementsHandPanel? _combatSkillsPanel;
+        private CombatMovementsHandPanel? _combatMovementsHandPanel;
 
         private bool _finalBossWasDefeat;
 
@@ -104,7 +101,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _animationManager = game.Services.GetService<AnimationManager>();
+            _animationManager = game.Services.GetService<IAnimationManager>();
             _dice = Game.Services.GetService<IDice>();
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
@@ -241,7 +238,7 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void Combat_Finish(object? sender, CombatFinishEventArgs e)
         {
-            _combatSkillsPanel = null;
+            _combatMovementsHandPanel = null;
 
             _combatFinishedVictory = e.Victory;
 
@@ -254,21 +251,19 @@ namespace Rpg.Client.GameScreens.Combat
         {
             DropSelection(e.Combatant);
             
-            if (_combatSkillsPanel is not null)
+            if (_combatMovementsHandPanel is not null)
             {
-                _combatSkillsPanel.Combatant = null;
-                _combatSkillsPanel.SelectedCombatMovement = null;
-                _combatSkillsPanel.IsEnabled = false;
+                _combatMovementsHandPanel.Combatant = null;
+                _combatMovementsHandPanel.IsEnabled = false;
             }
         }
 
         private void CombatCore_CombatantStartsTurn(object? sender, CombatantTurnStartedEventArgs e)
         {
-            if (_combatSkillsPanel is not null)
+            if (_combatMovementsHandPanel is not null)
             {
-                _combatSkillsPanel.IsEnabled = true;
-                _combatSkillsPanel.Combatant = e.Combatant;
-                _combatSkillsPanel.SelectedCombatMovement = null;
+                _combatMovementsHandPanel.IsEnabled = true;
+                _combatMovementsHandPanel.Combatant = e.Combatant;
             }
         }
 
@@ -332,7 +327,7 @@ namespace Rpg.Client.GameScreens.Combat
             _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
             _combatCore.CombatantEndsTurn += CombatCore_CombatantEndsTurn;
             _combatCore.CombatantHasBeenDefeated += Combat_UnitDied;
-            
+
             // _combatCore.CombatantHasBeenDamaged += CombatCore_CombatantHasBeenDamaged;
             // _combatCore.CombatantHasBeenDefeated += CombatCore_CombatantHasBeenDefeated;
             // _combatCore.CombatantStartsTurn += CombatCore_CombatantStartsTurn;
@@ -345,14 +340,13 @@ namespace Rpg.Client.GameScreens.Combat
             // _combatCore.ActionGenerated += Combat_ActionGenerated;
             // _combatCore.Finish += Combat_Finish;
             // _combatCore.UnitPassedTurn += Combat_UnitPassed;
-            
-            
+
+            _combatMovementsHandPanel = new CombatMovementsHandPanel(_uiContentStorage);
+            _combatMovementsHandPanel.CombatMovementPicked += CombatMovementsHandPanel_CombatMovementPicked;
+
             _combatCore.Initialize(
                 CombatantFactory.CreateHeroes(),
                 CombatantFactory.CreateMonsters());
-
-            _combatSkillsPanel = new CombatMovementsHandPanel(_uiContentStorage, _combatCore);
-            _combatSkillsPanel.CombatMovementPicked += CombatSkillsPanel_CardSelected;
             
             _unitStatePanelController = new UnitStatePanelController(_combatCore,
                 _uiContentStorage, _gameObjectContentStorage);
@@ -451,7 +445,7 @@ namespace Rpg.Client.GameScreens.Combat
             }
         }
 
-        private void CombatSkillsPanel_CardSelected(object? sender, CombatMovementPickedEventArgs e)
+        private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
         {
             var movementExecution = _combatCore.UseCombatMovement(e.CombatMovement);
             PlaybackCombatMovementExecution(movementExecution);
@@ -460,11 +454,20 @@ namespace Rpg.Client.GameScreens.Combat
         private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution)
         {
             var combatantGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
-            var mainAnimationBlocker = combatantGameObject.PlaybackCombatMovement(movementExecution);
+
+            var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
+
             mainAnimationBlocker.Released += (sender, args) =>
             {
+                // Wait some time to separate turns of different actors
+
+                var delayBlocker = new DelayBlocker(new Duration(1));
+                _animationManager.RegisterBlocker(delayBlocker);
+
                 _combatCore.CompleteTurn();
             };
+
+            var actorPlaybackBlocker = combatantGameObject.PlaybackCombatMovement(movementExecution);
         }
 
         private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)
@@ -636,15 +639,15 @@ namespace Rpg.Client.GameScreens.Combat
 
         private void DrawCombatSkillsPanel(SpriteBatch spriteBatch, Rectangle contentRectangle)
         {
-            if (_combatSkillsPanel is not null)
+            if (_combatMovementsHandPanel is not null)
             {
                 const int COMBAT_SKILLS_PANEL_WIDTH = 480;
                 const int COMBAT_SKILLS_PANEL_HEIGHT = 64;
-                _combatSkillsPanel.Rect = new Rectangle(
+                _combatMovementsHandPanel.Rect = new Rectangle(
                     contentRectangle.Center.X - COMBAT_SKILLS_PANEL_WIDTH / 2,
                     contentRectangle.Bottom - COMBAT_SKILLS_PANEL_HEIGHT,
                     COMBAT_SKILLS_PANEL_WIDTH, COMBAT_SKILLS_PANEL_HEIGHT);
-                _combatSkillsPanel.Draw(spriteBatch);
+                _combatMovementsHandPanel.Draw(spriteBatch);
             }
         }
 
@@ -850,7 +853,7 @@ namespace Rpg.Client.GameScreens.Combat
         {
             //if (!_interactButtonClicked)
             {
-                _combatSkillsPanel?.Update(ResolutionIndependentRenderer);
+                _combatMovementsHandPanel?.Update(ResolutionIndependentRenderer);
 
                 _unitStatePanelController?.Update(ResolutionIndependentRenderer);
             }

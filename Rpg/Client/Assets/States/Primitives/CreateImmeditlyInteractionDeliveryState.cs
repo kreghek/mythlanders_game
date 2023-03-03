@@ -8,7 +8,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.Primitives
 {
-    internal class CreateImmeditlyInteractionDeliveryState : IUnitStateEngine
+    internal class CreateImmeditlyInteractionDeliveryState : IActorVisualizationState
     {
         private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
         private readonly IReadOnlyList<IInteractionDelivery> _interactionDeliveries;

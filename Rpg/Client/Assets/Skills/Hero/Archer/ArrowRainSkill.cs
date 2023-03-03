@@ -38,7 +38,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Archer
             IconOneBasedIndex = 7
         };
 
-        public override IUnitStateEngine CreateState(
+        public override IActorVisualizationState CreateState(
             UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker,

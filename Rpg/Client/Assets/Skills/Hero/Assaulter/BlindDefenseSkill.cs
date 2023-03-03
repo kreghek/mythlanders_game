@@ -33,7 +33,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             IconOneBasedIndex = 3
         };
 
-        public override IUnitStateEngine CreateState(UnitGameObject animatedUnitGameObject,
+        public override IActorVisualizationState CreateState(UnitGameObject animatedUnitGameObject,
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
@@ -69,7 +69,7 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
                 };
             }
 
-            var animationBlocker = context.AnimationManager.CreateAndUseBlocker();
+            var animationBlocker = context.AnimationManager.CreateAndRegisterBlocker();
 
             StateHelper.HandleStateWithInteractionDelivery(
                 context.Interaction.SkillRuleInteractions.First(x =>

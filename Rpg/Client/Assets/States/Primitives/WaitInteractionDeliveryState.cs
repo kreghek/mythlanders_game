@@ -11,7 +11,7 @@ namespace Rpg.Client.Assets.States.Primitives
     /// <summary>
     /// The state starts to play a animation and creates a projectile.
     /// </summary>
-    internal sealed class WaitInteractionDeliveryState : IUnitStateEngine
+    internal sealed class WaitInteractionDeliveryState : IActorVisualizationState
     {
         private readonly IList<IInteractionDelivery> _activeInteractionDeliveryList;
         private readonly IReadOnlyCollection<IInteractionDelivery> _interactionDeliveryList;

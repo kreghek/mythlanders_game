@@ -39,7 +39,7 @@ internal class SkillHint : HintBase
 
         var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
 
-        var skillSid = Enum.Parse<SkillSid>(_combatMovement.SourceMovement.Sid);
+        var skillSid = SkillSid.DieBySword; //Enum.Parse<SkillSid>(_combatMovement.SourceMovement.Sid);
         var skillNameText = GameObjectHelper.GetLocalized(skillSid);
 
         spriteBatch.DrawString(_font, skillNameText, skillTitlePosition, color);

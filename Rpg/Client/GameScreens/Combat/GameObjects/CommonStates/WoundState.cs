@@ -6,7 +6,7 @@ using Rpg.Client.Core;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal sealed class WoundState : IUnitStateEngine
+    internal sealed class WoundState : IActorVisualizationState
     {
         private readonly UnitGraphics _graphics;
         private double _counter;

@@ -12,7 +12,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.Primitives
 {
-    internal sealed class DirectInteractionState : IUnitStateEngine
+    internal sealed class DirectInteractionState : IActorVisualizationState
     {
         private readonly IAnimationFrameSet? _animation;
         private readonly AnimationBlocker? _animationBlocker;

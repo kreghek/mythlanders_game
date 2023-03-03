@@ -12,7 +12,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal sealed class HerbalistToxicGasUsageState : IUnitStateEngine
+    internal sealed class HerbalistToxicGasUsageState : IActorVisualizationState
     {
         private readonly CommonDistantSkillUsageState _innerState;
         private readonly AnimationBlocker _toxicGasAnimationBlocker;
@@ -28,8 +28,8 @@ namespace Rpg.Client.Assets.States.HeroSpecific
             IAnimationManager animationManager,
             IList<IInteractionDelivery> interactionDeliveryList)
         {
-            var animationBlocker = animationManager.CreateAndUseBlocker();
-            _toxicGasAnimationBlocker = animationManager.CreateAndUseBlocker();
+            var animationBlocker = animationManager.CreateAndRegisterBlocker();
+            _toxicGasAnimationBlocker = animationManager.CreateAndRegisterBlocker();
 
             var toxicGasInteractionDelivery = new GasBomb(actorGameObject.LaunchPoint,
                 targetUnitGameObject.InteractionPoint,

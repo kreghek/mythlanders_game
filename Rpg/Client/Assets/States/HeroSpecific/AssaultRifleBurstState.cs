@@ -15,7 +15,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects.CommonStates;
 
 namespace Rpg.Client.Assets.States.HeroSpecific
 {
-    internal class AssaultRifleBurstState : IUnitStateEngine
+    internal class AssaultRifleBurstState : IActorVisualizationState
     {
         private readonly ParallelState _mainContainerState;
         private readonly AnimationBlocker _mainStateBlocker;

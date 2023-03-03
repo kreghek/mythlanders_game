@@ -4,12 +4,12 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States
 {
-    internal sealed class DelayedStartStateWrapper : IUnitStateEngine
+    internal sealed class DelayedStartStateWrapper : IActorVisualizationState
     {
-        private readonly IUnitStateEngine _mainState;
+        private readonly IActorVisualizationState _mainState;
         private double _delayCounter;
 
-        public DelayedStartStateWrapper(IUnitStateEngine mainState, float delayDurationSeconds = 0f)
+        public DelayedStartStateWrapper(IActorVisualizationState mainState, float delayDurationSeconds = 0f)
         {
             _mainState = mainState;
             _delayCounter = delayDurationSeconds;

@@ -10,7 +10,7 @@ using Rpg.Client.GameScreens.Combat.GameObjects;
 
 namespace Rpg.Client.Assets.States.HeroSpecific.Primitives
 {
-    internal sealed class SvarogSymbolExplosionState : IUnitStateEngine
+    internal sealed class SvarogSymbolExplosionState : IActorVisualizationState
     {
         private readonly SoundEffectInstance _explosionSoundEffect;
         private readonly UnitGraphics _graphics;

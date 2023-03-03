@@ -4,7 +4,7 @@ using Rpg.Client.Engine;
 
 namespace Rpg.Client.GameScreens.Combat.GameObjects.CommonStates
 {
-    internal class EmptyState : IUnitStateEngine
+    internal class EmptyState : IActorVisualizationState
     {
         private readonly AnimationBlocker _mainStateBlocker;
 
