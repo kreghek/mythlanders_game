@@ -25,6 +25,31 @@ public class CombatCore
     public CombatField Field { get; }
 
     public IReadOnlyList<Combatant> RoundQueue => _roundQueue.ToArray();
+    public bool Finished 
+    {
+        get
+        {
+            var aliveUnits = _allCombatantList.Where(x => !x.IsDead).ToArray();
+            var playerUnits = aliveUnits.Where(x => x.IsPlayerControlled);
+            var hasPlayerUnits = playerUnits.Any();
+
+            var cpuUnits = aliveUnits.Where(x => !x.IsPlayerControlled);
+            var hasCpuUnits = cpuUnits.Any();
+
+            // TODO Looks like XOR
+            if (hasPlayerUnits && !hasCpuUnits)
+            {
+                return true;
+            }
+
+            if (!hasPlayerUnits && hasCpuUnits)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 
     public void CompleteTurn()
     {
@@ -338,6 +363,7 @@ public class CombatCore
     }
 
     public event EventHandler<CombatantHasBeenAddedEventArgs>? CombatantHasBeenAdded;
+    public event EventHandler<CombatantHasBeenRemovedEventArgs>? CombatantHasBeenRemoved;
     public event EventHandler<CombatantTurnStartedEventArgs>? CombatantStartsTurn;
     public event EventHandler<CombatantEndsTurnEventArgs>? CombatantEndsTurn;
     public event EventHandler<CombatantDamagedEventArgs>? CombatantHasBeenDamaged;

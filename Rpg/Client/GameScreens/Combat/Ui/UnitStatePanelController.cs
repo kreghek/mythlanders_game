@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Core.Combats;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +13,8 @@ using Rpg.Client.Assets;
 using Rpg.Client.Core;
 using Rpg.Client.Core.SkillEffects;
 using Rpg.Client.Engine;
+
+using UnitStatType = Rpg.Client.Core.UnitStatType;
 
 namespace Rpg.Client.GameScreens.Combat.Ui
 {
@@ -21,20 +25,21 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         private const int BAR_WIDTH = 118;
         private const int PANEL_BACKGROUND_VERTICAL_OFFSET = 12;
         private const int MARGIN = 10;
-        private readonly global::Client.Core.Combat _activeCombat;
+        private readonly CombatCore _activeCombat;
 
         private readonly IList<(Rectangle, EffectBase)> _effectInfoList = new List<(Rectangle, EffectBase)>();
+        
         private readonly GameObjectContentStorage _gameObjectContentStorage;
         private readonly IUiContentStorage _uiContentStorage;
 
         private HintBase? _effectHint;
         private EffectBase? _lastEffectWithHint;
 
-        public UnitStatePanelController(global::Client.Core.Combat activeCombat,
+        public UnitStatePanelController(CombatCore combat,
             IUiContentStorage uiContentStorage,
             GameObjectContentStorage gameObjectContentStorage)
         {
-            _activeCombat = activeCombat;
+            _activeCombat = combat;
             _uiContentStorage = uiContentStorage;
             _gameObjectContentStorage = gameObjectContentStorage;
         }
@@ -43,7 +48,41 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             _effectInfoList.Clear();
 
-            var unitList = _activeCombat.Units.ToArray();
+            var heroes = _activeCombat.Field.HeroSide.GetAllCombatants().ToArray();
+            for (var playerIndex = 0; playerIndex < heroes.Length; playerIndex++)
+            {
+                Vector2 panelPosition;
+
+                var unit = heroes[playerIndex];
+
+                var side = Side.Left;
+
+                
+                    var panelY = contentRectangle.Top +
+                                 playerIndex * (PANEL_HEIGHT + PANEL_BACKGROUND_VERTICAL_OFFSET + MARGIN);
+                    panelPosition = new Vector2(0, panelY);
+                    playerIndex++;
+                    
+                    DrawUnitHitPointsBar(spriteBatch, combatUnit, panelPosition, backgroundOffset, side);
+
+                    DrawPanelBackground(spriteBatch, panelPosition, backgroundOffset, side);
+
+                    DrawUnitPortrait(spriteBatch, panelPosition, unit, side);
+
+                    DrawUnitName(spriteBatch, panelPosition, unit, side);
+
+                    DrawTargets(spriteBatch, panelPosition, combatUnit);
+
+                    DrawTurnState(spriteBatch, panelPosition, combatUnit, side);
+
+                    if (HasMana(unit))
+                    {
+                        DrawManaBar(spriteBatch, panelPosition, combatUnit);
+                    }
+
+                    DrawEffects(spriteBatch, panelPosition, combatUnit, side);
+                
+            }
 
             var playerIndex = 0;
             var monsterIndex = 0;
@@ -296,18 +335,19 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 markerPosition, color);
         }
 
-        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, CombatUnit combatUnit, Vector2 panelPosition,
+        private void DrawUnitHitPointsBar(SpriteBatch spriteBatch, Combatant combatant, Vector2 panelPosition,
             Vector2 backgroundOffset, Side side)
         {
             var hpPosition = panelPosition + backgroundOffset +
                              (side == Side.Left ? new Vector2(46, 22) : new Vector2(26, 22));
-            var hpPercentage = combatUnit.HitPoints.GetShare();
+            var hpValue = combatant.Stats.Single(x=>x.Type == global::Core.Combats.UnitStatType.HitPoints).Value;
+            var hpPercentage = hpValue.GetShare();
             var hpSourceRect = new Rectangle(0, 49, (int)(hpPercentage * BAR_WIDTH), 20);
             var effect = side == Side.Right ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(_uiContentStorage.GetUnitStatePanelTexture(), hpPosition, hpSourceRect, Color.White,
                 rotation: 0, origin: Vector2.Zero, scale: 1, effect, layerDepth: 0);
 
-            var text = $"{combatUnit.HitPoints.Current}/{combatUnit.HitPoints.ActualMax}";
+            var text = $"{hpValue.Current}/{hpValue.ActualMax}";
             if (side == Side.Left)
             {
                 for (var xOffset = -1; xOffset <= 1; xOffset++)
@@ -323,8 +363,9 @@ namespace Rpg.Client.GameScreens.Combat.Ui
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text, hpPosition + new Vector2(3, 0),
                     Color.LightCyan);
 
+                var spValue = combatant.Stats.Single(x=>x.Type == global::Core.Combats.UnitStatType.ShieldPoints).Value;
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{combatUnit.ShieldPoints.Current}/{combatUnit.ShieldPoints.ActualMax}",
+                    $"{spValue.Current}/{spValue.ActualMax}",
                     hpPosition + new Vector2(3, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }
@@ -345,9 +386,11 @@ namespace Rpg.Client.GameScreens.Combat.Ui
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(), text,
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0), Color.LightCyan);
+                
+                var spValue = combatant.Stats.Single(x=>x.Type == global::Core.Combats.UnitStatType.ShieldPoints).Value;
 
                 spriteBatch.DrawString(_uiContentStorage.GetMainFont(),
-                    $"{combatUnit.ShieldPoints.Current}/{combatUnit.ShieldPoints.ActualMax}",
+                    $"{spValue.Current}/{spValue.ActualMax}",
                     hpPosition + new Vector2(109, 0) - new Vector2(textSize.X, 0) + new Vector2(0, 10),
                     Color.LightCyan);
             }

@@ -1,75 +1,70 @@
+using System;
 using System.Linq;
 
-using Client;
-using Client.Core;
+using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using Rpg.Client.Core;
+using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;
+using Rpg.Client.GameScreens;
 using Rpg.Client.GameScreens.Common.SkillEffectDrawers;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+namespace Client.GameScreens.Combat.Ui;
+
+internal class SkillHint : HintBase
 {
-    internal class SkillHint : HintBase
+    private readonly ISkillEffectDrawer[] _effectDrawers;
+    private readonly SpriteFont _font;
+    private readonly CombatMovementInstance _combatMovement;
+
+    public SkillHint(CombatMovementInstance skill)
     {
-        private readonly ICombat _combat;
-        private readonly ISkillEffectDrawer[] _effectDrawers;
-        private readonly SpriteFont _font;
-        private readonly CombatSkill _skill;
-        private readonly ICombatUnit _unit;
+        _font = UiThemeManager.UiContentStorage.GetMainFont();
+        _combatMovement = skill;
+        _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(_font).ToArray();
+    }
 
-        public SkillHint(CombatSkill skill, ICombatUnit unit, ICombat combat)
+    protected override Point CalcTextureOffset()
+    {
+        return Point.Zero;
+    }
+
+    protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
+    {
+        var color = Color.White;
+
+        var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
+
+        var skillSid = Enum.Parse<SkillSid>(_combatMovement.SourceMovement.Sid);
+        var skillNameText = GameObjectHelper.GetLocalized(skillSid);
+
+        spriteBatch.DrawString(_font, skillNameText, skillTitlePosition, color);
+
+        var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
+        if (_combatMovement.SourceMovement.Cost.HasCost)
         {
-            _font = UiThemeManager.UiContentStorage.GetMainFont();
-            _skill = skill;
-            _unit = unit;
-            _combat = combat;
-            _effectDrawers = EffectDrawersCollector.GetDrawersInAssembly(_font).ToArray();
+            spriteBatch.DrawString(_font,
+                string.Format(UiResource.SkillManaCostTemplate, _combatMovement.SourceMovement.Cost.Value),
+                manaCostPosition, color);
         }
 
-        protected override Point CalcTextureOffset()
+        var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
+        var skillEffects = _combatMovement.Effects.ToArray();
+        for (var ruleIndex = 0; ruleIndex < skillEffects.Length; ruleIndex++)
         {
-            return Point.Zero;
-        }
+            var effectToDisplay = skillEffects[ruleIndex];
 
-        protected override void DrawContent(SpriteBatch spriteBatch, Rectangle clientRect, Color contentColor)
-        {
-            var color = Color.White;
+            var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
 
-            var skillTitlePosition = clientRect.Location.ToVector2() + new Vector2(5, 15);
-
-            var skillNameText = GameObjectHelper.GetLocalized(_skill.Skill.Sid);
-
-            spriteBatch.DrawString(_font, skillNameText, skillTitlePosition,
-                color);
-
-            var manaCostPosition = skillTitlePosition + new Vector2(0, 10);
-            if (_skill.EnergyCost > 0)
+            foreach (var effectDrawer in _effectDrawers)
             {
-                var redManaCostColor = _skill.IsAvailable ? color : Color.Red;
-                spriteBatch.DrawString(_font,
-                    string.Format(UiResource.SkillManaCostTemplate, _skill.EnergyCost),
-                    manaCostPosition, redManaCostColor);
-            }
-
-            var ruleBlockPosition = manaCostPosition + new Vector2(0, 20);
-            var skillRules = _skill.Skill.Rules.ToArray();
-            for (var ruleIndex = 0; ruleIndex < skillRules.Length; ruleIndex++)
-            {
-                var rule = skillRules[ruleIndex];
-                var effectCreator = rule.EffectCreator;
-                var effectToDisplay = effectCreator.Create(_unit, _combat, _skill.Skill);
-
-                var rulePosition = ruleBlockPosition + new Vector2(0, 10) * ruleIndex;
-
-                foreach (var effectDrawer in _effectDrawers)
+                if (effectDrawer.Draw(spriteBatch, effectToDisplay, rulePosition))
                 {
-                    if (effectDrawer.Draw(spriteBatch, effectToDisplay, rule.Direction, rulePosition))
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
         }

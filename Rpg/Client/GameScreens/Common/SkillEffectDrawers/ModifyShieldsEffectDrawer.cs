@@ -1,10 +1,15 @@
 ﻿using Client;
 using Client.Core.Skills;
+using Client.GameScreens.Common.SkillEffectDrawers;
+
+using Core.Combats;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Rpg.Client.Core.SkillEffects;
+
+using ITargetSelector = Client.Core.Skills.ITargetSelector;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
 {
@@ -17,7 +22,8 @@ namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers
             _font = font;
         }
 
-        public bool Draw(SpriteBatch spriteBatch, object effectToDisplay, ITargetSelector direction, Vector2 position)
+        public bool Draw(SpriteBatch spriteBatch, IEffectInstance effectToDisplay,
+            Vector2 position)
         {
             if (effectToDisplay is not ShieldPointModifyEffect shieldModifyEffect)
             {

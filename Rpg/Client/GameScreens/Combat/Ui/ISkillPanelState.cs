@@ -1,9 +1,8 @@
-﻿using Rpg.Client.Core;
+﻿using Core.Combats;
 
-namespace Rpg.Client.GameScreens.Combat.Ui
+namespace Client.GameScreens.Combat.Ui;
+
+internal interface ISkillPanelState
 {
-    internal interface ISkillPanelState
-    {
-        public CombatSkill? SelectedSkill { get; }
-    }
+    public CombatMovementInstance? SelectedCombatMovement { get; }
 }

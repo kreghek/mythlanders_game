@@ -113,7 +113,20 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
             Graphics.Update(gameTime);
         }
 
-        public void UseSkill(UnitGameObject target,
+        public AnimationBlocker PlaybackCombatMovement(CombatMovementExecution movementExecution)
+        {
+            var mainAnimationBlocker = _animationManager.CreateAndUseBlocker();
+            
+            foreach (var imposeItem in movementExecution.EffectImposeItems)
+            foreach (var target in imposeItem.MaterializedTargets)
+                imposeItem.ImposeDelegate(target);
+
+            movementExecution.CompleteDelegate();
+
+            return mainAnimationBlocker;
+        }
+        
+        public void PlaybackCombatMovement(UnitGameObject target,
             IList<IInteractionDelivery> interactionDeliveryList, IVisualizedSkill skill, SkillExecution action,
             IList<UnitGameObject> unitGameObjects)
         {
@@ -289,18 +302,18 @@ namespace Rpg.Client.GameScreens.Combat.GameObjects
         //     };
         // }
 
-        public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
-        {
-            var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
-            var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
-            AddStateEngine(new ShapeShiftState(Graphics, deathSound.CreateInstance(), shapeShiftBlocker));
-
-            shapeShiftBlocker.Released += (_, _) =>
-            {
-                Graphics.SwitchSourceUnit(Combatant.Unit);
-                AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
-            };
-        }
+        // public void ShiftShape(UnitName spriteSheetId, UnitGraphicsConfigBase graphicsConfig)
+        // {
+        //     var shapeShiftBlocker = _animationManager.CreateAndUseBlocker();
+        //     var deathSound = _gameObjectContentStorage.GetDeathSound(e.SourceScheme.Name);
+        //     AddStateEngine(new ShapeShiftState(Graphics, deathSound.CreateInstance(), shapeShiftBlocker));
+        //
+        //     shapeShiftBlocker.Released += (_, _) =>
+        //     {
+        //         Graphics.SwitchSourceUnit(Combatant.Unit);
+        //         AddStateEngine(new UnitIdleState(Graphics, Combatant.State));
+        //     };
+        // }
 
         public event EventHandler? SkillAnimationCompleted;
     }

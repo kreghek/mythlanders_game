@@ -43,6 +43,14 @@ public sealed class CombatantHasBeenAddedEventArgs : CombatantEventArgsBase
     }
 }
 
+public sealed class CombatantHasBeenRemovedEventArgs : CombatantEventArgsBase
+{
+    public CombatantHasBeenRemovedEventArgs(Combatant combatant) : base(combatant)
+    {
+    }
+}
+
+
 public sealed class CombatantShiftShapedEventArgs: CombatantEventArgsBase
 {
     public CombatantShiftShapedEventArgs(Combatant combatant) : base(combatant)

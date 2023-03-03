@@ -8,29 +8,14 @@ public sealed class CombatMovement
         Cost = cost;
         Effects = effectConfig.Effects;
         AutoDefenseEffects = effectConfig.AutoDefenseEffects;
+        Visualization = new CombatMovementVisualization(0);
     }
 
     public IReadOnlyCollection<IEffect> AutoDefenseEffects { get; }
     public CombatMovementCost Cost { get; }
     public IReadOnlyCollection<IEffect> Effects { get; }
-
     public string Sid { get; }
+    public CombatMovementTags Tags { get; init; }
 
-    public CombatMovementTags Tags { get; set; }
-}
-
-public sealed class CombatMovementInstance
-{
-    public CombatMovementInstance(CombatMovement sourceMovement)
-    {
-        SourceMovement = sourceMovement;
-        Effects = sourceMovement.Effects.Select(x => x.CreateInstance()).ToArray();
-        AutoDefenseEffects = sourceMovement.AutoDefenseEffects.Select(x => x.CreateInstance()).ToArray();
-    }
-
-    public IReadOnlyCollection<IEffectInstance> AutoDefenseEffects { get; }
-
-    public IReadOnlyCollection<IEffectInstance> Effects { get; }
-
-    public CombatMovement SourceMovement { get; }
+    public CombatMovementVisualization Visualization { get; init; }
 }

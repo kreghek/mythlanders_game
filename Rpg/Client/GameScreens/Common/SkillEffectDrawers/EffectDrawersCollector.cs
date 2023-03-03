@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Common.SkillEffectDrawers;
+
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Rpg.Client.GameScreens.Common.SkillEffectDrawers

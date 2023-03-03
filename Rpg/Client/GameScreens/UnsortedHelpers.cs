@@ -64,6 +64,14 @@ namespace Rpg.Client.GameScreens
 
             var iconIndex = iconIndexNullable.GetValueOrDefault() - 1;
 
+            return GetIconRect(iconIndex);
+        }
+        
+        public static Rectangle GetIconRect(int iconIndex)
+        {
+            const int SPRITE_SHEET_COLUMN_COUNT = 6;
+            const int ICON_SIZE = 64;
+
             var x = iconIndex % SPRITE_SHEET_COLUMN_COUNT;
             var y = iconIndex / SPRITE_SHEET_COLUMN_COUNT;
             var rect = new Rectangle(x * ICON_SIZE, y * ICON_SIZE, ICON_SIZE, ICON_SIZE);

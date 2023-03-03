@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 
+using Client.GameScreens.Common.SkillEffectDrawers;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,7 +33,7 @@ namespace Rpg.Client.GameScreens.Combat.Ui
         {
             foreach (var effectDrawer in _effectDrawers)
             {
-                if (effectDrawer.Draw(spriteBatch, _effect, SkillDirection.Self, clientRect.Location.ToVector2()))
+                if (effectDrawer.Draw(spriteBatch, _effect, clientRect.Location.ToVector2()))
                 {
                     break;
                 }
