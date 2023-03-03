@@ -31,14 +31,26 @@ public sealed class Match3Engine
 
     public void PrepareField()
     {
-        for (var row = Field.Height - 1; row >= 1; row--)
+        Down(Field.Items, Field.Width, Field.Height);
+    }
+    
+    private static void Down(GemColor[,] matrix, int width, int height)
+    {
+        var current = Enumerable.Repeat(height - 1, width).ToArray();
+        for(var row = height - 1; row >= 0; row--)
         {
-            for (var col = 0; col < Field.Width; col++)
+            for(var col = 0; col < width; col++)
             {
-                if (Field[col, row] == GemColor.Empty)
+                if (matrix[col, row] != GemColor.Empty)
                 {
-                    Field[col, row] = Field[col, row - 1];
-                    Field[col, row - 1] = GemColor.Empty;
+                    if (current[col] != row)
+                    {
+                        var t = matrix[col, row];
+                        matrix[col, row] = matrix[col, current[col]];
+                        matrix[col, current[col]] = t;
+						
+                    }
+                    current[col]--;
                 }
             }
         }

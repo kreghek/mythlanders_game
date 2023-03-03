@@ -1,4 +1,5 @@
 using Core.Combats;
+using Core.MiniGames.Match3.Tests.TestCases;
 
 using Moq;
 
@@ -190,58 +191,20 @@ public class Match3EngineTests
     }
     
     [Test]
-    public void PrepareField_GemsNotMatched_FieldFilledByGems()
+    [TestCaseSource(typeof(Match3EngineTestCases), nameof(Match3EngineTestCases.PrepareField_GemsRainsDown))]
+    public void PrepareField_GemsWithEmpty_GemsRainedDown(Matrix<GemColor> fieldMatrix, Matrix<GemColor> expectedMatrix)
     {
         // ARRANGE
 
-        var fieldMatrix = new Matrix<GemColor>(1, 2)
-        {
-            [0, 0] = GemColor.Red,
-            
-            // Bottom row is empty
-            [0, 1] = GemColor.Empty
-        };
-
         var engine = new Match3Engine(fieldMatrix, Mock.Of<IGemSource>());
 
-        var expectedMatrix = new GemColor[1,2];
-        expectedMatrix[0, 0] = GemColor.Empty;
-        expectedMatrix[0, 1] = GemColor.Red;
-        
+      
         // ACT
         
         engine.PrepareField();
         
         // ASSERT
 
-        fieldMatrix.Items.Should().BeEquivalentTo(expectedMatrix);
-    }
-    
-    [Test]
-    public void PrepareField_GemsNotMatched_FieldFilledByGems2()
-    {
-        // ARRANGE
-
-        var fieldMatrix = new Matrix<GemColor>(1, 3)
-        {
-            [0, 0] = GemColor.Red,
-            [0, 1] = GemColor.Empty, 
-            [0, 2] = GemColor.Red
-        };
-
-        var engine = new Match3Engine(fieldMatrix, Mock.Of<IGemSource>());
-
-        var expectedMatrix = new GemColor[1,3];
-        expectedMatrix[0, 0] = GemColor.Empty;
-        expectedMatrix[0, 1] = GemColor.Empty;
-        expectedMatrix[0, 2] = GemColor.Red;
-        
-        // ACT
-        
-        engine.PrepareField();
-        
-        // ASSERT
-
-        fieldMatrix.Items.Should().BeEquivalentTo(expectedMatrix);
+        fieldMatrix.Items.Should().BeEquivalentTo(expectedMatrix.Items);
     }
 }
