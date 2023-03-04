@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Client.Assets.CombatMovements;
+
 using Core.Combats;
 using Core.Combats.CombatantEffectLifetimes;
 using Core.Combats.Effects;
@@ -22,25 +24,7 @@ public class SwordsmanFartory
                 })
         ));
 
-        movementPool.Add(new CombatMovement("Die by sword!",
-                new CombatMovementCost(2),
-                CombatMovementEffectConfig.Create(
-                    new IEffect[]
-                    {
-                        new DamageEffect(
-                            new ClosestInLineTargetSelector(),
-                            DamageType.Normal,
-                            Range<int>.CreateMono(2)),
-                        new ChangePositionEffect(
-                            new SelfTargetSelector(),
-                            ChangePositionEffectDirection.ToVanguard
-                        )
-                    })
-            )
-            {
-                Tags = CombatMovementTags.Attack
-            }
-        );
+        movementPool.Add(new DieBySwordFactory().CreateMovement());
 
         movementPool.Add(new CombatMovement("I'm so strong",
                 new CombatMovementCost(2),

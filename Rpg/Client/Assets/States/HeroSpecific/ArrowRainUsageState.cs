@@ -42,7 +42,7 @@ namespace Rpg.Client.Assets.States.HeroSpecific
                 arrowFallState
             };
 
-            _mainContainerState = new SequentialState(subStates);
+            //_mainContainerState = new SequentialState(subStates);
             _mainStateBlocker = mainStateBlocker;
         }
 

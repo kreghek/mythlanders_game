@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;

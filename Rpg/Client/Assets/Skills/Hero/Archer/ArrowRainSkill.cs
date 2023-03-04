@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using JetBrains.Annotations;
 
 using Rpg.Client.Assets.States.HeroSpecific;

@@ -21,19 +21,21 @@ namespace Rpg.Client.Assets.States
             AnimationBlocker mainAnimationBlocker, SkillAnimationInfo animationInfo,
             PredefinedAnimationSid animationSid)
         {
-            var targetPosition =
-                targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
+            //var targetPosition =
+            //    targetGraphicsRoot.Position + new Vector2(-100 * (targetGraphicsRoot.FlipX ? 1 : -1), 0);
 
-            var subStates = new IActorVisualizationState[]
-            {
-                new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
-                new DirectInteractionState(graphics, animationInfo, animationSid),
-                new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
-            };
+            //var subStates = new IActorVisualizationState[]
+            //{
+            //    new LinearMoveToTargetState(graphics, graphicsRoot, targetPosition, animationSid),
+            //    new DirectInteractionState(graphics, animationInfo, animationSid),
+            //    new LinearMoveBackState(graphics, graphicsRoot, targetPosition, mainAnimationBlocker)
+            //};
 
-            _innerState = new SequentialState(subStates);
+            //_innerState = new SequentialState(subStates);
 
-            _blocker = mainAnimationBlocker;
+            //_blocker = mainAnimationBlocker;
+
+            throw new System.Exception();
         }
 
         public bool CanBeReplaced => _innerState.CanBeReplaced;

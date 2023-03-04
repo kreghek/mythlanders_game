@@ -5,6 +5,7 @@ using System.Linq;
 
 using Client;
 using Client.Assets.Catalogs;
+using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
@@ -51,6 +52,7 @@ namespace Rpg.Client.GameScreens.Combat
         private readonly IList<CorpseGameObject> _corpseObjects;
         private readonly HeroCampaign _currentCampaign;
         private readonly IDice _dice;
+        private readonly ICombatMovementVisualizer _combatMovementVisualizer;
         private readonly IEventCatalog _eventCatalog;
         private readonly IReadOnlyList<IBackgroundObject> _farLayerObjects;
         private readonly IReadOnlyList<IBackgroundObject> _foregroundLayerObjects;
@@ -103,6 +105,7 @@ namespace Rpg.Client.GameScreens.Combat
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
             _animationManager = game.Services.GetService<IAnimationManager>();
             _dice = Game.Services.GetService<IDice>();
+            _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizer>();
 
             var bgofSelector = Game.Services.GetService<BackgroundObjectFactorySelector>();
 
@@ -448,12 +451,16 @@ namespace Rpg.Client.GameScreens.Combat
         private void CombatMovementsHandPanel_CombatMovementPicked(object? sender, CombatMovementPickedEventArgs e)
         {
             var movementExecution = _combatCore.UseCombatMovement(e.CombatMovement);
-            PlaybackCombatMovementExecution(movementExecution);
+
+            var actorGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
+            var movementState = GetMovementVisualizationState(actorGameObject, movementExecution, e.CombatMovement);
+
+            PlaybackCombatMovementExecution(movementState);
         }
 
-        private void PlaybackCombatMovementExecution(CombatMovementExecution movementExecution)
+        private void PlaybackCombatMovementExecution(IActorVisualizationState movementState)
         {
-            var combatantGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
+            var actorGameObject = GetUnitGameObject(_combatCore.CurrentCombatant);
 
             var mainAnimationBlocker = _animationManager.CreateAndRegisterBlocker();
 
@@ -467,7 +474,24 @@ namespace Rpg.Client.GameScreens.Combat
                 _combatCore.CompleteTurn();
             };
 
-            var actorPlaybackBlocker = combatantGameObject.PlaybackCombatMovement(movementExecution);
+            var actorState = new SequentialState(
+                // Delay to focus on the current actor.
+                new DelayActorState(new Duration(0.75f)),
+
+                // Main move animation.
+                movementState,
+
+                // Release the main animation blocker to say the main move is ended.
+                new AnimationBlockerTerminatorActorState(mainAnimationBlocker));
+
+            actorGameObject.AddStateEngine(actorState);
+        }
+
+        private IActorVisualizationState GetMovementVisualizationState(UnitGameObject actorGameObject, CombatMovementExecution movementExecution, CombatMovementInstance combatMovement)
+        {
+            var context = new CombatMovementVisualizationContext(_gameObjects.ToArray());
+
+            return _combatMovementVisualizer.GetMovementVisualizationState(combatMovement.SourceMovement.Sid, actorGameObject.Animator, movementExecution, context);
         }
 
         private void CombatCore_CombatantHasBeenDamaged(object? sender, CombatantDamagedEventArgs e)

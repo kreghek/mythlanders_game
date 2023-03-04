@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Core.Dices;
 
 using Microsoft.Xna.Framework.Audio;
@@ -43,7 +45,8 @@ namespace Rpg.Client.GameScreens.Combat
 
         public AnimationBlocker AddAnimationBlocker()
         {
-            return AnimationManager.CreateAndRegisterBlocker();
+            //return AnimationManager.CreateAndRegisterBlocker();
+            throw new System.Exception();
         }
 
         public GameObjectContentStorage GameObjectContentStorage { get; init; } = null!;

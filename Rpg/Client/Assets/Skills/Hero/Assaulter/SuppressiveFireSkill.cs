@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Assets.InteractionDeliveryObjects;
 using Rpg.Client.Assets.States.HeroSpecific;
 using Rpg.Client.Core;
@@ -50,55 +52,57 @@ namespace Rpg.Client.Assets.Skills.Hero.Assaulter
             UnitGameObject targetUnitGameObject,
             AnimationBlocker mainStateBlocker, ISkillVisualizationContext context)
         {
-            var mainShootingBlocker = context.AddAnimationBlocker();
-            var interactionItems = context.Interaction.SkillRuleInteractions
-                .Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
-            var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
-            foreach (var item in interactionItems)
-            {
-                var bulletAnimationBlocker = context.AddAnimationBlocker();
+            //var mainShootingBlocker = context.AddAnimationBlocker();
+            //var interactionItems = context.Interaction.SkillRuleInteractions
+            //    .Where(x => (x.Metadata is AssaultSkillRuleMetadata meta) && meta.IsShot).ToArray();
+            //var bulletDataList = new List<(AnimationBlocker, IInteractionDelivery)>();
+            //foreach (var item in interactionItems)
+            //{
+            //    var bulletAnimationBlocker = context.AddAnimationBlocker();
 
-                var materializedTarget = item.Targets[0];
-                var materializedTargetGameObject = context.GetGameObject(materializedTarget);
-                var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
+            //    var materializedTarget = item.Targets[0];
+            //    var materializedTargetGameObject = context.GetGameObject(materializedTarget);
+            //    var materializedTargetGameObjectPosition = materializedTargetGameObject.InteractionPoint;
 
-                var singleInteractionDelivery = new KineticBulletProjectile(animatedUnitGameObject.LaunchPoint,
-                    materializedTargetGameObjectPosition,
-                    context.GameObjectContentStorage,
-                    bulletAnimationBlocker,
-                    materializedTarget,
-                    item.Action);
+            //    var singleInteractionDelivery = new KineticBulletProjectile(animatedUnitGameObject.LaunchPoint,
+            //        materializedTargetGameObjectPosition,
+            //        context.GameObjectContentStorage,
+            //        bulletAnimationBlocker,
+            //        materializedTarget,
+            //        item.Action);
 
-                bulletDataList.Add(new(bulletAnimationBlocker, singleInteractionDelivery));
+            //    bulletDataList.Add(new(bulletAnimationBlocker, singleInteractionDelivery));
 
-                bulletAnimationBlocker.Released += (_, _) =>
-                {
-                    var allBulletBlockerIsReleased = bulletDataList.All(x => x.Item1.IsReleased);
-                    if (allBulletBlockerIsReleased)
-                    {
-                        mainShootingBlocker.Release();
-                    }
-                };
-            }
+            //    bulletAnimationBlocker.Released += (_, _) =>
+            //    {
+            //        var allBulletBlockerIsReleased = bulletDataList.All(x => x.Item1.IsReleased);
+            //        if (allBulletBlockerIsReleased)
+            //        {
+            //            mainShootingBlocker.Release();
+            //        }
+            //    };
+            //}
 
-            var animationBlocker = context.AnimationManager.CreateAndRegisterBlocker();
+            //var animationBlocker = context.AnimationManager.CreateAndRegisterBlocker();
 
-            StateHelper.HandleStateWithInteractionDelivery(
-                context.Interaction.SkillRuleInteractions.First(x =>
-                    (x.Metadata is AssaultSkillRuleMetadata { IsBuff: true })),
-                mainStateBlocker,
-                mainShootingBlocker,
-                animationBlocker);
+            //StateHelper.HandleStateWithInteractionDelivery(
+            //    context.Interaction.SkillRuleInteractions.First(x =>
+            //        (x.Metadata is AssaultSkillRuleMetadata { IsBuff: true })),
+            //    mainStateBlocker,
+            //    mainShootingBlocker,
+            //    animationBlocker);
 
-            var state = new AssaultRifleBurstState(
-                graphics: animatedUnitGameObject.Graphics,
-                animationBlocker,
-                bulletDataList.Select(x => x.Item2).ToList(),
-                interactionDeliveryManager: context.InteractionDeliveryManager,
-                rifleShotSound: context.GetSoundEffect(GameObjectSoundType.AssaultRifleBurst),
-                animationSid: PredefinedAnimationSid.Skill1);
+            //var state = new AssaultRifleBurstState(
+            //    graphics: animatedUnitGameObject.Graphics,
+            //    animationBlocker,
+            //    bulletDataList.Select(x => x.Item2).ToList(),
+            //    interactionDeliveryManager: context.InteractionDeliveryManager,
+            //    rifleShotSound: context.GetSoundEffect(GameObjectSoundType.AssaultRifleBurst),
+            //    animationSid: PredefinedAnimationSid.Skill1);
 
-            return state;
+            //return state;
+
+            throw new System.Exception();
         }
 
         private static List<EffectRule> CreateRules()

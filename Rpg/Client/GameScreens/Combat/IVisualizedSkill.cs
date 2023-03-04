@@ -1,3 +1,5 @@
+using Client.GameScreens.Combat.GameObjects;
+
 using Rpg.Client.Core;
 using Rpg.Client.Core.Skills;
 using Rpg.Client.Engine;

@@ -1,132 +1,84 @@
 ﻿using System;
-using System.Diagnostics;
 
-using Client.GameScreens.Combat.GameObjects;
+using Client.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 using Rpg.Client.Core;
-using Rpg.Client.Engine;
 using Rpg.Client.GameScreens.Combat.GameObjects;
 
-namespace Rpg.Client.Assets.States.Primitives
+namespace Client.Assets.States.Primitives;
+
+internal sealed class DirectInteractionState : IActorVisualizationState
 {
-    internal sealed class DirectInteractionState : IActorVisualizationState
+    private readonly IActorAnimator _actor;
+    private readonly IAnimationFrameSet _animation;
+    private readonly SkillAnimationInfo _animationInfo;
+
+    private int _animationItemIndex;
+    private bool _animationStarted;
+    private double _counter;
+
+    private bool _interactionExecuted;
+
+    public DirectInteractionState(
+        IActorAnimator actor,
+        SkillAnimationInfo animationInfo,
+        IAnimationFrameSet animation)
     {
-        private readonly IAnimationFrameSet? _animation;
-        private readonly AnimationBlocker? _animationBlocker;
-        private readonly SkillAnimationInfo _animationInfo;
-        private readonly PredefinedAnimationSid? _animationSid;
-        private readonly UnitGraphics _graphics;
+        _animationInfo = animationInfo;
+        _animation = animation;
+        _actor = actor;
+    }
 
-        private int _animationItemIndex;
-        private bool _animationStarted;
-        private double _counter;
+    private static void HandleStateExecution(Action interaction, SoundEffectInstance? interactionSound)
+    {
+        interactionSound?.Play();
 
-        private bool _interactionExecuted;
+        interaction.Invoke();
+    }
 
-        public DirectInteractionState(UnitGraphics graphics,
-            SkillAnimationInfo animationInfo, PredefinedAnimationSid animationSid)
-            : this(graphics, default, animationInfo, animationSid)
+    public bool CanBeReplaced => false;
+    public bool IsComplete { get; private set; }
+
+    public void Cancel()
+    {
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        if (!_animationStarted)
         {
+            _actor.PlayAnimation(_animation);
+
+            _animationStarted = true;
         }
 
-        private DirectInteractionState(
-            UnitGraphics graphics,
-            AnimationBlocker? animationBlocker,
-            SkillAnimationInfo animationInfo,
-            PredefinedAnimationSid animationSid)
+        _counter += gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_animationItemIndex <= _animationInfo!.Items!.Count - 1)
         {
-            _animationBlocker = animationBlocker;
-            _animationInfo = animationInfo;
-            _animationSid = animationSid;
-            _graphics = graphics;
-        }
+            var currentAnimationItem = _animationInfo.Items[_animationItemIndex];
 
-        public DirectInteractionState(
-            UnitGraphics graphics,
-            AnimationBlocker? animationBlocker,
-            SkillAnimationInfo animationInfo,
-            IAnimationFrameSet animation)
-        {
-            _animationBlocker = animationBlocker;
-            _animationInfo = animationInfo;
-            _animation = animation;
-            _graphics = graphics;
-        }
-
-        private void HandleStateEnding()
-        {
-            _animationBlocker?.Release();
-        }
-
-        private static void HandleStateExecution(Action interaction, SoundEffectInstance interactionSound)
-        {
-            interactionSound.Play();
-
-            interaction.Invoke();
-        }
-
-        public bool CanBeReplaced => false;
-        public bool IsComplete { get; private set; }
-
-        public void Cancel()
-        {
-            if (_animationBlocker is not null)
+            if (_counter >= currentAnimationItem.Duration)
             {
-                _animationBlocker.Release();
+                _interactionExecuted = false;
+                _animationItemIndex++;
+                _counter = 0;
+            }
+            else if (_counter >= currentAnimationItem.InteractTime)
+            {
+                if (!_interactionExecuted)
+                {
+                    HandleStateExecution(currentAnimationItem.Interaction!, currentAnimationItem.HitSound);
+                    _interactionExecuted = true;
+                }
             }
         }
-
-        public void Update(GameTime gameTime)
+        else
         {
-            if (!_animationStarted)
-            {
-                if (_animationSid is not null)
-                {
-                    _graphics.PlayAnimation(_animationSid.Value);
-                }
-                else if (_animation is not null)
-                {
-                    _graphics.PlayAnimation(_animation);
-                }
-                else
-                {
-                    _graphics.PlayAnimation(PredefinedAnimationSid.Idle);
-                    Debug.Fail("Any animation must be defined in the constructor.");
-                }
-
-                _animationStarted = true;
-            }
-
-            _counter += gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_animationItemIndex <= _animationInfo.Items.Count - 1)
-            {
-                var currentAnimationItem = _animationInfo.Items[_animationItemIndex];
-
-                if (_counter >= currentAnimationItem.Duration)
-                {
-                    _interactionExecuted = false;
-                    _animationItemIndex++;
-                    _counter = 0;
-                }
-                else if (_counter >= currentAnimationItem.InteractTime)
-                {
-                    if (!_interactionExecuted)
-                    {
-                        HandleStateExecution(currentAnimationItem.Interaction, currentAnimationItem.HitSound);
-                        _interactionExecuted = true;
-                    }
-                }
-            }
-            else
-            {
-                IsComplete = true;
-
-                HandleStateEnding();
-            }
+            IsComplete = true;
         }
     }
 }
