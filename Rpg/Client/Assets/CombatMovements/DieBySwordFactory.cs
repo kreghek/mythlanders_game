@@ -97,11 +97,20 @@ internal class DieBySwordFactory : ICombatMovementFactory
         };
 
         var startPosition = actorAnimator.GraphicRoot.Position;
-        var targetCombatUnit = GetFirstTarget(movementExecution);
+        var targetCombatUnit = GetFirstTargetOrDefault(movementExecution);
 
-        var targetActor = visualizationContext.GetCombatActor(targetCombatUnit);
+        Vector2 targetPosition;
 
-        var targetPosition = targetActor.Graphics.Root.Position;
+        if (targetCombatUnit is not null)
+        {
+            var targetActor = visualizationContext.GetCombatActor(targetCombatUnit);
+
+            targetPosition = targetActor.Graphics.Root.Position;
+        }
+        else
+        {
+            targetPosition = actorAnimator.GraphicRoot.Position;
+        }
 
         var subStates = new IActorVisualizationState[]
         {
@@ -122,11 +131,11 @@ internal class DieBySwordFactory : ICombatMovementFactory
         return _innerState;
     }
 
-    private static Combatant GetFirstTarget(CombatMovementExecution movementExecution)
+    private static Combatant? GetFirstTargetOrDefault(CombatMovementExecution movementExecution)
     {
-        var firstImoseItem = movementExecution.EffectImposeItems.First();
+        var firstImposeItem = movementExecution.EffectImposeItems.First();
 
-        var targetCombatUnit = firstImoseItem.MaterializedTargets.First();
+        var targetCombatUnit = firstImposeItem.MaterializedTargets.FirstOrDefault();
         return targetCombatUnit;
     }
 

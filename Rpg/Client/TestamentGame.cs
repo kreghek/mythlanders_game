@@ -292,8 +292,6 @@ public sealed class TestamentGame : Game
             Services.GetRequiredService<IJobProgressResolver>());
         Services.AddService<ICampaignGenerator>(campaignGenerator);
 
-        Services.AddService<IAnimationManager>(new AnimationManager());
-
         Services.AddService(_graphics);
 
         var soundtrackManager = new SoundtrackManager(_gameSettings);

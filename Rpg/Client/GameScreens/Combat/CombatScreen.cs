@@ -9,6 +9,7 @@ using Client.Assets.CombatMovements;
 using Client.Assets.StoryPointJobs;
 using Client.Core;
 using Client.Core.Campaigns;
+using Client.Engine;
 using Client.GameScreens.Campaign;
 using Client.GameScreens.Combat;
 using Client.GameScreens.Combat.CombatDebugElements;
@@ -43,7 +44,7 @@ namespace Rpg.Client.GameScreens.Combat
         private const float BACKGROUND_LAYERS_SPEED_X = 0.1f;
         private const float BACKGROUND_LAYERS_SPEED_Y = 0.05f;
 
-        private readonly IAnimationManager _animationManager;
+        private readonly UpdatableAnimationManager _animationManager;
         private readonly CombatScreenTransitionArguments _args;
         private readonly IList<IInteractionDelivery> _bulletObjects;
         private readonly Camera2D _camera;
@@ -103,7 +104,7 @@ namespace Rpg.Client.GameScreens.Combat
 
             _gameObjectContentStorage = game.Services.GetService<GameObjectContentStorage>();
             _uiContentStorage = game.Services.GetService<IUiContentStorage>();
-            _animationManager = game.Services.GetService<IAnimationManager>();
+            _animationManager = new UpdatableAnimationManager(new AnimationManager());
             _dice = Game.Services.GetService<IDice>();
             _combatMovementVisualizer = Game.Services.GetRequiredService<ICombatMovementVisualizer>();
 
@@ -188,6 +189,8 @@ namespace Rpg.Client.GameScreens.Combat
             {
                 UpdateCombatFinished(gameTime);
             }
+
+            _animationManager.Update(gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         private static void AddMonstersFromCombatIntoKnownMonsters(Unit monster,
