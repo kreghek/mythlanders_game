@@ -44,6 +44,7 @@
     <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
     <PackageReference Include="NReco.Logging.File" Version="1.1.5" />
 	<PackageReference Include="Stateless" Version="5.11.0" />
+	<PackageReference Include="YamlDotNet" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\States\MosterSpecific\" />

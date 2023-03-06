@@ -18,7 +18,7 @@ internal sealed class TextFragmentMessageControl : ControlBase
 
     private readonly Speech _speech;
 
-    public TextFragmentMessageControl(EventTextFragment eventTextFragment,
+    public TextFragmentMessageControl(DialogueParagraph eventTextFragment,
         SoundEffect textSoundEffect, IDice dice, bool isCharacterSpeech)
     {
         _font = UiThemeManager.UiContentStorage.GetTitlesFont();

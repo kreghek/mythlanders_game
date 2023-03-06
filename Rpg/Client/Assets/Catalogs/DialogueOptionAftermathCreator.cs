@@ -1,5 +1,6 @@
 using System;
 
+using Client.Assets.Catalogs.DialogueStoring;
 using Client.Assets.DialogueOptionAftermath;
 
 using Rpg.Client.Assets.Catalogs;

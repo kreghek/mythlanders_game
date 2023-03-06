@@ -32,7 +32,7 @@ public class SynthAsParentTests
         var balanceTable = new BalanceTable();
         var unitSchemeCatalog = new UnitSchemeCatalog(balanceTable, false);
 
-        var eventCatalog = new DialogueCatalog(new DialogueResourceProvider(),
+        var eventCatalog = new DialogueCatalog(new LocalDialogueResourceProvider(),
             new DialogueOptionAftermathCreator(unitSchemeCatalog));
         eventCatalog.Init();
 

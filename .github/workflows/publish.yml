@@ -52,6 +52,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Rpg.Client/Rpg.Client.sln
 
+    - name: Build extentions
+      run: dotnet build Rpg/GameContent.Extensions/GameContent.Extensions.csproj --configuration Release
+
     - name: Build
       run: dotnet build Rpg.Client/Rpg.Client.sln --verbosity normal
 

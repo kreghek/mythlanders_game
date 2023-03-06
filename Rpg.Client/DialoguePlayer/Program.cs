@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Resources;
 
@@ -16,13 +17,21 @@ using Rpg.Client.GameScreens.Speech;
 
 namespace DialoguePlayer;
 
+public class LocalDialogueResourceProvider: IDialogueResourceProvider
+{
+    public string GetResource(string resourceSid)
+    {
+        return File.ReadAllText(Path.Combine("../Client/Content/Dialogues", resourceSid + ".yaml"));
+    }
+}
+
 internal static class Program
 {
     private static void Main()
     {
         var unitSchemeCatalog = new UnitSchemeCatalog(new BalanceTable(), isDemo: false);
 
-        var resourceProvider = new DialogueResourceProvider();
+        var resourceProvider = new LocalDialogueResourceProvider();
 
         var aftermathCreator = new DialogueOptionAftermathCreator(unitSchemeCatalog);
 

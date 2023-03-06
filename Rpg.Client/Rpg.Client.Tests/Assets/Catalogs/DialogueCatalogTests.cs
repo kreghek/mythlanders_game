@@ -3,6 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Client.Assets.Catalogs;
+using Client.Assets.Catalogs.DialogueStoring;
+using Client.Core.Dialogues;
+
 using FluentAssertions;
 
 using Moq;
@@ -39,8 +43,8 @@ public class DialogueCatalogTests
 
         // ASSERT
 
-        factDialogue.Root.TextBlock.Fragments.Should().HaveCount(1);
-        factDialogue.Root.TextBlock.Fragments.First().Speaker.Should().Be(UnitName.Environment);
+        factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(1);
+        factDialogue.Root.TextBlock.Paragraphs.First().Speaker.Should().Be(UnitName.Environment);
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
     }
@@ -66,9 +70,9 @@ public class DialogueCatalogTests
 
         // ASSERT
 
-        factDialogue.Root.TextBlock.Fragments.Should().HaveCount(2);
-        factDialogue.Root.TextBlock.Fragments[0].Speaker.Should().Be(UnitName.Environment);
-        factDialogue.Root.TextBlock.Fragments[1].Speaker.Should().Be(UnitName.Swordsman);
+        factDialogue.Root.TextBlock.Paragraphs.Should().HaveCount(2);
+        factDialogue.Root.TextBlock.Paragraphs[0].Speaker.Should().Be(UnitName.Environment);
+        factDialogue.Root.TextBlock.Paragraphs[1].Speaker.Should().Be(UnitName.Swordsman);
         factDialogue.Root.Options.Should().HaveCount(1);
         factDialogue.Root.Options.First().Next.Should().Be(DialogueNode.EndNode);
     }

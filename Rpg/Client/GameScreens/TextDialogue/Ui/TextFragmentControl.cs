@@ -21,7 +21,7 @@ namespace Client.GameScreens.TextDialogue.Ui;
 internal sealed class TextFragmentControl : ControlBase
 {
     private const int PORTRAIT_SIZE = 32;
-    private readonly IReadOnlyCollection<IDialogueEventTextFragmentEnvironmentCommand> _envCommands;
+    private readonly IReadOnlyCollection<IDialogueEnvironmentEffect> _envCommands;
     private readonly IDialogueEnvironmentManager _envManager;
 
     private readonly SpriteFont _font;
@@ -32,7 +32,7 @@ internal sealed class TextFragmentControl : ControlBase
 
     private bool _envCommandsExecuted;
 
-    public TextFragmentControl(EventTextFragment eventTextFragment, Texture2D portraitsTexture,
+    public TextFragmentControl(DialogueParagraph eventTextFragment, Texture2D portraitsTexture,
         SoundEffect textSoundEffect, IDice dice, IDialogueEnvironmentManager envManager, IStoryState storyState)
     {
         _font = UiThemeManager.UiContentStorage.GetMainFont();
@@ -46,7 +46,7 @@ internal sealed class TextFragmentControl : ControlBase
         _localizedSpeakerName = GetSpeakerDisplayName(speakerState);
         _message = new TextFragmentMessageControl(eventTextFragment, textSoundEffect, dice,
             _speaker != UnitName.Environment);
-        _envCommands = eventTextFragment.EnvironmentCommands;
+        _envCommands = eventTextFragment.EnvironmentEffects;
     }
 
     public bool IsComplete => _message.IsComplete;
